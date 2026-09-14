@@ -1,0 +1,36 @@
+# Адреса для scripts/check_ru_access.py: «адрес | что проверяем | где утверждение».
+# Список собран 11.09.2026 из утверждений «открывается из России», которые не были проверены с российского IP (O8).
+https://www.toools.design/ | главная конкурента | competitive_analysis.md, строка 21
+https://www.uxtools.co/ | главная конкурента | competitive_analysis.md, строка 21
+https://refero.design/ | главная конкурента | competitive_analysis.md, строка 21; sources/refero.md
+https://refero.design/login | вход | sources/refero.md
+https://doc.refero.design/legal/terms-of-use | документация | sources/refero.md
+https://referodesign.lemonsqueezy.com/checkout/buy/111728f4-59c4-404a-8e95-10f0f87037e1 | чекаут Lemon Squeezy | competitive_analysis.md, строка 21; sources/refero.md
+https://scrn.gallery/ | главная конкурента | sources/screen-gallery.md
+https://skillbox.ru/media/design/ | главная конкурента | competitive_analysis.md, строка 21
+https://dsgners.ru/ | главная конкурента | competitive_analysis.md, строка 21
+https://dssign.ru/ | главная для сравнения | competitive_analysis.md, строка 21
+https://t.me/s/pdigest | веб-версия Telegram-канала | sources/screen-gallery.md, строка 296
+https://lawsofux.com/ | главная конкурента | competitive_analysis.md, строка 21
+https://mobbin.com/ | главная | competitive_analysis.md, строка 21 и 7.5
+https://mobbin.com/login | вход | competitive_analysis.md, 7.5
+https://www.figma.com/ | главная | competitive_analysis.md, 7.5; personas.md, строка 26
+https://www.figma.com/login | вход | competitive_analysis.md, 7.5; personas.md, строка 26
+https://www.notion.so/ | главная | competitive_analysis.md, 7.5; sources/skillbox-media.md
+https://www.notion.so/login | вход | competitive_analysis.md, 7.5
+https://miro.com/ | главная | competitive_analysis.md, 7.5
+https://miro.com/login/ | вход | competitive_analysis.md, 7.5
+https://maze.co/ | главная | competitive_analysis.md, 7.5
+https://app.maze.co/ | вход | competitive_analysis.md, 7.5; 16_directive_content.md
+https://www.framer.com/ | главная | competitive_analysis.md, 7.5
+https://www.framer.com/login | вход | competitive_analysis.md, 7.5
+https://webflow.com/ | главная | competitive_analysis.md, 7.5
+https://webflow.com/dashboard/login | вход | competitive_analysis.md, 7.5
+https://www.adobe.com/ | главная | competitive_analysis.md, 7.5
+https://www.recraft.ai/ | главная | competitive_analysis.md, 7.5
+https://pixso.net/ | главная аналога | competitive_analysis.md, строка 449
+https://penpot.app/ | главная аналога | competitive_analysis.md, строка 449
+https://yonote.ru/ | главная аналога | competitive_analysis.md, строка 449
+https://sboard.online/ | главная аналога | competitive_analysis.md, строка 449
+https://mts-link.ru/ | главная аналога | competitive_analysis.md, строка 449
+https://fonts.google.com/ | главная | sources/skillbox-media.md

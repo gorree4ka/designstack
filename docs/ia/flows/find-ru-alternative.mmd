@@ -1,0 +1,14 @@
+%% JTBD 3 · П2 middle-designer: привычный сервис закрылся для РФ, нужен рабочий аналог без VPN и зарубежной карты
+%% Этап 07, версия 1 от 11.09.2026. Узлы — имена из docs/ia/sitemap.md; имя__вариант — та же страница в другом состоянии или с другой записью
+flowchart TD
+    ext-search["ext-search: запрос «Miro в России»"] -->|страница ресурса в выдаче| resource["resource: Miro, Недоступен из РФ или Не оплатить из РФ"]
+    ext-search -->|подборка в выдаче| collection["collection: подборка аналогов"]
+    search["search: /search/?s=miro из шапки"] -->|нашёл| resource
+    search -->|ничего не нашлось, Предложить ресурс| suggest["suggest: форма"]
+    resource -->|есть аналог: Показать аналог или карточка в блоке «Аналог из России»| resource__analog["resource: аналог, Российский или Оплачивается из РФ"]
+    resource -->|аналога нет: раздел из крошек| tools__filtered["tools: /tools/?ru_open=open&ru_payment=payable"]
+    collection -->|карточка аналога| resource__analog
+    tools__filtered -->|клик по карточке| resource__analog
+    tools__filtered -->|ничего не нашлось| tools__empty["tools: пустая выдача с причиной"]
+    tools__empty -->|Предложить ресурс| suggest
+    resource__analog -->|Перейти на сайт| ext-resource-site["ext-resource-site: сайт аналога"]

@@ -1,0 +1,198 @@
+{
+  "designpub": {
+    "code": 200,
+    "final": "https://designpub.ru",
+    "seen": "2026-09-14",
+    "title": "Дизайн-кабак — полезное и актуальное из мира цифрового дизайна",
+    "url": "https://designpub.ru"
+  },
+  "dprofile": {
+    "code": 200,
+    "final": "https://dprofile.ru",
+    "seen": "2026-09-14",
+    "title": "Дипрофайл — онлайн-сервис для дизайнеров и заказчиков",
+    "url": "https://dprofile.ru"
+  },
+  "figma": {
+    "code": 200,
+    "final": "https://www.figma.com",
+    "seen": "2026-09-14",
+    "title": "",
+    "url": "https://www.figma.com"
+  },
+  "font-awesome": {
+    "code": 200,
+    "final": "https://fontawesome.com",
+    "seen": "2026-09-14",
+    "title": "Font Awesome",
+    "url": "https://fontawesome.com"
+  },
+  "golos-text": {
+    "code": 200,
+    "final": "https://www.paratype.ru/catalog/font/pt/golos-text",
+    "seen": "2026-09-14",
+    "title": "Шрифт Golos Text — скачать бесплатно с официального сайта",
+    "url": "https://www.paratype.ru/fonts/pt/golos-text"
+  },
+  "growth-design-cases": {
+    "code": 200,
+    "final": "https://growth.design/case-studies",
+    "seen": "2026-09-14",
+    "title": "53 UX Case Studies To Improve Your Product Skills | Growth.Design",
+    "url": "https://growth.design/case-studies"
+  },
+  "invision": {
+    "code": 200,
+    "final": "https://miro.com:443/ru/",
+    "seen": "2026-09-14",
+    "title": "Рабочее пространство для создания инноваций на базе ИИ | Miro",
+    "url": "https://www.invisionapp.com"
+  },
+  "ixdf": {
+    "code": 200,
+    "final": "https://ixdf.org",
+    "seen": "2026-09-14",
+    "title": "UX/UI Design and AI Courses. Evidence-based design education since 2002 | IxDF",
+    "url": "https://ixdf.org"
+  },
+  "jvetrau-digest": {
+    "code": 200,
+    "final": "https://jvetrau.com",
+    "seen": "2026-09-14",
+    "title": "Дайджест продуктового дизайна",
+    "url": "https://jvetrau.com"
+  },
+  "laws-of-ux": {
+    "code": 200,
+    "final": "https://lawsofux.com",
+    "seen": "2026-09-14",
+    "title": "Home | Laws of UX",
+    "url": "https://lawsofux.com"
+  },
+  "lucide": {
+    "code": 200,
+    "final": "https://lucide.dev",
+    "seen": "2026-09-14",
+    "title": "Lucide",
+    "url": "https://lucide.dev"
+  },
+  "material-symbols": {
+    "code": 200,
+    "final": "https://fonts.google.com/icons",
+    "seen": "2026-09-14",
+    "title": "",
+    "url": "https://fonts.google.com/icons"
+  },
+  "maze": {
+    "code": 200,
+    "final": "https://maze.co",
+    "seen": "2026-09-14",
+    "title": "",
+    "url": "https://maze.co"
+  },
+  "miro": {
+    "code": 200,
+    "final": "https://miro.com/ru/",
+    "seen": "2026-09-14",
+    "title": "Рабочее пространство для создания инноваций на базе ИИ | Miro",
+    "url": "https://miro.com"
+  },
+  "mobbin": {
+    "code": 200,
+    "final": "https://mobbin.com",
+    "seen": "2026-09-14",
+    "title": "Mobbin — UI & UX design inspiration for mobile & web apps",
+    "url": "https://mobbin.com"
+  },
+  "nngroup-articles": {
+    "code": 200,
+    "final": "https://www.nngroup.com/articles/",
+    "seen": "2026-09-14",
+    "title": "UX & Usability Articles from Nielsen Norman Group - NN/G",
+    "url": "https://www.nngroup.com/articles/"
+  },
+  "penpot": {
+    "code": 200,
+    "final": "https://penpot.app",
+    "seen": "2026-09-14",
+    "title": "Penpot: The open-source design platform for teams.",
+    "url": "https://penpot.app"
+  },
+  "practicum-interface-designer": {
+    "code": 200,
+    "final": "https://practicum.yandex.ru/interface-designer/",
+    "seen": "2026-09-14",
+    "title": "Курс «UX/UI дизайнер интерфейсов»: обучение UX/UI дизайну интерфейсов онлайн — Яндекс Практикум",
+    "url": "https://practicum.yandex.ru/interface-designer/"
+  },
+  "refactoring-ui": {
+    "code": 200,
+    "final": "https://refactoringui.com/",
+    "seen": "2026-09-14",
+    "title": "Refactoring UI",
+    "url": "https://www.refactoringui.com"
+  },
+  "screen-gallery": {
+    "code": 200,
+    "final": "https://scrn.gallery/apps",
+    "seen": "2026-09-14",
+    "title": "Screen Gallery — UX/UI референсы дизайна мобильных приложений из России, СНГ и других стран",
+    "url": "https://scrn.gallery"
+  },
+  "sidebar-io": {
+    "code": 200,
+    "final": "https://sidebar.io",
+    "seen": "2026-09-14",
+    "title": "Sidebar",
+    "url": "https://sidebar.io"
+  },
+  "streamline": {
+    "code": 429,
+    "final": "https://streamlinehq.com",
+    "seen": "2026-09-14",
+    "title": "",
+    "url": "https://streamlinehq.com"
+  },
+  "undraw": {
+    "code": 200,
+    "final": "https://undraw.co",
+    "seen": "2026-09-14",
+    "title": "unDraw - Open source illustrations for any idea",
+    "url": "https://undraw.co"
+  },
+  "untitled-ui": {
+    "code": 200,
+    "final": "https://www.untitledui.com",
+    "seen": "2026-09-14",
+    "title": "Untitled UI — Figma UI Kit and React Component Library",
+    "url": "https://www.untitledui.com"
+  },
+  "ux-collective": {
+    "code": 403,
+    "final": "https://uxdesign.cc",
+    "seen": "2026-09-14",
+    "title": "",
+    "url": "https://uxdesign.cc"
+  },
+  "ux-horn": {
+    "code": 200,
+    "final": "https://t.me/uxhorn",
+    "seen": "2026-09-14",
+    "title": "Telegram: View @uxhorn",
+    "url": "https://t.me/uxhorn"
+  },
+  "ux-journal": {
+    "code": 200,
+    "final": "https://ux-journal.ru",
+    "seen": "2026-09-14",
+    "title": "Ux Journal | Продуктовый дизайн (UX/UI), брендинг и аналитика",
+    "url": "https://ux-journal.ru"
+  },
+  "ux-notes": {
+    "code": 200,
+    "final": "https://t.me/uxnotes",
+    "seen": "2026-09-14",
+    "title": "Telegram: View @uxnotes",
+    "url": "https://t.me/uxnotes"
+  }
+}

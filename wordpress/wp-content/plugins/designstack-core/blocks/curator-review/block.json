@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/curator-review",
+	"title": "Оценка куратора",
+	"category": "designstack",
+	"icon": "testimonial",
+	"description": "Три части оценки: кому подходит, за что, когда не подойдёт.",
+	"textdomain": "designstack-core",
+	"usesContext": [
+		"postId"
+	],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

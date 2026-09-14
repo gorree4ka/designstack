@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/post-archive",
+	"title": "Архив записей",
+	"category": "designstack",
+	"icon": "grid-view",
+	"description": "Карточки подборок, выпусков или обзоров текущего архива. Записей нет — пустое состояние.",
+	"textdomain": "designstack-core",
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

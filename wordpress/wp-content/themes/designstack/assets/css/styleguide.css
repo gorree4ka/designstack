@@ -1,0 +1,220 @@
+/*
+ * DesignStack: витрина /styleguide/ (этап 11). Только оформление самой витрины — сетка ячеек, подписи,
+ * подсветка кликабельного и варианты вопросов к листу. Паттерны она не переопределяет, кроме секции «Вопросы».
+ */
+
+.sg-page {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--12);
+	padding-bottom: var(--wp--preset--spacing--16);
+}
+
+.sg-lede {
+	max-width: var(--wp--custom--size--measure);
+}
+
+.sg-section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--6);
+	scroll-margin-top: var(--wp--preset--spacing--8);
+}
+
+.sg-section__title {
+	margin: 0;
+	padding-bottom: var(--wp--preset--spacing--2);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-size: var(--wp--preset--font-size--3-xl);
+	font-weight: 700;
+}
+
+.sg-section__note {
+	max-width: var(--wp--custom--size--measure);
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.sg-item {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+}
+
+.sg-item__title {
+	margin: 0;
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 500;
+}
+
+.sg-item__note {
+	max-width: var(--wp--custom--size--measure);
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.sg-matrix {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--wp--custom--size--sidebar)), 1fr));
+	gap: var(--wp--preset--spacing--4);
+	align-items: start;
+}
+
+.sg-matrix--wide {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.sg-cell {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	min-width: 0;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.sg-cell__label {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.sg-cell__body {
+	min-width: 0;
+}
+
+.sg-cell--narrow .sg-cell__body {
+	max-width: var(--wp--custom--size--sidebar);
+}
+
+.sg-swatches {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--wp--custom--size--sidebar)), 1fr));
+	gap: var(--wp--preset--spacing--3);
+}
+
+.sg-swatch {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	min-width: 0;
+}
+
+.sg-swatch__chip {
+	flex: none;
+	width: var(--wp--custom--size--tile-sm);
+	height: var(--wp--custom--size--tile-sm);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+.sg-swatch__name {
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+.sg-scale {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.sg-bar {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+}
+
+.sg-bar__fill {
+	height: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+/* ---------- подсветка кликабельного ---------- */
+
+.sg-tools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+body.is-highlight-interactive :is(a[href], button, summary, input, select, textarea, [tabindex]:not([tabindex="-1"])) {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+body.is-highlight-interactive .ds-card:has(.ds-card__link) {
+	outline: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+body.is-highlight-interactive :is(.ds-badge, .ds-meta, .ds-card__verdict, .ds-card__tags, .ds-card__type, .ds-facts__label, .ds-facts__note) {
+	opacity: 0.4;
+}
+
+.sg-archive {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--8);
+	align-items: start;
+}
+
+@media (min-width: 900px) {
+	.sg-archive {
+		grid-template-columns: var(--wp--custom--size--sidebar) minmax(0, 1fr);
+	}
+}
+
+.sg-sandbox {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--6);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+/* Образцы шкал: имена переменных написаны целиком, чтобы их проверял check_tokens.py. */
+
+.sg-bar--1 { width: var(--wp--preset--spacing--1); }
+.sg-bar--2 { width: var(--wp--preset--spacing--2); }
+.sg-bar--3 { width: var(--wp--preset--spacing--3); }
+.sg-bar--4 { width: var(--wp--preset--spacing--4); }
+.sg-bar--6 { width: var(--wp--preset--spacing--6); }
+.sg-bar--8 { width: var(--wp--preset--spacing--8); }
+.sg-bar--12 { width: var(--wp--preset--spacing--12); }
+.sg-bar--16 { width: var(--wp--preset--spacing--16); }
+
+.sg-radius--none { border-radius: var(--wp--custom--radius--none); }
+.sg-radius--xs { border-radius: var(--wp--custom--radius--xs); }
+.sg-radius--sm { border-radius: var(--wp--custom--radius--sm); }
+.sg-radius--md { border-radius: var(--wp--custom--radius--md); }
+.sg-radius--full { border-radius: var(--wp--custom--radius--full); }
+
+.sg-shadow { box-shadow: var(--wp--preset--shadow--md); }
+
+.sg-type { margin: 0; }
+
+/* Витрина шириной со страницы каталога: карточки в ней встают как на сайте. */
+.sg-page {
+	--wp--style--global--content-size: var(--wp--style--global--wide-size);
+}
+
+/* Там, где сравниваем состояния или ширины, показываем одну карточку: остальные образцы паттерна прячем. */
+.sg-one-card .ds-card:not(:first-of-type) {
+	display: none;
+}
+
+.sg-page {
+	padding-top: var(--wp--preset--spacing--6);
+}

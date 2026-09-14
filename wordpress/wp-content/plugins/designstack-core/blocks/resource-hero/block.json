@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/resource-hero",
+	"title": "Шапка ресурса",
+	"category": "designstack",
+	"icon": "align-left",
+	"description": "Логотип, название, тип, вердикт, метки, состояние записи, переход на сайт и дата проверки.",
+	"textdomain": "designstack-core",
+	"usesContext": [
+		"postId"
+	],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

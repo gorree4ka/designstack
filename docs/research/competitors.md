@@ -1,0 +1,180 @@
+# Исследование рынка ресурсов для UX/UI и продуктовых дизайнеров
+
+**Дата:** 10.09.2026
+**Цель:** понять, кто и как закрывает потребности дизайнеров в «полезных материалах», найти незанятые ниши и сформулировать гипотезы дифференциации для WordPress-сборника.
+
+**Методика и ограничения.** Все ресурсы проверены поиском/загрузкой страниц на 10.09.2026 (живость, формат, монетизация). Цифры трафика — либо из открытых источников (Similarweb, Semrush, заявления самих площадок, счётчики Telegram), либо помечены как «оценка». Reddit (r/UXDesign, r/userexperience, r/product_design) недоступен для нашего краулера (сайт блокирует запросы), поэтому «дыры» подтверждены косвенно: отзывами на Product Hunt, обзорами, которые пересказывают reddit-треды, публикациями на vc.ru/Habr/dsgners, отчётами NN/g и UX Tools, статьями на Medium. Это стоит учитывать: прямых цитат из Reddit в документе нет.
+
+---
+
+## 1. Матрица конкурентов
+
+### 1.1. Англоязычные лидеры
+
+| Ресурс | URL | Формат | Аудитория | Контентная модель | Язык | Монетизация | Сильное | Слабое | Известность |
+|---|---|---|---|---|---|---|---|---|---|
+| Mobbin | https://mobbin.com | Галерея референсов (экраны + флоу) | Продуктовые/UI-дизайнеры, мобильные команды | 500K+ экранов (в 2026 упоминается ~620K), 1 000+ приложений iOS/Android/Web; фильтры: платформа, категория приложения, тип экрана, UI-элемент, UX-паттерн, флоу; коллекции, Figma-плагин, MCP-сервер | EN | Freemium: бесплатно с сильными ограничениями; Pro $120 в год или $45 за квартал (≈ $10–15 в месяц), помесячной оплаты нет; Team $16 за участника в месяц при годовой оплате (страница тарифов, 10.09.2026) | 1) Крупнейшая база реальных продуктов; 2) целые пользовательские флоу, а не картинки; 3) интеграции (Figma, MCP) | 1) Почти всё за пейволлом, отзывы жалуются на «так много контента закрыто»; 2) слабое покрытие B2B/веб-дашбордов (на этом строит позиционирование Refero); 3) неточный поиск, нельзя оплатить из РФ | Semrush: ~1,37M визитов/мес (09.2024); Similarweb: глобальный ранг #16 921 (07.2026), рост трафика +26% м/м |
+| Nielsen Norman Group | https://www.nngroup.com | Медиа/справочник исследований + курсы | UX-исследователи, дизайнеры, менеджеры | Статьи, видео, отчёты, глоссарий; таксономия по темам; поиск; статьи бесплатны, отчёты и тренинги платные; в 2026 много материалов про AI | EN | Тренинги и сертификация ($1K–7K за курс/конференцию), консалтинг; статьи бесплатно | 1) Абсолютный авторитет, evidence-based; 2) огромный архив с 1998 г.; 3) регулярные отчёты о состоянии UX | 1) Академичный тон, мало визуальных примеров; 2) дорогие курсы; 3) нет «библиотеки решений», только тексты | Similarweb: ~1,3M визитов/мес (05.2026) |
+| Smashing Magazine | https://www.smashingmagazine.com | Медиа + рассылка + книги + конференции | Веб-дизайнеры, фронтенд, UX | Длинные статьи по категориям (UX, accessibility, CSS, design patterns), гайды, рассылка, книги; поиск, теги | EN | Реклама, Smashing Membership (~«одна чашка кофе в месяц»), книги, конференции | 1) Глубокие практические лонгриды; 2) 178K подписчиков рассылки; 3) устойчивая модель (с 2006 г.) | 1) Сильный крен во фронтенд; 2) много устаревших материалов без пометок; 3) навигация по архиву слабая | Рассылка: 178 785 (02.2026) и 177 857 (03.2026) — данные самого издания |
+| Laws of UX | https://lawsofux.com | Справочник принципов | Все уровни, особенно junior/middle | ~20 законов/принципов: карточка, объяснение, примеры, источники, постеры; книга (2-е изд. O'Reilly, 2024) | EN (есть переводы сообщества) | Бесплатно; продажа книги и постеров | 1) Компактно и канонично; 2) сильный визуальный бренд; 3) цитируется везде | 1) Нет применения к реальным продуктам/кейсов; 2) редко обновляется; 3) узкий охват (только психология) | Оценка: один из самых цитируемых справочников в подборках 2025–2026 |
+| Refactoring UI | https://refactoringui.com | Книга + видео + галерея компонентов | Разработчики и начинающие UI-дизайнеры | PDF 218 стр./50 глав, 3 видео, 200+ примеров компонентов, палитры, шрифты, иконки | EN | Платно: $99 (Essentials) / $149 (Complete), командные тарифы | 1) Очень практичные приёмы «как сделать лучше»; 2) культовый статус (30 000+ копий, 4.68 на Goodreads); 3) авторы Tailwind | 1) Не обновляется с 2018 г.; 2) только визуал, нет UX/исследований; 3) нет сообщества/обновляемого контента | Оценка: 30K+ проданных копий (заявление авторов) |
+| Growth.Design | https://growth.design | Кейсы в комикс-формате | Продуктовые дизайнеры, PM, growth | ~50–60 кейсов, теги психологических принципов, рассылка, платный курс Product Psychology Masterclass | EN | Бесплатные кейсы + платный курс | 1) Уникальный формат; 2) 130K+ подписчиков при ~51 материале; 3) объясняет «почему», а не «что» | 1) Мало контента, редкие выпуски; 2) нет каталога/поиска по паттернам; 3) фокус на consumer-продуктах | 130K+ подписчиков рассылки (заявление проекта) |
+| UX Collective | https://uxdesign.cc | Медиа на Medium + рассылка + Sidebar | Дизайнеры всех уровней | Тысячи статей авторов сообщества; теги Medium; кураторская еженедельная рассылка; ежегодный отчёт State of UX; подкаст | EN | Medium paywall (доход авторам), спонсоры рассылки и Sidebar | 1) Масштаб: 2,5M визитов/мес (по данным издания), 190K подписчиков рассылки; 2) сильное кураторство; 3) State of UX как отраслевой ориентир | 1) Неровное качество UGC; 2) Medium-пейволл и навязчивый UX Medium; 3) слабая таксономия — статьи трудно найти повторно | 2,5M визитов/мес (страница «How to publish with UX Collective»); рассылка 190K |
+| Page Flows | https://pageflows.com | Галерея флоу (видео) | Продуктовые дизайнеры | 10 826 видео флоу, 176K скриншотов, 20K писем; фильтры по флоу, платформе, продукту; аннотации | EN | Платно: $99/год, $39/квартал, триал $2,95; команды от $199/год | 1) Видео с аннотациями показывают анимации и переходы; 2) отдельная библиотека писем; 3) недорого относительно Mobbin | 1) Полный пейволл; 2) база меньше Mobbin; 3) слабая контекстуализация «почему так» | Оценка: заметный игрок второго эшелона |
+| Godly | https://godly.website | Галерея сайтов | Веб-дизайнеры | 3–5 сайтов/нед., теги по стилю и типу, рассылка | EN | Бесплатно, без платы за сабмит | 1) Очень строгая курация; 2) эталонная типографика и лейауты; 3) нет мусора | 1) Только визуал, без разборов; 2) узкая ниша (креативные сайты); 3) нет фильтров по задаче | Оценка: стабильно в топ-5 всех подборок 2026 |
+| Land-book | https://land-book.com | Галерея лендингов и секций | Веб-дизайнеры, маркетологи | 200K+ категоризированных секций (hero, pricing, footer…); фильтры по индустрии, типу, стилю, шрифту; доски | EN | Freemium: Basic бесплатно, Pro $6–9/мес | 1) Поиск по секциям; 2) фильтры по шрифту и цвету; 3) большая база | 1) Фильтры за пейволлом; 2) только маркетинговые сайты; 3) без объяснений и метрик | Оценка: один из лидеров ниши лендингов |
+| UX Tools | https://www.uxtools.co | Каталог инструментов + отчёты + медиа | Дизайнеры, лиды, DesignOps | База инструментов по категориям, ежегодный Design Tools Survey (весна 2026: 1 478 респондентов, открытые данные и API), блог, подкаст, рассылка | EN | Бесплатно; спонсоры, партнёрства, курсы | 1) Уникальные отраслевые данные; 2) доверие сообщества; 3) регулярность | 1) Узкая тема — инструменты; 2) база обновляется нерегулярно; 3) нет UX-контента «по задачам» | Оценка: главный источник данных о рынке инструментов |
+| Toools.design | https://www.toools.design | Каталог ресурсов | UI/UX-, графические дизайнеры | 2 200+ ресурсов, 18 категорий / 88 подкатегорий, страницы «для роли», раздел AI, блог, рассылка (3 800+) | EN | Бесплатно; спонсоры, партнёрские ссылки | 1) Широта и еженедельные обновления; 2) чистая таксономия; 3) ближайший аналог нашей идеи | 1) Только карточки-ссылки без оценок/рецензий; 2) нет «путей обучения» и контекста; 3) маленькая рассылка | Рассылка 3 800+ (сам ресурс); Product Hunt-запуск |
+| Checklist Design | https://www.checklist.design | Чеклисты | UI-дизайнеры, продуктовые команды | Чеклисты по разделам: Pages, Elements, Flows, Topics (accessibility, dark mode), Brand | EN | Бесплатно | 1) Практично и коротко; 2) самый залайканный продукт PH 2019; 3) используется как pre-launch аудит | 1) Один автор, редкие обновления; 2) нет примеров из реальных продуктов; 3) нет локализации | Оценка: устойчиво в подборках 2025–2026 |
+| Baymard Institute | https://baymard.com | Справочник исследований (e-commerce) | UX e-commerce, продуктовые команды ритейла | 700+ гайдлайнов, бенчмарки (2026: Telco, Mobile), примеры; бесплатные статьи блога | EN | Подписка: $2 400 / $4 200 / от $8 400 в год; аудиты $3,4–9,7K | 1) 200 000+ часов исследований; 2) 71% Fortune 500 e-com; 3) конкретные, проверенные гайдлайны | 1) Только e-commerce; 2) недоступно фрилансерам по цене; 3) закрытая экосистема | Оценка: стандарт отрасли e-com UX |
+| Interaction Design Foundation (IxDF) | https://www.interaction-design.org | Курсы + справочник + сообщество | Начинающие и middle | 37 курсов, learning paths по ролям, библиотека статей/энциклопедия, мастер-классы | EN | Членство (по разным источникам $96–200/год) | 1) Объём и структура; 2) сертификаты; 3) сообщество | 1) Пейволл; 2) SEO-ориентированная библиотека, много «воды»; 3) слабая связь с реальными продуктами | Оценка: один из крупнейших платных образовательных ресурсов |
+| Muzli | https://muz.li | Агрегатор/галерея (расширение браузера) | Дизайнеры широкого профиля | Лента, тематические коллекции 2026 (homepage, pricing, portfolio), блог о трендах | EN | Freemium: Pro без рекламы + web.muz.li | 1) 800K пользователей расширения; 2) ежедневная свежесть; 3) простой вход | 1) Поверхностно, без UX-глубины; 2) реклама; 3) не «сборник», а лента | 800K пользователей (заявление проекта) |
+| Sidebar | https://sidebar.io | Рассылка/агрегатор | Все | 5 ссылок каждый будний день, категории; с 01.2025 курирует Fabricio Teixeira (UX Collective) | EN | Бесплатно; спонсорские ссылки | 1) ~40K подписчиков, «ноль шума»; 2) с 2012 г.; 3) архив по категориям | 1) Пауза в 2024 показала хрупкость модели; 2) нет каталога с поиском/фильтрами; 3) Designer News (аналог) закрылся | ~40K подписчиков (Newsletter Metrics) |
+| The Component Gallery | https://component.gallery | Справочник компонентов | Дизайн-системы, фронтенд | 60 компонентов × 95 дизайн-систем, 2 676 примеров; для каждого — описание, названия-синонимы, примеры | EN | Бесплатно (хобби-проект Iain Bean) | 1) Единственный в своём роде; 2) бесплатно и без регистрации; 3) актуален (Astro + Airtable) | 1) Один мейнтейнер; 2) без UX-рекомендаций и антипаттернов; 3) нет фильтров по задаче | Оценка: нишевый, но эталонный |
+| designsystems.com | https://www.designsystems.com | Медиа Figma о дизайн-системах | DS-команды | Статьи, гайды, «Open design systems» из Figma Community | EN | Бесплатно (маркетинг Figma) | 1) Бренд Figma; 2) качественные авторы; 3) готовые файлы | 1) Нерегулярно; 2) привязка к Figma; 3) нет каталога/поиска по темам | Оценка: средняя, «витрина» Figma |
+| Refero | https://refero.design | Галерея референсов (web + iOS) | Продуктовые дизайнеры SaaS/B2B | Десятки тысяч экранов, 6 000 флоу (v4.0), фильтры: тип страницы, UX-паттерн, UI-элемент, индустрия; AI-поиск | EN | Платно: Pro $96 в год (≈ $8 в месяц при годовой оплате), помесячная цена не проверена; Team $16–20 за место в месяц (sources/refero.md, 10.09.2026); free ~3% библиотеки | 1) Покрывает слабое место Mobbin — B2B SaaS, дашборды, AI-интерфейсы; 2) сильные фильтры; 3) активно развивается 2024–2026 | 1) Почти нет бесплатного; 2) мало мобилки/Android; 3) нельзя оплатить из РФ | Оценка: главный конкурент Mobbin в 2026 (Product Hunt, обзоры альтернатив) |
+| Shape of AI + aiverse | https://www.shapeof.ai, https://www.aiverse.design | Паттерн-библиотеки AI UX (новые проекты 2024–2026) | Дизайнеры AI-продуктов | Паттерны по категориям (Wayfinders, Prompts, Trust…), 200+ примеров (aiverse), 24 паттерна, e-book, рассылка | EN | Shape of AI — бесплатно; aiverse — freemium + e-book | 1) Свежая ниша; 2) реальные примеры ChatGPT/Figma AI; 3) авторитетные авторы | 1) Небольшие и фрагментированные; 2) нет кейсов с метриками; 3) нет русских аналогов | Оценка: быстрорастущие нишевые ресурсы |
+| Built for Mars | https://builtformars.com | Кейсы / UX-аудиты | Продуктовые дизайнеры, founders | ~90 кейсов, 1 400+ «bite-size» инсайтов, категоризированы по психологии; Substack 13K+ | EN | Free + платная BFM+ (в бандле 6 мес Mobbin Pro) | 1) Глубокие разборы реальных продуктов; 2) объясняет причины; 3) регулярно | 1) Пейволл на лучшее; 2) один автор; 3) consumer-фокус | 13K+ подписчиков Substack |
+
+### 1.2. Русскоязычные ресурсы
+
+| Ресурс | URL | Формат | Аудитория | Контентная модель | Язык | Монетизация | Сильное | Слабое | Известность |
+|---|---|---|---|---|---|---|---|---|---|
+| vc.ru / Дизайн | https://vc.ru/design | Сообщество/медиа (UGC) | Широкая: дизайнеры, предприниматели | Статьи пользователей, теги (#ux, #дизайн), поиск, комментарии; регулярные «подборки референсов» | RU | Реклама, промо, платное продвижение | 1) Огромный охват — 1 031 090 подписчиков сообщества; 2) живые дискуссии; 3) SEO-видимость | 1) Много рекламы школ и самопиара; 2) неровное качество; 3) подборки — статичные статьи, быстро тонут в ленте | 1,03M подписчиков (счётчик vc.ru, 09.2026) |
+| Дизайн-кабак | https://designpub.ru | Коллективный блог (переехал с Medium) | UX/UI, продуктовые дизайнеры | Статьи, подкасты, вакансии; сортировка Hot/New/Popular, теги, поиск; модерация авторов | RU | Бесплатно; подписки/сообщество; без явной рекламы | 1) Крупнейший коллективный блог о дизайне на русском; 2) ежедневные публикации (последние — 08–09.09.2026); 3) практикующие авторы | 1) Слабая таксономия — теги не вынесены в навигацию; 2) много пересказов/переводов; 3) нет каталога ресурсов | TG-канал 4,25K (t.me/designpub); оценка трафика — средняя |
+| UX Journal | https://ux-journal.ru | Медиа переводов + бесплатные курсы | Начинающие и middle | 717+ статей в 9 категориях, курсы 7–31 глав, чеклисты; заявлено 54 027 читателей/мес | RU | Курсы партнёра Breezzly, материалы PRO | 1) Переводы сильных зарубежных статей; 2) структурированные курсы; 3) старый бренд (Facebook-группа 22K) | 1) Обновления редкие (последняя заметная статья — апрель 2025); 2) устаревающие материалы; 3) воронка в курсы | 54K читателей/мес (заявление сайта; оценка — ниже) |
+| Habr / хаб «Дизайн» | https://habr.com/ru/hubs/design/ | Сообщество/медиа | Разработчики + дизайнеры | Статьи с тегами и рейтингом, корпоративные блоги, комментарии; охват хаба 128K+ за 30 дней | RU | Реклама, корпоративные блоги, «Хабр Курсы» | 1) Техническая, требовательная аудитория; 2) качественные комментарии; 3) индексируется | 1) Много рекламных обзоров курсов («лучшие курсы UX/UI 2026»); 2) UX — не основной фокус Habr; 3) нет структурированного каталога | Охват 128K+/30 дней (счётчик Habr, 09.2026) |
+| Skillbox Media / Дизайн | https://skillbox.ru/media/design/ | Медиа онлайн-школы | Начинающие | Статьи, подборки («64 сайта», 2022; «8 сайтов для UX/UI», 11.2025; «38 Telegram-каналов»), рубрики, поиск | RU | Маркетинг курсов Skillbox, реклама (с 2025 продаёт рекламу) | 1) 6,5M визитов/мес на всё медиа, 300K читателей/день; 2) сильное SEO; 3) регулярность | 1) Подборки — статичные статьи, устаревают (2022) без пометок; 2) промо курсов; 3) поверхностно для middle+ | 6,5M визитов/мес (TAdviser, 04.2025) — всё медиа, не только дизайн |
+| Блог Яндекс Практикума + Медиа Contented | https://practicum.yandex.ru/blog/, https://media.contented.ru | Медиа онлайн-школ | Начинающие | Статьи «основы», тренды, подборки ресурсов (Contented: страница «300+ ресурсов» — статичный список с промо курса; «ТОП-10 ресурсов для UX/UI», 11.2024) | RU | Маркетинг курсов | 1) Авторитет брендов; 2) SEO; 3) аккуратная редактура | 1) Воронка в курсы; 2) подборки не обновляются и без фильтров; 3) мало глубины | Оценка: высокий SEO-трафик за счёт бренда |
+| Дайджест продуктового дизайна (Юрий Ветров) | https://jvetrau.com | Ежемесячный дайджест/рассылка | Продуктовые дизайнеры, лиды | Дайджесты с 2009 г., годовые обзоры трендов, паттерны, инструменты; TG @pdigest 49,6K | RU | Бесплатно, без рекламы; автор продаёт курс и книгу «Паттерны дизайн-менеджмента» | 1) 17 лет регулярности; 2) авторитет; 3) заявлено 250K читателей на всех площадках | 1) Формат «лента ссылок»; 2) архив без фильтров по темам/задачам; 3) один человек | TG 49,6K; 250K читателей (заявление автора) |
+| Telegram-каналы: UX Notes, UX Horn, Дизайн в карточках, Интерфейсы без шелухи и др. | https://t.me/uxnotes, https://t.me/uxhorn | Каналы/микромедиа | RU-дизайнеры | Короткие заметки и ссылки; UX Notes — 23,7K, UX Horn — 21,5K («крупнейшее UX-медиа рунета»); поиск только внутри Telegram | RU | Бесплатно; нативная реклама | 1) Живо и быстро; 2) доверие к авторам; 3) главный канал потребления в РФ | 1) Не индексируются поисковиками; 2) нет структуры — старое не найти; 3) фрагментация на десятки каналов | Счётчики Telegram (09.2026) |
+| дизайнерс (dsgners.ru) | https://dsgners.ru | Контент-платформа/сообщество (новая) | Цифровые и графические дизайнеры | Статьи, кейсы, дайджесты, TG-чат; обновляется в 2026 | RU | Бесплатно | 1) Новая активная площадка; 2) оригинальные авторские статьи; 3) UGC без пейволла | 1) Небольшая аудитория; 2) много графдизайна, мало UX; 3) нет каталога | Оценка: малая |
+| Screen Gallery | https://scrn.gallery | Галерея референсов мобильных приложений РФ/СНГ (новый проект 2024) | Продуктовые дизайнеры РФ | Тысячи экранов, сценарии (user flows), UX-паттерны, UI-элементы; iOS/Android-приложения | RU | Подписка Pro 399 ₽ в месяц при годовой оплате (4 788 ₽ в год) или 499 ₽ помесячно, часть бесплатно | 1) Единственный «русский Mobbin»; 2) оплата из РФ; 3) локальные продукты (банки, маркетплейсы) | 1) Только мобилка; 2) маленькая база; 3) малоизвестен | Оценка: малая, нишевая |
+| Кириллица.дизайн | https://cyrillic.design | Галерея кириллических сайтов | Веб-дизайнеры | Коллекция сайтов с хорошим UX/UI на кириллице с 2018 г., TG, GitHub | RU | Бесплатно | 1) Уникальная ниша — кириллическая типографика; 2) длинная история | 1) Нерегулярно; 2) минимальная навигация; 3) нет разборов | Оценка: малая |
+| Dprofile | https://dprofile.ru | Портфолио-сообщество («русский Behance») | Дизайнеры всех направлений | 37 000+ пользователей, 70 000+ проектов, кейсы «задача-исследование-решение-результат», конкурсы | RU | Freemium, конкурсы, партнёрства | 1) Замена Behance после 2022; 2) детальные кейсы; 3) активное развитие | 1) Не референс-библиотека; 2) качество кейсов неровное; 3) визуал > UX | 37K пользователей (Contented/Sostav, 2025–2026) |
+
+**Закрытые/сменившие статус:** Designer News (закрыт), Sidebar (пауза 2024, возобновлён под UX Collective), InVision (сервис остановлен в 2024), UX Journal (де-факто заморожен с 2025).
+
+---
+
+## 2. Дыры на рынке
+
+### Дыра 1. Референсы реальных продуктов заперты за пейволлом и недоступны из РФ
+Все три лидера (Mobbin, Refero, Page Flows) дают полноценный доступ только по подписке; бесплатные уровни урезаны (Refero — ~3% базы). Отзывы на Product Hunt: «so much content is paywalled», «coverage does not always include the exact app or pattern people want», «search can feel imprecise». Для русскоязычных дизайнеров добавляется невозможность оплаты — Stripe отсекает карты РФ/РБ, появились целые гайды «как оплатить Mobbin из России». Бесплатные альтернативы (Supahero, UI.live, Land-book Basic) не дают флоу и фильтров.
+- Подтверждения: https://www.producthunt.com/products/mobbin/reviews ; https://vc.ru/services/2202088-kak-oplatit-mobbin-iz-rossii-cherez-payholder (08.09.2025) ; https://dtf.ru/howto/4013360-oplata-mobbin-v-rossii ; https://gummble.com/compare/refero-alternative
+
+### Дыра 2. Есть «что», нет «почему»: разборов решений с обоснованием и метриками катастрофически мало
+Дизайнеры массово отказываются от Dribbble/Behance («концепты под лайки, а не под продакшен»), но замена — это галереи скриншотов без объяснений. Ресурсы, которые объясняют причины (Growth.Design — ~60 кейсов, Built for Mars — ~90, оба частично платные), микроскопичны на фоне сотен тысяч экранов. NN/g в State of UX 2026 прямо называет проблему: «design theater», сборка из компонентов без понимания, «surface-level design won't be enough».
+- Подтверждения: https://www.nngroup.com/articles/state-of-ux-2026/ ; https://dsgners.ru/vitalij/10807-god-nazad-ya-perestal-smotret-referensyi-na-dribbble-i-behance-i-vot-chto-iz-etogo-vyishlo (07.2025) ; https://vc.ru/design/2759821-gde-iskat-dizajnerskie-referensy-pomimo-awwwards-i-behance (26.02.2026) ; https://andresmax.com/dribbble-broke-ux-design/
+
+### Дыра 3. B2B / enterprise / data-heavy интерфейсы почти не покрыты
+Mobbin силён в consumer iOS; обзоры альтернатив прямо пишут, что Refero «covers the category Mobbin covers weakest: B2B SaaS, internal dashboards, web-first product interfaces». При этом Refero платный, а русскоязычных примеров (банковские кабинеты, кабинеты продавцов, админки) нет нигде. Вопрос «best Mobbin alternative for SaaS dashboards» — один из типовых на Reddit по пересказу обзоров.
+- Подтверждения: https://www.toolworthy.ai/blog/mobbin-alternatives ; https://duply.ai/blog/mobbin-alternatives ; https://uxdesign.cc/how-white-space-killed-an-enterprise-app-and-why-data-density-matters-b3afad6a5f2a
+
+### Дыра 4. AI-UX: паттерны есть, но разбросаны по 4–5 мелким сайтам, на русском — ноль
+По опросу UX Tools (весна 2026, 1 478 респондентов) 5 из 10 самых используемых инструментов дизайнера — AI; 54% дизайнеров говорят, что клиенты хотят «AI» без понятного юзкейса (Lyssna). Библиотеки паттернов (Shape of AI, aiverse, agenticuxpatterns.com, agentic-design.ai) — небольшие, не связаны между собой, без кейсов с метриками. Русскоязычного систематизированного материала по проектированию AI-функций нет.
+- Подтверждения: https://survey.uxtools.co/spring-2026 ; https://www.lyssna.com/blog/ux-design-trends/ ; https://www.shapeof.ai/ ; https://www.aiverse.design/patterns ; https://agenticuxpatterns.com/overview
+
+### Дыра 5. Каталоги ресурсов «гниют»: статичные статьи, мёртвые ссылки, нет даты проверки и оценки
+Практически все «подборки» — это одноразовые статьи (Skillbox «64 сайта» — 2022 г., Contented «300+ ресурсов» — без даты, dssign.ru — список с партнёрскими ссылками). Даже кураторы жалуются: Lapa Ninja «устарел, много рекламы и проблемы с вёрсткой». Агрегаторы уровня Designer News закрылись, Sidebar брал паузу. Toools.design — единственный живой структурированный каталог, но без рецензий и статуса «жив/платно/недоступно».
+- Подтверждения: https://vc.ru/design/1719038-ultimativnaya-podborka-dlya-poiska-referensov-chast-vtoraya (12.2024) ; https://muz.li/blog/the-rise-and-fall-of-design-platforms/ ; https://skillbox.ru/media/design/64_sayta_dlya_dizaynerov/ ; https://dssign.ru/links
+
+### Дыра 6 (рунет). Русскоязычный рынок живёт в Telegram и статьях, структурированного сборника нет
+Все русскоязычные «каталоги» — статьи на vc.ru/Habr/медиа школ или Telegram-каналы, которые не индексируются и не дают найти старое. Habr (07.2025): качественный русскоязычный контент «есть, но ограничен», продвинутое — только на английском.
+- Подтверждения: https://habr.com/ru/articles/929286/ ; https://habr.com/ru/articles/983608/ (08.01.2026, 13K просмотров) ; https://infogra.ru/articles/articles-ui/44-luchshih-veb-sajtov-i-telegram-kanalov-po-ux-ui-dlya-dizajnerov-interfejsa ; https://contented.ru/resources-for-designers
+
+---
+
+## 3. Возможности для дифференциации (гипотезы)
+
+| # | Гипотеза | Суть | Почему конкуренты не закрывают | Подтверждение | Риск |
+|---|---|---|---|---|---|
+| H1 | **Живой каталог с фильтрами и статусом** | Каждая карточка ресурса: роль, задача, формат, язык, цена, «работает из РФ / нужна карта / нужен VPN», дата последней проверки, редакторская оценка и «для кого». Фильтры + поиск, RSS/рассылка «что изменилось» | Toools.design — карточки без оценки и статуса; все русскоязычные подборки — статичные статьи без дат и фильтров; Telegram не индексируется | Дыра 5, 6: https://dssign.ru/links , https://skillbox.ru/media/design/64_sayta_dlya_dizaynerov/ , https://www.toools.design/ | Операционная нагрузка на проверку актуальности; «каталог ссылок» сам по себе слабо удерживает — нужен собственный контент |
+| H2 | **«Почему так»: разборы решений с обоснованием** | Библиотека паттернов и решений реальных (в т.ч. российских) продуктов: скриншот/флоу + объяснение, ссылки на исследования (NN/g, Baymard, Laws of UX), метрики, где есть; антипаттерны | Галереи (Mobbin, Refero, Screen Gallery) дают только «что»; Growth.Design/Built for Mars — единицы кейсов, платно, только consumer и EN | Дыра 2: https://www.nngroup.com/articles/state-of-ux-2026/ , https://dsgners.ru/vitalij/10807-... | Дорого в производстве; правовые вопросы использования скриншотов; нужно экспертное качество текста |
+| H3 | **Русскоязычный слой доступности и локальных аналогов** | Пометки «оплата из РФ», «есть русский аналог», рубрика российских продуктов и ресурсов (Screen Gallery, Dprofile, Кириллица.дизайн, dsgners), инструкции по замене недоступного | Англоязычные каталоги этим не занимаются; русскоязычные медиа пишут разовые гайды «как оплатить Mobbin», но не ведут реестр | Дыра 1: https://vc.ru/services/2202088-... , https://dtf.ru/howto/4013360-oplata-mobbin-v-rossii , https://scrn.gallery/apps | Быстро меняется (санкции, платёжки); юридическая/политическая чувствительность формулировок |
+| H4 | **Трек B2B / enterprise / data-heavy** | Отдельный раздел: таблицы, фильтры, дашборды, права/роли, массовые операции, формы — паттерны + примеры (в т.ч. кабинеты Ozon/Wildberries Seller, банковские B2B, Яндекс Директ) | Mobbin слаб в B2B, Refero платный и без RU-продуктов, Screen Gallery — только мобилка | Дыра 3: https://www.toolworthy.ai/blog/mobbin-alternatives , https://duply.ai/blog/mobbin-alternatives | Сложнее собирать скриншоты закрытых систем; аудитория уже, но платёжеспособнее |
+| H5 | **AI-UX хаб на русском** | Систематизированные паттерны проектирования AI-функций (агенты, prompts, доверие, ошибки), примеры, чеклисты, глоссарий, переводы/синтез Shape of AI, aiverse, NN/g | На английском — фрагментировано по 4–5 мелким сайтам; на русском — нет ничего структурированного | Дыра 4: https://survey.uxtools.co/spring-2026 , https://www.shapeof.ai/ , https://www.aiverse.design/patterns | Быстро устаревает; сильные англоязычные авторы; риск поверхностности |
+| H6 | **Маршруты обучения (junior → lead) из бесплатных проверенных материалов** | Roadmap по уровням и ролям, где каждый шаг — ссылка на проверенный бесплатный материал (RU-перевод или EN) + чеклист самопроверки; обновляемый | Школы (Skillbox, Практикум, Contented) дают только воронку в платные курсы; IxDF — пейволл; NN/g и UX Tools фиксируют исчезновение «junior-пути» | https://www.uxtools.co/episodes/the-design-industry-is-splitting-in-two , https://www.nngroup.com/articles/state-of-ux-2026/ , https://habr.com/ru/articles/929286/ | Прямая SEO-конкуренция с медиа школ (6,5M визитов/мес у Skillbox Media); нужна честная позиция без продажи курсов |
+| H7 | **Чеклисты и справочники, привязанные к примерам** | Русскоязычные аналоги Checklist Design / Laws of UX, но каждый пункт ведёт к примеру из H2 и к исследованию-источнику; экспорт в Notion/Figma | Checklist Design и Laws of UX не связаны с примерами и не локализованы; русскоязычные чеклисты — разовые статьи | https://www.checklist.design/ , https://lawsofux.com/ , https://speckyboy.com/ux-design-checklist/ | Низкий барьер копирования; ценность только при связке с H1–H2 |
+
+Приоритет по соотношению «дыра / стоимость»: **H1 + H3** (ядро каталога, быстро запускается на WordPress с кастомными типами записей и таксономиями), затем **H2** (главный источник удержания и уникальности), **H5** и **H4** как тематические треки, **H6/H7** как SEO-обвязка.
+
+---
+
+## 4. Русскоязычный рынок: что характерно
+
+1. **Качественного структурированного сборника нет.** Есть три типа сущностей: (а) медиа онлайн-школ (Skillbox Media, Практикум, Contented) — статьи-подборки как SEO-воронка в курсы, без фильтров и дат обновления; (б) сообщества UGC (vc.ru/design — 1,03M подписчиков, Habr — 128K охват хаба, Дизайн-кабак, dsgners.ru) — поток статей с тегами, где «подборки» быстро тонут; (в) Telegram (UX Notes 23,7K, UX Horn 21,5K, Дайджест Ветрова 49,6K и десятки каналов помельче) — главный канал потребления, но не индексируется и не структурируется. Страница Contented «300+ ресурсов» и dssign.ru «Топ-50 сервисов» — ближайшее к каталогу, но это статичные списки с промо курса / партнёрскими ссылками.
+2. **Медиа переводов затухают.** UX Journal (когда-то «блог №1 о продуктовом дизайне», 717 статей) практически не обновляется с весны 2025; ux.pub стал украиноязычным сообществом. Ниша «качественный перевод/синтез NN/g, Baymard, Smashing с указанием источника» освободилась.
+3. **Доступность — системная проблема.** Mobbin/Refero/Page Flows не принимают карты РФ, Behance был проблемен с 2022 (отсюда Dprofile). Появились локальные заменители: Screen Gallery («русский Mobbin», 399 ₽ в месяц при годовой оплате, только мобилка), Dprofile (37K пользователей), Кириллица.дизайн. Никто не ведёт реестр «что работает, что нет, чем заменить».
+4. **Рунет производит подборки, но не поддерживает их.** За 2024–2026 на vc.ru вышли «Ультимативная подборка референсов» (12.2024), «300+ источников референсов» (11.2023, обновляется в комментариях), «Куда смотреть, если Awwwards/Dribbble не хватает» (02.2026, 100+ платформ), на Habr — «23 сервиса» (01.2026, 13K просмотров). Спрос очевиден, но каждая статья — снимок момента.
+5. **Тон рынка.** В 2026 русскоязычные авторы (vc.ru, dsgners, Habr) сходятся на том, что ключевой навык — «не искать, а фильтровать и структурировать»; авторы отказываются от Dribbble в пользу реальных продуктов. Это точно совпадает с гипотезами H1–H2.
+6. **Вывод:** ниша «структурированный, обновляемый, русскоязычный сборник с фильтрами, статусом доступности и разборами “почему”» свободна. Основной конкурент за внимание — не сайт, а Telegram-каналы и SEO-медиа школ; значит, сайт должен иметь Telegram-дистрибуцию и честную (без курсов) позицию.
+
+---
+
+## 5. Источники
+
+### Подборки и обзоры рынка
+- https://blog.uxtweak.com/the-best-website-design-resources-for-2026/
+- https://blog.nobledesktop.com/new-ux-designer-resources
+- https://www.toools.design/blog-posts/ultimate-list-100-best-inspiration-sites-to-inspire-designers
+- https://www.toools.design/blog-posts/best-design-newsletters
+- https://cpoclub.com/product-design/best-ux-design-newsletters/
+- https://www.toolworthy.ai/blog/mobbin-alternatives
+- https://duply.ai/blog/mobbin-alternatives
+- https://coolcuration.com/mobbin-review-is-it-worth-it
+- https://www.producthunt.com/products/mobbin/reviews
+- https://www.producthunt.com/categories/design-inspiration
+- https://muz.li/blog/the-rise-and-fall-of-design-platforms/
+- https://framify.design/blog/website-inspiration-for-framer-sites
+- https://colorlib.com/wp/showcase-inspiration-sites-web-design/
+
+### Англоязычные ресурсы (проверка статуса, цен, объёмов)
+- https://mobbin.com/pricing ; https://www.similarweb.com/website/mobbin.com/ ; https://www.semrush.com/website/mobbin.com/overview/ ; https://chatforest.com/reviews/mobbin-mcp-server/
+- https://www.nngroup.com/articles/ ; https://www.nngroup.com/articles/state-of-ux-2026/ ; https://www.similarweb.com/website/nngroup.com/ ; https://www.serlig.com/nielsen-and-norman-cost-value/
+- https://www.smashingmagazine.com/the-smashing-newsletter/smashing-newsletter-issue-544/ ; https://www.smashingmagazine.com/membership/
+- https://lawsofux.com/book/ ; https://jonyablonski.com/articles/2024/laws-of-ux-the-2nd-edition/
+- https://refactoringui.com/
+- https://growth.design/course ; https://www.producthunt.com/products/growth-design-case-studies
+- https://uxdesign.cc/why-and-how-to-publish-with-the-ux-collective-8c8d1dd018a7 ; https://community.uxdesign.cc/newsletter
+- https://pageflows.com/pricing/ ; https://pageflows.com/user-flow/
+- https://godly.website/ ; https://www.producthunt.com/products/godly-website
+- https://land-book.com/pro ; https://toolradar.com/tools/land-book
+- https://www.uxtools.co/ ; https://survey.uxtools.co/spring-2026 ; https://www.uxtools.co/episodes/the-design-industry-is-splitting-in-two
+- https://www.toools.design/ ; https://www.producthunt.com/products/toools-design
+- https://www.checklist.design/ ; https://medium.com/@hatzis/launching-checklist-design-a-collection-of-the-best-ux-and-ui-practices-575ecaee9259
+- https://baymard.com/pricing ; https://baymard.com/blog
+- https://uxcel.com/blog/interaction-design-foundation-review ; https://www.toools.design/blog-posts/ixdf-interaction-design-foundation-review
+- https://muz.li/ ; https://muz.li/pro/ ; https://muz.li/faq/
+- https://sidebar.io/ ; https://www.newslettermetrics.com/sidebario ; https://uxdesign.cc/sidebar-is-back-from-its-break-af1a4280385c
+- https://component.gallery/ ; https://grokipedia.com/page/Component_Gallery
+- https://www.designsystems.com/
+- https://refero.design/ ; https://gummble.com/compare/refero-alternative ; https://www.producthunt.com/products/refero/alternatives
+- https://www.shapeof.ai/ ; https://www.aiverse.design/patterns ; https://agenticuxpatterns.com/overview ; https://agentic-design.ai/patterns/ui-ux-patterns
+- https://builtformars.com/ ; https://builtformars.substack.com
+- https://www.uxlift.org/ (агрегатор, Manchester)
+- https://www.lyssna.com/blog/ux-design-trends/
+- https://andresmax.com/dribbble-broke-ux-design/ ; https://medium.com/@wr/dribbble-is-not-for-product-designers-but-thats-okay-62bb85f11d1d
+- https://uxdesign.cc/how-white-space-killed-an-enterprise-app-and-why-data-density-matters-b3afad6a5f2a
+
+### Русскоязычные ресурсы
+- https://vc.ru/design ; https://vc.ru/tag/ux
+- https://designpub.ru/ ; https://t.me/s/designpub ; https://medium.com/design-pub/about
+- https://ux-journal.ru/ ; https://ux-journal.ru/all-articles
+- https://habr.com/ru/hubs/design/
+- https://skillbox.ru/media/design/64_sayta_dlya_dizaynerov/ ; https://skillbox.ru/media/design/uxui-inspiration/ ; https://skillbox.ru/media/design/telegram-dlya-dizainerov/ ; https://www.tadviser.ru/ (заметка о рекламе на Skillbox Media, 04.2025)
+- https://practicum.yandex.ru/blog/top-saytov-dlya-dizaynerov/ ; https://media.contented.ru/ux-ui/podborka-poleznyh-resursov-dlya-ux-ui-dizajnera/ ; https://contented.ru/resources-for-designers ; https://media.contented.ru/znaniya/instrumenty/chto-takoe-dprofile/
+- https://jvetrau.com/ ; https://jvetrau.com/digest-years/2026 ; https://t.me/s/pdigest
+- https://t.me/s/uxnotes ; https://t.me/s/uxhorn ; https://infogra.ru/articles/articles-ui/44-luchshih-veb-sajtov-i-telegram-kanalov-po-ux-ui-dlya-dizajnerov-interfejsa ; https://design-school-unid.ru/blog/top-telegram-kanalov/ ; https://vc.ru/design/1003602-top-10-telegram-kanalov-dlya-dizainerov
+- https://dsgners.ru/ ; https://dsgners.ru/vitalij/10807-god-nazad-ya-perestal-smotret-referensyi-na-dribbble-i-behance-i-vot-chto-iz-etogo-vyishlo
+- https://scrn.gallery/apps ; https://t.me/scrn_gallery
+- https://cyrillic.design/ ; https://t.me/cyrillicdesign
+- https://dprofile.ru/ ; https://www.sostav.ru/dprofile
+- https://dssign.ru/links
+- https://vc.ru/design/1719038-ultimativnaya-podborka-dlya-poiska-referensov-chast-vtoraya
+- https://vc.ru/design/2070015-gde-nayti-referensy-i-vdokhnovenie-dlya-dizaynerov
+- https://vc.ru/marketing/920794-top-300-ili-krupneishaya-podborka-besplatnyh-istochnikov-referensov-runeta
+- https://vc.ru/design/2759821-gde-iskat-dizajnerskie-referensy-pomimo-awwwards-i-behance
+- https://vc.ru/services/2202088-kak-oplatit-mobbin-iz-rossii-cherez-payholder ; https://dtf.ru/howto/4013360-oplata-mobbin-v-rossii
+- https://habr.com/ru/articles/983608/ ; https://habr.com/ru/articles/929286/ ; https://habr.com/ru/articles/957090/
+- https://ux.pub/ (бывший русскоязычный UXPUB, теперь украиноязычное сообщество)

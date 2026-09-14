@@ -1,0 +1,260 @@
+{
+	"_comment": "Партия learning-02 от 14.09.2026, директива 16 режим ingest. Черновики; публикация после апрува. Партия собрана под дыры покрытия: у учебных материалов не было ни одной записи по иконкам и ИИ, по прототипированию, дизайн-системам, мобильному дизайну и доступности — по одной, а формата video не было вообще. Доступ проверен прогоном с сервера Beget: docs/research/ru-access/2026-09-14_15-20_ingest-learning-02.md. Цены сняты со страниц тарифов.",
+	"resources": [
+		{
+			"slug": "bbe-free",
+			"title": "Дизайн-библиотека Bang Bang Education",
+			"type": "learning",
+			"topics": ["ui-visual", "career-portfolio"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://bangbangeducation.ru/free",
+				"verdict": "Больше восьмидесяти видеокурсов школы, открытых бесплатно и без регистрации",
+				"review_for": "Тем, кто хочет учиться по видео на русском и не готов платить за курс, пока не понял, нужно ли это.",
+				"review_why": "Лекции и курсы лежат на самой площадке школы, поэтому смотрятся из России без замедления и обходных путей.",
+				"review_not": "Когда нужна программа с проверкой: это библиотека записей, домашних заданий и обратной связи здесь нет.",
+				"format": "video",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "inclusive-components",
+			"title": "Inclusive Components",
+			"type": "learning",
+			"topics": ["accessibility", "ui-visual"],
+			"levels": ["middle", "senior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://inclusive-components.design",
+				"verdict": "Разбор компонентов интерфейса с точки зрения доступности: по одному, до конца",
+				"review_for": "Тем, кто уже знает про WCAG и упёрся в конкретный компонент — меню, таблицу, модальное окно.",
+				"review_why": "Каждая глава берёт один компонент и доводит его до состояния, в котором он работает с клавиатуры и чтеца.",
+				"review_not": "Когда нужен обзор: это разбор частных случаев, общего введения в доступность здесь нет.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "a11y-project",
+			"title": "The A11Y Project",
+			"type": "learning",
+			"topics": ["accessibility"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://www.a11yproject.com",
+				"verdict": "Чеклист доступности и короткие заметки вместо текста стандарта",
+				"review_for": "Тем, кому нужно проверить макет или сайт на доступность сегодня, а читать WCAG некогда.",
+				"review_why": "Чеклист разложен по пунктам с объяснением каждого, рядом список инструментов проверки.",
+				"review_not": "Когда нужна буква стандарта: проект пересказывает требования своими словами, юридической силы у него нет.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "atomic-design",
+			"title": "Atomic Design",
+			"type": "learning",
+			"topics": ["design-systems", "ui-visual"],
+			"levels": ["middle", "senior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://atomicdesign.bradfrost.com",
+				"verdict": "Книга, из которой выросли почти все нынешние дизайн-системы — целиком бесплатно",
+				"review_for": "Тем, кто собирает библиотеку компонентов и хочет понять, по какому принципу её делить.",
+				"review_why": "Автор вводит уровни от атома до страницы и показывает, зачем эта иерархия нужна на практике.",
+				"review_not": "Когда нужны токены и автоматизация: книга написана в 2016 году и про современные инструменты не знает.",
+				"format": "book",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "designsystems-com",
+			"title": "DesignSystems.com",
+			"type": "learning",
+			"topics": ["design-systems"],
+			"levels": ["middle", "senior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://www.designsystems.com",
+				"verdict": "Статьи про то, как дизайн-системы живут в командах, а не как их рисуют",
+				"review_for": "Тем, у кого система уже есть, а её никто не использует.",
+				"review_why": "Тексты про внедрение, управление и договорённости внутри команды — то, о чём молчат руководства по компонентам.",
+				"review_not": "Когда нужен старт: это разговор для тех, кто уже столкнулся с проблемой, а не введение в тему.",
+				"format": "article",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "prompting-guide",
+			"title": "Prompt Engineering Guide",
+			"type": "learning",
+			"topics": ["ai-for-designers"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://www.promptingguide.ai",
+				"verdict": "Как формулировать запрос к нейросети, чтобы она поняла с первого раза",
+				"review_for": "Тем, кто гоняет ИИ по кругу и получает не то, что просил.",
+				"review_why": "Приёмы разобраны с примерами «плохо — хорошо», есть перевод на русский, материал обновляется.",
+				"review_not": "Когда нужны картинки: руководство про текстовые модели, генерация изображений в нём почти не разобрана.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "multi",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "checklist-design",
+			"title": "Checklist Design",
+			"type": "learning",
+			"topics": ["ui-visual", "web-landings"],
+			"levels": ["junior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://www.checklist.design",
+				"verdict": "Чеклисты на каждый элемент интерфейса: что не забыть в кнопке, форме, таблице",
+				"review_for": "Тем, кто рисует компонент впервые и не знает, какие состояния и случаи надо предусмотреть.",
+				"review_why": "По каждому элементу — список пунктов и примеры из живых продуктов, проверять можно прямо по ходу работы.",
+				"review_not": "Когда нужно понимание: чеклист говорит «что», но почти не объясняет «почему».",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "android-design",
+			"title": "Android Developers: Design",
+			"type": "learning",
+			"topics": ["mobile-design", "ui-visual"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://developer.android.com/design",
+				"verdict": "Правила интерфейсов Android от Google: размеры, жесты, адаптация под экраны",
+				"review_for": "Тем, кто рисует под Android и хочет, чтобы макет не переделывали при передаче в разработку.",
+				"review_why": "Разобраны навигация, крупные экраны, складные устройства и то, чем Android отличается от iOS.",
+				"review_not": "Когда проект кроссплатформенный: правила Google и Apple расходятся, следовать обоим сразу не выйдет.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "skillbox-media-design",
+			"title": "Skillbox Media: Дизайн",
+			"type": "learning",
+			"topics": ["ui-visual", "career-portfolio"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://skillbox.ru/media/design/",
+				"verdict": "Русскоязычные разборы и инструкции по дизайну, открытые без оплаты курса",
+				"review_for": "Тем, кто ищет пошаговую инструкцию на русском и не хочет разбирать её с английского.",
+				"review_why": "Материалы пишут практики, много пошаговых разборов инструментов; раздел живой и пополняется.",
+				"review_not": "Когда мешает реклама: это медиа школы, и часть текстов ведёт к её же курсам.",
+				"format": "article",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "practicum-blog",
+			"title": "Практикум Журнал",
+			"type": "learning",
+			"topics": ["career-portfolio", "ux-research"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://practicum.yandex.ru/blog/",
+				"verdict": "Журнал Практикума про профессию: как войти, как расти, сколько платят",
+				"review_for": "Тем, кто смотрит на профессию со стороны и хочет понять рынок до того, как платить за курс.",
+				"review_why": "Тексты про грейды, зарплаты и найм опираются на российский рынок, а не на пересказ западных статей.",
+				"review_not": "Когда нужна независимость: это медиа школы, и её курсы упоминаются регулярно.",
+				"format": "article",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "ilyahov-blog",
+			"title": "Блог Максима Ильяхова",
+			"type": "learning",
+			"topics": ["ui-visual", "career-portfolio"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://maximilyahov.ru/blog/",
+				"verdict": "Как писать текст в интерфейсе и письмах, чтобы его дочитывали",
+				"review_for": "Тем, кто пишет подписи кнопок, пустые состояния и сообщения об ошибках — то есть любому продуктовому дизайнеру.",
+				"review_why": "Автор «Пиши, сокращай» разбирает конкретные тексты и показывает правку целиком, а не выдаёт правила.",
+				"review_not": "Когда нужен именно дизайн: блог про текст и редактуру, интерфейсные примеры здесь лишь часть тем.",
+				"format": "article",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "uxcel",
+			"title": "Uxcel",
+			"type": "learning",
+			"topics": ["ux-research", "ui-visual"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://uxcel.com",
+				"verdict": "UX учится короткими уроками с проверкой, а не чтением длинных глав",
+				"review_for": "Тем, кто бросает курсы на третьей неделе: урок здесь занимает минуты и заканчивается заданием.",
+				"review_why": "Материал разбит на короткие уровни с проверкой, есть тест на грейд и разбор чужих решений.",
+				"review_not": "Когда нужна глубина: формат приучает к быстрым ответам, а сложные исследовательские темы в него не помещаются.",
+				"format": "course",
+				"pricing": "freemium",
+				"price_note": "Starter бесплатно — открыт первый уровень каждого курса; Pro $24 в месяц, при оплате за год дешевле. На 14.09.2026 на странице висела акция −50 % с обратным отсчётом — это не постоянная цена",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active",
+				"certificate": true
+			}
+		}
+	]
+}

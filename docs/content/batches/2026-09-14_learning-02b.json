@@ -1,0 +1,26 @@
+{
+	"_comment": "Добор к партии learning-02 от 14.09.2026: первая запись со значением ru_open = unstable (D103). Площадка отвечает с российского сервера кодом 200 (docs/research/ru-access/2026-09-14_15-19_video-probe.md), но замедление у домашних провайдеров прогоном из дата-центра не измеряется — поэтому метка «открывается с перебоями», а не «открывается из РФ».",
+	"resources": [
+		{
+			"slug": "figma-youtube",
+			"title": "Figma на YouTube",
+			"type": "learning",
+			"topics": ["ui-visual", "prototyping"],
+			"levels": ["junior", "middle", "senior"],
+			"analogs": ["bbe-free"],
+			"fields": {
+				"url": "https://www.youtube.com/@Figma",
+				"verdict": "Доклады Config и разборы приёмов от самой Figma — но видео грузится неровно",
+				"review_for": "Тем, кто хочет увидеть работу в редакторе руками, а не прочитать про неё.",
+				"review_why": "Канал ведёт сам вендор: доклады конференции Config, разборы новых возможностей, записи вебинаров — всё бесплатно.",
+				"review_not": "Когда важна скорость загрузки: площадку в России замедляют, и длинное видео может встать. Русскоязычная замена без этой беды — дизайн-библиотека Bang Bang Education.",
+				"format": "video",
+				"pricing": "free",
+				"ru_open": "unstable",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		}
+	]
+}

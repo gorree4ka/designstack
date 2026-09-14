@@ -1,0 +1,8 @@
+<svg class="ds-empty__art" viewBox="0 0 160 112" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+	<!-- 404: ряд карточек, на месте одной пусто (D50 §8). -->
+	<rect x="12" y="26" width="40" height="56" rx="6" fill="var(--wp--preset--color--surface-raised)"/>
+	<path d="M22 42h20M22 52h16"/>
+	<rect class="ds-art-accent" x="60" y="26" width="40" height="56" rx="6" stroke-dasharray="7 7"/>
+	<rect x="108" y="26" width="40" height="56" rx="6" fill="var(--wp--preset--color--surface-raised)"/>
+	<path d="M118 42h20M118 52h16"/>
+</svg>

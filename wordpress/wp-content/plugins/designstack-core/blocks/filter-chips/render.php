@@ -1,0 +1,15 @@
+<?php
+/**
+ * Разметка блока «Чипсы фильтров».
+ *
+ * @package designstack-core
+ *
+ * @var array    $attributes Атрибуты блока.
+ * @var string   $content    Содержимое.
+ * @var WP_Block $block      Блок.
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- разметка собрана с экранированием.
+echo designstack_core_render_chips( (string) ( $attributes['variant'] ?? 'choice' ) );

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/resource-meta",
+	"title": "Факты о ресурсе",
+	"category": "designstack",
+	"icon": "list-view",
+	"description": "Поля текущего ресурса списком: цена, доступ и оплата из РФ, язык, грейд, темы и поля своего типа.",
+	"textdomain": "designstack-core",
+	"attributes": {
+		"fields": { "type": "array", "items": { "type": "string" }, "default": [] },
+		"showTopics": { "type": "boolean", "default": true }
+	},
+	"usesContext": ["postId"],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

@@ -1,0 +1,1862 @@
+/*
+ * DesignStack: библиотека паттернов (этап 11, docs/ds/components.md).
+ * Только токены theme.json: цвет, кегль, отступ — пресеты; радиус, размер, толщина рамки, длительность — custom.
+ * Размеров в px здесь нет: px допустим только в условии @media и @container.
+ * Состояния — селекторами; у каждого правила есть двойник-класс (.is-hover, .is-focus…) для витрины.
+ */
+
+/* ---------- основа ---------- */
+
+.screen-reader-text {
+	position: absolute;
+	width: var(--wp--custom--border-width--hairline);
+	height: var(--wp--custom--border-width--hairline);
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.ds-icon {
+	flex: none;
+	width: var(--wp--custom--size--icon-sm);
+	height: var(--wp--custom--size--icon-sm);
+}
+
+.ds-icon--md {
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+}
+
+/* Ширина в токене — это ширина целиком, вместе с полями и рамкой: иначе элемент вылезает
+   из своей колонки и съедает зазор (случай этапа 14: панель фильтров 314 px в колонке 280). */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+	}
+}
+
+/* ---------- действия: кнопка ---------- */
+
+.ds-button {
+	display: inline-flex;
+	flex: none;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-height: var(--wp--custom--size--control-md);
+	padding-block: 0;
+	padding-inline: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--sm);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--snug);
+	text-decoration: none;
+	white-space: nowrap;
+	cursor: pointer;
+	transition:
+		color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard),
+		background-color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard),
+		border-color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard),
+		box-shadow var(--wp--custom--duration--fast) var(--wp--custom--ease--standard);
+}
+
+.ds-button--sm {
+	min-height: var(--wp--custom--size--control-sm);
+	padding-inline: var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-button--lg,
+.wp-block-button.ds-button--lg > .wp-element-button {
+	min-height: var(--wp--custom--size--control-lg);
+	padding-inline: var(--wp--preset--spacing--6);
+}
+
+.ds-button--primary {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-button--primary:hover,
+.ds-button--primary:active,
+.ds-button--primary.is-hover {
+	background: var(--wp--preset--color--surface-action-primary-hover);
+}
+
+.ds-button--secondary,
+.ds-button--icon,
+.wp-block-button.is-style-secondary > .wp-element-button {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-action);
+}
+
+/* Наведение на контурную кнопку — подложка ступенью ниже, заливки акцентом нет (D50).
+   Подпись идёт ступенью следом: на подложке наведения прежний акцент давал 4,22:1 в тёмной теме. */
+.ds-button--secondary:hover,
+.ds-button--secondary.is-hover,
+.ds-button--icon:hover,
+.ds-button--icon.is-hover,
+.wp-block-button.is-style-secondary > .wp-element-button:hover {
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-action-hover);
+}
+
+.ds-button--icon {
+	width: var(--wp--custom--size--control-md);
+	padding-inline: 0;
+}
+
+.ds-button--icon.ds-button--sm {
+	width: var(--wp--custom--size--control-sm);
+}
+
+.ds-button[aria-pressed="true"],
+.ds-button.is-pressed {
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-button:focus-visible,
+.ds-button.is-focus {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Неактивная кнопка теряет акцент, но не читаемость: opacity 0.5 роняет контраст ниже 4,5:1,
+   а исключение WCAG для неактивных контролов на <span> в пагинации не распространяется. */
+.ds-button[disabled],
+.ds-button.is-disabled {
+	border-color: var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+	cursor: not-allowed;
+}
+
+/* Отправка: фон не бледнеет, меняется подпись (foundation.md, «Состояния»). */
+.ds-button[aria-busy="true"],
+.ds-button.is-busy {
+	cursor: progress;
+}
+
+/* ---------- действия: ссылка ---------- */
+
+.ds-link {
+	color: var(--wp--preset--color--text-link);
+	text-decoration-thickness: var(--wp--custom--border-width--hairline);
+	text-underline-offset: 0.2em;
+	transition: color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard);
+}
+
+.ds-link:hover,
+.ds-link.is-hover {
+	color: var(--wp--preset--color--text-link-hover);
+}
+
+.ds-link--standalone,
+.ds-link--external {
+	display: inline-flex;
+	gap: var(--wp--preset--spacing--1);
+	align-items: center;
+}
+
+.ds-link .ds-icon {
+	color: currentColor;
+}
+
+/* ---------- ввод: поиск ---------- */
+
+.ds-search {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	min-width: 0;
+}
+
+.ds-search__field {
+	box-sizing: border-box;
+	min-width: 0;
+	min-height: var(--wp--custom--size--control-md);
+	padding-block: 0;
+	padding-inline: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-size: var(--wp--preset--font-size--base);
+}
+
+.ds-search--header .ds-search__field {
+	width: var(--wp--custom--size--search-header);
+}
+
+.ds-search--home {
+	width: 100%;
+}
+
+.ds-search--home .ds-search__field {
+	flex: 1;
+	min-height: var(--wp--custom--size--control-lg);
+	padding-inline: var(--wp--preset--spacing--4);
+}
+
+@media (min-width: 900px) {
+	.ds-search--home {
+		max-width: var(--wp--custom--size--search-home);
+	}
+}
+
+/* ---------- ввод: поле формы ---------- */
+
+.ds-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	min-width: 0;
+}
+
+.ds-field__label {
+	font-weight: 600;
+}
+
+.ds-field__optional {
+	margin-left: var(--wp--preset--spacing--2);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 400;
+}
+
+.ds-field__control {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: var(--wp--custom--size--control-lg);
+	margin: 0;
+	padding-block: var(--wp--preset--spacing--2);
+	padding-inline: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+}
+
+textarea.ds-field__control {
+	min-height: calc(5lh + var(--wp--preset--spacing--6));
+	max-height: calc(12lh + var(--wp--preset--spacing--6));
+	field-sizing: content;
+	resize: vertical;
+}
+
+.ds-field__hint {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-field__error {
+	display: flex;
+	gap: var(--wp--preset--spacing--1);
+	align-items: center;
+	color: var(--wp--preset--color--text-error);
+	font-weight: 600;
+}
+
+.ds-field__error .ds-icon {
+	color: var(--wp--preset--color--icon-error);
+}
+
+.ds-field__control[aria-invalid="true"],
+.ds-field.is-error .ds-field__control {
+	border-color: var(--wp--preset--color--border-error);
+}
+
+.ds-field--checkbox {
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-field--checkbox input {
+	flex: none;
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+	margin: 0;
+	accent-color: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-field--checkbox .ds-field__label {
+	flex: 1;
+	min-width: 0;
+	font-weight: 400;
+}
+
+.ds-field--checkbox .ds-field__error {
+	flex-basis: 100%;
+}
+
+/* ---------- ввод: сводка ошибок и форма ---------- */
+
+.ds-error-summary {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	align-items: flex-start;
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-error);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-error-summary__title {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+}
+
+.ds-error-summary__title .ds-icon {
+	color: var(--wp--preset--color--icon-error);
+}
+
+.ds-error-summary__list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	margin: 0;
+	padding-left: var(--wp--preset--spacing--4);
+	list-style: disc;
+}
+
+.ds-suggest-form {
+	display: grid;
+	grid-template-columns: minmax(0, var(--wp--custom--size--form));
+	gap: var(--wp--preset--spacing--6);
+}
+
+.ds-suggest-form__trap {
+	position: absolute;
+	left: -100vw;
+	width: var(--wp--custom--border-width--hairline);
+	height: var(--wp--custom--border-width--hairline);
+	overflow: hidden;
+}
+
+.ds-suggest-form__submit {
+	justify-self: start;
+}
+
+@media (max-width: 599px) {
+	.ds-suggest-form__submit {
+		justify-self: stretch;
+	}
+}
+
+/* ---------- ввод: панель фильтров ---------- */
+
+.ds-filters {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--6);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-filters--sidebar {
+	width: var(--wp--custom--size--sidebar);
+}
+
+.ds-filters__head {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	justify-content: space-between;
+}
+
+.ds-filters__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+}
+
+.ds-filters__group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.ds-filters__legend {
+	padding: 0;
+	font-weight: 600;
+}
+
+.ds-filters__option {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	min-height: var(--wp--custom--size--control-sm);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-filters__option input {
+	flex: none;
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+	margin: 0;
+	accent-color: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-filters__actions {
+	display: flex;
+	gap: var(--wp--preset--spacing--4);
+	align-items: center;
+}
+
+.ds-filters__actions .ds-button--primary {
+	flex: 1;
+}
+
+/* Панель снизу до 900: popover поверх страницы, тень — единственное место, где она есть (D50). */
+.ds-filters--sheet {
+	position: fixed;
+	inset: auto 0 0 0;
+	z-index: var(--wp--custom--z--modal);
+	max-height: 85vh;
+	overflow-y: auto;
+	border-width: var(--wp--custom--border-width--hairline) 0 0 0;
+	border-radius: var(--wp--custom--radius--md) var(--wp--custom--radius--md) 0 0;
+	box-shadow: var(--wp--preset--shadow--md);
+}
+
+/* ---------- ввод: чипсы ---------- */
+
+.ds-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	min-width: 0;
+}
+
+.ds-chip {
+	display: inline-flex;
+	gap: var(--wp--preset--spacing--1);
+	align-items: center;
+	max-width: 100%;
+	min-height: var(--wp--custom--size--control-sm);
+	padding-inline: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-subtle);
+	box-shadow: inset 0 0 0 var(--wp--custom--border-width--hairline) var(--wp--preset--color--border-default);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--sm);
+	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		background-color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard),
+		box-shadow var(--wp--custom--duration--fast) var(--wp--custom--ease--standard);
+}
+
+.ds-chip__label {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ds-chip:hover,
+.ds-chip.is-hover {
+	box-shadow: inset 0 0 0 var(--wp--custom--border-width--hairline) var(--wp--preset--color--border-strong);
+}
+
+.ds-chip[aria-current],
+.ds-chip.is-current {
+	background: var(--wp--preset--color--surface-selected);
+	box-shadow: inset 0 0 0 var(--wp--custom--border-width--hairline) var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-chips__reset {
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* ---------- контейнеры: карточка ресурса ---------- */
+
+.ds-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	min-width: 0;
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	container-type: inline-size;
+	transition: border-color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard);
+}
+
+.ds-card:hover,
+.ds-card.is-hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-card:has(.ds-card__link:focus-visible),
+.ds-card.is-focus {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-card__head {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	min-width: 0;
+}
+
+.ds-card__titles {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	min-width: 0;
+}
+
+.ds-card__title {
+	display: -webkit-box;
+	overflow: hidden;
+	margin: 0;
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--snug);
+	overflow-wrap: anywhere;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.ds-card__link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.ds-card__link::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+}
+
+.ds-card__link:focus-visible {
+	outline: none;
+}
+
+/* D50: тип — подпись под названием во всех карточках, без рамки. */
+.ds-card__type {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-card__verdict {
+	display: -webkit-box;
+	overflow: hidden;
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+}
+
+.ds-card__tags {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-card__foot {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	justify-content: space-between;
+	margin-top: auto;
+	padding-top: var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-card__action {
+	position: relative;
+	z-index: 1;
+}
+
+/* ---------- контейнеры: списки и карточка подборки ---------- */
+
+.ds-resource-list {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--6);
+	align-items: stretch;
+}
+
+.ds-resource-list--column {
+	gap: var(--wp--preset--spacing--4);
+}
+
+@media (min-width: 600px) {
+	.ds-resource-list--grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1200px) {
+	.ds-resource-list--grid {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.ds-post-list {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--6);
+}
+
+@media (min-width: 900px) {
+	.ds-post-list {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.ds-post-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	min-width: 0;
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	transition: border-color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard);
+}
+
+.ds-post-card:hover,
+.ds-post-card.is-hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-post-card:has(.ds-post-card__link:focus-visible),
+.ds-post-card.is-focus {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-post-card__title {
+	display: -webkit-box;
+	overflow: hidden;
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 600;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.ds-post-card__link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.ds-post-card__link::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+}
+
+.ds-post-card__desc {
+	display: -webkit-box;
+	overflow: hidden;
+	margin: 0;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 4;
+}
+
+@media (min-width: 900px) {
+	.ds-post-card__desc {
+		-webkit-line-clamp: 2;
+	}
+}
+
+.ds-post-card__meta {
+	margin-top: auto;
+}
+
+/* ---------- контейнеры: секция и шапка страницы ---------- */
+
+.ds-section {
+	display: grid;
+	grid-template-areas: "head" "body" "more";
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--6) var(--wp--preset--spacing--4);
+	margin-top: var(--wp--preset--spacing--8);
+}
+
+.ds-section__head {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	grid-area: head;
+	min-width: 0;
+}
+
+.ds-section__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--2-xl);
+	font-weight: 700;
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-section__sub {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-section__body {
+	grid-area: body;
+	min-width: 0;
+}
+
+.ds-section__more {
+	grid-area: more;
+}
+
+@media (min-width: 900px) {
+	.ds-section {
+		grid-template-areas: "head more" "body body";
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: baseline;
+		margin-top: var(--wp--preset--spacing--12);
+	}
+}
+
+.ds-page-header {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	margin-top: var(--wp--preset--spacing--2);
+}
+
+.ds-page-header__title {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+.ds-page-header__lead {
+	max-width: var(--wp--custom--size--measure-lead);
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+}
+
+/* ---------- контейнеры: входы, группа подборки, находка, подписка ---------- */
+
+.ds-entries {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-entries li {
+	display: flex;
+}
+
+.ds-entry {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	min-width: 0;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	color: inherit;
+	text-decoration: none;
+	transition: border-color var(--wp--custom--duration--fast) var(--wp--custom--ease--standard);
+}
+
+.ds-entry:hover,
+.ds-entry.is-hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-entry__title {
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 700;
+	text-decoration: underline;
+	text-decoration-thickness: var(--wp--custom--border-width--hairline);
+	text-underline-offset: 0.2em;
+	overflow-wrap: anywhere;
+}
+
+.ds-entry__note {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+@media (max-width: 599px) {
+	.ds-entry__note {
+		display: none;
+	}
+}
+
+@media (min-width: 900px) {
+	.ds-entries {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: var(--wp--preset--spacing--4);
+	}
+
+	.ds-entry {
+		padding: var(--wp--preset--spacing--4);
+	}
+}
+
+.ds-find {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	max-width: var(--wp--custom--size--measure);
+}
+
+.ds-find__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 600;
+}
+
+.ds-find__text {
+	margin: 0;
+}
+
+.ds-find__source {
+	margin: 0;
+}
+
+.ds-subscribe {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-subscribe__text {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	min-width: 0;
+}
+
+@media (min-width: 900px) {
+	.ds-subscribe {
+		flex-direction: row;
+		gap: var(--wp--preset--spacing--6);
+		align-items: center;
+		justify-content: space-between;
+		padding: var(--wp--preset--spacing--6);
+	}
+}
+
+/* ---------- навигация: шапка ---------- */
+
+.ds-header {
+	position: relative;
+	z-index: var(--wp--custom--z--header);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-header__bar {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	min-height: var(--wp--custom--size--header);
+}
+
+.ds-header__skip {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: var(--wp--custom--z--dropdown);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-focus-ring);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	transform: translateY(-150%);
+	transition: transform var(--wp--custom--duration--fast) var(--wp--custom--ease--standard);
+}
+
+.ds-header__skip:focus-visible,
+.ds-header__skip.is-focus {
+	transform: translateY(0);
+}
+
+.ds-header__logo {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--2-xl);
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+.ds-header__logo a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.ds-header__nav ul {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	white-space: nowrap;
+}
+
+/* Селектор с классом блока навигации: правило ядра .wp-block-navigation-item__content ставит display: block,
+   и тогда подпись пункта прижимается к верху коробки выбранного пункта. Случай: этап 11, 12.09.2026. */
+.ds-header__nav a,
+.ds-header__nav a.wp-block-navigation-item__content {
+	display: inline-flex;
+	align-items: center;
+	min-height: var(--wp--custom--size--control-sm);
+	padding-inline: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--sm);
+	color: inherit;
+	text-decoration: none;
+}
+
+.ds-header__nav a[aria-current="page"],
+.ds-header__nav a.wp-block-navigation-item__content[aria-current="page"],
+.ds-header__nav .current-menu-item > a {
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+	font-weight: 600;
+}
+
+.ds-header__search {
+	margin-left: auto;
+}
+
+.ds-header__controls {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	margin-left: auto;
+}
+
+.ds-header__search + .ds-header__controls {
+	margin-left: 0;
+}
+
+.ds-header__panel {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	padding-bottom: var(--wp--preset--spacing--4);
+}
+
+.ds-header__panel ul {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-header details > summary {
+	list-style: none;
+}
+
+.ds-header details > summary::-webkit-details-marker {
+	display: none;
+}
+
+/* ---------- навигация: подвал, крошки, пагинация ---------- */
+
+.ds-footer {
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-footer__inner {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--6);
+	padding-block: var(--wp--preset--spacing--8);
+}
+
+.ds-footer__links,
+.ds-footer__topics ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-footer__links {
+	flex-direction: column;
+}
+
+.ds-footer__title {
+	margin: 0 0 var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+}
+
+.ds-footer__copy {
+	grid-column: 1 / -1;
+	margin: 0;
+	padding-top: var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+@media (min-width: 900px) {
+	.ds-footer__inner {
+		grid-template-columns: var(--wp--custom--size--sidebar) var(--wp--custom--size--sidebar) minmax(0, 1fr);
+		gap: var(--wp--preset--spacing--8);
+	}
+}
+
+.ds-breadcrumbs {
+	display: flex;
+	align-items: center;
+	min-height: var(--wp--custom--size--control-md);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-breadcrumbs ol {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--1);
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-breadcrumbs li:not(:first-child)::before {
+	color: var(--wp--preset--color--text-muted);
+	content: "›";
+}
+
+.ds-breadcrumbs li {
+	display: flex;
+	gap: var(--wp--preset--spacing--1);
+	align-items: center;
+}
+
+.ds-breadcrumbs [aria-current="page"] {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-pagination {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	min-height: var(--wp--custom--size--control-lg);
+}
+
+.ds-pagination__page {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: var(--wp--custom--size--control-md);
+	min-height: var(--wp--custom--size--control-md);
+	padding-inline: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--sm);
+	color: inherit;
+	text-decoration: none;
+}
+
+.ds-pagination__page[aria-current="page"],
+.ds-pagination__page.is-current {
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+	font-weight: 700;
+}
+
+.ds-pagination__summary {
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* ---------- фидбэк: метки и уведомления ---------- */
+
+.ds-badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--2);
+}
+
+.ds-badge {
+	display: inline-flex;
+	gap: var(--wp--preset--spacing--1);
+	align-items: center;
+	max-width: 100%;
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 500;
+}
+
+.ds-badge--success .ds-icon {
+	color: var(--wp--preset--color--icon-success);
+}
+
+.ds-badge--warning .ds-icon {
+	color: var(--wp--preset--color--icon-warning);
+}
+
+.ds-badge--error .ds-icon {
+	color: var(--wp--preset--color--icon-error);
+}
+
+/* Тонированный фон — только у состояния записи и давности проверки (D50). */
+.ds-badge--tint-warning {
+	border-color: transparent;
+	background: var(--wp--preset--color--bg-warning);
+}
+
+.ds-badge--tint-warning .ds-icon {
+	color: var(--wp--preset--color--icon-warning);
+}
+
+.ds-badge--tint-error {
+	border-color: transparent;
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-badge--tint-error .ds-icon {
+	color: var(--wp--preset--color--icon-error);
+}
+
+.ds-notice {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-notice__body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	align-items: flex-start;
+	min-width: 0;
+}
+
+.ds-notice__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+}
+
+.ds-notice__text {
+	margin: 0;
+}
+
+.ds-notice--dead {
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-notice--dead .ds-icon {
+	color: var(--wp--preset--color--icon-error);
+}
+
+.ds-notice--changed,
+.ds-notice--stale {
+	background: var(--wp--preset--color--bg-warning);
+}
+
+.ds-notice--changed .ds-icon,
+.ds-notice--stale .ds-icon {
+	color: var(--wp--preset--color--icon-warning);
+}
+
+.ds-notice--info {
+	border-color: var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--bg-info);
+}
+
+.ds-notice--info .ds-icon {
+	color: var(--wp--preset--color--icon-info);
+}
+
+/* ---------- фидбэк: пустое состояние ---------- */
+
+.ds-empty {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	padding: var(--wp--preset--spacing--6);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-empty__art {
+	width: var(--wp--custom--size--illustration);
+	height: auto;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-empty__art .ds-art-accent {
+	fill: var(--wp--preset--color--surface-selected);
+	stroke: var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-empty__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--2-xl);
+	font-weight: 700;
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-empty__text {
+	max-width: var(--wp--custom--size--measure);
+	margin: 0;
+}
+
+.ds-empty__actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	align-items: center;
+}
+
+/* ---------- данные ---------- */
+
+.ds-meta,
+.is-style-meta {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-meta--xs {
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-logo {
+	display: grid;
+	flex: none;
+	place-items: center;
+	width: var(--wp--custom--size--tile-sm);
+	height: var(--wp--custom--size--tile-sm);
+	overflow: hidden;
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+	font-weight: 700;
+}
+
+.ds-logo--lg {
+	width: var(--wp--custom--size--tile-lg);
+	height: var(--wp--custom--size--tile-lg);
+	font-size: var(--wp--preset--font-size--3-xl);
+}
+
+/* Плитка на подложке страницы — с краем; в карточке край не нужен (foundation.md, «Край поверхности»). */
+.ds-logo--rimmed {
+	box-shadow: inset 0 0 0 var(--wp--custom--border-width--hairline) var(--wp--preset--color--border-default);
+}
+
+.ds-logo img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.ds-facts {
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	container-type: inline-size;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-facts__list {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	margin: 0;
+}
+
+.ds-facts__label {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-facts__inline {
+	display: inline;
+	overflow-wrap: anywhere;
+}
+
+.ds-facts__value {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	align-items: flex-start;
+	min-width: 0;
+	margin: 0;
+}
+
+.ds-facts__note {
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* В узкой колонке подпись встаёт над значением: метка с иконкой в две колонки не помещается. */
+@container (max-width: 320px) {
+	.ds-facts__list {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--wp--preset--spacing--1);
+	}
+
+	.ds-facts__value:not(:last-child) {
+		margin-bottom: var(--wp--preset--spacing--3);
+	}
+}
+
+.ds-review {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+	max-width: var(--wp--custom--size--measure);
+}
+
+.ds-review__part {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-review__label {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+}
+
+.ds-review__text {
+	margin: 0;
+}
+
+.ds-review__sign {
+	display: inline-flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	margin-top: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* ---------- утилиты раскладки паттернов ---------- */
+
+.ds-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+}
+
+.ds-stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--6);
+}
+
+.ds-stack > * {
+	min-width: 0;
+}
+
+.ds-fields {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--6);
+	width: 100%;
+	max-width: var(--wp--custom--size--form);
+}
+
+.ds-button .ds-icon {
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+}
+
+.ds-button--sm .ds-icon {
+	width: var(--wp--custom--size--icon-sm);
+	height: var(--wp--custom--size--icon-sm);
+}
+
+.ds-notice > .ds-icon,
+.ds-error-summary__title .ds-icon {
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+}
+
+.ds-card__state {
+	align-self: flex-start;
+}
+
+.ds-pagination__numbers {
+	display: none;
+	gap: var(--wp--preset--spacing--1);
+}
+
+@media (min-width: 600px) {
+	.ds-pagination__numbers {
+		display: flex;
+	}
+
+	.ds-pagination__summary {
+		display: none;
+	}
+}
+
+/* ---------- навигация: свёртывание меню и поиска ---------- */
+
+.ds-header__menu,
+.ds-header__search-menu {
+	min-width: 0;
+}
+
+.ds-header__menu > summary,
+.ds-header__search-menu > summary {
+	display: none;
+}
+
+.ds-header__search-menu {
+	margin-left: auto;
+}
+
+.ds-header__menu[open] > .ds-header__nav,
+.ds-header__menu[open] > nav,
+.ds-header__search-menu[open] > .ds-search {
+	min-width: 0;
+}
+
+@media (max-width: 1199px) {
+	.ds-header__search-menu > summary {
+		display: inline-flex;
+	}
+
+	/* Накрывать страницу выпадающая панель может только там, где её умеют закрыть:
+	   без скрипта она остаётся раскрытой, и тогда стоит в потоке (этап 14). */
+	.ds-header--js .ds-header__search-menu[open] > .ds-search {
+		position: absolute;
+		inset-inline: 0;
+		top: 100%;
+		z-index: var(--wp--custom--z--dropdown);
+		padding: var(--wp--preset--spacing--3);
+		border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+		background: var(--wp--preset--color--surface-raised);
+		box-shadow: var(--wp--preset--shadow--md);
+	}
+
+	.ds-header__search-menu[open] > .ds-search .ds-search__field {
+		flex: 1;
+		width: auto;
+	}
+}
+
+@media (max-width: 899px) {
+	.ds-header__menu > summary {
+		display: inline-flex;
+	}
+
+	.ds-header--js .ds-header__menu[open] > .ds-header__nav,
+	.ds-header--js .ds-header__menu[open] > nav {
+		position: absolute;
+		inset-inline: 0;
+		top: 100%;
+		z-index: var(--wp--custom--z--dropdown);
+		padding: var(--wp--preset--spacing--3);
+		border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+		background: var(--wp--preset--color--surface-raised);
+		box-shadow: var(--wp--preset--shadow--md);
+	}
+
+	.ds-header__menu[open] > .ds-header__nav ul,
+	.ds-header__menu[open] > nav ul {
+		flex-direction: column;
+		gap: var(--wp--preset--spacing--1);
+		white-space: normal;
+	}
+}
+
+/* До 1200 ряд шапки тесный: меню держится без полей у пунктов и с меньшими зазорами.
+   Случай: этап 11, 12.09.2026 — с полями 8 и зазором 12 ряд вылезал на 15 px при окне 900. */
+@media (max-width: 1199px) {
+	.ds-header__bar {
+		gap: var(--wp--preset--spacing--2);
+	}
+
+	.ds-header__nav ul {
+		gap: var(--wp--preset--spacing--2);
+	}
+
+	.ds-header__nav a,
+	.ds-header__nav a.wp-block-navigation-item__content {
+		padding-inline: 0;
+	}
+}
+
+/* Кнопка в карточке уже карточки не бывает: подпись переносится, а не вылезает за край. */
+.ds-card__foot .ds-button {
+	max-width: 100%;
+	white-space: normal;
+}
+
+/* V6 (лист 12.09.2026): в светлой теме луна, в тёмной солнце. Три состояния темы, как у цветов:
+   выбор посетителя, системная тёмная без выбора и светлая по умолчанию. */
+.ds-theme-toggle__sun {
+	display: none;
+}
+
+:root[data-theme="dark"] .ds-theme-toggle__moon {
+	display: none;
+}
+
+:root[data-theme="dark"] .ds-theme-toggle__sun {
+	display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .ds-theme-toggle__moon {
+		display: none;
+	}
+
+	:root:not([data-theme="light"]) .ds-theme-toggle__sun {
+		display: block;
+	}
+}
+
+/* ---------- раскладки страниц (этап 13) ---------- */
+
+/* Раздел каталога: панель фильтров и выдача. До 900 панель уходит под кнопку «Фильтры». */
+.ds-archive {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--8);
+	align-items: start;
+}
+
+/* Страница ресурса: слева то, что читают, справа факты, которые сканируют.
+   Порядок в разметке — шапка, факты, оценка: так он и читается в одну колонку до 900.
+   От 900 области раскладывают оценку под шапку, а факты — в правую колонку. */
+.ds-detail {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--8);
+	align-items: start;
+}
+
+@media (min-width: 900px) {
+	.ds-archive {
+		grid-template-columns: var(--wp--custom--size--sidebar) minmax(0, 1fr);
+	}
+
+	.ds-detail {
+		grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+		grid-template-areas:
+			"hero facts"
+			"review facts";
+	}
+
+	.ds-detail__hero {
+		grid-area: hero;
+	}
+
+	.ds-detail__facts {
+		grid-area: facts;
+	}
+
+	.ds-detail__review {
+		grid-area: review;
+	}
+}
+
+/* Кнопка «Фильтры» нужна только там, где панели нет на экране. */
+.ds-chips__toggle {
+	display: none;
+}
+
+@media (max-width: 899px) {
+	.ds-chips__toggle {
+		display: inline-flex;
+	}
+
+	.ds-filters--sidebar {
+		display: none;
+	}
+}
+
+/* ---------- первый экран страницы ресурса ---------- */
+
+.ds-hero {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+}
+
+.ds-hero__head {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--4);
+}
+
+.ds-hero__titles {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	min-width: 0;
+}
+
+.ds-hero__title {
+	margin: 0;
+	overflow-wrap: anywhere;
+}
+
+/* Подпись типа — та же, что в карточке: метка не кликается (D35). */
+.ds-hero__type {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-hero__verdict {
+	margin: 0;
+	max-width: var(--wp--custom--size--measure-lead);
+	font-size: var(--wp--preset--font-size--xl);
+	line-height: var(--wp--custom--line-height--snug);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-hero__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--4);
+}
+
+/* ---------- шаги подборки для старта (главная) ---------- */
+
+.ds-steps {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--8);
+}
+
+.ds-steps__step {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+	min-width: 0;
+}
+
+.ds-steps__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 700;
+	line-height: var(--wp--custom--line-height--snug);
+	color: var(--wp--preset--color--text-default);
+}
+
+@media (min-width: 600px) {
+	.ds-steps {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1200px) {
+	.ds-steps {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+/* ---------- запись редакции: текст и навигация по выпускам ---------- */
+
+/* Читают текст, сканируют списки: абзацы держим узкими, блоки каталога — во всю ширину. */
+.ds-prose {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--6);
+}
+
+.ds-prose > p,
+.ds-prose > ul,
+.ds-prose > ol,
+.ds-prose > h2,
+.ds-prose > h3,
+.ds-prose > blockquote {
+	max-width: var(--wp--custom--size--measure);
+	margin: 0;
+}
+
+.ds-issue-nav {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+	padding-top: var(--wp--preset--spacing--6);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-issue-nav__prev,
+.ds-issue-nav__next {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+}
+
+@media (min-width: 600px) {
+	.ds-issue-nav {
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--wp--preset--spacing--6);
+	}
+
+	.ds-issue-nav__next {
+		margin-left: auto;
+		text-align: right;
+	}
+}
+
+/* ---------- порядок выдачи (этап 14) ---------- */
+
+.ds-sort {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-sort__label {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* ---------- панель фильтров на узком экране (этап 14) ---------- */
+
+/* Шапка с закрытием нужна только там, где панель выезжает снизу. */
+.ds-filters__head {
+	display: none;
+}
+
+@media (max-width: 899px) {
+	/* Панель раскрывает сам адрес: без JavaScript кнопка «Фильтры» ведёт на #ds-filters. */
+	.ds-filters--sidebar:target {
+		position: fixed;
+		inset: auto 0 0 0;
+		z-index: var(--wp--custom--z--modal);
+		display: flex;
+		max-height: 85vh;
+		overflow-y: auto;
+		border-radius: var(--wp--custom--radius--md) var(--wp--custom--radius--md) 0 0;
+		box-shadow: var(--wp--preset--shadow--md);
+	}
+
+	.ds-filters--sidebar:target .ds-filters__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--wp--preset--spacing--4);
+	}
+
+	.ds-filters--sidebar:target .ds-filters__actions {
+		position: sticky;
+		bottom: 0;
+		background: var(--wp--preset--color--surface-raised);
+		padding-top: var(--wp--preset--spacing--3);
+	}
+}
+
+/* Со скриптом панель показывает атрибут, без него — якорь в адресе. */
+@media (max-width: 899px) {
+	.ds-filters--sidebar[data-ds-open="true"] {
+		position: fixed;
+		inset: auto 0 0 0;
+		z-index: var(--wp--custom--z--modal);
+		display: flex;
+		max-height: 85vh;
+		overflow-y: auto;
+		border-radius: var(--wp--custom--radius--md) var(--wp--custom--radius--md) 0 0;
+		box-shadow: var(--wp--preset--shadow--md);
+	}
+
+	.ds-filters--sidebar[data-ds-open="true"] .ds-filters__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--wp--preset--spacing--4);
+	}
+
+	.ds-filters--sidebar.ds-filters--js:not([data-ds-open="true"]) {
+		display: none;
+	}
+}
+
+/* Плашка закрытого ресурса без аналога: строка и ссылка «что делать» (этап 14). */
+.ds-notice__note {
+	display: block;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Выезд панели фильтров — тот же токен длительности, что у остальных переходов (этап 14).
+   Общее правило prefers-reduced-motion выше глушит и его. */
+@media (max-width: 899px) {
+	.ds-filters--sidebar[data-ds-open="true"],
+	.ds-filters--sidebar:target {
+		animation: ds-sheet-in var(--wp--custom--duration--base) var(--wp--custom--ease--standard);
+	}
+}
+
+@keyframes ds-sheet-in {
+	from {
+		transform: translateY(100%);
+	}
+
+	to {
+		transform: translateY(0);
+	}
+}

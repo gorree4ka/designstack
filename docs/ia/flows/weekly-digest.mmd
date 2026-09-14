@@ -1,0 +1,19 @@
+%% JTBD 5 · П3 lead-mentor: раз в неделю узнать, что нового и что изменилось, не читая 20 каналов
+%% Этап 07, версия 1 от 11.09.2026. Узлы — имена из docs/ia/sitemap.md; имя__вариант — та же страница в другом состоянии или с другой записью
+%% Дополнено на этапе 08, 11.09.2026 (D45): соседние выпуски, «Все выпуски» и источник находки
+%% Пока Telegram-канал не создан, кнопки «Подписаться» на сайте нет (US-43) — рёбер к ext-telegram тогда нет
+flowchart TD
+    home["home"] -->|Подписаться| ext-telegram["ext-telegram: Telegram-канал"]
+    home -->|Дайджест в шапке| digest["digest: архив выпусков"]
+    ext-telegram -->|ссылка на выпуск| digest-issue["digest-issue: новые и обновлённые ресурсы, находки"]
+    ext-telegram -->|ссылка на снятый выпуск| not-found["not-found: 404"]
+    digest -->|выпуск| digest-issue
+    digest -->|выпусков ещё нет| digest__empty["digest: пустое состояние"]
+    digest-issue -->|Подписаться| ext-telegram
+    digest-issue -->|карточка ресурса| resource["resource: страница ресурса"]
+    digest-issue -->|Предыдущий или следующий выпуск| digest-issue__neighbor["digest-issue: выпуск соседней недели"]
+    digest-issue -->|Все выпуски| digest
+    digest-issue -->|заголовок находки| ext-find-source["ext-find-source: источник находки, новая вкладка"]
+    resource -->|Перейти на сайт| ext-resource-site["ext-resource-site: сайт ресурса"]
+    resource -->|Закрыт, есть аналог: Показать аналог| resource__analog["resource: страница аналога"]
+    resource__analog -->|Перейти на сайт| ext-resource-site

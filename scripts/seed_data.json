@@ -1,0 +1,911 @@
+{
+	"_comment": "Демо-контент этапа 12. Записи помечаются _designstack_seed=1 и удаляются `python scripts/seed.py --reset`. Значения `ru_open` и `ru_payment` здесь поставлены по открытым данным и НЕ являются проверкой с российского IP (O8): настоящие проверки делает этап 16 скриптом scripts/check_ru_access.py. Файл редактируется руками, Python для этого не нужен.",
+	"resources": [
+		{
+			"slug": "figma",
+			"title": "Figma",
+			"type": "tool",
+			"topics": [
+				"prototyping",
+				"ui-visual"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"analogs": [
+				"penpot"
+			],
+			"fields": {
+				"url": "https://www.figma.com",
+				"verdict": "Стандарт для интерфейсов, но платный тариф российской картой не оплатить",
+				"review_for": "Тем, кто учится и работает в команде: почти все курсы и UI-киты сделаны в Figma.",
+				"review_why": "Быстрые прототипы, автолейаут и совместная работа в браузере без установки.",
+				"review_not": "Когда нужен платный тариф: российской картой его не оплатить, а бесплатный план ограничен тремя файлами.",
+				"pricing": "freemium",
+				"price_note": "бесплатный план на 3 файла, Professional от $16 в месяц",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-09-03",
+				"status": "active",
+				"platforms": [
+					"web",
+					"mac",
+					"win"
+				],
+				"has_free_tier": true,
+				"ai_features": true
+			}
+		},
+		{
+			"slug": "penpot",
+			"title": "Penpot",
+			"type": "tool",
+			"topics": [
+				"prototyping",
+				"design-systems"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://penpot.app",
+				"verdict": "Открытый редактор интерфейсов: работает из России и ничего не стоит",
+				"review_for": "Тем, кому нужен редактор без оплаты из-за рубежа и без VPN.",
+				"review_why": "Открытый код, работа в браузере, файлы можно держать на своём сервере.",
+				"review_not": "Когда команда живёт в файлах Figma: импорт неполный, плагинов и готовых китов заметно меньше.",
+				"pricing": "free",
+				"price_note": "бесплатно, есть платная поддержка для команд",
+				"ru_open": "open",
+				"language": "multi",
+				"checked_at": "2026-09-05",
+				"status": "active",
+				"platforms": [
+					"web"
+				],
+				"has_free_tier": true,
+				"ai_features": false
+			}
+		},
+		{
+			"slug": "maze",
+			"title": "Maze",
+			"type": "tool",
+			"topics": [
+				"ux-research",
+				"analytics-metrics"
+			],
+			"levels": [
+				"middle",
+				"senior"
+			],
+			"fields": {
+				"url": "https://maze.co",
+				"verdict": "Тесты прототипов на людях без модератора: метрики и записи за вечер",
+				"review_for": "Тем, кто уже собрал прототип и хочет проверить его на пользователях.",
+				"review_why": "Немодерируемые тесты, тепловые карты и отчёты, которые не стыдно показать команде.",
+				"review_not": "Когда нужны глубокие интервью: Maze считает клики, а не объясняет причины.",
+				"pricing": "freemium",
+				"price_note": "бесплатно до 3 исследований в месяц, дальше от $99",
+				"ru_open": "open",
+				"ru_payment": "intermediary",
+				"language": "en",
+				"checked_at": "2026-09-01",
+				"status": "active",
+				"platforms": [
+					"web"
+				],
+				"has_free_tier": true,
+				"ai_features": true
+			}
+		},
+		{
+			"slug": "miro",
+			"title": "Miro",
+			"type": "tool",
+			"topics": [
+				"ux-research",
+				"prototyping"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://miro.com",
+				"verdict": "Доска для карт пути и воркшопов; из России открывается не всегда",
+				"review_for": "Командам, которые собирают карты пути и проводят воркшопы онлайн.",
+				"review_why": "Бесконечная доска, шаблоны исследований и совместная работа в реальном времени.",
+				"review_not": "Когда доступ нужен без VPN и с оплатой из России: с 2022 года условия для российских команд меняются.",
+				"pricing": "freemium",
+				"price_note": "бесплатно до 3 досок",
+				"ru_open": "vpn_only",
+				"ru_payment": "no_payment",
+				"language": "multi",
+				"checked_at": "2026-08-28",
+				"status": "changed",
+				"platforms": [
+					"web",
+					"mac",
+					"win",
+					"ios",
+					"android"
+				],
+				"has_free_tier": true,
+				"ai_features": true
+			}
+		},
+		{
+			"slug": "screen-gallery",
+			"title": "Screen Gallery",
+			"type": "tool",
+			"topics": [
+				"ui-visual",
+				"mobile-design"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://scrn.gallery",
+				"verdict": "Референсы экранов российских приложений — то, чего нет в зарубежных галереях",
+				"review_for": "Тем, кто делает интерфейсы для российского рынка и ищет живые примеры.",
+				"review_why": "Экраны банков, маркетплейсов и сервисов РФ и СНГ, собранные по разделам.",
+				"review_not": "Когда нужен объём: у зарубежных галерей экранов в разы больше, а часть выдачи здесь закрыта подпиской.",
+				"pricing": "freemium",
+				"price_note": "часть галереи бесплатно, подписка в рублях",
+				"ru_open": "open",
+				"ru_payment": "ru_native",
+				"language": "ru",
+				"checked_at": "2026-09-08",
+				"status": "active",
+				"platforms": [
+					"web"
+				],
+				"has_free_tier": true,
+				"ai_features": false
+			}
+		},
+		{
+			"slug": "mobbin",
+			"title": "Mobbin",
+			"type": "tool",
+			"topics": [
+				"ui-visual",
+				"mobile-design"
+			],
+			"levels": [
+				"middle",
+				"senior"
+			],
+			"analogs": [
+				"screen-gallery"
+			],
+			"fields": {
+				"url": "https://mobbin.com",
+				"verdict": "Самая большая галерея мобильных референсов; бесплатно почти ничего не видно",
+				"review_for": "Продуктовым дизайнерам, которые ищут, как задачу решили в других приложениях.",
+				"review_why": "Сотни тысяч экранов с разбивкой по флоу и элементам, поиск по паттернам.",
+				"review_not": "Когда нет подписки: без неё выдача обрезана, а оплатить российской картой напрямую нельзя.",
+				"pricing": "paid",
+				"price_note": "около $15 в месяц",
+				"ru_open": "open",
+				"ru_payment": "intermediary",
+				"language": "en",
+				"checked_at": "2026-06-02",
+				"status": "active",
+				"platforms": [
+					"web",
+					"ios",
+					"android"
+				],
+				"has_free_tier": false,
+				"ai_features": false
+			}
+		},
+		{
+			"slug": "invision",
+			"title": "InVision",
+			"type": "tool",
+			"topics": [
+				"prototyping"
+			],
+			"levels": [
+				"middle"
+			],
+			"analogs": [
+				"figma",
+				"penpot"
+			],
+			"fields": {
+				"url": "https://www.invisionapp.com",
+				"verdict": "Сервис закрыт в конце 2024 года, прототипы переносят в Figma или Penpot",
+				"review_for": "Никому: запись остаётся ради истории и ссылки на аналог.",
+				"review_why": "Был стандартом кликабельных прототипов до появления Figma.",
+				"review_not": "Всегда: сервис остановлен, файлы забирать уже неоткуда.",
+				"pricing": "paid",
+				"ru_open": "blocked",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-09-01",
+				"status": "dead",
+				"platforms": [
+					"web"
+				],
+				"has_free_tier": false,
+				"ai_features": false
+			}
+		},
+		{
+			"slug": "laws-of-ux",
+			"title": "Laws of UX",
+			"type": "learning",
+			"topics": [
+				"ux-research",
+				"ui-visual"
+			],
+			"levels": [
+				"junior"
+			],
+			"fields": {
+				"url": "https://lawsofux.com",
+				"verdict": "Двадцать принципов UX карточками — понятный вход в теорию за вечер",
+				"review_for": "Джунам, которым нужен словарь принципов, чтобы объяснять решения словами.",
+				"review_why": "Каждый закон — карточка с примером и ссылкой на первоисточник, без воды.",
+				"review_not": "Когда нужна практика: это справочник принципов, а не курс с заданиями.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-04",
+				"status": "active",
+				"format": "guide",
+				"duration": "около 2 часов",
+				"certificate": false
+			}
+		},
+		{
+			"slug": "nngroup-articles",
+			"title": "Nielsen Norman Group: статьи по юзабилити",
+			"type": "learning",
+			"topics": [
+				"ux-research",
+				"analytics-metrics"
+			],
+			"levels": [
+				"middle",
+				"senior"
+			],
+			"fields": {
+				"url": "https://www.nngroup.com/articles/",
+				"verdict": "Исследовательская база индустрии: статьи, на которые ссылаются все остальные",
+				"review_for": "Тем, кому нужен аргумент из исследования, а не из личного опыта.",
+				"review_why": "Тысячи статей с методикой и выборкой, авторы — те, кто придумал эвристики.",
+				"review_not": "Когда нужен быстрый ответ: тексты длинные, а свежие форматы часто спрятаны в платные отчёты.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-05-20",
+				"status": "active",
+				"format": "article",
+				"certificate": false
+			}
+		},
+		{
+			"slug": "ixdf",
+			"title": "Interaction Design Foundation",
+			"type": "learning",
+			"topics": [
+				"ux-research",
+				"career-portfolio"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://www.interaction-design.org",
+				"verdict": "Курсы с сертификатом по подписке: программа ровная, но ценник годовой",
+				"review_for": "Тем, кто хочет системную программу и документ в портфолио.",
+				"review_why": "Три десятка курсов с заданиями, проверкой и сертификатом.",
+				"review_not": "Когда бюджета нет: без подписки доступны только вводные материалы.",
+				"pricing": "paid",
+				"price_note": "годовая подписка около $16 в месяц",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-08-30",
+				"status": "active",
+				"format": "course",
+				"duration": "от 6 недель на курс",
+				"certificate": true
+			}
+		},
+		{
+			"slug": "ux-journal",
+			"title": "UX Journal",
+			"type": "learning",
+			"topics": [
+				"ux-research",
+				"career-portfolio"
+			],
+			"levels": [
+				"junior"
+			],
+			"fields": {
+				"url": "https://ux-journal.ru",
+				"verdict": "Переводы и бесплатные курсы на русском — редкий случай для рунета",
+				"review_for": "Джунам, которым тяжело читать теорию на английском.",
+				"review_why": "Семьсот с лишним статей по девяти разделам и бесплатные курсы на 7–31 день.",
+				"review_not": "Когда нужна свежесть: часть переводов старая, а даты проверки у материалов нет.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-06",
+				"status": "active",
+				"format": "article",
+				"certificate": false
+			}
+		},
+		{
+			"slug": "refactoring-ui",
+			"title": "Refactoring UI",
+			"type": "learning",
+			"topics": [
+				"ui-visual",
+				"typography"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://www.refactoringui.com",
+				"verdict": "Книга о том, как сделать интерфейс приятным без художественного образования",
+				"review_for": "Тем, кто делает интерфейсы руками и хочет, чтобы они выглядели опрятно.",
+				"review_why": "Двести страниц конкретных приёмов: отступы, тени, цвет, иерархия — с примерами «было и стало».",
+				"review_not": "Когда нужна теория UX: книга про визуальный слой, исследований в ней нет.",
+				"pricing": "paid",
+				"price_note": "$99 за книгу с видео",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-08-19",
+				"status": "active",
+				"format": "book",
+				"duration": "218 страниц",
+				"certificate": false
+			}
+		},
+		{
+			"slug": "practicum-interface-designer",
+			"title": "Яндекс Практикум: Дизайнер интерфейсов",
+			"type": "learning",
+			"topics": [
+				"career-portfolio",
+				"ui-visual"
+			],
+			"levels": [
+				"junior"
+			],
+			"fields": {
+				"url": "https://practicum.yandex.ru/interface-designer/",
+				"verdict": "Длинный курс с наставником и оплатой в рублях: путь в профессию с нуля",
+				"review_for": "Тем, кто входит в профессию и хочет портфолио с проверенными работами.",
+				"review_why": "Наставник, ревью работ, оплата в рублях и частями, помощь с трудоустройством.",
+				"review_not": "Когда нужен быстрый результат: курс идёт месяцами и стоит как подержанный ноутбук.",
+				"pricing": "paid",
+				"price_note": "оплата в рублях, есть рассрочка",
+				"ru_open": "open",
+				"ru_payment": "ru_native",
+				"language": "ru",
+				"checked_at": "2026-09-07",
+				"status": "active",
+				"format": "course",
+				"duration": "9 месяцев",
+				"certificate": true
+			}
+		},
+		{
+			"slug": "growth-design-cases",
+			"title": "Growth.Design: разборы продуктовых решений в комиксах с психологией выбора",
+			"type": "learning",
+			"topics": [
+				"analytics-metrics",
+				"ux-research"
+			],
+			"levels": [
+				"middle"
+			],
+			"fields": {
+				"url": "https://growth.design/case-studies",
+				"verdict": "Разборы чужих продуктов в комиксах: видно, какой приём и зачем",
+				"review_for": "Тем, кто разбирает чужие решения и ищет, что перенести к себе.",
+				"review_why": "Полсотни кейсов в формате комикса, каждый приём подписан психологическим принципом.",
+				"review_not": "Когда нужна строгая методика: это разборы автора, а не исследование с выборкой.",
+				"pricing": "freemium",
+				"price_note": "кейсы бесплатно, платные наборы карточек",
+				"ru_open": "open",
+				"ru_payment": "intermediary",
+				"language": "en",
+				"checked_at": "2026-08-24",
+				"status": "active",
+				"format": "guide",
+				"certificate": false
+			}
+		},
+		{
+			"slug": "untitled-ui",
+			"title": "Untitled UI",
+			"type": "asset",
+			"topics": [
+				"design-systems",
+				"ui-visual"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://www.untitledui.com",
+				"verdict": "Большой UI-кит: хватит, чтобы собрать прототип без своих компонентов",
+				"review_for": "Тем, кто собирает интерфейс быстро и не хочет рисовать кнопки с нуля.",
+				"review_why": "Сотни компонентов и стилей в Figma, аккуратные состояния и тёмная тема из коробки.",
+				"review_not": "Когда нужна кириллица в макете: шрифты кита её поддерживают частично.",
+				"pricing": "freemium",
+				"price_note": "бесплатная версия урезана, полная — единовременный платёж",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-08-29",
+				"status": "active",
+				"license": "free-commercial",
+				"file_format": [
+					"figma"
+				],
+				"cyrillic": "partial",
+				"assets_count": 900
+			}
+		},
+		{
+			"slug": "golos-text",
+			"title": "Golos Text",
+			"type": "asset",
+			"topics": [
+				"typography"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://www.paratype.ru/fonts/pt/golos-text",
+				"verdict": "Бесплатная кириллическая гарнитура для интерфейсов, переменная и с открытой лицензией",
+				"review_for": "Тем, кому нужен нормальный кириллический шрифт для интерфейса без оплаты.",
+				"review_why": "Переменное начертание, ровная кириллица, открытая лицензия для любых проектов.",
+				"review_not": "Когда нужен характерный акцидентный шрифт: Golos Text намеренно нейтрален.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-02",
+				"status": "active",
+				"license": "free-commercial",
+				"file_format": [
+					"otf",
+					"ttf",
+					"woff2"
+				],
+				"cyrillic": "yes",
+				"assets_count": 9
+			}
+		},
+		{
+			"slug": "lucide",
+			"title": "Lucide",
+			"type": "asset",
+			"topics": [
+				"icons-illustrations"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://lucide.dev",
+				"verdict": "Полторы тысячи иконок одной сеткой и с открытой лицензией",
+				"review_for": "Тем, кому нужен ровный набор иконок в проект без правовых вопросов.",
+				"review_why": "Единая сетка и штрих, SVG и готовые пакеты, лицензия ISC.",
+				"review_not": "Когда нужны объёмные или цветные иконки: набор строго линейный.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-09",
+				"status": "active",
+				"license": "free-commercial",
+				"file_format": [
+					"svg",
+					"png"
+				],
+				"cyrillic": "no",
+				"assets_count": 1500
+			}
+		},
+		{
+			"slug": "undraw",
+			"title": "unDraw",
+			"type": "asset",
+			"topics": [
+				"icons-illustrations"
+			],
+			"levels": [
+				"junior"
+			],
+			"fields": {
+				"url": "https://undraw.co",
+				"verdict": "Иллюстрации под свой акцентный цвет, бесплатно и без указания автора",
+				"review_for": "Тем, кому нужны иллюстрации в пустые состояния и на лендинг.",
+				"review_why": "Цвет меняется прямо на сайте, лицензия разрешает коммерческое использование.",
+				"review_not": "Когда нужен свой стиль: эти иллюстрации узнают — они стоят на тысячах сайтов.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-06-08",
+				"status": "active",
+				"license": "free-commercial",
+				"file_format": [
+					"svg",
+					"png"
+				],
+				"cyrillic": "no",
+				"assets_count": 1000
+			}
+		},
+		{
+			"slug": "font-awesome",
+			"title": "Font Awesome",
+			"type": "asset",
+			"topics": [
+				"icons-illustrations"
+			],
+			"levels": [
+				"junior"
+			],
+			"fields": {
+				"url": "https://fontawesome.com",
+				"verdict": "Старый набор иконок: бесплатной части хватает, платная дороговата",
+				"review_for": "Тем, кто собирает сайт быстро и хочет иконки одной строкой подключения.",
+				"review_why": "Две тысячи бесплатных иконок, знакомые всем имена классов, лицензия CC BY.",
+				"review_not": "Когда нужна единая сетка с современными наборами: стиль разнородный, а половина иконок за подпиской.",
+				"pricing": "freemium",
+				"price_note": "Pro около $99 в год",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-07-15",
+				"status": "active",
+				"license": "cc-by",
+				"file_format": [
+					"svg",
+					"otf"
+				],
+				"cyrillic": "no",
+				"assets_count": 2000
+			}
+		},
+		{
+			"slug": "streamline",
+			"title": "Streamline",
+			"type": "asset",
+			"topics": [
+				"icons-illustrations",
+				"design-systems"
+			],
+			"levels": [
+				"middle",
+				"senior"
+			],
+			"fields": {
+				"url": "https://streamlinehq.com",
+				"verdict": "Огромная библиотека иконок и иллюстраций; бесплатно — только личные проекты",
+				"review_for": "Студиям и командам, которым нужен единый набор на весь продукт.",
+				"review_why": "Десятки стилей в одной сетке, плагин Figma, иллюстрации и иконки вместе.",
+				"review_not": "Когда проект коммерческий, а бюджета нет: бесплатная лицензия разрешает только личное использование.",
+				"pricing": "trial",
+				"price_note": "пробный период, дальше подписка",
+				"ru_open": "open",
+				"ru_payment": "intermediary",
+				"language": "en",
+				"checked_at": "2026-08-11",
+				"status": "active",
+				"license": "personal-only",
+				"file_format": [
+					"svg",
+					"figma",
+					"png"
+				],
+				"cyrillic": "no",
+				"assets_count": 3000
+			}
+		},
+		{
+			"slug": "material-symbols",
+			"title": "Material Symbols",
+			"type": "asset",
+			"topics": [
+				"icons-illustrations",
+				"mobile-design"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://fonts.google.com/icons",
+				"verdict": "Системный набор Google: переменные иконки под любую толщину и размер",
+				"review_for": "Тем, кто делает Android-приложение или следует Material.",
+				"review_why": "Переменные оси веса и заливки, бесплатно и с открытой лицензией.",
+				"review_not": "Когда нужен свой характер: набор узнаваемо гугловский и тянет весь интерфейс за собой.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "multi",
+				"checked_at": "2026-09-10",
+				"status": "active",
+				"license": "free-commercial",
+				"file_format": [
+					"svg",
+					"woff2"
+				],
+				"cyrillic": "no",
+				"assets_count": 2500
+			}
+		},
+		{
+			"slug": "ux-horn",
+			"title": "UX Horn",
+			"type": "community",
+			"topics": [
+				"ux-research"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://t.me/uxhorn",
+				"verdict": "Конспекты статей по UX тезисами, около трёх постов в неделю",
+				"review_for": "Тем, кто хочет держать руку на пульсе, но не успевает читать длинные статьи.",
+				"review_why": "Автор пересказывает исследования тезисами и даёт ссылку на источник.",
+				"review_not": "Когда нужен разбор: это конспекты, а не своя аналитика.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-05",
+				"status": "active",
+				"platform": "telegram",
+				"audience_size": "≈ 24 000, 09.2026",
+				"activity": "weekly",
+				"is_jobs": false
+			}
+		},
+		{
+			"slug": "ux-notes",
+			"title": "UX Notes",
+			"type": "community",
+			"topics": [
+				"ux-research",
+				"career-portfolio"
+			],
+			"levels": [
+				"junior",
+				"middle"
+			],
+			"fields": {
+				"url": "https://t.me/uxnotes",
+				"verdict": "Старейший русскоязычный канал о UX: ссылки, заметки и вакансии",
+				"review_for": "Тем, кто хочет один канал вместо десяти.",
+				"review_why": "Ежедневные ссылки на статьи и инструменты, разбор терминов, вакансии.",
+				"review_not": "Когда нужна глубина: формат канала — короткая заметка со ссылкой.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-09",
+				"status": "active",
+				"platform": "telegram",
+				"audience_size": "≈ 38 000, 09.2026",
+				"activity": "daily",
+				"is_jobs": true
+			}
+		},
+		{
+			"slug": "designpub",
+			"title": "Дизайн-кабак",
+			"type": "community",
+			"topics": [
+				"career-portfolio",
+				"ux-research"
+			],
+			"levels": [
+				"middle"
+			],
+			"fields": {
+				"url": "https://designpub.ru",
+				"verdict": "Коллективный блог русскоязычных дизайнеров: статьи и подкасты",
+				"review_for": "Тем, кто хочет читать длинные тексты коллег, а не переводы.",
+				"review_why": "Авторские статьи практиков, подкасты, живое сообщество.",
+				"review_not": "Когда нужна регулярность: материалы выходят неравномерно, есть месяцы тишины.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-08-15",
+				"status": "active",
+				"platform": "website",
+				"audience_size": "≈ 15 000, 09.2026",
+				"activity": "weekly",
+				"is_jobs": false
+			}
+		},
+		{
+			"slug": "jvetrau-digest",
+			"title": "Дайджест продуктового дизайна",
+			"type": "community",
+			"topics": [
+				"ux-research",
+				"design-systems"
+			],
+			"levels": [
+				"middle",
+				"senior"
+			],
+			"fields": {
+				"url": "https://jvetrau.com",
+				"verdict": "Ежемесячная подборка ссылок, которую в индустрии читают с 2010-х",
+				"review_for": "Мидлам и сеньорам, которым нужен обзор месяца без ленты новостей.",
+				"review_why": "Ручной отбор материалов по продуктовому дизайну, стабильно много лет.",
+				"review_not": "Когда нужны новости сегодня: выпуск выходит раз в месяц.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-01",
+				"status": "active",
+				"platform": "newsletter",
+				"audience_size": "≈ 20 000, 09.2026",
+				"activity": "rare",
+				"is_jobs": false
+			}
+		},
+		{
+			"slug": "sidebar-io",
+			"title": "Sidebar",
+			"type": "community",
+			"topics": [
+				"web-landings",
+				"ui-visual"
+			],
+			"levels": [
+				"middle"
+			],
+			"fields": {
+				"url": "https://sidebar.io",
+				"verdict": "Пять ссылок каждый будний день, отобранных руками редактора",
+				"review_for": "Тем, кто хочет короткую ежедневную порцию материалов на английском.",
+				"review_why": "Ручной отбор, никакой ленты и алгоритмов, архив по категориям.",
+				"review_not": "Когда нужен русский язык или локальный контекст: рассылка целиком англоязычная.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-05-28",
+				"status": "active",
+				"platform": "newsletter",
+				"audience_size": "≈ 100 000, 09.2026",
+				"activity": "daily",
+				"is_jobs": false
+			}
+		},
+		{
+			"slug": "dprofile",
+			"title": "Dprofile",
+			"type": "community",
+			"topics": [
+				"career-portfolio"
+			],
+			"levels": [
+				"junior",
+				"middle",
+				"senior"
+			],
+			"fields": {
+				"url": "https://dprofile.ru",
+				"verdict": "Портфолио-сообщество рунета: работы, вакансии и оплата в рублях",
+				"review_for": "Тем, кто ищет работу или собирает портфолио на русском языке.",
+				"review_why": "Десятки тысяч дизайнеров, раздел вакансий, оплата подписки в рублях.",
+				"review_not": "Когда нужен международный рынок: аудитория площадки почти целиком русскоязычная.",
+				"pricing": "freemium",
+				"price_note": "базовое портфолио бесплатно, Pro в рублях",
+				"ru_open": "open",
+				"ru_payment": "ru_native",
+				"language": "ru",
+				"checked_at": "2026-09-04",
+				"status": "active",
+				"platform": "website",
+				"audience_size": "≈ 37 000, 09.2026",
+				"activity": "daily",
+				"is_jobs": true
+			}
+		},
+		{
+			"slug": "ux-collective",
+			"title": "UX Collective",
+			"type": "community",
+			"topics": [
+				"ux-research",
+				"career-portfolio"
+			],
+			"levels": [
+				"middle",
+				"senior"
+			],
+			"fields": {
+				"url": "https://uxdesign.cc",
+				"verdict": "Крупнейшее англоязычное медиа о дизайне: статьи авторов сообщества",
+				"review_for": "Тем, кто читает по-английски и хочет широкую картину профессии.",
+				"review_why": "Тысячи статей практиков и еженедельная рассылка с отбором редакции.",
+				"review_not": "Когда важно качество каждой статьи: материалы присылают авторы, уровень разный.",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-08-31",
+				"status": "active",
+				"platform": "website",
+				"audience_size": "≈ 700 000, 09.2026",
+				"activity": "daily",
+				"is_jobs": false
+			}
+		}
+	],
+	"posts": [
+		{
+			"slug": "besplatnyy-nabor-dlya-starta",
+			"title": "Бесплатный набор для старта в UI",
+			"category": "collections",
+			"excerpt": "Семь ресурсов, которые ничего не стоят и открываются из России: редактор, иконки, шрифт, иллюстрации и теория.",
+			"intro": "Всё в этой подборке бесплатно и открывается из России без VPN. Проверено руками, даты проверки — в карточках.",
+			"resources": [
+				"penpot",
+				"lucide",
+				"golos-text",
+				"undraw",
+				"laws-of-ux",
+				"ux-journal",
+				"material-symbols"
+			]
+		},
+		{
+			"slug": "chem-zamenit-nedostupnoe",
+			"title": "Чем заменить то, что не оплатить из России",
+			"category": "collections",
+			"excerpt": "Сервисы, которые работают и оплачиваются из России, — вместо тех, где карта не проходит.",
+			"intro": "Здесь собраны ресурсы с оплатой в рублях и открытым доступом. Рядом в карточках видно, что именно они заменяют.",
+			"resources": [
+				"penpot",
+				"screen-gallery",
+				"dprofile",
+				"practicum-interface-designer"
+			]
+		},
+		{
+			"slug": "2026-37",
+			"title": "Дайджест за 7–13 сентября 2026",
+			"category": "digest",
+			"excerpt": "Что проверили и добавили в каталог за неделю.",
+			"intro": "Первый выпуск дайджеста: новое в каталоге и перепроверенное за неделю.",
+			"resources": [
+				"material-symbols",
+				"lucide",
+				"ux-notes",
+				"screen-gallery"
+			]
+		}
+	]
+}

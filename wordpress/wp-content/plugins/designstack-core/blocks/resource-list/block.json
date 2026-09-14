@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/resource-list",
+	"title": "Список ресурсов",
+	"category": "designstack",
+	"icon": "screenoptions",
+	"description": "Карточки ресурсов: выбранные вручную или отобранные по типу, теме, грейду и цене.",
+	"textdomain": "designstack-core",
+	"attributes": {
+		"source": { "type": "string", "default": "manual" },
+		"ids": { "type": "array", "items": { "type": "number" }, "default": [] },
+		"resource_type": { "type": "string", "default": "" },
+		"topic": { "type": "string", "default": "" },
+		"level": { "type": "string", "default": "" },
+		"pricing": { "type": "string", "default": "" },
+		"ru_open": { "type": "string", "default": "" },
+		"ru_payment": { "type": "string", "default": "" },
+		"limit": { "type": "number", "default": 12 },
+		"layout": { "type": "string", "default": "grid" },
+		"orderby": { "type": "string", "default": "checked_at" }
+	},
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"]
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

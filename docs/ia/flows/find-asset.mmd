@@ -1,0 +1,14 @@
+%% JTBD 4 · П1 junior-switcher: UI-кит, шрифт с кириллицей или мокап с понятной лицензией
+%% Этап 07, версия 1 от 11.09.2026. Узлы — имена из docs/ia/sitemap.md; имя__вариант — та же страница в другом состоянии или с другой записью
+flowchart TD
+    ext-search["ext-search: запрос «шрифты с кириллицей»"] -->|подборка в выдаче| collection["collection: бесплатные шрифты с кириллицей"]
+    ext-search -->|раздел в выдаче| assets["assets: /assets/"]
+    home["home"] -->|Ассеты в шапке| assets
+    assets -->|Кириллица есть и Бесплатно, в том числе в коммерции, Применить| assets__filtered["assets: /assets/?cyrillic=yes&license=free-commercial"]
+    collection -->|клик по карточке| resource["resource: лицензия, формат файла, кириллица"]
+    assets__filtered -->|клик по карточке| resource
+    assets__filtered -->|ничего не нашлось| assets__empty["assets: пустая выдача с причиной"]
+    assets__empty -->|Сбросить фильтры| assets
+    assets__empty -->|Предложить ресурс| suggest["suggest: форма"]
+    resource -->|лицензия и формат подходят, Перейти на сайт| ext-resource-site["ext-resource-site: сайт ассета"]
+    resource -->|Только личное, назад к подборке| collection

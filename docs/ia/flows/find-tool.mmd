@@ -1,0 +1,18 @@
+%% JTBD 2 · П2 middle-designer: инструмент под задачу по типу, цене и доступу из РФ за 5 минут
+%% Этап 07, версия 1 от 11.09.2026. Узлы — имена из docs/ia/sitemap.md; имя__вариант — та же страница в другом состоянии или с другой записью
+flowchart TD
+    ext-search["ext-search: запрос «инструмент для прототипирования»"] -->|страница темы в выдаче| topic["topic: /topic/prototyping/?resource_type=tool"]
+    ext-search -->|название инструмента| resource["resource: страница инструмента"]
+    home["home"] -->|Инструменты в шапке| tools["tools: /tools/"]
+    home -->|поиск по каталогу| search["search: /search/?s=прототип"]
+    tools -->|тема, цена, Открывается из РФ, Оплачивается из РФ, Применить| tools__filtered["tools: выдача, фильтры в адресе"]
+    tools__filtered -->|клик по карточке| resource
+    tools__filtered -->|ничего не нашлось| tools__empty["tools: пустая выдача с причиной"]
+    tools__empty -->|Сбросить фильтры| tools
+    tools__empty -->|ресурс той же темы| resource
+    tools__empty -->|Предложить ресурс| suggest["suggest: форма"]
+    topic -->|клик по карточке| resource
+    search -->|результат| resource
+    search -->|ничего не нашлось, Предложить ресурс| suggest
+    resource -->|оценка подходит, Перейти на сайт| ext-resource-site["ext-resource-site: сайт инструмента"]
+    resource -->|Когда не подойдёт — мой случай, назад| tools__filtered

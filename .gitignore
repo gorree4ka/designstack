@@ -1,0 +1,31 @@
+# secrets
+.env
+*.local
+CLAUDE.local.md
+.claude/settings.local.json
+
+# intermediates
+.tmp/
+*.log
+wordpress/wp-content/debug.log
+
+# local tooling — reinstalled by scripts/setup.py.
+# Исключение одно: router.php нужен scripts/start.ps1, а setup.py его не создаёт,
+# поэтому без него свежий клон не запустится.
+tools/*
+!tools/router.php
+
+# WordPress core — reinstalled by scripts/setup.ps1; only our own code is tracked
+wordpress/*
+!wordpress/wp-content/
+wordpress/wp-content/*
+!wordpress/wp-content/themes/
+wordpress/wp-content/themes/*
+!wordpress/wp-content/themes/designstack/
+!wordpress/wp-content/plugins/
+wordpress/wp-content/plugins/*
+!wordpress/wp-content/plugins/designstack-*/
+
+# node
+node_modules/
+__pycache__/

@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/resource-analogs",
+	"title": "Аналог из России",
+	"category": "designstack",
+	"icon": "networking",
+	"description": "Карточки ресурсов из поля «Аналог из России».",
+	"textdomain": "designstack-core",
+	"usesContext": [
+		"postId"
+	],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/ru-status",
+	"title": "Доступ и оплата из РФ",
+	"category": "designstack",
+	"icon": "shield",
+	"description": "Метки «Доступ из РФ» и «Оплата из РФ», состояние записи и дата проверки.",
+	"textdomain": "designstack-core",
+	"attributes": {
+		"showChecked": { "type": "boolean", "default": true },
+		"showState": { "type": "boolean", "default": true }
+	},
+	"usesContext": ["postId"],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

@@ -1,0 +1,5 @@
+{
+  "php.validate.executablePath": "${workspaceFolder}/tools/php/php.exe",
+  "files.exclude": { "tools/php": true, ".tmp": true },
+  "search.exclude": { "wordpress/wp-admin": true, "wordpress/wp-includes": true, "tools": true }
+}

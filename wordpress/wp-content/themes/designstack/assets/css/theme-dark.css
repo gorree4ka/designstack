@@ -1,0 +1,71 @@
+/*
+ * Тёмная тема DesignStack, этап 10.
+ * Только preset-переменные семантики и тени через примитивы theme.json: колонка «Тёмная» таблицы «Слой 2» в docs/ds/foundation.md.
+ * Оба блока — один и тот же список: выбор посетителя (data-theme на <html>) и системная тема, если выбора нет.
+ */
+
+:root {
+	color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+	--wp--preset--color--surface-default: var(--wp--custom--color--gray-950);
+	--wp--preset--color--surface-subtle: var(--wp--custom--color--gray-800);
+	--wp--preset--color--surface-raised: var(--wp--custom--color--gray-900);
+	--wp--preset--color--surface-action-primary: var(--wp--custom--color--accent-300);
+	--wp--preset--color--surface-action-primary-hover: var(--wp--custom--color--accent-200);
+	--wp--preset--color--surface-selected: var(--wp--custom--color--accent-900);
+	--wp--preset--color--text-default: var(--wp--custom--color--gray-100);
+	--wp--preset--color--text-muted: var(--wp--custom--color--gray-400);
+	--wp--preset--color--text-on-action: var(--wp--custom--color--gray-950);
+	--wp--preset--color--text-link: var(--wp--custom--color--gray-100);
+	--wp--preset--color--text-link-hover: var(--wp--custom--color--accent-300);
+	--wp--preset--color--text-action: var(--wp--custom--color--accent-300);
+	--wp--preset--color--text-action-hover: var(--wp--custom--color--accent-200);
+	--wp--preset--color--border-default: var(--wp--custom--color--gray-800);
+	--wp--preset--color--border-strong: var(--wp--custom--color--gray-500);
+	--wp--preset--color--border-focus-ring: var(--wp--custom--color--accent-300);
+	--wp--preset--color--border-error: var(--wp--custom--color--error-300);
+	--wp--preset--color--text-error: var(--wp--custom--color--error-300);
+	--wp--preset--color--icon-success: var(--wp--custom--color--success-300);
+	--wp--preset--color--icon-warning: var(--wp--custom--color--warning-300);
+	--wp--preset--color--icon-error: var(--wp--custom--color--error-300);
+	--wp--preset--color--bg-warning: var(--wp--custom--color--warning-900);
+	--wp--preset--color--bg-error: var(--wp--custom--color--error-900);
+	--wp--preset--color--bg-info: var(--wp--custom--color--gray-800);
+	--wp--preset--color--icon-info: var(--wp--custom--color--gray-400);
+	--wp--preset--shadow--md: var(--wp--custom--shadow--md-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) {
+		color-scheme: dark;
+		--wp--preset--color--surface-default: var(--wp--custom--color--gray-950);
+		--wp--preset--color--surface-subtle: var(--wp--custom--color--gray-800);
+		--wp--preset--color--surface-raised: var(--wp--custom--color--gray-900);
+		--wp--preset--color--surface-action-primary: var(--wp--custom--color--accent-300);
+		--wp--preset--color--surface-action-primary-hover: var(--wp--custom--color--accent-200);
+		--wp--preset--color--surface-selected: var(--wp--custom--color--accent-900);
+		--wp--preset--color--text-default: var(--wp--custom--color--gray-100);
+		--wp--preset--color--text-muted: var(--wp--custom--color--gray-400);
+		--wp--preset--color--text-on-action: var(--wp--custom--color--gray-950);
+		--wp--preset--color--text-link: var(--wp--custom--color--gray-100);
+		--wp--preset--color--text-link-hover: var(--wp--custom--color--accent-300);
+		--wp--preset--color--text-action: var(--wp--custom--color--accent-300);
+		--wp--preset--color--text-action-hover: var(--wp--custom--color--accent-200);
+		--wp--preset--color--border-default: var(--wp--custom--color--gray-800);
+		--wp--preset--color--border-strong: var(--wp--custom--color--gray-500);
+		--wp--preset--color--border-focus-ring: var(--wp--custom--color--accent-300);
+		--wp--preset--color--border-error: var(--wp--custom--color--error-300);
+		--wp--preset--color--text-error: var(--wp--custom--color--error-300);
+		--wp--preset--color--icon-success: var(--wp--custom--color--success-300);
+		--wp--preset--color--icon-warning: var(--wp--custom--color--warning-300);
+		--wp--preset--color--icon-error: var(--wp--custom--color--error-300);
+		--wp--preset--color--bg-warning: var(--wp--custom--color--warning-900);
+		--wp--preset--color--bg-error: var(--wp--custom--color--error-900);
+		--wp--preset--color--bg-info: var(--wp--custom--color--gray-800);
+		--wp--preset--color--icon-info: var(--wp--custom--color--gray-400);
+		--wp--preset--shadow--md: var(--wp--custom--shadow--md-dark);
+	}
+}

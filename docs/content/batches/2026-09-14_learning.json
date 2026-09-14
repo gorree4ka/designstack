@@ -1,0 +1,266 @@
+{
+	"_comment": "Партия learning-01 от 14.09.2026, директива 16 режим ingest. Черновики; публикация после апрува. Доступ из России проверен прогоном с сервера Beget: docs/research/ru-access/2026-09-14_13-11_ingest-learning-01.md — открылись все 14 адресов. Цены сняты со страниц подписки, кадры в docs/content/sources/.",
+	"resources": [
+		{
+			"slug": "material-design",
+			"title": "Material Design 3",
+			"type": "learning",
+			"topics": ["design-systems", "ui-visual"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://m3.material.io",
+				"verdict": "Готовая дизайн-система с объяснением, почему каждое решение принято именно так",
+				"review_for": "Тем, кто собирает первый интерфейс и не хочет изобретать отступы и состояния кнопок.",
+				"review_why": "Компоненты разобраны по анатомии и состояниям, рядом лежат готовые киты для Figma.",
+				"review_not": "Когда нужен свой стиль: сделанное по Material узнаётся сразу, а отойти от него без потери логики трудно.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "apple-hig",
+			"title": "Apple Human Interface Guidelines",
+			"type": "learning",
+			"topics": ["mobile-design", "ui-visual"],
+			"levels": ["junior", "middle", "senior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://developer.apple.com/design/human-interface-guidelines",
+				"verdict": "Правила интерфейсов Apple: без них макет под iOS не пройдёт ревью",
+				"review_for": "Всем, кто рисует под iOS, iPadOS или watchOS — от первого экрана до передачи в разработку.",
+				"review_why": "Разобраны платформенные паттерны, размеры, жесты и то, чего делать нельзя.",
+				"review_not": "Когда проект кроссплатформенный: правила Apple и Android расходятся, и следовать обоим сразу не выйдет.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "webdev-accessibility",
+			"title": "web.dev: Доступность",
+			"type": "learning",
+			"topics": ["accessibility"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://web.dev/accessibility",
+				"verdict": "Курс по доступности от Google, переведённый на русский и бесплатный",
+				"review_for": "Тем, кто впервые слышит про WCAG и хочет разобраться без юридического языка.",
+				"review_why": "Идёт от задач — контраст, клавиатура, чтец, — а не от номеров критериев; есть примеры кода.",
+				"review_not": "Когда нужен аудит по букве стандарта: это введение, а не полный текст WCAG.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "multi",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "smashing-magazine",
+			"title": "Smashing Magazine",
+			"type": "learning",
+			"topics": ["ui-visual", "web-landings"],
+			"levels": ["middle", "senior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://www.smashingmagazine.com",
+				"verdict": "Длинные разборы по вёрстке и интерфейсам, которые читают уже двадцать лет",
+				"review_for": "Тем, кому мало короткой заметки и нужен разбор с примерами и кодом.",
+				"review_why": "Статьи пишут практики, материал идёт вглубь, архив за двадцать лет открыт и бесплатен.",
+				"review_not": "Когда нужен русский язык или быстрый ответ: тексты длинные и только на английском.",
+				"format": "article",
+				"pricing": "freemium",
+				"price_note": "статьи бесплатны; членство $99 в год даёт электронные книги и скидки",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "baymard",
+			"title": "Baymard Institute",
+			"type": "learning",
+			"topics": ["ux-research", "analytics-metrics"],
+			"levels": ["middle", "senior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://baymard.com",
+				"verdict": "Исследования интерфейсов магазинов: цифры вместо «мне кажется, так удобнее»",
+				"review_for": "Тем, кто спорит о корзине и оформлении заказа и хочет прийти с данными.",
+				"review_why": "Годы юзабилити-тестов на живых магазинах, выводы сведены в правила с примерами.",
+				"review_not": "Когда бюджета нет: бесплатна лишь часть статей, полная база стоит $200 в месяц.",
+				"format": "article",
+				"pricing": "freemium",
+				"price_note": "часть статей бесплатна; полный доступ от $200 в месяц или $2 400 в год",
+				"ru_open": "open",
+				"ru_payment": "no_payment",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "habr-design",
+			"title": "Хабр: поток «Дизайн»",
+			"type": "learning",
+			"topics": ["ui-visual", "career-portfolio"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://habr.com/ru/flows/design/",
+				"verdict": "Статьи практиков на русском: разборы проектов, инструментов и провалов",
+				"review_for": "Тем, кому нужен русскоязычный опыт и местный контекст, а не перевод западной статьи.",
+				"review_why": "Пишут работающие дизайнеры, в комментариях спорят коллеги — часто полезнее самой статьи.",
+				"review_not": "Когда нужна проверенная методика: качество плавает от текста к тексту, редактуры на входе нет.",
+				"format": "article",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "bangbang-education",
+			"title": "Bang Bang Education",
+			"type": "learning",
+			"topics": ["ui-visual", "career-portfolio"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://bangbangeducation.ru",
+				"verdict": "Российская школа дизайна с открытым разделом бесплатных материалов",
+				"review_for": "Тем, кто хочет попробовать формат школы, не платя за полный курс.",
+				"review_why": "Есть раздел бесплатных материалов, курсы ведут практикующие дизайнеры, язык русский.",
+				"review_not": "Когда нужна ясная цена заранее: стоимость видна только на странице конкретного курса.",
+				"format": "course",
+				"pricing": "freemium",
+				"price_note": "есть раздел бесплатных материалов; цена курса указана на его странице",
+				"ru_open": "open",
+				"language": "ru",
+				"certificate": true,
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "bureau-school",
+			"title": "Школа Бюро Горбунова",
+			"type": "learning",
+			"topics": ["ui-visual", "career-portfolio"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://bureau.ru/school/",
+				"verdict": "Жёсткая школа с отсевом: учит не рисовать, а доводить работу до результата",
+				"review_for": "Тем, кто готов к нагрузке и хочет научиться защищать решения, а не только их рисовать.",
+				"review_why": "Ступени с отбором, живые задачи и редактура; оплата в рублях, есть рассрочка.",
+				"review_not": "Когда нужен мягкий темп: отсев реальный, а вторая ступень требует много времени.",
+				"format": "course",
+				"pricing": "paid",
+				"price_note": "рассрочка от 6 600 ₽ в месяц; отдельные курсы от 27 000 ₽",
+				"ru_open": "open",
+				"ru_payment": "ru_native",
+				"language": "ru",
+				"certificate": true,
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "bureau-soviet",
+			"title": "Советы Бюро Горбунова",
+			"type": "learning",
+			"topics": ["ui-visual", "career-portfolio"],
+			"levels": ["junior", "middle", "senior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://bureau.ru/soviet/",
+				"verdict": "Тысячи коротких разборов по дизайну, тексту и переговорам — бесплатно",
+				"review_for": "Тем, кто ищет ответ на конкретный рабочий вопрос: от вёрстки таблицы до спора с заказчиком.",
+				"review_why": "Каждый совет — короткий разбор с примером; архив пополняется больше пятнадцати лет.",
+				"review_not": "Когда нужна система: это россыпь ответов, а не курс, и читать подряд её тяжело.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "kovodstvo",
+			"title": "Ководство",
+			"type": "learning",
+			"topics": ["ui-visual", "typography"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://www.artlebedev.ru/kovodstvo/sections/",
+				"verdict": "Базовый русский учебник по типографике и здравому смыслу в дизайне",
+				"review_for": "Тем, кто путает дефис с тире и не знает, почему это важно.",
+				"review_why": "Разбирает типографику, знаки и логику интерфейса на русских примерах — такого больше нигде нет.",
+				"review_not": "Когда нужна свежесть: часть параграфов написана давно, а тон местами резче, чем принято сегодня.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "figma-learn",
+			"title": "Figma Learn",
+			"type": "learning",
+			"topics": ["prototyping", "ui-visual"],
+			"levels": ["junior"],
+			"analogs": [],
+			"fields": {
+				"url": "https://help.figma.com/hc/en-us/categories/360002051613",
+				"verdict": "Официальные уроки Figma: как устроен инструмент, от автора инструмента",
+				"review_for": "Тем, кто открыл Figma впервые и не хочет учиться по чужим видео разной свежести.",
+				"review_why": "Разделы идут от простого к сложному, материал обновляется вместе с самим редактором.",
+				"review_not": "Когда нужен русский язык: справка только на английском, перевода нет.",
+				"format": "guide",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "en",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		},
+		{
+			"slug": "surovy-web",
+			"title": "Суровый веб",
+			"type": "learning",
+			"topics": ["web-landings", "career-portfolio"],
+			"levels": ["junior", "middle"],
+			"analogs": [],
+			"fields": {
+				"url": "https://uwebdesign.ru",
+				"verdict": "Русский подкаст про веб и интерфейсы: разговоры практиков без глянца",
+				"review_for": "Тем, кто хочет слушать про профессию в дороге и держаться в курсе российской практики.",
+				"review_why": "Живые разговоры о работе, инструментах и найме; выпуски выходят регулярно, слушать бесплатно.",
+				"review_not": "Когда нужен именно дизайн: половина тем — про разработку и IT в целом.",
+				"format": "podcast",
+				"pricing": "free",
+				"ru_open": "open",
+				"language": "ru",
+				"checked_at": "2026-09-14",
+				"status": "active"
+			}
+		}
+	]
+}

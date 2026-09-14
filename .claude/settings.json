@@ -1,0 +1,52 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tools/wp.cmd:*)",
+      "Bash(./tools/wp.cmd:*)",
+      "Bash(../tools/wp.cmd:*)",
+      "Bash(tools/php/php.exe:*)",
+      "Bash(./tools/php/php.exe:*)",
+      "Bash(../tools/php/php.exe:*)",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File scripts/*:*)",
+      "Bash(python scripts/*:*)",
+      "Bash(curl -s http://localhost:8080*)",
+      "Bash(npm run:*)",
+      "Bash(npx wp-scripts:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(**/.ht.sqlite)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Projects/DesignSite/scripts/hooks/wpcli-guard.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python C:/Projects/DesignSite/scripts/hooks/php-lint.py",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}

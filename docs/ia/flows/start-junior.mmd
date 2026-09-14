@@ -1,0 +1,15 @@
+%% JTBD 1 · П1 junior-switcher: проверенный набор бесплатных инструментов и курсов по уровню
+%% Этап 07, версия 1 от 11.09.2026. Узлы — имена из docs/ia/sitemap.md; имя__вариант — та же страница в другом состоянии или с другой записью
+flowchart TD
+    ext-search["ext-search: запрос «ux ui с нуля»"] -->|страница сайта в выдаче| home["home: подборка для старта"]
+    ext-telegram["ext-telegram: пост канала"] -->|ссылка на главную| home
+    home -->|ресурс из подборки для старта| resource["resource: страница ресурса"]
+    home -->|Учёба в шапке| learn["learn: /learn/"]
+    learn -->|Junior и Бесплатно, Применить| learn__filtered["learn: /learn/?level=junior&pricing=free"]
+    learn__filtered -->|клик по карточке| resource
+    learn__filtered -->|ничего не нашлось| learn__empty["learn: пустая выдача с причиной"]
+    learn__empty -->|Сбросить фильтры| learn
+    resource -->|прочитал оценку, Перейти на сайт| ext-resource-site["ext-resource-site: сайт ресурса в новой вкладке"]
+    resource -->|не подошёл, назад в браузере| learn__filtered
+    resource -->|Закрыт, есть аналог: Показать аналог| resource__analog["resource: страница аналога"]
+    resource__analog -->|Перейти на сайт| ext-resource-site

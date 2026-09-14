@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/checked-week",
+	"title": "Проверено на этой неделе",
+	"category": "designstack",
+	"icon": "yes-alt",
+	"description": "Ресурсы с датой проверки за последние 7 дней, до шести карточек. Проверок нет — блока нет.",
+	"textdomain": "designstack-core",
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

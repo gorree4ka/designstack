@@ -1,0 +1,8 @@
+<svg class="ds-empty__art" viewBox="0 0 160 112" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+	<!-- Пустой раздел: полка, на которой ещё нет ресурсов; акцентом — свободное место (D50 §8). -->
+	<rect x="16" y="24" width="36" height="50" rx="6" stroke-dasharray="7 7"/>
+	<rect x="62" y="24" width="36" height="50" rx="6" stroke-dasharray="7 7"/>
+	<rect class="ds-art-accent" x="108" y="24" width="36" height="50" rx="6"/>
+	<path d="M10 82h140"/>
+	<path d="M28 82v12M132 82v12"/>
+</svg>

@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/issue-nav",
+	"title": "Навигация по выпускам",
+	"category": "designstack",
+	"icon": "controls-repeat",
+	"description": "Предыдущий и следующий выпуск дайджеста и ссылка «Все выпуски». На других записях не выводится.",
+	"textdomain": "designstack-core",
+	"usesContext": [
+		"postId"
+	],
+	"supports": {
+		"html": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}
