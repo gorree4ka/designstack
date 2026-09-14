@@ -28,7 +28,7 @@
 | 15 | `15_directive_site_audit.md` | Аудит: консистентность, хардкод, состояния, Нильсен, a11y, адаптив, SEO | всё выше | `docs/audit/site_audit_<date>.md` | ✅ 14.09.2026 (D87–D90) |
 | 16 | `16_directive_content.md` | Наполнение каталога, подборки, дайджест, обзоры, перепроверка ссылок | brief §5, plugin | записи `resource` и `post`, `docs/content/queue.md`, `scripts/check_links.py` | ✅ 14.09.2026 (D91–D118) |
 | 17 | `17_directive_seo_analytics.md` | SEO-разметка, Яндекс Метрика, цели по JTBD, гипотезы, раунды | spec, templates | `docs/analytics/seo-map.md`, `goals.md`, `rounds/<date>.md` | ✅ 14.09.2026 (D119–D123), раунды — после деплоя |
-| 18 | `18_directive_repo.md` | Репозиторий GitHub: что заливаем, README, `PROJECT.md` | тема, плагин, docs | репозиторий, `README.md`, `PROJECT.md` | ⏳ |
+| 18 | `18_directive_repo.md` | Репозиторий GitHub: что заливаем, README, `PROJECT.md` | тема, плагин, docs | репозиторий, `README.md`, `PROJECT.md` | ✅ 14.09.2026 (D124–D126) |
 | 19 | `19_directive_deploy.md` | Деплой на российский хостинг: SQLite → MySQL, перенос, бэкапы, чеклист | repo, hosting | живой сайт, обновлённый `PROJECT.md` | ⏳ |
 
 Порядок жёсткий для 02 → 06 → 07 → 08 → 10 → 11 → 12 → 13 → 14; 03–05 и 09 можно двигать, 15–17 запускаются повторно после каждой итерации, 18–19 — перед запуском.
