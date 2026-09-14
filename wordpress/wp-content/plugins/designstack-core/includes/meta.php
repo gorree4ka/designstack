@@ -234,6 +234,13 @@ function designstack_core_guard_publish( int $post_id, $post ): void {
 		return;
 	}
 
+	// При импорте запись создаётся раньше своих полей: страж увидел бы пустое
+	// «Когда не подойдёт» у каждой записи и отправил весь каталог на утверждение,
+	// попутно обнулив слаги. Поля проверяет тот, кто публикует, а не импортёр.
+	if ( defined( 'WP_IMPORTING' ) && WP_IMPORTING ) {
+		return;
+	}
+
 	if ( '' !== (string) designstack_core_get_field( $post_id, 'review_not' ) ) {
 		return;
 	}
