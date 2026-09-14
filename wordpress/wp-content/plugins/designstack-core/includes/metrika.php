@@ -38,7 +38,14 @@ function designstack_core_is_production(): bool {
  * @return void
  */
 function designstack_core_settings(): void {
-	foreach ( array( 'designstack_metrika_id', 'designstack_verification_yandex', 'designstack_verification_google' ) as $key ) {
+	$keys = array(
+		'designstack_metrika_id',
+		'designstack_verification_yandex',
+		'designstack_verification_google',
+		'designstack_curator_email',
+	);
+
+	foreach ( $keys as $key ) {
 		register_setting(
 			'designstack',
 			$key,
@@ -80,6 +87,7 @@ function designstack_core_settings_render(): void {
 	}
 
 	$fields = array(
+		'designstack_curator_email'       => __( 'Почта для заявок из формы «Предложить ресурс»', 'designstack-core' ),
 		'designstack_metrika_id'          => __( 'Номер счётчика Яндекс Метрики', 'designstack-core' ),
 		'designstack_verification_yandex' => __( 'Код подтверждения Яндекс Вебмастера', 'designstack-core' ),
 		'designstack_verification_google' => __( 'Код подтверждения Google Search Console', 'designstack-core' ),
@@ -103,7 +111,7 @@ function designstack_core_settings_render(): void {
 	echo '</tbody></table>';
 	printf(
 		'<p class="description">%s</p>',
-		esc_html__( 'Счётчик работает только на продакшене. На локальной машине события пишутся в консоль браузера и в статистику не попадают.', 'designstack-core' )
+		esc_html__( 'Пустая почта для заявок означает адрес администратора сайта. Счётчик работает только на продакшене. На локальной машине события пишутся в консоль браузера и в статистику не попадают.', 'designstack-core' )
 	);
 	submit_button();
 	echo '</form></div>';
@@ -230,4 +238,19 @@ function designstack_core_track_attrs( int $post_id ): string {
 	}
 
 	return implode( ' ', $out );
+}
+
+/**
+ * Адрес, куда уходят заявки из формы.
+ *
+ * Отдельно от административной почты сайта: на неё WordPress шлёт служебные
+ * письма, и менять её ради получателя заявок — значит трогать не то.
+ * Пустое поле означает «как раньше», то есть административный адрес.
+ *
+ * @return string
+ */
+function designstack_core_curator_email(): string {
+	$mail = trim( (string) get_option( 'designstack_curator_email', '' ) );
+
+	return is_email( $mail ) ? $mail : (string) get_option( 'admin_email' );
 }

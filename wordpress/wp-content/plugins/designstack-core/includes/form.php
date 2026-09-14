@@ -229,7 +229,7 @@ function designstack_core_notify_curator( int $post_id, array $input ): void {
 		)
 	);
 
-	$sent = wp_mail( get_option( 'admin_email' ), $subject, $body );
+	$sent = wp_mail( designstack_core_curator_email(), $subject, $body );
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- факт отправки письма нужен в журнале.
