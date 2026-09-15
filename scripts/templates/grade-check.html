@@ -1,0 +1,407 @@
+<title>Проверка грейда</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
+<style>
+  :root {
+    --page: #f2f5f6; --sheet: #ffffff; --ink: #14191b; --ink-2: #566165; --muted: #7d888c;
+    --hair: #dde4e6; --hair-soft: #e9eeef; --accent: #036b7d; --accent-soft: #e2f2f5;
+    --flag: #9c6900; --flag-soft: #fdf3e3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --page: #0b0e0f; --sheet: #14191a; --ink: #eef2f3; --ink-2: #a9b4b8; --muted: #7f8a8e;
+      --hair: #232a2c; --hair-soft: #1c2223; --accent: #57c2d6; --accent-soft: #10292e;
+      --flag: #d9a33f; --flag-soft: #2a2213;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page: #0b0e0f; --sheet: #14191a; --ink: #eef2f3; --ink-2: #a9b4b8; --muted: #7f8a8e;
+    --hair: #232a2c; --hair-soft: #1c2223; --accent: #57c2d6; --accent-soft: #10292e;
+    --flag: #d9a33f; --flag-soft: #2a2213;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.6 "IBM Plex Sans", system-ui, sans-serif; }
+  .wrap { max-width: 780px; margin: 0 auto; padding-inline: 20px; padding-block: 0 72px; }
+
+  .eyebrow { font: 500 12px/1.4 "IBM Plex Sans", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+  h1 { font: 700 32px/1.15 "Source Serif 4", Georgia, serif; letter-spacing: -.01em; margin: 0 0 12px; text-wrap: balance; }
+  h2 { font: 700 22px/1.25 "Source Serif 4", Georgia, serif; margin: 0 0 6px; text-wrap: balance; }
+  p { margin: 0 0 12px; color: var(--ink-2); max-width: 66ch; }
+  p.lead { color: var(--ink); font-size: 17px; }
+  header.top { padding-block: 40px 4px; }
+  section { margin-top: 36px; }
+  .num { display: inline-block; font: 500 12px/1 "IBM Plex Sans", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  code { font: 400 13.5px/1 "IBM Plex Mono", ui-monospace, monospace; background: var(--hair-soft); border-radius: 4px; padding: 2px 5px; }
+
+  .card { border: 1px solid var(--hair); border-radius: 12px; background: var(--sheet); padding: 22px 24px; margin-top: 18px; }
+  @media (max-width: 480px) { .card { padding: 18px 16px; } }
+
+  .track { height: 5px; border-radius: 3px; background: var(--hair-soft); overflow: hidden; margin-bottom: 14px; }
+  .track > i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 3px; transition: width .2s ease; }
+  .meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font: 500 12.5px/1.4 "IBM Plex Sans", sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+
+  .q-name { font: 700 22px/1.25 "Golos Text", system-ui, sans-serif; margin: 0 0 4px; letter-spacing: -.01em; }
+  .q-hint { font: 400 14.5px/1.5 "Golos Text", sans-serif; color: var(--ink-2); margin: 0 0 16px; max-width: 60ch; }
+  .q-ask { font: 600 15px/1.4 "Golos Text", sans-serif; color: var(--ink); margin: 0 0 8px; }
+
+  .opts { display: flex; flex-direction: column; font-family: "Golos Text", system-ui, sans-serif; }
+  .opt { display: flex; gap: 11px; align-items: flex-start; padding: 11px 12px; border: 1px solid transparent; border-radius: 8px; cursor: pointer; }
+  .opt:hover { background: var(--hair-soft); }
+  .opt input { accent-color: var(--accent); width: 18px; height: 18px; margin: 2px 0 0; flex: none; cursor: pointer; }
+  .opt span { font-size: 15.5px; line-height: 1.45; }
+  .opt.on { border-color: var(--accent); background: var(--accent-soft); }
+
+  .nav { display: flex; gap: 10px; align-items: center; margin-top: 18px; flex-wrap: wrap; }
+  .btn { border: 1px solid transparent; border-radius: 7px; min-height: 40px; padding-inline: 18px; font: 600 15px "Golos Text", sans-serif; cursor: pointer; background: var(--accent); color: var(--page); }
+  .btn:disabled { opacity: .45; cursor: default; }
+  .btn--ghost { background: transparent; border-color: var(--hair); color: var(--ink-2); }
+  .btn--ghost:hover { border-color: var(--muted); color: var(--ink); }
+  .nav .hint { font-size: 13.5px; color: var(--muted); }
+
+  .verdict { border: 1px solid var(--accent); border-radius: 12px; background: var(--accent-soft); padding: 20px 24px; }
+  .verdict .lbl { font: 500 12.5px/1 "IBM Plex Sans", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .verdict .big { font: 700 30px/1.2 "Source Serif 4", Georgia, serif; margin: 8px 0 6px; color: var(--ink); }
+  .verdict p { margin: 0; color: var(--ink-2); }
+
+  .rows { margin-top: 18px; display: flex; flex-direction: column; gap: 1px; background: var(--hair); border: 1px solid var(--hair); border-radius: 10px; overflow: hidden; }
+  .row { background: var(--sheet); padding: 11px 16px; display: grid; grid-template-columns: 1fr 110px 92px; gap: 12px; align-items: center; }
+  @media (max-width: 560px) { .row { grid-template-columns: 1fr 80px; } .row .bar { display: none; } }
+  .row .nm { font-size: 15px; }
+  .row .bar { height: 8px; border-radius: 3px; background: var(--hair-soft); overflow: hidden; }
+  .row .bar > i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+  .row .gr { text-align: right; font: 600 13.5px "IBM Plex Sans", sans-serif; color: var(--accent); }
+  .row .gr.none { color: var(--muted); font-weight: 400; }
+
+  .plan { margin-top: 18px; border: 1px solid var(--hair); border-radius: 10px; background: var(--sheet); padding: 16px 20px; }
+  .plan h3 { font: 600 16px/1.3 "IBM Plex Sans", sans-serif; margin: 0 0 4px; }
+  .plan ul { margin: 10px 0 0; padding-left: 20px; }
+  .plan li { font-size: 15px; color: var(--ink-2); margin: 5px 0; }
+  .plan li b { color: var(--ink); font-weight: 600; }
+
+  details.how { margin-top: 16px; border: 1px solid var(--hair); border-radius: 10px; background: var(--sheet); }
+  details.how > summary { cursor: pointer; list-style: none; padding: 13px 16px; font: 500 14.5px "IBM Plex Sans", sans-serif; color: var(--ink-2); }
+  details.how > summary::-webkit-details-marker { display: none; }
+  details.how > summary::before { content: "▸ "; color: var(--muted); }
+  details.how[open] > summary::before { content: "▾ "; }
+  details.how .body { padding: 4px 16px 14px; border-top: 1px solid var(--hair); max-height: 460px; overflow-y: auto; }
+  .maptbl { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 6px; }
+  .maptbl td { padding: 6px 0; border-top: 1px solid var(--hair-soft); vertical-align: top; color: var(--muted); }
+  .maptbl td:last-child { text-align: right; white-space: nowrap; }
+  .maptbl tr.picked td { color: var(--ink); }
+  .maptbl tr.picked td:last-child { color: var(--accent); font-weight: 600; }
+  .how h4 { font: 600 15px "Golos Text", sans-serif; margin: 16px 0 0; }
+
+  .note { border: 1px solid var(--hair); border-left: 3px solid var(--flag); background: var(--flag-soft); border-radius: 8px; padding: 14px 18px; margin-top: 16px; }
+  .note p:last-child { margin-bottom: 0; }
+  .note b { color: var(--ink); }
+  .plain { border: 1px solid var(--hair); border-radius: 10px; background: var(--sheet); padding: 18px 20px; }
+  .plain > p:last-child { margin-bottom: 0; }
+
+  footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--hair); font-size: 13.5px; color: var(--muted); }
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <p class="eyebrow">Прототип · 15 сентября 2026</p>
+  <h1>Проверка грейда</h1>
+  <p class="lead">{{SKILLS}} вопросов по {{AREAS}} областям: по одному на навык. В вопросах нет ни «Junior», ни «Middle» — выбираешь то, что про тебя правда, а грейд считается в конце по всем ответам сразу.</p>
+</header>
+
+<section id="start">
+  <div class="card">
+    <h2>Прежде чем начать</h2>
+    <p>Вопросы — о сделанной работе, а не о том, что знаешь в теории. Если навык не трогал, первый вариант так и говорит: «не делал». Это нормальный ответ, он тоже считается.</p>
+    <p>Результат — ориентир по нашей карте, а не грейд вместо работодателя: в разных компаниях ступеней от четырёх до десяти. Ответы остаются в браузере и никуда не уходят.</p>
+    <div class="nav">
+      <button class="btn" id="go" type="button">Начать</button>
+      <span class="hint" id="resume" hidden>Есть незаконченная попытка — продолжим с того же места</span>
+    </div>
+  </div>
+</section>
+
+<section id="quiz" hidden>
+  <div class="card">
+    <div class="track"><i id="bar"></i></div>
+    <div class="meta"><span id="stepOf"></span><span id="areaOf"></span></div>
+    <h2 class="q-name" id="qName"></h2>
+    <p class="q-hint" id="qHint"></p>
+    <p class="q-ask">Отметь самое сильное, что про тебя правда:</p>
+    <div class="opts" id="opts"></div>
+    <div class="nav">
+      <button class="btn" id="next" type="button" disabled>Дальше</button>
+      <button class="btn btn--ghost" id="back" type="button" hidden>Назад</button>
+      <span class="hint">Ответ можно поменять кнопкой «Назад»</span>
+    </div>
+  </div>
+</section>
+
+<section id="done" hidden>
+  <div class="num">Результат</div>
+  <h2>Что получилось</h2>
+  <div class="verdict">
+    <div class="lbl">Ориентир по нашей карте</div>
+    <div class="big" id="grade">—</div>
+    <p id="gradeWhy"></p>
+  </div>
+
+  <div class="rows" id="rows"></div>
+
+  <div class="plan">
+    <h3>С чего расти дальше</h3>
+    <p style="margin:0">Навыки, которые отстают от ориентира сильнее всего. В готовой проверке к каждому подставятся материалы каталога и уроки сайта.</p>
+    <ul id="planList"></ul>
+  </div>
+
+  <details class="how">
+    <summary>Показать, как считалось</summary>
+    <div class="body">
+      <p>Служебная часть: в готовой проверке её видит только редакция. Здесь она открыта, чтобы было видно, какой вариант какому грейду соответствует.</p>
+      <div id="howBody"></div>
+    </div>
+  </details>
+
+  <div class="nav">
+    <button class="btn btn--ghost" id="again" type="button">Пройти заново</button>
+  </div>
+</section>
+
+<section>
+  <div class="num">Открыто</div>
+  <h2>Что решить до вёрстки</h2>
+  <div class="plain">
+    <p><b>Длина.</b> {{SKILLS}} вопросов — это десять-пятнадцать минут. Если окажется много, режем двумя способами: спрашивать область целиком одним вопросом и углубляться только там, где ответ высокий, или разбить проверку на части с сохранением между заходами.</p>
+    <p><b>Порог ориентира.</b> Сейчас грейд — тот, что взят не меньше чем в 70 % навыков (P23). Цифра рабочая и проверяется на живых ответах.</p>
+    <p><b>Что дальше.</b> План пока показывает только названия навыков: подстановка материалов заработает, когда 140 записей каталога получат разметку навыком.</p>
+  </div>
+</section>
+
+<footer>
+  DesignStack · прототип проверки грейда · собирается скриптом <code>scripts/render_skills_map.py</code> из <code>docs/skills-map/map.md</code>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var QUESTIONS = {{DATA}};
+  var GRADES = { junior: "Junior", middle: "Middle", senior: "Senior" };
+  var ORDER = ["junior", "middle", "senior"];
+  var KEY = "ds-grade-check-v1";
+
+  var answers = QUESTIONS.map(function () { return null; });
+  var at = 0;
+
+  var optsEl = document.getElementById("opts");
+  var nextEl = document.getElementById("next");
+  var backEl = document.getElementById("back");
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(answers)); } catch (e) { /* хранилище недоступно — проверка работает и так */ }
+  }
+
+  function load() {
+    try {
+      var kept = JSON.parse(localStorage.getItem(KEY) || "null");
+      if (kept && kept.length === QUESTIONS.length) { answers = kept; }
+    } catch (e) { /* пусто — начинаем сначала */ }
+  }
+
+  function rankOf(i) {
+    if (answers[i] === null) { return 0; }
+    var grade = QUESTIONS[i].opts[answers[i]][0];
+    return grade ? ORDER.indexOf(grade) + 1 : 0;
+  }
+
+  function draw() {
+    var q = QUESTIONS[at];
+    document.getElementById("stepOf").textContent = "Вопрос " + (at + 1) + " из " + QUESTIONS.length;
+    document.getElementById("areaOf").textContent = q.area;
+    document.getElementById("bar").style.width = Math.round(at / QUESTIONS.length * 100) + "%";
+    document.getElementById("qName").textContent = q.name;
+    document.getElementById("qHint").textContent = q.hint;
+    optsEl.textContent = "";
+
+    q.opts.forEach(function (pair, i) {
+      var id = "q" + at + "o" + i;
+      var row = document.createElement("label");
+      row.className = "opt" + (answers[at] === i ? " on" : "");
+      row.setAttribute("for", id);
+
+      var input = document.createElement("input");
+      input.type = "radio";
+      input.name = "q" + at;
+      input.id = id;
+      input.checked = answers[at] === i;
+      input.addEventListener("change", function () {
+        answers[at] = i;
+        save();
+        draw();
+      });
+
+      var text = document.createElement("span");
+      text.textContent = pair[1];
+
+      row.appendChild(input);
+      row.appendChild(text);
+      optsEl.appendChild(row);
+    });
+
+    nextEl.disabled = answers[at] === null;
+    nextEl.textContent = at === QUESTIONS.length - 1 ? "Показать результат" : "Дальше";
+    backEl.hidden = at === 0;
+  }
+
+  function finish() {
+    var counts = { junior: 0, middle: 0, senior: 0 };
+    var areas = [];
+    var byArea = {};
+
+    QUESTIONS.forEach(function (q, i) {
+      var rank = rankOf(i);
+      ORDER.forEach(function (g, gi) { if (rank >= gi + 1) { counts[g]++; } });
+
+      if (!byArea[q.area]) {
+        byArea[q.area] = { name: q.area, sum: 0, n: 0, low: [] };
+        areas.push(byArea[q.area]);
+      }
+
+      byArea[q.area].sum += rank;
+      byArea[q.area].n++;
+    });
+
+    var need = Math.ceil(QUESTIONS.length * 0.7);
+    var grade = "";
+
+    for (var i = ORDER.length - 1; i >= 0; i--) {
+      if (counts[ORDER[i]] >= need) { grade = ORDER[i]; break; }
+    }
+
+    document.getElementById("grade").textContent = grade ? GRADES[grade] : "Ниже Junior";
+    document.getElementById("gradeWhy").textContent = grade
+      ? "Junior взят в " + counts.junior + " навыках, Middle в " + counts.middle + ", Senior в " + counts.senior
+        + " — из " + QUESTIONS.length + ". Ориентир ставится по ступени, взятой не меньше чем в " + need + " навыках."
+      : "До порога в " + need + " навыков не хватило: Junior взят в " + counts.junior + ". Это не приговор, а карта того, с чего начинать.";
+
+    var rows = document.getElementById("rows");
+    rows.textContent = "";
+
+    areas.forEach(function (ar) {
+      var avg = ar.sum / ar.n;
+      var row = document.createElement("div");
+      row.className = "row";
+
+      var nm = document.createElement("span");
+      nm.className = "nm";
+      nm.textContent = ar.name;
+
+      var bar = document.createElement("span");
+      bar.className = "bar";
+      var fill = document.createElement("i");
+      fill.style.width = Math.round(avg / 3 * 100) + "%";
+      bar.appendChild(fill);
+
+      var gr = document.createElement("span");
+      var lvl = Math.floor(avg);
+      gr.className = "gr" + (lvl ? "" : " none");
+      gr.textContent = lvl ? GRADES[ORDER[lvl - 1]] : "нет ступени";
+
+      row.appendChild(nm);
+      row.appendChild(bar);
+      row.appendChild(gr);
+      rows.appendChild(row);
+    });
+
+    var target = grade ? ORDER.indexOf(grade) + 1 : 1;
+    var weak = QUESTIONS
+      .map(function (q, i) { return { q: q, rank: rankOf(i) }; })
+      .filter(function (x) { return x.rank < target; })
+      .sort(function (a, b) { return a.rank - b.rank; })
+      .slice(0, 8);
+
+    var list = document.getElementById("planList");
+    list.textContent = "";
+
+    if (!weak.length) {
+      var li = document.createElement("li");
+      li.textContent = "Ровный профиль: навыков ниже ориентира нет. Тогда план строится от следующей ступени.";
+      list.appendChild(li);
+    }
+
+    weak.forEach(function (x) {
+      var li = document.createElement("li");
+      var b = document.createElement("b");
+      b.textContent = x.q.name;
+      li.appendChild(b);
+      li.appendChild(document.createTextNode(" — " + x.q.area.toLowerCase()));
+      list.appendChild(li);
+    });
+
+    var how = document.getElementById("howBody");
+    how.textContent = "";
+
+    QUESTIONS.forEach(function (q, qi) {
+      var h = document.createElement("h4");
+      h.textContent = q.name;
+      how.appendChild(h);
+
+      var tbl = document.createElement("table");
+      tbl.className = "maptbl";
+
+      q.opts.forEach(function (pair, i) {
+        var tr = document.createElement("tr");
+        if (i === answers[qi]) { tr.className = "picked"; }
+        var c1 = document.createElement("td");
+        c1.textContent = (i === answers[qi] ? "→ " : "") + pair[1];
+        var c2 = document.createElement("td");
+        c2.textContent = pair[0] ? GRADES[pair[0]] : "—";
+        tr.appendChild(c1);
+        tr.appendChild(c2);
+        tbl.appendChild(tr);
+      });
+
+      how.appendChild(tbl);
+    });
+
+    document.getElementById("quiz").hidden = true;
+    document.getElementById("done").hidden = false;
+    window.scrollTo(0, 0);
+  }
+
+  document.getElementById("go").addEventListener("click", function () {
+    document.getElementById("start").hidden = true;
+    document.getElementById("quiz").hidden = false;
+    var first = answers.indexOf(null);
+    at = first === -1 ? 0 : first;
+    draw();
+    window.scrollTo(0, 0);
+  });
+
+  nextEl.addEventListener("click", function () {
+    if (at === QUESTIONS.length - 1) { finish(); return; }
+    at++;
+    draw();
+    window.scrollTo(0, 0);
+  });
+
+  backEl.addEventListener("click", function () {
+    if (at > 0) { at--; draw(); window.scrollTo(0, 0); }
+  });
+
+  document.getElementById("again").addEventListener("click", function () {
+    answers = QUESTIONS.map(function () { return null; });
+    at = 0;
+    save();
+    document.getElementById("done").hidden = true;
+    document.getElementById("quiz").hidden = false;
+    draw();
+    window.scrollTo(0, 0);
+  });
+
+  load();
+
+  if (answers.some(function (v) { return v !== null; })) {
+    document.getElementById("resume").hidden = false;
+  }
+})();
+</script>

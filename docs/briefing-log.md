@@ -1,6 +1,6 @@
 # Лог брифинга DesignSite
 
-Директива: `02_directive_briefing.md`. Исследование: `docs/research/competitors.md`.
+Директива: `навык `briefing``. Исследование: `docs/research/competitors.md`.
 
 ## Фаза 0 — исследование рынка (10.09.2026)
 

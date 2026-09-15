@@ -1,35 +1,35 @@
-# Конвейер DesignStack: карта директив
+# Конвейер DesignStack: карта этапов
 
 > Версия 2.0 от 10.09.2026. Конвейер переработан из «приложение + Figma + React» в «сайт-каталог на WordPress, прототип сразу в коде на локальном сервере». Исходные директивы v1 лежат в `_archive/directives_v1/`.
-> Запуск любой директивы: `/directive NN` или «выполни директиву NN». Идём поэтапно: одна директива — один этап — апрув — следующая.
+> Каждый этап живёт навыком в `.claude/skills/`: навык поднимается по описанию или вызывается по имени — `/catalog-content digest`. Идём поэтапно: один этап — апрув — следующий. Директивы, из которых выросли навыки, лежат в `_archive/directives_v2/`.
 
 ## Что строим
 
 Русскоязычный живой каталог ресурсов для UX/UI/продуктовых дизайнеров (см. `docs/brief.md`, утверждён 10.09.2026). Стек: WordPress 7.x, PHP 8.3, блочная тема `designstack`, плагин `designstack-core` (post type `resource`, 4 типа, таксономии, поля), локально SQLite + `php -S`, продакшен — российский хостинг с MySQL. Figma в основном пути не используется: прототип, дизайн-система и страницы собираются сразу в коде и проверяются на `http://localhost:8080`.
 
-## Этапы и директивы
+## Этапы и навыки
 
-| # | Директива | Этап | Вход | Выход | Статус |
+| # | Навык | Этап | Вход | Выход | Статус |
 |---|---|---|---|---|---|
-| 01 | `01_principles.md` | Принципы работы агента (не директива, подключается в `CLAUDE.md`) | — | — | ✅ |
-| 02 | `02_directive_briefing.md` | Рекурсивный бриф продукта | вводные заказчика | `docs/brief.md`, `docs/briefing-log.md`, `docs/research/competitors.md` | ✅ 1.1 утверждён 11.09.2026 |
-| 03 | `03_directive_research.md` | Конкурентный анализ: SWOT, матрица функций, UX-паттерны каталогов, эвристики | brief, competitors | `docs/research/competitive_analysis.md`, `docs/research/sources/<slug>.md`, опц. `deep_research_prompt.md` / `deep_research_results.md` | ✅ 10.09.2026 |
-| 04 | `04_directive_personas.md` | Прото-персоны с инсайтами для дизайна | brief, research | `docs/personas.md` | ✅ 10.09.2026 |
-| 05 | `05_directive_interview.md` | Симуляция интервью с персоной (по запросу) | personas | `docs/interviews/<persona-slug>.md` | ⏭ пропущен 10.09.2026 (D21) |
-| 06 | `06_directive_spec.md` | Функции → MoSCoW → ТЗ с user stories и критериями приёмки | brief, research, personas | `docs/features.md`, `docs/spec.md` | ✅ 11.09.2026 |
-| 07 | `07_directive_sitemap.md` | Инвентарь страниц, дерево URL, шаблоны WP, user flows | spec | `docs/ia/pages-inventory.md`, `sitemap.md`, `flows/*.mmd`, `open-questions.md` | ✅ 11.09.2026 |
-| 08 | `08_directive_wireframes.md` | Текстовые wireframes → серый (grey-box) прототип в теме | sitemap | `docs/ia/wireframes/<page>.md`, `_index.md`, лист решений (Artifact, ссылка в `_index.md`), grey-box тема, `scripts/screenshot.py` | ✅ 11.09.2026 (D40–D46) |
-| 09 | `09_directive_brand.md` | Название и домен, визуальное направление, правила изображений | brief, wireframes | `docs/brand/naming.md`, `docs/brand/brand-direction.md` | ✅ 11.09.2026 (D38, D50) |
-| 10 | `10_directive_tokens.md` | Дизайн-токены двумя слоями → `theme.json`, тёмная тема, контракт | brand-direction | `docs/ds/foundation.md`, `theme.json`, `assets/css/theme-dark.css`, `.claude/rules/wp-theme.md` | ✅ 12.09.2026 (D51, D52) |
-| 11 | `11_directive_patterns.md` | Паттерны и блоки со всеми вариантами и состояниями, витрина `/styleguide/` | foundation, wireframes | `docs/ds/components.md`, `patterns/*.php`, `parts/*.html`, `assets/css/patterns.css` | ✅ 12.09.2026 (D53–D58) |
-| 12 | `12_directive_core_plugin.md` | Плагин `designstack-core`: модель данных, блоки, форма, демо-контент | brief §5, spec | `plugins/designstack-core/`, `scripts/seed.py` | ✅ 12.09.2026 (D59–D67) |
-| 13 | `13_directive_templates.md` | Сборка страниц из паттернов (composition map → шаблон) | wireframes, components, plugin | `docs/ds/screens/<page>.md`, `_index.md`, лист решений (Artifact, ссылка в `_index.md`), `templates/*.html` | ✅ 12.09.2026 (D68–D79) |
-| 14 | `14_directive_behavior.md` | Оживление: навигация, фильтры, поиск, пагинация, формы, состояния | templates, spec | рабочие фильтры/формы, `## Edge cases` в `docs/ds/screens/*.md` | ✅ 14.09.2026 (D80–D86) |
-| 15 | `15_directive_site_audit.md` | Аудит: консистентность, хардкод, состояния, Нильсен, a11y, адаптив, SEO | всё выше | `docs/audit/site_audit_<date>.md` | ✅ 14.09.2026 (D87–D90) |
-| 16 | `16_directive_content.md` | Наполнение каталога, подборки, дайджест, обзоры, перепроверка ссылок | brief §5, plugin | записи `resource` и `post`, `docs/content/queue.md`, `scripts/check_links.py` | ✅ 14.09.2026 (D91–D118) |
-| 17 | `17_directive_seo_analytics.md` | SEO-разметка, Яндекс Метрика, цели по JTBD, гипотезы, раунды | spec, templates | `docs/analytics/seo-map.md`, `goals.md`, `rounds/<date>.md` | ✅ 14.09.2026 (D119–D123), раунды — после деплоя |
-| 18 | `18_directive_repo.md` | Репозиторий GitHub: что заливаем, README, `PROJECT.md` | тема, плагин, docs | репозиторий, `README.md`, `PROJECT.md` | ✅ 14.09.2026 (D124–D126) |
-| 19 | `19_directive_deploy.md` | Деплой на российский хостинг: SQLite → MySQL, перенос, бэкапы, чеклист | repo, hosting | живой сайт, обновлённый `PROJECT.md` | ✅ 14.09.2026 (D127–D129), https://designstack.ru |
+| 01 | `01_principles.md` | Принципы работы агента (не навык, подключается в `CLAUDE.md`) | — | — | ✅ |
+| 02 | `briefing` | Рекурсивный бриф продукта | вводные заказчика | `docs/brief.md`, `docs/briefing-log.md`, `docs/research/competitors.md` | ✅ 1.1 утверждён 11.09.2026 |
+| 03 | `competitor-research` | Конкурентный анализ: SWOT, матрица функций, UX-паттерны каталогов, эвристики | brief, competitors | `docs/research/competitive_analysis.md`, `docs/research/sources/<slug>.md`, опц. `deep_research_prompt.md` / `deep_research_results.md` | ✅ 10.09.2026 |
+| 04 | `personas` | Прото-персоны с инсайтами для дизайна | brief, research | `docs/personas.md` | ✅ 10.09.2026 |
+| 05 | `persona-interview` | Симуляция интервью с персоной (по запросу) | personas | `docs/interviews/<persona-slug>.md` | ⏭ пропущен 10.09.2026 (D21) |
+| 06 | `product-spec` | Функции → MoSCoW → ТЗ с user stories и критериями приёмки | brief, research, personas | `docs/features.md`, `docs/spec.md` | ✅ 11.09.2026 |
+| 07 | `sitemap` | Инвентарь страниц, дерево URL, шаблоны WP, user flows | spec | `docs/ia/pages-inventory.md`, `sitemap.md`, `flows/*.mmd`, `open-questions.md` | ✅ 11.09.2026 |
+| 08 | `wireframes` | Текстовые wireframes → серый (grey-box) прототип в теме | sitemap | `docs/ia/wireframes/<page>.md`, `_index.md`, лист решений (Artifact, ссылка в `_index.md`), grey-box тема, `scripts/screenshot.py` | ✅ 11.09.2026 (D40–D46) |
+| 09 | `brand` | Название и домен, визуальное направление, правила изображений | brief, wireframes | `docs/brand/naming.md`, `docs/brand/brand-direction.md` | ✅ 11.09.2026 (D38, D50) |
+| 10 | `design-tokens` | Дизайн-токены двумя слоями → `theme.json`, тёмная тема, контракт | brand-direction | `docs/ds/foundation.md`, `theme.json`, `assets/css/theme-dark.css`, `.claude/rules/wp-theme.md` | ✅ 12.09.2026 (D51, D52) |
+| 11 | `patterns-library` | Паттерны и блоки со всеми вариантами и состояниями, витрина `/styleguide/` | foundation, wireframes | `docs/ds/components.md`, `patterns/*.php`, `parts/*.html`, `assets/css/patterns.css` | ✅ 12.09.2026 (D53–D58) |
+| 12 | `core-plugin` | Плагин `designstack-core`: модель данных, блоки, форма, демо-контент | brief §5, spec | `plugins/designstack-core/`, `scripts/seed.py` | ✅ 12.09.2026 (D59–D67) |
+| 13 | `page-templates` | Сборка страниц из паттернов (composition map → шаблон) | wireframes, components, plugin | `docs/ds/screens/<page>.md`, `_index.md`, лист решений (Artifact, ссылка в `_index.md`), `templates/*.html` | ✅ 12.09.2026 (D68–D79) |
+| 14 | `site-behavior` | Оживление: навигация, фильтры, поиск, пагинация, формы, состояния | templates, spec | рабочие фильтры/формы, `## Edge cases` в `docs/ds/screens/*.md` | ✅ 14.09.2026 (D80–D86) |
+| 15 | `site-audit` | Аудит: консистентность, хардкод, состояния, Нильсен, a11y, адаптив, SEO | всё выше | `docs/audit/site_audit_<date>.md` | ✅ 14.09.2026 (D87–D90) |
+| 16 | `catalog-content` | Наполнение каталога, подборки, дайджест, обзоры, перепроверка ссылок | brief §5, plugin | записи `resource` и `post`, `docs/content/queue.md`, `scripts/check_links.py` | ✅ 14.09.2026 (D91–D118) |
+| 17 | `seo-analytics` | SEO-разметка, Яндекс Метрика, цели по JTBD, гипотезы, раунды | spec, templates | `docs/analytics/seo-map.md`, `goals.md`, `rounds/<date>.md` | ✅ 14.09.2026 (D119–D123), раунды — после деплоя |
+| 18 | `repo` | Репозиторий GitHub: что заливаем, README, `PROJECT.md` | тема, плагин, docs | репозиторий, `README.md`, `PROJECT.md` | ✅ 14.09.2026 (D124–D126) |
+| 19 | `deploy` | Деплой на российский хостинг: SQLite → MySQL, перенос, бэкапы, чеклист | repo, hosting | живой сайт, обновлённый `PROJECT.md` | ✅ 14.09.2026 (D127–D129), https://designstack.ru |
 
 Порядок жёсткий для 02 → 06 → 07 → 08 → 10 → 11 → 12 → 13 → 14; 03–05 и 09 можно двигать, 15–17 запускаются повторно после каждой итерации, 18–19 — перед запуском.
 
@@ -72,9 +72,9 @@
 - `PROJECT.md` — состояние среды: репозиторий, хостинг, живой URL, счётчик Метрики. Без секретов.
 - `.tmp/` — черновики и промежуточные отчёты, можно удалять.
 
-## Единый скелет директивы
+## Единый скелет навыка этапа
 
-Каждая директива 03–19 имеет разделы в этом порядке: **Задача** · **Когда применять** · **Предусловие** (какие файлы должны существовать; если нет — куда отправить) · **Роль** · **Ключевой принцип** · **Граница** (что директива НЕ делает) · **Фазы** (нумерованные, с точками апрува) · **Формат результата** (точные пути) · **Self-check** · **Финал** (что вывести пользователю, в код-блоке) · **Грабли** · **Правила**. Раздел **Self-check** формулируется как проверяемое состояние и совпадает с воротами этапа из таблицы выше.
+Навык каждого этапа 03–19 имеет разделы в этом порядке: **Задача** · **Когда применять** · **Предусловие** (какие файлы должны существовать; если нет — куда отправить) · **Роль** · **Ключевой принцип** · **Граница** (что директива НЕ делает) · **Фазы** (нумерованные, с точками апрува) · **Формат результата** (точные пути) · **Self-check** · **Финал** (что вывести пользователю, в код-блоке) · **Грабли** · **Правила**. Раздел **Self-check** формулируется как проверяемое состояние и совпадает с воротами этапа из таблицы выше.
 
 ## Общие правила конвейера
 
@@ -87,7 +87,7 @@
 7. **Апрув через `AskUserQuestion`,** не более 3–4 вопросов за раз, с рекомендацией. «Решай сам» = допущение, записанное в артефакт.
 8. **Read-only по умолчанию** для аудитов и сканирований. Изменения — только с флагом `--fix` и явным апрувом каждого фикса.
 9. **Секреты транзиентны:** пароли хостинга, токены — не в файлы, не в git, не в `PROJECT.md`.
-10. **Повторный запуск = синхронизация,** а не пересоздание: директива читает, что уже есть, и дописывает/обновляет.
+10. **Повторный запуск = синхронизация,** а не пересоздание: навык читает, что уже есть, и дописывает/обновляет.
 11. **Решение принимается до вёрстки, а не в собранной странице.** Нет апрува заказчика — нет вёрстки. Лист решений (Сейчас / Предлагаю / Рынок) собирает навык `decision-board` и публикует через `Artifact` для просмотра; апрув заказчик даёт в чате, ответ записывается в карточку страницы. Правка листа стоит минуты, правка собранной страницы — день.
 12. **Разбор идёт по классу.** Заказчик показал одну ошибку — сформулируй класс ошибки, заведи правило со способом проверки и почини все места этого класса, а не то, куда показали пальцем. Правило без способа проверки — это пожелание.
 13. **Проверка глазами.** Ноль замечаний автоматики не значит, что страница хорошая: читаются ли подписи, не слиплись ли группы, видно ли, что кликается, что происходит с длинным текстом и пустым списком. Чеклист живёт в карточке страницы `docs/ds/screens/<page>.md` и дополняется после каждого разбора.

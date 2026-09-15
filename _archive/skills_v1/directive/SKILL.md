@@ -1,6 +1,6 @@
 ---
-name: directive
-description: Запустить директиву конвейера DesignStack по номеру (например «/directive 07» или «выполни директиву 07»). Читает карту 00_pipeline.md, проверяет предусловия и выполняет директиву поэтапно с апрувами.
+name: "directive"
+description: "Запустить директиву конвейера DesignStack по номеру (например «/directive 07» или «выполни директиву 07»). Читает карту 00_pipeline.md, проверяет предусловия и выполняет директиву поэтапно с апрувами."
 argument-hint: "<NN> [аргументы директивы]"
 allowed-tools: Read Write Edit Bash Glob Grep WebSearch WebFetch AskUserQuestion Agent
 ---

@@ -30,7 +30,7 @@
 	<div class="ds-field is-error">
 		<label class="ds-field__label" for="ds-field-url-error">Адрес ресурса</label>
 		<input class="ds-field__control" id="ds-field-url-error" type="url" name="resource_url_error" value="excalidraw com" aria-invalid="true" aria-describedby="ds-field-url-error-message">
-		<p class="ds-field__error" id="ds-field-url-error-message"><?php echo designstack_icon( 'circle-x' ); ?>Это не похоже на адрес сайта. Проверь, нет ли пробела или опечатки, например: https://excalidraw.com</p>
+		<p class="ds-field__error" id="ds-field-url-error-message"><?php echo designstack_icon( 'circle-x' ); ?>Это не похоже на адрес сайта. Проверьте, нет ли пробела или опечатки, например: https://excalidraw.com</p>
 	</div>
 	<div class="ds-field ds-field--checkbox">
 		<input type="checkbox" id="ds-field-consent" name="resource_consent">

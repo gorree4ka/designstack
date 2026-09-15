@@ -33,7 +33,7 @@ python scripts/seed.py                                                          
 | `wordpress/wp-content/plugins/designstack-core/` | тип записи `resource`, поля, блоки, фильтры, SEO, разметка, Метрика |
 | `scripts/` | среда (`setup`, `start`, `stop`, `reset`), наполнение, проверки |
 | `docs/` | бриф, ТЗ, дизайн-система, аналитика, журнал решений |
-| `NN_directive_*.md` | директивы конвейера, карта — `00_pipeline.md` |
+| `.claude/` | навыки этапов, субагенты, правила кода и документов |
 | `PROJECT.md` | состояние среды: репозиторий, хостинг, домен, счётчик |
 
 В git попадает только своё. Ядро WordPress, портативный PHP, база, загрузки и `.env` восстанавливаются `scripts/setup.py`.
@@ -45,13 +45,17 @@ python scripts/check_tokens.py    # цвета и размеры только и
 python scripts/check_voice.py     # тексты сайта без служебного языка
 python scripts/check_links.py     # ссылки каталога живы
 python scripts/screenshot.py <url>
+
+# Цены и доступ — только российским взглядом: обе машины проекта выходят в сеть из Казахстана
+ssh -f -N -D 1081 -o ExitOnForwardFailure=yes designstack   # туннель через сервер в РФ
+python scripts/ru_browser_prices.py .tmp/список.txt         # браузер здесь, адрес российский
 ```
 
 ## Как ведётся работа
 
 Проект собирается по конвейеру из девятнадцати этапов — от брифа до деплоя. Карта этапов и их состояние — `00_pipeline.md`, требования — `docs/brief.md`, журнал принятых решений с причинами — `docs/DECISIONS.md`.
 
-Запуск этапа агентом: `/directive NN`. Правила работы — `CLAUDE.md` и `01_principles.md`.
+Каждый этап живёт навыком в `.claude/skills/`: агент поднимает нужный сам по описанию задачи, а вызвать можно по имени — `/catalog-content digest`. Правила работы — `CLAUDE.md` и `01_principles.md`.
 
 ## Лицензия
 

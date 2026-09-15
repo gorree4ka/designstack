@@ -45,6 +45,16 @@
 					"color": "var(--wp--custom--color--accent-100)"
 				},
 				{
+					"slug": "surface-scrim",
+					"name": "surface-scrim",
+					"color": "var(--wp--custom--color--gray-950)"
+				},
+				{
+					"slug": "text-on-scrim",
+					"name": "text-on-scrim",
+					"color": "var(--wp--custom--color--gray-00)"
+				},
+				{
 					"slug": "text-default",
 					"name": "text-default",
 					"color": "var(--wp--custom--color--gray-900)"
@@ -188,11 +198,14 @@
 				"tile-sm": "40px",
 				"tile-lg": "64px",
 				"header": "64px",
+				"hero": "320px",
+				"hero-narrow": "440px",
 				"sidebar": "280px",
 				"form": "640px",
 				"search-header": "240px",
 				"search-home": "560px",
 				"illustration": "160px",
+				"radar": "420px",
 				"measure": "70ch",
 				"measure-lead": "62ch"
 			},
@@ -202,7 +215,8 @@
 				"base": "1.5"
 			},
 			"letterSpacing": {
-				"tight": "-0.01em"
+				"tight": "-0.01em",
+				"wide": "0.06em"
 			},
 			"duration": {
 				"fast": "150ms",

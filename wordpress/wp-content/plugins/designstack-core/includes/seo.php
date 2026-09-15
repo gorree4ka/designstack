@@ -260,6 +260,16 @@ function designstack_core_current_url(): string {
  * @return string
  */
 function designstack_core_og_image(): string {
+	// У статьи есть своя обложка 1200×630 — она и идёт в превью ссылки. У ресурса изображение
+	// записи это логотип вендора 128×128: и мелко для превью, и чужой знак в нашей карточке.
+	if ( is_singular( 'post' ) && has_post_thumbnail( get_queried_object_id() ) ) {
+		$cover = get_the_post_thumbnail_url( get_queried_object_id(), 'full' );
+
+		if ( $cover ) {
+			return $cover;
+		}
+	}
+
 	$name = 'default';
 
 	if ( is_singular( 'resource' ) ) {

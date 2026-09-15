@@ -208,6 +208,45 @@ function designstack_core_checked_line( int $post_id ): string {
 }
 
 /**
+ * Плитка логотипа: картинка, если она есть у записи, иначе первая буква названия.
+ *
+ * Логотип хранится штатным изображением записи — так его можно поменять в админке
+ * без отдельного поля, а сбор иконок делает `scripts/fetch_logos.py`. Плитка всегда
+ * `aria-hidden`: название ресурса стоит рядом, и читалке значок не нужен (D55).
+ *
+ * @param int    $post_id Идентификатор записи.
+ * @param string $title   Название ресурса.
+ * @param string $extra   Дополнительный класс плитки, например `ds-logo--lg`.
+ * @return string Разметка плитки.
+ */
+function designstack_core_logo( int $post_id, string $title, string $extra = '' ): string {
+	$class = 'ds-logo' . ( $extra ? ' ' . $extra : '' );
+
+	if ( has_post_thumbnail( $post_id ) ) {
+		$img = get_the_post_thumbnail(
+			$post_id,
+			'full',
+			array(
+				'alt'      => '',
+				'loading'  => 'lazy',
+				'decoding' => 'async',
+			)
+		);
+
+		if ( $img ) {
+			return sprintf( '<span class="%s" aria-hidden="true">%s</span>', esc_attr( $class ), $img );
+		}
+	}
+
+	// Буква одна на все плитки: без верхнего регистра строчная «u» у unDraw ломает ряд.
+	return sprintf(
+		'<span class="%s" aria-hidden="true">%s</span>',
+		esc_attr( $class ),
+		esc_html( mb_strtoupper( mb_substr( $title, 0, 1 ) ) )
+	);
+}
+
+/**
  * Уровень заголовка для списка, вставленного в содержимое записи.
  *
  * Куратор ставит список где хочет: сразу под H1 записи или внутри своей секции с H2. Уровень
@@ -271,11 +310,7 @@ function designstack_core_render_card( int $post_id, int $level = 3 ): string {
 	$out = sprintf( '<article class="ds-card%s">', $type ? ' ds-card--' . esc_attr( $type ) : '' );
 
 	$out .= '<div class="ds-card__head">';
-	$out .= sprintf(
-		'<span class="ds-logo" aria-hidden="true">%s</span>',
-		// Буква одна на все плитки: без верхнего регистра строчная «u» у unDraw ломает ряд.
-		esc_html( mb_strtoupper( mb_substr( $title, 0, 1 ) ) )
-	);
+	$out .= designstack_core_logo( $post_id, $title );
 	// Обёртка заголовка — div: <span> внутри себя заголовок не допускает, разметка невалидна.
 	$out .= '<div class="ds-card__titles">';
 	$out .= sprintf(

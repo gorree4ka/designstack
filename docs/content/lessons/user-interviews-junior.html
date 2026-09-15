@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проблемные интервью: урок и готовый сценарий</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 800px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn.solid { background: var(--accent); color: #fff; border-color: transparent; padding: 9px 16px; font-size: 14px; }
+
+  /* good / bad question pairs */
+  .qpair { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--hairline); }
+  .qpair:first-of-type { border-top: none; }
+  .qpair > div { padding: 12px 16px; min-width: 0; }
+  .qpair > div + div { border-left: 1px solid var(--hairline); }
+  @media (max-width: 640px) { .qpair { grid-template-columns: 1fr; } .qpair > div + div { border-left: none; border-top: 1px dashed var(--hairline); } }
+  .q-bad { background: var(--bad-soft); }
+  .q-good { background: var(--good-soft); }
+  .q-mark { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; display: block; margin-bottom: 5px; }
+  .q-bad .q-mark { color: var(--bad); }
+  .q-good .q-mark { color: var(--good); }
+  .q-text { font-size: 14.5px; color: var(--ink); }
+  .q-why { font-size: 13px; color: var(--ink-2); margin-top: 6px; }
+
+  /* quiz */
+  .quiz-q { font-size: 17px; line-height: 1.4; margin: 0 0 16px; min-height: 48px; }
+  .quiz-q em { font-style: normal; border-bottom: 2px solid var(--quote-bar); padding-bottom: 1px; }
+  .quiz-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .quiz-btn { flex: 1 1 200px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 12px 14px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .quiz-btn:hover:not([disabled]) { border-color: var(--accent); }
+  .quiz-btn[disabled] { cursor: default; opacity: .55; }
+  .quiz-btn.chosen-right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .quiz-btn.chosen-wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .quiz-fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .quiz-fb.on { display: block; }
+  .quiz-fb b { display: block; margin-bottom: 4px; }
+  .quiz-bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .quiz-bar .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .quiz-bar .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* record sheet */
+  .sheet { display: grid; grid-template-columns: 1.15fr 1fr; font-size: 14px; }
+  .sheet > div { padding: 14px 16px; min-width: 0; }
+  .sheet > div + div { border-left: 1px solid var(--hairline); }
+  @media (max-width: 640px) { .sheet { grid-template-columns: 1fr; } .sheet > div + div { border-left: none; border-top: 1px solid var(--hairline); } }
+  .sheet h5 { margin: 0 0 10px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  .said { margin: 0 0 12px; padding-left: 11px; border-left: 2px solid var(--quote-bar); color: var(--ink); max-width: none; }
+  .said .t { font: 11.5px ui-monospace, Menlo, monospace; color: var(--muted); display: block; margin-bottom: 2px; }
+  .note { margin: 0 0 12px; font-size: 13.5px; color: var(--ink-2); max-width: none; }
+  .note .tag { display: inline-block; font: 700 10.5px ui-monospace, Menlo, monospace; letter-spacing: .04em; border-radius: 4px; padding: 1px 5px; margin-right: 6px; vertical-align: 1px; }
+  .tag.obs { background: var(--chip); color: var(--accent-deep); }
+  .tag.int { background: var(--warn-soft); color: var(--warn); }
+  .tag.q { background: var(--good-soft); color: var(--good); }
+
+  /* script */
+  .script { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .script-block { border-top: 1px solid var(--hairline); padding: 16px 18px; }
+  .script-block:first-of-type { border-top: none; }
+  .script-block h4 { margin: 0 0 4px; font-size: 15.5px; display: flex; align-items: baseline; gap: 9px; }
+  .script-block h4 .tm { font: 600 11.5px ui-monospace, Menlo, monospace; color: var(--muted); letter-spacing: .03em; white-space: nowrap; }
+  .script-block .aim { font-size: 13px; color: var(--muted); margin: 0 0 10px; max-width: none; }
+  .script-block ul { margin: 0; padding-left: 19px; max-width: none; }
+  .script-block li { margin: 6px 0; font-size: 14.5px; }
+  .script-block li .probe { display: block; font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+  .say { background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 12px 14px; font-size: 14.5px; line-height: 1.55; color: var(--ink); margin: 0 0 4px; max-width: none; }
+  .say + .say { margin-top: 8px; }
+
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv .of { font-weight: 400; opacity: .7; }
+
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Проблемные интервью · урок и готовый сценарий</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · проблемные интервью</p>
+  <div class="levels" aria-label="Уровень темы: Junior, первый из трёх">
+    <span class="lv on">Junior</span>
+    <span class="lv">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Проблемные интервью: как разговаривать с пользователем о его реальном опыте</h1>
+  <p class="lede">Проблемное интервью — это не опрос и не разговор о том, чего человеку хотелось бы. Это реконструкция того, что он делал на самом деле: как решал задачу в последний раз, обо что споткнулся и что предпринял. Цель урока — чтобы после трёх разговоров у тебя на руках был не пересказ «ему вроде понравилось», а список наблюдений, каждое из которых подпирается чьей-то фразой.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#past">Отличать вопрос о прошлом опыте от вопроса о желаниях</a> — и переделывать второй в первый на лету</li>
+    <li><a href="#script">Идти по чужому сценарию</a> и возвращать разговор в русло, не перебивая грубо</li>
+    <li><a href="#notes">Вести запись</a>, в которой через неделю видно, где слова собеседника, а где твои мысли</li>
+    <li><a href="#consent">Договариваться о записи</a> и объяснять, зачем она нужна</li>
+    <li><a href="#findings">Сводить разговоры в 5–7 наблюдений</a>, каждое со ссылкой на сказанное</li>
+  </ol>
+</div>
+
+<section id="what">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что это за метод и с чем его путают</h2></div>
+  <p class="sec-sub">Половина неудачных интервью — это интервью, которое дизайнер по ошибке провёл вместо другого метода.</p>
+
+  <p>Проблемное интервью отвечает на один вопрос: <strong>как человек решает свою задачу сейчас, без вас</strong>. Не что он думает о вашей идее, не что ему было бы удобно, не понравится ли ему макет. Именно реальное поведение в реальных обстоятельствах — потому что только оно уже случилось и его можно проверить.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Метод</th><th>На какой вопрос отвечает</th><th>Когда применяют</th></tr></thead>
+      <tbody>
+        <tr><td><b>Проблемное интервью</b></td><td>Как человек решает задачу сейчас и что в этом болит</td><td>До того, как что-то нарисовано</td></tr>
+        <tr><td>Юзабилити-тест</td><td>Справляется ли человек с конкретным интерфейсом</td><td>Когда есть прототип или продукт</td></tr>
+        <tr><td>Опрос</td><td>Сколько людей делают так же</td><td>Когда гипотеза уже сформулирована и её надо измерить</td></tr>
+        <tr><td>Фокус-группа</td><td>Как группа обсуждает тему</td><td>Редко и осторожно: в группе люди подстраиваются друг под друга</td></tr>
+        <tr><td>Аналитика</td><td>Что происходит в цифрах</td><td>Всегда, но она не объясняет причины</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Из этого следует практическое ограничение, которое джуниоры нарушают чаще всего: <strong>на проблемном интервью нельзя показывать макеты и рассказывать про свой продукт</strong>. Как только человек узнал, что вы что-то делаете, он перестаёт быть свидетелем своего опыта и становится вежливым оценщиком вашей работы. Свою идею приберегите для конца — и то лучше не в этот раз.</p>
+
+  <div class="rule"><b>Базовый принцип: людям нельзя доверять их прогнозы, но можно доверять их истории.</b> Ответ «да, я бы этим пользовался» не стоит ничего: он бесплатный, вежливый и ни к чему не обязывает. Ответ «в прошлый вторник я два часа сводил это руками в Excel, потому что выгрузка не открывалась» стоит очень много: это уже произошло, это можно уточнять, и за этим стоит реальная цена, которую человек заплатил.</p></div>
+
+  <h3>Что вы ищете в разговоре</h3>
+  <ul>
+    <li><strong>Процесс:</strong> последовательность реальных шагов, включая те, что происходят вне вашего продукта.</li>
+    <li><strong>Обходные пути.</strong> Таблица «на коленке», второй монитор с мессенджером, распечатка, файл с копипастой. Каждый костыль — это место, где существующее решение не справилось, и самый ценный материал интервью.</li>
+    <li><strong>Цена проблемы:</strong> время, деньги, нервы, испорченные отношения с коллегой. Если человек никогда не платил за проблему — возможно, проблемы нет.</li>
+    <li><strong>Триггеры:</strong> что должно случиться, чтобы человек пошёл искать решение.</li>
+    <li><strong>Слова.</strong> Как он называет вещи. Ваш интерфейс потом будет говорить его словами, а не словами вашей базы данных.</li>
+  </ul>
+</section>
+
+<section id="past">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Прошлое против желаний: главный навык</h2></div>
+  <p class="sec-sub">Первый пункт в списке требований — и не случайно: всё остальное на нём держится.</p>
+
+  <p>Разница проста. <strong>Вопрос о прошлом</strong> просит человека вспомнить факт: что он сделал, когда, сколько раз, чем закончилось. <strong>Вопрос о желаниях</strong> просит его сочинить — предсказать своё поведение, оценить идею, представить гипотетическую ситуацию. Первое человек делает плохо-но-сносно, второе — катастрофически плохо, и при этом с полной уверенностью.</p>
+
+  <h3>Пять видов вопросов, которые портят интервью</h3>
+  <ul>
+    <li><strong>Гипотетический.</strong> «Если бы у вас была такая функция, вы бы ей пользовались?» Ответ — фантазия, причём вежливая.</li>
+    <li><strong>О желаниях.</strong> «Чего вам не хватает?» Человек назовёт то, что первым пришло в голову, а не то, что реально мешает ему каждый день.</li>
+    <li><strong>Наводящий.</strong> «Вам же неудобно каждый раз выгружать это вручную?» Вы сами дали ответ, осталось кивнуть.</li>
+    <li><strong>Оценочный.</strong> «Как вам такая идея?» Вы просите похвалу, и вы её получите.</li>
+    <li><strong>Про общую частоту.</strong> «Как часто вы этим занимаетесь?» Человек усредняет и ошибается. Спрашивайте про последний конкретный случай — и считайте частоту сами.</li>
+  </ul>
+
+  <div class="box">
+    <div class="box-head">Переделка вопросов · слева то, что хочется спросить, справа то, что спрашивать</div>
+    <div class="qpair">
+      <div class="q-bad"><span class="q-mark">Так не надо</span><span class="q-text">«Вам было бы удобно, если бы отчёт формировался автоматически?»</span><span class="q-why">Гипотеза, поданная как вопрос. Ответ будет «конечно, да».</span></div>
+      <div class="q-good"><span class="q-mark">А так надо</span><span class="q-text">«Расскажите, как вы делали последний отчёт. С чего начали?»</span><span class="q-why">Человек восстанавливает шаги — и сам покажет, где у него болит.</span></div>
+    </div>
+    <div class="qpair">
+      <div class="q-bad"><span class="q-mark">Так не надо</span><span class="q-text">«Что вам не нравится в текущем процессе?»</span><span class="q-why">Просьба оценить. Получите общие слова: «ну, медленно».</span></div>
+      <div class="q-good"><span class="q-mark">А так надо</span><span class="q-text">«Что в прошлый раз пошло не так, как вы рассчитывали?»</span><span class="q-why">Конкретный случай, конкретный сбой, конкретные последствия.</span></div>
+    </div>
+    <div class="qpair">
+      <div class="q-bad"><span class="q-mark">Так не надо</span><span class="q-text">«Как часто вы сталкиваетесь с этой проблемой?»</span><span class="q-why">Усреднение по памяти. Люди сильно ошибаются в обе стороны.</span></div>
+      <div class="q-good"><span class="q-mark">А так надо</span><span class="q-text">«Когда это случилось в последний раз? А до этого?»</span><span class="q-why">Две точки на шкале времени дают частоту надёжнее любой самооценки.</span></div>
+    </div>
+    <div class="qpair">
+      <div class="q-bad"><span class="q-mark">Так не надо</span><span class="q-text">«Вы бы заплатили за инструмент, который это решает?»</span><span class="q-why">Ноль обязательств — ноль информации.</span></div>
+      <div class="q-good"><span class="q-mark">А так надо</span><span class="q-text">«Вы пробовали это чем-то решить? На что уходили деньги или время?»</span><span class="q-why">Уже потраченные ресурсы — самое честное доказательство, что проблема есть.</span></div>
+    </div>
+    <div class="qpair">
+      <div class="q-bad"><span class="q-mark">Так не надо</span><span class="q-text">«Почему вы не пользуетесь встроенной выгрузкой?»</span><span class="q-why">Звучит как упрёк. Человек начнёт оправдываться, а не вспоминать.</span></div>
+      <div class="q-good"><span class="q-mark">А так надо</span><span class="q-text">«Расскажите, как вы выбрали именно такой способ?»</span><span class="q-why">Нейтрально, и вскрывает историю выбора со всеми причинами.</span></div>
+    </div>
+    <div class="box-foot">Закономерность видна: хороший вопрос начинается со слов «расскажите», «как вы», «когда в последний раз», «что произошло», и всегда указывает на конкретный эпизод. Плохой начинается с «а если бы», «вам было бы», «вы бы хотели».</div>
+  </div>
+
+  <h3>Три приёма, чтобы копать глубже</h3>
+  <ul>
+    <li><strong>Молчание.</strong> Самый сильный и самый недооценённый приём. Человек закончил фразу — не спешите заполнять паузу. Досчитайте про себя до трёх. Очень часто именно после этой паузы звучит настоящий ответ.</li>
+    <li><strong>Эхо.</strong> Повторите его последние два-три слова с вопросительной интонацией: «...пришлось переделывать?» Человек развернёт мысль, а вы не вложите в неё ничего своего.</li>
+    <li><strong>Спуск по лестнице «а что потом».</strong> «И что вы тогда сделали?» → «А дальше?» → «А чем это закончилось?» Так восстанавливается цепочка действий вместо общего описания.</li>
+  </ul>
+
+  <div class="warnbox"><b>Отдельно про «почему».</b> Вопрос «почему» полезен, но им легко загнать человека в оправдания или в сочинение причин задним числом. Безопаснее спрашивать про обстоятельства: «что происходило перед этим?», «а что мешало сделать иначе?», «как вы к этому пришли?». Это те же причины, но без давления.</div>
+</section>
+
+<section id="drill">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Тренажёр: отличи вопрос о прошлом от вопроса о желаниях</h2></div>
+  <p class="sec-sub">Десять формулировок. Решай быстро — на интервью у тебя будет секунда, а не минута.</p>
+
+  <div class="box" id="quiz">
+    <div class="box-head">Тренажёр · вопрос <span id="qIdx" class="num">1</span> из <span class="num">10</span><span class="spacer"></span><span id="qScore" class="num">0 верно</span></div>
+    <div class="box-body">
+      <p class="quiz-q" id="qText">—</p>
+      <div class="quiz-actions">
+        <button class="quiz-btn" id="btnGood" type="button">О прошлом опыте — годится</button>
+        <button class="quiz-btn" id="btnBad" type="button">О желаниях или наводящий — переделать</button>
+      </div>
+      <div class="quiz-fb" id="qFb"></div>
+      <div class="quiz-bar">
+        <span class="prog"><i id="qProg"></i></span>
+        <button class="btn" id="qNext" type="button" style="display:none">Дальше</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="consent">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Договориться о записи</h2></div>
+  <p class="sec-sub">Тридцать секунд в начале, которые определяют, каким будет весь разговор.</p>
+
+  <p>Запись нужна по одной причине: пока вы строчите конспект, вы не слушаете. С записью вы можете смотреть человеку в глаза, задавать уточняющие вопросы и вернуться к дословной формулировке позже. Но записывать человека без внятной договорённости нельзя — это и неэтично, и практически вредно: почувствовав неловкость, собеседник закроется.</p>
+
+  <p>Говорить нужно четыре вещи: <strong>зачем</strong> запись, <strong>кто</strong> её услышит, <strong>что</strong> будет с ней дальше и что <strong>можно отказаться</strong>. Коротко, буднично, без юридического тона — иначе человек решит, что подписывается на что-то серьёзное.</p>
+
+  <div class="box">
+    <div class="box-head">Готовая формулировка<span class="spacer"></span><button class="btn" data-copy="#consentText" type="button">Скопировать</button></div>
+    <div class="box-body" id="consentText">
+      <p class="say">Спасибо, что согласились. Сразу скажу, как всё устроено: я не продаю и ничего не предлагаю — мне нужно понять, как устроена ваша работа на самом деле. Правильных ответов здесь нет, любой ваш опыт мне полезен.</p>
+      <p class="say">Я хотел бы записать разговор — просто чтобы не отвлекаться на конспект и ничего не переврать потом. Запись слушаю только я и двое коллег из команды, никуда дальше она не уходит, в отчёте будут обезличенные цитаты без вашего имени и названия компании. Через месяц я её удалю. Хорошо, если я включу запись?</p>
+      <p class="say">И ещё: если какой-то вопрос покажется неудобным — скажите, пропустим. Остановить запись можно в любой момент. Ну что, начнём?</p>
+    </div>
+    <div class="box-foot">Последний абзац важнее, чем кажется: разрешение отказаться снижает тревогу, и после него люди отвечают откровеннее, а не осторожнее.</div>
+  </div>
+
+  <ul>
+    <li><strong>Спрашивайте разрешение вслух и уже на записи</strong> — либо зафиксируйте согласие в переписке до встречи. Устное «да» в начале файла закрывает вопрос.</li>
+    <li><strong>Не обещайте того, чего не сделаете.</strong> Сказали «удалю через месяц» — удалите. Сказали «без имени» — проверьте, что в итоговом документе нет имени.</li>
+    <li><strong>Если человек отказался от записи</strong> — это нормально, интервью не отменяется. Тогда зовите второго человека вести конспект, а сами только разговаривайте. В одиночку и записывать, и вести беседу — плохо получается и то, и другое.</li>
+    <li><strong>Про корпоративных собеседников:</strong> в B2B иногда нужно согласие не только человека, но и его компании. Спросите заранее, нет ли ограничений — лучше узнать до встречи, чем в первую минуту.</li>
+  </ul>
+</section>
+
+<section id="notes">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Запись: реплики отдельно, свои мысли отдельно</h2></div>
+  <p class="sec-sub">Требование звучит как мелочь оформления, но оно решает главную проблему исследования — подмену услышанного придуманным.</p>
+
+  <p>Через неделю вы не вспомните, сказал ли человек «мне приходится сводить это вручную» или вы сами так решили, услышав «ну, там сложно». Эти две строчки в конспекте выглядят одинаково убедительно, но первая — факт, а вторая — ваша догадка. Если их не разделить в момент записи, потом они сольются, и вы будете защищать на встрече с командой собственные фантазии, искренне считая их данными.</p>
+
+  <p>Решение простое: <strong>лист делится на две колонки</strong>. Слева — только то, что прозвучало, по возможности дословно. Справа — всё ваше: наблюдения, догадки, вопросы, которые надо не забыть задать.</p>
+
+  <div class="box">
+    <div class="box-head">Образец листа записи · фрагмент интервью</div>
+    <div class="sheet">
+      <div>
+        <h5>Слышу — дословно</h5>
+        <p class="said"><span class="t">08:12</span>«Последний раз я собирал этот отчёт в понедельник. Ну как собирал — выгрузил из системы, а там половина полей пустые, пришлось руками из почты добивать».</p>
+        <p class="said"><span class="t">09:40</span>«У меня есть отдельный файлик, я его года три уже веду. Там всё нормально лежит, в отличие от».</p>
+        <p class="said"><span class="t">11:05</span>«Я в итоге просто Ване написал в телеграм, он мне скинул скриншотом. Это быстрее, чем через систему искать, честно».</p>
+        <p class="said"><span class="t">14:20</span>«Ну два часа, наверное. Может, полтора. В понедельник вообще весь день на это уходит».</p>
+      </div>
+      <div>
+        <h5>Думаю — своё</h5>
+        <p class="note"><span class="tag obs">НАБЛ</span>Выгрузка неполная — добивает вручную из почты. Второй источник данных, о котором система не знает.</p>
+        <p class="note"><span class="tag int">ГИПОТ</span>Похоже, «файлик» — это его настоящий рабочий инструмент, а система только формальный источник. Проверить на следующих интервью.</p>
+        <p class="note"><span class="tag q">СПРОСИТЬ</span>Что именно быстрее спросить у Вани, чем найти? Вернуться к этому после блока про процесс.</p>
+        <p class="note"><span class="tag obs">НАБЛ</span>Оценка времени плавает: 1,5–2 ч, по понедельникам день. Уточнить, чем понедельник отличается.</p>
+        <p class="note"><span class="tag int">ГИПОТ</span>Не уверен, что «весь день» буквально. Возможно, это про раздражение, а не про часы.</p>
+      </div>
+    </div>
+    <div class="box-foot">Три пометки справа — это вся нотация, которая нужна: <b>НАБЛ</b> — что я увидел, <b>ГИПОТ</b> — что я предполагаю и надо проверить, <b>СПРОСИТЬ</b> — долг по вопросу. Тайм-коды слева позволяют за секунду найти место в записи.</div>
+  </div>
+
+  <h3>Правила ведения</h3>
+  <ul>
+    <li><strong>Цитату пишите дословно, даже если коряво.</strong> «Там всё нормально лежит, в отличие от» — оборванная фраза, но она передаёт отношение точнее любого пересказа. Причёсанная цитата теряет ровно то, ради чего вы пришли.</li>
+    <li><strong>Ставьте тайм-код</strong> раз в несколько реплик. Потом это экономит часы: не нужно переслушивать час записи, чтобы найти одну фразу.</li>
+    <li><strong>Не пытайтесь записать всё.</strong> У вас есть аудио. Фиксируйте сильные формулировки, цифры, названия инструментов и моменты, где человек оживился или замялся.</li>
+    <li><strong>Помечайте эмоцию в скобках:</strong> <code>(смеётся)</code>, <code>(долгая пауза)</code>, <code>(раздражённо)</code>. Через неделю интонацию вы не восстановите, а она часто и есть главное.</li>
+    <li><strong>Не интерпретируйте на ходу вслух.</strong> Мысль «а, то есть вам неудобно выгружать» — это правая колонка, а не реплика в разговоре. Сказав её вслух, вы превратите её в наводящий вопрос.</li>
+  </ul>
+
+  <div class="rule"><b>Дебриф — 10 минут сразу после интервью, не позже.</b> Пока разговор свежий, допишите правую колонку: что удивило, что подтвердилось, что противоречит предыдущему интервью, какие три фразы запомнились сильнее всего. Это самая продуктивная десятиминутка всего исследования — и единственная, которую невозможно наверстать: через сутки впечатление уже стёрлось и осталась только расшифровка.</div>
+</section>
+
+<section id="script">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Готовый сценарий на 45–60 минут</h2></div>
+  <p class="sec-sub">Это тот самый сценарий для задания. Подставь свою задачу в квадратные скобки — остальное работает как есть.</p>
+
+  <p>Перед тем как брать его в работу, замени три вещи: <code>[задача]</code> — то, что человек делает и что вас интересует (например, «сводит отчёт по продажам за месяц»); <code>[роль]</code> — кто ваш собеседник (например, «руководитель отдела продаж»); <code>[инструмент]</code> — то, чем он предположительно пользуется сейчас. Больше ничего менять не нужно.</p>
+
+  <div class="script" id="scriptBody">
+    <div class="box-head" style="border-bottom:1px solid var(--hairline)">Сценарий проблемного интервью<span class="spacer"></span><button class="btn" data-copy="#scriptBody" type="button">Скопировать целиком</button></div>
+
+    <div class="script-block">
+      <h4>Блок 0 · Вступление и согласие <span class="tm">2–3 мин</span></h4>
+      <p class="aim">Цель: снять напряжение, договориться о записи, снять с человека обязанность «отвечать правильно».</p>
+      <p class="say">Меня зовут [имя], я дизайнер, изучаю, как [роль] справляется с [задача]. Я не продаю и ничего не предлагаю — мне важно понять, как всё устроено у вас на самом деле. Правильных ответов нет, любой опыт подойдёт. Разговор минут на сорок, не больше часа.</p>
+      <p class="say">Я хотел бы записать нашу беседу, чтобы не отвлекаться на конспект. Слушать буду только я и команда, в отчёте — обезличенные цитаты. Через месяц удалю. Можно включить запись?</p>
+      <p class="say">Если вопрос покажется неудобным — скажите, пропустим. Остановиться можно в любой момент.</p>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 1 · Разогрев и контекст <span class="tm">5–7 мин</span></h4>
+      <p class="aim">Цель: человек расслабляется и начинает говорить; вы понимаете, кто перед вами и в каких условиях он работает.</p>
+      <ul>
+        <li>Расскажите коротко, чем вы занимаетесь и как давно.<span class="probe">Уточнить: размер команды, за что отвечаете лично вы.</span></li>
+        <li>Опишите обычный рабочий день — с чего он начинается?<span class="probe">Уточнить: где в этом дне появляется [задача].</span></li>
+        <li>Кто ещё участвует в [задача] кроме вас?<span class="probe">Уточнить: кто ставит задачу, кто принимает результат.</span></li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 2 · Как всё устроено сейчас <span class="tm">8–10 мин</span></h4>
+      <p class="aim">Цель: общая карта процесса, чтобы потом было куда вешать детали. Здесь ещё не копаем.</p>
+      <ul>
+        <li>Расскажите в целом, как у вас происходит [задача] — от начала до конца.<span class="probe">Слушать не перебивая; фиксировать этапы, чтобы вернуться к ним позже.</span></li>
+        <li>Чем вы при этом пользуетесь?<span class="probe">Уточнить: всё ли это, нет ли ещё файлов, чатов, блокнота.</span></li>
+        <li>Сколько это обычно занимает?</li>
+        <li>Как часто вам приходится этим заниматься?</li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 3 · Последний случай <span class="tm">15–20 мин · ядро интервью</span></h4>
+      <p class="aim">Цель: восстановить один конкретный эпизод по шагам. Здесь добывается 80 % материала — не жалейте на него времени.</p>
+      <ul>
+        <li>Давайте вспомним последний раз, когда вы делали [задача]. Когда это было?</li>
+        <li>С чего вы начали в тот раз?<span class="probe">Дальше вести лестницей: «И что потом?» → «А дальше?» → «Чем закончилось?»</span></li>
+        <li>Что было открыто у вас на экране в этот момент?<span class="probe">Хороший способ вытащить забытые инструменты и вкладки.</span></li>
+        <li>Что пошло не так, как вы рассчитывали?</li>
+        <li>Как вы поступили, когда это случилось?<span class="probe">Уточнить: делали так же в прошлые разы или это разовое решение.</span></li>
+        <li>Сколько времени в итоге на это ушло?</li>
+        <li>Кому пришлось написать или позвонить по ходу дела?<span class="probe">Уточнить: о чём именно спрашивали, почему нельзя было узнать самому.</span></li>
+        <li>Чем всё закончилось — результат вас устроил?</li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 4 · Сбои и обходные пути <span class="tm">8–10 мин</span></h4>
+      <p class="aim">Цель: найти костыли и цену проблемы. Костыль — самое ценное, что бывает на интервью.</p>
+      <ul>
+        <li>Есть ли у вас свои приспособления для этого — файлы, шаблоны, заметки?<span class="probe">Попросить показать, если разговор идёт по видеосвязи с демонстрацией экрана.</span></li>
+        <li>Расскажите, как вы к этому пришли?</li>
+        <li>А самый тяжёлый случай за последние месяцы — что тогда произошло?</li>
+        <li>Что было бы, если бы [задача] в тот раз не была сделана вовремя?<span class="probe">Здесь вскрывается настоящая цена: деньги, разбор с руководителем, испорченные отношения.</span></li>
+        <li>Вы пробовали как-то это изменить?<span class="probe">Уточнить: что именно пробовали, чем закончилось, почему перестали.</span></li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 5 · Завершение <span class="tm">4–5 мин</span></h4>
+      <p class="aim">Цель: подобрать то, что не влезло в сценарий, и оставить дверь открытой.</p>
+      <ul>
+        <li>Если бы завтра [инструмент] перестал работать — как бы вы выкручивались?<span class="probe">Единственный гипотетический вопрос, который допустим: он вскрывает реальные зависимости.</span></li>
+        <li>Мы о чём-то не поговорили, а стоило бы? Что я забыл спросить?<span class="probe">Часто самый урожайный вопрос всего интервью — не пропускайте его.</span></li>
+        <li>Есть ли у вас коллеги с такой же задачей, с кем стоит поговорить?</li>
+        <li>Можно написать вам, если по расшифровке возникнут уточнения?</li>
+      </ul>
+      <p class="say">Спасибо, это было очень полезно. Вы мне сильно помогли.</p>
+    </div>
+
+    <div class="script-block">
+      <h4>Карманные уточняющие — на любой момент</h4>
+      <ul>
+        <li>«Расскажите про это подробнее».</li>
+        <li>«А можно пример?»</li>
+        <li>«Как это выглядело на практике?»</li>
+        <li>«Что происходило прямо перед этим?»</li>
+        <li>«Вы сказали „[его слово]“ — что вы в это вкладываете?»</li>
+        <li>«И что вы сделали дальше?»</li>
+        <li>(молчание на три счёта)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warnbox"><b>Сценарий — это не анкета.</b> Вопросы в нём нужны, чтобы вы не забыли, что хотели выяснить, а не чтобы зачитывать их подряд. Если человек в блоке 1 сам начал рассказывать про последний случай — идите за ним и вернитесь к контексту позже. Единственное, что обязано быть выполнено к концу часа, — закрыты все блоки, а не задан каждый вопрос в написанном порядке.</div>
+</section>
+
+<section id="offtrack">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Как не потерять ветку, когда собеседник ушёл в сторону</h2></div>
+  <p class="sec-sub">Второй навык из списка. Сложность не в том, чтобы вернуть разговор, а в том, чтобы сначала понять — надо ли его возвращать.</p>
+
+  <h3>Сначала решите: это отступление или золото</h3>
+  <p>Уход в сторону бывает двух видов, и путать их дорого.</p>
+  <ul>
+    <li><strong>Пустое отступление:</strong> человек рассказывает про отпуск, ругает начальство вообще, вспоминает, как было раньше в другой компании. К вашей задаче это отношения не имеет — возвращайте.</li>
+    <li><strong>Ценное отступление:</strong> он свернул на соседний процесс, вспомнил другой случай, начал говорить про смежную боль. Формально не по сценарию — но это ровно тот материал, ради которого вы пришли. <strong>Идите за ним.</strong> Сценарий подождёт.</li>
+  </ul>
+  <p>Признак ценного отступления: появляются конкретика, эмоция и глаголы прошедшего времени. «А вот в прошлом месяце вообще был случай…» — бросайте сценарий и слушайте.</p>
+
+  <h3>Четыре способа вернуться, от мягкого к прямому</h3>
+  <ol>
+    <li><strong>Мостик через его же слова.</strong> «Вы сказали, что тогда всё пришлось пересобирать. А в тот понедельник, с которого мы начали, — там было похоже?» Человек не чувствует, что его прервали: вы продолжили его мысль.</li>
+    <li><strong>Парковка.</strong> «Это интересно, я обязательно вернусь к этому ближе к концу — можно я сначала доспрошу про прошлый раз?» И правда вернитесь: в блоке 5 для этого есть место. Обещание, которое вы сдержали, заметно повышает доверие.</li>
+    <li><strong>Пауза и прямой заход.</strong> Дождитесь конца фразы: «Давайте я вас верну чуть назад». Это совершенно нормально, никого не обижает и экономит время вам обоим.</li>
+    <li><strong>Резюме и развилка.</strong> «Смотрите, я понял так: выгрузили, половины полей нет, добили руками из почты. Так? А что было после этого?» Одновременно проверяете, что поняли верно, и возвращаете нить.</li>
+  </ol>
+
+  <h3>Как вообще не терять нить</h3>
+  <ul>
+    <li><strong>Держите блоки перед глазами, а не вопросы.</strong> Распечатайте или откройте сценарий так, чтобы видеть пять заголовков блоков. Ориентироваться по пяти пунктам легко, по тридцати вопросам — невозможно.</li>
+    <li><strong>Ставьте галочки у закрытых блоков</strong> прямо по ходу. В любой момент видно, где вы и сколько осталось.</li>
+    <li><strong>Следите за временем на середине.</strong> Если на 25-й минуте вы ещё в блоке 2 — переходите к блоку 3 немедленно: ядро важнее контекста.</li>
+    <li><strong>Колонка «СПРОСИТЬ» — ваша страховка.</strong> Всё, что захотелось уточнить не вовремя, отправляется туда и достаётся в конце блока.</li>
+    <li><strong>Не бойтесь тишины и не бойтесь переспросить.</strong> «Извините, я потерял мысль — на чём мы остановились?» звучит по-человечески, а не непрофессионально.</li>
+  </ul>
+
+  <div class="rule"><b>Правило соотношения.</b> На хорошем проблемном интервью собеседник говорит примерно 80 % времени, вы — 20 %. Если после разговора чувствуете, что наговорились, — интервью не удалось. Ваша работа здесь — короткие вопросы и длинные паузы.</div>
+</section>
+
+<section id="findings">
+  <div class="sec-head"><h2><span class="h2-num">8</span>От трёх разговоров к списку наблюдений</h2></div>
+  <p class="sec-sub">Тот самый результат, ради которого всё делалось: не пересказ, а 5–7 наблюдений со ссылкой на слова людей.</p>
+
+  <h3>Что такое наблюдение</h3>
+  <p>Наблюдение — это утверждение о поведении людей, за которым стоят конкретные слова конкретных собеседников. Три вещи, которые часто выдают за наблюдение, но которые им не являются:</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Это не наблюдение</th><th>Почему</th></tr></thead>
+      <tbody>
+        <tr><td>«Респондент рассказал, что работает в отделе продаж и делает отчёты»</td><td>Пересказ. Информация есть, вывода нет.</td></tr>
+        <tr><td>«Пользователям неудобно работать с выгрузкой»</td><td>Интерпретация без опоры. Кто сказал «неудобно»? Может, они сказали другое.</td></tr>
+        <tr><td>«Нужно сделать автоматическую выгрузку с настройкой полей»</td><td>Решение, а не наблюдение. Решения принимаются после, и не в одиночку.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>Формула наблюдения</h4>
+  <p>Что люди делают или с чем сталкиваются → у скольких из троих это встретилось → одна дословная цитата → что это означает для продукта.</p>
+
+  <div class="box">
+    <div class="box-head">Образец · как выглядит правильно оформленное наблюдение</div>
+    <div class="box-body">
+      <p style="margin-top:0"><strong>1. Выгрузка не покрывает всех данных, и дефицит закрывается вручную из почты.</strong></p>
+      <p class="dim" style="font-size:14px; margin:6px 0"><b>Встретилось:</b> 3 из 3 · <b>Цена:</b> от 40 минут до 2 часов на отчёт</p>
+      <p class="said" style="margin:10px 0">«Выгрузил из системы, а там половина полей пустые, пришлось руками из почты добивать» <span class="dim">— Р1, 08:12</span></p>
+      <p class="said" style="margin:10px 0">«Я уже привык, что часть всё равно придётся искать в переписке» <span class="dim">— Р3, 22:40</span></p>
+      <p style="font-size:14.5px; margin:10px 0 0"><b>Значит:</b> почта — фактический второй источник данных в этом процессе, и продукт о нём не знает. Любое улучшение самой выгрузки, не решающее проблему недостающих полей, не сократит время работы.</p>
+    </div>
+    <div class="box-foot">Сравни с формулировкой «пользователям неудобно выгружать данные». В ней нет ни цены, ни причины, ни доказательства — и с ней ничего нельзя сделать.</div>
+  </div>
+
+  <h3>Процедура сведения: четыре шага</h3>
+  <ol>
+    <li><strong>Разбей каждое интервью на отдельные факты.</strong> Пройди по левой колонке и выпиши каждую значимую реплику на отдельную карточку — стикер в FigJam, строка в таблице, всё равно. Одна мысль — одна карточка, с пометкой, чья она (Р1, Р2, Р3) и с тайм-кодом. С трёх интервью получится 40–70 карточек.</li>
+    <li><strong>Сгруппируй похожее.</strong> Раскладывай карточки в кучки по смыслу, не придумывая названия групп заранее — названия рождаются из того, что оказалось рядом. Это называется аффинити-группировкой, и делать её нужно именно так: снизу вверх, от фактов к темам.</li>
+    <li><strong>Дай каждой кучке имя-утверждение.</strong> Не «Про выгрузку» (тема), а «Выгрузка не покрывает всех данных» (утверждение). Если группу не получается назвать утверждением — скорее всего, в ней лежат разные вещи, разделите её.</li>
+    <li><strong>Отбери 5–7 сильнейших.</strong> Критерии отбора ниже. Остальные группы не выбрасывайте — сложите в конец документа под заголовком «Прочее»: они пригодятся, когда появятся новые интервью.</li>
+  </ol>
+
+  <h4>Чем мерить силу наблюдения</h4>
+  <ul>
+    <li><strong>Повторяемость:</strong> сколько человек из трёх. Встретилось у всех троих — сильный сигнал. У одного — держите как гипотезу и честно помечайте «1 из 3».</li>
+    <li><strong>Цена:</strong> сколько это стоит человеку в часах, деньгах или нервах. Дорогое важнее частого-но-дешёвого.</li>
+    <li><strong>Наличие костыля.</strong> Если люди уже что-то придумали, чтобы жить с проблемой, — они подтвердили её существование делом, а не словами.</li>
+    <li><strong>Неожиданность.</strong> То, чего ваша команда не знала, ценнее подтверждения того, что и так все подозревали.</li>
+  </ul>
+
+  <div class="warnbox"><b>Три интервью — это мало, и так и надо писать.</b> Три разговора дают направление, а не доказательство. Формулируйте честно: «у всех троих», а не «у пользователей»; «похоже, что», а не «установлено». Это не слабость работы — это признак того, что вы понимаете границы метода. На собеседовании честная оговорка производит гораздо лучшее впечатление, чем уверенные обобщения с трёх человек.</div>
+
+  <h3>Как оформить итоговый документ</h3>
+  <ul>
+    <li><strong>Шапка:</strong> вопрос исследования, кого опрашивали (роль, компания, стаж — без имён), даты, сколько разговоров.</li>
+    <li><strong>5–7 наблюдений</strong> по формуле выше, отсортированные по силе.</li>
+    <li><strong>Противоречия.</strong> Отдельный короткий блок: в чём собеседники разошлись. Это честно и это самое интересное место для обсуждения с командой.</li>
+    <li><strong>Открытые вопросы</strong> — что осталось непонятным и что спрашивать в следующий раз.</li>
+    <li><strong>Никаких решений в этом документе.</strong> Решения — следующий этап и отдельная встреча. Смешивать наблюдения с идеями значит потерять и то, и другое.</li>
+  </ul>
+</section>
+
+<section id="recruit">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Где взять трёх человек</h2></div>
+  <p class="sec-sub">Обычно самая пугающая часть задания — и обычно она решается за вечер.</p>
+
+  <ul>
+    <li><strong>Профильные чаты и сообщества.</strong> Телеграм-чаты по профессии, отраслевые группы. Напишите в общий чат или в личку активным участникам.</li>
+    <li><strong>Знакомые знакомых.</strong> Пост у себя в соцсетях с просьбой познакомить — работает лучше, чем кажется. Один репост от друга обычно приносит двоих собеседников.</li>
+    <li><strong>Коллеги не из вашей команды</strong> — если продукт внутренний или задача офисная.</li>
+    <li><strong>Прямой холодный контакт</strong> в профессиональной сети. Конверсия низкая, но 20 сообщений дают 2–3 согласия.</li>
+    <li><strong>Чего не делать:</strong> не берите в респонденты дизайнеров и друзей, которые знают о вашей учебной задаче. Они будут помогать вам, а не рассказывать про себя, и интервью выйдет бесполезным.</li>
+  </ul>
+
+  <div class="box">
+    <div class="box-head">Сообщение с приглашением<span class="spacer"></span><button class="btn" data-copy="#inviteText" type="button">Скопировать</button></div>
+    <div class="box-body" id="inviteText">
+      <p class="say">Здравствуйте! Меня зовут [имя], я дизайнер, изучаю, как [роль] справляется с [задача]. Ищу людей, у которых это реальная рабочая задача, чтобы расспросить, как это устроено на практике.</p>
+      <p class="say">Ничего не продаю и не предлагаю — мне нужен только ваш опыт. Займёт 40 минут в удобное вам время, по видеосвязи или голосом. Взамен с радостью пришлю то, что получится по итогам всех разговоров, — обычно людям любопытно посмотреть, как у других.</p>
+      <p class="say">Подскажете, удобно ли вам будет на этой неделе?</p>
+    </div>
+    <div class="box-foot">Три вещи, которые делают такое сообщение работающим: честно сказано, что вы не продаёте; названо конкретное время; предложено что-то взамен. Не обещайте денег, если не готовы платить, — обещание результата работает почти так же.</div>
+  </div>
+
+  <p class="dim">Договариваясь о времени, закладывайте час, а не сорок минут: разговор почти всегда идёт дольше, и уходить в спешке жалко. И назначайте три интервью не подряд — вам нужно по десять минут на дебриф после каждого.</p>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Задание</h2></div>
+  <p class="sec-sub">Три интервью по сценарию из раздела 6 и один сводный список наблюдений.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Определи задачу и роль</strong> (20 мин). Заполни скобки в сценарии. Сформулируй одним предложением, что именно хочешь понять: «как [роль] сейчас делает [задача] и что в этом самое дорогое».</li>
+    <li><strong>Найди троих</strong> (1–2 вечера). Люди, для которых это настоящая рабочая задача. Не дизайнеры, не близкие друзья, не знающие твоего замысла.</li>
+    <li><strong>Прогони сценарий на себе вслух</strong> (20 мин). Да, вслух и по таймеру — так находятся вопросы, которые невозможно произнести, и становится понятно, куда уходит время.</li>
+    <li><strong>Проведи первое интервью</strong> (1 час + 10 мин дебрифа). Сразу после — допиши правую колонку и отметь, какие вопросы не сработали.</li>
+    <li><strong>Поправь сценарий</strong> (10 мин). Это нормально и правильно: после первого разговора почти всегда что-то меняется. Зафиксируй, что именно поменял, — это хороший материал для рассказа о работе.</li>
+    <li><strong>Проведи второе и третье</strong> с промежутком хотя бы в день.</li>
+    <li><strong>Разложи на карточки и сгруппируй</strong> (1,5–2 часа). Процедура из раздела 8.</li>
+    <li><strong>Собери документ</strong> (1 час): 5–7 наблюдений, противоречия, открытые вопросы.</li>
+  </ol>
+  <p class="dim">Итого примерно 8–10 часов работы, из которых сами разговоры — только три.</p>
+
+  <h3>Что считается выполненным заданием</h3>
+  <ul>
+    <li>Три проведённых интервью с людьми, для которых задача реальна.</li>
+    <li>Три листа записи с разделёнными колонками и тайм-кодами.</li>
+    <li>Один документ с 5–7 наблюдениями, у каждого — минимум одна дословная цитата с указанием, чья она.</li>
+    <li>Блоки «противоречия» и «открытые вопросы».</li>
+    <li>Одна страница про метод: кого опрашивали, как искали, что поменял в сценарии после первого разговора.</li>
+  </ul>
+
+  <div class="rule"><b>Дополнительно, если хочешь выжать из задания максимум:</b> запиши себя на 10 минут произвольного разговора и послушай. Это неприятно, но эффективнее любого совета: ты сразу услышишь свои наводящие вопросы, перебивания и то, как быстро ты заполняешь паузы вместо собеседника.</div>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">11</span>Чек-лист и типовые ошибки</h2></div>
+  <p class="sec-sub">Первый список — перед разговором и после. Второй — то, что чаще всего портит первые интервью.</p>
+
+  <h3>Перед интервью</h3>
+  <ul>
+    <li>Сценарий заполнен, блоки видны на одном экране или листе</li>
+    <li>Техника проверена: запись работает, звук идёт, заряд есть</li>
+    <li>Лист записи разбит на две колонки заранее</li>
+    <li>Формулировка про согласие готова и произнесена вслух хотя бы раз</li>
+    <li>Час свободен целиком, следующая встреча не через сорок минут</li>
+    <li>Макеты и презентации закрыты — показывать их сегодня нельзя</li>
+  </ul>
+
+  <h3>После интервью</h3>
+  <ul>
+    <li>Дебриф сделан в течение десяти минут, правая колонка дописана</li>
+    <li>Запись сохранена и подписана понятным именем с датой</li>
+    <li>Отмечено, какие вопросы не сработали и что поменять к следующему разу</li>
+    <li>Долги из колонки «СПРОСИТЬ» либо закрыты, либо перенесены в следующее интервью</li>
+  </ul>
+
+  <h3>Ошибки, по которым видно неопытного интервьюера</h3>
+  <ul class="err-list">
+    <li><b>Продаёт вместо того, чтобы слушать.</b> Рассказывает про свою идею и ждёт реакции. С этого момента интервью можно не продолжать — человек уже не свидетель, а оценщик.</li>
+    <li><b>Задаёт вопросы про будущее.</b> «Вы бы пользовались?», «Что бы вам хотелось?» — и записывает ответы как данные.</li>
+    <li><b>Договаривает за собеседника.</b> «То есть вам неудобно, да?» — и человек соглашается, потому что так проще, чем спорить.</li>
+    <li><b>Боится пауз.</b> Заполняет каждую тишину новым вопросом и не даёт человеку додумать.</li>
+    <li><b>Идёт по списку вопросов буквально,</b> зачитывая их подряд и не реагируя на то, что человек уже рассказал.</li>
+    <li><b>Не копает конкретику.</b> Слышит «ну, это занимает довольно много времени» и идёт дальше вместо «а в прошлый раз сколько заняло?».</li>
+    <li><b>Пишет только выводы,</b> без цитат. Через неделю доказать нечем, и наблюдения превращаются в мнения.</li>
+    <li><b>Спорит или поправляет.</b> Человек говорит фактическую неправду о вашем продукте — это не повод его поправлять. То, как он понимает продукт, и есть ваш результат.</li>
+    <li><b>Ищет подтверждение своей гипотезе</b> и слышит только то, что её подтверждает. Лекарство — записывать противоречия отдельным блоком принудительно.</li>
+    <li><b>Проводит все три интервью в один день</b> без правки сценария между ними — и трижды получает один и тот же неудачный разговор.</li>
+  </ul>
+
+  <div class="rule"><b>Тему можно считать закрытой, когда:</b> (1) ты провёл три интервью по чужому сценарию и ни разу не свернул в рассказ о своём решении; (2) в твоих записях посторонний человек отличит слова собеседника от твоих мыслей; (3) у тебя есть 5–7 наблюдений, и под каждым стоит цитата, которую можно найти по тайм-коду; (4) ты можешь назвать два вопроса из сценария, которые не сработали, и объяснить почему.</div>
+</section>
+
+<section id="next">
+  <div class="sec-head"><h2><span class="h2-num">12</span>Что остаётся на следующие уровни</h2></div>
+  <p class="sec-sub">Чтобы было видно границу: этот урок закрывает Junior, дальше тема продолжается.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Что добавляется</th></tr></thead>
+      <tbody>
+        <tr><td><b>Junior</b> — этот урок</td><td>Провести интервью по чужому сценарию, вести чистую запись, свести в 5–7 наблюдений с цитатами, договориться о записи</td></tr>
+        <tr><td>Middle</td><td>Писать сценарий самому от вопроса исследования и гипотез; собирать выборку и отсеивать неподходящих; вести разговор гибко, выбирая ветку по ходу; углублённые техники — лестница вопросов, критические инциденты, JTBD; анализ на паттерны и сегменты; решать, сколько интервью достаточно; защищать выводы перед командой</td></tr>
+        <tr><td>Senior</td><td>Строить программу исследований под продуктовые решения; сочетать интервью с аналитикой и количественными методами; отвечать за качество чужих исследований и учить команду; выстраивать непрерывный поток общения с пользователями; связывать находки с метриками и стратегией; работать с заказчиками, которые не хотят слышать результат</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Проблемные интервью», уровень Junior. Сценарий из раздела 6 можно копировать кнопкой и править под свою задачу. Что почитать дальше: Роб Фитцпатрик, «Спроси маму» — небольшая книга целиком про то, как задавать вопросы о прошлом, а не о желаниях; Стив Портигал, «Интервью по пользовательскому опыту» — про технику ведения разговора; Инди Янг, «Practical Empathy» — про слушание и разбор сказанного.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* Copy buttons */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = src.innerText.replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  /* Quiz */
+  var QS = [
+    { t: 'Расскажите, как вы делали этот отчёт в последний раз?', good: true,
+      fb: 'Просьба восстановить конкретный эпизод. Дальше можно спускаться лестницей «а что потом».' },
+    { t: 'Вам было бы удобнее, если бы данные подтягивались автоматически?', good: false,
+      fb: 'Гипотетический и наводящий одновременно: вы озвучили решение и попросили его одобрить. Переделать: «Что в прошлый раз пришлось делать руками?»' },
+    { t: 'Когда это случилось в последний раз? А до этого?', good: true,
+      fb: 'Две точки на шкале времени дают реальную частоту надёжнее, чем вопрос «как часто».' },
+    { t: 'Чего вам не хватает в текущем инструменте?', good: false,
+      fb: 'Вопрос о желаниях. Человек назовёт первое, что вспомнил. Переделать: «Что в последний раз не получилось сделать в инструменте — и как вы выкрутились?»' },
+    { t: 'Что было открыто у вас на экране в тот момент?', good: true,
+      fb: 'Отличный способ вытащить забытые инструменты: почту, чаты, таблицу «на коленке».' },
+    { t: 'Вы же наверняка тратите на это кучу времени?', good: false,
+      fb: 'Наводящий: ответ уже вложен в вопрос. Переделать: «Сколько времени ушло в прошлый раз?»' },
+    { t: 'Вы пробовали как-то это изменить? Чем закончилось?', good: true,
+      fb: 'Прошлые попытки — сильнейшее доказательство, что проблема настоящая: человек уже потратил на неё ресурсы.' },
+    { t: 'Как вам идея сделать отдельный раздел для черновиков?', good: false,
+      fb: 'Просьба оценить вашу идею. Вы получите вежливую похвалу и ноль информации. Идеи проверяются не так и не здесь.' },
+    { t: 'Вы сказали «там всё нормально лежит» — что вы в это вкладываете?', good: true,
+      fb: 'Возврат его же словами. Вы уточняете смысл, не подсовывая своего толкования.' },
+    { t: 'Если бы у вас был волшебный инструмент, каким бы он был?', good: false,
+      fb: 'Классика жанра. Человек сочинит что-нибудь приятное. Единственный допустимый гипотетический вопрос — «а если бы нынешний инструмент завтра отключили, как бы вы выкручивались»: он вскрывает реальные зависимости.' }
+  ];
+  var i = 0, score = 0, answered = false;
+  var qText = document.getElementById('qText'), qFb = document.getElementById('qFb');
+  var bGood = document.getElementById('btnGood'), bBad = document.getElementById('btnBad');
+  var bNext = document.getElementById('qNext');
+  if (!qText) return;
+
+  function render() {
+    answered = false;
+    qText.innerHTML = '<em>' + QS[i].t + '</em>';
+    document.getElementById('qIdx').textContent = i + 1;
+    qFb.className = 'quiz-fb';
+    qFb.textContent = '';
+    [bGood, bBad].forEach(function (b) { b.disabled = false; b.className = 'quiz-btn'; });
+    bNext.style.display = 'none';
+    document.getElementById('qProg').style.width = (i / QS.length * 100) + '%';
+  }
+  function answer(saidGood) {
+    if (answered) return;
+    answered = true;
+    var right = saidGood === QS[i].good;
+    if (right) score++;
+    document.getElementById('qScore').textContent = score + ' верно';
+    var chosen = saidGood ? bGood : bBad;
+    chosen.className = 'quiz-btn ' + (right ? 'chosen-right' : 'chosen-wrong');
+    [bGood, bBad].forEach(function (b) { b.disabled = true; });
+    qFb.className = 'quiz-fb on';
+    qFb.innerHTML = '<b>' + (right ? 'Верно' : 'Не угадал') + '</b>' + QS[i].fb;
+    document.getElementById('qProg').style.width = ((i + 1) / QS.length * 100) + '%';
+    bNext.style.display = '';
+    bNext.textContent = (i === QS.length - 1) ? 'Показать итог' : 'Дальше';
+  }
+  bGood.addEventListener('click', function () { answer(true); });
+  bBad.addEventListener('click', function () { answer(false); });
+  bNext.addEventListener('click', function () {
+    if (i === QS.length - 1) {
+      qText.innerHTML = 'Итог: <strong>' + score + ' из ' + QS.length + '</strong>';
+      qFb.className = 'quiz-fb on';
+      qFb.innerHTML = '<b>Что это значит</b>' + (score >= 9
+        ? 'Отличный результат — на интервью ты будешь ловить такие вопросы у себя в голове до того, как произнесёшь.'
+        : score >= 7
+          ? 'Неплохо, но пара формулировок проскочила. Перечитай раздел 2 и пройди тренажёр ещё раз перед первым интервью.'
+          : 'Стоит вернуться к разделу 2 и разобрать пять видов плохих вопросов. Это ровно то место, где теряется большинство первых интервью.');
+      document.querySelector('.quiz-actions').style.display = 'none';
+      bNext.textContent = 'Пройти заново';
+      bNext.onclick = function () {
+        i = 0; score = 0;
+        document.getElementById('qScore').textContent = '0 верно';
+        document.querySelector('.quiz-actions').style.display = '';
+        bNext.onclick = null;
+        render();
+      };
+      return;
+    }
+    i++; render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>

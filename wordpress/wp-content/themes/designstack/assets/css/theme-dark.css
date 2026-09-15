@@ -16,7 +16,9 @@
 	--wp--preset--color--surface-action-primary: var(--wp--custom--color--accent-300);
 	--wp--preset--color--surface-action-primary-hover: var(--wp--custom--color--accent-200);
 	--wp--preset--color--surface-selected: var(--wp--custom--color--accent-900);
-	--wp--preset--color--text-default: var(--wp--custom--color--gray-100);
+	--wp--preset--color--surface-scrim: var(--wp--custom--color--gray-950);
+	--wp--preset--color--text-on-scrim: var(--wp--custom--color--gray-00);
+		--wp--preset--color--text-default: var(--wp--custom--color--gray-100);
 	--wp--preset--color--text-muted: var(--wp--custom--color--gray-400);
 	--wp--preset--color--text-on-action: var(--wp--custom--color--gray-950);
 	--wp--preset--color--text-link: var(--wp--custom--color--gray-100);
@@ -47,6 +49,8 @@
 		--wp--preset--color--surface-action-primary: var(--wp--custom--color--accent-300);
 		--wp--preset--color--surface-action-primary-hover: var(--wp--custom--color--accent-200);
 		--wp--preset--color--surface-selected: var(--wp--custom--color--accent-900);
+		--wp--preset--color--surface-scrim: var(--wp--custom--color--gray-950);
+		--wp--preset--color--text-on-scrim: var(--wp--custom--color--gray-00);
 		--wp--preset--color--text-default: var(--wp--custom--color--gray-100);
 		--wp--preset--color--text-muted: var(--wp--custom--color--gray-400);
 		--wp--preset--color--text-on-action: var(--wp--custom--color--gray-950);

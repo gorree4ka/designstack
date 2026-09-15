@@ -17,7 +17,7 @@
 	<section class="ds-empty ds-empty--filters">
 		<?php echo designstack_illustration( 'empty-filters' ); ?>
 		<h2 class="ds-empty__title">По таким условиям ничего нет</h2>
-		<p class="ds-empty__text">Российских инструментов для прототипирования в каталоге пока нет. Попробуй снять фильтр «Российский».</p>
+		<p class="ds-empty__text">Российских инструментов для прототипирования в каталоге пока нет. Попробуйте снять фильтр «Российский».</p>
 		<div class="ds-empty__actions">
 			<a class="ds-button ds-button--primary" href="/tools/">Сбросить фильтры</a>
 			<a class="ds-link" href="/suggest/">Предложить ресурс</a>
@@ -31,13 +31,13 @@
 	<section class="ds-empty ds-empty--search">
 		<?php echo designstack_illustration( 'empty-filters' ); ?>
 		<h2 class="ds-empty__title">По запросу «экслидроу» ничего нет</h2>
-		<p class="ds-empty__text">Попробуй короче или другими словами. Если ресурса нет в каталоге — предложи его.</p>
+		<p class="ds-empty__text">Попробуйте короче или другими словами. Если ресурса нет в каталоге — предложите его.</p>
 		<div class="ds-empty__actions"><a class="ds-link" href="/suggest/">Предложить ресурс</a></div>
 	</section>
 	<section class="ds-empty ds-empty--not-found">
 		<?php echo designstack_illustration( 'not-found' ); ?>
 		<h2 class="ds-empty__title">Такой страницы нет</h2>
-		<p class="ds-empty__text">Адрес мог измениться или в нём опечатка. Найди ресурс поиском или открой раздел.</p>
+		<p class="ds-empty__text">Адрес мог измениться или в нём опечатка. Найдите ресурс поиском или откройте раздел.</p>
 	</section>
 </div>
 <!-- /wp:html -->

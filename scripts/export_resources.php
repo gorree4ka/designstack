@@ -1,47 +1,47 @@
 <?php
 /**
- * Выгрузка каталога в JSON для скриптов проверки.
+ * Выгружает каталог в JSON для разметки навыками карты компетенций.
  *
- * Запуск: tools/wp.cmd --path=wordpress eval-file C:/Projects/DesignSite/scripts/export_resources.php
- * Печатает массив записей `resource` с полями, которые нужны перепроверке (директива 16, фаза 6).
- * Ничего не меняет: только чтение.
+ * Поля — те, по которым решается, какой навык поднимает ресурс: имя, тип, темы, грейд
+ * и начало вердикта. Полные тексты не нужны и только раздувают файл.
  *
- * @package designstack
+ *   wp eval-file scripts/export_resources.php C:/Projects/DesignSite/.tmp/resources.json
  */
 
-defined( 'ABSPATH' ) || exit;
+$out = isset( $args[0] ) ? $args[0] : '';
 
-$ds_posts = get_posts(
+if ( ! $out ) {
+	echo "нужен путь, куда писать JSON\n";
+
+	return;
+}
+
+$posts = get_posts(
 	array(
-		'post_type'   => 'resource',
-		'post_status' => array( 'publish', 'draft', 'pending' ),
-		'numberposts' => -1,
-		'orderby'     => 'title',
-		'order'       => 'ASC',
+		'post_type'      => 'resource',
+		'post_status'    => 'publish',
+		'numberposts'    => -1,
+		'orderby'        => 'title',
+		'order'          => 'ASC',
 	)
 );
 
-$ds_out = array();
+$rows = array();
 
-foreach ( $ds_posts as $ds_post ) {
-	$ds_types = wp_get_post_terms( $ds_post->ID, 'resource_type', array( 'fields' => 'slugs' ) );
+foreach ( $posts as $post ) {
+	$verdict = (string) get_post_meta( $post->ID, 'verdict', true );
 
-	$ds_out[] = array(
-		'id'         => $ds_post->ID,
-		'slug'       => $ds_post->post_name,
-		'title'      => $ds_post->post_title,
-		'status'     => $ds_post->post_status,
-		'type'       => is_wp_error( $ds_types ) ? '' : ( $ds_types[0] ?? '' ),
-		'url'        => (string) get_post_meta( $ds_post->ID, 'url', true ),
-		'checked_at' => (string) get_post_meta( $ds_post->ID, 'checked_at', true ),
-		'state'      => (string) get_post_meta( $ds_post->ID, 'status', true ),
-		'ru_open'    => (string) get_post_meta( $ds_post->ID, 'ru_open', true ),
-		'ru_payment' => (string) get_post_meta( $ds_post->ID, 'ru_payment', true ),
-		'pricing'    => (string) get_post_meta( $ds_post->ID, 'pricing', true ),
-		'price_note' => (string) get_post_meta( $ds_post->ID, 'price_note', true ),
-		'curator'    => (string) get_post_meta( $ds_post->ID, 'curator', true ),
-		'analogs'    => array_values( array_filter( array_map( 'absint', (array) get_post_meta( $ds_post->ID, 'ru_alternative', true ) ) ) ),
+	$rows[] = array(
+		'slug'    => $post->post_name,
+		'title'   => $post->post_title,
+		'type'    => implode( ',', wp_get_post_terms( $post->ID, 'resource_type', array( 'fields' => 'slugs' ) ) ),
+		'topics'  => implode( ',', wp_get_post_terms( $post->ID, 'topic', array( 'fields' => 'slugs' ) ) ),
+		'level'   => implode( ',', wp_get_post_terms( $post->ID, 'level', array( 'fields' => 'slugs' ) ) ),
+		'verdict' => mb_substr( wp_strip_all_tags( $verdict ), 0, 110 ),
+		'skills'  => wp_get_post_terms( $post->ID, 'skill', array( 'fields' => 'slugs' ) ),
 	);
 }
 
-echo wp_json_encode( $ds_out, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+file_put_contents( $out, wp_json_encode( $rows, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) );
+
+echo 'выгружено записей: ' . count( $rows ) . " → {$out}\n";

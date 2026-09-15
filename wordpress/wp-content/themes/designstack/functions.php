@@ -1,12 +1,26 @@
 <?php
 /**
- * DesignStack: токены дизайн-системы (директива 10) и библиотека паттернов (директива 11).
+ * DesignStack: токены дизайн-системы (этап 10) и библиотека паттернов (этап 11).
  *
  * @package designstack
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
+}
+
+/**
+ * Совпадает ли шаблон текущей страницы с именем.
+ *
+ * В `_wp_page_template` WordPress хранит слаг без расширения — `page-suggest`, а не
+ * `page-suggest.html`. Сравнение с именем файла молча не срабатывает: блок в шаблоне
+ * рисуется, а его скрипт не подключается. Проверка: `curl` страницы и поиск имени скрипта.
+ *
+ * @param string $name Слаг шаблона без расширения.
+ * @return bool
+ */
+function designstack_is_template( string $name ): bool {
+	return $name === str_replace( '.html', '', (string) get_page_template_slug() );
 }
 
 /**
@@ -68,12 +82,54 @@ function designstack_enqueue_assets() {
 
 	// Форма «Предложить ресурс»: фокус на сводке ошибок и подпись на время отправки (этап 14).
 	// Блок формы стоит в шаблоне страницы, а не в её содержимом, поэтому has_block() его не видит.
-	if ( is_singular() && ( has_block( 'designstack/suggest-form' ) || 'page-suggest.html' === get_page_template_slug() ) ) {
+	if ( is_singular() && ( has_block( 'designstack/suggest-form' ) || designstack_is_template( 'page-suggest' ) ) ) {
 		wp_enqueue_script(
 			'designstack-form',
 			get_theme_file_uri( 'assets/js/form.js' ),
 			array(),
 			designstack_asset_version( 'assets/js/form.js' ),
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
+
+	// Тренажёр внутри урока: без скрипта вопросы видны списком, со скриптом идут по одному.
+	if ( is_singular( 'lesson' ) ) {
+		wp_enqueue_script(
+			'designstack-lesson',
+			get_theme_file_uri( 'assets/js/lesson.js' ),
+			array(),
+			designstack_asset_version( 'assets/js/lesson.js' ),
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
+
+	// Карта развития: подставляет ступень человека из ответов проверки и открывает нужный урок.
+	if ( is_singular() && ( has_block( 'designstack/skills-map' ) || designstack_is_template( 'page-map' ) ) ) {
+		wp_enqueue_script(
+			'designstack-map',
+			get_theme_file_uri( 'assets/js/map.js' ),
+			array(),
+			designstack_asset_version( 'assets/js/map.js' ),
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
+
+	// Проверка грейда: пошаговый проход и подсчёт (карта компетенций, D142).
+	if ( is_singular() && ( has_block( 'designstack/grade-check' ) || designstack_is_template( 'page-grade-check' ) ) ) {
+		wp_enqueue_script(
+			'designstack-grade-check',
+			get_theme_file_uri( 'assets/js/grade-check.js' ),
+			array(),
+			designstack_asset_version( 'assets/js/grade-check.js' ),
 			array(
 				'strategy'  => 'defer',
 				'in_footer' => true,

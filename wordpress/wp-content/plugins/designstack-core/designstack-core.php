@@ -20,6 +20,7 @@ define( 'DESIGNSTACK_CORE_URL', plugin_dir_url( __FILE__ ) );
 
 require_once DESIGNSTACK_CORE_DIR . 'includes/enums.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/post-types.php';
+require_once DESIGNSTACK_CORE_DIR . 'includes/lessons.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/taxonomies.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/meta.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/rewrite.php';
@@ -31,6 +32,7 @@ require_once DESIGNSTACK_CORE_DIR . 'includes/render-page.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/render-home.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/render-entry.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/render-service.php';
+require_once DESIGNSTACK_CORE_DIR . 'includes/grade-check.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/blocks.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/form.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/seo.php';
@@ -49,6 +51,7 @@ if ( is_admin() ) {
  */
 function designstack_core_activate(): void {
 	designstack_core_register_post_type();
+	designstack_core_register_lesson();
 	designstack_core_register_taxonomies();
 	designstack_core_install_terms();
 	designstack_core_install_categories();

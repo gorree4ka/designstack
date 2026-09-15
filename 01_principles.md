@@ -1,6 +1,6 @@
 # Принципы работы агента (актуализировано под рекомендации Anthropic 09.2026)
 
-> Этот файл — общая часть инструкций. Он подключается в `CLAUDE.md` через `@01_principles.md`. Карта конвейера и директив — `00_pipeline.md`.
+> Этот файл — общая часть инструкций. Он подключается в `CLAUDE.md` через `@01_principles.md`. Карта конвейера — `00_pipeline.md`.
 > Проектные факты (стек, команды, структура) живут в `CLAUDE.md`; правила для отдельных папок — в `.claude/rules/*.md`;
 > повторяемые процедуры — в `.claude/skills/*/SKILL.md`; жёсткие проверки — в хуках `.claude/settings.json`.
 > Источники: code.claude.com/docs/en/memory, /skills, /sub-agents, /settings-reference, /large-codebases.
@@ -12,7 +12,7 @@ Anthropic реализует это штатными механизмами, а 
 
 | Было (3-layer) | Стало (штатно в Claude Code) |
 |---|---|
-| `directives/*.md` — SOP | `.claude/skills/<name>/SKILL.md` — подгружаются по описанию или `/name`, могут ограничивать инструменты (`allowed-tools`), запускаться в изолированном субагенте (`context: fork`) |
+| Директивы `NN_directive_*.md` — SOP | `.claude/skills/<name>/SKILL.md` — подгружаются по описанию или `/name`, могут ограничивать инструменты (`allowed-tools`), запускаться в изолированном субагенте (`context: fork`) |
 | Оркестрация «в голове» агента | `CLAUDE.md` ≤ 200 строк + `.claude/rules/*.md` с `paths:` — правила подгружаются только при работе с нужными файлами |
 | `execution/*.py` | `scripts/` — детерминированные скрипты; плюс **хуки** (`PreToolUse`/`PostToolUse`/`Stop`), которые выполняются гарантированно, а не «если агент вспомнит» |
 | «Спроси пользователя» | `permissions.allow/deny` в `settings.json` — что можно без вопросов, что запрещено всегда |

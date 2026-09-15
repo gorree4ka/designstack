@@ -38,7 +38,7 @@ $ds_ref = $ds_nav ? (int) $ds_nav[0]->ID : 0;
 <!-- wp:group {"className":"ds-header","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ds-header"><!-- wp:group {"align":"wide","className":"ds-header__bar"} -->
 <div class="wp-block-group alignwide ds-header__bar"><!-- wp:html -->
-<p class="ds-header__logo"><a href="/">DesignStack</a></p>
+<p class="ds-header__logo"><a href="/"><svg class="ds-header__mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true" focusable="false"><polygon points="32,5 56,17 32,29 8,17"/><polygon points="32,20 56,32 32,44 8,32" opacity=".72"/><polygon points="32,35 56,47 32,59 8,47" opacity=".45"/></svg>DesignStack</a></p>
 <details class="ds-header__menu" open>
 	<summary class="ds-header__menu-toggle ds-button ds-button--icon"><?php echo designstack_icon( 'menu' ); ?><span class="screen-reader-text">Меню</span></summary>
 	<?php if ( $ds_ref ) : ?>

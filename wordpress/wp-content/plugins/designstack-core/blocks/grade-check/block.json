@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/grade-check",
+	"title": "Проверка грейда",
+	"category": "designstack",
+	"icon": "chart-bar",
+	"description": "Вопросы по карте компетенций, профиль навыков и план из материалов каталога. Без регистрации.",
+	"textdomain": "designstack-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"multiple": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

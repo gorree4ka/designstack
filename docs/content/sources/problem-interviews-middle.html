@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Проблемные интервью: Middle — от вопроса задачи до правки макета</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 800px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 540px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+  .num-c { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+
+  /* funnel */
+  .funnel { display: flex; flex-direction: column; gap: 10px; }
+  .tier { border: 1px solid var(--border); border-radius: 10px; background: var(--raised); padding: 13px 15px; position: relative; }
+  .tier .lab { font: 700 10.5px system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 6px; }
+  .tier p { margin: 0; font-size: 14.5px; max-width: none; }
+  .tier ul { margin: 6px 0 0; padding-left: 19px; font-size: 14px; max-width: none; }
+  .tier li { margin: 3px 0; color: var(--ink-2); }
+  .tier.narrow { margin: 0 6% ; }
+  .tier.narrower { margin: 0 12%; }
+  @media (max-width: 620px) { .tier.narrow, .tier.narrower { margin: 0; } }
+  .arrowdown { text-align: center; color: var(--muted); font-size: 15px; line-height: 1; margin: -4px 0; }
+
+  .said { margin: 0 0 12px; padding-left: 11px; border-left: 2px solid var(--quote-bar); color: var(--ink); max-width: none; font-size: 14.5px; }
+  .said .who { display: block; font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+
+  /* script versions */
+  .sv { display: none; }
+  .sv.on { display: block; }
+  .qline { border-top: 1px solid var(--hairline); padding: 13px 0; display: grid; grid-template-columns: 22px 1fr; gap: 12px; }
+  .qline:first-of-type { border-top: none; padding-top: 4px; }
+  .qline .n { font: 700 12px ui-monospace, Menlo, monospace; color: var(--muted); padding-top: 3px; }
+  .qline .q { font-size: 15px; color: var(--ink); }
+  .qline .why { font-size: 13.5px; color: var(--ink-2); margin-top: 5px; }
+  .qline .why b { color: var(--ink); }
+  .flaw { display: inline-block; font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; margin-right: 6px; background: var(--bad-soft); color: var(--bad); vertical-align: 1px; }
+  .fix { background: var(--good-soft); color: var(--good); }
+
+  .trace { display: grid; grid-template-columns: 1fr; }
+  .trace-row { border-top: 1px solid var(--hairline); padding: 15px 18px; }
+  .trace-row:first-of-type { border-top: none; }
+  .trace-row h5 { margin: 0 0 8px; font-size: 15px; }
+  .trace-row .meta { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .step { display: grid; grid-template-columns: 96px 1fr; gap: 12px; font-size: 14px; padding: 5px 0; align-items: start; }
+  .step .k { font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+  .step .v { color: var(--ink-2); }
+  .step .v b { color: var(--ink); }
+  @media (max-width: 560px) { .step { grid-template-columns: 1fr; gap: 2px; } }
+  .verdict { display: inline-block; font: 700 11px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; }
+  .verdict.keep { background: var(--good-soft); color: var(--good); }
+  .verdict.kill { background: var(--bad-soft); color: var(--bad); }
+  .verdict.hold { background: var(--warn-soft); color: var(--warn); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Проблемные интервью · Middle · своё исследование до правки макета</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · проблемные интервью</p>
+  <div class="levels" aria-label="Уровень темы: Middle, второй из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv on">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Своё исследование: от вопроса задачи до конкретной правки в макете</h1>
+  <p class="lede">На предыдущем уровне сценарий давали готовым, а результатом был список наблюдений. Здесь ты автор всей цепочки: сам решаешь, что нужно выяснить, пишешь под это вопросы, выбираешь людей, вовремя останавливаешься и доводишь выводы до изменения в макете. Причём изменения настоящего — такого, где от чего-то пришлось отказаться.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#decompose">Превращать вопрос задачи в 5–8 вопросов сценария</a> через гипотезы и зоны незнания</li>
+    <li><a href="#clean">Вычищать подсказки из формулировок</a> и проверять сценарий пилотным разговором</li>
+    <li><a href="#sample">Выбирать собеседников и обосновывать выбор</a> поведением, а не удобством</li>
+    <li><a href="#saturation">Видеть насыщение</a> — момент, когда новые интервью перестали приносить новое</li>
+    <li><a href="#decision">Доводить выводы до решения:</a> что меняем, от чего отказываемся и почему</li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Везде дальше разбирается одна задача — <b>«почему пользователи бросают оформление на шаге оплаты»</b>. Она проходит через все разделы: превращается в исследовательские вопросы, становится сценарием, проверяется на пилоте, определяет выборку и в конце доходит до двух правок макета и одного отменённого решения. Подставляй на её место свою.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется по сравнению с прошлым уровнем</h2></div>
+  <p class="sec-sub">Техника разговора остаётся той же. Меняется зона ответственности.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Junior</th><th>Middle</th></tr></thead>
+      <tbody>
+        <tr><td><b>Вопрос</b></td><td>дан руководителем</td><td>формулируешь сам из задачи проекта</td></tr>
+        <tr><td><b>Сценарий</b></td><td>чужой, идёшь по нему</td><td>свой, пишешь и проверяешь на пилоте</td></tr>
+        <tr><td><b>Люди</b></td><td>кого нашли</td><td>выбираешь по критерию и объясняешь выбор</td></tr>
+        <tr><td><b>Объём</b></td><td>сколько сказали</td><td>решаешь сам и останавливаешься по насыщению</td></tr>
+        <tr><td><b>Результат</b></td><td>список наблюдений</td><td>изменение в продукте и отказ от части своих идей</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>пересказ вместо наблюдений</td><td>красивый отчёт, после которого ничего не поменялось</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Главный риск уровня — исследование-ритуал.</b> Разговоры проведены, отчёт свёрстан, команда покивала, макет остался прежним. Формально работа сделана, фактически потрачены две недели. Поэтому критерий выполнения задания здесь жёсткий: <b>хотя бы одно решение должно быть отменено или переделано</b>. Если после пяти интервью не изменилось ничего — значит, вы спрашивали про то, что и так знали, либо остановились на отчёте и не дошли до макета.</div>
+</section>
+
+<section id="decompose">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Из вопроса задачи — в вопросы сценария</h2></div>
+  <p class="sec-sub">Первый навык уровня. Между «почему бросают на оплате» и списком вопросов лежат два обязательных шага, которые обычно пропускают.</p>
+
+  <p>Ошибка новичка в сценарном деле — взять продуктовый вопрос и спросить его у человека напрямую. «Почему вы бросили оплату?» — вопрос, на который собеседник честно ответит выдумкой: он не помнит, не анализировал и хочет выглядеть разумным. Продуктовый вопрос адресован вам, а не ему.</p>
+
+  <p>Правильная цепочка — четыре уровня, где каждый следующий уже предыдущего.</p>
+
+  <div class="box">
+    <div class="box-head">Разбор · как «почему бросают на оплате» превращается в сценарий</div>
+    <div class="box-body">
+      <div class="funnel">
+        <div class="tier">
+          <span class="lab">1 · Вопрос задачи — он ваш, не собеседника</span>
+          <p>Почему пользователи бросают оформление на шаге оплаты?</p>
+        </div>
+        <div class="arrowdown">↓ отделяем то, что уже известно</div>
+        <div class="tier">
+          <span class="lab">2 · Что мы знаем и чего интервью не даст</span>
+          <ul>
+            <li><b>Знаем из аналитики:</b> на шаге оплаты отваливается 34 %, из них 60 % — с мобильных, пик отвалов ночью.</li>
+            <li><b>Интервью не ответит:</b> сколько процентов, какой вариант конверсионнее, как изменится метрика. Это к аналитике и тестам.</li>
+            <li><b>Интервью ответит:</b> как выглядел процесс глазами человека, что он делал в момент ухода, куда ушёл и чем закончил.</li>
+          </ul>
+        </div>
+        <div class="arrowdown">↓ формулируем предположения, которые можно опровергнуть</div>
+        <div class="tier narrow">
+          <span class="lab">3 · Гипотезы и зоны незнания</span>
+          <ul>
+            <li><b>Г1.</b> Уходят, потому что нужной карты нет под рукой — и возвращаются позже.</li>
+            <li><b>Г2.</b> Итоговая сумма отличается от ожидаемой, и человек идёт перепроверять.</li>
+            <li><b>Г3.</b> Не доверяют форме оплаты — она выглядит чужой.</li>
+            <li><b>Г4.</b> Уход не значит отказ: заказ доводится другим способом — по телефону, в приложении, через менеджера.</li>
+            <li><b>Зона незнания:</b> что вообще происходит с человеком в те 20 минут, что он не на сайте.</li>
+          </ul>
+        </div>
+        <div class="arrowdown">↓ под каждую зону — вопрос о прошлом опыте</div>
+        <div class="tier narrower">
+          <span class="lab">4 · 5–8 вопросов сценария</span>
+          <p>Готовый список — в разделе 3. Важно соотношение: одна гипотеза не равна одному вопросу. Один хороший вопрос про реальный эпизод обычно проверяет сразу три гипотезы, потому что человек рассказывает всю последовательность, а не отвечает по пунктам.</p>
+        </div>
+      </div>
+    </div>
+    <div class="box-foot">Смысл шага 2 в том, чтобы не тратить интервью на уже известное. Смысл шага 3 — в том, что гипотеза, которую невозможно опровергнуть, бесполезна: «людям важно удобство» не проверяется никаким разговором.</div>
+  </div>
+
+  <h3>Как формулировать гипотезу, чтобы она работала</h3>
+  <p>Рабочая гипотеза устроена так: <strong>кто</strong> в <strong>какой ситуации</strong> делает <strong>что</strong>, потому что <strong>причина</strong>. И к ней всегда прилагается ответ на вопрос: что я услышу, если она неверна?</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Негодная формулировка</th><th>Рабочая формулировка</th><th>Что опровергнет</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Форма оплаты неудобная</td>
+          <td>Люди, оформляющие с телефона вечером, уходят с шага оплаты, потому что карта лежит не рядом, и возвращаются позже с компьютера</td>
+          <td>Рассказы, где карта была под рукой, а человек всё равно ушёл</td>
+        </tr>
+        <tr>
+          <td>Пользователи не доверяют сайту</td>
+          <td>Люди, впервые покупающие у нас, останавливаются перед вводом карты и ищут подтверждение надёжности — отзывы, реквизиты, звонок</td>
+          <td>Истории, где никто ничего не перепроверял, а уход был по другой причине</td>
+        </tr>
+        <tr>
+          <td>Нужно добавить оплату по СБП</td>
+          <td class="dim">Это не гипотеза, а решение. Решения проверяют тестом, а не интервью</td>
+          <td class="dim">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Проверка гипотезы на пригодность: назовите фразу, услышав которую вы признаете гипотезу неверной.</b> Не можете — гипотеза сформулирована так, что подтвердится при любом исходе, и исследование под неё будет самообманом. Это же правило спасает от главной болезни уровня — от поиска подтверждений тому, что вы уже решили нарисовать.</div>
+</section>
+
+<section id="write">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Сценарий: 5–8 вопросов и всё остальное</h2></div>
+  <p class="sec-sub">Почему именно такой объём и как устроен каждый вопрос.</p>
+
+  <p>Пять–восемь — это <strong>опорные</strong> вопросы: те, ради которых вы пришли, и те, что определяют ход разговора. Уточняющих будет в разы больше, но их не пишут заранее — они рождаются из ответов. Если опорных вопросов двенадцать, вы не успеете ни один раскопать; если три — разговор развалится на середине.</p>
+
+  <p>Каждый опорный вопрос устроен одинаково: он <strong>адресован конкретному эпизоду прошлого</strong> и закрывает одну зону незнания. Рядом с ним в вашем документе стоит пометка «зачем» — она нужна вам, а не собеседнику: в момент, когда разговор поплыл, вы по ней понимаете, что именно ещё не выяснено.</p>
+
+  <div class="box" id="scriptDemo">
+    <div class="box-head">Сценарий по задаче про оплату
+      <span class="spacer"></span>
+      <button class="btn" id="svDraft" type="button" aria-pressed="true">Черновик</button>
+      <button class="btn" id="svClean" type="button" aria-pressed="false">После чистки</button>
+    </div>
+    <div class="box-body">
+      <div class="sv on" id="draftPane">
+        <p class="dim" style="margin-top:0; font-size:14px;">Так выглядит первый заход почти у всех. Ошибки помечены — попробуй найти их сам, прежде чем читать пометки.</p>
+        <div class="qline"><span class="n">1</span><div><div class="q">Вам удобно оформлять заказы на нашем сайте?</div><div class="why"><span class="flaw">оценка</span>Просьба похвалить. Ответ «да, нормально» не значит ничего.</div></div></div>
+        <div class="qline"><span class="n">2</span><div><div class="q">Что вас смущает на шаге оплаты?</div><div class="why"><span class="flaw">подсказка</span>Вопрос утверждает, что смущает. Человек найдёт, чем вас порадовать.</div></div></div>
+        <div class="qline"><span class="n">3</span><div><div class="q">Вы бросаете корзину, если оплата занимает много времени?</div><div class="why"><span class="flaw">да/нет</span><span class="flaw">гипотеза внутри</span>Свою гипотезу вы уже озвучили, осталось получить кивок.</div></div></div>
+        <div class="qline"><span class="n">4</span><div><div class="q">Как вы выбираете способ оплаты?</div><div class="why"><span class="flaw">допущение</span>Предполагает, что выбор вообще происходит. Возможно, человек всегда платит одним и тем же и никакого выбора нет.</div></div></div>
+        <div class="qline"><span class="n">5</span><div><div class="q">Вам было бы удобнее оплачивать через СБП?</div><div class="why"><span class="flaw">решение</span>Проверка вашей идеи, а не его опыта. Ответ будет вежливым.</div></div></div>
+        <div class="qline"><span class="n">6</span><div><div class="q">Насколько вы доверяете нашей форме оплаты?</div><div class="why"><span class="flaw">термин из головы</span>«Форма оплаты» — ваше слово. Человек назовёт это иначе, и вы не узнаете как.</div></div></div>
+        <div class="qline"><span class="n">7</span><div><div class="q">Что нужно улучшить в оформлении заказа?</div><div class="why"><span class="flaw">желания</span>Просьба спроектировать за вас. Услышите общие места.</div></div></div>
+      </div>
+
+      <div class="sv" id="cleanPane">
+        <p class="dim" style="margin-top:0; font-size:14px;">Тот же сценарий после чистки: семь опорных вопросов, каждый про конкретный эпизод. Пометка «зачем» — для вас, вслух не произносится.</p>
+        <div class="qline"><span class="n">1</span><div><div class="q">Расскажите про последнюю покупку, которую вы делали у нас или в похожем месте. Что это было и когда?</div><div class="why"><span class="flaw fix">зачем</span>Закрепляем конкретный эпизод, к которому будем возвращаться весь разговор.</div></div></div>
+        <div class="qline"><span class="n">2</span><div><div class="q">Где вы были и с какого устройства оформляли? Что происходило вокруг?</div><div class="why"><span class="flaw fix">зачем</span>Обстановка — проверка Г1. Ночь, телефон, карта в другой комнате всплывают именно здесь.</div></div></div>
+        <div class="qline"><span class="n">3</span><div><div class="q">Проведите меня по шагам: что вы делали с момента, когда решили оформить, и дальше.</div><div class="why"><span class="flaw fix">зачем</span>Основная раскопка. Спускаемся лестницей «и что потом». Отсюда берётся почти весь материал.</div></div></div>
+        <div class="qline"><span class="n">4</span><div><div class="q">Был ли момент, когда вы остановились или отвлеклись? Что произошло?</div><div class="why"><span class="flaw fix">зачем</span>Нейтральная формулировка: «остановились» допускает ответ «нет». Никакой оценки, никакого «смущает».</div></div></div>
+        <div class="qline"><span class="n">5</span><div><div class="q">Чем вы платили в тот раз? А в предыдущий?</div><div class="why"><span class="flaw fix">зачем</span>Две точки вместо вопроса «как выбираете». Если способ один и тот же — выбора нет, и Г-про-СБП рассыпается сама.</div></div></div>
+        <div class="qline"><span class="n">6</span><div><div class="q">Вы что-нибудь проверяли или уточняли по ходу — где-то, у кого-то?</div><div class="why"><span class="flaw fix">зачем</span>Проверка Г2 и Г3 без слов «доверие» и «сумма». Всплывут звонки, отзывы, переписка, сверка с другим сайтом.</div></div></div>
+        <div class="qline"><span class="n">7</span><div><div class="q">Чем всё закончилось? А если заказ так и не оформился — что вы сделали вместо этого?</div><div class="why"><span class="flaw fix">зачем</span>Проверка Г4 — уход не равен отказу. Самый недооценённый вопрос: часто оказывается, что деньги компания получила, просто другим путём.</div></div></div>
+        <div class="qline"><span class="n">+</span><div><div class="q">Мы о чём-то не поговорили, а стоило бы?</div><div class="why"><span class="flaw fix">зачем</span>Обязательный финальный вопрос. Регулярно приносит то, чего не было ни в одной гипотезе.</div></div></div>
+      </div>
+    </div>
+    <div class="box-foot">Обрати внимание на главное различие: в черновике семь вопросов проверяют семь мнений, в чистовике семь вопросов восстанавливают одну историю. Второе даёт материал, первое — набор вежливых реплик.</div>
+  </div>
+
+  <div class="rule"><b>Порядок вопросов важен не меньше формулировок.</b> Сначала эпизод и обстановка, потом шаги, и только в самом конце — то, что ближе всего к вашей гипотезе. Если спросить про оплату на второй минуте, весь дальнейший разговор человек будет вести «про оплату», подгоняя воспоминания под заявленную тему.</div>
+</section>
+
+<section id="clean">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Чистка формулировок и пилотный разговор</h2></div>
+  <p class="sec-sub">Второй навык уровня. Сначала — пять тестов, которые проходит каждый вопрос, потом — единственная проверка, которая ловит остальное.</p>
+
+  <h3>Пять тестов для каждого вопроса</h3>
+  <ol>
+    <li><strong>Тест на да/нет.</strong> Можно ответить одним словом? Переформулируйте так, чтобы началось с «расскажите», «как», «что произошло». Исключение — вопросы-факты вроде «чем платили», они и должны быть короткими.</li>
+    <li><strong>Тест на гипотезу внутри.</strong> Вычеркните вопрос и посмотрите, можно ли по нему восстановить, что вы думаете. Если да — вы подсказали ответ. «Вы бросаете корзину, если оплата долгая?» восстанавливается за секунду.</li>
+    <li><strong>Тест на допущение.</strong> Вопрос предполагает, что действие вообще происходит? «Как вы выбираете способ оплаты» рушится, если человек не выбирает. Добавьте развилку: «Был ли выбор? Если да — как он происходил?»</li>
+    <li><strong>Тест на ваши слова.</strong> Есть ли в вопросе термины из вашего интерфейса или вашей документации — «корзина», «форма оплаты», «личный кабинет»? Замените нейтральным описанием. Как человек это называет — отдельная ценность, которую нельзя получить, назвав первым.</li>
+    <li><strong>Тест на оценку и желание.</strong> Просите оценить, сравнить, пожелать, представить? Переведите в прошедшее время и в конкретный случай.</li>
+  </ol>
+
+  <div class="warnbox"><b>Шестой тест, неформальный, но самый честный.</b> Прочитайте вопрос вслух и представьте, что вам его задал незнакомый человек. Если возникает импульс ответить односложно и вежливо — вопрос не работает. Половина плохих формулировок отсеивается именно так, за десять минут до первого интервью.</div>
+
+  <h3>Пилотный разговор</h3>
+  <p>Пилот — это полноценное интервью, проведённое с одним человеком до того, как вы начали серию. Оно не считается частью выборки, и это нормально: его задача — проверить инструмент, а не собрать данные.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Что проверяем на пилоте</th><th>Признак проблемы</th><th>Что делать</th></tr></thead>
+      <tbody>
+        <tr><td>Понятность формулировок</td><td>собеседник переспрашивает или отвечает не о том</td><td>переписать вопрос его словами из ответа</td></tr>
+        <tr><td>Тайминг</td><td>за час дошли только до середины</td><td>убрать вопросы, а не ускоряться</td></tr>
+        <tr><td>Порядок</td><td>человек сам забежал вперёд в блок 3</td><td>переставить — значит, так думает не он один</td></tr>
+        <tr><td>Урожайность</td><td>вопрос приносит односложные ответы у всех</td><td>заменить или превратить в уточняющий</td></tr>
+        <tr><td>Гипотезы</td><td>ни одна не подтвердилась и не опровергнута</td><td>вы спрашиваете не про то — вернуться к разделу 2</td></tr>
+        <tr><td>Техника</td><td>запись не пишется, звук плывёт</td><td>починить до первого настоящего интервью</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul>
+    <li><strong>Кого брать в пилот:</strong> человека, похожего на вашу аудиторию, но не самого ценного из списка. Ценных берегите — на них сценарий уже должен работать.</li>
+    <li><strong>Правьте сразу после,</strong> пока помните, где спотыкались. И записывайте, что именно поменяли: этот список — отличный материал для рассказа о работе на собеседовании.</li>
+    <li><strong>Один пилот — не догма.</strong> Если после правок изменилась половина сценария, проведите второй. Если поменяли две формулировки — идите в серию.</li>
+    <li><strong>Сценарий продолжает меняться и дальше</strong> — это признак живого исследования, а не брака. Важно только фиксировать версии: какой вариант был на каком интервью.</li>
+  </ul>
+</section>
+
+<section id="sample">
+  <div class="sec-head"><h2><span class="h2-num">5</span>С кем говорить и как объяснить почему</h2></div>
+  <p class="sec-sub">Третий навык уровня. Выборка из пяти человек решает судьбу исследования сильнее, чем формулировки вопросов.</p>
+
+  <p>Правило одно: <strong>отбирайте по поведению, а не по демографии и не по доступности</strong>. Возраст, город и должность почти никогда не объясняют, почему человек ушёл с оплаты. Объясняет то, что он делал: платил впервые или в десятый раз, с телефона или с компьютера, дошёл до конца или бросил.</p>
+
+  <h3>Контраст важнее однородности</h3>
+  <p>Пять человек, которые бросили оплату, расскажут пять похожих историй, и вы не узнаете главного — чем они отличаются от тех, кто дошёл. Сильная выборка на пять интервью для нашей задачи выглядит так:</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Кого зовём</th><th class="num-c">Сколько</th><th>Зачем именно они</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ушли с оплаты и не вернулись</b></td><td class="num-c">2</td><td>Целевое поведение. Главный источник материала о том, что произошло в момент ухода</td></tr>
+        <tr><td><b>Ушли, но вернулись и оплатили позже</b></td><td class="num-c">2</td><td>Показывают, что именно помогло вернуться, — и проверяют гипотезу «уход ≠ отказ»</td></tr>
+        <tr><td><b>Прошли оплату без запинки</b></td><td class="num-c">1</td><td>Контрольная точка: чем их ситуация отличалась. Без неё вы не отличите причину от фона</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Приём «крайние случаи».</b> Кроме середины берите края: самого нового и самого опытного, самый быстрый и самый мучительный случай. Крайние пользователи упираются в ограничения продукта первыми и рассказывают о них отчётливее — то, что у обычного человека лёгкое неудобство, у них полноценный барьер, который они уже научились обходить. Обходные пути крайних — готовая карта дыр.</div>
+
+  <h3>Скринер: пять вопросов, которые отсеивают</h3>
+  <p>Скринер — короткая анкета перед приглашением. Её задача — не описать человека, а понять, подходит ли он, и не потратить час на неподходящего.</p>
+
+  <div class="box">
+    <div class="box-body">
+      <ol style="margin:0">
+        <li>Покупали ли вы что-нибудь в интернете за последний месяц? <span class="dim">(нет → не подходит)</span></li>
+        <li>Расскажите про последний случай: что покупали и когда? <span class="dim">(открытый — проверяет, что случай реальный и вспоминается)</span></li>
+        <li>Оформление прошло с первого раза или пришлось возвращаться? <span class="dim">(распределяет по группам из таблицы выше)</span></li>
+        <li>С какого устройства оформляли? <span class="dim">(нужно для контраста мобайл/десктоп)</span></li>
+        <li>Работаете ли вы в ИТ, дизайне или маркетинге? <span class="dim">(да → осторожно: профессиональная деформация, такие люди анализируют интерфейс вместо того, чтобы вспоминать)</span></li>
+      </ol>
+    </div>
+    <div class="box-foot">Скринер не должен объяснять, что вы ищете. Вопрос «бросали ли вы оплату из-за неудобной формы?» подсказывает нужный ответ ещё до интервью — и вы получите людей, подстроившихся под ожидание.</div>
+  </div>
+
+  <h3>Как обосновать выборку команде</h3>
+  <p>На Middle от вас ждут не только проведённых разговоров, но и объяснения, почему им можно верить. Формула короткая:</p>
+  <div class="box"><div class="box-body">
+    <p style="margin:0"><b>Мы говорили с</b> [кто по поведению] — <b>потому что</b> [какая гипотеза требует именно их]. <b>Мы намеренно не брали</b> [кого] — <b>потому что</b> [почему они не ответят на этот вопрос]. <b>Ограничение:</b> [чего эта выборка не покажет].</p>
+  </div>
+  <div class="box-foot">Пример: «Говорили с пятью, кто оформлял за последний месяц с телефона: двое бросили, двое вернулись, один прошёл сразу. Не брали новых пользователей без опыта покупок — у них нет эпизода, который можно вспомнить. Ограничение: ничего не знаем про корпоративные заказы с оплатой по счёту».</div></div>
+
+  <div class="warnbox"><b>Три способа испортить выборку.</b> Взять тех, до кого легко дотянуться, — коллег и друзей: они знают продукт и жалеют вас. Взять только жалобщиков из поддержки: получите картину из одних крайностей. Взять только лояльных: они простили продукту всё и уже не помнят, что было тяжело.</div>
+</section>
+
+<section id="saturation">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Когда останавливаться</h2></div>
+  <p class="sec-sub">Четвёртый навык. Насыщение — это не ощущение «кажется, хватит», а наблюдаемый факт, который можно показать.</p>
+
+  <p><strong>Насыщение</strong> наступает, когда очередное интервью перестаёт приносить новые темы: человек рассказывает свою историю, но все её элементы вы уже слышали. Дальше интервью подтверждают частоту, а не расширяют картину, — и их ценность резко падает.</p>
+
+  <p>Чтобы это увидеть, достаточно вести счёт. После каждого разговора выпишите темы — не цитаты, а именно смысловые единицы вроде «карта в другой комнате», «сверял сумму с корзиной», «дозаказал по телефону». Отметьте, какие из них встречаются впервые.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Интервью</th><th class="num-c">Новых тем</th><th class="num-c">Всего тем</th><th>Что это значит</th></tr></thead>
+      <tbody>
+        <tr><td>Р1</td><td class="num-c">9</td><td class="num-c">9</td><td>всё новое по определению</td></tr>
+        <tr><td>Р2</td><td class="num-c">6</td><td class="num-c">15</td><td>картина активно расширяется</td></tr>
+        <tr><td>Р3</td><td class="num-c">4</td><td class="num-c">19</td><td>начали появляться повторы</td></tr>
+        <tr><td>Р4</td><td class="num-c">1</td><td class="num-c">20</td><td>первый звонок: почти всё знакомо</td></tr>
+        <tr><td>Р5</td><td class="num-c">0</td><td class="num-c">20</td><td><b>два подряд без нового — насыщение по этой группе</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul>
+    <li><strong>Рабочее правило: два интервью подряд без новых тем.</strong> Одно может быть случайностью — попался неразговорчивый собеседник. Два подряд — сигнал.</li>
+    <li><strong>Насыщение считается по каждой группе отдельно.</strong> Если в выборке три типа поведения, насыщение по «ушли и не вернулись» ничего не говорит про «прошли сразу». Отсюда и берётся привычная цифра: пять на однородную группу, а не пять на всё исследование.</li>
+    <li><strong>Пять — ориентир, а не закон.</strong> Бывает, что хватает трёх: задача узкая, люди похожи, истории совпадают с первого раза. Бывает, что на седьмом всплывает целый пласт — значит, в выборке скрыт сегмент, которого вы не заметили, и это повод не останавливаться, а добрать людей именно оттуда.</li>
+    <li><strong>Останавливаться по календарю — нормально,</strong> если честно об этом сказать: «остановились на пяти из-за срока, насыщения по группе вернувшихся не достигли». Это профессиональнее, чем делать вид, что данных достаточно.</li>
+  </ul>
+
+  <div class="rule"><b>Обратная ошибка тоже существует.</b> Останавливаться после двух интервью, потому что «и так всё понятно», — самая частая беда на этом уровне. Обычно это значит, что вы услышали подтверждение своей гипотезы и обрадовались. Правило простое: пока хотя бы одна из ваших гипотез не была опровергнута, исследование не закончено — вы ещё не проверяли себя, вы себя подтверждали.</div>
+</section>
+
+<section id="decision">
+  <div class="sec-head"><h2><span class="h2-num">7</span>От вывода к правке макета</h2></div>
+  <p class="sec-sub">Главный раздел уровня. Здесь исследование либо превращается в работу, либо остаётся документом.</p>
+
+  <p>Между наблюдением и макетом три шага, и пропуск любого из них ломает цепочку. Наблюдение — это факт из разговоров. Вывод — что этот факт означает. Следствие — что из этого вытекает для решения. И только потом правка — что конкретно меняется на конкретном экране.</p>
+
+  <p>Проверить себя легко: возьмите любую правку в макете и пройдите цепочку назад. Если в конце нет цитаты — правка появилась из вашей головы, а не из исследования. Это не запрещено, но и исследованием называть её нельзя.</p>
+
+  <div class="box">
+    <div class="box-head">Трассировка · четыре решения по итогам пяти интервью</div>
+    <div class="trace">
+
+      <div class="trace-row">
+        <h5>1. Уход с оплаты часто не означает отказ от покупки</h5>
+        <div class="meta">Встретилось: 4 из 5 · Гипотеза Г4 подтвердилась</div>
+        <p class="said">«Я потом с ноутбука всё доделал, часа через два. Просто с телефона карту искать было лень»<span class="who">Р2, 14:05</span></p>
+        <p class="said">«Позвонил им, девушка оформила и прислала ссылку на оплату. Так быстрее вышло»<span class="who">Р5, 21:30</span></p>
+        <div class="step"><span class="k">Вывод</span><span class="v">Сценарий разорван во времени и между устройствами. Продукт считает это потерей, человек — паузой.</span></div>
+        <div class="step"><span class="k">Следствие</span><span class="v">Нужно не удерживать на шаге оплаты любой ценой, а <b>сделать возврат дешёвым</b>.</span></div>
+        <div class="step"><span class="k">Правка</span><span class="v"><b>Было:</b> корзина живёт до конца сессии, письмо не отправляется. <b>Стало:</b> на шаге оплаты кнопка «Отправить ссылку на оплату себе», заказ сохраняется на 72 часа, письмо открывает готовый заказ на другом устройстве.</span></div>
+        <div class="step"><span class="k">Статус</span><span class="v"><span class="verdict keep">в макет</span></span></div>
+      </div>
+
+      <div class="trace-row">
+        <h5>2. Перед вводом карты люди сверяют итоговую сумму — и уходят её искать</h5>
+        <div class="meta">Встретилось: 3 из 5 · Гипотеза Г2 подтвердилась частично</div>
+        <p class="said">«Там сумма была на триста рублей больше, чем я насчитал. Я вернулся в корзину смотреть, откуда»<span class="who">Р1, 09:52</span></p>
+        <div class="step"><span class="k">Вывод</span><span class="v">Расхождение возникает не из-за ошибки, а из-за доставки, которая появляется поздно. Человек не понимает, откуда разница, и уходит проверять.</span></div>
+        <div class="step"><span class="k">Следствие</span><span class="v">Раскладка суммы должна быть <b>на том же экране</b>, где вводят карту, а не на предыдущем.</span></div>
+        <div class="step"><span class="k">Правка</span><span class="v"><b>Было:</b> на шаге оплаты одна строка «К оплате: 3 480 ₽». <b>Стало:</b> свёрнутый блок «Товары 3 180 + доставка 300», раскрывается по клику, без ухода со страницы.</span></div>
+        <div class="step"><span class="k">Статус</span><span class="v"><span class="verdict keep">в макет</span></span></div>
+      </div>
+
+      <div class="trace-row">
+        <h5>3. Добавление оплаты через СБП — от идеи отказались</h5>
+        <div class="meta">Встретилось: 0 из 5 · Гипотеза «людям не хватает способов оплаты» опровергнута</div>
+        <p class="said">«Да я всегда одной и той же картой плачу, она в браузере сохранена»<span class="who">Р3, 11:14</span></p>
+        <p class="said">«А чем ещё платить-то? Картой и плачу, как все»<span class="who">Р4, 07:40</span></p>
+        <div class="step"><span class="k">Вывод</span><span class="v">Выбора способа оплаты в реальности не происходит: четверо из пяти платят одним и тем же по привычке. Пятый вспомнил про СБП только после прямого вопроса и ни разу им у нас не пользовался.</span></div>
+        <div class="step"><span class="k">Следствие</span><span class="v">Новый способ оплаты не решает задачу ухода. Он мог бы решать другие задачи — комиссии, скорость зачисления, — но это уже не про эту гипотезу и не про этот макет.</span></div>
+        <div class="step"><span class="k">Правка</span><span class="v"><b>Было:</b> в макете спроектирован выбор из четырёх способов оплаты, на него ушло полторы недели. <b>Стало:</b> выбор убран, оставлен привычный ввод карты, спроектированная ветка перенесена в архив с пометкой «проверять отдельно, если появится задача про комиссии».</span></div>
+        <div class="step"><span class="k">Статус</span><span class="v"><span class="verdict kill">отменено</span></span></div>
+      </div>
+
+      <div class="trace-row">
+        <h5>4. Сомнения в надёжности — осталось гипотезой</h5>
+        <div class="meta">Встретилось: 1 из 5 · Гипотеза Г3 не подтвердилась и не опровергнута</div>
+        <p class="said">«Я перед оплатой глянул отзывы, первый раз же заказывал»<span class="who">Р4, 16:20</span></p>
+        <div class="step"><span class="k">Вывод</span><span class="v">Поведение встретилось один раз и только у того, кто покупал впервые. Одного случая мало.</span></div>
+        <div class="step"><span class="k">Следствие</span><span class="v">В выборке был всего один новичок — значит, вопрос не проверен, а не закрыт. Нельзя ни менять макет, ни списывать гипотезу.</span></div>
+        <div class="step"><span class="k">Правка</span><span class="v">Ничего не меняем. Записано в «открытые вопросы»: добрать 3 интервью с теми, кто покупает впервые.</span></div>
+        <div class="step"><span class="k">Статус</span><span class="v"><span class="verdict hold">нужны данные</span></span></div>
+      </div>
+
+    </div>
+    <div class="box-foot">Именно третья строка делает всю работу настоящей. Полторы недели спроектированного интерфейса отправились в архив — и это не провал исследования, а его главный результат: команда не потратила спринт разработки на функцию, которой никто не ждал.</div>
+  </div>
+
+  <h3>Почему «отказались» важнее, чем «добавили»</h3>
+  <ul>
+    <li><strong>Добавить может любой.</strong> Список улучшений после интервью пишется легко и почти всегда содержит то, что вы хотели сделать и раньше. Настоящую проверку проходит только то решение, от которого вы отказались вопреки собственному желанию.</li>
+    <li><strong>Отказ — самое дешёвое место сэкономить.</strong> Неделя дизайна и спринт разработки стоят дороже пяти разговоров на сорок минут. Отменённая ненужная функция окупает исследование целиком.</li>
+    <li><strong>Это проверяемо на собеседовании.</strong> Вопрос «а что вы после исследования выкинули?» задают часто, и он отделяет тех, кто исследовал, от тех, кто иллюстрировал. Готовьте историю про третью строку таблицы, а не про первую.</li>
+  </ul>
+
+  <div class="warnbox"><b>Если после пяти интервью отменять оказалось нечего</b> — это диагноз, а не удача. Вероятные причины: гипотезы были сформулированы так, что подтверждаются при любом ответе; в сценарии стояли вопросы, подсказывающие нужный ответ; выборку собрали из людей, заранее согласных с вами. Вернитесь к разделу 2 и проверьте, можно ли было вообще получить ответ «нет».</div>
+
+  <h3>Как донести это до команды</h3>
+  <ul>
+    <li><strong>Показывайте правку, а не отчёт.</strong> Экран «было/стало» рядом с двумя цитатами убеждает сильнее двадцатистраничного документа. Отчёт пусть лежит ссылкой для тех, кто захочет деталей.</li>
+    <li><strong>Цитата — ваш главный аргумент.</strong> Спорить с вашим мнением легко, с записанными словами пользователя — неудобно. Держите наготове три сильнейшие.</li>
+    <li><strong>Честно называйте уверенность:</strong> «четверо из пяти» и «один из пяти» — разные основания, и разработчик имеет право знать разницу.</li>
+    <li><strong>Приносите отказ первым.</strong> Начав со «мы выкинули вот это и вот почему», вы сразу показываете, что исследование было настоящим, а не украшением уже принятых решений.</li>
+  </ul>
+</section>
+
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Живая задача своего проекта, свой сценарий, пять интервью и два артефакта на выходе.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Выбери задачу</strong> (30 мин). Настоящую, из своего проекта, где решение ещё не принято окончательно. Признак годной задачи: ты можешь назвать решение, которое собираешься нарисовать, — значит, будет чему опровергаться.</li>
+    <li><strong>Разложи её по воронке из раздела 2</strong> (1–1,5 ч). Что знаю из аналитики, чего интервью не даст, 3–5 гипотез в рабочей формулировке, к каждой — фраза, которая её опровергнет.</li>
+    <li><strong>Напиши сценарий</strong> (1,5–2 ч): 5–8 опорных вопросов, у каждого пометка «зачем». Прогони все пять тестов из раздела 4 и прочитай вслух.</li>
+    <li><strong>Собери выборку</strong> (1–2 вечера): скринер на 5 вопросов, группы с контрастом, письменное обоснование по формуле из раздела 5.</li>
+    <li><strong>Проведи пилот</strong> (1 ч + правки). Зафиксируй, что поменял и почему.</li>
+    <li><strong>Пять интервью</strong> с дебрифом после каждого. После каждого — счётчик новых тем из раздела 6.</li>
+    <li><strong>Сведи и оттрассируй</strong> (3–4 ч): наблюдение → вывод → следствие → правка, по образцу из раздела 7.</li>
+    <li><strong>Внеси изменения в макет</strong> (зависит от объёма). Это часть задания, а не «потом когда-нибудь».</li>
+  </ol>
+  <p class="dim">Ориентир по времени — 16–20 часов за полторы-две недели, из которых сами разговоры занимают около пяти.</p>
+
+  <h3>Два артефакта на сдачу</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Артефакт</th><th>Что внутри</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>1. Выводы</b></td>
+          <td>Вопрос исследования и гипотезы с исходами · обоснование выборки и её ограничения · 5–7 выводов, у каждого — сколько человек из пяти и цитата с тайм-кодом · таблица насыщения · противоречия между собеседниками · открытые вопросы</td>
+        </tr>
+        <tr>
+          <td><b>2. Изменение в макете</b></td>
+          <td>Экраны «было / стало» · таблица трассировки по образцу из раздела 7 · отдельным блоком — <b>что отменили или переделали и почему</b> · что осознанно не стали менять, хотя могли</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Как понять, что задание сделано.</b> В таблице трассировки есть хотя бы одна строка со статусом «отменено» или «переделано» — и по ней видно, какая именно фраза собеседника заставила вас передумать. Если все строки «в макет» и все они совпадают с тем, что вы хотели нарисовать до интервью, — работа не сделана, как бы хорошо ни выглядел отчёт.</div>
+
+  <h3>Дополнительно, если хочешь довести до портфолио</h3>
+  <ul>
+    <li><strong>Сохраняй обе версии сценария</strong> — до пилота и после. Развилка «что я понял после первого разговора» — сильная деталь в рассказе о работе.</li>
+    <li><strong>Держи одну страницу про метод:</strong> кого звали и почему, кого не звали, чего эта выборка не показывает. Такая страница отличает исследование от сбора мнений.</li>
+    <li><strong>Зафиксируй, что было бы, если бы вы не спросили.</strong> Одно предложение: «без интервью мы бы отдали в разработку выбор из четырёх способов оплаты». Это и есть ценность работы в измеримом виде.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Чек-лист перед серией интервью</h3>
+  <ul>
+    <li>Продуктовый вопрос разложен: известное отделено от неизвестного</li>
+    <li>У каждой гипотезы записана фраза, которая её опровергнет</li>
+    <li>Опорных вопросов 5–8, у каждого пометка «зачем»</li>
+    <li>Все вопросы прошли пять тестов и прочитаны вслух</li>
+    <li>В вопросах нет терминов из вашего интерфейса</li>
+    <li>Самый близкий к гипотезе вопрос стоит в конце, а не в начале</li>
+    <li>Выборка даёт контраст, обоснование записано, ограничения названы</li>
+    <li>Пилот проведён, правки внесены и зафиксированы</li>
+  </ul>
+
+  <h3>Чек-лист перед сдачей работы</h3>
+  <ul>
+    <li>Под каждым выводом стоит цитата и число «сколько из пяти»</li>
+    <li>Таблица насыщения заполнена по каждой группе</li>
+    <li>Противоречия выписаны отдельно, а не сглажены</li>
+    <li>Каждая правка макета прослеживается назад до конкретной цитаты</li>
+    <li>Есть минимум одно отменённое или переделанное решение</li>
+    <li>Названо то, что осталось непроверенным, — без попытки выдать это за вывод</li>
+  </ul>
+
+  <h3>Ошибки, характерные именно для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Исследование под готовое решение.</b> Макет уже нарисован, интервью проводится, чтобы его защитить. Опознаётся по тому, что ни одна гипотеза не может быть опровергнута.</li>
+    <li><b>Продуктовый вопрос задан напрямую.</b> «Почему вы бросили оплату?» — и получен связный вымысел вместо истории.</li>
+    <li><b>Слишком много вопросов.</b> Пятнадцать опорных, ни одного раскопанного, час потрачен на поверхность.</li>
+    <li><b>Выборка по удобству.</b> Пять человек, до которых было легко дотянуться, — и вывод, распространённый на всех пользователей.</li>
+    <li><b>Однородная выборка без контраста.</b> Только те, кто ушёл, — и невозможность отличить причину ухода от общего фона.</li>
+    <li><b>Остановка на подтверждении.</b> Два интервью подтвердили гипотезу, третье не проводится. Насыщение перепутано с облегчением.</li>
+    <li><b>Выводы без чисел.</b> «Пользователи считают» вместо «трое из пяти сказали» — и невозможность оценить вес утверждения.</li>
+    <li><b>Решение вместо вывода.</b> В отчёте сразу «нужно добавить СБП», а наблюдение, из которого это следует, отсутствует.</li>
+    <li><b>Отчёт как конечная точка.</b> Документ отправлен в чат, макет не тронут, через месяц про исследование никто не помнит.</li>
+    <li><b>Сглаженные противоречия.</b> Двое сказали противоположное, в отчёт попало удобное. Противоречие — это находка, а не брак.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Где проходит граница уровней</h2></div>
+  <p class="sec-sub">Чтобы было видно, что закрыто, а что впереди.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th></tr></thead>
+      <tbody>
+        <tr><td class="dim"><b>Junior</b> — закрыт</td><td class="dim">Провести интервью по чужому сценарию, отличать вопрос о прошлом от вопроса о желаниях, вести чистую запись, договариваться о записи, свести в 5–7 наблюдений с цитатами</td></tr>
+        <tr><td><b>Middle</b> — этот урок</td><td>Сформулировать вопрос исследования и гипотезы, написать и отпилотировать свой сценарий, собрать выборку с контрастом и обосновать её, остановиться по насыщению, довести выводы до правки макета и отказаться от части своих решений</td></tr>
+        <tr><td>Senior</td><td>Строить программу исследований под продуктовые решения, а не отдельные заходы; сочетать интервью с аналитикой и количественной проверкой; отвечать за качество чужих исследований и учить команду; выстраивать постоянный поток общения с пользователями; связывать находки с метриками и стратегией; работать с заказчиком, который не хочет слышать результат</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Проблемные интервью», уровень Middle. Сквозной пример — задача про уход с шага оплаты; подставляй на её место свою. Что почитать дальше: Синди Альварес, «Как создать продукт, который купят» — про формулировку гипотез и выборку; Эрика Холл, «Just Enough Research» — про то, сколько исследования достаточно и как связать его с решениями; Стив Портигал, «Интервью по пользовательскому опыту» — раздел про анализ и работу с командой.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  var draftBtn = document.getElementById('svDraft'), cleanBtn = document.getElementById('svClean');
+  var draftPane = document.getElementById('draftPane'), cleanPane = document.getElementById('cleanPane');
+  function show(which) {
+    var isDraft = which === 'draft';
+    draftPane.className = 'sv' + (isDraft ? ' on' : '');
+    cleanPane.className = 'sv' + (isDraft ? '' : ' on');
+    draftBtn.setAttribute('aria-pressed', isDraft ? 'true' : 'false');
+    cleanBtn.setAttribute('aria-pressed', isDraft ? 'false' : 'true');
+  }
+  draftBtn.addEventListener('click', function () { show('draft'); });
+  cleanBtn.addEventListener('click', function () { show('clean'); });
+})();
+</script>
+</body>
+</html>

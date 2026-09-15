@@ -457,10 +457,7 @@ function designstack_core_render_hero( int $post_id ): string {
 	$checked = designstack_core_checked_line( $post_id );
 
 	$out = '<div class="ds-hero"><div class="ds-hero__head">';
-	$out .= sprintf(
-		'<span class="ds-logo ds-logo--lg" aria-hidden="true">%s</span>',
-		esc_html( mb_substr( $title, 0, 1 ) )
-	);
+	$out .= designstack_core_logo( $post_id, $title, 'ds-logo--lg' );
 	$out .= '<div class="ds-hero__titles">';
 	$out .= sprintf( '<h1 class="ds-hero__title">%s</h1>', esc_html( $title ) );
 
@@ -571,11 +568,12 @@ function designstack_core_render_review( int $post_id ): string {
 		return '';
 	}
 
-	// Имени куратора на странице нет, пока оно не выбрано (O2): подпись без имени, решение r5.
+	// Оценку подписывает автор каталога (D134, 15.09.2026): в карточках теперь её суждение,
+	// и подпись совпадает с автором дайджеста. До этого подпись была служебной, без имени (D91).
 	$sign = sprintf(
-		'<a class="ds-link ds-review__sign" href="%1$s"><span class="ds-logo ds-logo--rimmed" aria-hidden="true">D</span>%2$s</a>',
+		'<a class="ds-link ds-review__sign" href="%1$s"><span class="ds-logo ds-logo--rimmed" aria-hidden="true">А</span>%2$s</a>',
 		esc_url( home_url( '/about/#curator' ) ),
-		esc_html__( 'Куратор DesignStack', 'designstack-core' )
+		esc_html__( 'Анастасия Дорожкина', 'designstack-core' )
 	);
 
 	return sprintf(
@@ -669,7 +667,7 @@ function designstack_core_render_empty_archive(): string {
 		__( 'По таким условиям ничего нет', 'designstack-core' ),
 		sprintf(
 			/* translators: %s — перечень активных фильтров в кавычках. */
-			__( 'Выбрано: %s. Попробуй снять один из фильтров.', 'designstack-core' ),
+			__( 'Выбрано: %s. Попробуйте снять один из фильтров.', 'designstack-core' ),
 			implode( ', ', $names )
 		),
 		$actions

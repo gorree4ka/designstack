@@ -1,6 +1,6 @@
 ---
-name: wp-dev
-description: Запуск/остановка локального WordPress, WP-CLI, сброс базы, проверка страниц. Использовать при любой работе с локальным сайтом DesignStack.
+name: "wp-dev"
+description: "Запуск/остановка локального WordPress, WP-CLI, сброс базы, проверка страниц. Использовать при любой работе с локальным сайтом DesignStack."
 allowed-tools: Bash Read
 ---
 

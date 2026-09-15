@@ -59,7 +59,7 @@
 - `font-mono` — JetBrains Mono, переменный, woff2 в `assets/fonts/`, OFL. Даты, счётчики, цены; табличные цифры.
 - Веса: 400 — текст, 500 — подписи и метки, 600 — названия, пункт меню, 700 — заголовки.
 - Межстрочный: `line-height-tight` 1,15 (3xl–5xl), `line-height-snug` 1,3 (xl–2xl), `line-height-base` 1,5 (xs–lg).
-- Трекинг: `letter-spacing-tight` −0,01em на `3xl` и крупнее.
+- Трекинг: `letter-spacing-tight` −0,01em на `3xl` и крупнее; `letter-spacing-wide` +0,06em на прописных подписях кегля `xs` — без него набранная прописными подпись слипается.
 
 | Размер | px | Fluid, px на 375 → 1360 | Роль |
 |---|---|---|---|
@@ -105,11 +105,14 @@
 | `size-tile-sm` | 40px | плитка логотипа в карточке, аватар куратора |
 | `size-tile-lg` | 64px | плитка логотипа на странице ресурса |
 | `size-header` | 64px | высота шапки |
+| `size-hero` | 320px | высота баннера проверки грейда: минимум, чтобы фото читалось кадром, а не полосой |
+| `size-hero-narrow` | 440px | высота баннера на узком экране: снимок сверху, текст под ним |
 | `size-sidebar` | 280px | колонка фильтров, колонки подвала |
 | `size-form` | 640px | колонка формы |
 | `size-search-header` | 240px | поле поиска в шапке от 1200 |
 | `size-search-home` | 560px | поле поиска на главной от 900 |
 | `size-illustration` | 160px | ширина иллюстрации пустого состояния, высота 112 по пропорции |
+| `size-radar` | 420px | сторона лепестковой диаграммы в результате проверки грейда: на меньшей стороне номера осей наезжают на кольца |
 | `size-measure` | 70ch | колонка текста |
 | `size-measure-lead` | 62ch | вводная строка крупным кеглем |
 
@@ -125,6 +128,8 @@
 | `surface-action-primary` | `accent-500` `#037A8F` | `accent-300` `#079DB6` | залитая кнопка, отмеченный флажок |
 | `surface-action-primary-hover` | `accent-700` `#026172` | `accent-200` `#54B4C9` | наведение и нажатие залитой кнопки |
 | `surface-selected` | `accent-100` `#D7F7FF` | `accent-900` `#00343F` | выбранный пункт списка, aria-current |
+| `surface-scrim` | `gray-950` `#0D1012` | `gray-950` `#0D1012` | затемнение поверх фото на баннере: одинаково в обеих темах, потому что лежит на снимке, а не на странице |
+| `text-on-scrim` | `gray-00` `#FFFFFF` | `gray-00` `#FFFFFF` | текст и кнопка поверх фото |
 | `text-default` | `gray-900` `#1A1C1F` | `gray-100` `#F3F5F7` | основной текст и заголовки |
 | `text-muted` | `gray-600` `#585B5F` | `gray-400` `#A2A5A9` | даты, подписи, теги, счётчики |
 | `text-on-action` | `gray-00` `#FFFFFF` | `gray-950` `#0D1012` | текст на залитой кнопке |
@@ -199,6 +204,8 @@
 | `text-muted` на `surface-raised` | тёмная | 6,90:1 | 4,5:1 | да |
 | `text-muted` на `surface-subtle` | светлая | 6,24:1 | 4,5:1 | да |
 | `text-muted` на `surface-subtle` | тёмная | 5,52:1 | 4,5:1 | да |
+| `text-on-scrim` на `surface-scrim` | светлая | 19,09:1 | 4,5:1 | да |
+| `text-on-scrim` на `surface-scrim` | тёмная | 19,09:1 | 4,5:1 | да |
 | `text-on-action` на `surface-action-primary` | светлая | 5,01:1 | 4,5:1 | да |
 | `text-on-action` на `surface-action-primary` | тёмная | 5,91:1 | 4,5:1 | да |
 | `text-on-action` на `surface-action-primary-hover` | светлая | 7,10:1 | 4,5:1 | да |

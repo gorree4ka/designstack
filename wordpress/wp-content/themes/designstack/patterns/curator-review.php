@@ -27,6 +27,6 @@
 		<p class="ds-review__label">Когда не подойдёт</p>
 		<p class="ds-review__text">Когда нужен платный тариф: российской картой его не оплатить, а бесплатный план ограничен.</p>
 	</div>
-	<a class="ds-link ds-review__sign" href="/about/#curator"><span class="ds-logo ds-logo--rimmed" aria-hidden="true">D</span>Куратор DesignStack</a>
+	<a class="ds-link ds-review__sign" href="/about/#curator"><span class="ds-logo ds-logo--rimmed" aria-hidden="true">А</span>Анастасия Дорожкина</a>
 </section>
 <!-- /wp:html -->

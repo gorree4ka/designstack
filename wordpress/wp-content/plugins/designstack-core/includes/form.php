@@ -107,7 +107,7 @@ function designstack_core_validate_suggest( array $input ): array {
 	if ( '' === $input['resource_url'] ) {
 		$errors['resource_url'] = __( 'Укажи адрес ресурса', 'designstack-core' );
 	} elseif ( ! $shaped ) {
-		$errors['resource_url'] = __( 'Это не похоже на адрес сайта. Проверь, нет ли пробела или опечатки, например: https://excalidraw.com', 'designstack-core' );
+		$errors['resource_url'] = __( 'Это не похоже на адрес сайта. Проверьте, нет ли пробела или опечатки, например: https://excalidraw.com', 'designstack-core' );
 	}
 
 	if ( ! $input['resource_consent'] ) {
@@ -125,7 +125,7 @@ function designstack_core_validate_suggest( array $input ): array {
 	}
 
 	if ( $input['resource_email'] && ! is_email( $input['resource_email'] ) ) {
-		$errors['resource_email'] = __( 'Это не похоже на почту. Проверь адрес или оставь поле пустым', 'designstack-core' );
+		$errors['resource_email'] = __( 'Это не похоже на почту. Проверьте адрес или оставьте поле пустым', 'designstack-core' );
 	}
 
 	return $errors;

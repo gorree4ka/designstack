@@ -89,7 +89,7 @@ function designstack_core_render_search_results(): string {
 				__( 'По запросу «%s» ничего нет', 'designstack-core' ),
 				$shown
 			),
-			__( 'Попробуй короче или другими словами. Если ресурса нет в каталоге — предложи его.', 'designstack-core' ),
+			__( 'Попробуйте короче или другими словами. Если ресурса нет в каталоге — предложите его.', 'designstack-core' ),
 			sprintf(
 				'<a class="ds-link" href="%1$s">%2$s</a>',
 				esc_url( home_url( '/suggest/' ) ),
@@ -110,7 +110,7 @@ function designstack_core_render_not_found(): string {
 	return designstack_core_render_empty(
 		'not-found',
 		__( 'Такой страницы нет', 'designstack-core' ),
-		__( 'Адрес мог измениться или в нём опечатка. Найди ресурс поиском или открой раздел.', 'designstack-core' ),
+		__( 'Адрес мог измениться или в нём опечатка. Найдите ресурс поиском или откройте раздел.', 'designstack-core' ),
 		'',
 		'h1'
 	);

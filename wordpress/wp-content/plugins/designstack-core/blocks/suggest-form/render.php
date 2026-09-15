@@ -23,7 +23,7 @@ if ( is_admin() && ! empty( $attributes['preview'] ) ) {
 
 	if ( 'error' === $ds_state['state'] ) {
 		$ds_state['errors'] = array(
-			'resource_url'     => __( 'Это не похоже на адрес сайта. Проверь, нет ли пробела или опечатки, например: https://excalidraw.com', 'designstack-core' ),
+			'resource_url'     => __( 'Это не похоже на адрес сайта. Проверьте, нет ли пробела или опечатки, например: https://excalidraw.com', 'designstack-core' ),
 			'resource_consent' => __( 'Без согласия с политикой данных предложение не отправить', 'designstack-core' ),
 		);
 	}
@@ -50,7 +50,7 @@ if ( $ds_errors ) {
 	$ds_out .= sprintf(
 		'<div class="ds-error-summary" tabindex="-1"><p class="ds-error-summary__title">%1$s%2$s</p><ul class="ds-error-summary__list">%3$s</ul></div>',
 		designstack_core_icon( 'circle-x' ),
-		esc_html__( 'Проверь форму', 'designstack-core' ),
+		esc_html__( 'Проверьте форму', 'designstack-core' ),
 		$ds_items
 	);
 }
@@ -69,7 +69,7 @@ if ( 'limit' === $ds_state['state'] ) {
 		'info',
 		'info',
 		'',
-		__( 'С этого подключения за час уже пришло три предложения. Попробуй ещё раз через час — так мы защищаемся от спама.', 'designstack-core' )
+		__( 'С этого подключения за час уже пришло три предложения. Попробуйте ещё раз через час — так сайт защищается от спама.', 'designstack-core' )
 	);
 }
 

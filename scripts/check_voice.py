@@ -1,208 +1,78 @@
-"""Ищет на сайте протокольный язык — тексты, написанные как отчёт о работе.
+"""Ищет обращение на «ты» в текстах сайта: интерфейс на «вы» (решение заказчика 15.09.2026).
 
-Читатель пришёл выбрать инструмент, а не узнать, как устроена наша проверка.
-Правило и список запретов — в docs/VOICE.md, раздел «Тон». Скрипт проверяет
-то, что реально отдаётся браузеру: страницы каталога, статьи, служебные страницы.
+Правило живёт в `docs/VOICE.md`, раздел «Тон». Проверка нужна потому, что обращение
+задаётся в трёх разных местах — строки плагина, паттерны темы и содержимое страниц, —
+и правка одного места молча оставляет «ты» в двух других.
 
-    python scripts/check_voice.py
-    python scripts/check_voice.py --base http://localhost:8080
+    python scripts/check_voice.py            # тема, плагин, исходники контента
+    python scripts/check_voice.py --db        # плюс выгрузка базы, если она снята
 
-Возвращает код 1, если нашлось хоть одно совпадение: так его можно повесить в хук.
+Выгрузка базы: `.tmp/db-text.txt` (её пишет разовый скрипт выгрузки, в git не входит).
+Комментарии кода пропускаются: обращение в комментарии читателю не показывается.
 """
 import argparse
-import html
+import pathlib
 import re
 import sys
-import urllib.error
-import urllib.request
 
-# Слово в стоп-листе — это не ошибка сама по себе, а признак: почти всегда рядом
-# стоит фраза о том, как мы искали, а не о том, что выбрать читателю.
-STOP = [
-    # Решение заказчика 14.09.2026: про VPN на сайте не должно быть ни слова.
-    # Способы открыть закрытое существуют, но это не наша тема и не наш совет.
-    "VPN",
-    # «прогонять по очереди» — нормальная речь о работе с инструментом, поэтому
-    # ловим не корень, а именно наш служебный оборот.
-    "прогон с",
-    "прогоне",
-    "прогоном",
-    "с сервера",
-    "российского IP",
-    "российского адреса",
-    "страна IP",
-    "замер",
-    "условие выборки",
-    "условие группы",
-    "репозитор",
-    "мы проверяли",
-    "куратор проверит",
-    "куратор перепроверил",
-    "код 4",
-    "код 2",
-    "отчёт о",
-    "по правилу",
-    "проверено по таблице",
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+TARGETS = [
+    ROOT / "wordpress/wp-content/themes/designstack",
+    ROOT / "wordpress/wp-content/plugins/designstack-core",
+    ROOT / "docs/content/pages",
+    ROOT / "docs/content/digests",
+    ROOT / "docs/content/collections",
 ]
+EXT = {".php", ".js", ".html"}
 
-# Вердикт не повторяет то, что уже написано меткой рядом: «Недоступен из РФ» под
-# фразой «из России не открывается» — это два раза одно и то же в одной карточке.
-# Оговорка, которой метка не передаёт («бесплатно — только личные проекты»), остаётся.
-ECHO = {
-    "Недоступен из РФ": ["не открывается", "сайт закрыт", "недоступен"],
-    "Открывается из РФ": ["открывается из России", "работает из России", "открывается напрямую"],
-    "Не оплатить из РФ": ["не оплатить", "картой не"],
-    "Российский": ["оплата в рублях", "рубли, карта"],
-}
-
-CARD = re.compile(r'<article class="ds-card.*?</article>', re.S)
-
-PAGES = [
-    "/",
-    "/about/",
-    "/suggest/",
-    "/tools/",
-    "/learn/",
-    "/assets/",
-    "/community/",
-    "/collections/",
-    "/digest/",
-]
-
-UA = "designstack-voice-check"
+# Местоимения и глаголы второго лица единственного числа.
+WORDS = (
+    r"ты|тебе|тебя|тобой|тво[йяёе]|твои[а-яё]*|"
+    r"знаешь|собираешь|пользуешься|делаешь|хочешь|можешь|видишь|найдёшь|получишь|ищешь|берёшь|"
+    r"пришли|напиши|расскажи|посмотри|отметь|начни|выбери|попробуй|нажми|смотри|бери|проверь|"
+    r"открой|найди|читай|заходи|жми|сравни|подпишись|оставь|предложи|прочитай"
+)
+RE = re.compile(r"(?<![А-Яа-яЁё])(" + WORDS + r")(?![А-Яа-яЁё])", re.IGNORECASE)
+COMMENT = re.compile(r"^\s*(\*|//|#|/\*|<!--\s*(wp:|/wp:))")
 
 
-def text_of(url: str) -> str:
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-
-    with urllib.request.urlopen(req, timeout=20) as resp:
-        raw = resp.read().decode("utf-8", "replace")
-
-    raw = re.sub(r"(?s)<script.*?</script>|<style.*?</style>", " ", raw)
-
-    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", raw)))
-
-
-def links(base: str, path: str) -> list:
-    """Адреса записей и статей с раздела — чтобы не перечислять их руками."""
+def scan(path: pathlib.Path):
     try:
-        req = urllib.request.Request(base + path, headers={"User-Agent": UA})
-
-        with urllib.request.urlopen(req, timeout=20) as resp:
-            raw = resp.read().decode("utf-8", "replace")
-    except urllib.error.URLError:
-        return []
-
-    found = re.findall(r'href="' + re.escape(base) + r'(/(?:resource|collections|digest)/[^"#?]+/)"', raw)
-
-    return sorted({f for f in found if not f.endswith("/feed/")})
-
-
-def echoes(raw):
-    """Карточки, где вердикт повторяет соседнюю метку."""
-    out = []
-
-    for card in CARD.findall(raw):
-        plain = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", card))
-        verdict = re.search(r'class="ds-card__verdict">([^<]*)<', card)
-        title = re.search(r'class="ds-card__link"[^>]*>([^<]*)<', card)
-
-        if not verdict:
+        text = path.read_text(encoding="utf-8")
+    except (UnicodeDecodeError, OSError):
+        return
+    for n, line in enumerate(text.splitlines(), 1):
+        if COMMENT.match(line):
             continue
-
-        said = verdict.group(1)
-
-        for badge, phrases in ECHO.items():
-            if badge not in plain:
-                continue
-
-            for phrase in phrases:
-                if phrase.lower() in said.lower():
-                    out.append((title.group(1) if title else "?", badge, said))
-
-                    break
-
-    return out
+        for m in RE.finditer(line):
+            yield n, m.group(1), line.strip()[:120]
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--base", default="http://localhost:8080")
-    args = ap.parse_args()
-    base = args.base.rstrip("/")
+p = argparse.ArgumentParser()
+p.add_argument("--db", action="store_true", help="проверить и выгрузку базы .tmp/db-text.txt")
+a = p.parse_args()
 
-    targets = list(PAGES)
+hits = []
 
-    # Архив разбит на страницы: без обхода пагинации проверятся только первые карточки.
-    for path in ("/tools/", "/learn/", "/assets/", "/community/", "/collections/", "/digest/"):
-        page = 1
+for target in TARGETS:
+    if not target.exists():
+        continue
+    for f in sorted(target.rglob("*")):
+        if f.is_file() and f.suffix in EXT:
+            for n, word, line in scan(f):
+                hits.append((f.relative_to(ROOT).as_posix(), n, word, line))
 
-        while True:
-            part = path if 1 == page else f"{path}page/{page}/"
-            found = links(base, part)
+if a.db:
+    dump = ROOT / ".tmp/db-text.txt"
+    if dump.exists():
+        for n, word, line in scan(dump):
+            hits.append((".tmp/db-text.txt", n, word, line))
+    else:
+        print("выгрузки базы нет, проверены только файлы")
 
-            if not found:
-                break
+for path, n, word, line in hits:
+    print(f"{path}:{n}\t{word}\t{line}")
 
-            targets.extend(found)
-            page += 1
-
-            if page > 40:
-                break
-
-    targets = list(dict.fromkeys(targets))
-    hits = 0
-
-    for path in targets:
-        try:
-            body = text_of(base + path)
-        except urllib.error.URLError as exc:
-            print(f"  {path}: не открылась ({exc})")
-
-            continue
-
-        for word in STOP:
-            at = body.lower().find(word.lower())
-
-            if at < 0:
-                continue
-
-            print(f"  {path}\n      «{body[max(0, at - 60):at + 90].strip()}»")
-            hits += 1
-
-    # Вторая проверка идёт по разделам: там карточка и метка стоят рядом.
-    dupes = 0
-
-    for path in ("/tools/", "/learn/", "/assets/", "/community/"):
-        page = 1
-
-        while True:
-            part = path if 1 == page else f"{path}page/{page}/"
-
-            try:
-                req = urllib.request.Request(base + part, headers={"User-Agent": UA})
-
-                with urllib.request.urlopen(req, timeout=20) as resp:
-                    raw = resp.read().decode("utf-8", "replace")
-            except urllib.error.URLError:
-                break
-
-            found = echoes(raw)
-
-            for title, badge, said in found:
-                print("  %s · %s: метка «%s» и вердикт «%s»" % (part, title, badge, said))
-
-            dupes += len(found)
-            page += 1
-
-            if page > 40 or "ds-card" not in raw:
-                break
-
-    print()
-    print("Проверено страниц: %d. Протокольных мест: %d. Повторов метки в вердикте: %d."
-          % (len(targets), hits, dupes))
-
-    return 1 if (hits or dupes) else 0
-
-
-sys.exit(main())
+print(f"\nнайдено обращений на «ты»: {len(hits)}")
+sys.exit(1 if hits else 0)

@@ -35,11 +35,15 @@ function designstack_core_block_names(): array {
 		'post-list',
 		'subscribe',
 		'entry-header',
+		'lesson-header',
+		'skills-map',
 		'issue-nav',
 		'post-archive',
 		'search-results',
 		'not-found',
 		'sort',
+		'grade-check',
+		'grade-banner',
 	);
 }
 

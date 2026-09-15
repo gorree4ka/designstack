@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Юзабилити-тесты: Junior — провести и записать</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 800px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn.solid { background: var(--accent); color: #fff; border-color: transparent; padding: 10px 18px; font-size: 14.5px; }
+  .btn.danger { background: var(--bad-soft); color: var(--bad); }
+  .btn[disabled] { opacity: .5; cursor: default; }
+
+  /* ── generic drill ── */
+  .drill .stem { font-size: 17px; line-height: 1.45; margin: 0 0 16px; min-height: 52px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; border-bottom: 2px solid var(--quote-bar); padding-bottom: 1px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 170px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* ── stopwatch drill ── */
+  .watch { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .watch .time { font: 600 44px/1 ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .watch .time small { font-size: 18px; color: var(--muted); }
+  .log { margin-top: 16px; border-top: 1px solid var(--hairline); padding-top: 12px; min-height: 96px; }
+  .log .ev { display: grid; grid-template-columns: 52px 1fr; gap: 12px; font-size: 14.5px; padding: 5px 0; animation: fadein .3s ease; }
+  .log .ev .t { font: 12px ui-monospace, Menlo, monospace; color: var(--muted); padding-top: 3px; }
+  .log .ev.say .v { color: var(--ink); }
+  .log .ev.act .v { color: var(--ink-2); }
+  .log .ev.win .v { color: var(--good); font-weight: 600; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+  .verdictbox { margin-top: 14px; padding: 13px 15px; border-radius: 10px; border: 1px solid var(--hairline); background: var(--demo-bg); font-size: 14.5px; display: none; }
+  .verdictbox.on { display: block; }
+  .verdictbox b { display: block; margin-bottom: 4px; }
+
+  /* ── prep checklist ── */
+  .chk { list-style: none; margin: 0; padding: 0; }
+  .chk li { border-top: 1px solid var(--hairline); }
+  .chk li:first-child { border-top: none; }
+  .chk label { display: flex; gap: 12px; align-items: flex-start; padding: 10px 2px; cursor: pointer; font-size: 14.5px; }
+  .chk input { width: 17px; height: 17px; margin: 3px 0 0; flex: none; accent-color: var(--accent); cursor: pointer; }
+  .chk .hint { display: block; font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .chk input:checked + span { color: var(--muted); }
+  .chkbar { display: flex; align-items: center; gap: 12px; font-size: 13.5px; }
+  .chkbar .prog { flex: 1; height: 6px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .chkbar .prog i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s ease; }
+  .chkbar .st { font-weight: 600; white-space: nowrap; }
+
+  /* ── flip cards ── */
+  .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (max-width: 620px) { .cards { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--border); border-radius: 10px; background: var(--raised); padding: 13px 15px; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+  .card:hover { border-color: var(--accent); }
+  .card .ask { font-size: 14.5px; color: var(--ink); }
+  .card .ask::before { content: "Участник: "; color: var(--muted); font-size: 13px; }
+  .card .ans { display: none; margin-top: 9px; padding-top: 9px; border-top: 1px dashed var(--hairline); font-size: 14px; color: var(--ink-2); }
+  .card .ans::before { content: "Ты: "; color: var(--muted); }
+  .card.open .ans { display: block; }
+  .card .tap { display: block; margin-top: 7px; font-size: 12px; color: var(--accent-deep); }
+  .card.open .tap { display: none; }
+
+  /* ── protocol sheet ── */
+  .sheet { display: grid; grid-template-columns: 62px 1fr 1fr; font-size: 14px; }
+  .sheet > div { padding: 10px 13px; border-top: 1px solid var(--hairline); min-width: 0; }
+  .sheet > div:nth-child(-n+3) { border-top: none; }
+  .sheet .hd { font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .sheet .tc { font: 12px ui-monospace, Menlo, monospace; color: var(--muted); }
+  .sheet .obs { color: var(--ink); }
+  .sheet .quo { color: var(--ink); }
+  .sheet .quo em { font-style: normal; }
+  @media (max-width: 640px) {
+    .sheet { grid-template-columns: 52px 1fr; }
+    .sheet .hd:nth-child(3) { display: none; }
+    .sheet .quo { grid-column: 2; padding-top: 0; border-top: none; color: var(--ink-2); }
+  }
+  .sev { display: inline-block; font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; }
+  .sev.s3 { background: var(--bad-soft); color: var(--bad); }
+  .sev.s2 { background: var(--warn-soft); color: var(--warn); }
+  .sev.s1 { background: var(--chip); color: var(--accent-deep); }
+  .sev.s0 { background: var(--good-soft); color: var(--good); }
+
+  /* ── session timeline ── */
+  .tl { display: flex; gap: 4px; margin: 16px 0 6px; }
+  .tl .seg { border-radius: 7px; padding: 10px 11px; background: var(--raised); border: 1px solid var(--border); min-width: 0; }
+  .tl .seg .mn { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); display: block; }
+  .tl .seg .nm { font-size: 13px; margin-top: 3px; display: block; }
+  .tl .seg.core { background: var(--chip); border-color: transparent; }
+  .tl .seg.core .nm { font-weight: 600; color: var(--accent-deep); }
+  @media (max-width: 640px) { .tl { flex-direction: column; } }
+
+  .say { background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 12px 14px; font-size: 14.5px; line-height: 1.55; color: var(--ink); margin: 0 0 8px; max-width: none; }
+  .script-block { border-top: 1px solid var(--hairline); padding: 15px 18px; }
+  .script-block:first-of-type { border-top: none; }
+  .script-block h4 { margin: 0 0 4px; font-size: 15.5px; display: flex; align-items: baseline; gap: 9px; }
+  .script-block h4 .tm { font: 600 11.5px ui-monospace, Menlo, monospace; color: var(--muted); white-space: nowrap; }
+  .script-block .aim { font-size: 13px; color: var(--muted); margin: 0 0 10px; max-width: none; }
+  .script-block ul, .script-block ol { margin: 0; padding-left: 19px; max-width: none; }
+  .script-block li { margin: 6px 0; font-size: 14.5px; }
+  .script-block li .probe { display: block; font-size: 13px; color: var(--ink-2); margin-top: 3px; }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Юзабилити-тесты · Junior · провести и записать</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · юзабилити-тестирование</p>
+  <div class="levels" aria-label="Уровень темы: Junior, первый из трёх">
+    <span class="lv on">Junior</span>
+    <span class="lv">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Провести тест по готовому сценарию и записать, что произошло</h1>
+  <p class="lede">Юзабилити-тест устроен просто: человек пытается сделать задание в вашем интерфейсе, а вы молчите и записываете. Вся сложность — в этих двух словах. Молчать, когда человек мучается, физически тяжело; записывать так, чтобы потом было видно, где именно он встал, — навык, который ставится тренировкой. В уроке четыре тренажёра, готовый сценарий и шаблон протокола.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#task-vs">Отличать задание от инструкции</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#prep">Готовить прототип и технику</a>, чтобы тест не ушёл в починку ссылок<span class="drillmark">чек-лист</span></li>
+    <li><a href="#silence">Молчать, когда участник застрял</a>, и засекать, сколько он ищет<span class="drillmark">симулятор</span></li>
+    <li><a href="#protocol">Вести протокол:</a> действия, реплики, остановки<span class="drillmark">тренажёр</span></li>
+    <li><a href="#severity">Отличать «не смог» от «неудобно»</a><span class="drillmark">тренажёр</span></li>
+  </ol>
+</div>
+
+<section id="what">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что это за метод и чем он отличается от интервью</h2></div>
+  <p class="sec-sub">Оба метода — разговор с человеком, но устроены противоположно.</p>
+
+  <p>На интервью человек <strong>рассказывает</strong>, а вы слушаете. На юзабилити-тесте человек <strong>делает</strong>, а вы смотрите. Отсюда все различия: на интервью ценны его слова, на тесте — его действия, а слова служат подсказкой к тому, что происходит у него в голове.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Проблемное интервью</th><th>Юзабилити-тест</th></tr></thead>
+      <tbody>
+        <tr><td><b>Вопрос</b></td><td>как человек решает задачу сейчас</td><td>справляется ли он с этим интерфейсом</td></tr>
+        <tr><td><b>Когда</b></td><td>до того, как что-то нарисовано</td><td>когда есть прототип или готовый продукт</td></tr>
+        <tr><td><b>Данные</b></td><td>его истории о прошлом</td><td>его действия прямо сейчас</td></tr>
+        <tr><td><b>Ваша роль</b></td><td>задавать вопросы и копать</td><td>дать задание и замолчать</td></tr>
+        <tr><td><b>Сколько говорите</b></td><td>примерно 20 % времени</td><td>примерно 5 % времени</td></tr>
+        <tr><td><b>Главная ошибка</b></td><td>подсказать ответ вопросом</td><td>подсказать решение действием или репликой</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Главное правило метода в одну строку: тестируется интерфейс, а не человек.</b> Это не формула вежливости — это рабочая установка. Если участник не справился, он не глупый и не «не разобрался»: это интерфейс не справился с задачей объяснить себя. Установку придётся произнести вслух участнику в начале и напоминать себе всю сессию, потому что соблазн помочь растёт с каждой минутой его мучений.</p></div>
+
+  <h3>Что вы собираете</h3>
+  <ul>
+    <li><strong>Справился или нет.</strong> Двоичный факт: задание выполнено, выполнено не тем путём или брошено.</li>
+    <li><strong>Где встал.</strong> Конкретный экран, конкретный элемент, конкретная секунда.</li>
+    <li><strong>Сколько искал.</strong> Время до нахождения — главный измеримый показатель на этом уровне.</li>
+    <li><strong>Что говорил в этот момент.</strong> Дословно: «а где тут…», «ну наверное сюда», «странно».</li>
+    <li><strong>Чего ожидал.</strong> Куда он полез в первую очередь — это показывает его модель интерфейса.</li>
+  </ul>
+</section>
+
+<section id="task-vs">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Задание против инструкции</h2></div>
+  <p class="sec-sub">Первый навык. Разница в одном слове, а результат теста меняется целиком.</p>
+
+  <p><strong>Задание</strong> описывает цель и обстоятельства: что человеку нужно получить. <strong>Инструкция</strong> описывает путь: куда нажать. Если вы дали инструкцию, вы протестировали способность человека выполнять указания — а это работает у всех, и узнать вы ничего не смогли.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Инструкция — так нельзя</th><th>Задание — так надо</th><th>Что именно испортилось</th></tr></thead>
+      <tbody>
+        <tr><td>«Нажмите на корзину справа вверху и оформите заказ»</td><td>«Вы выбрали эти кроссовки. Купите их»</td><td>Вы показали, где корзина. Главный вопрос — найдёт ли он её сам — снят</td></tr>
+        <tr><td>«Воспользуйтесь фильтром и найдите красную куртку»</td><td>«Вам нужна красная куртка не дороже 8 000. Найдите подходящую»</td><td>Вы назвали инструмент. Не узнаете, догадается ли он про фильтр вообще</td></tr>
+        <tr><td>«Добавьте товар в избранное»</td><td>«Вам понравились два варианта, но решение вы примете вечером. Сделайте так, чтобы не потерять их»</td><td>«Избранное» — слово из интерфейса. Услышав его, человек ищет кнопку с этим словом, а не решает свою задачу</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Как писать задание</h3>
+  <ul>
+    <li><strong>Начинайте с ситуации, а не с действия.</strong> «Вы заказали куртку, она не подошла» — и только потом цель.</li>
+    <li><strong>Цель в терминах результата:</strong> «верните деньги», а не «оформите возврат через личный кабинет».</li>
+    <li><strong>Никаких слов из интерфейса.</strong> Ни названий кнопок, ни названий разделов, ни вашего внутреннего жаргона.</li>
+    <li><strong>Дайте данные, если они нужны:</strong> сумма, город, размер. Иначе человек зависнет на выдумывании, а не на интерфейсе.</li>
+    <li><strong>Одно задание — одна цель.</strong> «Найдите и купите и оцените» — это три задания, и вы не поймёте, на каком он споткнулся.</li>
+    <li><strong>Задание должно иметь конец,</strong> который очевиден и вам, и участнику: «когда увидите подтверждение заказа — скажите».</li>
+    <li><strong>Выдавайте по одному,</strong> лучше карточками или по очереди на экране: увидев все задания сразу, человек начнёт готовиться заранее.</li>
+  </ul>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · задание или инструкция<span class="spacer"></span><span class="sc num">0 / 10</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Ловушки здесь ровно четыре: назван элемент интерфейса, назван инструмент, дан путь, спрошено мнение. Научишься замечать их — сможешь чинить чужие сценарии.</div>
+  </div>
+</section>
+
+<section id="prep">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Подготовка: прототип, техника, комната</h2></div>
+  <p class="sec-sub">Пятый навык из списка, но по порядку он первый: тест, ушедший в починку ссылок, уже не тест.</p>
+
+  <p>Самая обидная потеря на этом уровне — час с реальным человеком, потраченный на «ой, тут у меня не кликается». Участник переключается в режим сочувствия, начинает помогать вам, и данные после этого не восстановить. Поэтому прототип проверяется целиком и заранее, по маршрутам заданий.</p>
+
+  <div class="box">
+    <div class="box-head">Чек-лист подготовки · отмечай по мере готовности</div>
+    <div class="box-body">
+      <div class="chkbar" style="margin-bottom:12px"><span class="prog"><i id="prepProg"></i></span><span class="st" id="prepSt">0 из 14 — не готов</span></div>
+      <ul class="chk" id="prepList">
+        <li><label><input type="checkbox"><span>Прошёл прототип сам по каждому заданию от начала до конца<span class="hint">Не «полистал», а именно выполнил задание как участник</span></span></label></li>
+        <li><label><input type="checkbox"><span>Прошёл неправильными путями тоже<span class="hint">Участник пойдёт не туда — проверь, что там не тупик и не пустой экран</span></span></label></li>
+        <li><label><input type="checkbox"><span>Проверил кнопку «назад» на каждом экране маршрута</span></label></li>
+        <li><label><input type="checkbox"><span>Данные в прототипе правдоподобные<span class="hint">Не «Товар 1» и «Lorem ipsum»: на бессмысленных данных человек не может принять решение</span></span></label></li>
+        <li><label><input type="checkbox"><span>Прототип открыт с того экрана, с которого начинается первое задание</span></label></li>
+        <li><label><input type="checkbox"><span>Есть запасная ссылка и запасной способ показа<span class="hint">Второй браузер, второе устройство, скриншоты на крайний случай</span></span></label></li>
+        <li><label><input type="checkbox"><span>Ссылка открывается в режиме инкогнито<span class="hint">Частая ловушка: у вас работает, потому что вы авторизованы</span></span></label></li>
+        <li><label><input type="checkbox"><span>Проверил на том устройстве, с которого будет участник<span class="hint">Мобильный прототип на десктопе ведёт себя иначе</span></span></label></li>
+        <li><label><input type="checkbox"><span>Запись экрана и звука настроена и протестирована на 30 секундах</span></label></li>
+        <li><label><input type="checkbox"><span>Заряд, место на диске, стабильная связь</span></label></li>
+        <li><label><input type="checkbox"><span>Шаблон протокола открыт заранее и уже подписан именем участника</span></label></li>
+        <li><label><input type="checkbox"><span>Задания напечатаны или готовы к отправке по одному</span></label></li>
+        <li><label><input type="checkbox"><span>Секундомер под рукой<span class="hint">Подойдёт телефон или встроенный в запись тайм-код</span></span></label></li>
+        <li><label><input type="checkbox"><span>Уведомления выключены, лишние вкладки закрыты<span class="hint">Особенно если показываете свой экран</span></span></label></li>
+      </ul>
+    </div>
+    <div class="box-foot">Полная проверка занимает 20–30 минут и экономит весь час встречи. Отдельно заложите 10 минут до прихода участника на повторную проверку связи — прототипы имеют обыкновение отваливаться именно утром теста.</div>
+  </div>
+
+  <div class="warnbox"><b>Про «прототип не готов, давайте протестируем как есть».</b> Тестировать сырой прототип можно, но участнику нужно честно сказать, что часть кнопок не работает, и назвать, какие именно ветки живые. Иначе он будет считать своей ошибкой каждый неотвеченный клик — и перестанет пробовать. Формулировка: «Это черновик, работает не всё. Если нажмёте и ничего не произойдёт — скажите вслух, куда вы хотели попасть. Это для меня самое полезное».</div>
+</section>
+
+<section id="script">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Готовый сценарий теста</h2></div>
+  <p class="sec-sub">Тот самый сценарий для задания. Подставь свой продукт вместо скобок и пользуйся как есть.</p>
+
+  <p>Заменить нужно три вещи: <code>[продукт]</code> — что тестируем, <code>[задание 1–3]</code> — цели из вашего интерфейса, <code>[ситуация]</code> — обстоятельства, в которых человек этим пользуется. Всё остальное работает без правок.</p>
+
+  <div class="tl" aria-label="Структура сессии на 60 минут">
+    <div class="seg" style="flex:5"><span class="mn">0–5 мин</span><span class="nm">Знакомство и правила</span></div>
+    <div class="seg" style="flex:5"><span class="mn">5–10</span><span class="nm">Разогрев</span></div>
+    <div class="seg core" style="flex:35"><span class="mn">10–45</span><span class="nm">Задания — ядро сессии</span></div>
+    <div class="seg" style="flex:10"><span class="mn">45–55</span><span class="nm">Вопросы после</span></div>
+    <div class="seg" style="flex:5"><span class="mn">55–60</span><span class="nm">Завершение</span></div>
+  </div>
+  <p class="dim" style="font-size:13.5px; margin-top:4px">Три задания по 8–12 минут — рабочий объём на час. Больше пяти заданий в одну сессию не ставят: устаёт и участник, и ведущий.</p>
+
+  <div class="box" id="scriptBody">
+    <div class="box-head">Сценарий юзабилити-теста<span class="spacer"></span><button class="btn" data-copy="#scriptBody" type="button">Скопировать целиком</button></div>
+
+    <div class="script-block">
+      <h4>Блок 0 · Знакомство и правила <span class="tm">3–5 мин</span></h4>
+      <p class="aim">Цель: снять с участника страх ошибки и объяснить, что от него нужно.</p>
+      <p class="say">Спасибо, что пришли. Я дизайнер, мы проверяем [продукт] — хотим понять, насколько им удобно пользоваться. Сразу важное: <b>мы тестируем не вас, а интерфейс</b>. Если что-то не получится или будет непонятно — это ошибка наша, и именно её я и ищу. Чем больше вы споткнётесь, тем полезнее для меня.</p>
+      <p class="say">Я дам вам несколько заданий. Пожалуйста, <b>говорите вслух всё, что думаете</b>: что ищете, куда собираетесь нажать, что ожидаете увидеть. Даже если кажется, что это очевидно или глупо — говорите.</p>
+      <p class="say">Я буду больше молчать — это не потому, что что-то не так, просто мне важно увидеть, как вы справитесь сами. Если спросите меня о чём-то, я, скорее всего, отвечу вопросом — не обижайтесь.</p>
+      <p class="say">Я хотел бы записать экран и звук, чтобы потом не по памяти восстанавливать. Запись видим только я и команда, имя нигде не указывается, через месяц удаляю. Можно включать запись? Остановиться можно в любой момент.</p>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 1 · Разогрев <span class="tm">4–5 мин</span></h4>
+      <p class="aim">Цель: участник привыкает говорить вслух; вы понимаете его опыт.</p>
+      <ul>
+        <li>Расскажите коротко, чем занимаетесь и как часто [ситуация].</li>
+        <li>Когда вы в последний раз [делали то, что тестируем]? Чем пользовались?<span class="probe">Нужно, чтобы понимать, насколько человек в теме.</span></li>
+        <li>Сейчас откроем экран. Посмотрите на него и скажите вслух: что это, по-вашему, за место и что здесь можно сделать?<span class="probe">Первое впечатление — ценные данные, и заодно тренировка думать вслух. Не торопите, дайте 30–60 секунд.</span></li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 2 · Задания <span class="tm">30–35 мин · ядро</span></h4>
+      <p class="aim">Цель: увидеть, справляется ли человек. Выдавайте по одному, засекайте время от выдачи до результата.</p>
+      <ol>
+        <li><b>[Задание 1]</b> — самое частое действие. Например: «Вы выбрали [товар]. Купите его. Скажите, когда закончите».<span class="probe">Засечь: время до первого клика, время до результата, все остановки дольше 10 секунд.</span></li>
+        <li><b>[Задание 2]</b> — действие посложнее, где обычно ломается. Например: «Вы ошиблись с размером. Сделайте так, чтобы приехал другой».</li>
+        <li><b>[Задание 3]</b> — редкое или незаметное действие. Например: «Проверьте, когда приедет заказ и куда именно».</li>
+      </ol>
+      <p class="say" style="margin-top:12px">Формулировка выдачи: «Следующее задание. [Ситуация]. Ваша цель — [результат]. Скажите вслух, когда решите, что готово».</p>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 3 · Вопросы после заданий <span class="tm">8–10 мин</span></h4>
+      <p class="aim">Цель: понять, что человек думал в трудных местах. Задаются только после всех заданий, не во время.</p>
+      <ul>
+        <li>Вернёмся к моменту, когда вы искали [место, где он застрял]. Что вы тогда искали?<span class="probe">Главный вопрос блока. Возвращайте к конкретной секунде, не к общему впечатлению.</span></li>
+        <li>Что вы ожидали увидеть, когда нажали на [элемент]?</li>
+        <li>Было ли что-то, что сработало не так, как вы думали?</li>
+        <li>Если бы вы делали это дома и никто не смотрел — где бы вы бросили?<span class="probe">Хорошо вскрывает места, которые человек преодолел только из вежливости к вам.</span></li>
+        <li>Мы о чём-то не поговорили, а стоило бы?</li>
+      </ul>
+    </div>
+
+    <div class="script-block">
+      <h4>Блок 4 · Завершение <span class="tm">2–3 мин</span></h4>
+      <ul>
+        <li>Поблагодарить, сказать, что именно было полезно.</li>
+        <li>Спросить, можно ли написать, если возникнут уточнения.</li>
+        <li>Остановить запись, сразу сохранить и подписать файл.</li>
+      </ul>
+      <p class="say">Спасибо, вы очень помогли. Особенно полезно было то, как вы искали [место] — я бы сам не догадался, что там непонятно.</p>
+    </div>
+  </div>
+</section>
+
+<section id="silence">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Молчание: главный навык ведущего</h2></div>
+  <p class="sec-sub">Второй навык из списка. Звучит как ничегонеделание, а на деле требует тренировки — попробуй симулятор ниже.</p>
+
+  <p>Когда участник застревает, включается сильный рефлекс: помочь. Он усиливается тем, что вам неловко, что время идёт, что человек пришёл ради вас. И каждый раз, когда вы поддаётесь, вы стираете именно ту находку, ради которой всё затевалось: место, где интерфейс непонятен.</p>
+
+  <p>Важная деталь, которую новички не знают: <strong>участники находят решение гораздо позже, чем кажется ведущему</strong>. Двадцать секунд молчания в комнате ощущаются как минута. Люди сдаются существенно реже, чем вы боитесь, — а если сдаются, это тоже результат, причём самый ценный.</p>
+
+  <div class="box">
+    <div class="box-head">Симулятор · сколько ты продержишься<span class="spacer"></span><button class="btn" id="simReset" type="button" style="display:none">Ещё раз</button></div>
+    <div class="box-body">
+      <p style="margin-top:0; font-size:14.5px; max-width:none"><b>Ситуация.</b> Участник получил задание «отмените заказ». Он смотрит на экран заказа. Молчит. Водит курсором по верхней части страницы. Запусти секундомер и держись сколько сможешь.</p>
+      <div class="watch">
+        <span class="time" id="simTime">0,0<small> с</small></span>
+        <button class="btn solid" id="simStart" type="button">Запустить</button>
+        <button class="btn danger" id="simHelp" type="button" disabled>Не выдержал — подсказываю</button>
+      </div>
+      <div class="log" id="simLog"></div>
+      <div class="verdictbox" id="simVerdict"></div>
+    </div>
+    <div class="box-foot">События в симуляторе взяты из типичной записи теста: человек думает вслух на 11-й секунде, меняет стратегию на 23-й и находит на 38-й. Подсказавший на 15-й секунде уйдёт с теста с выводом «участник не смог» — и это будет неправдой.</div>
+  </div>
+
+  <h3>Что делать вместо подсказки</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Ситуация</th><th>Нельзя</th><th>Можно</th></tr></thead>
+      <tbody>
+        <tr><td>Молчит и не двигается</td><td>«Попробуйте посмотреть в меню»</td><td>Молчать. Через 20–30 секунд: «О чём вы сейчас думаете?»</td></tr>
+        <tr><td>Спрашивает, куда нажать</td><td>Показать</td><td>«А как вам кажется?» / «А где бы вы стали искать?»</td></tr>
+        <tr><td>Пошёл явно не туда</td><td>«Нет, не сюда»</td><td>Молчать и записывать. Куда он пошёл — это и есть находка</td></tr>
+        <tr><td>Спрашивает, правильно ли делает</td><td>«Да, всё верно»</td><td>«Здесь нет правильного ответа, делайте как считаете нужным»</td></tr>
+        <tr><td>Перестал говорить вслух</td><td>Молчать вместе с ним</td><td>«Расскажите, что вы сейчас делаете» — единственное допустимое напоминание</td></tr>
+        <tr><td>Сдаётся, задание не выполнено</td><td>Дорешать за него</td><td>«Хорошо, останавливаемся. Что вы искали в последний момент?» и переходить дальше</td></tr>
+        <tr><td>Совсем застрял, а впереди ещё задания</td><td>Подсказывать шаг за шагом</td><td>Дать минимальную подсказку и <b>пометить в протоколе, что дальше шёл с помощью</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Шпаргалка: что отвечать на вопросы участника</h3>
+  <p class="dim" style="font-size:14px">Нажми на карточку, чтобы увидеть ответ. Эти пять реплик закрывают почти все ситуации — выучи их наизусть до первого теста.</p>
+  <div class="cards" id="replyCards">
+    <button class="card" type="button"><span class="ask">«А куда тут нажать?»</span><span class="ans">«А как вам кажется? Попробуйте так, как сделали бы дома».</span><span class="tap">Показать ответ</span></button>
+    <button class="card" type="button"><span class="ask">«Я правильно делаю?»</span><span class="ans">«Здесь нет правильного и неправильного. Мне важно, как вы сами это видите».</span><span class="tap">Показать ответ</span></button>
+    <button class="card" type="button"><span class="ask">«Это я такой тупой или тут правда непонятно?»</span><span class="ans">«Это точно не про вас. Именно такие места я и ищу — спасибо, что дошли до него».</span><span class="tap">Показать ответ</span></button>
+    <button class="card" type="button"><span class="ask">«А что должно было произойти?»</span><span class="ans">«Расскажу обязательно, но в конце — чтобы не мешать вам дальше. Хорошо?»</span><span class="tap">Показать ответ</span></button>
+    <button class="card" type="button"><span class="ask">«Наверное, я не то нажал»</span><span class="ans">«Всё в порядке, продолжайте. Расскажите, что вы хотели сделать?»</span><span class="tap">Показать ответ</span></button>
+    <button class="card" type="button"><span class="ask">Молчит больше 20 секунд</span><span class="ans">«О чём вы сейчас думаете?» — не подсказка, а возврат к мыслям вслух.</span><span class="tap">Показать ответ</span></button>
+  </div>
+
+  <div class="rule"><b>Правило трёх секунд после ответа.</b> Участник закончил фразу — досчитай про себя до трёх, прежде чем что-то сказать. В этой паузе человек чаще всего добавляет самое важное: «...хотя, наверное, надо было туда». Заполнив паузу своей репликой, ты эту фразу никогда не услышишь.</div>
+</section>
+
+<section id="protocol">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Протокол: что именно записывать</h2></div>
+  <p class="sec-sub">Третий навык. Протокол — единственный результат теста; всё остальное выветрится за сутки.</p>
+
+  <p>В протоколе три вида записей и одна отдельная колонка. <strong>Действие</strong> — что участник сделал: куда нажал, куда пошёл, что проскроллил. <strong>Реплика</strong> — что он сказал, дословно и в кавычках. <strong>Остановка</strong> — где он встал, обязательно со временем. И отдельно, справа, — <strong>ваши мысли</strong>: догадки, вопросы, идеи. Смешивать их с наблюдениями нельзя: через неделю вы не отличите увиденное от придуманного.</p>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · разложи запись по колонкам<span class="spacer"></span><span class="sc num">0 / 10</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Проверка простая: если запись начинается со слов «ему», «он не понял», «неудобно» — это почти наверняка твоя интерпретация, а не наблюдение.</div>
+  </div>
+
+  <h3>Как выглядит заполненный протокол</h3>
+  <p>Ниже — фрагмент настоящей записи по заданию «отмените заказ». Обрати внимание на три вещи: время у каждой строки, дословные кавычки и то, что в левой части нет ни одного вывода.</p>
+
+  <div class="box">
+    <div class="box-head">Образец · участник П2, задание 2 «Отмените заказ» · результат: не смог, 2:40</div>
+    <div class="sheet">
+      <div class="hd">Время</div><div class="hd">Что произошло</div><div class="hd">Мои мысли</div>
+
+      <div class="tc">00:00</div>
+      <div class="obs">Задание выдано. Открыт экран «Мои заказы».</div>
+      <div class="quo"></div>
+
+      <div class="tc">00:04</div>
+      <div class="obs">Открыл карточку заказа №1042. Проскроллил вниз до конца, вернулся вверх.</div>
+      <div class="quo"><em>Ищет кнопку на самой карточке. Логично — я бы тоже.</em></div>
+
+      <div class="tc">00:11</div>
+      <div class="obs">Реплика: «Так, а где это… отменить-то»</div>
+      <div class="quo"></div>
+
+      <div class="tc">00:18</div>
+      <div class="obs"><b>Остановка 24 с.</b> Водит курсором по шапке карточки, ничего не нажимает.</div>
+      <div class="quo"><em>Смотрит туда, где у нас только статус. Проверить на П3, повторится ли.</em></div>
+
+      <div class="tc">00:42</div>
+      <div class="obs">Нажал «Поддержка» в нижнем меню. Открылся чат. Вернулся назад.</div>
+      <div class="quo"><em>Пошёл к живому человеку — обходной путь вместо интерфейса.</em></div>
+
+      <div class="tc">00:55</div>
+      <div class="obs">Реплика: «Я бы просто написал им, наверное. Но вы сказали — самому»</div>
+      <div class="quo"></div>
+
+      <div class="tc">01:20</div>
+      <div class="obs">Открыл «Профиль», вернулся. Открыл «Мои заказы» заново. Снова открыл карточку.</div>
+      <div class="quo"></div>
+
+      <div class="tc">01:58</div>
+      <div class="obs">Реплика: «Может, тут нельзя отменить вообще?»</div>
+      <div class="quo"><em>Сформировал гипотезу, что функции нет. После этого перестал искать.</em></div>
+
+      <div class="tc">02:40</div>
+      <div class="obs"><b>Сдался.</b> «Всё, я бы позвонил». Задание не выполнено.</div>
+      <div class="quo"><em>Кнопка есть — в меню «⋯» справа вверху. За 2:40 он на неё ни разу не навёл.</em></div>
+    </div>
+    <div class="box-foot">По такому протоколу через месяц понятно всё: где встал, что пробовал, в какой момент сдался и почему. И это невозможно спутать с «участнику было неудобно».</div>
+  </div>
+
+  <h3>Правила ведения</h3>
+  <ul>
+    <li><strong>Время — у каждой строки.</strong> Без него протокол превращается в рассказ, а с ним — в данные, которые можно сравнивать между участниками.</li>
+    <li><strong>Остановки помечай отдельно и считай секунды.</strong> Всё, что дольше 10 секунд без действия, — событие.</li>
+    <li><strong>Реплики только дословно.</strong> «Может, тут нельзя отменить вообще?» — это находка. «Он засомневался» — это ничто.</li>
+    <li><strong>Пиши первый клик.</strong> Куда человек полез в первую очередь — самая ценная строка каждого задания: она показывает, где он ожидал найти функцию.</li>
+    <li><strong>Результат задания фиксируй сразу:</strong> выполнено / выполнено с трудом / выполнено не тем путём / не выполнено. И время.</li>
+    <li><strong>Не переписывай протокол «начисто» потом.</strong> Причёсанный протокол теряет кривые формулировки, а они и есть материал.</li>
+    <li><strong>Пять минут сразу после теста</strong> — дописать правую колонку, пока помнишь интонации.</li>
+  </ul>
+
+  <div class="warnbox"><b>Про «всё понравилось».</b> Такая фраза в протоколе — не результат, а признак того, что тест ушёл в опрос мнений. Участники почти всегда хвалят в конце: это вежливость, а не оценка. Если в протоколе есть «понравилось» и нет ни одной остановки со временем — значит, вы записывали слова вместо действий. Возвращайтесь к действиям: они не умеют быть вежливыми.</div>
+</section>
+
+<section id="severity">
+  <div class="sec-head"><h2><span class="h2-num">7</span>«Не смог» против «неудобно»</h2></div>
+  <p class="sec-sub">Четвёртый навык. Две записи выглядят похоже, а стоят совершенно разного.</p>
+
+  <p>Разница проста: <strong>«не смог» — это факт о действии, «неудобно» — мнение о впечатлении</strong>. Первое проверяемо и подлежит починке, второе — вкусовое и требует осторожности. Путаница между ними приводит к двум противоположным бедам: настоящие провалы прячутся за мягкими формулировками, а случайные придирки одного человека превращаются в задачи для команды.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Категория</th><th>Как выглядит в протоколе</th><th>Что с этим делать</th></tr></thead>
+      <tbody>
+        <tr><td><span class="sev s3">не смог</span></td><td>Задание не выполнено или выполнено неверно, а участник этого не заметил</td><td>Чинить в первую очередь. Один такой случай важнее десяти жалоб на цвет</td></tr>
+        <tr><td><span class="sev s2">с трудом</span></td><td>Выполнено, но с остановками, возвратами, попытками не туда; заметно дольше ожидаемого</td><td>Записать время и место. Если повторилось у двоих из трёх — это проблема, а не особенность человека</td></tr>
+        <tr><td><span class="sev s1">заминка</span></td><td>Секундная запинка, дальше пошёл сам</td><td>Отметить, накапливать. Само по себе не повод менять интерфейс</td></tr>
+        <tr><td><span class="sev s0">мнение</span></td><td>«Мне не нравится», «я бы по-другому», «всё удобно»</td><td>Записать отдельно, в выводы не тащить. Мнение ≠ результат теста</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Самый опасный случай — «не смог, но думает, что смог».</b> Человек оформил заказ не на тот адрес, оплатил не тем способом, подписался на рассылку не заметив — и спокойно сказал «готово». В протоколе это выглядит как успех, а на деле это провал тяжелее откровенного «сдаюсь»: в жизни такой человек узнает о проблеме только после доставки. Поэтому в конце каждого задания стоит спрашивать не «получилось?», а «расскажите, что сейчас произошло» — и сверять с тем, что произошло на самом деле.</div>
+
+  <div class="box drill" id="d3">
+    <div class="box-head">Тренажёр 3 · что это на самом деле<span class="spacer"></span><span class="sc num">0 / 9</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Правило разбора: сначала спроси «задание выполнено?», потом «какой ценой?». Только если оба ответа про действия — это результат теста. Всё, что про ощущения, идёт в отдельный список.</div>
+  </div>
+
+  <h3>Как считать повторяемость на трёх участниках</h3>
+  <ul>
+    <li><strong>Трое из трёх</strong> — точно проблема интерфейса, можно нести команде без оговорок.</li>
+    <li><strong>Двое из трёх</strong> — скорее всего проблема; так и пишите: «двое из трёх».</li>
+    <li><strong>Один из трёх</strong> — наблюдение, не вывод. Пометьте и проверьте на следующих тестах.</li>
+    <li><strong>Никогда не пишите «пользователи»</strong> — пишите «двое из трёх». Три человека не дают права на обобщение, и честная формулировка защищает вас же.</li>
+  </ul>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Три теста по сценарию из раздела 4 и протокол на каждого.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Возьми интерфейс</strong> (20 мин). Свой прототип, чужой сайт, приложение — что угодно с живым маршрутом. Если своего нет, берите любой публичный сервис: метод от этого не меняется.</li>
+    <li><strong>Составь три задания</strong> (40 мин) по правилам из раздела 2. Прогони каждое через тренажёр в голове: нет ли в нём названий кнопок, инструментов, путей.</li>
+    <li><strong>Проверь прототип</strong> (30 мин) по чек-листу из раздела 3. Все 14 пунктов.</li>
+    <li><strong>Найди трёх человек</strong> (1 вечер). Не дизайнеров. Годятся друзья и родные — на этом уровне важнее набить руку, чем собрать идеальную выборку.</li>
+    <li><strong>Проведи прогон на себе</strong> (20 мин): вслух, по таймеру, с секундомером. Так вы поймаете неработающие формулировки заданий.</li>
+    <li><strong>Проведи три теста</strong> (по 40–60 мин). После каждого — 5 минут на дописывание правой колонки.</li>
+    <li><strong>Сведи</strong> (1 ч): по каждому заданию — кто справился, за сколько, где встал.</li>
+  </ol>
+  <p class="dim">Ориентир: 6–8 часов, из которых сами тесты — около трёх.</p>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Три протокола</strong> по образцу из раздела 6: время у каждой строки, действия, дословные реплики, помеченные остановки с секундами, результат каждого задания.</li>
+    <li><strong>Сводная табличка:</strong> три задания × три участника, в каждой ячейке — результат и время.</li>
+    <li><strong>Список мест, где встали двое и больше,</strong> с указанием, кто именно и на какой секунде.</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Открой свой протокол и найди в нём место остановки. Видно, на какой секунде участник встал, что он в этот момент пробовал и чем закончилось? Значит, протокол рабочий. Если вместо этого там «участнику было не очень понятно» и «в целом всё понравилось» — вы записывали впечатления вместо действий, и тест придётся повторить.</div>
+
+  <div class="warnbox"><b>Частая беда первого теста — ведущий помогает и не замечает этого.</b> Поэтому сделайте одну вещь: пересмотрите запись первого теста и посчитайте, сколько раз вы говорили. Каждую свою реплику классифицируйте: нейтральная, напоминание думать вслух, подсказка. Если подсказок больше двух за сессию — на втором тесте молчите намеренно, даже когда очень хочется вмешаться.</div>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и типовые ошибки</h2></div>
+
+  <h3>Перед тестом</h3>
+  <ul>
+    <li>Все 14 пунктов подготовки из раздела 3 отмечены</li>
+    <li>Задания сформулированы через цель, без слов из интерфейса</li>
+    <li>Задания выдаются по одному</li>
+    <li>Вступление про «тестируем не вас» отрепетировано вслух</li>
+    <li>Шаблон протокола открыт и подписан, секундомер под рукой</li>
+  </ul>
+
+  <h3>Во время</h3>
+  <ul>
+    <li>Молчу; на вопросы отвечаю встречным вопросом из шпаргалки</li>
+    <li>Засекаю время каждого задания от выдачи до результата</li>
+    <li>Помечаю все остановки дольше 10 секунд</li>
+    <li>Записываю первый клик в каждом задании</li>
+    <li>Реплики — дословно, в кавычках</li>
+    <li>Если подсказал — пометил это в протоколе</li>
+  </ul>
+
+  <h3>После</h3>
+  <ul>
+    <li>Пять минут на дописывание правой колонки, пока свежо</li>
+    <li>По каждому заданию проставлен результат и время</li>
+    <li>Запись сохранена и подписана датой и номером участника</li>
+    <li>Мнения вынесены в отдельный список, в выводы не попали</li>
+  </ul>
+
+  <h3>Ошибки, по которым узнают новичка</h3>
+  <ul class="err-list">
+    <li><b>Даёт инструкцию вместо задания.</b> «Нажмите на корзину» — и тест превращается в проверку слуха.</li>
+    <li><b>Подсказывает при первой заминке.</b> Через 8 секунд молчания не выдерживает и показывает, где кнопка.</li>
+    <li><b>Подсказывает невербально:</b> вздыхает, хмыкает, двигает курсор, смотрит на нужную кнопку. Участник считывает это мгновенно.</li>
+    <li><b>Спорит или объясняет.</b> «Ну там же написано» — после этой фразы человек перестаёт пробовать и начинает оправдываться.</li>
+    <li><b>Спрашивает мнение вместо наблюдения за действием:</b> «Удобно?», «Нравится?» — и получает вежливый шум.</li>
+    <li><b>Записывает выводы вместо событий.</b> «Ему было неудобно» вместо «24 секунды водил курсором по шапке».</li>
+    <li><b>Не засекает время.</b> Без секунд остановка неотличима от паузы на подумать.</li>
+    <li><b>Считает успехом «сделал, но не то».</b> Человек сказал «готово», ведущий записал «выполнено» и не проверил результат.</li>
+    <li><b>Тестирует сломанный прототип</b> и полсессии чинит ссылки.</li>
+    <li><b>Ставит пять заданий в час</b> и гонит участника, лишая себя всех остановок.</li>
+    <li><b>Тестирует на дизайнерах.</b> Коллега проходит любой интерфейс: он мыслит теми же категориями, что и автор.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Что остаётся на следующие уровни</h2></div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Что добавляется</th></tr></thead>
+      <tbody>
+        <tr><td><b>Junior</b> — этот урок</td><td>Провести тест по готовому сценарию, не подсказывая; отличать задание от инструкции; вести протокол с действиями, репликами и остановками; отличать «не смог» от «неудобно»; готовить прототип</td></tr>
+        <tr><td>Middle</td><td>Составлять сценарий и задания под вопрос продукта; решать, что и на ком тестировать; модерировать гибко, углубляясь по ходу; сводить результаты нескольких участников в список проблем с приоритетом по серьёзности; доводить находки до правок и повторного теста; работать с удалёнными и немодерируемыми форматами</td></tr>
+        <tr><td>Senior</td><td>Встраивать тестирование в ритм команды как регулярную практику; выбирать метод под задачу и бюджет; разбирать чужие сценарии и протоколы; обучать команду модерировать; связывать находки с метриками; отстаивать результаты перед теми, кому они неудобны</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Юзабилити-тесты», уровень Junior. Сценарий из раздела 4 копируется кнопкой. Что почитать дальше: Стив Круг, «Не заставляйте меня думать» и его же «Rocket Surgery Made Easy» — короткая книга целиком про самостоятельное тестирование малыми силами; материалы Nielsen Norman Group про модерирование и про то, почему хватает пяти участников.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  /* ── theme ── */
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── generic drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel);
+    if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return;
+      locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    function labelOf(key) {
+      for (var k = 0; k < options.length; k++) if (options[k].key === key) return options[k].label;
+      return key;
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  /* ── drill 1: задание или инструкция ── */
+  makeDrill('#d1',
+    [{ key: 'ok', label: 'Задание — годится' }, { key: 'no', label: 'Инструкция или подсказка' }],
+    [
+      { t: '<q>Вы выбрали эти кроссовки. Купите их.</q>', a: 'ok',
+        fb: 'Цель без пути. Участник сам решит, куда идти, — и это ровно то, что мы хотим увидеть.' },
+      { t: '<q>Нажмите на корзину в правом верхнем углу и оформите заказ.</q>', a: 'no',
+        fb: 'Дан путь целиком. Вы проверили, умеет ли человек выполнять указания. Умеет.' },
+      { t: '<q>Вам нужна красная куртка не дороже 8 000 рублей. Найдите подходящую.</q>', a: 'ok',
+        fb: 'Есть ситуация и конкретные данные, нет ни одного слова из интерфейса.' },
+      { t: '<q>Воспользуйтесь фильтром, чтобы найти красную куртку.</q>', a: 'no',
+        fb: 'Назван инструмент. Главный вопрос — догадается ли человек про фильтр — снят вами заранее.' },
+      { t: '<q>Добавьте два товара в избранное.</q>', a: 'no',
+        fb: '«Избранное» — слово с кнопки. Услышав его, человек ищет кнопку с этим словом, а не решает свою задачу. Лучше: «вы вернётесь к выбору вечером — сделайте так, чтобы не потерять варианты».' },
+      { t: '<q>Вы купили куртку, но она не подошла по размеру. Сделайте так, чтобы вам вернули деньги.</q>', a: 'ok',
+        fb: 'Классическая правильная формулировка: ситуация, цель в терминах результата, ноль подсказок про путь.' },
+      { t: '<q>Оцените, насколько удобна эта страница.</q>', a: 'no',
+        fb: 'Это вообще не задание, а просьба высказать мнение. Мнение не показывает, справится ли человек, и почти всегда будет вежливым.' },
+      { t: '<q>Проверьте, когда приедет заказ номер 1042 и по какому адресу.</q>', a: 'ok',
+        fb: 'Конкретная цель с конкретными данными. Есть понятный признак завершения — участник назовёт дату и адрес.' },
+      { t: '<q>Зайдите в личный кабинет и посмотрите историю заказов.</q>', a: 'no',
+        fb: 'Два названия разделов в одной фразе. Вы провели человека за руку по маршруту, который и хотели проверить.' },
+      { t: '<q>Вы хотите оплатить не картой, а как-то иначе. Разберитесь, есть ли такая возможность.</q>', a: 'ok',
+        fb: 'Отличная формулировка: допускает ответ «нельзя». Задание, у которого возможен отрицательный исход, — часто самое ценное.' }
+    ],
+    function (s, n) {
+      return s >= 9 ? 'Ты видишь подсказки в формулировках. Можно брать чужой сценарий и чинить его.'
+        : s >= 7 ? 'Хорошо, но пара ловушек прошла. Перечитай таблицу выше и обрати внимание на слова из интерфейса — они самые незаметные.'
+        : 'Вернись к разделу 2. Проверяй каждую формулировку по четырём ловушкам: назван элемент, назван инструмент, дан путь, спрошено мнение.';
+    }
+  );
+
+  /* ── drill 2: протокол ── */
+  makeDrill('#d2',
+    [{ key: 'act', label: 'Действие' }, { key: 'say', label: 'Реплика' }, { key: 'stop', label: 'Остановка' }, { key: 'mine', label: 'Моя мысль' }],
+    [
+      { t: 'Открыл карточку заказа, проскроллил вниз до конца, вернулся вверх.', a: 'act',
+        fb: 'Чистое действие: видно, что сделал, и это можно проверить по записи.' },
+      { t: '«Так, а где это… отменить-то»', a: 'say',
+        fb: 'Дословная реплика в кавычках. Такие фразы — главный ключ к тому, что человек искал.' },
+      { t: '24 секунды водит курсором по шапке карточки, ничего не нажимает.', a: 'stop',
+        fb: 'Остановка: есть длительность и есть описание того, что происходило. Всё дольше 10 секунд без действия помечаем отдельно.' },
+      { t: 'Похоже, он не замечает меню в правом верхнем углу.', a: 'mine',
+        fb: 'Это ваша догадка — возможно, верная, но это интерпретация. Место ей в правой колонке.' },
+      { t: 'Участнику было неудобно пользоваться фильтром.', a: 'mine',
+        fb: 'Вдвойне интерпретация: «неудобно» — оценка, и вы приписали её человеку. В левой колонке должно быть, что он делал с фильтром и сколько времени.' },
+      { t: 'Нажал «Поддержка» в нижнем меню, открылся чат, вернулся назад.', a: 'act',
+        fb: 'Действие — и очень ценное: человек пошёл к живому оператору вместо интерфейса. Это обходной путь.' },
+      { t: '«Может, тут нельзя отменить вообще?»', a: 'say',
+        fb: 'Реплика, которая объясняет всё дальнейшее: после неё человек перестаёт искать. Без дословной записи этот момент теряется.' },
+      { t: 'Я бы на его месте тоже полез в профиль.', a: 'mine',
+        fb: 'Ваше сопереживание. В протокол слева не идёт, но в правой колонке полезно: напоминает, что маршрут логичный.' },
+      { t: 'Пауза 15 секунд, смотрит на экран, курсор не двигается.', a: 'stop',
+        fb: 'Остановка. Отличается от действия тем, что ничего не происходит, — и именно поэтому её надо зафиксировать, иначе в записи она незаметна.' },
+      { t: '«Ну наверное надо сюда» — нажал на «Профиль».', a: 'say',
+        fb: 'Формально здесь и реплика, и действие, но сначала фиксируем слова: они показывают неуверенность, а действие допишется следующей строкой.' }
+    ],
+    function (s, n) {
+      return s >= 9 ? 'Отлично: ты отделяешь увиденное от додуманного. Это главное, что отличает протокол от впечатлений.'
+        : s >= 7 ? 'Неплохо. Уязвимое место — формулировки со словами «ему», «он не понял», «неудобно»: они почти всегда интерпретация.'
+        : 'Перечитай образец протокола в разделе 6. Проверяй каждую строку вопросом: «это видно на записи или я это вывел?»';
+    }
+  );
+
+  /* ── drill 3: не смог / с трудом ── */
+  makeDrill('#d3',
+    [{ key: 'fail', label: 'Не смог' }, { key: 'hard', label: 'Смог, но с трудом' }, { key: 'blip', label: 'Заминка' }, { key: 'op', label: 'Это мнение' }],
+    [
+      { t: 'Искал две минуты, сказал «наверное, тут нельзя» и бросил задание.', a: 'fail',
+        fb: 'Задание не выполнено. Самая тяжёлая категория — и самая полезная для команды.' },
+      { t: '«Мне не нравится, что всё такое серое».', a: 'op',
+        fb: 'Мнение о внешнем виде. Записать в отдельный список можно, в выводы теста — нет.' },
+      { t: 'Оформил заказ, но доставку выбрал не ту, которую хотел, и не заметил этого. Сказал «готово».', a: 'fail',
+        fb: 'Самый опасный тип провала: участник уверен, что справился. В протоколе легко записать как успех — всегда проверяйте результат, а не слова.' },
+      { t: 'Вернулся на предыдущий экран три раза, потом нашёл нужное. Всего 50 секунд.', a: 'hard',
+        fb: 'Задание выполнено, но ценой блужданий. Фиксируем время и маршрут: если повторится у второго участника — это проблема.' },
+      { t: 'На секунду задержался перед кнопкой, потом уверенно нажал.', a: 'blip',
+        fb: 'Мелкая запинка. Отмечаем, копим, но само по себе это не повод что-то менять.' },
+      { t: '«Нормальный сайт, всё понятно».', a: 'op',
+        fb: 'Вежливая оценка в конце сессии. Ноль информации — особенно если до этого человек дважды застревал.' },
+      { t: 'Закрыл всплывающее окно, начал задание заново, со второго раза получилось.', a: 'hard',
+        fb: 'Справился, но перезапускал сценарий. Запишите, что именно заставило начать сначала.' },
+      { t: 'Спросил «а куда тут?», ведущий промолчал, участник поискал ещё минуту и сдался.', a: 'fail',
+        fb: 'Не смог — и ведущий всё сделал правильно. Если бы подсказал, результат был бы фальшивым успехом.' },
+      { t: '«Я бы на вашем месте сделал кнопку побольше».', a: 'op',
+        fb: 'Участник предлагает решение. Это не данные: люди плохо проектируют, но хорошо спотыкаются. Ценно то, обо что он споткнулся, а не его рецепт.' }
+    ],
+    function (s, n) {
+      return s >= 8 ? 'Ты различаешь результат и впечатление. Именно за это отличают рабочий протокол от пересказа.'
+        : s >= 6 ? 'Близко. Главная ловушка — «сделал, но не то»: такие случаи выглядят успехом, а на деле тяжелее откровенного провала.'
+        : 'Вернись к таблице в разделе 7 и запомни порядок вопросов: сначала «задание выполнено?», потом «какой ценой?».';
+    }
+  );
+
+  /* ── silence simulator ── */
+  (function () {
+    var timeEl = document.getElementById('simTime');
+    var startB = document.getElementById('simStart'), helpB = document.getElementById('simHelp');
+    var resetB = document.getElementById('simReset'), logEl = document.getElementById('simLog');
+    var vb = document.getElementById('simVerdict');
+    if (!timeEl) return;
+    var t0 = 0, raf = null, done = false;
+    var EVENTS = [
+      { at: 6.0, cls: 'act', v: 'Наводит курсор на кнопку «Повторить заказ», не нажимает.' },
+      { at: 11.0, cls: 'say', v: '«Так, а где это… отменить-то»' },
+      { at: 17.5, cls: 'act', v: 'Скроллит карточку заказа вниз до конца. Возвращается вверх.' },
+      { at: 23.0, cls: 'say', v: '«Может, в профиле?» — открывает профиль, тут же возвращается.' },
+      { at: 31.0, cls: 'act', v: 'Замечает «⋯» в правом верхнем углу. Наводит курсор.' },
+      { at: 38.0, cls: 'win', v: 'Нажал «⋯» → «Отменить заказ». Задание выполнено за 38 секунд — сам.' }
+    ];
+    var shown = 0;
+
+    function fmt(s) { return s.toFixed(1).replace('.', ',') + '<small> с</small>'; }
+    function tick() {
+      var el = (performance.now() - t0) / 1000;
+      timeEl.innerHTML = fmt(el);
+      while (shown < EVENTS.length && el >= EVENTS[shown].at) {
+        var e = EVENTS[shown];
+        var row = document.createElement('div');
+        row.className = 'ev ' + e.cls;
+        row.innerHTML = '<span class="t">' + e.at.toFixed(0) + ' с</span><span class="v">' + e.v + '</span>';
+        logEl.appendChild(row);
+        shown++;
+        if (e.cls === 'win') { finish(el, true); return; }
+      }
+      raf = requestAnimationFrame(tick);
+    }
+    function finish(el, won) {
+      done = true;
+      if (raf) cancelAnimationFrame(raf);
+      helpB.disabled = true; startB.disabled = true;
+      resetB.style.display = '';
+      vb.className = 'verdictbox on';
+      var s = el.toFixed(1).replace('.', ',');
+      if (won) {
+        vb.innerHTML = '<b>Ты выдержал все 38 секунд — и это правильный результат.</b>' +
+          'Участник справился сам. В протоколе появится: «задание выполнено, 38 с, остановка 24 с на карточке заказа, искал в профиле». ' +
+          'Это находка: кнопку отмены не видно там, где её ищут. Подскажи ты на пятнадцатой секунде — в протоколе была бы строка «выполнено с моей помощью», то есть ничего.';
+      } else if (el < 11) {
+        vb.innerHTML = '<b>Ты подсказал на ' + s + ' с.</b>' +
+          'Это раньше, чем участник успел произнести первую мысль вслух. Ты не узнал ни куда он полез бы сам, ни что он при этом думал. ' +
+          'Фраза «так, а где это… отменить-то» прозвучала бы на 11-й секунде — и это была бы твоя первая находка. А сам он нашёл бы кнопку на 38-й.';
+      } else if (el < 23) {
+        vb.innerHTML = '<b>Ты подсказал на ' + s + ' с.</b>' +
+          'Ты услышал первую реплику — уже хорошо. Но дальше было самое интересное: на 23-й секунде он пошёл бы искать в профиле (это отдельная находка — люди ждут отмену там), ' +
+          'а на 38-й нашёл бы сам. В твоём протоколе теперь стоит «не смог», хотя на самом деле смог.';
+      } else if (el < 31) {
+        vb.innerHTML = '<b>Ты подсказал на ' + s + ' с.</b>' +
+          'Ты собрал почти весь материал: реплику, скролл, поход в профиль. Не хватило чуть-чуть — через несколько секунд он заметил бы меню «⋯» сам. ' +
+          'Запомни ощущение: именно на этом отрезке терпение кончается у большинства новичков.';
+      } else {
+        vb.innerHTML = '<b>Ты подсказал на ' + s + ' с — за считаные секунды до финала.</b>' +
+          'Участник уже смотрел на нужное меню. Ещё немного терпения — и в протоколе был бы честный успех с полной картиной поиска. ' +
+          'Вывод простой: когда кажется, что человек безнадёжно застрял, чаще всего он в шаге от решения.';
+      }
+    }
+    startB.addEventListener('click', function () {
+      if (done) return;
+      t0 = performance.now(); shown = 0; logEl.innerHTML = '';
+      startB.disabled = true; helpB.disabled = false;
+      raf = requestAnimationFrame(tick);
+    });
+    helpB.addEventListener('click', function () {
+      if (done) return;
+      finish((performance.now() - t0) / 1000, false);
+    });
+    resetB.addEventListener('click', function () {
+      done = false; shown = 0; logEl.innerHTML = ''; vb.className = 'verdictbox';
+      timeEl.innerHTML = fmt(0);
+      startB.disabled = false; helpB.disabled = true; resetB.style.display = 'none';
+    });
+  })();
+
+  /* ── prep checklist ── */
+  (function () {
+    var list = document.getElementById('prepList');
+    if (!list) return;
+    var boxes = list.querySelectorAll('input[type="checkbox"]');
+    var prog = document.getElementById('prepProg'), st = document.getElementById('prepSt');
+    function upd() {
+      var n = 0;
+      Array.prototype.forEach.call(boxes, function (b) { if (b.checked) n++; });
+      var pct = n / boxes.length * 100;
+      prog.style.width = pct + '%';
+      st.textContent = n + ' из ' + boxes.length + (n === boxes.length ? ' — можно проводить' : ' — не готов');
+      st.style.color = n === boxes.length ? 'var(--good)' : '';
+    }
+    Array.prototype.forEach.call(boxes, function (b) { b.addEventListener('change', upd); });
+    upd();
+  })();
+
+  /* ── reply cards ── */
+  document.querySelectorAll('#replyCards .card').forEach(function (c) {
+    c.addEventListener('click', function () { c.classList.toggle('open'); });
+  });
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = src.innerText.replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fb(text, done); });
+      } else { fb(text, done); }
+    });
+  });
+  function fb(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

@@ -21,7 +21,7 @@ https://www.notion.so/login | вход | competitive_analysis.md, 7.5
 https://miro.com/ | главная | competitive_analysis.md, 7.5
 https://miro.com/login/ | вход | competitive_analysis.md, 7.5
 https://maze.co/ | главная | competitive_analysis.md, 7.5
-https://app.maze.co/ | вход | competitive_analysis.md, 7.5; 16_directive_content.md
+https://app.maze.co/ | вход | competitive_analysis.md, 7.5; навык catalog-content
 https://www.framer.com/ | главная | competitive_analysis.md, 7.5
 https://www.framer.com/login | вход | competitive_analysis.md, 7.5
 https://webflow.com/ | главная | competitive_analysis.md, 7.5
