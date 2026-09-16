@@ -273,6 +273,17 @@ for key in sorted(set(doc_status) & set(voice_status)):
     check("VOICE.md", d_icon == v_icon, f"{key}: icon {d_icon} in foundation.md, {v_icon} in VOICE.md")
     check("VOICE.md", d_word == v_badge or d_word in v_badge, f"{key}: word «{d_word}» in foundation.md, «{v_badge}» in VOICE.md")
 
+# 8. A base rule `.ds-block {` is written once. A second `.ds-hero` — the home banner — landed on top of the
+#    resource hero and painted every catalogue card dark text on a dark ground: 1.12:1 in the light theme.
+#    Only the bare, unindented base selector counts: variants, descendants and @media overrides are normal.
+PATTERNS = THEME / "assets/css/patterns.css"
+if PATTERNS.exists():
+    # Переносы Windows гасятся: с `\r` на конце строки якорь `$` не срабатывает и проверка молчит.
+    css = PATTERNS.read_text(encoding="utf-8").replace(chr(13), "")
+    bases = re.findall(r"^(\.ds-[a-z0-9-]+) \{$", css, re.M)
+    twice = sorted({name for name in bases if bases.count(name) > 1})
+    check("blocks", not twice, f"base rule written twice: {', '.join(twice)} — two patterns share one block name")
+
 print(f"theme.json: {len(primitives)} primitives, {len(palette)} semantic tokens; theme-dark.css: {len(dark)} dark values")
 print(f"contrast: {len(pairs)} pairs, minimum for text and icons {minimum['light']:.2f}:1 light / {minimum['dark']:.2f}:1 dark")
 print(f"sizes: {size_count} component size tokens")

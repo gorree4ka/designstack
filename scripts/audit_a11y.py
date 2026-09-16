@@ -38,13 +38,21 @@ for line in pathlib.Path(args.urls).read_text(encoding="utf-8").splitlines():
 axe_source = AXE.read_text(encoding="utf-8")
 report = []
 
+# Кроме нарушений собираем `incomplete` — то, что axe проверить не смог. Контраст поверх
+# картинки или слоя с `z-index: -1` попадает именно сюда, и проверка «ноль нарушений» молчала
+# при контрасте 1,12:1 на всех 140 карточках каталога (16.09.2026).
 RUN = """() => axe.run(document, {
-    runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']},
-    resultTypes: ['violations']
-}).then(r => r.violations.map(v => ({
-    id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length,
-    target: v.nodes.slice(0, 2).map(n => n.target.join(' ')),
-})))"""
+    runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']}
+}).then(r => ({
+    violations: r.violations.map(v => ({
+        id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length,
+        target: v.nodes.slice(0, 2).map(n => n.target.join(' ')),
+    })),
+    incomplete: r.incomplete.map(v => ({
+        id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length,
+        target: v.nodes.slice(0, 2).map(n => n.target.join(' ')),
+    })),
+}))"""
 
 with sync_playwright() as pw:
     browser = pw.chromium.launch()
@@ -55,7 +63,9 @@ with sync_playwright() as pw:
         for path in paths:
             page.goto(BASE + path, wait_until="load", timeout=60000)
             page.add_script_tag(content=axe_source)
-            violations = page.evaluate(RUN)
+            found = page.evaluate(RUN)
+            violations = found["violations"]
+            unchecked = found["incomplete"]
 
             # Ручные проверки, которые axe не делает.
             manual = page.evaluate("""() => {
@@ -75,8 +85,9 @@ with sync_playwright() as pw:
                 return {h1, jumps, iconOnly, imgNoAlt};
             }""")
 
-            if violations or manual["h1"] != 1 or manual["jumps"] or manual["iconOnly"] or manual["imgNoAlt"]:
-                report.append({"path": path, "theme": theme, "violations": violations, "manual": manual})
+            if violations or unchecked or manual["h1"] != 1 or manual["jumps"] or manual["iconOnly"] or manual["imgNoAlt"]:
+                report.append({"path": path, "theme": theme, "violations": violations,
+                               "incomplete": unchecked, "manual": manual})
 
         page.close()
 
@@ -85,8 +96,10 @@ with sync_playwright() as pw:
 pathlib.Path(args.out).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
 total = sum(len(r["violations"]) for r in report)
+unknown = sum(len(r.get("incomplete", [])) for r in report)
 print(f"страниц проверено: {len(paths)} × 2 темы")
 print(f"страниц с замечаниями: {len(report)}; нарушений axe всего: {total}")
+print(f"axe не смог проверить (меряем руками): {unknown}")
 
 seen = {}
 

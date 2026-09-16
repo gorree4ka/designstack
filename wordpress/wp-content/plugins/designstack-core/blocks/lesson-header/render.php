@@ -42,14 +42,33 @@ if ( $ds_skill ) {
 }
 
 if ( $ds_step ) {
+	// Метки выглядят как переключатель ступеней, поэтому они им и работают: ступень
+	// с готовым уроком — ссылка, ненаписанная — погашенная метка с пояснением для чтеца.
+	$ds_lessons = $ds_skill ? designstack_core_lessons_map() : array();
+	$ds_lessons = isset( $ds_lessons[ $ds_skill->slug ] ) ? $ds_lessons[ $ds_skill->slug ] : array();
+
 	$ds_out .= '<ul class="ds-lesson__levels">';
 
 	foreach ( array( 'junior', 'middle', 'senior' ) as $ds_one ) {
-		$ds_is   = $ds_one === $ds_step;
-		$ds_out .= '<li class="ds-lesson__level' . ( $ds_is ? ' is-current' : '' ) . '">'
-			. esc_html( designstack_core_step_label( $ds_one ) )
-			. ( $ds_is ? '<span class="screen-reader-text"> — ступень этого урока</span>' : '' )
-			. '</li>';
+		$ds_is    = $ds_one === $ds_step;
+		$ds_label = esc_html( designstack_core_step_label( $ds_one ) );
+		$ds_url   = ( ! $ds_is && isset( $ds_lessons[ $ds_one ] ) ) ? $ds_lessons[ $ds_one ] : '';
+
+		// Внутренний элемент есть всегда: на нём лежат отступы, поэтому у ссылки нажимается вся метка, а не только буквы.
+		if ( $ds_is ) {
+			$ds_body = '<span class="ds-lesson__level-body">' . $ds_label
+				. '<span class="screen-reader-text"> — ступень этого урока</span></span>';
+		} elseif ( $ds_url ) {
+			$ds_body = '<a class="ds-lesson__level-body" href="' . esc_url( $ds_url ) . '">' . $ds_label . '</a>';
+		} else {
+			$ds_body = '<span class="ds-lesson__level-body">' . $ds_label
+				. '<span class="screen-reader-text"> — урок пишется</span></span>';
+		}
+
+		$ds_out .= '<li class="ds-lesson__level'
+			. ( $ds_is ? ' is-current' : '' )
+			. ( ! $ds_is && ! $ds_url ? ' is-soon' : '' )
+			. '">' . $ds_body . '</li>';
 	}
 
 	$ds_out .= '</ul>';

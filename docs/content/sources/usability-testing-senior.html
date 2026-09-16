@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Юзабилити-тесты: Senior — регулярная практика команды</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 820px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 540px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+  .ctr { text-align: center; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn[disabled] { opacity: .5; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 52px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 180px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* cadence */
+  .cad-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .weeks { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
+  .wk { border: 1px solid var(--border); border-radius: 6px; padding: 7px 2px 8px; text-align: center; background: var(--raised); min-height: 62px; }
+  .wk .n { font: 700 10px ui-monospace, Menlo, monospace; color: var(--muted); display: block; }
+  .wk .m { display: block; margin-top: 4px; font-size: 15px; line-height: 1.1; }
+  .wk.test { background: var(--chip); border-color: transparent; }
+  .wk.big { background: var(--good-soft); border-color: transparent; }
+  @media (max-width: 680px) { .weeks { grid-template-columns: repeat(6, 1fr); } }
+  .cad-out { margin-top: 14px; font-size: 14.5px; }
+  .cad-out .kv { display: grid; grid-template-columns: 116px 1fr; gap: 12px; padding: 5px 0; }
+  .cad-out .kv .k { font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+  .cad-out .kv .v { color: var(--ink-2); }
+  .cad-out .kv .v b { color: var(--ink); }
+  @media (max-width: 560px) { .cad-out .kv { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* panel drill */
+  .panel { list-style: none; margin: 0; padding: 0; }
+  .panel li { border-top: 1px solid var(--hairline); padding: 11px 2px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+  .panel li:first-child { border-top: none; }
+  .panel .who { font-size: 14.5px; }
+  .panel .who b { display: block; }
+  .panel .who span { font-size: 13px; color: var(--muted); }
+  .panel .acts { display: flex; gap: 6px; }
+  .panel .vd { font-size: 13px; padding: 6px 0 0; grid-column: 1 / -1; display: none; }
+  .panel li.done .vd { display: block; }
+  .panel .vd.ok { color: var(--good); }
+  .panel .vd.no { color: var(--bad); }
+  @media (max-width: 560px) { .panel li { grid-template-columns: 1fr; } .panel .acts { justify-content: flex-start; } }
+
+  /* calculator */
+  .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .calc { grid-template-columns: 1fr; } }
+  .fld { display: flex; flex-direction: column; gap: 5px; }
+  .fld label { font-size: 13px; color: var(--ink-2); }
+  .fld label span { color: var(--muted); font-size: 12.5px; display: block; }
+  .fld input, .fld select { border: 1px solid var(--border); background: var(--page); color: var(--ink); border-radius: 8px; padding: 9px 11px; font: 14px system-ui, sans-serif; width: 100%; }
+  .fld input[type="range"] { padding: 0; accent-color: var(--accent); }
+  .out { margin-top: 16px; border-top: 1px solid var(--hairline); padding-top: 16px; }
+  .out .big { font: 600 30px/1.1 system-ui; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .out .cap { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .out .say { margin-top: 14px; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 12px 14px; font-size: 14.5px; }
+  .out .say b { color: var(--ink); }
+
+  /* doc */
+  .doc { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+  .doc h4 { margin: 18px 0 6px; font-size: 14.5px; }
+  .doc h4:first-child { margin-top: 0; }
+  .doc p, .doc ul, .doc ol { max-width: none; font-size: 14px; margin: 6px 0; }
+  .doc ul, .doc ol { padding-left: 20px; }
+  .doc li { margin: 3px 0; }
+  .doc hr { border: none; border-top: 1px solid var(--hairline); margin: 20px 0; }
+  .doc .pagemark { font: 700 10.5px system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Юзабилити-тесты · Senior · регулярная практика команды</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · юзабилити-тестирование</p>
+  <div class="levels" aria-label="Уровень темы: Senior, третий из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv done">Middle</span>
+    <span class="lv on">Senior</span>
+  </div>
+  <h1>Тестирование как часть того, как команда принимает решения</h1>
+  <p class="lede">Разовый тест улучшает экран. Регулярный — меняет способ спорить: вместо «мне кажется» в команде появляется «давай посмотрим запись». Здесь вы отвечаете не за качество одного исследования, а за ритм, за базу участников, за разбор спорных результатов и за то, чтобы находки доходили до места, где принимаются решения.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#cadence">Встраивать тест в рабочий цикл</a> — когда, на чём, кто участвует<span class="drillmark">конструктор ритма</span></li>
+    <li><a href="#panel">Держать базу участников</a> и не звать одних и тех же<span class="drillmark">тренажёр</span></li>
+    <li><a href="#conflict">Разбирать спорный результат:</a> пятеро споткнулись, а метрика не просела<span class="drillmark">тренажёр</span></li>
+    <li><a href="#cost">Говорить на языке риска и стоимости</a>, а не «пользователям неудобно»<span class="drillmark">калькулятор</span></li>
+    <li><a href="#limits">Видеть границу метода</a> — где тест не ответит<span class="drillmark">тренажёр</span></li>
+  </ol>
+</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется на этом уровне</h2></div>
+  <p class="sec-sub">Проводить тесты вы уже умеете. Теперь вопрос в том, что происходит между тестами и после них.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Middle</th><th>Senior</th></tr></thead>
+      <tbody>
+        <tr><td><b>Повод</b></td><td>появился спорный экран</td><td>наступил вторник — тест идёт по расписанию</td></tr>
+        <tr><td><b>Кто проводит</b></td><td>вы</td><td>любой в команде, вы отвечаете за качество</td></tr>
+        <tr><td><b>Участники</b></td><td>ищете под каждый тест</td><td>база с ротацией, рекрутинг заранее</td></tr>
+        <tr><td><b>Спорный результат</b></td><td>защищаете свой вывод</td><td>разбираете вместе с продуктом и аналитикой</td></tr>
+        <tr><td><b>Язык</b></td><td>находки и серьёзность</td><td>риск, стоимость, вероятность</td></tr>
+        <tr><td><b>Куда попадают находки</b></td><td>в ваш макет</td><td>в бэклог и в документ решений команды</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>отчёт без правок</td><td>ритуал: тесты идут, решения принимаются по-прежнему на совещаниях</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Две ловушки уровня</h3>
+  <ul>
+    <li><strong>Театр исследований.</strong> Тесты идут регулярно, записи копятся, отчёты рассылаются — а решения в команде принимаются там же, где и раньше: на планировании, по интуиции самого громкого. Признак: на вопрос «какое решение мы изменили из-за теста за квартал» никто не может назвать конкретное.</li>
+    <li><strong>Полиция качества.</strong> Вы становитесь человеком, который приходит и говорит, что всё плохо. Команда учится не звать вас на ранние обсуждения, чтобы не тормозить. Признак: вас приглашают, когда макет уже согласован.</li>
+  </ul>
+
+  <div class="rule"><b>Общее лекарство от обеих: тест должен попадать в решение до того, как решение принято.</b> Поэтому ритм привязывается не к вашему календарю, а к календарю команды — к спринтам, к моментам, когда выбирают между вариантами. Исследование, приходящее после согласования, не может ни на что повлиять, каким бы качественным оно ни было.</div>
+</section>
+
+<section id="cadence">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Ритм: когда тестируем, на чём, кто участвует</h2></div>
+  <p class="sec-sub">Первый навык. Главное решение здесь — не «как часто», а «к чему привязано».</p>
+
+  <p>Регулярность работает по одной причине: она снимает вопрос «стоит ли тестировать в этот раз». Если тест назначен на каждый второй четверг, спорить приходится не о том, проводить ли исследование, а о том, что именно в него положить, — и это совсем другой, гораздо более продуктивный спор.</p>
+
+  <div class="box">
+    <div class="box-head">Конструктор ритма · квартал на 12 недель<span class="spacer"></span>
+      <button class="btn cad" data-c="weekly" type="button" aria-pressed="false">Еженедельно</button>
+      <button class="btn cad" data-c="sprint" type="button" aria-pressed="true">Раз в спринт</button>
+      <button class="btn cad" data-c="wave" type="button" aria-pressed="false">Волнами</button>
+    </div>
+    <div class="box-body">
+      <div class="weeks" id="weeks"></div>
+      <div class="cad-out" id="cadOut"></div>
+    </div>
+    <div class="box-foot">Значки: ● тестовый слот · ◆ большая серия · пусто — недели без тестов. Выбор между режимами — это выбор между скоростью обратной связи и нагрузкой на команду, и он зависит от того, как часто вы вообще выпускаете изменения.</div>
+  </div>
+
+  <h3>На чём тестировать: что кладём в слот</h3>
+  <p>Слот есть всегда, а что в него положить — решается на планировании. Порядок приоритета такой:</p>
+  <ol>
+    <li><strong>То, что вот-вот уйдёт в разработку.</strong> Самая дешёвая точка для изменений и самая частая причина, по которой слот заводят.</li>
+    <li><strong>Спорные места, где команда разошлась во мнениях.</strong> Тест здесь дешевле, чем ещё одно совещание.</li>
+    <li><strong>Сценарии, где просела метрика.</strong> Аналитика показала где, тест покажет почему.</li>
+    <li><strong>Повторная проверка прошлых правок.</strong> Три человека, то же задание, тот же критерий.</li>
+    <li><strong>Если ничего из перечисленного нет</strong> — берите ключевой сценарий продукта и прогоняйте его как есть. Он всегда приносит что-то новое, потому что продукт вокруг него меняется.</li>
+  </ol>
+
+  <h3>Кто участвует и с какой ролью</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Роль</th><th>Что делает</th><th>Сколько времени в неделю</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ведущий</b></td><td>модерирует сессии; меняется по очереди между дизайнерами</td><td class="num">3–4 часа</td></tr>
+        <tr><td><b>Записывающий</b></td><td>ведёт протокол; хорошая роль для новичка и для разработчика</td><td class="num">2–3 часа</td></tr>
+        <tr><td><b>Наблюдатели</b></td><td>смотрят живьём, молча, в отдельном канале; по одному от продукта и разработки</td><td class="num">1 час</td></tr>
+        <tr><td><b>Разбор</b></td><td>30 минут после серии: что видели, что с этим делаем</td><td class="num">30 минут</td></tr>
+        <tr><td><b>Вы</b></td><td>ревью сценария до, разбор находок после, ведение базы участников</td><td class="num">2–3 часа</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Приём, который меняет отношение команды к тестам сильнее всего: приведите наблюдателей.</b> Один разработчик, который своими глазами увидел, как человек три минуты ищет кнопку, сделанную этим разработчиком, стоит десяти ваших отчётов. Правило для наблюдателей одно и жёсткое: слушать молча и не оправдываться в чате. Обсуждение — на разборе через полчаса.</div>
+
+  <div class="warnbox"><b>Про «у нас нет времени на еженедельные тесты».</b> Обычно это правда — и это нормально. Один слот раз в две недели, три участника по сорок минут, полтора часа на разбор — это две трети рабочего дня одного человека в две недели. Начинать стоит с этого, а не с идеального расписания, которое развалится на третьей неделе. Регулярность важнее объёма: маленький ритм, который держится квартал, полезнее большого, который держится три недели.</div>
+</section>
+
+<section id="panel">
+  <div class="sec-head"><h2><span class="h2-num">3</span>База участников</h2></div>
+  <p class="sec-sub">Второй навык. Регулярные тесты упираются не в сценарии, а в людей: искать их каждую неделю заново невозможно.</p>
+
+  <p>База — это таблица, где по каждому человеку известно: как с ним связаться, к какому типу поведения он относится, когда участвовал в последний раз, в каких тестах и на что согласился. Ведётся она вами, живёт в общем месте команды и пополняется постоянно, а не под конкретный тест.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Поле</th><th>Зачем</th></tr></thead>
+      <tbody>
+        <tr><td><b>Код участника</b></td><td>П-041 вместо имени; имена и контакты — в отдельном закрытом файле</td></tr>
+        <tr><td><b>Сегмент по поведению</b></td><td>новый / регулярный / вернувшийся; с мобильного / с десктопа — то, по чему вы отбираете</td></tr>
+        <tr><td><b>Последнее участие</b></td><td>главное поле: по нему работает правило ротации</td></tr>
+        <tr><td><b>В каких тестах был</b></td><td>чтобы не звать человека повторно на тот же сценарий</td></tr>
+        <tr><td><b>Согласия</b></td><td>на запись, на хранение, на повторные приглашения — и срок действия</td></tr>
+        <tr><td><b>Заметка о качестве</b></td><td>говорит вслух или нет, приходит вовремя или нет — без оценок личности</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Правила ротации</h3>
+  <ul>
+    <li><strong>Пауза не меньше трёх месяцев</strong> между приглашениями одного человека. Иначе он начинает знать ваш продукт лучше ваших пользователей.</li>
+    <li><strong>Никогда не зовите повторно на тот же сценарий,</strong> даже через полгода: вы измерите память, а не дизайн.</li>
+    <li><strong>Не больше трёх участий всего,</strong> дальше человек выводится из базы. «Профессиональный респондент» перестаёт быть похожим на вашего пользователя.</li>
+    <li><strong>Пополняйте базу постоянно:</strong> ссылка на короткую анкету в продукте, в письмах, в поддержке. Цель — держать запас на две-три серии вперёд.</li>
+    <li><strong>Держите резерв:</strong> приглашайте на одного человека больше, чем нужно. Один не приходит примерно всегда.</li>
+    <li><strong>Чистите раз в квартал:</strong> истёкшие согласия, неактуальные контакты, выработавшие лимит.</li>
+  </ul>
+
+  <div class="box">
+    <div class="box-head">Тренажёр 1 · кого можно звать на тест 12 марта<span class="spacer"></span><span class="num" id="panelScore">0 из 6</span></div>
+    <div class="box-body">
+      <p class="dim" style="margin-top:0;font-size:14px">Тест про <b>оформление возврата</b> с мобильного. Нужны те, кто покупал за последние два месяца. Решай по каждому.</p>
+      <ul class="panel" id="panelList"></ul>
+    </div>
+    <div class="box-foot">Правила, которые здесь проверяются: пауза три месяца, запрет на повтор того же сценария, лимит трёх участий, соответствие сегменту и действующее согласие.</div>
+  </div>
+</section>
+
+<section id="conflict">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Спорный результат: тест против метрики</h2></div>
+  <p class="sec-sub">Третий навык и самый ценный разговор, который вы будете вести с продуктом.</p>
+
+  <p>Ситуация классическая: пять человек споткнулись на экране, а конверсия на нём не просела. Первая реакция продукта — «значит, тест ничего не значит». Первая реакция дизайнера — «значит, метрика плохая». Обе неверны. <strong>Расхождение — это не спор, кто прав, а самостоятельная находка:</strong> оно означает, что происходит что-то, чего не видит ни один из двух методов по отдельности.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Возможная причина</th><th>Как проверить</th></tr></thead>
+      <tbody>
+        <tr><td><b>Люди преодолевают затык, но платят за это</b></td><td>Посмотреть время прохождения шага и число возвратов назад. Конверсия та же, а время выросло — затык реален</td></tr>
+        <tr><td><b>Метрика слишком крупная</b></td><td>Общая конверсия покупки размывает шаг. Смотреть метрику именно этого шага и именно этого сегмента</td></tr>
+        <tr><td><b>Проблема у сегмента, который мал в цифрах</b></td><td>Разбить метрику по новым и опытным, по устройствам. Новичков может быть 8 % — в среднем незаметно, а для них это стена</td></tr>
+        <tr><td><b>Отвал случается позже</b></td><td>Смотреть не шаг, а возвраты, обращения в поддержку, повторные покупки. Человек дошёл, но больше не вернулся</td></tr>
+        <tr><td><b>Проблема есть, но её обходят вне продукта</b></td><td>Смотреть обращения в поддержку и звонки. Конверсия цела за счёт операторов — то есть за деньги</td></tr>
+        <tr><td><b>Тест был нечестный</b></td><td>Перечитать задание: не было ли в нём слов из интерфейса, не подсказывал ли ведущий, годился ли прототип</td></tr>
+        <tr><td><b>Выборка не та</b></td><td>Проверить, кого звали. Пять новичков против метрики по всей базе — вы сравниваете разное</td></tr>
+        <tr><td><b>Метрика считается неверно</b></td><td>Спросить аналитика, что именно попадает в числитель. Бывает, что шаг засчитывается по загрузке экрана, а не по действию</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Правило разбора: качественное отвечает на «почему», количественное — на «сколько». Спорить они не могут по определению.</b> Если метрика и тест разошлись, вопрос звучит не «кто прав», а «какой ценой держится метрика». Почти всегда оказывается, что цена есть — время, поддержка, отложенный отвал, — и её просто никто не считал.</div>
+
+  <h3>Как вести такой разговор</h3>
+  <ol>
+    <li><strong>Согласиться первым.</strong> «Да, конверсия не просела — значит, обвала нет». Этим вы снимаете оборону и превращаете спор в совместную задачу.</li>
+    <li><strong>Назвать расхождение находкой,</strong> а не аргументом: «У нас две картины, которые не сходятся. Давайте поймём, почему».</li>
+    <li><strong>Прийти с конкретным запросом к аналитике,</strong> а не с обидой: время шага, разбивка по сегментам, обращения в поддержку по теме.</li>
+    <li><strong>Показать запись,</strong> а не пересказ. Тридцать секунд, где человек молча ищет, действуют сильнее любой таблицы.</li>
+    <li><strong>Признать, если тест был плохой.</strong> Иногда причина в вас — и сказанное вслух это резко повышает доверие ко всем остальным вашим результатам.</li>
+    <li><strong>Закончить решением,</strong> а не обсуждением: чиним, не чиним, или проверяем ещё раз таким-то способом к такому-то сроку.</li>
+  </ol>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 2 · что здесь происходит<span class="spacer"></span><span class="sc num">0 / 6</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Порядок проверки при расхождении: сначала честность теста, потом правильность метрики, потом сегменты, и только потом выводы о поведении.</div>
+  </div>
+</section>
+
+<section id="cost">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Язык риска и стоимости</h2></div>
+  <p class="sec-sub">Четвёртый навык. «Пользователям неудобно» не проходит приоритизацию — «это стоит нам примерно столько» проходит.</p>
+
+  <p>Продукт принимает решения, сравнивая задачи между собой. Формулировка «людям неудобно» не сравнивается ни с чем: её нельзя положить рядом с «переписать платёжный модуль» и выбрать. Задача Senior-дизайнера — перевести находку в ту же систему координат, в которой продукт уже думает: <strong>сколько людей, как часто, чем это оборачивается и что будет, если не чинить</strong>.</p>
+
+  <div class="box">
+    <div class="box-head">Калькулятор · во что обходится находка<span class="spacer"></span><button class="btn" id="calcReset" type="button">Сбросить</button></div>
+    <div class="box-body">
+      <div class="calc">
+        <div class="fld">
+          <label for="cUsers">Сколько человек в месяц проходят этот сценарий<span>из аналитики, а не из головы</span></label>
+          <input type="number" id="cUsers" value="40000" min="0" step="1000">
+        </div>
+        <div class="fld">
+          <label for="cShare">Доля, у кого возникает проблема<span>ориентир из теста: <b id="cHint">3 из 5</b> — но это не процент, см. ниже</span></label>
+          <input type="range" id="cShare" min="5" max="80" step="5" value="30">
+          <span class="dim num" id="cShareVal" style="font-size:13px">30 %</span>
+        </div>
+        <div class="fld">
+          <label for="cOutcome">Чем оборачивается затык</label>
+          <select id="cOutcome">
+            <option value="support">Обращение в поддержку</option>
+            <option value="churn">Человек уходит, не завершив</option>
+            <option value="slow">Проходит, но дольше на несколько минут</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="cUnit"><span id="cUnitLabel">Стоимость одного обращения, ₽</span></label>
+          <input type="number" id="cUnit" value="180" min="0" step="10">
+        </div>
+      </div>
+      <div class="out">
+        <div class="big" id="cOut">—</div>
+        <div class="cap" id="cCap">Порядок величины в месяц. Не точная цифра — рамка для разговора.</div>
+        <div class="say" id="cSay"></div>
+      </div>
+    </div>
+    <div class="box-foot">Важное ограничение, которое нужно называть вслух: <b>доля из теста — это не процент пользователей.</b> Пять человек не дают статистики. Число из калькулятора — оценка порядка величины, которая нужна для одного: понять, стоит ли задача внимания вообще, и попросить у аналитики точную проверку именно этого шага. Приносить эту цифру как факт нельзя — приносить как гипотезу для проверки нужно.</div>
+  </div>
+
+  <h3>Четыре перевода, которые стоит выучить</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Вместо этого</th><th>Говорите так</th></tr></thead>
+      <tbody>
+        <tr><td>«Пользователям неудобно отменять заказ»</td><td>«Трое из пяти не нашли отмену и ушли в поддержку. Если так же ведёт себя хотя бы каждый десятый — это порядка N обращений в месяц при стоимости обращения X»</td></tr>
+        <tr><td>«Форма перегружена»</td><td>«Каждое лишнее поле — это риск отвала. Сейчас их девять; давайте проверим, какие реально нужны для первой покупки, а какие можно спросить позже»</td></tr>
+        <tr><td>«Непонятный статус заказа»</td><td>«Люди не понимают, что происходит, и идут спрашивать. Это самая частая тема обращений — вот выгрузка из поддержки»</td></tr>
+        <tr><td>«Это плохая практика»</td><td>«Здесь человек может необратимо потерять данные и не заметить. Цена одной такой ошибки для нас — разбор с поддержкой и возврат средств»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Когда правильный ответ — «не чиним»</h3>
+  <ul>
+    <li><strong>Затык есть, но сценарий редкий и обратимый.</strong> Скажите это сами, раньше продукта: репутация человека, который не тащит в работу всё подряд, дороже одной починенной мелочи.</li>
+    <li><strong>Починка дороже проблемы.</strong> Переписать платёжный модуль ради экономии двадцати секунд — плохая сделка, и вы должны уметь это посчитать.</li>
+    <li><strong>Проблема уйдёт сама</strong> вместе с запланированной переделкой раздела через месяц.</li>
+    <li><strong>Но никогда не «не чиним» для тихих ошибок:</strong> если человек может потерять деньги или данные и не заметить — это чинится вне очереди, сколько бы людей это ни касалось.</li>
+  </ul>
+</section>
+
+<section id="limits">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Граница метода</h2></div>
+  <p class="sec-sub">Пятый навык. Знать, где тест бесполезен, — часть профессии, а не признание слабости.</p>
+
+  <p>Юзабилити-тест отвечает ровно на один вопрос: <strong>справляется ли человек с этим интерфейсом прямо сейчас</strong>. Всё остальное он показывает косвенно или не показывает вовсе. Попытка выжать из него ответ на чужой вопрос портит и решение, и доверие к методу.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Вопрос</th><th>Тест не ответит, потому что</th><th>Что использовать</th></tr></thead>
+      <tbody>
+        <tr><td>Какой из двух вариантов даст больше конверсии</td><td>пять человек не дают статистики</td><td>A/B-тест</td></tr>
+        <tr><td>Сколько людей сталкивается с проблемой</td><td>тест показывает существование, не распространённость</td><td>Аналитика или опрос</td></tr>
+        <tr><td>Нужна ли эта функция вообще</td><td>в тесте человек делает то, что вы попросили</td><td>Проблемное интервью, анализ спроса</td></tr>
+        <tr><td>Будут ли этим пользоваться через месяц</td><td>первое впечатление не предсказывает привычку</td><td>Дневниковое исследование, когортный анализ</td></tr>
+        <tr><td>Готов ли человек за это платить</td><td>в тесте нет реальных денег и реальных последствий</td><td>Продажи, предзаказы, эксперимент с ценой</td></tr>
+        <tr><td>Какой текст лучше продаёт</td><td>тест проверяет понятность, не убедительность</td><td>A/B-тест на живом трафике</td></tr>
+        <tr><td>Соответствует ли экран стандартам доступности</td><td>пятеро зрячих участников этого не покажут</td><td>Аудит по WCAG, тест с незрячими пользователями</td></tr>
+        <tr><td>Что сломается при 10 000 записей в таблице</td><td>в прототипе три строки</td><td>Тест на реальных данных, нагрузочный прогон</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 3 · чем это проверять<span class="spacer"></span><span class="sc num">0 / 7</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Правило выбора: если в вопросе есть слово «сколько», «лучше» или «будет ли» — это не к юзабилити-тесту. Тест отвечает на «справится ли» и «где споткнётся».</div>
+  </div>
+
+  <div class="warnbox"><b>Самое ценное применение этого навыка — сказать «тест здесь не нужен».</b> Когда команда просит проверить то, что проверяется дешевле и точнее другим способом, откажитесь и предложите этот способ. Так вы экономите слоты для вопросов, на которые действительно отвечает только наблюдение за живым человеком, — и перестаёте быть сервисом, который тестирует что попросят.</div>
+</section>
+
+<section id="doc">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Порядок тестирования на квартал</h2></div>
+  <p class="sec-sub">Тот самый документ из задания. Забирай целиком и правь под свою команду — он намеренно короткий.</p>
+
+  <div class="box">
+    <div class="box-head">Порядок тестирования · шаблон<span class="spacer"></span><button class="btn" data-copy="#qDoc" type="button">Скопировать</button></div>
+    <div class="box-body">
+      <div class="doc" id="qDoc">
+        <p class="pagemark">Порядок юзабилити-тестирования · квартал [ ]</p>
+
+        <h4>Зачем</h4>
+        <p>Чтобы спорные решения проверялись на людях до разработки, а не после релиза. Документ описывает ритм и роли. Всё остальное — в шаблонах.</p>
+
+        <h4>Ритм</h4>
+        <ul>
+          <li>Тестовый слот — <b>каждый второй четверг</b>, 3 участника по 40 минут подряд.</li>
+          <li>Разбор — в тот же день, 30 минут, сразу после последней сессии.</li>
+          <li>Большая серия (5 участников) — раз в квартал, перед крупным релизом.</li>
+          <li>Слот не отменяется. Если тестировать нечего — берём ключевой сценарий продукта как есть.</li>
+        </ul>
+
+        <h4>Что попадает в слот</h4>
+        <p>Решается на планировании спринта, в таком порядке приоритета:</p>
+        <ol>
+          <li>То, что уходит в разработку в следующем спринте.</li>
+          <li>Место, где команда разошлась во мнениях.</li>
+          <li>Сценарий, где просела метрика.</li>
+          <li>Повторная проверка правок прошлого цикла.</li>
+        </ol>
+
+        <h4>Роли</h4>
+        <ul>
+          <li><b>Ведущий</b> — дизайнеры по очереди. График на квартал заранее.</li>
+          <li><b>Записывающий</b> — любой из команды, приветствуются разработчики.</li>
+          <li><b>Наблюдатели</b> — по одному от продукта и разработки, смотрят молча в отдельном канале.</li>
+          <li><b>Ответственный за метод</b> — [имя]: ревью сценария до, разбор находок после, ведение базы участников.</li>
+        </ul>
+
+        <h4>Обязательные шаги</h4>
+        <ol>
+          <li>Бриф на полстраницы: какое решение проверяем, критерий успеха и провала, три задания.</li>
+          <li>Ревью сценария — до первого участника, у любого коллеги с опытом.</li>
+          <li>Проверка прототипа по чек-листу.</li>
+          <li>Сессии с записью экрана и звука, согласие вслух.</li>
+          <li>Разбор в тот же день: находки с серьёзностью.</li>
+          <li>Находки — в бэклог в течение суток.</li>
+        </ol>
+
+        <hr>
+        <p class="pagemark">Куда попадают находки и как принимаются решения</p>
+
+        <h4>Маршрут находки</h4>
+        <ul>
+          <li><b>Критичные</b> — задача в бэклог сразу, помечается меткой «из теста», берётся в ближайший спринт.</li>
+          <li><b>Высокие</b> — задача в бэклог, приоритет обсуждается на планировании.</li>
+          <li><b>Низкие и мелочи</b> — в общий список наблюдений, без задач.</li>
+          <li>У каждой задачи в описании — цитата участника и ссылка на тайм-код записи.</li>
+        </ul>
+
+        <h4>Документ решений</h4>
+        <p>Итог каждого цикла записывается в общий журнал решений команды — одна строка на решение:</p>
+        <ul>
+          <li>Дата · что решили · на основании чего · кто участвовал в решении.</li>
+          <li>Отдельно помечаются <b>отменённые и изменённые решения</b> — это главный показатель того, что практика работает.</li>
+          <li>Журнал живёт там же, где команда принимает решения (планирование, вики продукта), а не в папке дизайна.</li>
+        </ul>
+
+        <h4>Участники</h4>
+        <ul>
+          <li>База ведётся ответственным за метод, живёт в общем разделе команды.</li>
+          <li>Пауза между приглашениями одного человека — 3 месяца. Не больше 3 участий всего.</li>
+          <li>На тот же сценарий повторно не зовём никогда.</li>
+          <li>Приглашаем на одного больше, чем нужно.</li>
+          <li>Записи хранятся 3 месяца, потом остаются только протоколы и находки.</li>
+        </ul>
+
+        <h4>Спорные результаты</h4>
+        <p>Если тест и метрика расходятся — это не спор, а отдельная задача на разбор:</p>
+        <ul>
+          <li>Запрос к аналитике: время шага, разбивка по сегментам, обращения в поддержку по теме.</li>
+          <li>Разбор вместе с продуктом, 30 минут, с показом записи.</li>
+          <li>Итог фиксируется в журнале решений, даже если решение — «ничего не меняем».</li>
+        </ul>
+
+        <h4>Что мы не тестируем этим методом</h4>
+        <ul>
+          <li>Выбор между вариантами по конверсии — A/B-тест.</li>
+          <li>Распространённость проблемы — аналитика или опрос.</li>
+          <li>Нужность функции — интервью и анализ спроса.</li>
+          <li>Доступность — отдельный аудит.</li>
+        </ul>
+
+        <h4>Как поймём, что порядок работает</h4>
+        <ul>
+          <li>За квартал проведено не меньше 5 циклов.</li>
+          <li>Хотя бы одно продуктовое решение отменено или изменено, и это записано в журнале.</li>
+          <li>Хотя бы один тест провёл не дизайнер.</li>
+          <li>Ни один слот не пропущен более двух раз подряд.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="box-foot">Две страницы. Если документ начинает расти — значит, часть правил пора превратить в шаблоны: бриф, сценарий, протокол, находки. Правило, которое приходится объяснять, дешевле встроить в форму заполнения.</div>
+  </div>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Порядок на квартал, один проведённый цикл и разбор одного спорного результата.</p>
+
+  <h3>Часть 1 · Порядок</h3>
+  <ol>
+    <li><strong>Возьми шаблон из раздела 7</strong> и перепиши под свою команду (2 ч). Ритм привяжи к своим спринтам, а не к идеальному расписанию.</li>
+    <li><strong>Согласуй две вещи</strong> с продуктом и разработкой: кто ходит наблюдателем и куда попадают находки. Остальное можно решать по ходу, эти два — нет.</li>
+    <li><strong>Заведи базу участников</strong> и наполни её хотя бы на две серии вперёд.</li>
+    <li><strong>Заведи журнал решений</strong> там, где команда уже принимает решения. Не в папке дизайна.</li>
+  </ol>
+
+  <h3>Часть 2 · Один цикл</h3>
+  <ol>
+    <li><strong>Проведи цикл целиком по своему порядку:</strong> бриф, ревью, три сессии, разбор в тот же день, находки в бэклог.</li>
+    <li><strong>Приведи хотя бы одного наблюдателя</strong> от продукта или разработки.</li>
+    <li><strong>Отдай одну роль другому человеку</strong> — ведение протокола или модерирование.</li>
+    <li><strong>Запиши в журнал решений</strong> итог цикла, включая то, что решили не менять.</li>
+  </ol>
+
+  <h3>Часть 3 · Разбор спорного результата</h3>
+  <ol>
+    <li><strong>Найди расхождение.</strong> Тест показал затык, метрика молчит; или наоборот — метрика просела, а в тестах никто не спотыкается. Если в вашем цикле такого не нашлось, возьмите прошлый результат.</li>
+    <li><strong>Прогони по таблице из раздела 4:</strong> восемь причин, по каждой — конкретная проверка.</li>
+    <li><strong>Сформулируй запрос к аналитике</strong> и получи ответ.</li>
+    <li><strong>Проведи разбор вместе с продуктом,</strong> с показом записи.</li>
+    <li><strong>Зафиксируй итог</strong> в журнале решений и переведи находку в язык риска и стоимости по разделу 5.</li>
+  </ol>
+  <p class="dim">Ориентир: 4–6 часов на документ, один рабочий день на цикл, 3–4 часа на разбор расхождения.</p>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Открой журнал решений команды и найди строку, где написано, что решение отменено или изменено по итогам теста. Не в вашем отчёте, не в чате дизайнеров, а там, где команда принимает решения, — и так, чтобы человек, не участвовавший в тесте, понял из этой строки, что произошло и почему. Если такой строки нет, порядок пока не работает, каким бы хорошим ни был документ.</div>
+
+  <h3>Что стоит сохранить для портфолио</h3>
+  <ul>
+    <li><strong>Порядок до и после квартала</strong> — что выбросили, потому что не соблюдалось. Живой регламент убедительнее идеального.</li>
+    <li><strong>Разбор расхождения целиком:</strong> две картины, восемь проверок, что оказалось причиной. Это редкий артефакт, и он показывает мышление, а не руки.</li>
+    <li><strong>Одна история про отменённое решение</strong> с цифрой: что не поехало в разработку и сколько это сэкономило.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-листы и ошибки уровня</h2></div>
+
+  <h3>Порядок здоров, если</h3>
+  <ul>
+    <li>Слот привязан к календарю команды, а не к вашему</li>
+    <li>Находки попадают в бэклог в течение суток, с цитатой и тайм-кодом</li>
+    <li>Журнал решений живёт там, где команда принимает решения</li>
+    <li>За квартал есть хотя бы одно отменённое или изменённое решение</li>
+    <li>Хотя бы один тест провёл не дизайнер</li>
+    <li>На каждой серии был наблюдатель от продукта или разработки</li>
+    <li>База пополняется постоянно, ротация соблюдается</li>
+    <li>Вы хотя бы раз за квартал сказали «тест здесь не нужен» и предложили другой метод</li>
+  </ul>
+
+  <h3>Разбор расхождения проведён правильно, если</h3>
+  <ul>
+    <li>Начали с проверки честности теста, а не с защиты его результатов</li>
+    <li>Запрос к аналитике был конкретным: шаг, сегмент, период</li>
+    <li>Показали запись, а не пересказ</li>
+    <li>Итог зафиксирован, даже если это «ничего не меняем»</li>
+    <li>Названа цена, которой держится метрика, — время, поддержка, отложенный отвал</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Театр исследований.</b> Тесты идут, отчёты рассылаются, решения принимаются как раньше. Проверяется одним вопросом: что мы изменили за квартал?</li>
+    <li><b>Находки живут в папке дизайна.</b> Не в бэклоге и не в журнале решений — значит, для команды их не существует.</li>
+    <li><b>Одни и те же участники.</b> Через полгода они знают продукт лучше половины команды, и тесты начинают показывать их память.</li>
+    <li><b>Спор с метрикой вместо разбора.</b> «Аналитика врёт» — и продукт перестаёт звать вас на обсуждения.</li>
+    <li><b>Проценты из пяти человек.</b> «60 % пользователей не находят кнопку» — после этой фразы вам не поверят и в остальном.</li>
+    <li><b>Формулировки без цены.</b> «Пользователям неудобно» не сравнивается ни с одной другой задачей в бэклоге.</li>
+    <li><b>Тест ради всего подряд.</b> Слоты забиты вопросами, на которые дешевле отвечает аналитика.</li>
+    <li><b>Вы единственный, кто умеет.</b> Ушли в отпуск — практика остановилась.</li>
+    <li><b>Наблюдатели вмешиваются.</b> Разработчик в чате объясняет участнику, куда нажать, — сессия испорчена.</li>
+    <li><b>Идеальное расписание.</b> Еженедельные тесты, расписанные на квартал, разваливаются на третьей неделе и хоронят идею регулярности вместе с собой.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы целиком</h2></div>
+  <p class="sec-sub">Тема закрыта. Ниже — вся лестница одним взглядом.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Провести тест по готовому сценарию, не подсказывая; отличать задание от инструкции; вести протокол с действиями, репликами и остановками; отличать «не смог» от «неудобно»; готовить прототип</td>
+          <td class="dim">В протоколе видно место остановки и что участник пытался сделать</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Middle</b></td>
+          <td class="dim">Сформулировать проверяемое решение и критерий провала; писать задания без лексики интерфейса; выбрать формат; разложить находки по серьёзности; довести верхние до переделанного экрана</td>
+          <td class="dim">Есть «до и после» и строка про каждую правку</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Встроить тест в рабочий цикл команды; держать базу участников с ротацией; разбирать расхождения теста и метрики вместе с продуктом; говорить на языке риска и стоимости; знать границу метода и уметь сказать «здесь тест не нужен»</td>
+          <td>Продуктовое решение отменено или изменено по итогам теста, и это записано там, где команда принимает решения</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Юзабилити-тесты», уровень Senior. Порядок из раздела 7 копируется кнопкой — это рабочая заготовка, а не пример. Что почитать дальше: Стив Круг, «Rocket Surgery Made Easy» — про регулярное тестирование малыми силами; Эрика Холл, «Just Enough Research» — про встраивание исследований в работу команды; Тереза Торрес, «Continuous Discovery Habits» — про постоянный контакт с пользователями вместо разовых заходов; материалы Nielsen Norman Group про ResearchOps и про сочетание качественных и количественных методов.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  /* ── drill: разбор расхождения ── */
+  makeDrill('#d1',
+    [{ key: 'test', label: 'Тест был нечестный' }, { key: 'metric', label: 'Метрика не та' },
+     { key: 'seg', label: 'Проблема у сегмента' }, { key: 'price', label: 'Метрика держится ценой' }],
+    [
+      { t: 'Трое из пяти искали отмену больше минуты. Конверсия в повторные покупки не изменилась, но обращений в поддержку по теме «отмена» за месяц стало вдвое больше.', a: 'price',
+        fb: 'Классика: метрика цела, потому что работу делают операторы. Проблема не исчезла — она переехала в другую строку бюджета. Именно эту цену и надо назвать продукту.' },
+      { t: 'Пятеро не смогли найти фильтр. Аналитик говорит, что фильтром пользуются 40 % пользователей и цифра стабильна.', a: 'seg',
+        fb: 'Скорее всего, 40 % — это опытные пользователи, которые давно знают, где фильтр. В тесте были новички. Разбейте метрику по давности регистрации — и картины сойдутся.' },
+      { t: 'В тесте все пятеро прошли оформление легко. В аналитике на этом шаге отваливается 30 %.', a: 'test',
+        fb: 'Сначала проверьте себя: не было ли в задании слов из интерфейса, не подсказывал ли ведущий, не был ли прототип упрощён. Лёгкое прохождение у всех пятерых — почти всегда признак подсказки в задании.' },
+      { t: 'Двое не заметили, что подписались на рассылку. Продукт говорит: «Зато отписок мало, значит, всё нормально».', a: 'metric',
+        fb: 'Отписки — не та метрика: человек, не заметивший подписку, не отписывается, он помечает письма как спам или просто не читает. Спросите долю спам-жалоб и открываемость у этой когорты.' },
+      { t: 'Тест показал затык на шаге ввода адреса. Конверсия шага 96 %, не падала год. Аналитик уточняет: шаг засчитывается по загрузке экрана.', a: 'metric',
+        fb: 'Метрика считает не то, что нужно: загрузка экрана — это не успешное заполнение. Попросите пересчитать по факту отправки формы, и, скорее всего, 96 % превратятся во что-то другое.' },
+      { t: 'Все пятеро справились за 20 секунд. В аналитике среднее время шага — 2 минуты 40 секунд.', a: 'seg',
+        fb: 'В тест позвали людей, не похожих на основную массу: например, только с десктопа, только активных. Проверьте, кого звали, и сравните с профилем тех, кто даёт эти 2:40.' }
+    ],
+    function (s, n) {
+      return s >= 5 ? 'Ты разбираешь расхождение как задачу, а не как спор. Именно это и отличает разговор, после которого что-то меняется.'
+        : s >= 3 ? 'Неплохо. Держи порядок проверки: честность теста → правильность метрики → сегменты → цена, которой метрика держится.'
+        : 'Вернись к таблице из раздела 4. Восемь причин и по каждой конкретная проверка — их стоит помнить наизусть.';
+    }
+  );
+
+  /* ── drill: граница метода ── */
+  makeDrill('#d2',
+    [{ key: 'ut', label: 'Юзабилити-тест' }, { key: 'ab', label: 'A/B-тест' },
+     { key: 'an', label: 'Аналитика или опрос' }, { key: 'iv', label: 'Интервью' }],
+    [
+      { t: 'Найдут ли люди новую кнопку отмены на переделанном экране?', a: 'ut',
+        fb: 'Прямо по адресу: справится ли человек с конкретным интерфейсом. Трёх участников хватит.' },
+      { t: 'Какой из двух вариантов заголовка даст больше регистраций?', a: 'ab',
+        fb: 'Вопрос про конверсию и сравнение вариантов. Пять человек не дают статистики, а разница может быть в доли процента.' },
+      { t: 'Как часто наши пользователи вообще отменяют заказы?', a: 'an',
+        fb: 'Вопрос про распространённость. Тест показывает, что поведение существует, но не как оно частотно.' },
+      { t: 'Почему люди вообще отменяют заказы — что происходит у них в жизни?', a: 'iv',
+        fb: 'Причины и контекст за пределами интерфейса. В тесте человек отменяет заказ, потому что вы попросили.' },
+      { t: 'Понятно ли из нового статуса заказа, что будет дальше?', a: 'ut',
+        fb: 'Понятность конкретной формулировки в конкретном месте — ровно то, что показывает наблюдение за человеком.' },
+      { t: 'Будут ли люди пользоваться этим разделом через месяц после релиза?', a: 'an',
+        fb: 'Первое впечатление не предсказывает привычку. Нужен когортный анализ после релиза или дневниковое исследование.' },
+      { t: 'Стоит ли нам вообще делать функцию подписки на товар?', a: 'iv',
+        fb: 'Вопрос про нужность. В тесте человек сделает то, что вы попросили, и это ничего не скажет о спросе.' }
+    ],
+    function (s, n) {
+      return s >= 6 ? 'Ты чувствуешь границу метода. Это тот навык, который позволяет отказываться от лишних тестов и беречь слоты.'
+        : s >= 4 ? 'Близко. Запомни маркеры: «сколько» и «как часто» — аналитика, «какой лучше» — A/B, «почему» и «нужно ли» — интервью.'
+        : 'Перечитай таблицу в разделе 6. Юзабилити-тест отвечает только на «справится ли» и «где споткнётся».';
+    }
+  );
+
+  /* ── cadence constructor ── */
+  (function () {
+    var host = document.getElementById('weeks'); if (!host) return;
+    var out = document.getElementById('cadOut');
+    var MODES = {
+      weekly: {
+        mark: function (w) { return w % 1 === 0 ? (w === 12 ? 'big' : 'test') : ''; },
+        title: 'Еженедельно · 12 слотов за квартал',
+        rows: [
+          ['Кому подходит', 'Командам, которые выпускают изменения каждую неделю и у которых есть поток вопросов'],
+          ['Нагрузка', '<b>3–4 часа в неделю</b> на ведущего плюс час на наблюдателей'],
+          ['Плюс', 'Обратная связь приходит почти мгновенно; тест перестаёт быть событием'],
+          ['Риск', 'Самый высокий риск выгорания и пропусков. Требует очереди ведущих и заранее набранной базы на 30+ человек'],
+          ['Участников за квартал', '<b>~36</b> — база должна пополняться постоянно']
+        ]
+      },
+      sprint: {
+        mark: function (w) { return w % 2 === 0 ? (w === 12 ? 'big' : 'test') : ''; },
+        title: 'Раз в спринт · 6 слотов за квартал',
+        rows: [
+          ['Кому подходит', 'Большинству команд с двухнедельными спринтами. Рабочий вариант по умолчанию'],
+          ['Нагрузка', '<b>~2/3 рабочего дня раз в две недели</b> на одного человека'],
+          ['Плюс', 'Совпадает с планированием: результат теста успевает попасть в решение о следующем спринте'],
+          ['Риск', 'Если слот пропустить дважды подряд, ритм разваливается. Слот не отменяется даже при отсутствии темы'],
+          ['Участников за квартал', '<b>~20</b> — реально набрать и ротировать']
+        ]
+      },
+      wave: {
+        mark: function (w) { return (w === 3 || w === 4 || w === 8 || w === 9) ? 'test' : (w === 12 ? 'big' : ''); },
+        title: 'Волнами · две серии плюс финальная',
+        rows: [
+          ['Кому подходит', 'Проектной работе, агентствам, командам с редкими крупными релизами'],
+          ['Нагрузка', 'Неровная: две напряжённые недели и затишье между ними'],
+          ['Плюс', 'Дешевле по организации: рекрутинг двумя пачками вместо постоянного потока'],
+          ['Риск', 'Между волнами команда принимает решения без проверки. Находки приходят пачкой и тонут'],
+          ['Участников за квартал', '<b>~15</b> — но набирать их надо разом, что сложнее']
+        ]
+      }
+    };
+    function paint(mode) {
+      var m = MODES[mode];
+      host.innerHTML = '';
+      for (var w = 1; w <= 12; w++) {
+        var k = m.mark(w);
+        var d = document.createElement('div');
+        d.className = 'wk' + (k ? ' ' + k : '');
+        d.innerHTML = '<span class="n">Н' + w + '</span><span class="m">' + (k === 'big' ? '◆' : k === 'test' ? '●' : '·') + '</span>';
+        host.appendChild(d);
+      }
+      out.innerHTML = '<p style="margin:0 0 8px;max-width:none"><b>' + m.title + '</b></p>' +
+        m.rows.map(function (r) { return '<div class="kv"><span class="k">' + r[0] + '</span><span class="v">' + r[1] + '</span></div>'; }).join('');
+    }
+    document.querySelectorAll('.btn.cad').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('.btn.cad').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+        b.setAttribute('aria-pressed', 'true');
+        paint(b.dataset.c);
+      });
+    });
+    paint('sprint');
+  })();
+
+  /* ── panel drill ── */
+  (function () {
+    var list = document.getElementById('panelList'); if (!list) return;
+    var scoreEl = document.getElementById('panelScore');
+    var PEOPLE = [
+      { n: 'П-018', d: 'Покупала в феврале с телефона · последнее участие: ноябрь · 1 участие · согласие действует', ok: true,
+        why: 'Верно. Прошло больше трёх месяцев, сегмент подходит, лимит не выбран.' },
+      { n: 'П-023', d: 'Покупал в марте с телефона · последнее участие: <b>январь</b> · 2 участия · согласие действует', ok: false,
+        why: 'Прошло меньше трёх месяцев. Человек ещё помнит интерфейс — позовите его в мае.' },
+      { n: 'П-031', d: 'Покупала в феврале с телефона · последнее участие: сентябрь · <b>3 участия</b> · согласие действует', ok: false,
+        why: 'Лимит в три участия выбран. Пора выводить из базы: она уже знает продукт лучше обычного пользователя.' },
+      { n: 'П-044', d: 'Покупал в марте <b>с десктопа, приложением не пользуется</b> · последнее участие: не было · согласие действует', ok: false,
+        why: 'Не тот сегмент: тест про мобильный сценарий. Оставьте его для десктопной серии.' },
+      { n: 'П-052', d: 'Покупала в марте с телефона · последнее участие: июль · 1 участие · <b>участвовала в тесте про возврат</b>', ok: false,
+        why: 'Тот же сценарий. Повторно на него не зовут никогда — вы измерите память, а не дизайн.' },
+      { n: 'П-067', d: 'Покупал в феврале с телефона · последнее участие: не было · <b>согласие истекло в декабре</b>', ok: false,
+        why: 'Согласие просрочено. Сначала обновить согласие, потом приглашать — иначе запись хранить нельзя.' }
+    ];
+    var answered = 0, correct = 0;
+    PEOPLE.forEach(function (p, idx) {
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="who"><b>' + p.n + '</b><span>' + p.d + '</span></span>' +
+        '<span class="acts"><button class="btn" data-v="1" type="button">Звать</button><button class="btn" data-v="0" type="button">Не звать</button></span>' +
+        '<span class="vd"></span>';
+      list.appendChild(li);
+      li.querySelectorAll('.acts .btn').forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (li.classList.contains('done')) return;
+          var said = b.dataset.v === '1';
+          var right = said === p.ok;
+          answered++; if (right) correct++;
+          li.classList.add('done');
+          li.querySelectorAll('.acts .btn').forEach(function (x) { x.disabled = true; });
+          b.style.borderColor = right ? 'var(--good)' : 'var(--bad)';
+          var vd = li.querySelector('.vd');
+          vd.className = 'vd ' + (right ? 'ok' : 'no');
+          vd.innerHTML = (right ? '✓ ' : '✕ ') + p.why;
+          scoreEl.textContent = correct + ' из ' + PEOPLE.length;
+        });
+      });
+    });
+  })();
+
+  /* ── cost calculator ── */
+  (function () {
+    var users = document.getElementById('cUsers'); if (!users) return;
+    var share = document.getElementById('cShare'), shareVal = document.getElementById('cShareVal');
+    var outcome = document.getElementById('cOutcome'), unit = document.getElementById('cUnit');
+    var unitLabel = document.getElementById('cUnitLabel');
+    var outEl = document.getElementById('cOut'), capEl = document.getElementById('cCap'), sayEl = document.getElementById('cSay');
+    var resetB = document.getElementById('calcReset');
+    var DEFAULTS = { support: 180, churn: 2400, slow: 900 };
+    var LABELS = {
+      support: 'Стоимость одного обращения, ₽',
+      churn: 'Средний чек или ценность клиента, ₽',
+      slow: 'Стоимость часа работы человека, ₽'
+    };
+    function fmt(n) { return Math.round(n).toLocaleString('ru-RU'); }
+    function calc() {
+      var u = Math.max(0, +users.value || 0);
+      var s = +share.value / 100;
+      var p = Math.max(0, +unit.value || 0);
+      shareVal.textContent = (+share.value) + ' %';
+      var affected = u * s;
+      var lo, hi, cap, say;
+      if (outcome.value === 'support') {
+        lo = affected * 0.15 * p; hi = affected * 0.5 * p;
+        cap = 'В месяц. Предполагаем, что в поддержку доходит от 15 до 50 % столкнувшихся — остальные молча мучаются или уходят.';
+        say = '<b>Формулировка для продукта:</b> «Трое из пяти в тесте не справились с этим шагом. Если так ведёт себя хотя бы часть из ' + fmt(affected) + ' человек в месяц, это порядка ' + fmt(lo) + '–' + fmt(hi) + ' ₽ на поддержку ежемесячно. Прошу аналитику проверить долю обращений по этой теме — если подтвердится, задача стоит спринта».';
+      } else if (outcome.value === 'churn') {
+        lo = affected * 0.1 * p; hi = affected * 0.35 * p;
+        cap = 'В месяц. Предполагаем, что уходит от 10 до 35 % столкнувшихся — остальные преодолевают затык.';
+        say = '<b>Формулировка для продукта:</b> «Затык встречается у ' + fmt(affected) + ' человек в месяц по грубой оценке. Если уходит даже десятая часть, потери порядка ' + fmt(lo) + '–' + fmt(hi) + ' ₽ в месяц. Это гипотеза из пяти наблюдений — прошу проверить отвал на этом шаге по сегментам».';
+      } else {
+        var minutes = 3;
+        lo = affected * (minutes / 60) * p * 0.5; hi = affected * (minutes / 60) * p;
+        cap = 'В месяц. Считаем по ' + minutes + ' лишних минуты на человека, стоимость времени — по указанной ставке.';
+        say = '<b>Формулировка для продукта:</b> «Люди проходят шаг, но тратят лишние минуты. На ' + fmt(affected) + ' человек в месяц это порядка ' + fmt(lo) + '–' + fmt(hi) + ' ₽ потерянного времени. Для внутреннего инструмента это прямые деньги компании; для клиентского продукта — повод посмотреть на время шага в аналитике».';
+      }
+      outEl.textContent = fmt(lo) + ' – ' + fmt(hi) + ' ₽';
+      capEl.textContent = cap;
+      sayEl.innerHTML = say;
+    }
+    outcome.addEventListener('change', function () {
+      unit.value = DEFAULTS[outcome.value];
+      unitLabel.textContent = LABELS[outcome.value];
+      calc();
+    });
+    [users, share, unit].forEach(function (el) { el.addEventListener('input', calc); });
+    resetB.addEventListener('click', function () {
+      users.value = 40000; share.value = 30; outcome.value = 'support';
+      unit.value = DEFAULTS.support; unitLabel.textContent = LABELS.support; calc();
+    });
+    calc();
+  })();
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = src.innerText.replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fb(text, done); });
+      } else { fb(text, done); }
+    });
+  });
+  function fb(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

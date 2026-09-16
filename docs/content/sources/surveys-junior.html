@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опросы: как не сделать из восьми ответов «80 %»</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --bar: #2a78d6; --bar-dim: #86b6ef; --track: #e1e0d9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --bar: #3987e5; --bar-dim: #1c5cab; --track: #2c2c2a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --bar: #3987e5; --bar-dim: #1c5cab; --track: #2c2c2a;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 820px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 500px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+  .rt { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn[disabled] { opacity: .5; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 56px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 180px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* proportion bars */
+  .bars { display: flex; flex-direction: column; gap: 10px; }
+  .brow { display: grid; grid-template-columns: 1fr; gap: 4px; }
+  .blab { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; align-items: baseline; }
+  .blab .t { color: var(--ink); }
+  .blab .v { color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13.5px; }
+  .btrack { height: 14px; background: var(--track); border-radius: 3px; overflow: hidden; }
+  .bfill { display: block; height: 100%; background: var(--bar); border-radius: 0 4px 4px 0; width: 0; transition: width .5s ease; }
+  .bfill.dimmed { background: var(--bar-dim); }
+  .bnote { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+
+  /* people grid simulator */
+  .ppl { display: grid; grid-template-columns: repeat(25, 1fr); gap: 3px; margin: 14px 0 0; }
+  @media (max-width: 620px) { .ppl { grid-template-columns: repeat(20, 1fr); } }
+  .ppl i { aspect-ratio: 1; border-radius: 2px; background: var(--track); display: block; transition: background .3s ease; }
+  .ppl i.ans { background: var(--bar); }
+  .ppl i.happy { background: var(--good); }
+  .ppl i.angry { background: var(--bad); }
+  .legend2 { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin-top: 12px; }
+  .legend2 span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend2 i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; }
+
+  /* calculator */
+  .calcrow { display: grid; grid-template-columns: 1fr 92px 110px; gap: 8px; align-items: center; padding: 6px 0; }
+  .calcrow input[type="text"] { border: 1px solid var(--border); background: var(--page); color: var(--ink); border-radius: 8px; padding: 8px 10px; font: 14px system-ui, sans-serif; width: 100%; }
+  .calcrow input[type="number"] { border: 1px solid var(--border); background: var(--page); color: var(--ink); border-radius: 8px; padding: 8px 10px; font: 14px ui-monospace, Menlo, monospace; width: 100%; text-align: right; }
+  .calcrow .res { font: 14px ui-monospace, Menlo, monospace; color: var(--ink-2); text-align: right; font-variant-numeric: tabular-nums; }
+  .calchd { font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .calcout { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 14px; }
+  .lines { background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 12px 14px; font: 14px/1.7 ui-monospace, Menlo, monospace; white-space: pre-wrap; color: var(--ink); }
+
+  /* one-pager sample */
+  .pager { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+  .pager h4 { margin: 0 0 3px; font-size: 18px; }
+  .pager .meta { font-size: 13.5px; color: var(--muted); margin: 0 0 16px; }
+  .pager h5 { margin: 20px 0 9px; font-size: 14.5px; }
+  .pager h5:first-of-type { margin-top: 0; }
+  .pager .obs { margin: 8px 0; font-size: 14.5px; max-width: none; }
+  .pager .obs b { color: var(--ink); }
+
+  .q { background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 13px 15px; margin: 0 0 9px; font-size: 14.5px; }
+  .q b { display: block; margin-bottom: 6px; }
+  .q ul { margin: 0; padding-left: 20px; font-size: 14px; color: var(--ink-2); max-width: none; }
+  .q li { margin: 2px 0; }
+  .q .typ { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); float: right; }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Опросы · Junior · как не сделать из восьми ответов «80 %»</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · опросы и цифры</p>
+  <div class="levels" aria-label="Уровень темы: Junior, первый из трёх">
+    <span class="lv on">Junior</span>
+    <span class="lv">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как собрать опрос и не сделать из восьми ответов «80 % пользователей»</h1>
+  <p class="lede">Опрос легко принять за простой способ получить цифры: отправил анкету, собрал ответы, построил график. Но без контекста такие цифры быстро начинают выглядеть убедительнее, чем они есть. Здесь разберёмся, как работать с небольшой выборкой, что можно выводить из ответов и как показывать результаты так, чтобы они не вводили в заблуждение.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#who">Понимать, кто отвечает на анкету, а кто нет</a><span class="drillmark">симулятор</span></li>
+    <li><a href="#form">Разослать готовую анкету</a> и собрать ответы</li>
+    <li><a href="#shares">Считать доли, а не только количества</a><span class="drillmark">калькулятор</span></li>
+    <li><a href="#sample">Называть выборку:</a> сколько ответило и из скольких<span class="drillmark">тренажёр</span></li>
+    <li><a href="#useless">Замечать вопрос, который ничего не измерил</a><span class="drillmark">тренажёр</span></li>
+  </ol>
+</div>
+
+<section id="what">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что опрос умеет и чего от него ждать не надо</h2></div>
+  <p class="sec-sub">Коротко и по-человечески: опрос считает, а не объясняет.</p>
+
+  <p>Опрос отвечает на вопрос <strong>«сколько»</strong>. Сколько людей пользуется мобильной версией, сколько знает про доставку в день заказа, сколько платит картой. Он хорош тем, что охватывает много людей за пару дней и даёт числа, которые можно положить рядом друг с другом и сравнить.</p>
+
+  <p>Чего он не умеет: объяснять <strong>почему</strong>. Человек отмечает галочку «неудобно», но что именно с ним произошло, в какой момент и что он делал дальше — из галочки не узнать. Если вам нужно «почему», это интервью или юзабилити-тест, а опрос стоит оставить на потом, чтобы посчитать, у скольких то же самое.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Вопрос, который у вас есть</th><th>Опрос тут подходит?</th></tr></thead>
+      <tbody>
+        <tr><td>Сколько наших пользователей заказывают с телефона?</td><td><b>Да.</b> Это ровно «сколько»</td></tr>
+        <tr><td>Почему люди бросают оформление заказа?</td><td><b>Нет.</b> Причины — это интервью</td></tr>
+        <tr><td>Какой вариант экрана удобнее?</td><td><b>Нет.</b> Люди плохо оценивают экраны по картинке; это юзабилити-тест</td></tr>
+        <tr><td>Как часто люди сталкиваются с проблемой, которую мы нашли на интервью?</td><td><b>Да.</b> Классическое применение: интервью нашло, опрос посчитал</td></tr>
+        <tr><td>Что люди думают о нашем бренде?</td><td><b>Осторожно.</b> Можно спросить, но ответы будут вежливыми и общими</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Простое правило, которое стоит запомнить на всю жизнь: сначала «почему», потом «сколько».</b> Сначала поговорите с несколькими людьми и поймите, что вообще происходит, — а потом опросом посчитайте, у скольких так же. Наоборот не работает: если вы не знаете, что спрашивать, анкета соберёт ответы на выдуманные вами варианты, а настоящая проблема в неё просто не попадёт.</div>
+</section>
+
+<section id="who">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Кто вообще отвечает на анкеты</h2></div>
+  <p class="sec-sub">Первый навык. Самая большая ловушка опросов, и её почти никто не видит.</p>
+
+  <p>Когда вы отправляете анкету тысяче человек, отвечают не «случайные сто». Отвечают те, у кого есть причина. А причина обычно одна из двух: человек очень доволен и хочет похвалить — или очень зол и хочет пожаловаться. Спокойное большинство, у которого всё нормально, просто закрывает письмо.</p>
+
+  <p>Из-за этого картина в ответах <strong>всегда смещена</strong> по сравнению с реальностью. Это не ошибка, которую можно устранить, — это свойство метода. Но её нужно понимать и о ней нужно писать рядом с цифрами.</p>
+
+  <div class="box">
+    <div class="box-head">Симулятор · 500 человек получили анкету<span class="spacer"></span>
+      <button class="btn" id="simAll" type="button" aria-pressed="true">Все пользователи</button>
+      <button class="btn" id="simAns" type="button" aria-pressed="false">Кто ответил</button>
+    </div>
+    <div class="box-body">
+      <div class="ppl" id="pplGrid"></div>
+      <div class="legend2" id="pplLegend"></div>
+      <div id="pplOut" style="margin-top:16px"></div>
+    </div>
+    <div class="box-foot">Цифры в симуляторе выдуманы, но соотношение реалистичное: доля недовольных среди ответивших почти всегда выше, чем среди всех. Поэтому фраза «треть пользователей недовольна» по итогам опроса — почти наверняка неправда.</div>
+  </div>
+
+  <h3>Что с этим делать на практике</h3>
+  <ul>
+    <li><strong>Всегда пишите, сколько людей получило анкету и сколько ответило.</strong> Это одна строка, но она честно показывает, насколько картине можно верить.</li>
+    <li><strong>Смотрите, кто ответил.</strong> Если можете — сравните ответивших с обычными пользователями по тому, что знаете: давно ли зарегистрированы, часто ли заходят. Если ответили в основном самые активные — так и напишите.</li>
+    <li><strong>Не рассылайте только в свой чат и своим подписчикам.</strong> Это самые лояльные люди, и они ответят приятнее, чем есть на самом деле.</li>
+    <li><strong>Если ответили меньше 10 % — будьте особенно осторожны.</strong> Цифры всё ещё полезны, но говорить «пользователи считают» уже нельзя. Только «те, кто ответил, считают».</li>
+    <li><strong>Не спрашивайте про продукт в момент раздражения</strong> — например, сразу после ошибки. Получите картину злее реальной.</li>
+  </ul>
+
+  <div class="warnbox"><b>Честная формулировка выглядит так:</b> «Анкету получили 500 человек, ответили 62. Скорее всего, ответили самые активные — среди ответивших 71 % заходят чаще раза в неделю, а среди всех пользователей таких 34 %. Поэтому цифры ниже описывают активную часть аудитории, а не всех». Это не ослабляет вашу работу — наоборот, после такой фразы к остальным цифрам относятся серьёзнее.</div>
+</section>
+
+<section id="form">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Готовая анкета и как её разослать</h2></div>
+  <p class="sec-sub">Вот та анкета, с которой нужно сделать задание. Подставь свой продукт вместо скобок.</p>
+
+  <p>Анкета короткая намеренно: <strong>чем длиннее анкета, тем меньше людей доходит до конца</strong>. Восемь вопросов — это примерно три минуты, и на такое соглашаются. Двадцать вопросов бросают на середине, и вы получите половину таблицы пустой.</p>
+
+  <div class="box" id="formBody">
+    <div class="box-head">Анкета · 8 вопросов, ~3 минуты<span class="spacer"></span><button class="btn" data-copy="#formBody" type="button">Скопировать целиком</button></div>
+    <div class="box-body">
+      <p class="dim" style="margin-top:0;font-size:14px">Вступление перед первым вопросом:</p>
+      <div class="q" style="margin-bottom:16px">Помогите нам сделать [продукт] удобнее. Три минуты, восемь вопросов, без имени и контактов. Ответы посмотрит только наша команда.</div>
+
+      <div class="q"><span class="typ">один вариант</span><b>1. Как часто вы пользуетесь [продукт]?</b>
+        <ul><li>Почти каждый день</li><li>Несколько раз в неделю</li><li>Несколько раз в месяц</li><li>Реже</li><li>Это первый раз</li></ul></div>
+
+      <div class="q"><span class="typ">один вариант</span><b>2. С чего вы чаще всего заходите?</b>
+        <ul><li>Телефон</li><li>Компьютер</li><li>Планшет</li><li>По-разному, примерно поровну</li></ul></div>
+
+      <div class="q"><span class="typ">один вариант</span><b>3. Когда вы в последний раз [ключевое действие: оформляли заказ / создавали проект]?</b>
+        <ul><li>На этой неделе</li><li>В этом месяце</li><li>Больше месяца назад</li><li>Ни разу</li></ul></div>
+
+      <div class="q"><span class="typ">несколько вариантов</span><b>4. Что из этого случалось с вами за последний месяц?</b>
+        <ul><li>Не смог найти то, что искал</li><li>Пришлось переделывать что-то заново</li><li>Не понял, что происходит после моего действия</li><li>Пришлось писать в поддержку</li><li>Ничего из перечисленного</li></ul></div>
+
+      <div class="q"><span class="typ">один вариант</span><b>5. В последний раз всё получилось с первой попытки?</b>
+        <ul><li>Да, с первой</li><li>Не сразу, но справился сам</li><li>Пришлось просить помощи</li><li>Так и не получилось</li></ul></div>
+
+      <div class="q"><span class="typ">шкала 1–5</span><b>6. Насколько легко было сделать то, за чем вы приходили?</b>
+        <ul><li>1 — очень тяжело · 5 — очень легко</li></ul></div>
+
+      <div class="q"><span class="typ">свободный текст</span><b>7. Что было самым неудобным в последний раз? Опишите своими словами.</b>
+        <ul><li>Поле для ответа, не обязательное</li></ul></div>
+
+      <div class="q"><span class="typ">один вариант</span><b>8. Готовы ли вы поговорить с нами 30 минут о вашем опыте?</b>
+        <ul><li>Да, оставлю контакт</li><li>Нет, спасибо</li></ul></div>
+    </div>
+    <div class="box-foot">Восьмой вопрос — маленькая хитрость, которая окупается: анкета заодно набирает вам людей для будущих интервью и тестов. Отвечают согласием обычно 5–15 % — этого хватает, чтобы закрыть следующую серию разговоров.</div>
+  </div>
+
+  <h3>Куда рассылать и чего ожидать</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Канал</th><th>Сколько обычно отвечает</th><th>Что учесть</th></tr></thead>
+      <tbody>
+        <tr><td>Всплывающее окно в продукте</td><td class="rt">2–10 %</td><td>Отвечают те, кто прямо сейчас активен. Не показывайте сразу после ошибки</td></tr>
+        <tr><td>Письмо по базе</td><td class="rt">5–15 %</td><td>Самый предсказуемый вариант; понятно, скольким отправили</td></tr>
+        <tr><td>Сообщение в чате поддержки</td><td class="rt">15–30 %</td><td>Ответят те, у кого была проблема, — картина будет мрачнее реальной</td></tr>
+        <tr><td>Пост в соцсетях продукта</td><td class="rt">непредсказуемо</td><td>Вы не знаете, сколько человек увидело, — значит, не сможете назвать долю отклика</td></tr>
+        <tr><td>Профильные чаты и знакомые</td><td class="rt">по-разному</td><td>Годится для учебной задачи; для рабочей — только как дополнение</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul>
+    <li><strong>Считайте, скольким отправили.</strong> Без этого числа вы не сможете написать долю отклика, а без неё цифры недоказуемы.</li>
+    <li><strong>Дайте три-четыре дня</strong> и один раз напомните. Больше напоминаний — раздражение, меньше — потеряете половину ответов.</li>
+    <li><strong>Проверьте анкету на себе и на одном знакомом</strong> перед рассылкой. Опечатка в варианте ответа или перепутанная шкала после рассылки уже не чинится.</li>
+    <li><strong>Не обещайте того, чего не сделаете.</strong> Сказали «ответы анонимны» — не спрашивайте имя в середине.</li>
+  </ul>
+</section>
+
+<section id="shares">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Доли: почему «12 человек» — это ещё не ответ</h2></div>
+  <p class="sec-sub">Второй навык. Разбираемся без математики, на пальцах.</p>
+
+  <p><strong>Количество</strong> — это сколько человек выбрали вариант. <strong>Доля</strong> — сколько это из всех, кто отвечал. Само по себе количество ничего не говорит: 12 человек — это много или мало? Если отвечали 34 — это примерно каждый третий, заметная часть. Если отвечали 400 — это мелочь, о которой не стоит разговора.</p>
+
+  <p>Считается доля просто: <strong>сколько выбрали ÷ сколько всего ответило × 100</strong>. Двенадцать поделить на тридцать четыре — получится 0,35, то есть 35 %. Никакой сложности тут нет, но есть две ловушки, на которых спотыкаются почти все.</p>
+
+  <h3>Ловушка первая: от чего считать</h3>
+  <p>Отвечало 34 человека, но на конкретный вопрос ответили не все — например, 30, потому что четверо его пропустили. Считать надо <strong>от тех, кто ответил на этот вопрос</strong> (от 30), а не от всех участников (от 34). Поэтому у каждого вопроса своё «из скольких», и оно может отличаться от общего.</p>
+  <p>Отдельный случай — вопрос, где можно выбрать несколько вариантов. Там сумма долей будет больше 100 %, и это нормально: каждая доля считается от числа людей, а не от числа галочек. Рядом обязательно надо написать «можно было выбрать несколько».</p>
+
+  <h3>Ловушка вторая: округление</h3>
+  <p>Проценты с запятой в опросе на тридцать человек — это ложная точность. «35,29 %» выглядит научно, но означает ровно «12 из 34». Округляйте до целых, а лучше вообще пишите обе формы: <strong>«12 из 34 (35 %)»</strong>. Так читатель видит и масштаб, и точность.</p>
+
+  <div class="box">
+    <div class="box-head">Калькулятор долей · впиши свои количества<span class="spacer"></span><button class="btn" id="calcReset" type="button">Сбросить</button></div>
+    <div class="box-body">
+      <div class="calcrow"><span class="calchd">Вариант ответа</span><span class="calchd" style="text-align:right">Человек</span><span class="calchd" style="text-align:right">Доля</span></div>
+      <div id="calcRows"></div>
+      <div class="calcrow" style="border-top:1px solid var(--hairline);margin-top:6px;padding-top:12px">
+        <span style="font-weight:600">Ответили на этот вопрос</span>
+        <span class="res" id="calcTotal" style="font-weight:600">0</span>
+        <span class="res">100 %</span>
+      </div>
+      <div class="calcout">
+        <div class="bars" id="calcBars"></div>
+        <p class="dim" style="font-size:13.5px;margin:14px 0 6px">Готовые строки — можно вставлять прямо в отчёт:</p>
+        <div class="lines" id="calcLines"></div>
+      </div>
+    </div>
+    <div class="box-foot">Столбики нарисованы от общего числа ответивших на вопрос. Обрати внимание, что подпись у каждой строки содержит и людей, и проценты: так цифру невозможно процитировать неправильно.</div>
+  </div>
+</section>
+
+<section id="sample">
+  <div class="sec-head"><h2><span class="h2-num">5</span>«Из скольких»: главная строчка всего отчёта</h2></div>
+  <p class="sec-sub">Третий и пятый навыки вместе — это, по сути, одно и то же умение.</p>
+
+  <p>Одна и та же цифра «80 %» может значить совершенно разное. Восемь человек из десяти — это ничто: один человек передумал, и стало 70 %. Восемьсот из тысячи — это уже серьёзное утверждение. Читатель отчёта не может отличить одно от другого, если вы не написали, из скольких считали. Поэтому правило простое и жёсткое:</p>
+
+  <div class="rule"><b>Рядом с каждой цифрой — из скольких она посчитана.</b> Не в сноске, не в начале документа, а прямо рядом: «12 из 34 (35 %)». Цифра без этой подписи не готова к показу — её нельзя ни проверить, ни правильно понять, а процитируют её обязательно.</div>
+
+  <h3>Насколько вообще можно верить цифре</h3>
+  <p>Чем меньше людей ответило, тем сильнее цифра «гуляет». Это можно посчитать точно, но для начала достаточно понимать порядок. Вот грубый ориентир: если примерно половина ответила «да», то настоящая доля среди всех ваших пользователей лежит где-то в таком диапазоне.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Ответило человек</th><th>Получилось в опросе</th><th>А на самом деле где-то между</th></tr></thead>
+      <tbody>
+        <tr><td class="num">10</td><td class="num">50 %</td><td><b>19 % и 81 %</b> — то есть вы не знаете почти ничего</td></tr>
+        <tr><td class="num">30</td><td class="num">50 %</td><td><b>32 % и 68 %</b> — можно говорить «примерно половина», не больше</td></tr>
+        <tr><td class="num">100</td><td class="num">50 %</td><td><b>40 % и 60 %</b> — уже разговор</td></tr>
+        <tr><td class="num">400</td><td class="num">50 %</td><td><b>45 % и 55 %</b> — можно опираться в решениях</td></tr>
+        <tr><td class="num">1000</td><td class="num">50 %</td><td><b>47 % и 53 %</b> — точность, которая редко нужна</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="dim" style="font-size:14px">Считать это самому на Junior-уровне не нужно — достаточно держать в голове порядок величин. Главный вывод из таблицы: <strong>на тридцати ответах разница между 45 % и 55 % не существует</strong>. Если два варианта набрали 14 и 16 человек, писать «второй вариант популярнее» нельзя. Они набрали одинаково.</p>
+
+  <h3>Как писать, чтобы не соврать</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Так нельзя</th><th>Так можно</th></tr></thead>
+      <tbody>
+        <tr><td>«80 % пользователей хотят тёмную тему»</td><td>«8 из 10 ответивших выбрали тёмную тему. Ответило 10 человек — этого мало для выводов, нужен повторный опрос»</td></tr>
+        <tr><td>«Большинство заходит с телефона»</td><td>«С телефона заходят 21 из 34 ответивших (62 %)»</td></tr>
+        <tr><td>«35,29 % столкнулись с проблемой»</td><td>«12 из 34 (35 %) отметили, что не нашли нужное»</td></tr>
+        <tr><td>«Вариант Б популярнее варианта А» <span class="dim">(16 против 14)</span></td><td>«Варианты разделились примерно поровну: 16 и 14 из 30»</td></tr>
+        <tr><td>«Пользователи считают, что…»</td><td>«Те, кто ответил на анкету, считают, что…»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · можно так написать в отчёте?<span class="spacer"></span><span class="sc num">0 / 8</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Три вещи, которые проверяются в каждом пункте: написано ли «из скольких», не превратились ли «ответившие» во «всех пользователей», и не выдаётся ли случайная разница за настоящую.</div>
+  </div>
+</section>
+
+<section id="useless">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Вопрос, который ничего не измерил</h2></div>
+  <p class="sec-sub">Четвёртый навык. Если все ответили одинаково — это не результат, это сломанный вопрос.</p>
+
+  <p>Смысл любого вопроса в анкете — <strong>разделить людей на группы</strong>. Если 97 % выбрали один вариант, разделения не произошло: вы потратили вопрос впустую и ничего нового не узнали. Такой результат выглядит как убедительная цифра («97 % считают, что скорость важна!»), но на самом деле он пустой.</p>
+
+  <h3>Почему так получается — три обычные причины</h3>
+  <ul>
+    <li><strong>Ответ очевиден заранее.</strong> «Важна ли вам скорость работы сервиса?» — конечно важна, кто скажет нет. Спрашивать надо не про важность вообще, а про выбор: «что бы вы предпочли — быстрее, но меньше возможностей, или наоборот».</li>
+    <li><strong>Вопрос подсказывает нужный ответ.</strong> «Согласны ли вы, что удобный поиск делает покупки приятнее?» — тут всего один вариант, с которым не стыдно согласиться.</li>
+    <li><strong>Вариант ответа социально правильный.</strong> «Читаете ли вы условия перед оплатой?» — почти все ответят «да», хотя на деле не читает почти никто. Спрашивайте про последний конкретный раз, а не про привычку вообще.</li>
+  </ul>
+
+  <div class="rule"><b>Проверка, которую стоит делать до рассылки:</b> посмотрите на вопрос и попробуйте угадать, какой вариант наберёт больше всего. Угадали уверенно — вопрос, скорее всего, ничего не измерит. Хороший вопрос тот, про который вы честно не знаете, как ответят люди.</div>
+
+  <p>Если такой вопрос всё-таки попал в анкету и результат получился однобоким — это не повод его прятать. Напишите честно: «97 % выбрали один вариант — вопрос сформулирован неудачно и ничего не показал, в следующий раз спросим иначе». Это нормальный результат работы, а не провал.</p>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · этот вопрос что-нибудь измерил?<span class="spacer"></span><span class="sc num">0 / 7</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Полезно смотреть на такие вопросы ещё и как на проверку самой анкеты: если половина вопросов дала однобокие ответы, значит, анкету составляли, уже зная, что хотят услышать.</div>
+  </div>
+</section>
+
+<section id="page">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Страница результатов</h2></div>
+  <p class="sec-sub">То, что нужно сдать по заданию. Ниже — готовый образец, по которому можно собрать свой.</p>
+
+  <p>Одна страница, три части: <strong>кто отвечал</strong>, <strong>цифры</strong>, <strong>три наблюдения</strong>. Никаких выводов о том, что надо делать с продуктом, — на этом уровне ваша работа заканчивается на честно показанных цифрах.</p>
+
+  <div class="box">
+    <div class="box-head">Образец · страница результатов опроса</div>
+    <div class="box-body">
+      <div class="pager">
+        <h4>Опрос про оформление заказа</h4>
+        <p class="meta">12–16 марта · анкету получили 520 человек · ответили 34 · доля отклика 6,5 %</p>
+
+        <h5>Кто ответил</h5>
+        <p class="obs" style="margin-top:0">Ответили в основном активные пользователи: 24 из 34 заходят несколько раз в неделю или чаще. Среди всех наших пользователей таких примерно треть. <b>Значит, цифры ниже описывают активную часть аудитории, а не всех.</b> Анкета была анонимной, вопросы можно было пропускать — поэтому у каждого вопроса своё число ответивших.</p>
+
+        <h5>С какого устройства заходят <span class="dim" style="font-weight:400;font-size:13px">· ответили 34 из 34</span></h5>
+        <div class="bars" data-bars='[["Телефон",21],["Компьютер",9],["По-разному",3],["Планшет",1]]' data-total="34"></div>
+
+        <h5>Что случалось за последний месяц <span class="dim" style="font-weight:400;font-size:13px">· ответили 32 из 34 · можно было выбрать несколько</span></h5>
+        <div class="bars" data-bars='[["Не нашёл нужное",12],["Писал в поддержку",9],["Переделывал заново",7],["Не понял, что произошло",6],["Ничего из этого",11]]' data-total="32" data-multi="1"></div>
+
+        <h5>Получилось ли с первой попытки <span class="dim" style="font-weight:400;font-size:13px">· ответили 30 из 34</span></h5>
+        <div class="bars" data-bars='[["Да, с первой",16],["Не сразу, но сам",9],["Просил помощи",3],["Так и не вышло",2]]' data-total="30"></div>
+
+        <h5>Три наблюдения</h5>
+        <p class="obs"><b>1. Заходят в основном с телефона.</b> 21 из 34 ответивших (62 %) — телефон, 9 из 34 (26 %) — компьютер. Это самая устойчивая цифра в опросе: разрыв большой, случайностью его не объяснить.</p>
+        <p class="obs"><b>2. Треть не нашла то, что искала.</b> 12 из 32 ответивших на этот вопрос (38 %) отметили «не нашёл нужное» — самый частый вариант. Стоит разобраться, что именно искали: анкета этого не показывает, нужны разговоры с людьми.</p>
+        <p class="obs"><b>3. Про доставку спрашивать было бесполезно.</b> На вопрос «важна ли вам скорость доставки» 33 из 34 ответили «важна». Вопрос сформулирован неудачно и ничего не измерил — в следующий раз надо спрашивать про выбор между скоростью и ценой.</p>
+
+        <h5>Чего этот опрос не показывает</h5>
+        <p class="obs" style="margin-bottom:0">Ответили 34 человека из 520 — это мало. Разницу меньше 10–15 процентных пунктов на таком количестве считать настоящей нельзя. Например, «писал в поддержку» (9) и «переделывал заново» (7) набрали <b>одинаково</b>, хотя выглядят по-разному.</p>
+      </div>
+    </div>
+    <div class="box-foot">Наведи курсор на любой столбик — покажет точное количество. Обрати внимание, что «из скольких» стоит у каждого блока отдельно, потому что на разные вопросы ответило разное число людей. Последний раздел — не слабость работы, а её лучшая часть: он не даёт процитировать цифры неправильно.</div>
+  </div>
+
+  <h3>Как собрать такую страницу у себя</h3>
+  <ol>
+    <li><strong>Выгрузите ответы в таблицу.</strong> Google Формы и почти все сервисы отдают готовый файл: строка — человек, столбец — вопрос.</li>
+    <li><strong>Посчитайте по каждому вопросу, сколько человек на него ответили.</strong> Это число и есть ваше «из скольких» для этого вопроса.</li>
+    <li><strong>Посчитайте количества по вариантам,</strong> потом доли (можно калькулятором из раздела 4 или формулой <code>=СЧЁТЕСЛИ()</code> в таблице).</li>
+    <li><strong>Нарисуйте столбики</strong> — подойдут встроенные диаграммы в таблицах. Один цвет, подписи с количеством и процентом.</li>
+    <li><strong>Напишите три наблюдения</strong> — только то, что видно из цифр, без догадок о причинах.</li>
+    <li><strong>Добавьте раздел «чего опрос не показывает».</strong> Это то, что отличает аккуратную работу от небрежной.</li>
+  </ol>
+
+  <div class="warnbox"><b>Про столбики и круговые диаграммы.</b> Для долей берите горизонтальные столбики одного цвета — их легко сравнивать глазом и на них помещаются длинные подписи. Круговые диаграммы («пироги») выглядят нарядно, но сравнивать куски по площади человек не умеет: разницу между 28 % и 33 % на круге не видно. Если вариантов больше трёх — только столбики.</div>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Анкета из раздела 3, минимум тридцать ответов, одна страница результатов.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Возьми анкету из раздела 3</strong> (20 мин) и подставь свой продукт. Если своего нет — берите любой сервис, которым пользуетесь: метод от этого не меняется.</li>
+    <li><strong>Собери её в Google Формах или похожем сервисе</strong> (40 мин). Обязательно разрешите пропускать вопросы — иначе люди бросят анкету на неудобном месте.</li>
+    <li><strong>Проверь на себе и на одном знакомом</strong> (15 мин). Пройдите целиком, засеките время: если больше четырёх минут — сократите.</li>
+    <li><strong>Разошли и запиши, скольким отправил</strong> (1 вечер). Это число понадобится для доли отклика. Если рассылали в чат — узнайте, сколько человек в нём.</li>
+    <li><strong>Подожди три-четыре дня</strong> и напомни один раз.</li>
+    <li><strong>Выгрузи ответы в таблицу</strong> (30 мин) и посчитай по каждому вопросу: сколько ответило, сколько выбрало каждый вариант, какие доли.</li>
+    <li><strong>Собери страницу результатов</strong> (1–1,5 ч) по образцу из раздела 7.</li>
+  </ol>
+  <p class="dim">Ориентир: 4–6 часов работы плюс несколько дней ожидания ответов.</p>
+
+  <h3>Что должно быть на странице</h3>
+  <ul>
+    <li><strong>Шапка:</strong> даты, скольким отправили, сколько ответило, доля отклика.</li>
+    <li><strong>Абзац «кто ответил»:</strong> что вы знаете о тех, кто заполнил анкету, и чем они могут отличаться от всех остальных.</li>
+    <li><strong>Столбики по вопросам,</strong> у каждого блока — своё «ответили N из 34».</li>
+    <li><strong>Три наблюдения,</strong> в каждом цифра в формате «12 из 32 (38 %)».</li>
+    <li><strong>Раздел «чего этот опрос не показывает»</strong> — что осталось неизвестным и какие разницы слишком малы, чтобы их считать настоящими.</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Пройдись по своей странице и ткни пальцем в каждую цифру. Рядом с ней написано, из скольких она посчитана? Если да по всем — работа готова. Если хоть одна цифра стоит голая, её нельзя показывать: именно такую процитируют неправильно, и виноваты будете вы.</div>
+
+  <h3>Если ответов меньше тридцати</h3>
+  <p>Это нормальная ситуация, и она не отменяет задание. Сделайте страницу на том, что есть, но напишите об этом прямо в шапке: «ответили 18 человек — этого мало, цифры ниже показывают направление, а не измеряют его». И попробуйте разослать ещё в один канал: чаще всего дело не в людях, а в том, что письмо увидели двадцать человек.</p>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и типовые ошибки</h2></div>
+
+  <h3>До рассылки</h3>
+  <ul>
+    <li>Анкета проходится меньше чем за четыре минуты</li>
+    <li>Вопросы можно пропускать</li>
+    <li>Прошёл сам и дал пройти знакомому</li>
+    <li>Записано, скольким людям отправляете</li>
+    <li>Вступление обещает только то, что вы выполните</li>
+  </ul>
+
+  <h3>Перед тем как показывать результаты</h3>
+  <ul>
+    <li>У каждой цифры написано, из скольких она посчитана</li>
+    <li>В шапке есть доля отклика: ответили N из M</li>
+    <li>Есть абзац про то, кто ответил и чем они отличаются от остальных</li>
+    <li>Проценты округлены до целых, рядом стоят люди</li>
+    <li>Вопросы с несколькими вариантами помечены — сумма там больше 100 %</li>
+    <li>Маленькие разницы не выданы за настоящие</li>
+    <li>Слово «пользователи» заменено на «те, кто ответил»</li>
+    <li>Есть раздел про то, чего опрос не показывает</li>
+  </ul>
+
+  <h3>Ошибки, по которым узнают новичка</h3>
+  <ul class="err-list">
+    <li><b>Проценты без «из скольких».</b> Главная ошибка темы. «80 %» без числа ответивших — цифра, которую нельзя ни проверить, ни правильно понять.</li>
+    <li><b>Восемь из десяти как «80 % пользователей».</b> Формально арифметика верна, по смыслу это обман: на десяти людях такой цифры не существует.</li>
+    <li><b>«Пользователи считают…»</b> вместо «те, кто ответил, считают». Отвечает всегда особенная часть людей, а не все.</li>
+    <li><b>Проценты с запятыми.</b> «35,29 %» на тридцати ответах — ложная точность, которая выдаёт неопытность быстрее всего.</li>
+    <li><b>Считает от общего числа участников,</b> а не от ответивших на конкретный вопрос.</li>
+    <li><b>Не заметил, что вопрос ничего не измерил,</b> и с гордостью показывает «97 % считают качество важным».</li>
+    <li><b>Разница в один-два человека объявлена трендом.</b> 16 против 14 — это одинаково.</li>
+    <li><b>Не знает, скольким отправил,</b> и не может назвать долю отклика.</li>
+    <li><b>Рассылает только своим</b> — в дружеский чат и подписчикам — и получает картину добрее реальной.</li>
+    <li><b>Круговая диаграмма на семь кусков.</b> Сравнить их невозможно, а выглядит наряднее столбиков — и этим обманывает.</li>
+    <li><b>Делает выводы о причинах.</b> «Люди не находят товар, потому что плохой поиск» — опрос этого не говорил, это догадка.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Что остаётся на следующие уровни</h2></div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Что добавляется</th></tr></thead>
+      <tbody>
+        <tr><td><b>Junior</b> — этот урок</td><td>Разослать готовую анкету и понимать, кто отвечает; свести ответы в таблицу и посчитать доли; называть выборку и «из скольких»; замечать вопрос, который ничего не измерил; не выдавать 8 из 10 за 80 %</td></tr>
+        <tr><td>Middle</td><td>Составлять анкету под свой вопрос; формулировать варианты ответов так, чтобы они не подсказывали; считать, сколько ответов нужно, и оценивать погрешность; сравнивать группы между собой и понимать, настоящая ли разница; чистить данные от мусорных ответов; связывать опрос с интервью и аналитикой</td></tr>
+        <tr><td>Senior</td><td>Строить регулярные измерения и следить за цифрами во времени; выбирать между опросом и другими способами узнать то же самое; защищать результаты перед теми, кому они не нравятся; отвечать за качество чужих опросов; понимать, когда цифра стала показателем и перестала быть измерением</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Опросы и количественные данные», уровень Junior. Анкета из раздела 3 копируется кнопкой. Что почитать дальше: материалы Nielsen Norman Group про опросы и про то, почему нельзя спрашивать людей о будущем поведении; Кэролайн Джарретт, «Surveys That Work» — лучшая книга про анкеты на человеческом языке; главы про графики у Альберто Кайро, «Функциональное искусство» — про то, как не соврать картинкой.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'ok', label: 'Можно писать' }, { key: 'no', label: 'Нельзя, переписать' }],
+    [
+      { t: '<q>С телефона заходят 21 из 34 ответивших (62 %).</q>', a: 'ok',
+        fb: 'Есть и люди, и процент, и понятно, из скольких. Так и надо писать всегда.' },
+      { t: '<q>80 % пользователей хотят тёмную тему.</q><span class="sub">Ответили 10 человек, 8 выбрали тёмную тему.</span>', a: 'no',
+        fb: 'Две ошибки сразу. Первая: 8 из 10 — слишком мало, чтобы говорить о процентах. Вторая: «пользователи» — это все, а отвечали десять человек. Правильно: «8 из 10 ответивших выбрали тёмную тему; этого мало для выводов».' },
+      { t: '<q>Вариант Б выбрали чаще, чем вариант А: 16 против 14 из 30.</q>', a: 'no',
+        fb: 'Разница в два человека на тридцати ответах — это случайность, а не результат. Правильно: «разделились примерно поровну: 16 и 14 из 30».' },
+      { t: '<q>12 из 32 ответивших на этот вопрос (38 %) не нашли нужное. Четверо вопрос пропустили.</q>', a: 'ok',
+        fb: 'Отлично: указано и число ответивших именно на этот вопрос, и то, что кто-то его пропустил.' },
+      { t: '<q>Проблему отметили 35,29 % респондентов.</q>', a: 'no',
+        fb: 'Сотые доли процента на тридцати с небольшим ответах — ложная точность. За «35,29 %» стоит простое «12 из 34». Так и пишите.' },
+      { t: '<q>Анкету получили 520 человек, ответили 34 — это 6,5 %.</q>', a: 'ok',
+        fb: 'Это шапка отчёта: сразу видно и охват, и отклик. Читатель понимает масштаб до того, как увидит первую цифру.' },
+      { t: '<q>Большинство наших клиентов довольны сервисом.</q><span class="sub">Довольны 19 из 34 ответивших.</span>', a: 'no',
+        fb: 'Три проблемы: нет чисел, «клиенты» вместо «ответившие», и 19 из 34 — это чуть больше половины, а не «большинство» в том смысле, в каком это слово прочитают.' },
+      { t: '<q>Сумма долей в этом вопросе больше 100 %, потому что можно было выбрать несколько вариантов.</q>', a: 'ok',
+        fb: 'Обязательная пометка. Без неё читатель решит, что вы ошиблись в расчётах, — или что доли завышены.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Отлично. Ты не дашь процитировать свои цифры неправильно — это и есть главный навык темы.'
+        : s >= 5 ? 'Неплохо. Проверяй каждую строку тремя вопросами: написано ли «из скольких», не превратились ли «ответившие» во «всех», не выдана ли случайная разница за настоящую.'
+        : 'Вернись к разделу 5. Там есть таблица «так нельзя / так можно» — её стоит держать перед глазами, пока пишешь первый отчёт.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'ok', label: 'Измерил — есть разделение' }, { key: 'no', label: 'Ничего не измерил' }],
+    [
+      { t: '<q>Важна ли вам скорость работы сервиса?</q><span class="sub">Ответили: важна — 33, не важна — 1.</span>', a: 'no',
+        fb: 'Ответ был известен заранее. Спрашивать надо про выбор: «что важнее — скорость или количество возможностей». Тогда люди разделятся.' },
+      { t: '<q>С какого устройства вы заходите чаще всего?</q><span class="sub">Телефон — 21, компьютер — 9, по-разному — 3, планшет — 1.</span>', a: 'ok',
+        fb: 'Люди разделились, и разделились неравномерно — есть что рассказать. Такой вопрос отработал.' },
+      { t: '<q>Читаете ли вы условия перед оплатой?</q><span class="sub">Да — 29, нет — 5.</span>', a: 'no',
+        fb: 'Классический социально правильный ответ: признаваться, что не читаешь, неловко. Спрашивать надо про последний конкретный раз, а лучше смотреть в аналитику.' },
+      { t: '<q>Получилось ли у вас с первой попытки?</q><span class="sub">С первой — 16, не сразу — 9, просил помощи — 3, не вышло — 2.</span>', a: 'ok',
+        fb: 'Отличный вопрос: четыре группы разного размера, и половина людей оказалась не в самой лёгкой. Есть с чем работать дальше.' },
+      { t: '<q>Согласны ли вы, что удобный поиск делает покупки приятнее?</q><span class="sub">Согласны — 32, не согласны — 2.</span>', a: 'no',
+        fb: 'Вопрос сам подсказывает ответ — с ним невозможно не согласиться. Такие формулировки («согласны ли вы, что…») почти всегда дают однобокий результат.' },
+      { t: '<q>Что случалось с вами за последний месяц?</q><span class="sub">Не нашёл нужное — 12, писал в поддержку — 9, переделывал — 7, ничего — 11.</span>', a: 'ok',
+        fb: 'Разделение есть, и видно, что треть отметила «ничего» — это полезная точка отсчёта. Вопрос про конкретный период и конкретные события работает почти всегда.' },
+      { t: '<q>Хотели бы вы, чтобы приложение работало быстрее?</q><span class="sub">Да — 34, нет — 0.</span>', a: 'no',
+        fb: 'Ноль в одном из вариантов — верный признак, что вопрос был лишним. Никто никогда не откажется от «лучше, чем сейчас», если это ничего не стоит.' }
+    ],
+    function (s, n) {
+      return s >= 6 ? 'Ты видишь пустые вопросы до того, как они попали в анкету. Это экономит целые опросы.'
+        : s >= 4 ? 'Хорошо. Главный признак: если ты можешь заранее угадать ответ — вопрос, скорее всего, ничего не измерит.'
+        : 'Перечитай раздел 6. Три причины пустых вопросов: ответ очевиден, вопрос подсказывает, вариант социально правильный.';
+    }
+  );
+
+  /* ── response-bias simulator ── */
+  (function () {
+    var grid = document.getElementById('pplGrid'); if (!grid) return;
+    var legend = document.getElementById('pplLegend'), out = document.getElementById('pplOut');
+    var bAll = document.getElementById('simAll'), bAns = document.getElementById('simAns');
+    var N = 500, ANS = 62;
+    /* fixed pseudo-random assignment so the picture is stable */
+    var seed = 7;
+    function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    var people = [];
+    for (var i = 0; i < N; i++) {
+      var r = rnd();
+      /* among ALL users: 12% angry, 18% happy, 70% neutral */
+      var mood = r < 0.12 ? 'angry' : (r < 0.30 ? 'happy' : 'neutral');
+      people.push({ mood: mood, answered: false });
+    }
+    /* who answers: angry 45%, happy 30%, neutral 6% */
+    var chance = { angry: 0.45, happy: 0.30, neutral: 0.06 };
+    var answered = 0;
+    for (var k = 0; k < N && answered < ANS; k++) {
+      if (rnd() < chance[people[k].mood]) { people[k].answered = true; answered++; }
+    }
+    var realAnswered = people.filter(function (p) { return p.answered; }).length;
+
+    function counts(list) {
+      return list.reduce(function (a, p) { a[p.mood] = (a[p.mood] || 0) + 1; return a; }, {});
+    }
+    function pct(n, d) { return Math.round(n / d * 100); }
+    function plural(n) {
+      var a = n % 10, b = n % 100;
+      if (a === 1 && b !== 11) return 'человек';
+      if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return 'человека';
+      return 'человек';
+    }
+
+    function paint(mode) {
+      grid.innerHTML = '';
+      var shown = mode === 'ans' ? people.filter(function (p) { return p.answered; }) : people;
+      people.forEach(function (p) {
+        var el = document.createElement('i');
+        if (mode === 'ans') {
+          if (!p.answered) { el.style.opacity = '.18'; }
+          else { el.className = p.mood === 'neutral' ? 'ans' : p.mood; }
+        } else {
+          el.className = p.mood === 'neutral' ? '' : p.mood;
+        }
+        grid.appendChild(el);
+      });
+      var c = counts(shown), tot = shown.length;
+      legend.innerHTML =
+        '<span><i style="background:var(--bad)"></i> недовольны</span>' +
+        '<span><i style="background:var(--good)"></i> довольны</span>' +
+        '<span><i style="background:' + (mode === 'ans' ? 'var(--bar)' : 'var(--track)') + '"></i> всё нормально</span>' +
+        (mode === 'ans' ? '<span><i style="background:var(--track);opacity:.18"></i> не ответили</span>' : '');
+      var rows = [['Недовольны', c.angry || 0], ['Довольны', c.happy || 0], ['Всё нормально', c.neutral || 0]];
+      out.innerHTML =
+        '<p style="margin:0 0 10px;max-width:none;font-size:15px"><b>' +
+        (mode === 'ans' ? 'Только те, кто ответил: ' + tot + ' ' + plural(tot) : 'Все пользователи: ' + tot + ' ' + plural(tot)) + '</b></p>' +
+        '<div class="bars">' + rows.map(function (r) {
+          return '<div class="brow"><div class="blab"><span class="t">' + r[0] + '</span>' +
+            '<span class="v">' + r[1] + ' из ' + tot + ' · ' + pct(r[1], tot) + ' %</span></div>' +
+            '<div class="btrack"><span class="bfill" style="width:' + pct(r[1], tot) + '%"></span></div></div>';
+        }).join('') + '</div>' +
+        '<p style="margin:12px 0 0;max-width:none;font-size:14px;color:var(--ink-2)">' +
+        (mode === 'ans'
+          ? (function () {
+              var a = pct(c.angry || 0, tot), b2 = pct(counts(people).angry, N);
+              var times = b2 ? (a / b2) : 0;
+              var word = times >= 2.6 ? 'втрое' : times >= 1.7 ? 'вдвое' : 'заметно';
+              return 'Среди ответивших недовольных — ' + a + ' %. Среди всех пользователей их ' + b2 +
+                ' %. Опрос показывает картину примерно ' + word + ' мрачнее, чем есть на самом деле, — просто потому, что довольные и спокойные не стали отвечать.';
+            })()
+          : 'Так выглядит вся аудитория. Большинство — люди, у которых всё нормально и которым нечего вам сказать. Нажми «Кто ответил», чтобы увидеть, кто из них дойдёт до анкеты.') +
+        '</p>';
+    }
+    bAll.addEventListener('click', function () {
+      bAll.setAttribute('aria-pressed', 'true'); bAns.setAttribute('aria-pressed', 'false'); paint('all');
+    });
+    bAns.addEventListener('click', function () {
+      bAns.setAttribute('aria-pressed', 'true'); bAll.setAttribute('aria-pressed', 'false'); paint('ans');
+    });
+    paint('all');
+  })();
+
+  /* ── share calculator ── */
+  (function () {
+    var host = document.getElementById('calcRows'); if (!host) return;
+    var DEF = [['Телефон', 21], ['Компьютер', 9], ['По-разному', 3], ['Планшет', 1], ['', 0]];
+    function build() {
+      host.innerHTML = '';
+      DEF.forEach(function (r, idx) {
+        var row = document.createElement('div');
+        row.className = 'calcrow';
+        row.innerHTML = '<input type="text" value="' + r[0] + '" placeholder="Вариант ' + (idx + 1) + '" data-i="' + idx + '" data-f="name">' +
+          '<input type="number" min="0" step="1" value="' + (r[1] || '') + '" data-i="' + idx + '" data-f="n">' +
+          '<span class="res"></span>';
+        host.appendChild(row);
+      });
+      host.querySelectorAll('input').forEach(function (el) { el.addEventListener('input', calc); });
+    }
+    function calc() {
+      var rows = [];
+      host.querySelectorAll('.calcrow').forEach(function (r) {
+        var name = r.querySelector('[data-f="name"]').value.trim();
+        var n = parseInt(r.querySelector('[data-f="n"]').value, 10);
+        rows.push({ el: r, name: name, n: isNaN(n) ? 0 : n });
+      });
+      var total = rows.reduce(function (a, r) { return a + r.n; }, 0);
+      document.getElementById('calcTotal').textContent = total;
+      var bars = [], lines = [];
+      rows.forEach(function (r) {
+        var p = total ? Math.round(r.n / total * 100) : 0;
+        r.el.querySelector('.res').textContent = (r.name && total) ? (p + ' %') : '';
+        if (r.name && r.n >= 0 && total) {
+          bars.push('<div class="brow"><div class="blab"><span class="t">' + esc(r.name) + '</span>' +
+            '<span class="v">' + r.n + ' из ' + total + ' · ' + p + ' %</span></div>' +
+            '<div class="btrack"><span class="bfill" style="width:' + p + '%" title="' + esc(r.name) + ': ' + r.n + ' из ' + total + '"></span></div></div>');
+          lines.push(esc(r.name) + ' — ' + r.n + ' из ' + total + ' (' + p + ' %)');
+        }
+      });
+      document.getElementById('calcBars').innerHTML = bars.join('');
+      document.getElementById('calcLines').textContent = lines.length
+        ? lines.join('\n') + '\n\nВсего ответили на вопрос: ' + total + ' человек'
+        : 'Впиши варианты и количества — появятся готовые строки.';
+    }
+    function esc(s) { return s.replace(/[<>&]/g, function (c) { return ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' })[c]; }); }
+    document.getElementById('calcReset').addEventListener('click', function () { build(); calc(); });
+    build(); calc();
+  })();
+
+  /* ── static bars in the sample one-pager ── */
+  document.querySelectorAll('.bars[data-bars]').forEach(function (host) {
+    var data = JSON.parse(host.getAttribute('data-bars'));
+    var total = +host.getAttribute('data-total');
+    var multi = host.getAttribute('data-multi');
+    var max = multi ? Math.max.apply(null, data.map(function (d) { return d[1]; })) : total;
+    host.innerHTML = data.map(function (d) {
+      var p = Math.round(d[1] / total * 100);
+      var w = Math.round(d[1] / max * 100);
+      return '<div class="brow"><div class="blab"><span class="t">' + d[0] + '</span>' +
+        '<span class="v">' + d[1] + ' из ' + total + ' · ' + p + ' %</span></div>' +
+        '<div class="btrack"><span class="bfill" style="width:' + w + '%" title="' + d[0] + ': ' + d[1] + ' из ' + total + ' (' + p + ' %)"></span></div></div>';
+    }).join('');
+  });
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = src.innerText.replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fb(text, done); });
+      } else { fb(text, done); }
+    });
+  });
+  function fb(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

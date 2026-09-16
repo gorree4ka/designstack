@@ -33,7 +33,7 @@ if ( $ds_photo && wp_attachment_is_image( $ds_photo ) ) {
 		'full',
 		false,
 		array(
-			'class'    => 'ds-hero__photo',
+			'class'    => 'ds-banner__photo',
 			'loading'  => 'eager',
 			'decoding' => 'async',
 		)
@@ -50,12 +50,12 @@ if ( $ds_image && $ds_square && wp_attachment_is_image( $ds_square ) ) {
 	);
 }
 
-$ds_out  = '<section class="ds-hero' . ( $ds_image ? ' ds-hero--photo' : '' ) . '">';
+$ds_out  = '<section class="ds-banner' . ( $ds_image ? ' ds-banner--photo' : '' ) . '">';
 $ds_out .= $ds_image;
-$ds_out .= '<div class="ds-hero__scrim"></div>';
-$ds_out .= '<div class="ds-hero__text">';
-$ds_out .= '<h2 class="ds-hero__title">' . esc_html__( 'Карта компетенций', 'designstack-core' ) . '</h2>';
-$ds_out .= '<p class="ds-hero__lead">' . esc_html__( 'Вопросы о сделанной работе, а не самооценка по шкале. На выходе — профиль навыков и план, что учить дальше.', 'designstack-core' ) . '</p>';
+$ds_out .= '<div class="ds-banner__scrim"></div>';
+$ds_out .= '<div class="ds-banner__text">';
+$ds_out .= '<h2 class="ds-banner__title">' . esc_html__( 'Карта компетенций', 'designstack-core' ) . '</h2>';
+$ds_out .= '<p class="ds-banner__lead">' . esc_html__( 'Вопросы о сделанной работе, а не самооценка по шкале. На выходе — профиль навыков и план, что учить дальше.', 'designstack-core' ) . '</p>';
 $ds_out .= '<a class="ds-button ds-button--onscrim ds-button--lg" href="' . esc_url( (string) get_permalink( $ds_page ) ) . '" data-track="grade-check" data-track-source="home">'
 	. esc_html__( 'Проверить грейд', 'designstack-core' ) . '</a>';
 $ds_out .= '</div></section>';

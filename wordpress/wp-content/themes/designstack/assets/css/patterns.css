@@ -1753,6 +1753,22 @@ textarea.ds-field__control {
 	margin: 0;
 }
 
+/* Фото в тексте страницы: ширина по колонке текста, кадр подрезан справа.
+   Пустое поле в кадре снималось под заголовок баннера (D147), а здесь поверх фото ничего не лежит. */
+.ds-prose__photo {
+	max-width: var(--wp--custom--size--measure);
+	margin: 0;
+}
+
+.ds-prose__photo img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 3 / 2;
+	border-radius: var(--wp--custom--radius--md);
+	object-fit: cover;
+	object-position: left center;
+}
+
 .ds-issue-nav {
 	display: flex;
 	flex-direction: column;
@@ -2232,7 +2248,7 @@ textarea.ds-field__control {
 
 /* Раскладка Б (D147): текст поверх фото. Читаемость держит затемнение, а не удача кадра —
    поэтому контраст меряется по самому светлому месту под строкой, а не на глаз. */
-.ds-hero {
+.ds-banner {
 	position: relative;
 	display: flex;
 	flex-direction: row;
@@ -2245,11 +2261,11 @@ textarea.ds-field__control {
 	isolation: isolate;
 }
 
-.ds-hero:not(.ds-hero--photo) {
+.ds-banner:not(.ds-banner--photo) {
 	min-height: 0;
 }
 
-.ds-hero__photo {
+.ds-banner__photo {
 	position: absolute;
 	inset: 0;
 	z-index: -2;
@@ -2258,7 +2274,7 @@ textarea.ds-field__control {
 	object-fit: cover;
 }
 
-.ds-hero__scrim {
+.ds-banner__scrim {
 	position: absolute;
 	inset: 0;
 	z-index: -1;
@@ -2267,7 +2283,7 @@ textarea.ds-field__control {
 
 /* Без фото затемнение сплошное; с фото — сильное слева и прозрачное справа,
    чтобы кадр был виден, а текст читался. */
-.ds-hero--photo .ds-hero__scrim {
+.ds-banner--photo .ds-banner__scrim {
 	background: linear-gradient(
 		to right,
 		var(--wp--preset--color--surface-scrim) 0%,
@@ -2276,7 +2292,7 @@ textarea.ds-field__control {
 	);
 }
 
-.ds-hero__text {
+.ds-banner__text {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -2285,14 +2301,14 @@ textarea.ds-field__control {
 	padding: var(--wp--preset--spacing--8);
 }
 
-.ds-hero__title {
+.ds-banner__title {
 	margin: 0;
 	font-size: var(--wp--preset--font-size--2-xl);
 	line-height: var(--wp--custom--line-height--tight);
 	color: var(--wp--preset--color--text-on-scrim);
 }
 
-.ds-hero__lead {
+.ds-banner__lead {
 	margin: 0;
 	color: var(--wp--preset--color--text-on-scrim);
 }
@@ -2313,16 +2329,16 @@ textarea.ds-field__control {
 /* На узком экране широкий кадр обрезается до полосы, поэтому туда идёт квадратный снимок,
    текст уезжает вниз, а затемнение растёт сверху вниз: кадр виден, текст читается. */
 @media (max-width: 47.9375rem) {
-	.ds-hero--photo {
+	.ds-banner--photo {
 		align-items: flex-end;
 		min-height: var(--wp--custom--size--hero-narrow);
 	}
 
-	.ds-hero__text {
+	.ds-banner__text {
 		padding: var(--wp--preset--spacing--6);
 	}
 
-	.ds-hero--photo .ds-hero__scrim {
+	.ds-banner--photo .ds-banner__scrim {
 		background: linear-gradient(
 			to bottom,
 			color-mix(in srgb, var(--wp--preset--color--surface-scrim) 10%, transparent) 0%,
@@ -2330,6 +2346,65 @@ textarea.ds-field__control {
 			var(--wp--preset--color--surface-scrim) 72%
 		);
 	}
+}
+
+/* ---------- что дальше после урока ---------- */
+
+/* Урок читают двадцать пять минут, и без этого блока за последней строкой шёл подвал сайта:
+   человеку было некуда идти. Здесь два выхода: следующая ступень и карта развития. */
+.ds-lesson-nav {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--wp--preset--spacing--4);
+	padding-top: var(--wp--preset--spacing--6);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson-nav__next,
+.ds-lesson-nav__soon {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	width: 100%;
+	margin: 0;
+	padding: var(--wp--preset--spacing--6);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-lesson-nav__next {
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	text-decoration: none;
+}
+
+.ds-lesson-nav__next:hover,
+.ds-lesson-nav__next:focus-visible {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+/* Ступень без урока выглядит обещанием, а не кнопкой: рамка пунктиром, фона нет. */
+.ds-lesson-nav__soon {
+	border-style: dashed;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson-nav__kicker {
+	font-size: var(--wp--preset--font-size--xs);
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson-nav__title {
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--tight);
+}
+
+.ds-lesson-nav__next .ds-lesson-nav__title {
+	text-decoration: underline;
 }
 
 /* ---------- урок карты компетенций ---------- */
@@ -2354,7 +2429,6 @@ textarea.ds-field__control {
 }
 
 .ds-lesson__level {
-	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
 	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
 	border-radius: var(--wp--custom--radius--full);
 	font-size: var(--wp--preset--font-size--xs);
@@ -2364,10 +2438,34 @@ textarea.ds-field__control {
 	color: var(--wp--preset--color--text-muted);
 }
 
+/* Отступы лежат на внутреннем элементе, а не на пункте списка: иначе у метки-ссылки
+   нажимаются только буквы, а поля вокруг них — нет. */
+.ds-lesson__level-body {
+	display: block;
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--full);
+	color: inherit;
+}
+
+a.ds-lesson__level-body {
+	text-decoration: none;
+}
+
+a.ds-lesson__level-body:hover,
+a.ds-lesson__level-body:focus-visible {
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-action);
+}
+
 .ds-lesson__level.is-current {
 	border-color: transparent;
 	background: var(--wp--preset--color--surface-action-primary);
 	color: var(--wp--preset--color--text-on-action);
+}
+
+/* Ступень без урока не прикидывается нажимаемой: рамка пунктиром вместо сплошной. */
+.ds-lesson__level.is-soon {
+	border-style: dashed;
 }
 
 .ds-lesson__goals {

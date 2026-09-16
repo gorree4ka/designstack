@@ -23,6 +23,7 @@ TARGETS = [
     ROOT / "docs/content/pages",
     ROOT / "docs/content/digests",
     ROOT / "docs/content/collections",
+    ROOT / "docs/content/lessons",
 ]
 EXT = {".php", ".js", ".html"}
 
@@ -36,6 +37,13 @@ WORDS = (
 RE = re.compile(r"(?<![А-Яа-яЁё])(" + WORDS + r")(?![А-Яа-яЁё])", re.IGNORECASE)
 COMMENT = re.compile(r"^\s*(\*|//|#|/\*|<!--\s*(wp:|/wp:))")
 
+# Прямая речь — данные, а не обращение к читателю: в уроке в кавычках лежат реплики
+# собеседника и образцы замечаний коллеги — там «ты» законно.
+QUOTED = re.compile(r"«[^»]{0,400}»")
+
+# «пришли» — и повелительное («пришли ссылку»), и прошедшее («вы пришли»). Второе не ошибка.
+PAST = re.compile(r"(?:вы|мы|они|люди|все|этому|сюда|туда)\s+$", re.IGNORECASE)
+
 
 def scan(path: pathlib.Path):
     try:
@@ -45,7 +53,11 @@ def scan(path: pathlib.Path):
     for n, line in enumerate(text.splitlines(), 1):
         if COMMENT.match(line):
             continue
-        for m in RE.finditer(line):
+        # Кавычки гасим пробелами, чтобы номера столбцов не съехали.
+        clean = QUOTED.sub(lambda q: " " * len(q.group(0)), line)
+        for m in RE.finditer(clean):
+            if PAST.search(clean[:m.start()]):
+                continue
             yield n, m.group(1), line.strip()[:120]
 
 
@@ -59,6 +71,9 @@ for target in TARGETS:
     if not target.exists():
         continue
     for f in sorted(target.rglob("*")):
+        # В папке уроков лежат и присланные исходники, и наши тела: на сайт идут только `*.body.html`.
+        if f.parent.name == "lessons" and not f.name.endswith(".body.html"):
+            continue
         if f.is_file() and f.suffix in EXT:
             for n, word, line in scan(f):
                 hits.append((f.relative_to(ROOT).as_posix(), n, word, line))

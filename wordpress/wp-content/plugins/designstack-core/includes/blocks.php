@@ -36,6 +36,7 @@ function designstack_core_block_names(): array {
 		'subscribe',
 		'entry-header',
 		'lesson-header',
+		'lesson-nav',
 		'skills-map',
 		'issue-nav',
 		'post-archive',

@@ -594,6 +594,7 @@
 - **Токены:** text-default, text-muted, surface-action-primary, text-on-action; size-tile-lg, size-control-lg, size-measure-lead; font-size xl (вердикт), sm (тип).
 - **Реализация:** `designstack_core_render_hero()` в плагине, блок `designstack/resource-hero`. Заголовок внутри блока: логотип, название и подпись типа стоят одной строкой, отдельным `core/post-title` её не разорвать.
 - **Классы:** `.ds-hero`, `.ds-hero__head`, `.ds-hero__titles`, `.ds-hero__title`, `.ds-hero__type`, `.ds-hero__verdict`, `.ds-hero__actions`.
+- **Имя занято:** `ds-hero*` — только этот паттерн. Баннер карты компетенций живёт на `ds-banner*`: с 15 по 16.09.2026 он носил те же имена и своим тёмным фоном гасил текст на всех карточках каталога (D157).
 - **Тексты:** «Перейти на сайт», «Показать аналог», «Проверено 3 сен 2026», слова состояний.
 - **Где стоит:** страница ресурса. **Used in:** screens/resource
 - **Status:** built

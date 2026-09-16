@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Юзабилити-тесты: Middle — от гипотезы до переделанного экрана</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --ui-bg: #f2f2f5; --ui-card: #ffffff; --ui-line: #e3e3e8; --ui-ink: #111114; --ui-ink2: #8a8a92;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --ui-bg: #1c1c1e; --ui-card: #2a2a2d; --ui-line: #3a3a3f; --ui-ink: #f2f2f5; --ui-ink2: #9a9aa2;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --ui-bg: #1c1c1e; --ui-card: #2a2a2d; --ui-line: #3a3a3f; --ui-ink: #f2f2f5; --ui-ink2: #9a9aa2;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 820px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 540px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+  .ctr { text-align: center; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn.solid { background: var(--accent); color: #fff; border-color: transparent; padding: 9px 16px; font-size: 14px; }
+  .btn[disabled] { opacity: .5; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 52px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; border-bottom: 2px solid var(--quote-bar); padding-bottom: 1px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 180px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* word highlighter */
+  .wh-text { font-size: 18px; line-height: 1.85; margin: 0 0 8px; max-width: none; }
+  .wh-text .w { cursor: pointer; border-radius: 4px; padding: 1px 2px; border-bottom: 1px dashed transparent; }
+  .wh-text .w:hover { background: var(--chip); }
+  .wh-text .w.picked { background: var(--bad-soft); color: var(--bad); font-weight: 600; }
+  .wh-text .w.missed { background: var(--warn-soft); color: var(--warn); font-weight: 600; }
+  .wh-text .w.wrongpick { background: var(--demo-bg); color: var(--muted); text-decoration: line-through; }
+  .wh-meta { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-size: 13.5px; color: var(--muted); margin-top: 14px; }
+  .wh-fb { margin-top: 12px; font-size: 14.5px; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .wh-fb.on { display: block; }
+  .wh-fb b { display: block; margin-bottom: 4px; }
+  .wh-fix { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--hairline); font-size: 14.5px; }
+  .wh-fix b { display: inline; color: var(--good); }
+
+  /* chooser */
+  .ch-q { font-size: 16.5px; margin: 0 0 14px; }
+  .ch-opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .ch-opt { flex: 1 1 200px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 12px 14px; font: 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .ch-opt:hover { border-color: var(--accent); }
+  .ch-opt b { display: block; font-weight: 600; margin-bottom: 3px; }
+  .ch-opt span { font-size: 13px; color: var(--muted); }
+  .ch-res { display: none; }
+  .ch-res.on { display: block; }
+  .ch-score { display: flex; gap: 10px; margin: 14px 0 0; }
+  .ch-side { flex: 1; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+  .ch-side.win { border-color: var(--accent); background: var(--chip); }
+  .ch-side h5 { margin: 0 0 4px; font-size: 14.5px; }
+  .ch-side .pts { font: 700 22px/1 system-ui; font-variant-numeric: tabular-nums; }
+  .ch-side .lbl { font-size: 12.5px; color: var(--muted); }
+
+  /* severity matrix */
+  .mx { display: grid; grid-template-columns: 132px repeat(5, 1fr); gap: 4px; font-size: 13px; }
+  .mx .hh { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 4px; }
+  .mx .rh { font-size: 12.5px; color: var(--ink); display: flex; align-items: center; padding-right: 6px; line-height: 1.3; }
+  .mx .cell { border: 1px solid var(--border); border-radius: 7px; padding: 9px 4px; text-align: center; cursor: pointer; font: 700 11px system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; background: var(--raised); }
+  .mx .cell:hover { border-color: var(--accent); }
+  .mx .cell.sel { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .mx .cell.s3 { background: var(--bad-soft); color: var(--bad); }
+  .mx .cell.s2 { background: var(--warn-soft); color: var(--warn); }
+  .mx .cell.s1 { background: var(--chip); color: var(--accent-deep); }
+  .mx .cell.s0 { background: var(--demo-bg); color: var(--muted); }
+  @media (max-width: 640px) { .mx { grid-template-columns: 92px repeat(5, 1fr); font-size: 12px; } .mx .rh { font-size: 11.5px; } .mx .cell { font-size: 10px; padding: 8px 2px; } }
+  .mx-out { margin-top: 14px; padding: 13px 15px; border-radius: 10px; border: 1px solid var(--hairline); background: var(--demo-bg); font-size: 14.5px; }
+  .mx-out b { display: block; margin-bottom: 4px; }
+
+  .sev { display: inline-block; font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; white-space: nowrap; }
+  .sev.s3 { background: var(--bad-soft); color: var(--bad); }
+  .sev.s2 { background: var(--warn-soft); color: var(--warn); }
+  .sev.s1 { background: var(--chip); color: var(--accent-deep); }
+  .sev.s0 { background: var(--demo-bg); color: var(--muted); }
+
+  /* mock screens */
+  .screens { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .screens { grid-template-columns: 1fr; } }
+  .scr { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--ui-bg); }
+  .scr .cap { font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 9px 12px; background: var(--surface); border-bottom: 1px solid var(--hairline); color: var(--muted); }
+  .scr .cap.bad { color: var(--bad); }
+  .scr .cap.good { color: var(--good); }
+  .ui { padding: 12px; font-family: system-ui, -apple-system, sans-serif; }
+  .ui-top { display: flex; align-items: center; gap: 8px; padding: 0 2px 10px; }
+  .ui-top .back { color: var(--accent); font-size: 15px; }
+  .ui-top .ttl { font-size: 15px; font-weight: 600; color: var(--ui-ink); flex: 1; }
+  .ui-top .dots { color: var(--ui-ink2); font-size: 17px; letter-spacing: 1px; }
+  .ui-card { background: var(--ui-card); border: 1px solid var(--ui-line); border-radius: 11px; padding: 12px; }
+  .ui-card + .ui-card { margin-top: 9px; }
+  .ui-row { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--ui-ink2); padding: 3px 0; }
+  .ui-row b { color: var(--ui-ink); font-weight: 500; }
+  .ui-h { font-size: 15px; font-weight: 600; color: var(--ui-ink); margin: 0 0 7px; }
+  .ui-status { display: inline-block; font-size: 11.5px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: rgba(42,120,214,.12); color: #2a78d6; }
+  .ui-btn { display: block; text-align: center; border-radius: 10px; padding: 11px; font-size: 14px; font-weight: 600; margin-top: 10px; }
+  .ui-btn.pri { background: #2a78d6; color: #fff; }
+  .ui-btn.sec { background: transparent; border: 1px solid var(--ui-line); color: var(--ui-ink); }
+  .ui-btn.link { background: none; color: #d03b3b; font-weight: 500; padding: 9px; }
+  .ui-note { font-size: 11.5px; color: var(--ui-ink2); margin-top: 7px; text-align: center; }
+  .ui-note.pin { padding-right: 14px; }
+  .pin { position: relative; }
+  .pin::after { content: attr(data-pin); position: absolute; top: -7px; right: -7px; width: 20px; height: 20px; border-radius: 50%; background: var(--bad); color: #fff; font: 700 11px/20px system-ui; text-align: center; }
+  .pin.ok::after { background: var(--good); }
+  .pinlist { list-style: none; margin: 12px 0 0; padding: 0; font-size: 13.5px; }
+  .pinlist li { display: grid; grid-template-columns: 22px 1fr; gap: 9px; margin: 7px 0; color: var(--ink-2); }
+  .pinlist .b { width: 19px; height: 19px; border-radius: 50%; background: var(--bad); color: #fff; font: 700 11px/19px system-ui; text-align: center; }
+  .pinlist.ok .b { background: var(--good); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Юзабилити-тесты · Middle · от гипотезы до переделанного экрана</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · юзабилити-тестирование</p>
+  <div class="levels" aria-label="Уровень темы: Middle, второй из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv on">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Сам решаешь, что проверять, и доводишь находки до переделанного экрана</h1>
+  <p class="lede">На прошлом уровне сценарий давали готовым, а результатом был протокол. Здесь ты решаешь, какое решение проверяешь и что будешь считать провалом, — до того как позовёшь первого участника. А заканчивается всё не отчётом, а экраном, который выглядит иначе, чем выглядел неделю назад, и парой скриншотов, где видно, что именно поменялось и из-за чего.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#criteria">Формулировать, что проверяем и что считаем провалом</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#tasks">Писать задания без слов из интерфейса</a><span class="drillmark">разметка текста</span></li>
+    <li><a href="#format">Выбирать между модерируемым тестом и записью без модератора</a><span class="drillmark">подбор</span></li>
+    <li><a href="#severity">Раскладывать находки по серьёзности</a><span class="drillmark">матрица + тренажёр</span></li>
+    <li><a href="#redo">Показывать «до и после»</a> так, чтобы было видно, какую находку закрывает каждая правка</li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Продолжаем находку из предыдущего уровня: участник получил задание «отмените заказ», две минуты сорок искал и сдался — кнопка отмены спрятана в меню «⋯». В этом уроке она превращается в критерий провала, попадает в сценарий, получает серьёзность и в конце доходит до переделанного экрана, который можно посмотреть в разделе 7.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется по сравнению с прошлым уровнем</h2></div>
+  <p class="sec-sub">Техника модерирования та же. Меняется то, что происходит до теста и после него.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Junior</th><th>Middle</th></tr></thead>
+      <tbody>
+        <tr><td><b>Что проверяем</b></td><td>дано в сценарии</td><td>решаешь сам и формулируешь критерий провала</td></tr>
+        <tr><td><b>Задания</b></td><td>готовые</td><td>пишешь под конкретное решение</td></tr>
+        <tr><td><b>Формат</b></td><td>модерируемый по умолчанию</td><td>выбираешь и объясняешь выбор</td></tr>
+        <tr><td><b>Находки</b></td><td>список того, что произошло</td><td>разложены по серьёзности и приоритету</td></tr>
+        <tr><td><b>Результат</b></td><td>протокол</td><td>переделанный экран и трассировка правок</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>«всё понравилось» в протоколе</td><td>отчёт на десять слайдов и нетронутый макет</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Главная ловушка уровня — тест ради галочки.</b> Пять человек прошли, находки записаны, презентация сделана, экран остался прежним. Формально исследование проведено, фактически потрачена неделя. Критерий выполнения задания поэтому жёсткий: <b>должна быть пара скриншотов «до и после» и строка про каждую правку</b> — какую находку она закрывает. Нет переделанного экрана — нет работы.</div>
+</section>
+
+<section id="criteria">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Что проверяем и что считаем провалом</h2></div>
+  <p class="sec-sub">Первый навык. Формулируется до теста — иначе после теста вы подгоните критерий под то, что получилось.</p>
+
+  <p>Тест начинается не с заданий, а с двух предложений. Первое: <strong>какое решение мы проверяем</strong> — не «наш экран вообще», а конкретное дизайнерское решение, в котором вы не уверены. Второе: <strong>что будет считаться провалом</strong> — заранее названный результат, увидев который вы признаете, что решение не работает.</p>
+
+  <p>Зачем это нужно так рано: без критерия любой исход объясним. Участник не нашёл кнопку — «ну он невнимательный». Двое не нашли — «выборка неудачная». Сформулированный до теста критерий отнимает у вас возможность выкрутиться, и в этом его единственный, но решающий смысл.</p>
+
+  <h3>Из чего состоит хороший критерий</h3>
+  <ul>
+    <li><strong>Действие,</strong> которое участник должен совершить, — наблюдаемое, не «понять» и не «осознать».</li>
+    <li><strong>Порог:</strong> сколько человек из скольких. Три из пяти, четыре из пяти — число называется заранее.</li>
+    <li><strong>Условие «сам»:</strong> без подсказок ведущего. Иначе критерий выполняется всегда.</li>
+    <li><strong>Время или число попыток,</strong> если скорость важна для сценария.</li>
+  </ul>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Проверяем решение</th><th>Успех</th><th>Провал</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Отмена заказа спрятана в меню «⋯», чтобы не отвлекать от повторного заказа</td>
+          <td>4 из 5 находят отмену сами за 30 секунд</td>
+          <td>Двое и больше не находят за минуту или уходят в поддержку</td>
+        </tr>
+        <tr>
+          <td>Сумма доставки показывается только на последнем шаге</td>
+          <td>Никто не возвращается назад проверять итог</td>
+          <td>Двое и больше уходят с шага оплаты назад в корзину</td>
+        </tr>
+        <tr>
+          <td>Фильтры свёрнуты в одну кнопку, чтобы каталог был чище</td>
+          <td>4 из 5 применяют хотя бы один фильтр, не спрашивая</td>
+          <td>Трое и больше листают каталог руками, не открыв фильтры</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Проверка критерия на пригодность: он должен быть неприятным.</b> Если вы формулируете провал и не чувствуете лёгкого дискомфорта — критерий слишком мягкий, и тест ничего не изменит. Хороший критерий — тот, при котором вам придётся переделать работу, которую вы уже сделали и которая вам нравится.</div>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · это рабочий критерий или нет<span class="spacer"></span><span class="sc num">0 / 8</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Три признака негодного критерия: внутри него оценка («понятно», «удобно»), нет порога («участники находят»), нет условия «сам» — то есть подсказка ведущего его не нарушает.</div>
+  </div>
+</section>
+
+<section id="tasks">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Задания без слов из интерфейса</h2></div>
+  <p class="sec-sub">Второй навык. На прошлом уровне вы отличали задание от инструкции; здесь — вычищаете из собственного текста лексику продукта.</p>
+
+  <p>Ловушка тут коварнее, чем прямая подсказка «нажмите сюда». Вы пишете задание словами, которыми думаете сами, — а думаете вы словами интерфейса, потому что вы его и нарисовали. «Личный кабинет», «избранное», «оформить возврат», «промокод» — для вас это обычные слова, для участника это <strong>надписи на кнопках</strong>. Услышав их, он переключается с решения задачи на поиск совпадения: ищет глазами то же слово. И вы никогда не узнаете, догадался бы он сам.</p>
+
+  <h3>Три источника заражённых слов</h3>
+  <ul>
+    <li><strong>Надписи элементов:</strong> названия разделов, кнопок, вкладок, полей. Самый частый случай.</li>
+    <li><strong>Внутренний жаргон команды:</strong> «карточка товара», «личный кабинет», «дашборд», «онбординг». Половина этих слов вообще не из языка пользователя.</li>
+    <li><strong>Названия механик:</strong> «фильтр», «сортировка», «избранное», «корзина». Это инструменты — а задание описывает цель, а не инструмент.</li>
+  </ul>
+
+  <div class="box">
+    <div class="box-head">Разметка · найди в задании слова из интерфейса<span class="spacer"><span id="whCount" class="num" style="font-variant-numeric:tabular-nums"></span></span><button class="btn" id="whCheck" type="button">Проверить</button></div>
+    <div class="box-body">
+      <p class="dim" style="margin-top:0; font-size:14px">Нажимай на слова, которые участник услышит как надпись на кнопке. Когда закончишь — нажми «Проверить».</p>
+      <div id="whHost"></div>
+      <div class="wh-meta" id="whMeta"></div>
+      <div class="wh-fb" id="whFb"></div>
+    </div>
+    <div class="box-foot">Проверка своего текста занимает две минуты: выпиши все существительные из задания и спроси по каждому — есть ли это слово где-нибудь в интерфейсе. Есть — заменяй.</div>
+  </div>
+
+  <h3>Чем заменять</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Слово из интерфейса</th><th>Чем заменить в задании</th></tr></thead>
+      <tbody>
+        <tr><td>«Добавьте в избранное»</td><td>«Вы вернётесь к выбору вечером — сделайте так, чтобы не потерять эти варианты»</td></tr>
+        <tr><td>«Зайдите в личный кабинет»</td><td>«Проверьте, что вы заказывали в прошлый раз»</td></tr>
+        <tr><td>«Примените фильтр»</td><td>«Вам нужна красная куртка не дороже 8 000 — найдите подходящую»</td></tr>
+        <tr><td>«Оформите возврат»</td><td>«Куртка не подошла по размеру. Сделайте так, чтобы вам вернули деньги»</td></tr>
+        <tr><td>«Введите промокод»</td><td>«Друг прислал вам вот такой набор символов и сказал, что будет скидка. Воспользуйтесь»</td></tr>
+        <tr><td>«Откройте карточку товара»</td><td>«Посмотрите, из чего эта куртка сшита»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Приём для проверки: прочитай задание человеку, который никогда не видел твой продукт,</b> и попроси пересказать своими словами, что от него хотят. Если он пересказывает без твоих терминов — задание чистое. Если начинает переспрашивать «а что такое личный кабинет?» — переписывай. Две минуты на коллеге из соседнего отдела экономят целый испорченный тест.</div>
+</section>
+
+<section id="format">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Модерируемый тест или запись без модератора</h2></div>
+  <p class="sec-sub">Третий навык. Выбор зависит от того, что вам нужнее: понять причину или измерить проходимость.</p>
+
+  <p><strong>Модерируемый</strong> — вы рядом (лично или по связи), даёте задания, слышите мысли вслух, можете спросить в конце, что человек имел в виду. <strong>Немодерируемый</strong> — участник проходит задания сам в сервисе, запись экрана и голоса приходит вам потом.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Модерируемый</th><th>Немодерируемый</th></tr></thead>
+      <tbody>
+        <tr><td><b>Что даёт</b></td><td>причины: почему человек пошёл туда</td><td>факты: где спотыкаются и сколько раз</td></tr>
+        <tr><td><b>Участников за раз</b></td><td>5–8, дорого по времени</td><td>15–50, быстро</td></tr>
+        <tr><td><b>Срок</b></td><td>неделя-полторы с рекрутингом</td><td>1–2 дня</td></tr>
+        <tr><td><b>Можно уточнить</b></td><td>да, сразу</td><td>нет, только то, что человек сказал сам</td></tr>
+        <tr><td><b>Риск</b></td><td>вы влияете на участника</td><td>непонятые задания, брошенные сессии, нет контекста</td></tr>
+        <tr><td><b>Сырой прототип</b></td><td>годится — вы объясните, что не работает</td><td>не годится — человек решит, что сломался он</td></tr>
+        <tr><td><b>Сложный сценарий</b></td><td>годится</td><td>плохо: длинные задания не доходят до конца</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <div class="box-head">Подбор формата · четыре вопроса<span class="spacer"></span><button class="btn" id="chReset" type="button" style="display:none">Заново</button></div>
+    <div class="box-body" id="chooser">
+      <div id="chStage">
+        <p class="ch-q" id="chQ"></p>
+        <div class="ch-opts" id="chOpts"></div>
+        <div class="wh-meta" style="margin-top:14px"><span class="prog" style="flex:1;height:5px;border-radius:3px;background:var(--hairline);overflow:hidden;display:block"><i id="chProg" style="display:block;height:100%;width:0;background:var(--accent);transition:width .25s"></i></span><span id="chStep">1 из 4</span></div>
+      </div>
+      <div class="ch-res" id="chRes"></div>
+    </div>
+    <div class="box-foot">Ответ редко бывает «только так»: чаще всего сильнее всего работает связка — сначала немодерируемый прогон на 20 людях, чтобы найти, где именно спотыкаются, потом 5 модерируемых, чтобы понять почему.</div>
+  </div>
+
+  <div class="warnbox"><b>Как объяснить выбор команде.</b> Формула короткая: «Берём [формат], потому что нам нужно [причины / масштаб], а ограничение у нас [срок / доступ к людям / состояние прототипа]. Чего этот формат не покажет: [честный список]». Последняя часть — та, что отличает Middle от Junior: вы называете слабость своего выбора сами, до того как её назовут вам.</div>
+</section>
+
+<section id="summary">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Сводка пяти тестов</h2></div>
+  <p class="sec-sub">Прежде чем раскладывать по серьёзности, находки нужно свести в одну таблицу — иначе вы будете сравнивать впечатления, а не данные.</p>
+
+  <p>Сводная таблица делается сразу после последнего теста и занимает двадцать минут. Строки — задания, столбцы — участники, в ячейке результат и время. Всё. Она нужна, чтобы увидеть повторяемость глазами, а не по памяти.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Задание</th><th class="ctr">П1</th><th class="ctr">П2</th><th class="ctr">П3</th><th class="ctr">П4</th><th class="ctr">П5</th><th>Итог</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>1. Повторить прошлый заказ</b></td>
+          <td class="ctr num">✓ 0:12</td><td class="ctr num">✓ 0:09</td><td class="ctr num">✓ 0:15</td><td class="ctr num">✓ 0:11</td><td class="ctr num">✓ 0:20</td>
+          <td><b>5 из 5</b>, решение работает</td>
+        </tr>
+        <tr>
+          <td><b>2. Отменить заказ</b></td>
+          <td class="ctr num">✕ 1:50</td><td class="ctr num">✕ 2:40</td><td class="ctr num">✓ 1:05</td><td class="ctr num">✕ 3:00</td><td class="ctr num">✓ 0:48</td>
+          <td><b>2 из 5</b>, порог провала пробит</td>
+        </tr>
+        <tr>
+          <td><b>3. Узнать дату доставки</b></td>
+          <td class="ctr num">✓ 0:35</td><td class="ctr num">✓ 0:50</td><td class="ctr num">✓ 0:22</td><td class="ctr num">~ 1:10</td><td class="ctr num">✓ 0:41</td>
+          <td><b>5 из 5</b>, но у одного с возвратами</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="dim" style="font-size:13.5px">Обозначения: ✓ выполнил сам · ~ выполнил с трудом или не тем путём · ✕ не выполнил. Время — от выдачи задания до результата или до отказа.</p>
+
+  <div class="rule"><b>Читайте таблицу построчно, а не по участникам.</b> Строка «отменить заказ» сразу отвечает на вопрос, который вы задали в критерии: провалом считалось «двое и больше не находят» — не нашли трое. Решение не работает, дальше обсуждать нечего. Именно ради этой одной строки всё и затевалось.</div>
+
+  <h3>Что ещё выписать рядом</h3>
+  <ul>
+    <li><strong>Первый клик в каждом задании</strong> по каждому участнику. Если четверо из пяти сначала полезли в одно и то же не то место — это не ошибка людей, это ваша будущая правка.</li>
+    <li><strong>Самые точные цитаты</strong> — по одной-две на находку, с номером участника и тайм-кодом.</li>
+    <li><strong>Обходные пути:</strong> кто ушёл в поддержку, кто полез в поиск, кто открыл сайт вместо приложения.</li>
+    <li><strong>Что не подтвердилось.</strong> Гипотеза, которую тест опроверг в вашу пользу, — тоже результат, и её стоит назвать: она защищает решение от переделки «на всякий случай».</li>
+  </ul>
+</section>
+
+<section id="severity">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Серьёзность находок</h2></div>
+  <p class="sec-sub">Четвёртый навык. Список из двадцати проблем без приоритета бесполезен: команда возьмёт те, что проще починить.</p>
+
+  <p>Серьёзность складывается из двух вещей: <strong>насколько сильно проблема бьёт по сценарию</strong> и <strong>у скольких она встретилась</strong>. Ни один из факторов по отдельности не работает: редкая блокировка важнее частой косметики, но и мелочь, встреченная всеми пятерыми, может стоить дороже единичного затыка.</p>
+
+  <div class="box">
+    <div class="box-head">Матрица серьёзности · нажми на клетку<span class="spacer"></span><span class="dim" style="font-size:13px">по вертикали — влияние, по горизонтали — сколько из 5</span></div>
+    <div class="box-body">
+      <div class="mx" id="mx">
+        <div class="hh"></div><div class="hh">1 из 5</div><div class="hh">2 из 5</div><div class="hh">3 из 5</div><div class="hh">4 из 5</div><div class="hh">5 из 5</div>
+
+        <div class="rh">Блокирует: задание не выполнено</div>
+        <div class="cell s2" data-i="0" data-f="1">Высокая</div>
+        <div class="cell s3" data-i="0" data-f="2">Критично</div>
+        <div class="cell s3" data-i="0" data-f="3">Критично</div>
+        <div class="cell s3" data-i="0" data-f="4">Критично</div>
+        <div class="cell s3" data-i="0" data-f="5">Критично</div>
+
+        <div class="rh">Сделал, но не то — и не заметил</div>
+        <div class="cell s3" data-i="1" data-f="1">Критично</div>
+        <div class="cell s3" data-i="1" data-f="2">Критично</div>
+        <div class="cell s3" data-i="1" data-f="3">Критично</div>
+        <div class="cell s3" data-i="1" data-f="4">Критично</div>
+        <div class="cell s3" data-i="1" data-f="5">Критично</div>
+
+        <div class="rh">Сильно замедляет: блуждания, возвраты</div>
+        <div class="cell s1" data-i="2" data-f="1">Низкая</div>
+        <div class="cell s2" data-i="2" data-f="2">Высокая</div>
+        <div class="cell s2" data-i="2" data-f="3">Высокая</div>
+        <div class="cell s3" data-i="2" data-f="4">Критично</div>
+        <div class="cell s3" data-i="2" data-f="5">Критично</div>
+
+        <div class="rh">Раздражает, но проходит</div>
+        <div class="cell s0" data-i="3" data-f="1">Мелочь</div>
+        <div class="cell s1" data-i="3" data-f="2">Низкая</div>
+        <div class="cell s1" data-i="3" data-f="3">Низкая</div>
+        <div class="cell s2" data-i="3" data-f="4">Высокая</div>
+        <div class="cell s2" data-i="3" data-f="5">Высокая</div>
+
+        <div class="rh">Косметика, мнение</div>
+        <div class="cell s0" data-i="4" data-f="1">Мелочь</div>
+        <div class="cell s0" data-i="4" data-f="2">Мелочь</div>
+        <div class="cell s0" data-i="4" data-f="3">Мелочь</div>
+        <div class="cell s0" data-i="4" data-f="4">Мелочь</div>
+        <div class="cell s1" data-i="4" data-f="5">Низкая</div>
+      </div>
+      <div class="mx-out" id="mxOut"><b>Выбери клетку</b>Матрица покажет, что это за уровень, что с ним делать и пример из нашего теста.</div>
+    </div>
+    <div class="box-foot">Обрати внимание на вторую строку: «сделал, но не то и не заметил» критично при любой частоте. Один такой случай на пятерых — это в жизни тысячи людей, которые узнают о проблеме после списания денег или после доставки.</div>
+  </div>
+
+  <h3>Порядок починки</h3>
+  <ol>
+    <li><strong>Критичные</strong> — в работу сразу, без обсуждения приоритета.</li>
+    <li><strong>Высокие</strong> — в ближайший спринт; именно они обычно и составляют «верхние три» из задания.</li>
+    <li><strong>Низкие</strong> — в бэклог, накапливать и чинить пачкой, когда касаешься этого места по другой причине.</li>
+    <li><strong>Мелочи</strong> — записать и не трогать. Сюда же уходят все мнения о цветах и размерах.</li>
+  </ol>
+
+  <div class="warnbox"><b>Отдельный фактор, который матрица не учитывает: цена ошибки для пользователя.</b> Затык при выборе аватарки и затык при переводе денег — разные вещи, даже если оба встретились у двоих. Если сценарий связан с деньгами, необратимыми действиями или личными данными — поднимайте серьёзность на уровень выше вручную и пишите, почему подняли.</div>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · что чинить первым<span class="spacer"></span><span class="sc num">0 / 6</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Главное правило приоритизации: сравнивай не «сколько людей пожаловались», а «что происходит с человеком, если это не починить».</div>
+  </div>
+</section>
+
+<section id="redo">
+  <div class="sec-head"><h2><span class="h2-num">7</span>«До и после»: доводим находку до экрана</h2></div>
+  <p class="sec-sub">Пятый навык и главный результат уровня. Ниже — та самая находка про отмену заказа, доведённая до переделанного экрана.</p>
+
+  <p>Показывать правки нужно так, чтобы человек, который не был на тестах, за минуту понял три вещи: что было, что стало и почему. Работает это только при одном условии — <strong>каждая правка привязана к конкретной находке</strong>. Правка без находки — ваш вкус; находка без правки — потраченное время.</p>
+
+  <div class="box">
+    <div class="box-head">Экран «Заказ» · было и стало</div>
+    <div class="box-body">
+      <div class="screens">
+        <div class="scr">
+          <div class="cap bad">Было · 2 из 5 справились</div>
+          <div class="ui">
+            <div class="ui-top"><span class="back">‹</span><span class="ttl">Заказ № 1042</span><span class="dots pin" data-pin="1">⋯</span></div>
+            <div class="ui-card">
+              <span class="ui-status">В сборке</span>
+              <p class="ui-h" style="margin-top:9px">Кроссовки Lorex, 42</p>
+              <div class="ui-row"><span>Доставка</span><b>18 сентября</b></div>
+              <div class="ui-row"><span>Адрес</span><b>Ленина, 12</b></div>
+              <div class="ui-row"><span>Итого</span><b>7 940 ₽</b></div>
+            </div>
+            <div class="ui-card">
+              <div class="ui-row"><span>Оплата</span><b>Картой ·7719</b></div>
+              <div class="ui-row"><span>Получатель</span><b>Алексей П.</b></div>
+            </div>
+            <span class="ui-btn pri pin" data-pin="2">Повторить заказ</span>
+            <span class="ui-btn sec pin" data-pin="3">Связаться с поддержкой</span>
+          </div>
+        </div>
+
+        <div class="scr">
+          <div class="cap good">Стало · проверено повторно, 5 из 5</div>
+          <div class="ui">
+            <div class="ui-top"><span class="back">‹</span><span class="ttl">Заказ № 1042</span></div>
+            <div class="ui-card">
+              <span class="ui-status">В сборке</span>
+              <p class="ui-h" style="margin-top:9px">Кроссовки Lorex, 42</p>
+              <div class="ui-row"><span>Доставка</span><b>18 сентября</b></div>
+              <div class="ui-row"><span>Адрес</span><b>Ленина, 12</b></div>
+              <div class="ui-row"><span>Итого</span><b>7 940 ₽</b></div>
+              <span class="ui-btn link pin ok" data-pin="1">Отменить заказ</span>
+              <p class="ui-note pin ok" data-pin="2">Отмена возможна, пока заказ не передан курьеру</p>
+            </div>
+            <div class="ui-card">
+              <div class="ui-row"><span>Оплата</span><b>Картой ·7719</b></div>
+              <div class="ui-row"><span>Получатель</span><b>Алексей П.</b></div>
+            </div>
+            <span class="ui-btn pri">Повторить заказ</span>
+            <span class="ui-btn sec pin ok" data-pin="3">Написать в поддержку</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px" class="screens">
+        <div>
+          <ul class="pinlist">
+            <li><span class="b">1</span><span>Отмена спрятана в «⋯». Никто из пятерых туда не навёл ни разу.</span></li>
+            <li><span class="b">2</span><span>Единственная заметная кнопка — «Повторить заказ». Двое нажали на неё, ища отмену.</span></li>
+            <li><span class="b">3</span><span>Поддержка выглядит как выход из тупика: трое ушли туда, не найдя отмену.</span></li>
+          </ul>
+        </div>
+        <div>
+          <ul class="pinlist ok">
+            <li><span class="b">1</span><span>Отмена — текстовой кнопкой внутри карточки заказа, там, где люди её искали.</span></li>
+            <li><span class="b">2</span><span>Подпись объясняет, до какого момента отмена доступна: снимает вопрос «а можно ли вообще».</span></li>
+            <li><span class="b">3</span><span>Поддержка осталась, но перестала быть единственным выходом.</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="box-foot">Скриншоты «до и после» без нумерованных пометок работают вполовину: смотрящий видит, что стало иначе, но не понимает, что именно вы чинили. Пять минут на цифры окупаются на каждой защите работы.</div>
+  </div>
+
+  <h3>Трассировка: строка на каждую правку</h3>
+  <p>Ровно то, что просит критерий задания. Таблица делается один раз и служит и отчётом, и постановкой задачи разработчику, и материалом для портфолио.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Находка</th><th class="ctr">Серьёзность</th><th>Правка</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Отмену не находят в «⋯»</b><br><span class="dim">3 из 5 не выполнили задание. П2: «Может, тут нельзя отменить вообще?» (01:58)</span></td>
+          <td class="ctr"><span class="sev s3">Критично</span></td>
+          <td>Отмена вынесена текстовой кнопкой в карточку заказа, под составом. Меню «⋯» убрано за ненадобностью</td>
+        </tr>
+        <tr>
+          <td><b>Неясно, можно ли отменить в принципе</b><br><span class="dim">2 из 5 сформулировали вслух гипотезу «наверное, нельзя» и перестали искать</span></td>
+          <td class="ctr"><span class="sev s2">Высокая</span></td>
+          <td>Под кнопкой добавлена строка про условие отмены — до передачи курьеру</td>
+        </tr>
+        <tr>
+          <td><b>Поддержка как обходной путь</b><br><span class="dim">3 из 5 ушли в чат, не решив задачу сами</span></td>
+          <td class="ctr"><span class="sev s2">Высокая</span></td>
+          <td>Кнопка поддержки понижена в весе и переименована; отмена теперь заметнее её</td>
+        </tr>
+        <tr>
+          <td><b>Дату доставки ищут по всей карточке</b><br><span class="dim">1 из 5, с возвратами, 1:10</span></td>
+          <td class="ctr"><span class="sev s1">Низкая</span></td>
+          <td>Не меняем. В бэклог: проверить на следующей серии, повторится ли</td>
+        </tr>
+        <tr>
+          <td><b>«Статус какой-то мелкий»</b><br><span class="dim">1 из 5, мнение, задание выполнено без затруднений</span></td>
+          <td class="ctr"><span class="sev s0">Мелочь</span></td>
+          <td>Не меняем. Мнение одного участника, на результат не повлияло</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Две последние строки таблицы важнее, чем кажется.</b> Явно написанное «не меняем и вот почему» защищает вас дважды: от упрёка «вы проигнорировали находку» и от соблазна чинить всё подряд. Зрелость работы видна не по длине списка правок, а по тому, что в нём осознанно чего-то нет.</div>
+
+  <h3>Проверьте правку повторным тестом</h3>
+  <ul>
+    <li><strong>Трёх участников достаточно.</strong> Вы проверяете конкретное изменение, а не весь интерфейс заново.</li>
+    <li><strong>Задание — то же самое, слово в слово.</strong> Иначе сравнение бессмысленно.</li>
+    <li><strong>Критерий — тот же самый,</strong> сформулированный до первой серии. Подгонять его под новый экран нельзя.</li>
+    <li><strong>Берите новых людей.</strong> Прежние уже знают, где кнопка, и ваш тест покажет их память, а не ваш дизайн.</li>
+    <li><strong>Готовьтесь к тому, что правка не сработает.</strong> Это нормальный исход, и он стоит гораздо дешевле, чем узнать то же самое после релиза.</li>
+  </ul>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Свой экран, три задания, пять тестов, разбор по серьёзности и переделанный экран.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Выбери экран и решение</strong> (40 мин). Не «весь экран», а конкретное решение, в котором ты не уверен. Признак годного выбора: тебе будет неприятно, если оно не подтвердится.</li>
+    <li><strong>Сформулируй критерий</strong> (20 мин) по правилам раздела 2: что считаем успехом, что провалом, с порогом и условием «сам». Запиши до тестов и больше не трогай.</li>
+    <li><strong>Напиши три задания</strong> (1 ч). Прогони каждое через разметку из раздела 3 — выпиши существительные и проверь по интерфейсу.</li>
+    <li><strong>Выбери формат</strong> (15 мин) и запиши обоснование по формуле из раздела 4, включая то, чего формат не покажет.</li>
+    <li><strong>Проверь прототип</strong> и проведи прогон на себе.</li>
+    <li><strong>Пять тестов</strong> с протоколами по каждому.</li>
+    <li><strong>Сведи таблицу</strong> (30 мин) и сверь строку с критерием: пробит порог или нет.</li>
+    <li><strong>Разложи по серьёзности</strong> (40 мин) по матрице из раздела 6.</li>
+    <li><strong>Переделай экран</strong> по верхним трём находкам и сделай трассировку.</li>
+  </ol>
+  <p class="dim">Ориентир: 14–18 часов за полторы недели, из них сами тесты — около пяти.</p>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Бриф на полстраницы:</strong> проверяемое решение, критерий успеха и провала, выбор формата с обоснованием.</li>
+    <li><strong>Три задания</strong> в финальных формулировках.</li>
+    <li><strong>Сводная таблица</strong> пяти тестов: задания × участники, результат и время.</li>
+    <li><strong>Находки с серьёзностью</strong> — каждая с числом «сколько из пяти» и цитатой.</li>
+    <li><strong>Пара скриншотов «до и после»</strong> с нумерованными пометками.</li>
+    <li><strong>Таблица трассировки:</strong> строка на каждую правку с указанием находки — и строки «не меняем и почему».</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Открой скриншоты «до и после» и по каждому отличию попробуй назвать находку, из которой оно следует. Назвал по всем — работа сделана. Осталось отличие, для которого находки нет, — это твой вкус, и его надо либо обосновать отдельно, либо откатить. И наоборот: если в верхней тройке находок есть та, что не дошла до экрана, — работа не закончена.</div>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>До тестов</h3>
+  <ul>
+    <li>Названо конкретное решение, которое проверяем, — не «экран вообще»</li>
+    <li>Критерий провала записан с порогом и условием «сам», до первого теста</li>
+    <li>В заданиях нет ни одного слова с кнопок и из внутреннего жаргона</li>
+    <li>Задания прочитаны человеку не из команды и пересказаны им своими словами</li>
+    <li>Формат выбран, обоснован, и названо, чего он не покажет</li>
+    <li>Прототип проверен, прогон на себе сделан</li>
+  </ul>
+
+  <h3>После тестов</h3>
+  <ul>
+    <li>Сводная таблица заполнена, строка сверена с критерием</li>
+    <li>У каждой находки есть число «сколько из пяти» и цитата</li>
+    <li>Серьёзность проставлена по матрице, а не на глаз</li>
+    <li>Сценарии с деньгами и необратимыми действиями подняты в серьёзности вручную</li>
+    <li>Экран переделан по верхним трём</li>
+    <li>Трассировка есть, включая строки «не меняем и почему»</li>
+    <li>Скриншоты «до и после» с нумерованными пометками</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Критерий придуман после теста.</b> Результат получен, а порог «двое из пяти» назначен задним числом — так, чтобы решение уцелело.</li>
+    <li><b>Проверяем «удобно ли вообще».</b> Без конкретного решения тест превращается в сбор впечатлений, и переделывать после него нечего.</li>
+    <li><b>Слова из интерфейса в заданиях.</b> Самая незаметная ошибка уровня: вы пишете задание своим языком и не слышите в нём подсказок.</li>
+    <li><b>Находки без числа.</b> «Участники не находят отмену» вместо «трое из пяти» — и невозможно понять, насколько это серьёзно.</li>
+    <li><b>Серьёзность по громкости жалобы.</b> Кто эмоциональнее возмущался, того и чиним. Матрица существует ровно для того, чтобы этого не делать.</li>
+    <li><b>Чиним всё подряд.</b> Двадцать правок по двадцати находкам, включая мнения одного человека о размере шрифта.</li>
+    <li><b>Правки без находок.</b> Заодно поправили ещё десять мест, потому что руки дошли, — и теперь непонятно, что дал тест.</li>
+    <li><b>Немодерируемый тест на сыром прототипе.</b> Участник решает, что сломался он, бросает сессию, и вы получаете пустые записи.</li>
+    <li><b>Повторный тест на тех же людях.</b> Они уже знают маршрут; вы измеряете их память.</li>
+    <li><b>Отчёт вместо экрана.</b> Красивая презентация, нетронутый макет, через месяц про тест никто не помнит.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Где проходит граница уровней</h2></div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Провести тест по готовому сценарию, не подсказывая; отличать задание от инструкции; вести протокол с действиями, репликами и остановками; отличать «не смог» от «неудобно»</td>
+          <td class="dim">В протоколе видно место остановки и что участник пытался сделать</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Сформулировать проверяемое решение и критерий провала; написать задания без лексики интерфейса; выбрать формат и обосновать; разложить находки по серьёзности; довести верхние до переделанного экрана</td>
+          <td>Есть «до и после» и строка про каждую правку — какую находку она закрывает</td>
+        </tr>
+        <tr>
+          <td>Senior</td>
+          <td>Встроить тестирование в ритм команды как регулярную практику; выбирать метод под задачу и бюджет; разбирать чужие сценарии и протоколы; учить команду модерировать; связывать находки с метриками; отстаивать результаты перед теми, кому они неудобны</td>
+          <td>Тесты идут без вашего участия, а их результаты доходят до продукта</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Юзабилити-тесты», уровень Middle. Сквозной пример — находка про отмену заказа из предыдущего уровня, доведённая до переделанного экрана. Что почитать дальше: Стив Круг, «Rocket Surgery Made Easy» — про регулярное тестирование малыми силами; материалы Nielsen Norman Group про шкалы серьёзности и про выбор между модерируемым и немодерируемым форматом; Том Тьюлис и Билл Альберт, «Measuring the User Experience» — если захочется считать, а не только наблюдать.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'ok', label: 'Рабочий критерий' }, { key: 'no', label: 'Негодный — переписать' }],
+    [
+      { t: '<q>4 из 5 находят отмену заказа сами, без подсказок, за 30 секунд.</q>', a: 'ok',
+        fb: 'Есть действие, порог, условие «сам» и время. По такому критерию после теста не поспоришь.' },
+      { t: '<q>Участникам должно быть понятно, как отменить заказ.</q>', a: 'no',
+        fb: '«Понятно» — оценка, а не наблюдаемое действие. И нет порога: понятно скольким из скольких?' },
+      { t: '<q>Никто не возвращается с шага оплаты назад в корзину, чтобы проверить сумму.</q>', a: 'ok',
+        fb: 'Действие наблюдаемое, порог жёсткий («никто»), проверяется по записи однозначно.' },
+      { t: '<q>Новый экран должен работать лучше старого.</q>', a: 'no',
+        fb: 'Нет ни действия, ни порога, ни способа измерить «лучше». Под такой критерий подойдёт любой результат.' },
+      { t: '<q>3 из 5 применяют хотя бы один фильтр, не спрашивая меня, где он.</q>', a: 'ok',
+        fb: 'Обратите внимание на «не спрашивая меня» — это и есть условие «сам», без которого критерий выполняется всегда.' },
+      { t: '<q>Участники находят кнопку быстро.</q>', a: 'no',
+        fb: 'Сколько участников и что такое «быстро»? Два неопределённых места — значит, после теста их определите вы, задним числом и в свою пользу.' },
+      { t: '<q>Двое и больше выбирают не тот способ доставки и не замечают этого.</q>', a: 'ok',
+        fb: 'Отличный критерий провала: описывает самый опасный тип ошибки — когда человек уверен, что справился.' },
+      { t: '<q>Тест покажет, насколько удобен новый фильтр.</q>', a: 'no',
+        fb: 'Это описание намерения, а не критерий. Нет исхода, при котором вы признаете решение неудачным, — значит, тест ничего не решит.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Ты формулируешь критерии, которые нельзя переиграть после теста. Это главное отличие уровня.'
+        : s >= 5 ? 'Неплохо. Проверяй каждый критерий по трём точкам: наблюдаемое действие, порог, условие «сам».'
+        : 'Вернись к разделу 2. Признак негодного критерия — вы не можете назвать исход, при котором признаете решение неудачным.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'a', label: 'Находка А' }, { key: 'b', label: 'Находка Б' }],
+    [
+      { t: '<b>А.</b> 1 из 5 оплатил не той картой и не заметил.<br><b>Б.</b> 4 из 5 жалуются, что список грузится медленно, но все дошли до конца.', a: 'a',
+        fb: 'А — «сделал не то и не заметил»: критично при любой частоте. Б — раздражает, но сценарий проходит. Деньги и необратимость всегда перевешивают.' },
+      { t: '<b>А.</b> 3 из 5 не нашли, как удалить адрес доставки, и бросили.<br><b>Б.</b> 5 из 5 сказали, что иконки слишком мелкие.', a: 'a',
+        fb: 'А блокирует задание у большинства. Б — мнение, задания при этом выполнены. Единогласное мнение не становится проблемой от того, что оно единогласное.' },
+      { t: '<b>А.</b> 2 из 5 блуждали по экрану 40 секунд, но справились.<br><b>Б.</b> 2 из 5 не выполнили задание совсем.', a: 'b',
+        fb: 'Одинаковая частота, разное влияние: «не выполнил» тяжелее «сделал медленно». Сначала смотрим на влияние, потом на число.' },
+      { t: '<b>А.</b> 1 из 5 не смог отменить подписку.<br><b>Б.</b> 3 из 5 не сразу нашли, где посмотреть историю платежей, но нашли.', a: 'a',
+        fb: 'Отмена подписки — сценарий с деньгами и с ощущением ловушки. Такие поднимаются на уровень выше вручную, даже при частоте 1 из 5.' },
+      { t: '<b>А.</b> 5 из 5 не заметили промо-баннер на главной.<br><b>Б.</b> 2 из 5 отправили форму с ошибкой в телефоне и не увидели предупреждения.', a: 'b',
+        fb: 'Б — тихая ошибка, из-за которой человек не получит звонок. А — неудача маркетинга, но ни одно пользовательское задание из-за неё не провалено.' },
+      { t: '<b>А.</b> 2 из 5 дважды нажали «Оплатить», испугавшись, что не сработало.<br><b>Б.</b> 4 из 5 назвали цветовую схему скучной.', a: 'a',
+        fb: 'Двойное нажатие на оплате — риск двойного списания. Классический случай, когда за «мелкой» заминкой стоит крупная цена ошибки.' }
+    ],
+    function (s, n) {
+      return s >= 5 ? 'Ты приоритизируешь по влиянию и цене ошибки, а не по громкости. Именно так и надо.'
+        : s >= 3 ? 'Близко. Держи в голове порядок: сначала «что происходит с человеком», потом «у скольких», и только потом всё остальное.'
+        : 'Перечитай раздел 6. Особенно про вторую строку матрицы и про сценарии с деньгами и необратимыми действиями.';
+    }
+  );
+
+  /* ── word highlighter ── */
+  (function () {
+    var host = document.getElementById('whHost'); if (!host) return;
+    var meta = document.getElementById('whMeta'), fbEl = document.getElementById('whFb');
+    var checkB = document.getElementById('whCheck'), cnt = document.getElementById('whCount');
+    /* tokens: [text, isInterfaceWord] */
+    var TOKENS = [
+      ['Зайдите', 0], ['в', 0], ['личный кабинет', 1], [',', 0], ['откройте', 0], ['историю заказов', 1], [',', 0],
+      ['найдите', 0], ['заказ', 0], ['номер', 0], ['1042', 0], ['и', 0], ['оформите возврат', 1], [' ', 0],
+      ['через', 0], ['форму', 1], ['внизу', 0], ['карточки товара', 1], ['.', 0]
+    ];
+    var picked = {}, checked = false;
+    var totalTargets = TOKENS.filter(function (t) { return t[1]; }).length;
+
+    function render() {
+      var p = document.createElement('p');
+      p.className = 'wh-text';
+      TOKENS.forEach(function (t, idx) {
+        if (/^[,.\s]+$/.test(t[0])) { p.appendChild(document.createTextNode(t[0] === ' ' ? ' ' : t[0] + ' ')); return; }
+        var s = document.createElement('span');
+        s.className = 'w'; s.textContent = t[0]; s.dataset.i = idx;
+        if (picked[idx]) s.classList.add('picked');
+        if (checked) {
+          s.style.cursor = 'default';
+          if (t[1] && picked[idx]) s.className = 'w picked';
+          else if (t[1] && !picked[idx]) s.className = 'w missed';
+          else if (!t[1] && picked[idx]) s.className = 'w wrongpick';
+          else s.className = 'w';
+        } else {
+          s.addEventListener('click', function () {
+            picked[idx] = !picked[idx];
+            render();
+          });
+        }
+        p.appendChild(s);
+        p.appendChild(document.createTextNode(' '));
+      });
+      host.innerHTML = '';
+      host.appendChild(p);
+      var n = Object.keys(picked).filter(function (k) { return picked[k]; }).length;
+      cnt.textContent = checked ? '' : 'отмечено: ' + n;
+      if (!checked) meta.innerHTML = '<span>В этом задании спрятано ' + totalTargets + ' слова из интерфейса.</span>';
+    }
+
+    checkB.addEventListener('click', function () {
+      if (checked) {
+        checked = false; picked = {}; fbEl.className = 'wh-fb'; checkB.textContent = 'Проверить'; render(); return;
+      }
+      checked = true;
+      var hit = 0, wrong = 0;
+      TOKENS.forEach(function (t, idx) {
+        if (t[1] && picked[idx]) hit++;
+        if (!t[1] && picked[idx]) wrong++;
+      });
+      render();
+      meta.innerHTML = '<span style="color:var(--bad)">Нашёл: ' + hit + ' из ' + totalTargets + '</span>' +
+        (wrong ? '<span style="color:var(--muted)">Лишних отмечено: ' + wrong + '</span>' : '');
+      fbEl.className = 'wh-fb on';
+      fbEl.innerHTML = '<b>Разбор</b>' +
+        '<b style="display:inline;font-weight:600">«личный кабинет»</b> — название раздела. Участник пойдёт искать надпись, а не думать, где лежат его заказы.<br>' +
+        '<b style="display:inline;font-weight:600">«историю заказов»</b> — название экрана. То же самое.<br>' +
+        '<b style="display:inline;font-weight:600">«оформите возврат»</b> — надпись на кнопке. Самая вредная подсказка: она называет ровно то действие, найдёт ли его человек.<br>' +
+        '<b style="display:inline;font-weight:600">«форму»</b> и <b style="display:inline;font-weight:600">«карточки товара»</b> — жаргон команды. Пользователи так не говорят, а услышав, начинают искать соответствие.' +
+        '<div class="wh-fix"><b>Как надо:</b> «Вы купили кроссовки, но они не подошли по размеру. Сделайте так, чтобы вам вернули деньги». Ни одного слова из интерфейса — и видно, куда человек полезет сам.</div>';
+      checkB.textContent = 'Ещё раз';
+    });
+
+    render();
+  })();
+
+  /* ── format chooser ── */
+  (function () {
+    var qEl = document.getElementById('chQ'), oEl = document.getElementById('chOpts');
+    if (!qEl) return;
+    var stage = document.getElementById('chStage'), res = document.getElementById('chRes');
+    var prog = document.getElementById('chProg'), step = document.getElementById('chStep');
+    var resetB = document.getElementById('chReset');
+    var QS = [
+      { q: 'Что вам нужнее прямо сейчас?',
+        a: [{ t: 'Понять, <b>почему</b> люди делают не то', s: 'mod', d: 'Причины, модель мышления, ожидания' },
+            { t: 'Узнать, <b>где именно</b> и как часто спотыкаются', s: 'un', d: 'Проходимость, места отвала, числа' }] },
+      { q: 'В каком состоянии то, что тестируем?',
+        a: [{ t: 'Черновой прототип, работает не всё', s: 'mod', d: 'Нужно будет объяснять ограничения' },
+            { t: 'Рабочий продукт или полный кликабельный прототип', s: 'un', d: 'Человек пройдёт сам без объяснений' }] },
+      { q: 'Сколько у вас времени?',
+        a: [{ t: 'Полторы недели есть', s: 'mod', d: 'Успеем найти людей и поговорить' },
+            { t: 'Нужен результат за пару дней', s: 'un', d: 'Рекрутинг внутри сервиса, записи приходят сразу' }] },
+      { q: 'Насколько длинный сценарий?',
+        a: [{ t: 'Длинный или с ветками и условиями', s: 'mod', d: 'Нужно подстраиваться по ходу' },
+            { t: 'Короткие самостоятельные задания по 2–3 минуты', s: 'un', d: 'Человек справится без сопровождения' }] }
+    ];
+    var i = 0, score = { mod: 0, un: 0 };
+
+    function paint() {
+      qEl.innerHTML = QS[i].q;
+      oEl.innerHTML = '';
+      QS[i].a.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'ch-opt';
+        b.innerHTML = '<b>' + o.t + '</b><span>' + o.d + '</span>';
+        b.addEventListener('click', function () { score[o.s]++; adv(); });
+        oEl.appendChild(b);
+      });
+      prog.style.width = (i / QS.length * 100) + '%';
+      step.textContent = (i + 1) + ' из ' + QS.length;
+    }
+    function adv() {
+      i++;
+      if (i < QS.length) { paint(); return; }
+      stage.style.display = 'none';
+      res.className = 'ch-res on';
+      var winner = score.mod >= score.un ? 'mod' : 'un';
+      var tie = score.mod === score.un;
+      var txt = tie
+        ? '<b>Ровно пополам — берите связку.</b> Сначала немодерируемый прогон на 15–20 людях, чтобы увидеть, где именно спотыкаются, потом 5 модерируемых на самом проблемном месте, чтобы понять причину. Это самый частый рабочий сценарий на практике.'
+        : winner === 'mod'
+          ? '<b>Модерируемый тест.</b> Ваши ответы указывают на причины, гибкость и на то, что материал ещё сырой, — здесь нужен живой ведущий. Ограничение, которое надо честно назвать: 5–8 человек не покажут масштаб проблемы, только её механизм.'
+          : '<b>Немодерируемый тест.</b> Ваши ответы указывают на скорость, объём и готовый прототип — берите сервис с записью экрана и запускайте на 15–30 человек. Ограничение: вы не сможете переспросить, поэтому задания должны быть очень короткими и однозначными, а брошенные сессии — нормальный расход.';
+      res.innerHTML = '<p style="margin-top:0;max-width:none;font-size:15px">' + txt + '</p>' +
+        '<div class="ch-score">' +
+        '<div class="ch-side' + (winner === 'mod' && !tie ? ' win' : '') + '"><h5>Модерируемый</h5><span class="pts">' + score.mod + '</span> <span class="lbl">из 4 ответов</span></div>' +
+        '<div class="ch-side' + (winner === 'un' && !tie ? ' win' : '') + '"><h5>Немодерируемый</h5><span class="pts">' + score.un + '</span> <span class="lbl">из 4 ответов</span></div>' +
+        '</div>';
+      resetB.style.display = '';
+    }
+    resetB.addEventListener('click', function () {
+      i = 0; score = { mod: 0, un: 0 };
+      res.className = 'ch-res'; stage.style.display = '';
+      resetB.style.display = 'none'; paint();
+    });
+    paint();
+  })();
+
+  /* ── severity matrix ── */
+  (function () {
+    var mx = document.getElementById('mx'); if (!mx) return;
+    var out = document.getElementById('mxOut');
+    var ROWS = [
+      { n: 'Блокирует сценарий', ex: 'Трое из пяти не нашли отмену заказа и сдались — ровно наш случай из сводки.' },
+      { n: 'Сделал не то и не заметил', ex: 'Участник оформил доставку не туда и сказал «готово». В жизни он узнает об этом после доставки.' },
+      { n: 'Сильно замедляет', ex: 'Участник блуждал 40 секунд, возвращался назад трижды, но дошёл.' },
+      { n: 'Раздражает', ex: 'Лишний шаг, который человек проходит с досадой, но без затруднений.' },
+      { n: 'Косметика и мнение', ex: '«Статус какой-то мелкий» при выполненном без затруднений задании.' }
+    ];
+    var LEV = {
+      s3: { t: 'Критично', d: 'В работу сразу, без обсуждения приоритета. Если таких находок больше двух — решение переделывается целиком, а не правится точечно.' },
+      s2: { t: 'Высокая', d: 'В ближайший спринт. Обычно именно эти находки и составляют «верхние три», которые нужно довести до экрана.' },
+      s1: { t: 'Низкая', d: 'В бэклог. Чинить, когда будете касаться этого места по другой причине, — отдельный спринт под это не выделяют.' },
+      s0: { t: 'Мелочь', d: 'Записать и не трогать. Сюда же уходят все мнения о цветах, размерах и формулировках, не повлиявшие на результат.' }
+    };
+    mx.addEventListener('click', function (e) {
+      var c = e.target.closest('.cell'); if (!c) return;
+      Array.prototype.forEach.call(mx.querySelectorAll('.cell'), function (x) { x.classList.remove('sel'); });
+      c.classList.add('sel');
+      var lev = c.className.match(/s[0-3]/)[0];
+      var row = ROWS[+c.dataset.i], f = c.dataset.f;
+      out.innerHTML = '<b>' + row.n + ' · ' + f + ' из 5 → ' + LEV[lev].t + '</b>' +
+        LEV[lev].d + '<br><span class="dim" style="display:block;margin-top:7px">Пример: ' + row.ex + '</span>';
+    });
+  })();
+})();
+</script>
+</body>
+</html>
