@@ -78,7 +78,8 @@ foreach ( $ds_areas as $ds_area ) {
 		foreach ( $ds_skill['opts'] as $ds_i => $ds_opt ) {
 			$ds_id = $ds_name . '-' . (int) $ds_i;
 
-			$ds_out .= '<label class="ds-check__opt" for="' . esc_attr( $ds_id ) . '">';
+			// Переключатель лежит внутри метки, поэтому атрибут `for` не нужен: он избыточен и невалиден.
+			$ds_out .= '<label class="ds-check__opt">';
 			$ds_out .= '<input type="radio" id="' . esc_attr( $ds_id ) . '" name="' . esc_attr( $ds_name ) . '"'
 				. ' value="' . esc_attr( (string) $ds_i ) . '" data-grade="' . esc_attr( (string) $ds_opt['grade'] ) . '">';
 			$ds_out .= '<span>' . esc_html( $ds_opt['text'] ) . '</span>';

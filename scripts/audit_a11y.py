@@ -9,8 +9,13 @@ axe ставится один раз: `npm install axe-core --prefix .tmp/audit 
 import argparse
 import json
 import pathlib
+import sys
 
 from playwright.sync_api import sync_playwright
+
+# Консоль Windows живёт в cp1251 и падает на «×» и русских буквах: вывод переключаем на UTF-8.
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 AXE = ROOT / ".tmp/audit/node_modules/axe-core/axe.min.js"

@@ -311,6 +311,19 @@ function designstack_core_title_parts( array $parts ): array {
 		}
 	}
 
+	// У урока заголовок страницы длинный и читается как фраза: в выдаче он обрежется
+	// на середине. Во вкладку и в выдачу ставим короткое «навык · ступень», а длинный
+	// заголовок остаётся на самой странице. Проверка — `npx html-validate`, правило long-title.
+	if ( is_singular( 'lesson' ) ) {
+		$id    = get_queried_object_id();
+		$step  = designstack_core_step_label( (string) get_post_meta( $id, 'lesson_step', true ) );
+		$terms = wp_get_post_terms( $id, 'skill' );
+
+		if ( $step && ! is_wp_error( $terms ) && $terms ) {
+			$parts['title'] = $terms[0]->name . ' · ' . $step;
+		}
+	}
+
 	$what = designstack_core_single_filter_label();
 
 	if ( '' !== $what ) {

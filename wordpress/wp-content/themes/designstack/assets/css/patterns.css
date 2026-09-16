@@ -2522,11 +2522,11 @@ textarea.ds-field__control {
 }
 
 .ds-lesson__pair--bad .ds-lesson__mark {
-	color: var(--wp--preset--color--text-error);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__pair--good .ds-lesson__mark {
-	color: var(--wp--preset--color--text-action);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__why {
@@ -2588,7 +2588,7 @@ textarea.ds-field__control {
 	font-size: var(--wp--preset--font-size--xs);
 	font-weight: 700;
 	background: var(--wp--preset--color--surface-subtle);
-	color: var(--wp--preset--color--text-action);
+	color: var(--wp--preset--color--text-default);
 }
 
 /* Реплика, которую произносят вслух: формулировка согласия, приглашение, сценарий. */
@@ -2856,12 +2856,12 @@ textarea.ds-field__control {
 	font-size: var(--wp--preset--font-size--xs);
 	font-weight: 700;
 	background: var(--wp--preset--color--bg-error);
-	color: var(--wp--preset--color--text-error);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__flaw--fix {
 	background: var(--wp--preset--color--surface-selected);
-	color: var(--wp--preset--color--text-action);
+	color: var(--wp--preset--color--text-default);
 }
 
 /* Воронка: задача → известное → гипотезы → вопросы. Каждая ступень уже предыдущей. */
@@ -2958,17 +2958,17 @@ textarea.ds-field__control {
 
 .ds-lesson__verdict--keep {
 	background: var(--wp--preset--color--surface-selected);
-	color: var(--wp--preset--color--text-action);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__verdict--kill {
 	background: var(--wp--preset--color--bg-error);
-	color: var(--wp--preset--color--text-error);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__verdict--hold {
 	background: var(--wp--preset--color--bg-warning);
-	color: var(--wp--preset--color--icon-warning);
+	color: var(--wp--preset--color--text-default);
 }
 
 /* Переключатель черновика и чистовика. Без скрипта видны обе панели со своими подписями. */
@@ -3046,22 +3046,22 @@ textarea.ds-field__control {
 
 .ds-lesson__mk--stop {
 	background: var(--wp--preset--color--bg-error);
-	color: var(--wp--preset--color--text-error);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__mk--think {
 	background: var(--wp--preset--color--bg-warning);
-	color: var(--wp--preset--color--icon-warning);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__mk--cut {
 	background: var(--wp--preset--color--surface-subtle);
-	color: var(--wp--preset--color--text-muted);
+	color: var(--wp--preset--color--text-default);
 }
 
 .ds-lesson__mk--miss {
 	background: var(--wp--preset--color--surface-selected);
-	color: var(--wp--preset--color--text-action);
+	color: var(--wp--preset--color--text-default);
 }
 
 /* Замечание к чужому вопросу. Без скрипта видно сразу; скрипт прячет его за кнопкой,
