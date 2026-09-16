@@ -43,6 +43,24 @@ function designstack_theme_mode_script() {
 add_action( 'wp_head', 'designstack_theme_mode_script', 0 );
 
 /**
+ * SVG-фавикон рядом с PNG из настроек WordPress.
+ *
+ * Вектор не мылится ни на каком экране и меняет цвет под тёмную панель браузера;
+ * браузер берёт его, если умеет, иначе остаётся PNG из `site_icon`. Яндекс советует
+ * именно SVG или кадр от 120×120 (письмо Вебмастера 16.09.2026).
+ *
+ * @return void
+ */
+function designstack_svg_favicon() {
+	printf(
+		'<link rel="icon" type="image/svg+xml" href="%s" />' . "
+",
+		esc_url( get_theme_file_uri( 'assets/img/favicon.svg' ) )
+	);
+}
+add_action( 'wp_head', 'designstack_svg_favicon', 2 );
+
+/**
  * Asset version from the file time.
  *
  * @param string $relative Path inside the theme.

@@ -38,6 +38,7 @@ require_once DESIGNSTACK_CORE_DIR . 'includes/form.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/seo.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/schema.php';
 require_once DESIGNSTACK_CORE_DIR . 'includes/metrika.php';
+require_once DESIGNSTACK_CORE_DIR . 'includes/indexnow.php';
 
 if ( is_admin() ) {
 	require_once DESIGNSTACK_CORE_DIR . 'admin/meta-box.php';

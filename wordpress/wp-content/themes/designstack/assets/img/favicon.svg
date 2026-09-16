@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DesignStack">
+  <style>
+    /* Цвета вписаны числом: отдельный файл иконки не видит переменных theme.json.
+       Значения — accent-500 и accent-200 из docs/ds/foundation.md. */
+    .ds-mark { fill: #037A8F }
+    @media (prefers-color-scheme: dark) { .ds-mark { fill: #54B4C9 } }
+  </style>
+  <g class="ds-mark">
+    <polygon points="32,5 56,17 32,29 8,17"/>
+    <polygon points="32,20 56,32 32,44 8,32" opacity=".72"/>
+    <polygon points="32,35 56,47 32,59 8,47" opacity=".45"/>
+  </g>
+</svg>
