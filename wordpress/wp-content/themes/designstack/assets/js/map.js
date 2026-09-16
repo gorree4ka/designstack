@@ -98,3 +98,48 @@
 		again.className = 'ds-button ds-button--secondary';
 	}
 }() );
+
+/**
+ * Отметки пройденных и начатых уроков.
+ *
+ * Отдельным проходом от ступени выше: память уроков есть и у тех, кто проверку грейда
+ * не проходил, а тот код выходит раньше без ответов.
+ */
+( function () {
+	'use strict';
+
+	var root = document.querySelector( '[data-map]' );
+
+	if ( ! root ) {
+		return;
+	}
+
+	var kept = null;
+
+	try {
+		kept = JSON.parse( localStorage.getItem( 'designstack-lessons' ) || 'null' );
+	} catch ( e ) {
+		kept = null;
+	}
+
+	if ( ! kept || 'object' !== typeof kept ) {
+		return;
+	}
+
+	Array.prototype.forEach.call( root.querySelectorAll( 'a[data-map-lesson]' ), function ( link ) {
+		// Слаг урока берём из адреса: карта рисуется на сервере и про память браузера не знает.
+		var parts = link.getAttribute( 'href' ).replace( /\/+$/, '' ).split( '/' );
+		var one = kept[ parts[ parts.length - 1 ] ];
+
+		if ( ! one || 'object' !== typeof one ) {
+			return;
+		}
+
+		var mark = document.createElement( 'span' );
+
+		mark.className = 'ds-map__mark';
+		mark.textContent = one.done ? '· пройден' : '· начат';
+		link.classList.add( one.done ? 'is-passed' : 'is-started' );
+		link.appendChild( mark );
+	} );
+}() );

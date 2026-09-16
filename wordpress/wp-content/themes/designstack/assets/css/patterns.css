@@ -2348,6 +2348,53 @@ textarea.ds-field__control {
 	}
 }
 
+/* ---------- память урока ---------- */
+
+/* Строка возврата стоит над текстом и ничего не перекрывает: страница читается сверху,
+   если человек на кнопку не нажал. */
+/* `:not([hidden])` обязателен: любой `display` перебивает браузерное `[hidden] { display: none }`,
+   и строка осталась бы на экране после нажатия «Продолжить». */
+.ds-resume:not([hidden]) {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--6);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-resume__text {
+	flex: 1 1 var(--wp--custom--size--measure-lead);
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Итог прошлого прохода тренажёра: справка, а не результат — поэтому мелким и приглушённым. */
+.ds-quiz__was {
+	margin: 0 0 var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson-nav__done {
+	margin: 0;
+}
+
+/* Отметки в карте: «пройден» и «начат» пришли из памяти браузера, а не с сервера. */
+.ds-map__mark {
+	margin-left: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Пройденный урок выделяется насыщенностью, а не цветом: семантический зелёный заведён под иконки
+   и проверен на 3:1, а тексту нужно 4,5:1 (D157). */
+.ds-map__lesson.is-passed .ds-map__mark {
+	color: var(--wp--preset--color--text-default);
+}
+
 /* ---------- что дальше после урока ---------- */
 
 /* Урок читают двадцать пять минут, и без этого блока за последней строкой шёл подвал сайта:

@@ -72,7 +72,12 @@ if ( ! $ds_next && ! $ds_map ) {
 	return;
 }
 
-$ds_out = '<nav class="ds-lesson-nav" aria-label="' . esc_attr__( 'Что дальше', 'designstack-core' ) . '">';
+// Слаг урока нужен скрипту памяти: под ним в браузере лежит место в тексте и отметка «пройден».
+$ds_out = '<nav class="ds-lesson-nav" aria-label="' . esc_attr__( 'Что дальше', 'designstack-core' ) . '"'
+	. ' data-lesson="' . esc_attr( (string) get_post_field( 'post_name', $ds_id ) ) . '">';
+
+// Кнопку отметки рисует скрипт: без него она была бы мёртвой — сохранять отметку некуда.
+$ds_out .= '<p class="ds-lesson-nav__done" data-lesson-done hidden></p>';
 
 if ( $ds_url ) {
 	$ds_out .= '<a class="ds-lesson-nav__next" href="' . esc_url( $ds_url ) . '" data-track="lesson-next" data-track-source="' . esc_attr( $ds_step ) . '">'

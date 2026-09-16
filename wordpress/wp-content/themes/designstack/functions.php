@@ -127,6 +127,21 @@ function designstack_enqueue_assets() {
 		);
 	}
 
+	// Память урока: место в тексте, итог тренажёра и отметка «пройден».
+	// Отдельным файлом: тренажёр работает и без памяти, а память нужна и там, где тренажёра нет.
+	if ( is_singular( 'lesson' ) ) {
+		wp_enqueue_script(
+			'designstack-lesson-progress',
+			get_theme_file_uri( 'assets/js/lesson-progress.js' ),
+			array(),
+			designstack_asset_version( 'assets/js/lesson-progress.js' ),
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
+
 	// Карта развития: подставляет ступень человека из ответов проверки и открывает нужный урок.
 	if ( is_singular() && ( has_block( 'designstack/skills-map' ) || designstack_is_template( 'page-map' ) ) ) {
 		wp_enqueue_script(
