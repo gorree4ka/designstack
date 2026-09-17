@@ -3,7 +3,8 @@
  * формата, учебная матрица, разбор заявок, прикидка объёма, конструктор текста,
  * лесенка причин, сборка сценария, поиск дыр на схеме, сортировка карточек,
  * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
- * разметка вариантов ответа и калькулятор «вилки».
+ * разметка вариантов ответа, калькулятор «вилки», прищур-тест и проход
+ * по прототипу с поиском тупиков.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -2203,5 +2204,274 @@
 		}
 
 		count();
+	}() );
+	/* ── вид чернового экрана: прищур и подсветка различий ─────────────────
+	   Кнопка без скрипта ничего не делает, поэтому её создаёт скрипт. Обе
+	   подписи — «Прищуриться» и «Вернуть резкость» — приходят из урока. */
+	[ 'squint', 'diff' ].forEach( function ( name ) {
+		var place = document.querySelector( '[data-' + name + '-actions]' );
+		var row = document.querySelector( '[data-' + name + '-row]' );
+
+		if ( ! place || ! row ) {
+			return;
+		}
+
+		var off = place.getAttribute( 'data-' + name + '-off' ) || '';
+		var on = place.getAttribute( 'data-' + name + '-on' ) || off;
+		var btn = button( off );
+
+		btn.setAttribute( 'aria-pressed', 'false' );
+		btn.addEventListener( 'click', function () {
+			var live = row.classList.toggle( 'is-' + name );
+
+			btn.setAttribute( 'aria-pressed', String( live ) );
+			btn.textContent = live ? on : off;
+		} );
+		place.appendChild( btn );
+	} );
+
+	/* ── проход по прототипу ───────────────────────────────────────────────
+	   Без скрипта экраны идут подряд, каждый со своим пояснением, и сценарий
+	   читается целиком. Скрипт оставляет на виду один экран, ведёт журнал
+	   переходов и считает найденные тупики. Пояснение к тупику скрипт берёт
+	   из свёрнутого списка в разметке — своих фраз у него нет. */
+	( function () {
+		var root = document.querySelector( '[data-proto]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var stage = root.querySelector( '[data-proto-stage]' );
+		var fb = root.querySelector( '[data-proto-fb]' );
+		var log = root.querySelector( '[data-proto-log]' );
+		var out = document.querySelector( '[data-proto-count-out]' );
+		var place = root.querySelector( '[data-proto-actions]' );
+		var backPlace = root.querySelector( '[data-proto-stub-actions]' );
+		var stubTitle = root.querySelector( '[data-proto-stub-title]' );
+		var stubText = root.querySelector( '[data-proto-stub-text]' );
+
+		if ( ! stage || ! fb || ! log ) {
+			return;
+		}
+
+		var screens = Array.prototype.slice.call( stage.querySelectorAll( '[data-screen]' ) );
+		var deads = Array.prototype.slice.call( root.querySelectorAll( '[data-proto-dead]' ) );
+		var mains = screens.filter( function ( screen ) {
+			return screen.hasAttribute( 'data-screen-main' );
+		} );
+
+		if ( ! screens.length || ! mains.length ) {
+			return;
+		}
+
+		var stubScreen = stubText ? stubText.closest( '[data-screen]' ) : null;
+		var stubId = stubScreen ? stubScreen.getAttribute( 'data-screen' ) : '';
+		var first = mains[ 0 ].getAttribute( 'data-screen' );
+		var last = mains[ mains.length - 1 ].getAttribute( 'data-screen' );
+		var seen = {};
+		var hits = {};
+		var current = first;
+		var stubReturn = first;
+
+		function word( name ) {
+			return root.getAttribute( 'data-proto-' + name ) || '';
+		}
+
+		function nameOf( id ) {
+			for ( var i = 0; i < screens.length; i++ ) {
+				if ( screens[ i ].getAttribute( 'data-screen' ) === id ) {
+					return screens[ i ].getAttribute( 'data-screen-name' ) || id;
+				}
+			}
+
+			return id;
+		}
+
+		function explain( key ) {
+			for ( var i = 0; i < deads.length; i++ ) {
+				if ( deads[ i ].getAttribute( 'data-proto-dead' ) !== key ) {
+					continue;
+				}
+
+				var copy = deads[ i ].cloneNode( true );
+				var head = copy.querySelector( 'b' );
+
+				if ( head ) {
+					head.parentNode.removeChild( head );
+				}
+
+				return copy.textContent.trim();
+			}
+
+			return '';
+		}
+
+		function show( id ) {
+			screens.forEach( function ( screen ) {
+				screen.hidden = screen.getAttribute( 'data-screen' ) !== id;
+			} );
+		}
+
+		function count() {
+			if ( ! out ) {
+				return;
+			}
+
+			var done = mains.filter( function ( screen ) {
+				return seen[ screen.getAttribute( 'data-screen' ) ];
+			} ).length;
+
+			out.textContent = word( 'count' ).replace( '{экранов}', done ).replace( '{тупиков}', found() );
+			out.hidden = false;
+		}
+
+		function found() {
+			var n = 0;
+			var key;
+
+			for ( key in hits ) {
+				if ( Object.prototype.hasOwnProperty.call( hits, key ) ) {
+					n++;
+				}
+			}
+
+			return n;
+		}
+
+		function mark( sign, text, tail ) {
+			var li = document.createElement( 'li' );
+			var strong = document.createElement( 'b' );
+
+			li.appendChild( document.createTextNode( sign ) );
+			strong.textContent = text;
+			li.appendChild( strong );
+
+			if ( tail ) {
+				li.appendChild( document.createTextNode( tail ) );
+			}
+
+			log.appendChild( li );
+			log.hidden = false;
+		}
+
+		function say( head, text, kind ) {
+			fb.className = 'ds-lesson__proto-fb' + ( kind ? ' is-' + kind : '' );
+			fb.innerHTML = '';
+
+			if ( head ) {
+				var strong = document.createElement( 'b' );
+
+				strong.textContent = head;
+				fb.appendChild( strong );
+			}
+
+			if ( text ) {
+				fb.appendChild( document.createTextNode( text ) );
+			}
+
+			fb.hidden = ! head && ! text;
+		}
+
+		function goTo( id, label ) {
+			if ( label ) {
+				mark( '→ ' + nameOf( current ) + ' → ', nameOf( id ), ' (' + label + ')' );
+			}
+
+			current = id;
+			seen[ id ] = true;
+			show( id );
+
+			if ( id === last ) {
+				say(
+					word( 'done-head' ),
+					word( 'done' ).replace( '{тупиков}', found() ) +
+						( found() >= deads.length ? word( 'done-all' ) : word( 'done-rest' ) ),
+					'good'
+				);
+			} else {
+				say( '', '', '' );
+			}
+
+			count();
+		}
+
+		stage.addEventListener( 'click', function ( event ) {
+			var btn = event.target.closest( 'button' );
+
+			if ( ! btn ) {
+				return;
+			}
+
+			var go = btn.getAttribute( 'data-go' );
+			var dead = btn.getAttribute( 'data-dead' );
+			var away = btn.getAttribute( 'data-out' );
+
+			if ( go ) {
+				goTo( go, btn.textContent.trim() );
+
+				return;
+			}
+
+			if ( dead ) {
+				btn.classList.add( 'is-hit' );
+				window.setTimeout( function () {
+					btn.classList.remove( 'is-hit' );
+				}, 1400 );
+
+				if ( ! hits[ dead ] ) {
+					hits[ dead ] = true;
+					mark( '✕ ' + word( 'word-dead' ) + ': ', dead );
+				}
+
+				say( word( 'dead-head' ), explain( dead ), 'bad' );
+				count();
+
+				return;
+			}
+
+			if ( away && stubId ) {
+				stubReturn = current;
+
+				if ( stubTitle ) {
+					stubTitle.textContent = away;
+				}
+
+				if ( stubText ) {
+					stubText.textContent = word( 'stub' ).replace( '{имя}', away );
+				}
+
+				show( stubId );
+				mark( '↗ ' + word( 'word-out' ) + ': ', away );
+				say( word( 'out-head' ), word( 'out-text' ) );
+			}
+		} );
+
+		if ( backPlace ) {
+			var backBtn = button( backPlace.getAttribute( 'data-proto-back' ) || 'Вернуться' );
+
+			backBtn.addEventListener( 'click', function () {
+				goTo( stubReturn );
+			} );
+			backPlace.appendChild( backBtn );
+		}
+
+		if ( place ) {
+			var reset = button( place.getAttribute( 'data-proto-reset' ) || 'Начать заново' );
+
+			reset.addEventListener( 'click', function () {
+				seen = {};
+				hits = {};
+				log.innerHTML = '';
+				log.hidden = true;
+				current = first;
+				stubReturn = first;
+				goTo( first );
+			} );
+			place.appendChild( reset );
+		}
+
+		root.setAttribute( 'data-proto-live', '' );
+		goTo( first );
 	}() );
 }() );

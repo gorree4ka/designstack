@@ -1,0 +1,689 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#what">Чем отличаются схема, вайрфрейм и макет</a><span class="ds-lesson__tag">три ступени</span></li>
+    <li><a href="#grey">Какой детализации достаточно для черновика</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#labels">Как писать реальные подписи</a> вместо «рыбы»<span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#main">Как выделить главное действие</a> без цвета<span class="ds-lesson__tag">прищур</span></li>
+    <li><a href="#fast">Как собрать черновой экран за десять минут</a></li>
+    <li><a href="#link">Как связать экраны переходами</a></li>
+    <li><a href="#run">Как проверить прототип и найти тупики</a><span class="ds-lesson__tag">прототип</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Возьмём карту сценария из предыдущей темы: <b>«человек оформляет заказ»</b> в интернет-магазине. В ней четыре шага: корзина, доставка, оплата, подтверждение заказа. По этой карте соберём вайрфреймы и кликабельный прототип, который можно пройти прямо в уроке.</div>
+
+<section id="what">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Схема, вайрфрейм, макет</h2></div>
+  <p class="ds-lesson__lead">Каждый инструмент помогает ответить на свой вопрос: куда человек идёт, что видит и как выглядит интерфейс.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Инструмент</th><th scope="col">Отвечает на вопрос</th><th scope="col">Что на нём видно</th><th scope="col">Когда обновлять</th></tr></thead>
+      <tbody>
+        <tr><td><b>Схема сценария</b></td><td>Куда человек идёт и откуда возвращается</td><td>Шаги, экраны, ветки, входы и выходы</td><td>Когда меняется сценарий</td></tr>
+        <tr><td><b>Вайрфрейм</b></td><td>Что человек видит на каждом шаге</td><td>Состав экрана, расположение элементов и главное действие</td><td>Пока уточняете структуру экрана</td></tr>
+        <tr><td><b>Макет</b></td><td>Как выглядит интерфейс</td><td>Цвет, шрифты, иллюстрации, состояния кнопок</td><td>Когда меняется интерфейс</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Схема у нас уже есть. Теперь превратим её блоки в экраны: <strong>для шага «Указывает, куда и когда везти» покажем поля адреса, выбор времени и кнопку перехода к оплате</strong>. Визуальное оформление можно будет проработать после того, как станет понятна структура.</p>
+
+  <h3>Один экран с разной детализацией</h3>
+  <p>Переключите вкладки и сравните набросок, вайрфрейм и макет. Чем больше деталей, тем больше работы может потребоваться при изменении экрана.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Экран «Доставка» · три ступени</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="tp1" hidden>1 · Набросок</button><button class="ds-switch__button" type="button" data-switch-btn="tp2" hidden>2 · Вайрфрейм</button><button class="ds-switch__button" type="button" data-switch-btn="tp3" hidden>3 · Макет</button></div>
+
+      <div data-switch-pane="tp1"><p class="ds-switch__title">1 · Набросок</p>
+        <div>
+          <div class="ds-lesson__wf ds-lesson__wf--sketch">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Доставка</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap">адрес</div>
+              <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap ds-lesson__wf-ph--lg">выбор дня и времени</div>
+              <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap ds-lesson__wf-ph--sm">комментарий курьеру</div>
+              <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap ds-lesson__wf-ph--sm">кнопка дальше</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Что здесь решаем</b>Какие блоки нужны на экране и в каком порядке их расположить. На набросок отведём пять минут; его можно сделать на бумаге. Уже сейчас получится обсудить, нужен ли комментарий курьеру, и быстро переставить или убрать блок.</div>
+      </div>
+
+      <div data-switch-pane="tp2"><p class="ds-switch__title">2 · Вайрфрейм</p>
+        <div>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap">карта с точкой доставки</div>
+              <div class="ds-lesson__wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="ds-lesson__wf-link" type="button">Изменить адрес</button>
+              <div class="ds-lesson__wf-block">
+                <div class="ds-lesson__wf-label">Когда привезти</div>
+                <div class="ds-lesson__wf-chips">
+                  <div class="ds-lesson__wf-chip is-on">завтра<br>10:00–14:00</div>
+                  <div class="ds-lesson__wf-chip">завтра<br>16:00–20:00</div>
+                  <div class="ds-lesson__wf-chip">12 марта<br>10:00–14:00</div>
+                </div>
+              </div>
+              <div class="ds-lesson__wf-field"><b>Комментарий курьеру</b>домофон не работает, позвоните</div>
+              <div class="ds-lesson__wf-sum"><span>Доставка</span><span>бесплатно от 2 000 ₽</span></div>
+              <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button">К оплате</button>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Что здесь решаем</b>Как расположить элементы и выделить главное действие. С реальными подписями видно, сколько места занимает адрес, чем отличаются три варианта доставки и куда ведёт кнопка «К оплате». На такой черновик отведём десять минут. Эта детализация нужна для задания.</div>
+      </div>
+
+      <div data-switch-pane="tp3"><p class="ds-switch__title">3 · Макет</p>
+        <div>
+          <div class="ds-lesson__wf ds-lesson__wf--mock">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap">карта</div>
+              <div class="ds-lesson__wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="ds-lesson__wf-link" type="button">Изменить адрес</button>
+              <div class="ds-lesson__wf-block">
+                <div class="ds-lesson__wf-label">Когда привезти</div>
+                <div class="ds-lesson__wf-chips">
+                  <div class="ds-lesson__wf-chip is-on">завтра<br>10:00–14:00</div>
+                  <div class="ds-lesson__wf-chip">завтра<br>16:00–20:00</div>
+                  <div class="ds-lesson__wf-chip">12 марта<br>10:00–14:00</div>
+                </div>
+              </div>
+              <div class="ds-lesson__wf-field"><b>Комментарий курьеру</b>домофон не работает, позвоните</div>
+              <div class="ds-lesson__wf-sum"><span>Доставка</span><span>бесплатно от 2 000 ₽</span></div>
+              <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button">К оплате</button>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Что здесь решаем</b>Как будет выглядеть интерфейс: выбираем цвет, шрифт, тени, вид карты. Структура остаётся прежней, но внимание уже могут привлекать детали оформления — например, синяя кнопка. Поэтому состав экрана удобнее обсудить на черновике.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Проходить все три этапа необязательно. Для простого экрана можно пропустить набросок. Если состав экрана ещё вызывает вопросы, стоит обсудить их до перехода к деталям.</div>
+  </div>
+
+  <h3>Когда вайрфрейм не нужен</h3>
+  <ul>
+    <li><strong>Мелкая правка в существующем интерфейсе.</strong> Поменять текст кнопки или порядок двух полей быстрее показать прямо в макете.</li>
+    <li><strong>Экран уже существует и не меняется.</strong> Для прототипа можно использовать готовый макет.</li>
+    <li><strong>Достаточно схемы.</strong> Если нужно разобраться только в переходах между шагами, отдельные вайрфреймы могут не понадобиться.</li>
+  </ul>
+</section>
+
+<section id="grey">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Почему вайрфрейм серый</h2></div>
+  <p class="ds-lesson__lead">Черновое оформление помогает сосредоточиться на составе экрана и действиях человека.</p>
+
+  <p>В этом уроке на вайрфрейме решаем три задачи: <strong>что есть на экране</strong>, <strong>где это расположено</strong> и <strong>что здесь главное</strong>. Подбор цвета, шрифтов, иллюстраций и скруглений пока отложим: они могут отвлечь от обсуждения структуры.</p>
+
+  <div class="ds-lesson__rule"><b>Показывайте ту степень детализации, которую готовы обсуждать.</b> Если сейчас нужно выбрать поля и расположить блоки, серого черновика достаточно. В подробном макете коллеги могут обратить внимание на оформление, даже если вы хотели поговорить о структуре.</div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Используем в упражнении</th><th scope="col">Оставим на потом</th></tr></thead>
+      <tbody>
+        <tr><td>Прямоугольники и линии</td><td>Цвета, кроме оттенков серого</td></tr>
+        <tr><td>Два-три оттенка серого</td><td>Подбор шрифтовых пар</td></tr>
+        <tr><td>Один системный шрифт, два кегля</td><td>Фотографии и иллюстрации</td></tr>
+        <tr><td>Настоящие тексты и числа</td><td>Иконки ради красоты</td></tr>
+        <tr><td>Выравнивание и отступы, кратные 8</td><td>Тени, градиенты, фирменные скругления</td></tr>
+        <tr><td>Заливка серым для выделения главного</td><td>Анимации переходов</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Что делать с картинками и иконками</h3>
+  <ul>
+    <li><strong>Вместо фото — серый прямоугольник с подписью</strong> и соотношением сторон: «фото товара 1:1». Так можно оценить, сколько места останется для текста.</li>
+    <li><strong>Вместо иконки — слово.</strong> Например, «поиск» вместо лупы. Для этого упражнения подписи достаточно: она помогает обсудить действие, не тратя время на подбор значка.</li>
+    <li><strong>Карту, график или аватар</strong> тоже можно обозначить серым блоком с подписью, если для текущей проверки достаточно показать их место на экране.</li>
+  </ul>
+
+  <div class="ds-lesson__warn"><b>Черновой вид помогает показать, что решение ещё обсуждается.</b> Подробный макет могут принять за готовый и предложить сразу отдать в разработку. Вместе с вайрфреймом поясните, что уже решили, а что ещё предстоит проверить.</div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · это ещё вайрфрейм?<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 9 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">Фото товара заменено серым прямоугольником с подписью «фото 1:1».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подходит</b>Так видно, сколько места займёт фото и сколько останется для названия и цены. Для проверки структуры карточки этого достаточно.</p></li>
+<li data-quiz-q data-answer="extra"><p class="ds-quiz__question">Подобрана пара шрифтов: заголовки Playfair, основной текст Inter.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пока лишнее</b>Для нашего черновика достаточно одного шрифта. Подбор пары можно отложить до работы над оформлением.</p></li>
+<li data-quiz-q data-answer="miss"><p class="ds-quiz__question">На главной кнопке написано «Далее» вместо «Оплатить 3 480 ₽».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Чего-то не хватает</b>По слову «Далее» непонятно, спишутся ли деньги или откроется следующий шаг. На экране оплаты нужна подпись, которая объясняет действие.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">Все блоки выровнены по левому краю, отступы кратны восьми.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подходит</b>Выравнивание и последовательные отступы помогают читать экран. В этом упражнении используем шаг в восемь пикселей, чтобы не подбирать каждый отступ отдельно.</p></li>
+<li data-quiz-q data-answer="extra"><p class="ds-quiz__question">Кнопке подобран фирменный синий цвет и добавлена мягкая тень.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пока лишнее</b>Цвет и тень пока можно отложить: в этом упражнении мы проверяем структуру. Чтобы выделить кнопку, достаточно серой заливки.</p></li>
+<li data-quiz-q data-answer="miss"><p class="ds-quiz__question">На экране пустой корзины нет ни одной кнопки.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Чего-то не хватает</b>Нужен способ продолжить: например, перейти в каталог. Иначе человек увидит пустую корзину, но не поймёт, как вернуться к покупкам.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">Иконки заменены словами: «поиск», «фильтр», «удалить».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подходит</b>Слова помогают понять действия без подбора иконок. Когда перейдёте к макету, можно будет выбрать подходящие значки.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">Рядом нарисован тот же экран, но с самым длинным названием товара из базы.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подходит</b>Так можно заранее заметить, что название не помещается, и решить, как показать его в карточке.</p></li>
+<li data-quiz-q data-answer="extra"><p class="ds-quiz__question">Подобраны скругления углов и градиент в шапке.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пока лишнее</b>Скругления и градиент относятся к оформлению. Сейчас важнее проверить состав экрана и расположение элементов.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="ok">Подходит</button><button class="ds-quiz__option" type="button" data-quiz-answer="extra">Пока лишнее</button><button class="ds-quiz__option" type="button" data-quiz-answer="miss">Чего-то не хватает</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Девять решений для черновых экранов. Определите, что подходит для нашей задачи, что пока лишнее и чего не хватает.</div>
+</div>
+</section>
+
+<section id="labels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Реальные подписи вместо «рыбы»</h2></div>
+  <p class="ds-lesson__lead">С реальным текстом легче заметить, чего не хватает на экране и где нужно больше места.</p>
+
+  <p>«Рыба» вроде Lorem ipsum заполняет место, но не помогает проверить смысл. По ней трудно понять, хватит ли человеку информации и поместятся ли реальные данные. Вот что она скрывает.</p>
+
+  <ul>
+    <li><strong>Длину.</strong> Вместо короткого «Lorem ipsum dolor sit» в карточке может оказаться «Кофе в зёрнах Lavazza Crema e Aroma, 1 кг». Реальное название помогает заранее проверить переносы строк.</li>
+    <li><strong>Содержание.</strong> По тексту-заполнителю не понять, достаточно ли информации, чтобы узнать товар или выбрать действие.</li>
+    <li><strong>Нерешённые вопросы.</strong> Слово «Заголовок» обозначает место для текста, но не говорит, что там будет написано. На наброске этого может хватить, а для обсуждения экрана уже нужна формулировка.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>Пишите текст, который мог бы появиться в интерфейсе.</b> Если точной формулировки ещё нет, предложите черновую и добавьте пометку: «уточнить с редактором». Тогда у команды будет текст, который можно прочитать, обсудить и поправить.</div>
+
+  <h3>Где брать настоящие тексты</h3>
+  <ul>
+    <li><strong>Из продукта.</strong> Скопируйте из интерфейса названия, суммы и статусы, которые подходят вашему сценарию.</li>
+    <li><strong>Из схемы сценария.</strong> Подписи переходов могут стать основой для текста кнопок: «Оформить», «К оплате», «Подтвердить».</li>
+    <li><strong>Из обращений в поддержку.</strong> Посмотрите, какие ошибки встречают люди и какие вопросы задают.</li>
+    <li><strong>У редактора,</strong> если он есть в команде. На черновике можно вместе подобрать текст и сразу увидеть, как он работает на экране.</li>
+  </ul>
+
+  <h3>Используйте реалистичные числа и даты</h3>
+  <p>Одной условной суммы «1234 ₽» мало для проверки. Возьмите цены из продукта разной длины: например, 3 480 ₽, 12 999 ₽, 149 ₽. Посмотрите, помещаются ли они рядом с названием и как выравниваются. То же с датами: «12 марта, 10:00–14:00» занимает больше места, чем заглушка «Дата доставки».</p>
+
+  <h3>Проверьте длинные тексты и пустые состояния</h3>
+  <p>На черновике удобно проверить, что происходит с экраном при разных данных. Нарисуйте рядом вариант блока для каждого случая:</p>
+  <ul>
+    <li><strong>Самое длинное название,</strong> которое есть в базе.</li>
+    <li><strong>Двенадцать позиций в корзине</strong> вместо двух.</li>
+    <li><strong>Ноль:</strong> пустая корзина, ни одного адреса, ничего не найдено.</li>
+    <li><strong>Длинные имена и адреса:</strong> «Константинопольский Вячеслав Александрович», «ул. 40 лет Октябрьской революции, 128, корп. 3, кв. 214».</li>
+  </ul>
+  <p class="ds-lesson__dim">Эти состояния уже отмечены на схеме сценария. Теперь можно показать, как выглядит каждое из них, и проверить, хватает ли места для нужных элементов.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · что написано на вайрфрейме<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 9 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="fish"><p class="ds-quiz__question">На карточке товара: <q>Lorem ipsum dolor sit amet, consectetur</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>«Рыба»</b>Этот текст заполняет место, но не помогает узнать товар. По нему также нельзя проверить, как поместится реальное название.</p></li>
+<li data-quiz-q data-answer="good"><p class="ds-quiz__question">На карточке товара: <q>Кофе в зёрнах Lavazza Crema e Aroma, 1 кг</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Годится</b>Такую подпись можно использовать для проверки: понятно, что это за товар, и видно, сколько места нужно его названию.</p></li>
+<li data-quiz-q data-answer="stub"><p class="ds-quiz__question">Над списком: <q>Заголовок</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Слово-заглушка</b>Слово обозначает место для заголовка, но скрывает его смысл. Перед обсуждением экрана стоит написать хотя бы черновой вариант.</p></li>
+<li data-quiz-q data-answer="fish"><p class="ds-quiz__question">В блоке описания: <q>Текст, который будет здесь позже</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>«Рыба»</b>Это текст-заполнитель. Лучше предложить черновое описание и пометить, что нужно уточнить. Тогда можно будет проверить смысл и длину.</p></li>
+<li data-quiz-q data-answer="good"><p class="ds-quiz__question">На главной кнопке: <q>Оплатить 3 480 ₽</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Годится</b>Подпись объясняет действие и показывает сумму. На вайрфрейме уже можно проверить, помещается ли весь текст в кнопку.</p></li>
+<li data-quiz-q data-answer="stub"><p class="ds-quiz__question">В строке списка: <q>Название товара</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Слово-заглушка</b>Здесь указано, какой текст нужен, но самого названия нет. Поэтому нельзя проверить ни содержание, ни переносы строк.</p></li>
+<li data-quiz-q data-answer="good"><p class="ds-quiz__question">На экране подтверждения: <q>Привезём 12 марта, 10:00–14:00</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Годится</b>Указаны дата и интервал доставки. С ними можно проверить, хватает ли места и понятно ли, когда ждать заказ.</p></li>
+<li data-quiz-q data-answer="stub"><p class="ds-quiz__question">На кнопке: <q>Кнопка действия</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Слово-заглушка</b>По такой подписи непонятно, что произойдёт после нажатия. Нужен текст самого действия: например, «Сохранить адрес».</p></li>
+<li data-quiz-q data-answer="good"><p class="ds-quiz__question">В состоянии ошибки: <q>Банк отклонил платёж. Попробуйте другую карту</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Годится</b>Сообщение объясняет, что произошло, и предлагает следующий шаг. Такой текст уже можно проверить вместе с экраном.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="good">Годится</button><button class="ds-quiz__option" type="button" data-quiz-answer="fish">«Рыба»</button><button class="ds-quiz__option" type="button" data-quiz-answer="stub">Слово-заглушка</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Определите, где реальная подпись, где «рыба», а где слово-заглушка. В разборе каждого примера объясним, что такая подпись позволяет проверить.</div>
+</div>
+</section>
+
+<section id="main">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Главное действие экрана</h2></div>
+  <p class="ds-lesson__lead">Размер, положение, заливка и свободное место помогают выделить действие даже в сером черновике.</p>
+
+  <p>В нашем сценарии у каждого экрана есть главное действие: в корзине — оформить заказ, на доставке — перейти к оплате, на оплате — заплатить. Остальные действия тоже нужны, но их можно сделать менее заметными. Если все кнопки выглядят одинаково, человеку приходится читать каждую, чтобы понять, как продолжить.</p>
+
+  <h3>Четыре инструмента, которые работают без цвета</h3>
+  <ol>
+    <li><strong>Размер.</strong> Главную кнопку можно сделать крупнее остальных. В нашем примере она занимает всю ширину блока.</li>
+    <li><strong>Положение.</strong> Разместите главное действие после информации, которую нужно прочитать или заполнить перед нажатием.</li>
+    <li><strong>Визуальный вес.</strong> Серая заливка, контур и простой текст помогают показать разную значимость действий.</li>
+    <li><strong>Свободное место.</strong> Отступы вокруг кнопки отделяют её от соседних элементов и помогают заметить.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Прищур-тест · два экрана оплаты<span class="ds-lesson__spacer"></span><span data-squint-actions data-squint-on="Вернуть резкость" data-squint-off="Прищуриться"></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row" data-squint-row>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Кнопки выглядят одинаково</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span><span class="ds-lesson__wf-back">Шаг 3 из 3</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-field"><b>Способ оплаты</b>Карта •• 4417</div>
+              <div class="ds-lesson__wf-field"><b>Промокод</b>не применён</div>
+              <div class="ds-lesson__wf-sum"><span>К оплате</span><span>3 480 ₽</span></div>
+              <button class="ds-lesson__wf-btn" type="button">Оплатить</button>
+              <button class="ds-lesson__wf-btn" type="button">Другая карта</button>
+              <button class="ds-lesson__wf-btn" type="button">Назад</button>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Главное действие выделено</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span><span class="ds-lesson__wf-back">Шаг 3 из 3</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-field"><b>Способ оплаты</b>Карта •• 4417</div>
+              <div class="ds-lesson__wf-field"><b>Промокод</b>не применён</div>
+              <div class="ds-lesson__wf-sum"><span>К оплате</span><span>3 480 ₽</span></div>
+              <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button">Оплатить 3 480 ₽</button>
+              <button class="ds-lesson__wf-link" type="button">Оплатить другой картой</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Нажмите «Прищуриться», чтобы размыть экраны. Слева три кнопки выглядят одинаково, справа главная выделяется даже без читаемых букв. Так можно быстро проверить визуальную иерархию, а понятность подписи стоит проверить отдельно.</div>
+  </div>
+
+  <h3>Что проверить в расположении кнопок</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Три одинаково заметные кнопки.</b> На экране оплаты они могут затруднить поиск следующего шага.</li>
+    <li><b>«Назад» выглядит так же, как «Оплатить».</b> Возврат должен оставаться доступным, но в этом сценарии главное действие — оплата.</li>
+    <li><b>Главное действие за пределами видимой области.</b> Проверьте, понятно ли, что экран нужно прокрутить. Для этого задайте вайрфрейму высоту реального экрана.</li>
+  </ul>
+
+  <div class="ds-lesson__warn"><b>Если главными кажутся два действия, уточните задачу экрана.</b> Данные аналитики и обращения в поддержку помогут понять, зачем люди сюда приходят. Иногда два действия можно представить как выбор перед одной кнопкой: например, предложить варианты «оплатить сейчас» и «оплатить при получении», а ниже — подтверждение заказа.</div>
+</section>
+
+<section id="fast">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Экран за десять минут</h2></div>
+  <p class="ds-lesson__lead">Попробуем собрать три-пять черновых экранов за час. Для этого заранее ограничим детализацию.</p>
+
+  <p>Экраны нашего сценария удобно разделить на три зоны. В черновике начнём с главного действия, затем добавим содержимое и шапку.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Зона</th><th scope="col">На какой вопрос отвечает</th><th scope="col">Что в ней</th></tr></thead>
+      <tbody>
+        <tr><td><b>Шапка</b></td><td>Где я и как отсюда выйти</td><td>Название экрана, «назад», шаг сценария</td></tr>
+        <tr><td><b>Содержимое</b></td><td>С чем я работаю</td><td>То, что человек смотрит, вводит или выбирает</td></tr>
+        <tr><td><b>Действие</b></td><td>Что я делаю дальше</td><td>Главное действие и менее заметные вторичные</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Как распределить десять минут</h3>
+  <ol>
+    <li><strong>Минута.</strong> Выпишите из схемы, что человек делает на этом шаге. Достаточно одной фразы с глаголом.</li>
+    <li><strong>Минута.</strong> Нарисуйте кнопку главного действия с реальной подписью. Она поможет определить, что ещё нужно на экране.</li>
+    <li><strong>Четыре минуты.</strong> Добавьте поля, варианты выбора и суммы, которые нужны для этого действия. Используйте реалистичные тексты и данные.</li>
+    <li><strong>Минута.</strong> Добавьте шапку: название экрана и кнопку «Назад». Основу можно скопировать с предыдущего экрана.</li>
+    <li><strong>Две минуты.</strong> Добавьте вторичные действия и важные пояснения: условия оплаты, ссылку «Изменить».</li>
+    <li><strong>Минута.</strong> Проверьте выравнивание и убедитесь, что главное действие заметно при размытии.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Если застряли на детали, обозначьте её и продолжайте.</b> Серый блок с подписью «Условия доставки, уточнить» поможет не потерять вопрос и собрать остальные экраны. Вернитесь к нему, когда увидите сценарий целиком.</div>
+
+  <h3>На чём можно сэкономить время</h3>
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что занимает время</th><th scope="col">Как упростить</th></tr></thead>
+      <tbody>
+        <tr><td>Подбор шрифта и кеглей</td><td>Системный шрифт, два размера: обычный и мелкий</td></tr>
+        <tr><td>Рисование иконок</td><td>Слово вместо иконки</td></tr>
+        <tr><td>Пиксельное выравнивание</td><td>Одна левая граница и отступы 8 / 16 / 24</td></tr>
+        <tr><td>Поиск референсов</td><td>Использовать результаты разбора аналогов. Если их недостаточно, ограничить дополнительный поиск десятью минутами</td></tr>
+        <tr><td>Перерисовка шапки на каждом экране</td><td>Скопировать основу с первого экрана и обновить подписи</td></tr>
+        <tr><td>Выбор цвета</td><td>Пока использовать оттенки серого</td></tr>
+        <tr><td>Доведение первого экрана до идеала</td><td>Сначала собрать все черновики, затем пройтись по ним ещё раз</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Дополнительные состояния разместите рядом</h3>
+  <p>Для пустой корзины, отклонённого платежа и сообщения «Ничего не найдено» подготовьте отдельные варианты экранов. Разместите их рядом с основными и подпишите: «Корзина — пусто», «Оплата — карта отклонена». В прототипе свяжите их с нужными ветками. Так основной путь оформления заказа останется понятным.</p>
+
+  <div class="ds-lesson__warn"><b>Если сложно начать, возьмите простой экран.</b> По нему можно выбрать подход к шапке, полям и кнопкам, а затем использовать его на остальных экранах. Не задерживайтесь на деталях: задача упражнения — собрать сценарий целиком.</div>
+</section>
+
+<section id="link">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Связать экраны переходами</h2></div>
+  <p class="ds-lesson__lead">Переходы позволяют пройти сценарий и проверить, как экраны работают вместе.</p>
+
+  <p>Кликабельный прототип состоит из экранов и переходов между ними. Человек нажимает кнопку и видит следующий шаг. Так сценарий можно <strong>пройти без ваших пояснений</strong> и заметить места, где непонятно, что делать дальше.</p>
+
+  <h3>Что связывать обязательно</h3>
+  <ul>
+    <li><strong>Основной путь целиком</strong> — от входа в сценарий до результата, без пропущенных шагов.</li>
+    <li><strong>Возврат на предыдущие шаги.</strong> Если человек захочет проверить или изменить данные, кнопка «Назад» должна работать.</li>
+    <li><strong>Одну-две ветки</strong> из схемы: например, пустое состояние или ошибку. Для упражнения не нужно связывать все дополнительные ветки.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>В учебном прототипе у каждой видимой кнопки должен быть переход или заглушка.</b> Заглушка — экран с пояснением «Этот сценарий не входит в прототип» и кнопкой возврата. Она помогает продолжить проверку. Если же кнопка никак не реагирует, человеку трудно понять, пропущена ли связь или он сделал что-то не так.</div>
+
+  <div class="ds-lesson__wf-row">
+    <div class="ds-lesson__wf-col">
+      <p class="ds-lesson__wf-caption">Заглушка объясняет ограничение</p>
+      <div class="ds-lesson__stub">Дальше начинается другой сценарий — регистрация. В этот прототип он не входит.<br><br><span>Вернуться к оформлению</span></div>
+    </div>
+    <div class="ds-lesson__wf-col">
+      <p class="ds-lesson__wf-caption">Тупик оставляет без ответа</p>
+      <div class="ds-lesson__stub is-bad">Человек нажимает кнопку.<br><br>Ничего не происходит.</div>
+    </div>
+  </div>
+
+  <h3>Что проверить при настройке переходов</h3>
+  <ol>
+    <li><strong>Связывайте кнопку, а не весь экран.</strong> Если переход срабатывает при нажатии в любом месте, человек сможет продолжить, даже не найдя нужную кнопку. По такому прохождению трудно судить, понятен ли экран.</li>
+    <li><strong>Используйте мгновенные переходы.</strong> Для проверки структуры в этом упражнении анимация не нужна. Её можно настроить позже, если она понадобится для проверки взаимодействия.</li>
+    <li><strong>Называйте экраны как в схеме:</strong> «2. Указывает, куда и когда везти — Доставка». Так будет проще сопоставлять схему с прототипом и записывать замечания к шагам.</li>
+    <li><strong>Начинайте с точки входа, указанной на схеме.</strong> В нашем сценарии это корзина. Если сразу открыть оплату, часть пути останется непроверенной.</li>
+  </ol>
+
+  <h3>В каком инструменте собрать прототип</h3>
+  <p>Можно использовать режим прототипирования в Figma или другой инструмент, в котором к кнопкам привязываются переходы. Для простого сценария подойдёт и PDF со ссылками. Перед проверкой убедитесь, что <strong>участник может открыть прототип и пройти его самостоятельно</strong>. Если отправляете ссылку, проверьте доступ.</p>
+</section>
+
+<section id="run">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Как пройти прототип и найти тупики</h2></div>
+  <p class="ds-lesson__lead">После настройки переходов проверьте прототип сами, а затем дайте его человеку, который не знает, как всё задумано.</p>
+
+  <p>Для упражнения проведём три проверки. <strong>Сами</strong> пройдите по кнопкам и найдите пропущенные связи. <strong>Коллегу из команды</strong> попросите выполнить задачу: он может заметить непонятные подписи и пропущенные шаги. <strong>Человек не из команды</strong> поможет увидеть, что вызывает вопросы без знания проекта.</p>
+
+  <div class="ds-lesson__rule"><b>Дайте задачу и не подсказывайте, куда нажимать.</b> Например: «Вы выбрали кофе и хотите его заказать». Если человек остановился, понаблюдайте, что он пытается сделать, и уточните, чего он ожидает. Подсказки о нужной кнопке могут скрыть проблему интерфейса. Если без помощи пройти не удалось, запишите место: теперь понятно, что нужно доработать.</div>
+
+  <h3>Что записывать</h3>
+  <ul>
+    <li><strong>Где человек остановился</strong> и сколько времени искал следующий шаг.</li>
+    <li><strong>На что нажал и чего ожидал.</strong> Если нажал повторно, возможно, не заметил реакции.</li>
+    <li><strong>Где спросил «А что дальше?»</strong> — здесь стоит проверить подписи и переходы.</li>
+    <li><strong>Какой элемент принял за кнопку,</strong> хотя перехода у него нет.</li>
+  </ul>
+
+  <p>Ниже — собранный прототип нашего сценария. Пройдите его целиком: от корзины до подтверждения. В нём спрятаны два тупика — найдите их по дороге.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Прототип · пройдите сценарий<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-proto-count-out hidden>Экранов: 1 из 4 · тупиков найдено: 0 из 2</span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__proto" data-proto data-proto-count="Экранов: {экранов} из 4 · тупиков найдено: {тупиков} из 2" data-proto-stub="Дальше начинается другой сценарий — «{имя}». В этот прототип он не входит." data-proto-dead-head="Ничего не произошло" data-proto-word-dead="тупик" data-proto-word-out="выход за границу сценария" data-proto-out-head="Переход на заглушку" data-proto-out-text="Этот сценарий не входит в прототип. Заглушка объясняет ограничение и позволяет вернуться к проверке оформления заказа." data-proto-done-head="Сценарий пройден" data-proto-done="От корзины до подтверждения, четыре экрана. Тупиков найдено: {тупиков} из 2. " data-proto-done-all="Вы нашли оба тупика. Проверка вторичных кнопок помогла заметить связи, которых не хватает." data-proto-done-rest="Чтобы найти оставшиеся тупики, начните заново и проверьте вторичные кнопки на всех экранах.">
+        <div class="ds-lesson__proto-stage" data-proto-stage>
+
+          <div class="ds-lesson__proto-screen" data-screen="cart" data-screen-name="Корзина" data-screen-main>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Корзина</span><span class="ds-lesson__wf-back">2 товара</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кофе в зёрнах Lavazza Crema e Aroma, 1 кг<span>2 шт.</span></span><span class="ds-lesson__wf-price">2 380 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Фильтры бумажные для кофеварки, 100 шт.<span>1 шт.</span></span><span class="ds-lesson__wf-price">1 100 ₽</span></div>
+                <div class="ds-lesson__wf-sum"><span>Итого</span><span>3 480 ₽</span></div>
+                <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button" data-go="delivery">Оформить заказ</button>
+                <button class="ds-lesson__wf-link" type="button" data-dead="Удалить товар">Удалить товар</button>
+                <button class="ds-lesson__wf-link" type="button" data-out="Каталог">Вернуться в каталог</button>
+              </div>
+            </div>
+          <p class="ds-lesson__proto-note"><b>Начните с корзины</b>Ваша задача — оформить заказ. По пути проверьте кнопки и найдите два тупика. Справа будут появляться пояснения к экранам.</p></div>
+
+          <div class="ds-lesson__proto-screen" data-screen="delivery" data-screen-name="Доставка" data-screen-main>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><button class="ds-lesson__wf-back ds-lesson__wf-dim" type="button" data-go="cart">← назад</button><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+                <button class="ds-lesson__wf-link" type="button" data-go="address">Изменить адрес</button>
+                <div class="ds-lesson__wf-block">
+                  <div class="ds-lesson__wf-label">Когда привезти</div>
+                  <div class="ds-lesson__wf-chips">
+                    <div class="ds-lesson__wf-chip is-on">завтра<br>10:00–14:00</div>
+                    <div class="ds-lesson__wf-chip">завтра<br>16:00–20:00</div>
+                    <div class="ds-lesson__wf-chip">12 марта<br>10:00–14:00</div>
+                  </div>
+                </div>
+                <div class="ds-lesson__wf-field"><b>Комментарий курьеру</b>домофон не работает, позвоните</div>
+                <div class="ds-lesson__wf-sum"><span>Доставка</span><span>бесплатно</span></div>
+                <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button" data-go="payment">К оплате</button>
+              </div>
+            </div>
+          <p class="ds-lesson__proto-note"><b>Второй шаг</b>Главное действие — «К оплате». Остальные действия менее заметны. Проверьте возврат в корзину: человек может захотеть изменить заказ.</p></div>
+
+          <div class="ds-lesson__proto-screen" data-screen="address" data-screen-name="Адрес">
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><button class="ds-lesson__wf-back ds-lesson__wf-dim" type="button" data-go="delivery">← назад</button><span class="ds-lesson__wf-title">Адрес доставки</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-field"><b>Поиск</b>Лесная</div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><b>ул. Лесная, 8, кв. 14</b><span>сохранённый адрес</span></span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">пр. Мира, 44, офис 3<span>сохранённый адрес</span></span></div>
+                <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap ds-lesson__wf-ph--sm">список найденных адресов</div>
+                <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button" data-go="delivery">Сохранить адрес</button>
+                <button class="ds-lesson__wf-link" type="button" data-go="delivery">Отмена</button>
+              </div>
+            </div>
+          <p class="ds-lesson__proto-note"><b>Дополнительная ветка</b>Здесь человек меняет адрес. Кнопки «Сохранить адрес», «Отмена» и «Назад» возвращают к доставке. Каждую связь нужно проверить.</p></div>
+
+          <div class="ds-lesson__proto-screen" data-screen="payment" data-screen-name="Оплата" data-screen-main>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><button class="ds-lesson__wf-back ds-lesson__wf-dim" type="button" data-go="delivery">← назад</button><span class="ds-lesson__wf-title">Оплата</span><span class="ds-lesson__wf-back">Шаг 3 из 3</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-field"><b>Способ оплаты</b>Карта •• 4417</div>
+                <button class="ds-lesson__wf-link" type="button" data-dead="Другая карта">Другая карта</button>
+                <div class="ds-lesson__wf-field"><b>Промокод</b>не применён</div>
+                <div class="ds-lesson__wf-sum"><span>К оплате</span><span>3 480 ₽</span></div>
+                <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button" data-go="done">Оплатить 3 480 ₽</button>
+                <p class="ds-lesson__wf-note">Спишем с карты после подтверждения</p>
+              </div>
+            </div>
+          <p class="ds-lesson__proto-note"><b>Третий шаг</b>Проверьте главное действие и остальные кнопки: так можно заметить пропущенные связи.</p></div>
+
+          <div class="ds-lesson__proto-screen" data-screen="done" data-screen-name="Готово" data-screen-main>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ оформлен</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-ph ds-lesson__wf-ph--cap ds-lesson__wf-ph--sm">галочка или иллюстрация</div>
+                <div class="ds-lesson__wf-label">Заказ №1287 принят</div>
+                <div class="ds-lesson__wf-dim">Привезём 12 марта, 10:00–14:00 по адресу ул. Лесная, 8, кв. 14</div>
+                <div class="ds-lesson__wf-dim">Чек отправили на a.ivanova@mail.ru</div>
+                <button class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" type="button" data-out="Мои заказы">Смотреть заказ</button>
+                <button class="ds-lesson__wf-link" type="button" data-out="Главная">На главную</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ds-lesson__proto-screen" data-screen="stub">
+            <div class="ds-lesson__stub">
+              <div class="ds-lesson__stub-title" data-proto-stub-title>Другой сценарий</div>
+              <div data-proto-stub-text>Дальше начинается сценарий, которого нет в этом прототипе.</div>
+              <span data-proto-stub-actions data-proto-back="Вернуться"></span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="ds-lesson__proto-side">
+          <div class="ds-lesson__proto-fb" data-proto-fb hidden></div>
+          <ul class="ds-lesson__proto-log" data-proto-log hidden></ul><details class="ds-lesson__note" data-proto-deads><summary>Пояснения к тупикам</summary><ul class="ds-lesson__errors"><li data-proto-dead="Удалить товар"><b>Кнопка «Удалить товар».</b> У этой кнопки нет перехода. В прототипе нужно связать её с корзиной без удалённого товара или добавить заглушку. Если действие не входит в проверяемый сценарий и его не нужно показывать, кнопку можно убрать.</li><li data-proto-dead="Другая карта"><b>Кнопка «Другая карта».</b> Кнопка есть, но экран выбора карты не подключён. Добавьте этот экран и переход к нему или заглушку с возвратом к оплате.</li></ul></details>
+          <span data-proto-actions data-proto-reset="Начать заново"></span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Серых блоков и реальных подписей уже достаточно, чтобы проверить основной путь и найти пропущенные переходы.</div>
+  </div>
+
+  <h3>Три типичных тупика</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Кнопка без связи.</b> Видна, но не реагирует на нажатие. Добавьте переход или заглушку. Если действие не нужно в сценарии, уберите кнопку.</li>
+    <li><b>Не работает «Назад».</b> Путь вперёд связан, а вернуться к предыдущему шагу и изменить данные не получается.</li>
+    <li><b>Ветка обрывается.</b> Например, экран ошибки есть, но с него нельзя вернуться или повторить действие.</li>
+  </ul>
+
+  <p>После проверки исправьте найденные проблемы и пройдите прототип ещё раз сами. Если хотите проверить, понятен ли он с первого раза, пригласите нового человека: предыдущий участник уже знаком с маршрутом.</p>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите сценарий из предыдущей темы, нарисуйте его экраны и свяжите их в кликабельный прототип.</p>
+
+  <h3>Часть 1 · Подготовка, 15 минут</h3>
+  <ol>
+    <li><strong>Выпишите экраны из схемы.</strong> Два шага могут находиться на одном экране. Для упражнения ориентируйтесь на 3–5 экранов.</li>
+    <li><strong>Определите главное действие каждого экрана</strong> и напишите текст кнопки. За основу можно взять подписи переходов на схеме.</li>
+    <li><strong>Соберите настоящие тексты:</strong> названия, суммы, даты, статусы. Откройте свой продукт и скопируйте оттуда.</li>
+    <li><strong>Выберите одно дополнительное состояние:</strong> пустой экран или ошибку. Для упражнения этого достаточно.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">План прототипа · заполните перед работой<span class="ds-lesson__spacer"></span><span data-copy="wfTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="wfTmpl">СЦЕНАРИЙ: ______________________        Дата: __.__.____
+ВХОД: ______________________   ВЫХОД: ______________________
+
+ЭКРАНЫ
+1. экран «______________»
+   главное действие (текст кнопки): ______________________
+   что нужно человеку для этого действия: ______________________
+   настоящие тексты: ______________________________________
+   ведёт на: ______________  назад на: ______________
+
+2. экран «______________»
+   главное действие: ______________________
+   что нужно: ______________________________________
+   настоящие тексты: ______________________________________
+   ведёт на: ______________  назад на: ______________
+
+3. экран «______________»
+   главное действие: ______________________
+   что нужно: ______________________________________
+   настоящие тексты: ______________________________________
+   ведёт на: ______________  назад на: ______________
+
+СОСТОЯНИЕ, которое рисуем дополнительно: ______________________
+
+КНОПКИ, ВЕДУЩИЕ ЗА ГРАНИЦУ СЦЕНАРИЯ (им нужна заглушка)
+— ______________________
+— ______________________
+
+ПРОВЕРКА
+самостоятельно: ____ тупиков найдено
+коллега: остановился на ______________, спросил ______________
+человек не из команды: остановился на ______________
+исправлено: ______________________________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Заполните план до начала работы над экранами. Он поможет собрать нужные данные и заметить вопросы, которые стоит уточнить заранее.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать экраны, час</h3>
+  <ol>
+    <li><strong>Отведите по десять минут на экран.</strong> Порядок из раздела 5: главное действие → содержимое → шапка → вторичные действия и пояснения → проверка иерархии.</li>
+    <li><strong>Начинайте с простых экранов,</strong> сложный оставьте на потом.</li>
+    <li><strong>Используйте оттенки серого, реальные тексты и один шрифт.</strong> Оформление можно будет проработать позже.</li>
+    <li><strong>Если застряли на детали, обозначьте её серым блоком</strong> с пояснением и переходите к следующей.</li>
+    <li><strong>Нарисуйте выбранное состояние</strong> в копии основного экрана и разместите рядом.</li>
+  </ol>
+
+  <h3>Часть 3 · Настроить переходы, 20 минут</h3>
+  <ol>
+    <li><strong>Свяжите основной путь целиком,</strong> от входа до результата.</li>
+    <li><strong>Добавьте возвраты на предыдущие шаги.</strong></li>
+    <li><strong>Свяжите ветку с дополнительным состоянием</strong> и настройте возврат из неё.</li>
+    <li><strong>Добавьте заглушки</strong> для кнопок, ведущих за пределы сценария.</li>
+    <li><strong>Проверьте, что связаны кнопки, а не целые экраны.</strong></li>
+  </ol>
+
+  <h3>Часть 4 · Проверить и исправить, 30 минут</h3>
+  <ol>
+    <li><strong>Сами:</strong> проверьте все кнопки, включая вторичные действия и возвраты.</li>
+    <li><strong>С коллегой:</strong> опишите задачу одной фразой и наблюдайте, как он её выполняет. Не подсказывайте, куда нажимать.</li>
+    <li><strong>С человеком не из команды:</strong> повторите проверку. Записывайте остановки, лишние нажатия и вопросы.</li>
+    <li><strong>Исправьте найденные проблемы</strong> и ещё раз пройдите прототип сами.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Человек проходит прототип от начала до конца без подсказок о том, куда нажимать, и не попадает в тупики. Если пришлось помочь, запишите, что вызвало затруднение, исправьте это место и проверьте снова.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Вайрфреймы всех экранов сценария</strong> — серые, с настоящими подписями.</li>
+    <li><strong>Минимум одно состояние</strong> рядом с основным экраном.</li>
+    <li><strong>Кликабельный прототип</strong> со связанным главным путём, возвратами и заглушками.</li>
+    <li><strong>Заполненный план прототипа</strong> с результатами трёх проверок.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут на подготовку, час на экраны, 20 минут на переходы и полчаса на проверку с правками. Всего — около двух часов. Это ориентир для упражнения; договориться с участниками лучше заранее.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Экранов получилось десять».</strong> Проверьте, не включили ли вы дополнительные состояния в основной путь. Возможно, сценарий стоит разделить на несколько задач.</li>
+    <li><strong>«Хочется заняться оформлением».</strong> Попробуйте бумагу или файл без библиотеки стилей. Заранее выберите один шрифт и несколько оттенков серого.</li>
+    <li><strong>«Не знаю, что написать».</strong> Предложите черновую формулировку и пометьте, что нужно уточнить. Такой текст уже можно обсудить.</li>
+    <li><strong>«Некого позвать на проверку».</strong> Для этого упражнения можно попросить друга, соседа по коворкингу или коллегу из другой команды, который не видел проект. Он поможет заметить непонятные шаги. Для специализированного продукта нужен человек, знакомый с задачами его пользователей.</li>
+    <li><strong>«Прототип прошли с первого раза без замечаний».</strong> Убедитесь, что не подсказывали и переходы срабатывали только по кнопкам. Если всё так, отметьте результат и проверьте сценарий со следующим участником.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Вайрфреймы для задания готовы, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Использованы оттенки серого и один шрифт</li>
+    <li>Названия, суммы, даты и ошибки соответствуют сценарию</li>
+    <li>Вместо «Lorem ipsum», «Заголовок» и «Название товара» стоят реальные или черновые тексты</li>
+    <li>Картинки обозначены серыми блоками с подписью и нужным соотношением сторон</li>
+    <li>Иконки заменены словами</li>
+    <li>Главное действие выделено и заметно при размытии</li>
+    <li>Вторичные действия менее заметны, чем главное</li>
+    <li>Блоки выровнены, отступы кратны 8</li>
+    <li>Нарисовано хотя бы одно дополнительное состояние экрана</li>
+    <li>Проверены длинные названия, много позиций и отсутствие данных</li>
+  </ul>
+
+  <h3>Прототип для задания готов, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Главный путь связан целиком, от входа до выхода</li>
+    <li>Работают возвраты на предыдущие шаги</li>
+    <li>Связана хотя бы одна ветка и возврат из неё</li>
+    <li>Каждая видимая кнопка ведёт либо на экран, либо на заглушку</li>
+    <li>Переходы настроены на кнопках</li>
+    <li>Экраны названы как в схеме сценария</li>
+    <li>Стартовый экран — тот же вход, что на схеме</li>
+    <li>Участник может открыть прототип по ссылке и пройти его без подсказок</li>
+  </ul>
+
+  <h3>Что мешает собрать и проверить прототип</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Ранний переход к оформлению.</b> Подбор шрифтов, цвета и теней отнимает время и может отвлечь обсуждение от структуры.</li>
+    <li><b>«Lorem ipsum».</b> Скрывает главное: влезает ли настоящий текст и достаточно ли его человеку.</li>
+    <li><b>Слова-заглушки.</b> «Заголовок», «Кнопка», «Название товара» — признак, что решение ещё не принято.</li>
+    <li><b>Три одинаково заметные кнопки.</b> Человеку сложнее найти главное действие.</li>
+    <li><b>Доведение первого экрана до идеала.</b> На остальные экраны и настройку переходов может не хватить времени.</li>
+    <li><b>Дополнительные состояния в основной цепочке.</b> Из-за них труднее проследить основной путь.</li>
+    <li><b>Кнопки без связей.</b> Тупик: человек нажимает, ничего не происходит, прогон обрывается.</li>
+    <li><b>Не работает «Назад».</b> Человек не может вернуться к предыдущему шагу и изменить данные.</li>
+    <li><b>Переход по нажатию в любом месте.</b> Человек может пройти сценарий, не найдя нужных кнопок.</li>
+    <li><b>Подсказки о нужном действии.</b> Они мешают заметить места, где интерфейс непонятен.</li>
+    <li><b>Нет доступа к прототипу.</b> Участник не сможет начать проверку, пока вы не настроите доступ или не пришлёте файл.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся собирать черновые экраны и связывать их в понятный сценарий. На следующих уровнях — проверять решения и выбирать, что стоит прототипировать.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Уровень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Собирать черновые экраны с реальными подписями; выделять главное действие без цвета; связывать экраны в прототип. Ориентир для упражнения — три-пять экранов за час</td>
+          <td>Прототип проходится от начала до конца без ваших подсказок и без тупиков</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Выбирать детализацию под задачу; готовить прототип к тестированию с реалистичными данными, состояниями и ветками; проверять спорные решения; вести версии и передавать разработчикам понятное описание поведения</td>
+          <td class="ds-lesson__dim">Гипотеза проверена на прототипе, результаты теста помогают решить, что сохранить или изменить</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Определять, что и насколько подробно нужно прототипировать; помогать команде принимать решения по результатам проверок; создавать общие заготовки и правила, чтобы другие тоже могли собирать прототипы</td>
+          <td class="ds-lesson__dim">Результаты проверки прототипа помогли принять решение о крупной функции до начала её разработки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> вы умеете собрать черновые экраны, связать их и проверить с другим человеком. Он понимает, как выполнить задачу, а вы замечаете затруднения и знаете, что доработать.</div>
+</section>
+
+<footer>
+  Урок по теме «Вайрфреймы и прототипы», ступень Junior. Пример — оформление заказа из предыдущей темы. План прототипа в разделе 8 можно скопировать, а упражнение в разделе 7 — пройти повторно. Для дальнейшего чтения: Билл Бакстон, «Sketching User Experiences» — о работе с набросками; Стив Круг, «Не заставляйте меня думать» — о понятности интерфейсов и проверке с пользователями; документация Figma по прототипированию — о настройке экранов и переходов.
+</footer>
+
+</div>
+</div>
+<!-- /wp:html -->

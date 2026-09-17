@@ -206,6 +206,8 @@
 				"search-home": "560px",
 				"illustration": "160px",
 				"radar": "420px",
+				"screen": "330px",
+				"screen-fold": "430px",
 				"measure": "70ch",
 				"measure-lead": "62ch"
 			},

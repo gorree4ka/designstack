@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура» и «Опросы».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы» и «Вайрфреймы и прототипы».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -585,6 +585,119 @@ with sync_playwright() as play:
     fails += 0 if say(notes == 5 and label == "Скрыть разбор", "разбор открыт: пояснений %d, кнопка «%s»" % (notes, label)) else 1
     page.close()
 
+
+    # ─── тема «Вайрфреймы и прототипы» ───────────────────────────────────────
+    plain = browser.new_context(java_script_enabled=False)
+    page = plain.new_page()
+    page.goto(BASE + "wireframes-prototype-junior/")
+    head("wireframes-prototype-junior · без скрипта")
+    screens = page.eval_on_selector_all(
+        "[data-proto-stage] [data-screen]", "all => all.filter(el => el.offsetParent !== null).length"
+    )
+    fails += 0 if say(screens == 6, "все экраны сценария видны: " + str(screens)) else 1
+    text = page.inner_text("#ds-main")
+    fails += 0 if say("Дополнительная ветка" in text, "пояснение к экрану видно") else 1
+    fails += 0 if say(not page.is_visible("[data-proto-count-out]"), "счётчик экранов спрятан: без скрипта он врёт") else 1
+    page.close()
+    plain.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "wireframes-prototype-junior/")
+    head("wireframes-prototype-junior")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    shown = page.eval_on_selector_all(
+        "[data-proto-stage] [data-screen]",
+        "all => all.filter(el => el.offsetParent !== null).map(el => el.dataset.screen)",
+    )
+    fails += 0 if say(shown == ["cart"], "со скриптом на виду один экран: " + str(shown)) else 1
+    fails += 0 if say(
+        page.text_content("[data-proto-count-out]") == "Экранов: 1 из 4 · тупиков найдено: 0 из 2",
+        "счётчик: " + page.text_content("[data-proto-count-out]"),
+    ) else 1
+
+    page.click('[data-proto] button[data-dead="Удалить товар"]')
+    fb = page.inner_text("[data-proto-fb]")
+    fails += 0 if say("Ничего не произошло" in fb and "нет перехода" in fb, "тупик объяснён: " + fb[:60]) else 1
+    fails += 0 if say(
+        page.text_content("[data-proto-count-out]").endswith("тупиков найдено: 1 из 2"),
+        "тупик засчитан: " + page.text_content("[data-proto-count-out]"),
+    ) else 1
+
+    page.click('[data-proto] button[data-go="delivery"]')
+    page.click('[data-screen="delivery"] button[data-go="payment"]')
+    page.click('[data-screen="payment"] button[data-dead="Другая карта"]')
+    page.click('[data-screen="payment"] button[data-go="done"]')
+    done = page.inner_text("[data-proto-fb]")
+    fails += 0 if say("Сценарий пройден" in done and "Тупиков найдено: 2 из 2" in done, "итог: " + done[:70]) else 1
+    fails += 0 if say("Вы нашли оба тупика" in done, "оба тупика найдены") else 1
+    fails += 0 if say("{" not in done, "подстановки в итоге закрыты") else 1
+    log = page.inner_text("[data-proto-log]")
+    fails += 0 if say(log.count("→") == 6 and "тупик: Другая карта" in log, "журнал перехода: " + log.split("\n")[-1]) else 1
+
+    page.click('[data-screen="done"] button[data-out="Мои заказы"]')
+    stub = page.inner_text('[data-screen="stub"]')
+    fails += 0 if say("«Мои заказы»" in stub, "заглушка названа: " + stub.split("\n")[1][:60]) else 1
+    page.click("[data-proto-stub-actions] button")
+    fails += 0 if say(
+        page.eval_on_selector_all(
+            "[data-proto-stage] [data-screen]",
+            "all => all.filter(el => el.offsetParent !== null).map(el => el.dataset.screen)",
+        ) == ["done"],
+        "возврат с заглушки на тот же экран",
+    ) else 1
+
+    page.click("[data-proto-actions] button")
+    fails += 0 if say(
+        page.text_content("[data-proto-count-out]") == "Экранов: 1 из 4 · тупиков найдено: 0 из 2"
+        and not page.is_visible("[data-proto-log]"),
+        "«начать заново» чистит журнал и счётчик",
+    ) else 1
+
+    label = page.inner_text("[data-squint-actions] button")
+    page.click("[data-squint-actions] button")
+    blur = page.eval_on_selector("[data-squint-row] .ds-lesson__wf", "el => getComputedStyle(el).filter")
+    fails += 0 if say(blur.startswith("blur("), "прищур размывает экраны: " + blur) else 1
+    fails += 0 if say(
+        page.inner_text("[data-squint-actions] button") != label, "подпись кнопки сменилась: " + page.inner_text("[data-squint-actions] button")
+    ) else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "wireframes-prototype-middle/")
+    head("wireframes-prototype-middle")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    page.click("[data-switch] button >> nth=1")
+    skels = page.eval_on_selector_all(".ds-lesson__wf-skel", "all => all.filter(el => el.offsetParent !== null).length")
+    fails += 0 if say(skels == 3, "в состоянии загрузки серых мест: " + str(skels)) else 1
+    fails += 0 if say(
+        page.eval_on_selector_all(
+            ".ds-lesson__wf-btn[disabled]", "all => all.filter(el => el.offsetParent !== null).length"
+        ) == 1,
+        "кнопка перехода выглядит недоступной",
+    ) else 1
+    cut = page.eval_on_selector_all(
+        ".ds-lesson__wf-window",
+        "all => all.map(el => el.scrollHeight - el.clientHeight > 4)",
+    )
+    fails += 0 if say(cut == [False, True], "за границу экрана уходит только длинный заказ: " + str(cut)) else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "wireframes-prototype-senior/")
+    head("wireframes-prototype-senior")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    lit = "() => [...document.querySelectorAll('[data-diff-row] [data-diff]')].filter(el => getComputedStyle(el).outlineStyle !== 'none').length"
+    fails += 0 if say(page.evaluate(lit) == 0, "до нажатия ничего не подсвечено") else 1
+    page.click("[data-diff-actions] button")
+    fails += 0 if say(page.evaluate(lit) == 6, "подсвечено различий: " + str(page.evaluate(lit))) else 1
+    fails += 0 if say(
+        page.inner_text("[data-diff-actions] button") == "Убрать подсветку",
+        "подпись кнопки: " + page.inner_text("[data-diff-actions] button"),
+    ) else 1
+    page.close()
     browser.close()
 
 print("\nнеудач:", fails)

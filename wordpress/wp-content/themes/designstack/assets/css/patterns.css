@@ -5915,6 +5915,536 @@ button.ds-lesson__opt-name:hover:not([disabled]) {
 	margin-bottom: var(--wp--preset--spacing--1);
 }
 
+/* ---------- урок «Вайрфреймы и прототипы» ---------- */
+
+/* Два черновых экрана рядом: на узком экране встают друг под друга. */
+.ds-lesson__wf-row {
+	display: grid;
+	grid-template-columns: minmax(0, var(--wp--custom--size--screen));
+	align-items: start;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--6);
+}
+
+/* Две колонки сжимаются под ширину коробки, а не переносятся: урок сравнивает
+   экраны словами «слева» и «справа». */
+@media (min-width: 700px) {
+	.ds-lesson__wf-row {
+		grid-template-columns: repeat(2, minmax(0, var(--wp--custom--size--screen)));
+	}
+}
+
+/* Колонка пары: подпись сверху и вывод снизу выравниваются по ширине экрана. */
+.ds-lesson__wf-col {
+	min-width: 0;
+	max-width: var(--wp--custom--size--screen);
+}
+
+.ds-lesson__wf-caption {
+	margin: 0 0 var(--wp--preset--spacing--3);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	text-align: center;
+}
+
+/* Черновой экран. Серый и без фирменных деталей — ровно то, о чём урок: на этом
+   шаге обсуждают состав экрана и главное действие, а не цвет и шрифт. Ширина
+   фиксирована по размеру телефона: по ней видно, помещается ли адрес в строку. */
+.ds-lesson__wf {
+	width: 100%;
+	max-width: var(--wp--custom--size--screen);
+	margin: 0 auto;
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__wf-top {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+.ds-lesson__wf-title {
+	flex: 1;
+}
+
+.ds-lesson__wf-back {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 500;
+}
+
+/* «Назад» в прототипе — кнопка, но в шапке экрана выглядит подписью. */
+button.ds-lesson__wf-back {
+	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
+}
+
+.ds-lesson__wf-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3);
+}
+
+/* Серое место вместо фото, карты или списка. Три высоты: по ним видно, сколько
+   места на экране займёт блок. */
+.ds-lesson__wf-ph {
+	height: var(--wp--preset--spacing--16);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__wf-ph--sm {
+	height: var(--wp--preset--spacing--12);
+}
+
+.ds-lesson__wf-ph--lg {
+	height: calc(var(--wp--preset--spacing--16) + var(--wp--preset--spacing--4));
+}
+
+.ds-lesson__wf-ph--cap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 var(--wp--preset--spacing--2);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+}
+
+.ds-lesson__wf-item {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__wf-thumb {
+	flex: none;
+	width: var(--wp--custom--size--control-md);
+	height: var(--wp--custom--size--control-md);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__wf-meta {
+	flex: 1;
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__wf-meta span {
+	display: block;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__wf-price {
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
+.ds-lesson__wf-field {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__wf-field b {
+	display: block;
+	margin-bottom: var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+.ds-lesson__wf-chips {
+	display: flex;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__wf-chip {
+	flex: 1;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--xs);
+	line-height: var(--wp--custom--line-height--snug);
+	text-align: center;
+}
+
+.ds-lesson__wf-chip.is-on {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-subtle);
+	font-weight: 600;
+}
+
+/* Вариант, который ещё грузится: место занято, содержимого нет. */
+.ds-lesson__wf-chip--bare {
+	padding: 0;
+	border: 0;
+}
+
+.ds-lesson__wf-skel {
+	height: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__wf-skel--tall {
+	height: var(--wp--preset--spacing--8);
+}
+
+.ds-lesson__wf-sum {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--3);
+	padding-top: var(--wp--preset--spacing--2);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+.ds-lesson__wf-btn {
+	display: block;
+	width: 100%;
+	padding: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+	text-align: center;
+}
+
+/* Главное действие в черновике выделено размером и весом, а не фирменным цветом:
+   об этом раздел урока про четыре инструмента, которые работают без цвета. */
+.ds-lesson__wf-btn--primary {
+	padding: var(--wp--preset--spacing--3);
+	border-color: transparent;
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--base);
+}
+
+.ds-lesson__wf-btn[disabled] {
+	border-color: var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__wf-link {
+	display: block;
+	width: 100%;
+	padding: var(--wp--preset--spacing--1);
+	border: 0;
+	border-radius: var(--wp--custom--radius--sm);
+	background: none;
+	color: var(--wp--preset--color--text-action);
+	font-size: var(--wp--preset--font-size--sm);
+	text-align: center;
+	text-decoration: underline;
+}
+
+button.ds-lesson__wf-btn,
+button.ds-lesson__wf-link {
+	cursor: pointer;
+}
+
+button.ds-lesson__wf-btn[disabled] {
+	cursor: default;
+}
+
+.ds-lesson__wf-note {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+}
+
+.ds-lesson__wf-note--left {
+	text-align: left;
+}
+
+/* Подпись блока и второстепенная строка внутри экрана. */
+.ds-lesson__wf-label {
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+.ds-lesson__wf-dim {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__wf-block {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* Набросок: те же блоки, но пунктиром — так он выглядит на бумаге. */
+.ds-lesson__wf--sketch :is(.ds-lesson__wf-ph, .ds-lesson__wf-field, .ds-lesson__wf-chip) {
+	border: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--border-default);
+	background: none;
+}
+
+/* Макет: состав экрана тот же, но появился цвет — и внимание уходит на него. */
+.ds-lesson__wf--mock .ds-lesson__wf-btn--primary {
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-lesson__wf--mock .ds-lesson__wf-chip.is-on {
+	border-color: var(--wp--preset--color--surface-action-primary);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__wf--mock :is(.ds-lesson__wf-ph, .ds-lesson__wf-thumb) {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+/* Видимая часть экрана: всё, что ниже пунктира, человек увидит только прокруткой. */
+.ds-lesson__wf-window {
+	position: relative;
+	max-height: var(--wp--custom--size--screen-fold);
+	overflow: hidden;
+	border-bottom: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--border-error);
+	border-radius: var(--wp--custom--radius--md) var(--wp--custom--radius--md) 0 0;
+}
+
+.ds-lesson__wf-window.is-fits {
+	border-bottom-color: var(--wp--preset--color--icon-success);
+}
+
+.ds-lesson__foldnote {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.ds-lesson__foldnote.is-bad {
+	color: var(--wp--preset--color--text-error);
+}
+
+.ds-lesson__foldnote.is-good {
+	color: var(--wp--preset--color--icon-success);
+}
+
+.ds-lesson__findings {
+	margin: 0;
+	padding-left: var(--wp--preset--spacing--6);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__findings li + li {
+	margin-top: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__findings b {
+	color: var(--wp--preset--color--text-error);
+}
+
+/* Два столбца с разбором: что спор решает, а что нет. */
+.ds-lesson__twocol {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--3);
+}
+
+@media (min-width: 700px) {
+	.ds-lesson__twocol {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__twocol > div {
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__twocol-h {
+	display: block;
+	margin-bottom: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+.ds-lesson__twocol-h.is-bad {
+	color: var(--wp--preset--color--text-error);
+}
+
+.ds-lesson__twocol-h.is-good {
+	color: var(--wp--preset--color--icon-success);
+}
+
+/* Заглушка вместо экрана, которого в прототипе нет. */
+.ds-lesson__stub {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--8) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+	text-align: center;
+}
+
+.ds-lesson__stub.is-bad {
+	border-color: var(--wp--preset--color--border-error);
+}
+
+.ds-lesson__stub--left {
+	text-align: left;
+}
+
+.ds-lesson__stub-title {
+	color: var(--wp--preset--color--text-default);
+	font-weight: 600;
+}
+
+/* Прищур-тест: размытие показывает, что видно на экране без чтения подписей. */
+.ds-lesson__wf-row.is-squint .ds-lesson__wf {
+	filter: blur(0.2rem);
+}
+
+/* Подсветка того, чем два варианта прототипа различаются. */
+.ds-lesson__wf-row.is-diff [data-diff] {
+	border-radius: var(--wp--custom--radius--xs);
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--surface-action-primary);
+	outline-offset: var(--wp--preset--spacing--1);
+}
+
+/* Проход по прототипу. Без скрипта экраны идут сеткой и читаются подряд, каждый
+   со своим пояснением; скрипт оставляет на виду один и ведёт журнал переходов. */
+.ds-lesson__proto {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--wp--preset--spacing--6);
+}
+
+.ds-lesson__proto-stage {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--8);
+	flex: 1 1 100%;
+}
+
+@media (min-width: 700px) {
+	.ds-lesson__proto-stage {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	/* Со скриптом на виду один экран, и рядом с ним встаёт журнал переходов;
+	   без скрипта экраны идут сеткой во всю ширину, а журнала ещё нет. */
+	.ds-lesson__proto[data-proto-live] .ds-lesson__proto-stage {
+		grid-template-columns: minmax(0, var(--wp--custom--size--screen));
+		flex: 1 1 var(--wp--custom--size--screen);
+	}
+
+	.ds-lesson__proto[data-proto-live] .ds-lesson__proto-side {
+		flex: 1 1 var(--wp--custom--size--sidebar);
+	}
+}
+
+.ds-lesson__proto-screen {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__proto-note {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__proto-note b {
+	display: block;
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__proto-side {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	flex: 1 1 100%;
+}
+
+.ds-lesson__proto-fb {
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__proto-fb b {
+	display: block;
+}
+
+.ds-lesson__proto-fb.is-bad {
+	border-color: var(--wp--preset--color--border-error);
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__proto-fb.is-good {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--bg-info);
+}
+
+.ds-lesson__proto-log {
+	margin: 0;
+	padding-left: var(--wp--preset--spacing--6);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__proto-log li + li {
+	margin-top: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__proto-log b {
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Нажали кнопку, а перехода нет: подсветка держится, пока человек смотрит. */
+.ds-lesson__wf-btn.is-hit,
+.ds-lesson__wf-link.is-hit {
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-error);
+	background: var(--wp--preset--color--bg-error);
+	color: var(--wp--preset--color--text-default);
+}
+
 /* ---------- ритм урока ---------- */
 
 /* Разметка урока приходит из конвертера: внутри `.ds-lesson` одна обёртка без класса,

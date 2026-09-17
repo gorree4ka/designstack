@@ -336,6 +336,40 @@ CLASS_MAP = {
     "rules": "ds-lesson__rules",
     "calc-case": "ds-lesson__calc-case",
     "wk-test": "ds-lesson__week--test",
+    # компоненты темы «Вайрфреймы и прототипы»
+    "wf": "ds-lesson__wf",
+    "wf-sketch": "ds-lesson__wf--sketch",
+    "wf-mock": "ds-lesson__wf--mock",
+    "wf-top": "ds-lesson__wf-top",
+    "wf-body": "ds-lesson__wf-body",
+    "wf-ph": "ds-lesson__wf-ph",
+    "wf-item": "ds-lesson__wf-item",
+    "wf-field": "ds-lesson__wf-field",
+    "wf-chips": "ds-lesson__wf-chips",
+    "wf-chip": "ds-lesson__wf-chip",
+    "wf-sum": "ds-lesson__wf-sum",
+    "wf-btn": "ds-lesson__wf-btn",
+    "wf-link": "ds-lesson__wf-link",
+    "wf-note": "ds-lesson__wf-note",
+    "wf-row": "ds-lesson__wf-row",
+    "wf-col": "ds-lesson__wf-col",
+    "wf-cap": "ds-lesson__wf-caption",
+    "wf-window": "ds-lesson__wf-window",
+    "wf-skel": "ds-lesson__wf-skel",
+    "fits": "is-fits",
+    "foldnote": "ds-lesson__foldnote",
+    "findings": "ds-lesson__findings",
+    "twocol": "ds-lesson__twocol",
+    "vs-note": "ds-lesson__cap",
+    "stub": "ds-lesson__stub",
+    "proto": "ds-lesson__proto",
+    "proto-stage": "ds-lesson__proto-stage",
+    "proto-screen": "ds-lesson__proto-screen",
+    "proto-side": "ds-lesson__proto-side",
+    "proto-fb": "ds-lesson__proto-fb",
+    "proto-list": "ds-lesson__proto-log",
+    "proto-note": "ds-lesson__proto-note",
+    "stub-title": "ds-lesson__stub-title",
     "q": "",
 }
 
@@ -417,6 +451,18 @@ LESSON_MAP = {
         "link": "ds-lesson__ui-btn--link",
         "cap": "ds-lesson__screen-cap",
         "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "wireframes-prototype-junior": {
+        "map": "",
+    },
+    "wireframes-prototype-middle": {
+        "ttl": "ds-lesson__pcard-title",
+    },
+    "wireframes-prototype-senior": {
+        "ttl": "ds-lesson__pcard-title",
+        "h": "ds-lesson__twocol-h",
+        "bad-h": "is-bad",
+        "good-h": "is-good",
     },
 }
 
@@ -3222,6 +3268,329 @@ def checklist_markup(js: str, body: str, notes: list) -> str:
     return body
 
 
+# ---------------------------------------------------------------------------
+# Живые куски темы «Вайрфреймы и прототипы»: кит черновых экранов, прищур-тест,
+# проход по прототипу с тупиками и подсветка различий между двумя вариантами.
+# ---------------------------------------------------------------------------
+
+
+def ph_step(px: int) -> str:
+    """Высота серого места → ступень нашей шкалы.
+
+    В присланном уроке высота задана пикселями, и это данные, а не оформление:
+    по ним видно, сколько места на экране займёт адрес, а сколько — выбор дня.
+    Пикселей у нас нет, поэтому высоты разложены на три ступени.
+    """
+    if px <= 48:
+        return "ds-lesson__wf-ph--sm"
+
+    if px >= 65:
+        return "ds-lesson__wf-ph--lg"
+
+    return ""
+
+
+# Короткие имена внутри чернового экрана. Общей таблице их отдать нельзя: в этих же
+# уроках `ttl` вне экрана — заголовок карточки наблюдения, а `back` — ссылка назад.
+WF_INNER = {
+    "back": "ds-lesson__wf-back",
+    "ttl": "ds-lesson__wf-title",
+    "thumb": "ds-lesson__wf-thumb",
+    "meta": "ds-lesson__wf-meta",
+    "price": "ds-lesson__wf-price",
+    "primary": "ds-lesson__wf-btn--primary",
+    "cap": "ds-lesson__wf-ph--cap",
+    "on": "is-on",
+}
+
+
+def wf_inside(chunk: str) -> str:
+    """Внутренности чернового экрана: роли, заданные инлайновым стилем.
+
+    Её экран держится на стилях у самих элементов: `font-weight:600` — подпись
+    блока, `color:var(--wf-ink)` — второстепенная строка, `opacity:.45` — кнопка
+    в недоступном состоянии. Стили мы снимаем, поэтому роль переезжает в класс,
+    а недоступная кнопка становится `disabled` — это она и означает.
+    """
+
+    def one(found):
+        tag, attrs = found.group(1), found.group(2)
+        klass = re.search(r'class="([^"]*)"', attrs)
+        style = re.search(r'style="([^"]*)"', attrs)
+        names = klass.group(1).split() if klass else []
+        css = (style.group(1) if style else "").replace(" ", "")
+        height = re.search(r"height:(\d+)px", css)
+        add = [WF_INNER[name] for name in names if name in WF_INNER]
+        names = [name for name in names if name not in WF_INNER]
+        changed = bool(add)
+
+        if "wf-ph" in names and height:
+            add.append(ph_step(int(height.group(1))))
+
+        if "wf-chip" in names and "padding:0" in css:
+            add.append("ds-lesson__wf-chip--bare")
+
+        if "wf-skel" in names and height and int(height.group(1)) > 20:
+            add.append("ds-lesson__wf-skel--tall")
+
+        if "wf-note" in names and "text-align:left" in css:
+            add.append("ds-lesson__wf-note--left")
+
+        # Полупрозрачная кнопка в её макете означает «недоступна» — это и ставим.
+        if "wf-btn" in names and "opacity:" in css:
+            attrs += " disabled"
+            changed = True
+
+        if not names:
+            if "font-weight:600" in css or "display:block" in css:
+                add.append("ds-lesson__wf-label")
+            elif "--wf-ink" in css:
+                add.append("ds-lesson__wf-dim")
+            elif tag == "div":
+                add.append("ds-lesson__wf-block")
+
+        add = [name for name in add if name]
+
+        if not add and not changed:
+            return found.group(0)
+
+        if klass:
+            attrs = attrs.replace(klass.group(0), 'class="%s"' % " ".join(names + add), 1) if names + add else attrs.replace(klass.group(0), "", 1)
+        elif add:
+            attrs = ' class="%s"' % " ".join(add) + attrs
+
+        return "<" + tag + attrs + ">"
+
+    return re.sub(r"<(div|span|button|p|b)\b([^>]*)>", one, chunk)
+
+
+def wf_markup(body: str, notes: list) -> str:
+    """Кит черновых экранов: правки идут только внутри самих экранов."""
+    pieces = []
+    last = 0
+    screens = 0
+
+    for found in re.finditer(r'<div class="wf(?:\s[^"]*)?"[^>]*>', body):
+        if found.start() < last:
+            continue
+
+        end = element_end(body, found.start())
+
+        if end < 0:
+            continue
+
+        pieces.append(body[last:found.start()])
+        pieces.append(wf_inside(body[found.start():end]))
+        last = end
+        screens += 1
+
+    if not screens:
+        return body
+
+    pieces.append(body[last:])
+    notes.append("черновых экранов разобрано: " + str(screens))
+
+    return "".join(pieces)
+
+
+def stub_flags(body: str, notes: list) -> str:
+    """Заглушка: цвет и выключка, заданные инлайновым стилем, становятся состоянием."""
+
+    def one(found):
+        css = found.group(1).replace(" ", "")
+        add = []
+
+        if "var(--bad)" in css:
+            add.append("is-bad")
+
+        if "text-align:left" in css:
+            add.append("ds-lesson__stub--left")
+
+        return found.group(0).replace('class="stub"', 'class="stub %s"' % " ".join(add), 1) if add else found.group(0)
+
+    body, n = re.subn(r'<div class="stub" style="([^"]*)"[^>]*>', one, body)
+
+    if n:
+        notes.append("заглушек с состоянием: " + str(n))
+
+    return body
+
+
+def toggle_markup(body: str, js: str, notes: list, button: str, row: str, node: str, title: str) -> str:
+    """Кнопка-переключатель вида экрана: подписи обеих сторон — из её скрипта.
+
+    Кнопка без скрипта ничего не делает, поэтому её рисует скрипт сайта, а
+    разметка отдаёт только место и обе подписи.
+    """
+    if 'id="%s"' % button not in body:
+        return body
+
+    off = js_phrase(body, r'id="%s"[^>]*>([^<]*)</button>' % button, "")
+    on = js_phrase(js, r"%s\.textContent = on \? '([^']*)'" % re.escape(js_button(js, button)), "")
+
+    if not on or not off:
+        notes.append(title + ": подписей в скрипте не нашлось, переключатель не поставлен")
+
+        return body
+
+    body = re.sub(
+        r'<button[^>]*id="%s"[^>]*>.*?</button>' % button,
+        '<span data-%s-actions data-%s-on="%s" data-%s-off="%s"></span>' % (node, node, vy_attr(on), node, vy_attr(off)),
+        body,
+        count=1,
+        flags=re.S,
+    )
+    body = body.replace('id="%s"' % row, "data-%s-row" % node, 1)
+    notes.append(title + ": «" + off + "» ↔ «" + on + "»")
+
+    return body
+
+
+def js_button(js: str, button: str) -> str:
+    """Имя переменной, в которую её скрипт положил кнопку по `id`."""
+    found = re.search(r"var\s+([A-Za-z0-9_]+)\s*=\s*document\.getElementById\('%s'\)" % button, js)
+
+    return found.group(1) if found else button
+
+
+def proto_markup(js: str, body: str, notes: list) -> str:
+    """Проход по прототипу: экраны, переходы, тупики и выходы за границу сценария.
+
+    Без скрипта видны все экраны подряд с пояснением к каждому: черновик сценария —
+    это содержимое урока, а не оформление, и страница обязана читаться без JS.
+    Скрипт оставляет на виду один экран, ведёт журнал переходов и считает тупики.
+    """
+    if 'class="proto"' not in body:
+        return body
+
+    names = js_var(js, "NAMES") or {}
+    main = js_var(js, "MAIN") or []
+    screen_notes = js_var(js, "NOTES") or {}
+    deads = js_var(js, "DEAD") or {}
+
+    if not (names and main and deads):
+        notes.append("прототип: данных в скрипте не нашлось, разметка не тронута")
+
+        return body
+
+    count = re.search(r"protoCount\.textContent = (.+?);", js)
+    parts = re.findall(r"'([^']*)'", count.group(1)) if count else []
+    count_tmpl = parts[0] + "{экранов}" + parts[1] + "{тупиков}" + parts[2] if len(parts) == 3 else ""
+
+    stub = re.search(r"stubTxt\.textContent = (.+?);", js)
+    sparts = re.findall(r"'([^']*)'", stub.group(1)) if stub else []
+    stub_tmpl = sparts[0] + "{имя}" + sparts[1] if len(sparts) == 2 else ""
+
+    # Полный литерал: у сообщения про тупик и про пройденный сценарий строка
+    # склеена с переменной, и такое сюда не попадает.
+    outs = re.findall(r"protoFb\.innerHTML = '<b>([^<]*)</b>([^']*)';", js)
+    done = re.search(
+        r"protoFb\.innerHTML = '<b>([^<]*)</b>([^']*)' \+ found \+ '([^']*)' \+\s*"
+        r"\(found === \d+ \? '([^']*)'\s*:\s*'([^']*)'\)",
+        js,
+        re.S,
+    )
+    dead_head = js_phrase(js, r"'<b>([^<]*)</b>' \+ DEAD\[dead\]", "")
+    dead_word = js_phrase(js, r"logLine\('✕ ([^:]+): <b>'", "")
+    out_word = js_phrase(js, r"logLine\('↗ ([^:]+): <b>'", "")
+
+    if not (count_tmpl and stub_tmpl and done and len(outs) == 1 and dead_head and dead_word and out_word):
+        notes.append("прототип: фразы скрипта разобраны не полностью, разметка не тронута")
+
+        return body
+
+    holder = (
+        ' data-proto data-proto-count="%s" data-proto-stub="%s"'
+        ' data-proto-dead-head="%s" data-proto-word-dead="%s" data-proto-word-out="%s"'
+        ' data-proto-out-head="%s" data-proto-out-text="%s"'
+        ' data-proto-done-head="%s" data-proto-done="%s" data-proto-done-all="%s" data-proto-done-rest="%s"'
+        % (
+            vy_attr(count_tmpl),
+            vy_attr(stub_tmpl),
+            vy_attr(dead_head),
+            vy_attr(dead_word),
+            vy_attr(out_word),
+            vy_attr(outs[0][0]),
+            vy_attr(outs[0][1]),
+            vy_attr(done.group(1)),
+            vy_attr(done.group(2) + "{тупиков}" + done.group(3)),
+            vy_attr(done.group(4)),
+            vy_attr(done.group(5)),
+        )
+    )
+    body = body.replace('<div class="proto">', '<div class="proto"' + holder + ">", 1)
+    body = body.replace('<div class="proto-stage">', '<div class="proto-stage" data-proto-stage>', 1)
+
+    # Экран: имя для журнала, метка основного пути и пояснение из её скрипта.
+    def screen(found):
+        key = found.group(2)
+        out = '<div class="proto-screen" data-screen="%s"' % key
+
+        if key in names:
+            out += ' data-screen-name="%s"' % vy_attr(names[key])
+
+        if key in main:
+            out += " data-screen-main"
+
+        return out + ">"
+
+    body, screens = re.subn(r'<div class="proto-screen( on)?" data-screen="([a-z]+)">', screen, body)
+
+    for key, note in screen_notes.items():
+        if not note:
+            continue
+
+        at = body.find('data-screen="%s"' % key)
+
+        if at < 0:
+            continue
+
+        end = element_end(body, body.rfind("<div ", 0, at))
+        body = body[:end - len("</div>")] + '<p class="proto-note">' + note + "</p>" + body[end - len("</div>"):]
+
+    # Счётчик врёт без скрипта: без него на виду все экраны сразу.
+    body = body.replace('id="protoCount"', "data-proto-count-out hidden", 1)
+    body = body.replace('id="stubTtl"', 'class="stub-title" data-proto-stub-title', 1)
+    body = body.replace('id="stubTxt"', "data-proto-stub-text", 1)
+    body = re.sub(
+        r'<div[^>]*>\s*<button[^>]*id="stubBack"[^>]*>([^<]*)</button>\s*</div>',
+        lambda m: '<span data-proto-stub-actions data-proto-back="%s"></span>' % vy_attr(m.group(1)),
+        body,
+        count=1,
+    )
+    body = re.sub(
+        r'<div[^>]*>\s*<button[^>]*id="protoReset"[^>]*>([^<]*)</button>\s*</div>',
+        lambda m: '<span data-proto-actions data-proto-reset="%s"></span>' % vy_attr(m.group(1)),
+        body,
+        count=1,
+    )
+    # Пояснение к каждому тупику: без скрипта его негде показать, поэтому оно лежит
+    # в свёрнутом списке — и оттуда же его берёт скрипт, когда тупик найден.
+    items = "".join(
+        '<li data-proto-dead="%s"><b>Кнопка «%s».</b> %s</li>' % (vy_attr(key), vy_text(key), vy_text(value))
+        for key, value in deads.items()
+    )
+    body = body.replace(
+        '<ul class="proto-list" id="protoLog"></ul>',
+        '<ul class="proto-list" data-proto-log hidden></ul>'
+        '<details class="note" data-proto-deads><summary>Пояснения к тупикам</summary>'
+        '<ul class="err-list">' + items + "</ul></details>",
+        1,
+    )
+    body = re.sub(
+        r'<div class="proto-fb" id="protoFb">.*?</div>',
+        '<div class="proto-fb" data-proto-fb hidden></div>',
+        body,
+        count=1,
+        flags=re.S,
+    )
+    notes.append(
+        "прототип: экранов %d, тупиков %d, пояснений к экранам %d"
+        % (screens, len(deads), len([1 for v in screen_notes.values() if v]))
+    )
+
+    return body
+
 def copy_holder(text: str, notes: list) -> str:
     """Кнопка копирования → пустое место: кнопку рисует скрипт, и она работает.
 
@@ -3381,6 +3750,11 @@ body = scales_markup(script, body, widget_notes)
 body = fork_calc_markup(script, body, widget_notes)
 body = review_markup(script, body, widget_notes)
 body = checklist_markup(script, body, widget_notes)
+body = proto_markup(script, body, widget_notes)
+body = toggle_markup(body, script, widget_notes, "squintBtn", "squintRow", "squint", "прищур-тест")
+body = toggle_markup(body, script, widget_notes, "diffBtn", "pairRow", "diff", "подсветка различий")
+body = wf_markup(body, widget_notes)
+body = stub_flags(body, widget_notes)
 body = tabs_to_switch(body, widget_notes)
 body = seq_markup(script, body, widget_notes)
 body = hunt_markup(script, body, widget_notes)

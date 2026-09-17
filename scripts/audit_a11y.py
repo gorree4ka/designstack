@@ -19,12 +19,14 @@ sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 AXE = ROOT / ".tmp/audit/node_modules/axe-core/axe.min.js"
-BASE = "http://localhost:8080"
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--urls", default=str(ROOT / ".tmp/audit/urls.txt"))
 parser.add_argument("--out", default=str(ROOT / ".tmp/audit/a11y.json"))
+# Живой сайт проверяется тем же прогоном: после выката важно, что до страницы доехали
+# и разметка, и стили, а не только то, что они собрались локально.
+parser.add_argument("--base", default="http://localhost:8080")
 args = parser.parse_args()
+BASE = args.base.rstrip("/")
 
 if not AXE.exists():
     raise SystemExit("Нет axe-core: npm install axe-core --prefix .tmp/audit --no-save")
