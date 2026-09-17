@@ -1,0 +1,409 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что попробуете на практике</p>
+  <ol>
+    <li><a href="#who">Понимать, кто отвечает на анкету, а кто нет</a><span class="ds-lesson__tag">симулятор</span></li>
+    <li><a href="#form">Разослать готовую анкету</a> и собрать ответы</li>
+    <li><a href="#shares">Считать доли, а не только количества</a><span class="ds-lesson__tag">калькулятор</span></li>
+    <li><a href="#sample">Называть выборку:</a> сколько ответило и из скольких<span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#useless">Замечать вопросы, которые стоит уточнить</a><span class="ds-lesson__tag">тренажёр</span></li>
+  </ol>
+</div>
+
+<section id="what">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Что опрос умеет и чего от него ждать не надо</h2></div>
+  <p class="ds-lesson__lead">Опрос помогает собрать ответы по одним и тем же вопросам и сравнить их. Границы выводов зависят от анкеты и выборки.</p>
+
+  <p>С помощью опроса можно узнать, сколько участников сообщили об определённом опыте, выбрали вариант или дали оценку. Например, с какого устройства они заходят или сталкивались ли с трудностью за последний месяц. Ответы можно посчитать и сопоставить.</p>
+
+  <p>Ответ «неудобно» сам по себе не объяснит, что произошло. В анкете можно спросить о причинах, но для подробного разбора ситуации часто полезнее интервью или юзабилити-тест. Выбирайте метод под вопрос, на который ищете ответ.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Вопрос, который у вас есть</th><th scope="col">Опрос тут подходит?</th></tr></thead>
+      <tbody>
+        <tr><td>Сколько наших пользователей заказывают с телефона?</td><td><b>Да, с оговорками.</b> Ответы описывают участников; данные о действиях также можно искать в аналитике</td></tr>
+        <tr><td>Почему люди бросают оформление заказа?</td><td><b>Для начала полезны интервью.</b> Они помогут разобраться в обстоятельствах ухода</td></tr>
+        <tr><td>Какой вариант экрана удобнее?</td><td><b>Нет.</b> Люди плохо оценивают экраны по картинке; это юзабилити-тест</td></tr>
+        <tr><td>Как часто люди сталкиваются с проблемой, которую мы нашли на интервью?</td><td><b>Да.</b> Классическое применение: интервью нашло, опрос посчитал</td></tr>
+        <tr><td>Что люди думают о нашем бренде?</td><td><b>Да, если уточнить задачу.</b> Продумайте, какие именно оценки нужны и как их измерять</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Сначала убедитесь, что знаете, о чём спрашивать.</b> Если тема новая, несколько интервью могут помочь составить варианты ответов. Если вопрос уже понятен, можно готовить опрос сразу. Порядок методов зависит от задачи, а не от обязательной последовательности.</div>
+</section>
+
+<section id="who">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Кто вообще отвечает на анкеты</h2></div>
+  <p class="ds-lesson__lead">Те, кто ответил, могут отличаться от тех, кто пропустил приглашение. Учитывайте это при разборе результатов.</p>
+
+  <p>После рассылки отвечают люди, которые увидели приглашение, нашли время и захотели участвовать. На это могут влиять интерес к теме, недавний опыт, активность и другие причины. Поэтому ответивших нельзя автоматически считать случайной частью аудитории.</p>
+
+  <p>Ответы могут отличаться от картины среди всех пользователей. Направление и размер этого смещения не известны заранее. Описывайте способ приглашения, состав ответивших и ограничения. Одна лишь доля отклика не определяет качество выборки — это отмечено в <a href="https://aapor.org/standards-and-ethics/standard-definitions/">рекомендациях AAPOR</a>.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Симулятор · 500 человек получили анкету<span class="ds-lesson__spacer"></span>
+      <span data-bias-actions></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ppl" data-bias data-bias-n="500" data-bias-quota="62" data-bias-seed="7" data-bias-angry="0.12" data-bias-happy="0.3" data-bias-odds="0.45,0.3,0.06" data-bias-all="Все пользователи" data-bias-ans="Кто ответил" aria-hidden="true" hidden></div>
+      <div data-bias-views><div class="ds-lesson__bias-view" data-bias-view="all"><p class="ds-lesson__bias-title"><b>Все пользователи: 500 человек</b></p><div class="ds-lesson__dots-legend"><span><i class="is-angry"></i> недовольны</span><span><i class="is-happy"></i> довольны</span><span><i class="is-plain"></i> всё нормально</span></div><div class="ds-lesson__bars"><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Недовольны</span><span class="ds-lesson__bar-value">73 из 500 · 15 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:15%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Довольны</span><span class="ds-lesson__bar-value">89 из 500 · 18 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:18%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Всё нормально</span><span class="ds-lesson__bar-value">338 из 500 · 68 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:68%"></span></div></div></div><p class="ds-lesson__dim">Так устроена аудитория в этой модели. Нажмите «Кто ответил», чтобы сравнить её с участниками опроса. В реальном исследовании состав и причины отклика нужно выяснять отдельно.</p></div><div class="ds-lesson__bias-view" data-bias-view="ans"><p class="ds-lesson__bias-title"><b>Только те, кто ответил: 62 человека</b></p><div class="ds-lesson__dots-legend"><span><i class="is-angry"></i> недовольны</span><span><i class="is-happy"></i> довольны</span><span><i class="is-answered"></i> всё нормально</span><span><i class="is-silent"></i> не ответили</span></div><div class="ds-lesson__bars"><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Недовольны</span><span class="ds-lesson__bar-value">20 из 62 · 32 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:32%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Довольны</span><span class="ds-lesson__bar-value">29 из 62 · 47 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:47%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Всё нормально</span><span class="ds-lesson__bar-value">13 из 62 · 21 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:21%"></span></div></div></div><p class="ds-lesson__dim">Среди ответивших недовольных — 32 %. Среди всех пользователей их 15 %. В этой учебной модели доля недовольных среди ответивших вдвое выше: для разных групп задана разная вероятность ответа. Это один из возможных сценариев смещения.</p></div></div>
+    </div>
+    <div class="ds-lesson__box-foot">В симуляторе вымышлены и люди, и вероятность их ответа. Здесь недовольные участвуют чаще; в другом опросе картина может быть иной. Пример показывает, почему состав ответивших важно проверять, а не угадывать.</div>
+  </div>
+
+  <h3>Что с этим делать на практике</h3>
+  <ul>
+    <li><strong>Укажите, кого пригласил и сколько человек ответило.</strong> Это помогает понять, как собраны данные. Само число ответов ещё не показывает, насколько выборка похожа на аудиторию.</li>
+    <li><strong>Сравните состав ответивших с аудиторией, если есть данные.</strong> Например, по активности и стажу использования. Заметные различия укажите в отчёте.</li>
+    <li><strong>Выбирайте каналы под аудиторию.</strong> Подписчики, участники чата и пользователи продукта могут иметь разный опыт. Если работаете с одной группой, не переносите её ответы на остальных.</li>
+    <li><strong>Не оценивайте достоверность по одному порогу отклика.</strong> При любом числе ответов проверьте, кто получил приглашение, кто ответил и каких участников может не хватать.</li>
+    <li><strong>Учитывайте момент приглашения.</strong> Опрос сразу после ошибки описывает опыт людей в этой ситуации. Он может быть полезен для разбора ошибки, но не обязательно для общей оценки продукта.</li>
+  </ul>
+
+  <div class="ds-lesson__warn"><b>Учебный пример:</b> «Анкету получили 500 человек, ответили 62. Среди ответивших 71 % пользуются продуктом чаще раза в неделю, а среди всей аудитории — 34 %. Активные пользователи представлены сильнее, поэтому ответы нельзя переносить на всех без оговорок».</div>
+</section>
+
+<section id="form">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Готовая анкета и как её разослать</h2></div>
+  <p class="ds-lesson__lead">Вот та анкета, с которой нужно сделать задание. Подставьте свой продукт вместо скобок.</p>
+
+  <p>В шаблоне восемь вопросов. Перед рассылкой проверьте, все ли они нужны для вашей задачи и сколько времени занимает заполнение. Три минуты — предварительный ориентир, который нужно проверить на пробном прохождении.</p>
+
+  <div class="ds-lesson__box" id="formBody">
+    <div class="ds-lesson__box-head">Анкета · 8 вопросов<span class="ds-lesson__spacer"></span><span data-copy="formBody"></span></div>
+    <div class="ds-lesson__box-body">
+      <p class="ds-lesson__dim">Вступление перед первым вопросом:</p>
+      <div class="ds-lesson__qcard">Расскажите о вашем опыте работы с [продукт]. В анкете восемь вопросов, заполнение займёт примерно [время после проверки]. Вопросы можно пропускать. Ответы увидят [кто получит доступ]. Участие в дальнейшей беседе — по желанию.</div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">один вариант</span><b>1. Как часто вы пользуетесь [продукт]?</b>
+        <ul><li>Почти каждый день</li><li>Несколько раз в неделю</li><li>Несколько раз в месяц</li><li>Реже</li><li>Это первый раз</li></ul></div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">один вариант</span><b>2. С чего вы чаще всего заходите?</b>
+        <ul><li>Телефон</li><li>Компьютер</li><li>Планшет</li><li>По-разному, примерно поровну</li></ul></div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">один вариант</span><b>3. Когда вы в последний раз [ключевое действие: оформляли заказ / создавали проект]?</b>
+        <ul><li>На этой неделе</li><li>Ранее в этом месяце</li><li>До начала этого месяца</li><li>Ни разу</li><li>Не помню</li></ul></div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">несколько вариантов</span><b>4. Что из этого случалось с вами за последний месяц?</b> Можно выбрать несколько пунктов. Если выбираете «Ничего из перечисленного», другие пункты отмечать не нужно.
+        <ul><li>Не смог найти то, что искал</li><li>Пришлось переделывать что-то заново</li><li>Не понял, что происходит после моего действия</li><li>Пришлось писать в поддержку</li><li>Ничего из перечисленного</li></ul></div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">один вариант</span><b>5. В последний раз удалось выполнить [ключевое действие] с первой попытки?</b>
+        <ul><li>Да, с первой</li><li>Не сразу, но справился сам</li><li>Пришлось просить помощи</li><li>Так и не получилось</li><li>Ещё не пробовал</li><li>Не помню</li></ul></div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">шкала 1–5</span><b>6. Насколько легко было выполнить [ключевое действие] в последний раз?</b>
+        <ul><li>1 — очень трудно · 5 — очень легко</li><li>Не пробовал или не могу оценить</li></ul></div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">свободный текст</span><b>7. С чем возникли трудности в последний раз, если они были? Опишите своими словами.</b>
+        <ul><li>Поле для ответа, не обязательное</li></ul></div>
+
+      <div class="ds-lesson__qcard"><span class="ds-lesson__qcard-type">один вариант</span><b>8. Готовы ли вы поговорить с нами 30 минут о вашем опыте?</b>
+        <ul><li>Да, готов обсудить участие</li><li>Нет, спасибо</li></ul></div>
+    </div>
+    <div class="ds-lesson__box-foot">Последний вопрос поможет найти участников для интервью. Если собираете контакты, объясните, кто их увидит и зачем они нужны. Для анкеты, которую обещаете сделать анонимной, нужна отдельная форма контактов без связи с ответами; одного обещания во вступлении недостаточно.</div>
+  </div>
+
+  <h3>Куда рассылать и чего ожидать</h3>
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Канал</th><th scope="col">От чего зависит отклик</th><th scope="col">Что учесть</th></tr></thead>
+      <tbody>
+        <tr><td>Всплывающее окно в продукте</td><td class="is-num">от момента и способа показа</td><td>Приглашение видят активные в этот момент люди; учитывайте контекст показа</td></tr>
+        <tr><td>Письмо по базе</td><td class="is-num">от базы и приглашения</td><td>Можно учесть отправленные и доставленные приглашения</td></tr>
+        <tr><td>Сообщение в чате поддержки</td><td class="is-num">от темы обращения</td><td>Это опыт обратившихся в поддержку; он не описывает всю аудиторию</td></tr>
+        <tr><td>Пост в соцсетях продукта</td><td class="is-num">непредсказуемо</td><td>Если число получивших приглашение неизвестно, долю отклика определить нельзя</td></tr>
+        <tr><td>Профильные чаты и знакомые</td><td class="is-num">по-разному</td><td>Годится для учебной задачи; для рабочей — только как дополнение</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul>
+    <li><strong>Учтите число приглашений.</strong> Для адресной рассылки запишите, скольким отправил и сколько доставлено. Если приглашение опубликовано в чате, количество его участников не равно числу людей, которые увидели сообщение.</li>
+    <li><strong>Для задания выделите три-четыре дня</strong> и при необходимости напомните один раз. Подстройте срок под доступность участников.</li>
+    <li><strong>Проверьте анкету до рассылки.</strong> Пройдите её сами и попросите одного человека из целевой аудитории. Уточните непонятные вопросы, проверьте шкалы и ветвление.</li>
+    <li><strong>Согласуйте вступление с настройками.</strong> Если обещаете анонимность или возможность пропуска, проверьте, что форма действительно так работает.</li>
+  </ul>
+</section>
+
+<section id="shares">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Доли: почему «12 человек» — это ещё не ответ</h2></div>
+  <p class="ds-lesson__lead">Доля помогает понять количество в контексте всех ответов на вопрос.</p>
+
+  <p><strong>Количество</strong> показывает, сколько людей выбрали вариант. <strong>Доля</strong> — какую часть ответивших на вопрос они составляют. Двенадцать из 34 — около трети, а 12 из 400 — 3 %. Значимость проблемы зависит также от её последствий: небольшая доля не делает её автоматически неважной.</p>
+
+  <p>Формула: <strong>число выбравших вариант ÷ число ответивших на вопрос × 100</strong>. Например, 12 ÷ 34 × 100 ≈ 35 %. Дальше важно правильно выбрать знаменатель и округление.</p>
+
+  <h3>Ловушка первая: от чего считать</h3>
+  <p>Отвечало 34 человека, но на конкретный вопрос ответили не все — например, 30, потому что четверо его пропустили. Считать надо <strong>от тех, кто ответил на этот вопрос</strong> (от 30), а не от всех участников (от 34). Поэтому у каждого вопроса своё «из скольких», и оно может отличаться от общего.</p>
+  <p>Отдельный случай — вопрос, где можно выбрать несколько вариантов. Там сумма долей может быть больше 100 %, и это нормально: каждая доля считается от числа людей, а не от числа галочек. Рядом обязательно надо написать «можно было выбрать несколько».</p>
+
+  <h3>Ловушка вторая: округление</h3>
+  <p>Проценты с запятой в опросе на тридцать человек — это ложная точность. «35,29 %» выглядит научно, но означает ровно «12 из 34». Округляйте до целых, а лучше вообще пишите обе формы: <strong>«12 из 34 (35 %)»</strong>. Так читатель видит и масштаб, и точность.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Калькулятор долей · впиши свои количества<span class="ds-lesson__spacer"></span><span data-share-actions data-share-reset="Сбросить"></span></div>
+    <div class="ds-lesson__box-body" data-share data-share-line="{name} — {n} из {total} ({p} %)" data-share-total="Всего ответили на вопрос: {total} человек" data-share-empty="Впиши варианты и количества — появятся готовые строки." data-share-of="из">
+      <div class="ds-lesson__share-row"><span class="ds-lesson__share-head">Вариант ответа</span><span class="ds-lesson__share-head">Человек</span><span class="ds-lesson__share-head">Доля</span></div>
+      <div class="ds-lesson__share-rows" data-share-rows><div class="ds-lesson__share-row" data-share-row><input type="text" value="Телефон" placeholder="Вариант 1" aria-label="Вариант 1" data-share-name><input type="number" min="0" step="1" value="21" aria-label="Человек, вариант 1" data-share-count><span class="ds-lesson__share-part" data-share-part>62 %</span></div><div class="ds-lesson__share-row" data-share-row><input type="text" value="Компьютер" placeholder="Вариант 2" aria-label="Вариант 2" data-share-name><input type="number" min="0" step="1" value="9" aria-label="Человек, вариант 2" data-share-count><span class="ds-lesson__share-part" data-share-part>26 %</span></div><div class="ds-lesson__share-row" data-share-row><input type="text" value="По-разному" placeholder="Вариант 3" aria-label="Вариант 3" data-share-name><input type="number" min="0" step="1" value="3" aria-label="Человек, вариант 3" data-share-count><span class="ds-lesson__share-part" data-share-part>9 %</span></div><div class="ds-lesson__share-row" data-share-row><input type="text" value="Планшет" placeholder="Вариант 4" aria-label="Вариант 4" data-share-name><input type="number" min="0" step="1" value="1" aria-label="Человек, вариант 4" data-share-count><span class="ds-lesson__share-part" data-share-part>3 %</span></div><div class="ds-lesson__share-row" data-share-row><input type="text" value="" placeholder="Вариант 5" aria-label="Вариант 5" data-share-name><input type="number" min="0" step="1" value="" aria-label="Человек, вариант 5" data-share-count><span class="ds-lesson__share-part" data-share-part></span></div></div>
+      <div class="ds-lesson__share-row">
+        <span>Ответили на этот вопрос</span>
+        <span class="ds-lesson__share-part" id="calcTotal">34</span>
+        <span class="ds-lesson__share-part">100 %</span>
+      </div>
+      <div class="ds-lesson__build-out">
+        <div class="ds-lesson__bars" id="calcBars" data-share-bars><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Телефон</span><span class="ds-lesson__bar-value">21 из 34 · 62 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:62%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Компьютер</span><span class="ds-lesson__bar-value">9 из 34 · 26 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:26%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">По-разному</span><span class="ds-lesson__bar-value">3 из 34 · 9 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:9%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Планшет</span><span class="ds-lesson__bar-value">1 из 34 · 3 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:3%"></span></div></div></div>
+        <p class="ds-lesson__dim">Готовые строки — можно вставлять прямо в отчёт:</p>
+        <div class="ds-lesson__build-text ds-lesson__build-text--mono" id="calcLines" data-share-lines>Телефон — 21 из 34 (62 %)
+Компьютер — 9 из 34 (26 %)
+По-разному — 3 из 34 (9 %)
+Планшет — 1 из 34 (3 %)
+
+Всего ответили на вопрос: 34 человек</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Этот калькулятор подходит для вопроса с одним вариантом ответа: общее число он получает сложением количеств по вариантам. Для множественного выбора отдельно считайте число людей, ответивших на вопрос, а не сумму отметок.</div>
+  </div>
+</section>
+
+<section id="sample">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>«Из скольких»: главная строчка всего отчёта</h2></div>
+  <p class="ds-lesson__lead">Указывайте число ответивших рядом с долей, чтобы читатель мог оценить объём данных.</p>
+
+  <p>Восемь из десяти и восемьсот из тысячи — в обоих случаях 80 %. Но в маленькой выборке каждый ответ меняет долю заметнее: при десяти участниках это 10 процентных пунктов. Поэтому рядом с процентом нужны исходные количества. Большая выборка тоже не устраняет ошибки отбора сама по себе.</p>
+
+  <div class="ds-lesson__rule"><b>Покажите, из скольких посчитана доля.</b> Например: «12 из 34 ответивших на вопрос (35 %)». Укажите также способ приглашения и ограничения выборки, чтобы было понятно, к кому относится результат.</div>
+
+  <h3>Насколько вообще можно верить цифре</h3>
+  <p>Размер выборки влияет на случайную погрешность. Ниже — примерные 95%-е интервалы Уилсона для доли 50 % при независимом случайном отборе. Это иллюстрация влияния размера выборки, а не оценка точности добровольного опроса в чате: смещение отбора в эти интервалы не входит. Подробнее о методе — в <a href="https://www.itl.nist.gov/div898/handbook/prc/section2/prc241.htm">справочнике NIST</a>.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ответило человек</th><th scope="col">Получилось в опросе</th><th scope="col">Примерный интервал при этих условиях</th></tr></thead>
+      <tbody>
+        <tr><td class="ds-lesson__num">10</td><td class="ds-lesson__num">50 %</td><td><b>24–76 %</b> — широкий интервал</td></tr>
+        <tr><td class="ds-lesson__num">30</td><td class="ds-lesson__num">50 %</td><td><b>33–67 %</b></td></tr>
+        <tr><td class="ds-lesson__num">100</td><td class="ds-lesson__num">50 %</td><td><b>40–60 %</b></td></tr>
+        <tr><td class="ds-lesson__num">400</td><td class="ds-lesson__num">50 %</td><td><b>45–55 %</b></td></tr>
+        <tr><td class="ds-lesson__num">1000</td><td class="ds-lesson__num">50 %</td><td><b>47–53 %</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">Для задания достаточно показать исходные числа и не переносить небольшие различия на всю аудиторию. Если варианты выбрали 16 и 14 из 30, так и напишите. Разница в ответах есть, но этого недостаточно, чтобы утверждать, что предпочтение устойчиво среди всех пользователей.</p>
+
+  <h3>Как описывать результаты точно</h3>
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Не хватает контекста</th><th scope="col">Точнее</th></tr></thead>
+      <tbody>
+        <tr><td>«80 % пользователей хотят тёмную тему»</td><td>«8 из 10 ответивших выбрали тёмную тему. Ответило 10 человек — этого мало для выводов, нужен повторный опрос»</td></tr>
+        <tr><td>«Большинство заходит с телефона»</td><td>«С телефона заходят 21 из 34 ответивших (62 %)»</td></tr>
+        <tr><td>«35,29 % столкнулись с проблемой»</td><td>«12 из 34 (35 %) отметили, что не нашли нужное»</td></tr>
+        <tr><td>«Вариант Б популярнее варианта А» <span class="ds-lesson__dim">(16 против 14)</span></td><td>«Варианты разделились примерно поровну: 16 и 14 из 30»</td></tr>
+        <tr><td>«Пользователи считают, что…»</td><td>«Те, кто ответил на анкету, считают, что…»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр 1 · можно так написать в отчёте?<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question"><q>С телефона заходят 21 из 34 ответивших (62 %).</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Можно писать</b>Указаны количество, доля и число ответивших. Понятно, к какой группе относится результат.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>80 % пользователей хотят тёмную тему.</q><span class="ds-quiz__sub">Ответили 10 человек, 8 выбрали тёмную тему.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нужно уточнить</b>8 из 10 — это 80 %, расчёт верный. Ошибка в обобщении на всех пользователей. Точнее: «8 из 10 ответивших выбрали тёмную тему». Укажите также, как их пригласили.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>Вариант Б популярнее среди всех пользователей: его выбрали 16 против 14 из 30 ответивших.</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нужно уточнить</b>В этой выборке Б выбрали чаще: 16 против 14. Но этих данных недостаточно, чтобы утверждать устойчивое предпочтение среди всех пользователей. Покажите числа и ограничение.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question"><q>12 из 32 ответивших на этот вопрос (38 %) не нашли нужное. Четверо вопрос пропустили.</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Можно писать</b>Отлично: указано и число ответивших именно на этот вопрос, и то, что кто-то его пропустил.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>Проблему отметили 35,29 % собеседников.</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нужно уточнить</b>Не указан знаменатель. Если речь о 12 из 34, понятнее написать «12 из 34 (35 %)»: сотые доли здесь не добавляют полезной точности.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question"><q>Анкету получили 520 человек, ответили 34 — это 6,5 %.</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Можно писать</b>Это шапка отчёта: сразу видно и охват, и отклик. Читатель понимает масштаб до того, как увидит первую цифру.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>Большинство наших клиентов довольны сервисом.</q><span class="ds-quiz__sub">Довольны 19 из 34 ответивших.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нужно уточнить</b>19 из 34 — действительно больше половины ответивших. Но это не основание говорить обо всех клиентах. Добавьте исходные числа и назовите именно участников опроса.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question"><q>Сумма долей в этом вопросе больше 100 %, потому что можно было выбрать несколько вариантов.</q></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Можно писать</b>Обязательная пометка. Она объясняет, почему сумма долей может превышать 100 %.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="ok">Можно писать</button><button class="ds-quiz__option" type="button" data-quiz-answer="no">Нужно уточнить</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Три вещи, которые проверяются в каждом пункте: написано ли «из скольких», не превратились ли «ответившие» во «всех пользователей», и не выдаётся ли случайная разница за настоящую.</div>
+</div>
+</section>
+
+<section id="useless">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Как понять, что вопрос стоит уточнить</h2></div>
+  <p class="ds-lesson__lead">Проверьте, какую информацию даёт вопрос и можно ли использовать её для задачи исследования.</p>
+
+  <p>Вопрос должен помогать ответить на задачу исследования. Если 97 % выбрали один вариант, это может быть содержательным результатом. Но стоит проверить формулировку: не подсказывает ли она ответ, понятны ли варианты и даёт ли ответ нужную информацию.</p>
+
+  <h3>Почему так получается — три обычные причины</h3>
+  <ul>
+    <li><strong>Вопрос слишком общий.</strong> «Важна ли скорость?» мало помогает понять опыт ожидания. Полезнее спросить, сталкивался ли человек с задержкой, когда и что сделал.</li>
+    <li><strong>Формулировка подталкивает к согласию.</strong> В вопросе «Согласны ли вы, что удобный поиск делает покупки приятнее?» уже заложена положительная оценка.</li>
+    <li><strong>Может быть неловко ответить иначе.</strong> Вопрос о чтении условий иногда вызывает желание дать одобряемый ответ. Нейтрально спросите о последнем случае и предложите варианты, в том числе «не помню».</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>До рассылки проверьте цель вопроса.</b> Что вы узнаете при каждом варианте ответа? Нет ли оценки в самой формулировке? Понятен ли период? Ожидаемый ответ не делает вопрос бесполезным, а разнообразие ответов само по себе не подтверждает его качество.</div>
+
+  <p>Если ответы оказались похожими, сохраните результат и проверьте возможные объяснения. При проблеме в формулировке опишите её отдельно: «Почти все назвали скорость важной, но вопрос не показывает, где люди сталкивались с задержками».</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр 2 · стоит ли уточнить вопрос?<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 7 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>Важна ли вам скорость работы сервиса?</q><span class="ds-quiz__sub">Ответили: важна — 33, не важна — 1.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Стоит уточнить</b>Вопрос показывает заявленную важность скорости, но мало говорит об опыте ожидания. Если нужно разобраться в задержках, спросите о конкретном периоде и действиях.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question"><q>С какого устройства вы заходите чаще всего?</q><span class="ds-quiz__sub">Телефон — 21, компьютер — 9, по-разному — 3, планшет — 1.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подходит для сбора опыта</b>Ответы показывают, какие устройства участники называют основными. В отчёте укажите число ответивших и не переносите распределение на всех без оснований.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>Читаете ли вы условия перед оплатой?</q><span class="ds-quiz__sub">Да — 29, нет — 5.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Стоит уточнить</b>Общий вопрос может вызвать желание дать одобряемый ответ. Уточните последний случай и предложите нейтральные варианты. По распределению 29 и 5 нельзя само по себе заключить, что люди ответили неверно.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question"><q>Получилось ли у вас с первой попытки?</q><span class="ds-quiz__sub">С первой — 16, не сразу — 9, просил помощи — 3, не вышло — 2.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подходит для сбора опыта</b>Если из контекста понятны действие и последний случай, ответы описывают его результат. Укажите знаменатель и не делайте вывод о причинах без дополнительных данных.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>Согласны ли вы, что удобный поиск делает покупки приятнее?</q><span class="ds-quiz__sub">Согласны — 32, не согласны — 2.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Стоит уточнить</b>В формулировке уже есть положительная оценка. Если задача — узнать об опыте поиска, спросите, удалось ли найти нужное в конкретный период.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question"><q>Что случалось с вами за последний месяц?</q><span class="ds-quiz__sub">Не нашёл нужное — 12, писал в поддержку — 9, переделывал — 7, ничего — 11.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подходит для сбора опыта</b>Указаны период и конкретные события. Для отчёта нужны число ответивших и пометка о множественном выборе: сумма отметок не равна числу людей.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question"><q>Хотели бы вы, чтобы приложение работало быстрее?</q><span class="ds-quiz__sub">Да — 34, нет — 0.</span></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Стоит уточнить</b>Вопрос предлагает улучшение без контекста. Он мало говорит о том, где скорость мешает человеку. Единодушие само по себе не делает вопрос ошибочным; здесь важно уточнить цель и формулировку.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="ok">Подходит для сбора опыта</button><button class="ds-quiz__option" type="button" data-quiz-answer="no">Стоит уточнить</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">При разборе смотрите не только на распределение ответов, но и на цель, формулировку и варианты. Односторонний результат — повод проверить вопрос, а не объявить его ошибочным автоматически.</div>
+</div>
+</section>
+
+<section id="page">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Страница результатов</h2></div>
+  <p class="ds-lesson__lead">То, что нужно сдать по заданию. Ниже — готовый образец, по которому можно собрать свой.</p>
+
+  <p>Для задания соберите одну страницу: <strong>кто отвечал, распределение ответов и три наблюдения</strong>. Отделите видимые результаты от предположений о причинах. Решения по продукту здесь разбирать необязательно.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Образец · страница результатов опроса</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__doc">
+        <h3>Опрос про оформление заказа</h3>
+        <p class="ds-lesson__meta">12–16 марта · анкету получили 520 человек · ответили 34 · доля отклика 6,5 %</p>
+
+        <h4>Кто ответил</h4>
+        <p class="ds-lesson__obs">Ответили в основном активные пользователи: 24 из 34 заходят несколько раз в неделю или чаще. Среди всех наших пользователей таких примерно треть. <b>Активные пользователи представлены сильнее, поэтому ответы нельзя автоматически переносить на всю аудиторию.</b> Анкета была анонимной, вопросы можно было пропускать — поэтому у каждого вопроса своё число ответивших.</p>
+
+        <h4>С какого устройства заходят <span class="ds-lesson__dim">· ответили 34 из 34</span></h4>
+        <div class="ds-lesson__bars"><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Телефон</span><span class="ds-lesson__bar-value">21 из 34 · 62 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:62%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Компьютер</span><span class="ds-lesson__bar-value">9 из 34 · 26 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:26%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">По-разному</span><span class="ds-lesson__bar-value">3 из 34 · 9 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:9%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Планшет</span><span class="ds-lesson__bar-value">1 из 34 · 3 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:3%"></span></div></div></div>
+
+        <h4>Что случалось за последний месяц <span class="ds-lesson__dim">· ответили 32 из 34 · можно было выбрать несколько</span></h4>
+        <div class="ds-lesson__bars"><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Не нашёл нужное</span><span class="ds-lesson__bar-value">12 из 32 · 38 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:100%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Писал в поддержку</span><span class="ds-lesson__bar-value">9 из 32 · 28 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:75%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Переделывал заново</span><span class="ds-lesson__bar-value">7 из 32 · 22 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:58%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Не понял, что произошло</span><span class="ds-lesson__bar-value">6 из 32 · 19 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:50%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Ничего из этого</span><span class="ds-lesson__bar-value">11 из 32 · 34 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:92%"></span></div></div></div>
+
+        <h4>Получилось ли с первой попытки <span class="ds-lesson__dim">· ответили 30 из 34</span></h4>
+        <div class="ds-lesson__bars"><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Да, с первой</span><span class="ds-lesson__bar-value">16 из 30 · 53 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:53%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Не сразу, но сам</span><span class="ds-lesson__bar-value">9 из 30 · 30 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:30%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Просил помощи</span><span class="ds-lesson__bar-value">3 из 30 · 10 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:10%"></span></div></div><div class="ds-lesson__bar"><div class="ds-lesson__bar-label"><span class="ds-lesson__bar-name">Так и не вышло</span><span class="ds-lesson__bar-value">2 из 30 · 7 %</span></div><div class="ds-lesson__bar-track"><span class="ds-lesson__bar-fill" style="width:7%"></span></div></div></div>
+
+        <h4>Три наблюдения</h4>
+        <p class="ds-lesson__obs"><b>1. Среди ответивших чаще заходят с телефона.</b> Этот вариант выбрал 21 из 34 участников (62 %), компьютер — 9 из 34 (26 %). Эти числа описывают ответы в нашем опросе.</p>
+        <p class="ds-lesson__obs"><b>2. Не все нашли нужное.</b> 12 из 32 ответивших на вопрос (38 %) выбрали этот пункт. Это самый частый из перечисленных вариантов. Анкета не показывает, что именно они искали; это можно уточнить на интервью.</p>
+        <p class="ds-lesson__obs"><b>3. Вопрос о скорости доставки стоит уточнить.</b> В этом учебном примере анкета дополнена вопросом «Важна ли вам скорость доставки?». Его выбрали 33 из 34 участников. Ответ показывает заявленную важность, но не объясняет, какое время ожидания для них приемлемо.</p>
+
+        <h4>Чего этот опрос не показывает</h4>
+        <p class="ds-lesson__obs">Ответили 34 человека из 520 приглашённых, причём активные пользователи представлены сильнее. Поэтому мы описываем ответы участников, а не всю аудиторию. Варианты «писал в поддержку» и «переделывал заново» выбрали 9 и 7 человек: это разные числа, но такой разницы недостаточно для вывода об устойчивом различии в аудитории.</p>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">У каждого блока указано число ответивших: вопросы можно пропускать, поэтому знаменатель меняется. Количество видно и в подписи, и при наведении на столбик. В последнем разделе описаны ограничения результатов.</div>
+  </div>
+
+  <h3>Как собрать такую страницу у себя</h3>
+  <ol>
+    <li><strong>Выгрузите ответы в таблицу.</strong> Обычно строка соответствует участнику, а столбец — вопросу.</li>
+    <li><strong>Посчитайте ответивших на каждый вопрос.</strong> Это знаменатель для долей в этом вопросе.</li>
+    <li><strong>Посчитайте, сколько людей выбрали каждый вариант.</strong> Для одного варианта можно использовать <code>=СЧЁТЕСЛИ()</code>. Чтобы получить долю, разделите количество на число ответивших на вопрос.</li>
+    <li><strong>Построй столбчатые диаграммы.</strong> Добавьте подписи с количеством и долей; для сравниваемых графиков проверьте шкалы.</li>
+    <li><strong>Запишите три наблюдения.</strong> Опишите то, что видно в ответах, и не добавляйте неподтверждённые причины.</li>
+    <li><strong>Опишите ограничения.</strong> Что не удалось узнать и на кого нельзя перенести результаты?</li>
+  </ol>
+
+  <div class="ds-lesson__warn"><b>Для задания используйте горизонтальные столбики.</b> По ним удобно сравнивать значения, а длинные подписи помещаются рядом. Круговая диаграмма может подойти для простой структуры целого, но близкие доли на ней сравнивать труднее.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Анкета из раздела 3, минимум тридцать ответов, одна страница результатов.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Адаптируйте анкету</strong> (около 20 мин). Выберите свой или знакомый продукт, уточните действие в вопросах. Если проводите учебный опрос чужого сервиса, прямо напишите, что не представляете его команду.</li>
+    <li><strong>Соберите анкету в сервисе форм</strong> (около 40 мин). Настрой пропуск вопросов и варианты «не пробовал» или «не могу оценить», где они нужны.</li>
+    <li><strong>Проверьте анкету</strong> (около 15 мин). Пройдите её сами и попросите знакомого с подходящим опытом. Измерьте длительность и уточните её во вступлении.</li>
+    <li><strong>Разошли анкету и запишите канал приглашения</strong> (1 вечер). Для личных приглашений учтите число адресатов. Для поста в чате не подменяйте охват общим числом участников.</li>
+    <li><strong>Подождите три-четыре дня</strong> и напомните один раз.</li>
+    <li><strong>Выгрузите ответы в таблицу</strong> (30 мин) и посчитайте по каждому вопросу: сколько ответило, сколько выбрало каждый вариант, какие доли.</li>
+    <li><strong>Соберите страницу результатов</strong> (1–1,5 ч) по образцу из раздела 7.</li>
+  </ol>
+  <p class="ds-lesson__dim">Ориентир: 4–6 часов работы плюс несколько дней ожидания ответов.</p>
+
+  <h3>Что должно быть на странице</h3>
+  <ul>
+    <li><strong>Шапка:</strong> даты, скольким отправили, сколько ответило, доля отклика.</li>
+    <li><strong>Абзац «кто ответил»:</strong> что известно о тех, кто заполнил анкету, и чем они могут отличаться от всех остальных.</li>
+    <li><strong>Столбики по вопросам,</strong> у каждого блока — своё «ответили N из 34».</li>
+    <li><strong>Три наблюдения,</strong> в каждом цифра в формате «12 из 32 (38 %)».</li>
+    <li><strong>Раздел «чего этот опрос не показывает»</strong> — что осталось неизвестным и какие различия нельзя уверенно переносить на всю аудиторию.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>Перед сдачей проверьте контекст каждой цифры.</b> Видно ли, из скольких она посчитана, кто отвечал и как задавался вопрос? Не перенесены ли ответы участников на всю аудиторию? Если чего-то не хватает, добавьте пояснение.</div>
+
+  <h3>Если ответов меньше тридцати</h3>
+  <p>Если ответов меньше тридцати, задание всё равно можно выполнить. Покажите реальные числа и опишите способ сбора. При необходимости попробуйте другой подходящий канал, но учитывайте, что состав участников может измениться.</p>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и типовые ошибки</h2></div>
+
+  <h3>До рассылки</h3>
+  <ul>
+    <li>Анкета проходится меньше чем за четыре минуты</li>
+    <li>Вопросы можно пропускать</li>
+    <li>Прошёл сам и дал пройти знакомому</li>
+    <li>Для адресной рассылки записано, сколько людей получат приглашение</li>
+    <li>Условия во вступлении соответствуют тому, как будет проведён опрос</li>
+  </ul>
+
+  <h3>Перед тем как показывать результаты</h3>
+  <ul>
+    <li>У каждой цифры написано, из скольких она посчитана</li>
+    <li>Для адресных приглашений указано, сколько ответили из приглашённых; неизвестный охват не подменён оценкой</li>
+    <li>Есть описание ответивших и известных ограничений выборки</li>
+    <li>Проценты округлены до целых, рядом стоят люди</li>
+    <li>Вопросы с несколькими вариантами помечены — сумма может превышать 100 %</li>
+    <li>Небольшие различия не объявлены устойчивой закономерностью без проверки</li>
+    <li>Слово «пользователи» заменено на «те, кто ответил»</li>
+    <li>Есть раздел про то, чего опрос не показывает</li>
+  </ul>
+
+  <h3>Что проверить при разборе ответов</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Проценты без «из скольких».</b> Главная ошибка темы. «80 %» без числа ответивших — цифра, которую нельзя ни проверить, ни правильно понять.</li>
+    <li><b>Восемь из десяти как «80 % пользователей».</b> Доля рассчитана верно, но описывает ответивших, а не всех пользователей.</li>
+    <li><b>«Пользователи считают…»</b> вместо «те, кто ответил, считают». Состав ответивших может отличаться от всей аудитории.</li>
+    <li><b>Проценты с запятыми.</b> «35,29 %» на тридцати ответах — избыточная точность: здесь понятнее показать «12 из 34 (35 %)».</li>
+    <li><b>Считает от общего числа участников,</b> а не от ответивших на конкретный вопрос.</li>
+    <li><b>Не проверил, помогает ли вопрос задаче исследования.</b> «97 % считают качество важным» может быть верным результатом, но не объясняет, что именно нужно улучшить.</li>
+    <li><b>Разница в один-два человека объявлена трендом.</b> Разницу можно описать, но нельзя без проверки объявлять устойчивым предпочтением всей аудитории.</li>
+    <li><b>Не описан способ приглашения.</b> Для адресной рассылки укажите число приглашённых и ответивших. Если охват неизвестен, так и напишите — долю отклика в этом случае не рассчитать.</li>
+    <li><b>Рассылает только своим</b> — в дружеский чат и подписчикам — и переносит ответы этого круга людей на всю аудиторию.</li>
+    <li><b>Круговая диаграмма на семь кусков.</b> Близкие доли трудно сравнить; столбики помогут показать различия понятнее.</li>
+    <li><b>Делает выводы о причинах.</b> «Люди не находят товар, потому что плохой поиск» — опрос этого не говорил, это догадка.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Что остаётся на следующие ступени</h2></div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Уровень</th><th scope="col">Что добавляется</th></tr></thead>
+      <tbody>
+        <tr><td><b>Junior</b> — этот урок</td><td>Разослать готовую анкету и понимать, кто отвечает; свести ответы в таблицу и посчитать доли; называть выборку и «из скольких»; замечать вопросы, которые стоит уточнить; не выдавать 8 из 10 ответивших за 80 % всех пользователей</td></tr>
+        <tr><td>Middle</td><td>Составлять анкету под свой вопрос; формулировать варианты ответов так, чтобы они не подсказывали; считать, сколько ответов нужно, и оценивать погрешность; сравнивать группы между собой и понимать, настоящая ли разница; чистить данные от мусорных ответов; связывать опрос с интервью и аналитикой</td></tr>
+        <tr><td>Senior</td><td>Строить регулярные измерения и следить за цифрами во времени; выбирать между опросом и другими способами узнать то же самое; защищать результаты перед теми, кому они не нравятся; отвечать за качество чужих опросов; понимать, когда цифра стала показателем и перестала быть измерением</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Опросы и количественные данные», ступень Junior. Анкета из раздела 3 копируется кнопкой. Что почитать дальше: материалы <a href="/resource/nngroup-articles/">Nielsen Norman Group</a> про опросы и про то, почему нельзя спрашивать людей о будущем поведении; Кэролайн Джарретт, «Surveys That Work» — о подготовке анкет; главы про графики у Альберто Кайро, «Функциональное искусство» — о том, как ясно показывать данные.
+</footer>
+
+</div>
+</div>
+<!-- /wp:html -->

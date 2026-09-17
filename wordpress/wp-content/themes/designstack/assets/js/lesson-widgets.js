@@ -2,7 +2,8 @@
  * Живые куски уроков: чек-лист, секундомер молчания, разметка задания, подбор
  * формата, учебная матрица, разбор заявок, прикидка объёма, конструктор текста,
  * лесенка причин, сборка сценария, поиск дыр на схеме, сортировка карточек,
- * проверка дерева и стресс-тест структуры.
+ * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
+ * разметка вариантов ответа и калькулятор «вилки».
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -65,8 +66,10 @@
 				fill.style.width = Math.round( ( done / boxes.length ) * 100 ) + '%';
 			}
 
-			state.textContent = done + ' из ' + boxes.length +
-				( done === boxes.length ? ' — можно проводить' : ' — подготовка продолжается' );
+			// Чем кончается счёт — «можно проводить», «можно рассылать» — говорит урок, а не тема.
+			state.textContent = done + ' из ' + boxes.length + ( done === boxes.length
+				? ( state.getAttribute( 'data-checklist-done' ) || '' )
+				: ( state.getAttribute( 'data-checklist-going' ) || '' ) );
 		}
 
 		boxes.forEach( function ( box ) {
@@ -1714,6 +1717,491 @@
 		body.hidden = false;
 		body.innerHTML = prompt;
 		list.hidden = true;
+		count();
+	}() );
+
+	/* ── симулятор отклика ─────────────────────────────────────────────────
+	   Без скрипта видны обе картины с числами: вся аудитория и те, кто ответил.
+	   Со скриптом они переключаются, а над ними рисуется сетка из точек-людей.
+	   Модель детерминированная: тот же генератор с тем же зерном, что в уроке,
+	   поэтому числа в разметке и точки на экране всегда сходятся. */
+	( function () {
+		var grid = document.querySelector( '[data-bias]' );
+
+		if ( ! grid ) {
+			return;
+		}
+
+		var views = Array.prototype.slice.call( document.querySelectorAll( '[data-bias-view]' ) );
+		var place = document.querySelector( '[data-bias-actions]' );
+
+		if ( views.length < 2 || ! place ) {
+			return;
+		}
+
+		function number( name ) {
+			return parseFloat( grid.getAttribute( 'data-bias-' + name ) ) || 0;
+		}
+
+		var total = number( 'n' );
+		var quota = number( 'quota' );
+		var state = number( 'seed' );
+		var odds = ( grid.getAttribute( 'data-bias-odds' ) || '' ).split( ',' ).map( parseFloat );
+		var chance = { angry: odds[ 0 ], happy: odds[ 1 ], neutral: odds[ 2 ] };
+		var people = [];
+		var answered = 0;
+		var i;
+
+		function random() {
+			state = ( state * 9301 + 49297 ) % 233280;
+
+			return state / 233280;
+		}
+
+		for ( i = 0; i < total; i++ ) {
+			var roll = random();
+
+			people.push( {
+				mood: roll < number( 'angry' ) ? 'angry' : ( roll < number( 'happy' ) ? 'happy' : 'neutral' ),
+				answered: false,
+			} );
+		}
+
+		for ( i = 0; i < total && answered < quota; i++ ) {
+			if ( random() < chance[ people[ i ].mood ] ) {
+				people[ i ].answered = true;
+				answered++;
+			}
+		}
+
+		var dots = people.map( function () {
+			var dot = document.createElement( 'i' );
+
+			grid.appendChild( dot );
+
+			return dot;
+		} );
+		var buttons = {
+			all: button( grid.getAttribute( 'data-bias-all' ) || '' ),
+			ans: button( grid.getAttribute( 'data-bias-ans' ) || '' ),
+		};
+
+		function show( mode ) {
+			people.forEach( function ( one, n ) {
+				var name = '';
+
+				if ( 'ans' === mode ) {
+					name = one.answered ? ( 'neutral' === one.mood ? 'is-answered' : 'is-' + one.mood ) : 'is-silent';
+				} else if ( 'neutral' !== one.mood ) {
+					name = 'is-' + one.mood;
+				}
+
+				dots[ n ].className = name;
+			} );
+
+			views.forEach( function ( view ) {
+				view.hidden = view.getAttribute( 'data-bias-view' ) !== mode;
+			} );
+
+			buttons.all.setAttribute( 'aria-pressed', 'all' === mode ? 'true' : 'false' );
+			buttons.ans.setAttribute( 'aria-pressed', 'ans' === mode ? 'true' : 'false' );
+		}
+
+		buttons.all.addEventListener( 'click', function () {
+			show( 'all' );
+		} );
+		buttons.ans.addEventListener( 'click', function () {
+			show( 'ans' );
+		} );
+
+		place.appendChild( buttons.all );
+		place.appendChild( buttons.ans );
+		grid.hidden = false;
+		show( 'all' );
+	}() );
+
+	/* ── калькулятор долей ─────────────────────────────────────────────────
+	   Без скрипта в разметке стоит пример, уже посчитанный. Со скриптом доли,
+	   столбики и готовые строки для отчёта пересчитываются при вводе. */
+	( function () {
+		var root = document.querySelector( '[data-share]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var rows = Array.prototype.slice.call( root.querySelectorAll( '[data-share-row]' ) );
+		var bars = root.querySelector( '[data-share-bars]' );
+		var lines = root.querySelector( '[data-share-lines]' );
+		var sum = root.querySelector( '#calcTotal' );
+		var place = document.querySelector( '[data-share-actions]' );
+
+		if ( ! rows.length || ! bars || ! lines ) {
+			return;
+		}
+
+		function word( name ) {
+			return root.getAttribute( 'data-share-' + name ) || '';
+		}
+
+		var first = rows.map( function ( row ) {
+			return {
+				name: row.querySelector( '[data-share-name]' ).value,
+				count: row.querySelector( '[data-share-count]' ).value,
+			};
+		} );
+
+		function count() {
+			var data = rows.map( function ( row ) {
+				var n = parseInt( row.querySelector( '[data-share-count]' ).value, 10 );
+
+				return { row: row, name: row.querySelector( '[data-share-name]' ).value.trim(), n: isNaN( n ) || n < 0 ? 0 : n };
+			} );
+			var total = data.reduce( function ( all, one ) {
+				return all + one.n;
+			}, 0 );
+			var text = [];
+
+			bars.innerHTML = '';
+
+			if ( sum ) {
+				sum.textContent = total;
+			}
+
+			data.forEach( function ( one ) {
+				var part = total ? Math.round( ( one.n / total ) * 100 ) : 0;
+
+				one.row.querySelector( '[data-share-part]' ).textContent = one.name && total ? part + ' %' : '';
+
+				if ( ! one.name || ! total ) {
+					return;
+				}
+
+				var bar = document.createElement( 'div' );
+				var label = document.createElement( 'div' );
+				var name = document.createElement( 'span' );
+				var value = document.createElement( 'span' );
+				var track = document.createElement( 'div' );
+				var fill = document.createElement( 'span' );
+
+				bar.className = 'ds-lesson__bar';
+				label.className = 'ds-lesson__bar-label';
+				name.className = 'ds-lesson__bar-name';
+				value.className = 'ds-lesson__bar-value';
+				track.className = 'ds-lesson__bar-track';
+				fill.className = 'ds-lesson__bar-fill';
+				name.textContent = one.name;
+				value.textContent = one.n + ' ' + word( 'of' ) + ' ' + total + ' · ' + part + ' %';
+				fill.style.width = part + '%';
+				label.appendChild( name );
+				label.appendChild( value );
+				track.appendChild( fill );
+				bar.appendChild( label );
+				bar.appendChild( track );
+				bars.appendChild( bar );
+
+				text.push(
+					word( 'line' ).replace( '{name}', one.name ).replace( '{n}', one.n )
+						.replace( '{total}', total ).replace( '{p}', part )
+				);
+			} );
+
+			lines.textContent = text.length
+				? text.join( '\n' ) + '\n\n' + word( 'total' ).replace( '{total}', total )
+				: word( 'empty' );
+		}
+
+		rows.forEach( function ( row ) {
+			Array.prototype.forEach.call( row.querySelectorAll( 'input' ), function ( input ) {
+				input.addEventListener( 'input', count );
+			} );
+		} );
+
+		if ( place ) {
+			var reset = button( place.getAttribute( 'data-share-reset' ) || 'Сбросить' );
+
+			reset.addEventListener( 'click', function () {
+				rows.forEach( function ( row, n ) {
+					row.querySelector( '[data-share-name]' ).value = first[ n ].name;
+					row.querySelector( '[data-share-count]' ).value = first[ n ].count;
+				} );
+				count();
+			} );
+
+			place.appendChild( reset );
+		}
+
+		count();
+	}() );
+
+	/* ── разметка вариантов ответа ─────────────────────────────────────────
+	   Без скрипта поломанные варианты уже помечены и объяснены. Со скриптом
+	   пометки снимаются: найти поломки надо самому, разбор — после проверки. */
+	( function () {
+		var list = document.querySelector( '[data-optmark]' );
+
+		if ( ! list ) {
+			return;
+		}
+
+		var items = Array.prototype.slice.call( list.querySelectorAll( '[data-opt]' ) );
+		var meta = document.querySelector( '[data-opt-meta]' );
+		var fix = document.querySelector( '[data-opt-fix]' );
+		var counter = document.querySelector( '[data-opt-count-out]' );
+		var place = document.querySelector( '[data-opt-actions]' );
+
+		if ( ! items.length || ! place ) {
+			return;
+		}
+
+		function word( name ) {
+			return list.getAttribute( 'data-opt-' + name ) || '';
+		}
+
+		var total = parseInt( word( 'total' ), 10 ) || 0;
+		var checked = false;
+		var check = button( word( 'check' ) );
+		var names = items.map( function ( item ) {
+			var span = item.querySelector( '[data-opt-name]' );
+			var el = document.createElement( 'button' );
+
+			el.type = 'button';
+			el.className = span.className;
+			el.textContent = span.textContent;
+			el.setAttribute( 'aria-pressed', 'false' );
+			span.parentNode.replaceChild( el, span );
+
+			el.addEventListener( 'click', function () {
+				if ( checked ) {
+					return;
+				}
+
+				el.setAttribute( 'aria-pressed', 'true' === el.getAttribute( 'aria-pressed' ) ? 'false' : 'true' );
+				paint();
+			} );
+
+			return el;
+		} );
+		var reasons = items.map( function ( item ) {
+			var why = item.querySelector( '[data-opt-why]' );
+
+			return { node: why, text: why ? why.textContent : '' };
+		} );
+
+		function paint() {
+			var picked = names.filter( function ( el ) {
+				return 'true' === el.getAttribute( 'aria-pressed' );
+			} ).length;
+
+			if ( counter ) {
+				counter.textContent = checked ? '' : word( 'count' ).replace( '{n}', picked );
+			}
+		}
+
+		function start() {
+			checked = false;
+
+			items.forEach( function ( item, n ) {
+				item.className = '';
+				names[ n ].disabled = false;
+				names[ n ].setAttribute( 'aria-pressed', 'false' );
+
+				if ( reasons[ n ].node ) {
+					reasons[ n ].node.hidden = true;
+				}
+			} );
+
+			if ( fix ) {
+				fix.hidden = true;
+			}
+
+			if ( meta ) {
+				meta.hidden = false;
+				meta.textContent = word( 'hint' );
+			}
+
+			check.textContent = word( 'check' );
+			paint();
+		}
+
+		check.addEventListener( 'click', function () {
+			if ( checked ) {
+				start();
+
+				return;
+			}
+
+			checked = true;
+
+			var hit = 0;
+			var wrong = 0;
+
+			items.forEach( function ( item, n ) {
+				var bad = '1' === item.getAttribute( 'data-opt' );
+				var picked = 'true' === names[ n ].getAttribute( 'aria-pressed' );
+				var why = reasons[ n ].node;
+
+				names[ n ].disabled = true;
+
+				if ( bad ) {
+					hit += picked ? 1 : 0;
+					item.className = picked ? 'is-hit' : 'is-missed';
+				} else if ( picked ) {
+					wrong++;
+					item.className = 'is-extra';
+				}
+
+				if ( why ) {
+					why.textContent = bad ? reasons[ n ].text : ( picked ? word( 'fine' ) : '' );
+					why.hidden = false;
+				}
+			} );
+
+			if ( meta ) {
+				meta.textContent = [
+					word( 'found' ).replace( '{hit}', hit ),
+					wrong ? word( 'extra' ).replace( '{wrong}', wrong ) : '',
+					word( 'missing' ),
+				].filter( Boolean ).join( ' · ' );
+			}
+
+			if ( fix ) {
+				fix.hidden = false;
+			}
+
+			check.textContent = word( 'again' );
+			paint();
+		} );
+
+		place.appendChild( check );
+		start();
+	}() );
+
+	/* ── калькулятор «вилки» ───────────────────────────────────────────────
+	   Если те, кто не ответил, думают иначе, ответ по всей базе лежит где-то
+	   между двумя крайними случаями. Формула простая и принадлежит этому
+	   калькулятору; тексты и пороги приходят из урока. */
+	( function () {
+		var root = document.querySelector( '[data-fork]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var base = document.getElementById( 'bcBase' );
+		var resp = document.getElementById( 'bcResp' );
+		var yes = document.getElementById( 'bcYes' );
+		var other = document.getElementById( 'bcOther' );
+		var yesLabel = document.getElementById( 'bcYesLab' );
+		var otherLabel = document.getElementById( 'bcOtherLab' );
+		var big = document.getElementById( 'bcBig' );
+		var scale = document.getElementById( 'bcRng' );
+		var say = document.getElementById( 'bcSay' );
+		var place = document.querySelector( '[data-fork-actions]' );
+
+		if ( ! base || ! resp || ! yes || ! other || ! big || ! say ) {
+			return;
+		}
+
+		function word( name ) {
+			return root.getAttribute( 'data-fork-' + name ) || '';
+		}
+
+		function people( n ) {
+			var forms = word( 'people' ).split( '|' );
+			var a = n % 10;
+			var b = n % 100;
+
+			if ( 1 === a && 11 !== b ) {
+				return forms[ 0 ];
+			}
+
+			return a >= 2 && a <= 4 && ( b < 12 || b > 14 ) ? forms[ 1 ] : forms[ 2 ];
+		}
+
+		function mark( name, left, width, text ) {
+			var el = document.createElement( 'span' );
+
+			el.className = 'ds-lesson__range-' + name;
+
+			if ( null !== left ) {
+				el.style.left = left + '%';
+			}
+
+			if ( null !== width ) {
+				el.style.width = width + '%';
+			}
+
+			if ( text ) {
+				el.textContent = text;
+			}
+
+			return el;
+		}
+
+		var first = { base: base.value, resp: resp.value, yes: yes.value, other: other.value };
+
+		function count() {
+			var all = Math.max( 1, +base.value || 1 );
+			var got = Math.min( Math.max( 1, +resp.value || 1 ), all );
+			var shareYes = +yes.value / 100;
+			var shareOther = +other.value / 100;
+			var yesCount = Math.round( got * shareYes );
+			var silent = all - got;
+			var low = Math.round( ( ( yesCount + silent * shareOther ) / all ) * 100 );
+			var high = Math.round( ( ( yesCount + silent * shareYes ) / all ) * 100 );
+			var asIs = Math.round( shareYes * 100 );
+			var from = Math.min( low, high );
+			var to = Math.max( low, high );
+			var width = to - from;
+
+			if ( yesLabel ) {
+				yesLabel.textContent = word( 'yes' ).replace( '{yes}', yesCount )
+					.replace( '{people}', people( yesCount ) ).replace( '{p}', asIs );
+			}
+
+			if ( otherLabel ) {
+				otherLabel.textContent = word( 'other' ).replace( '{p}', Math.round( shareOther * 100 ) );
+			}
+
+			big.textContent = word( 'big' ).replace( '{lo}', from ).replace( '{up}', to );
+
+			if ( scale ) {
+				scale.innerHTML = '';
+				scale.appendChild( mark( 'axis', null, null, '' ) );
+				scale.appendChild( mark( 'span', from, Math.max( 1, width ), '' ) );
+				scale.appendChild( mark( 'point', asIs, null, '' ) );
+				scale.appendChild( mark( 'label', asIs, null, word( 'point' ).replace( '{p}', asIs ) ) );
+				scale.appendChild( mark( 'tick', from, null, from + ' %' ) );
+				scale.appendChild( mark( 'tick', to, null, to + ' %' ) );
+			}
+
+			say.innerHTML = word( 'say' )
+				.replace( /\{R\}/g, got ).replace( /\{N\}/g, all )
+				.replace( /\{share\}/g, Math.round( ( got / all ) * 100 ) ).replace( /\{as\}/g, asIs )
+				.replace( /\{non\}/g, silent ).replace( /\{po\}/g, Math.round( shareOther * 100 ) )
+				.replace( /\{low\}/g, low ) +
+				( width >= +word( 'wide-from' ) ? word( 'wide' ) : ( width >= +word( 'mid-from' ) ? word( 'mid' ) : word( 'narrow' ) ) );
+		}
+
+		[ base, resp, yes, other ].forEach( function ( input ) {
+			input.addEventListener( 'input', count );
+		} );
+
+		if ( place ) {
+			var reset = button( place.getAttribute( 'data-fork-reset' ) || 'Сбросить' );
+
+			reset.addEventListener( 'click', function () {
+				base.value = first.base;
+				resp.value = first.resp;
+				yes.value = first.yes;
+				other.value = first.other;
+				count();
+			} );
+
+			place.appendChild( reset );
+		}
+
 		count();
 	}() );
 }() );

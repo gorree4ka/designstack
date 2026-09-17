@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов» и «Сценарии и структура».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура» и «Опросы».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -455,6 +455,134 @@ with sync_playwright() as play:
     page.wait_for_timeout(80)
     steps = page.query_selector_all(".ds-lesson__wiz-step")
     fails += 0 if say(len(steps) == 1 and page.is_visible("[data-wiz-body] [data-wiz-verdict]"), "короткий случай закрывается одним вопросом") else 1
+    page.close()
+
+    # ─── тема «Опросы» ───────────────────────────────────────────────────────
+    plain = browser.new_context(java_script_enabled=False)
+
+    for slug, must in (
+        ("surveys-data-junior", ["Все пользователи: 500 человек", "Только те, кто ответил: 62 человека", "20 из 62", "Телефон — 21 из 34 (62 %)", "21 из 34 · 62 %"]),
+        ("surveys-data-middle", ["Границы пересекаются с предыдущим вариантом", "Шкала согласия 1–5", "Что потом сможете сделать", "78 из 214 · 36 %"]),
+        ("surveys-data-senior", ["От 14 % до 70 % по всей базе", "42 человека — это 70 % ответивших", "Не держится", "94 из 112 · 84 %"]),
+    ):
+        page = plain.new_page()
+        page.goto(BASE + slug + "/")
+        head(slug + " · без скрипта")
+        text = page.inner_text("#ds-main")
+
+        for phrase in must:
+            fails += 0 if say(phrase.lower() in text.lower(), "видно: " + phrase) else 1
+
+        buttons = page.eval_on_selector_all(
+            "#ds-main button",
+            "els => els.filter(e => e.offsetParent !== null).map(e => e.textContent.trim())",
+        )
+        fails += 0 if say(not buttons, "мёртвых кнопок нет" + (": " + str(buttons[:4]) if buttons else "")) else 1
+        bars = page.evaluate("""() => [...document.querySelectorAll('.ds-lesson__bar-fill')]
+            .filter(el => el.getBoundingClientRect().width === 0 && parseFloat(el.style.width) > 0).length""")
+        fails += 0 if say(bars == 0, "столбики нарисованы без скрипта") else 1
+        page.close()
+
+    plain.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "surveys-data-junior/")
+    page.wait_for_timeout(500)
+    head("surveys-data-junior · со скриптом")
+
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+
+    # симулятор: пятьсот точек, переключение картин, числа сходятся с разметкой
+    dots = page.eval_on_selector_all("[data-bias] i", "els => els.length")
+    fails += 0 if say(dots == 500, "точек в сетке: " + str(dots)) else 1
+    angry = page.eval_on_selector_all("[data-bias] i.is-angry", "els => els.length")
+    fails += 0 if say(angry == 73, "недовольных среди всех: %d (в разметке 73)" % angry) else 1
+    page.click("[data-bias-actions] button >> nth=1")
+    page.wait_for_timeout(100)
+    shown = page.eval_on_selector_all("[data-bias-view]", "els => els.filter(e => !e.hidden).map(e => e.getAttribute('data-bias-view'))")
+    angry = page.eval_on_selector_all("[data-bias] i.is-angry", "els => els.length")
+    silent = page.eval_on_selector_all("[data-bias] i.is-silent", "els => els.length")
+    fails += 0 if say(shown == ["ans"], "открыта картина «кто ответил»") else 1
+    fails += 0 if say(angry == 20 and silent == 438, "ответивших недовольных %d, промолчавших %d" % (angry, silent)) else 1
+
+    # калькулятор долей
+    page.fill("[data-share-row] >> nth=0 >> [data-share-count]", "42")
+    page.wait_for_timeout(100)
+    total = page.inner_text("#calcTotal")
+    lines = page.inner_text("[data-share-lines]")
+    fails += 0 if say(total == "55", "сумма пересчитана: " + total) else 1
+    fails += 0 if say("Телефон — 42 из 55 (76 %)" in lines, "готовая строка: " + lines.split("\n")[0]) else 1
+    fails += 0 if say("Всего ответили на вопрос: 55 человек" in lines, "итоговая строка на месте") else 1
+    page.click("[data-share-actions] button")
+    page.wait_for_timeout(100)
+    fails += 0 if say(page.inner_text("#calcTotal") == "34", "сброс возвращает пример") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "surveys-data-middle/")
+    page.wait_for_timeout(500)
+    head("surveys-data-middle · со скриптом")
+
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+
+    # разметка вариантов: отмечаем два поломанных из трёх и один лишний
+    marked = page.eval_on_selector_all("[data-optmark] li.is-bad", "els => els.length")
+    fails += 0 if say(marked == 0, "пометки поломок сняты до проверки") else 1
+    for n in (1, 2, 0):
+        page.click("[data-optmark] li >> nth=%d >> button" % n)
+    page.click("[data-opt-actions] button")
+    page.wait_for_timeout(120)
+    meta = page.inner_text("[data-opt-meta]")
+    fails += 0 if say("Нашли поломок: 2 из 3" in meta and "Лишних отмечено: 1" in meta, "итог разметки: " + meta) else 1
+    fails += 0 if say(page.is_visible("[data-opt-fix]"), "разбор «чего не хватает» открыт") else 1
+    states = page.eval_on_selector_all("[data-optmark] li", "els => els.map(e => e.className)")
+    fails += 0 if say(states == ["is-extra", "is-hit", "is-hit", "", "is-missed"], "состояния вариантов: " + str(states)) else 1
+
+    # справочник шкал — семь карточек, открыта одна
+    panes = page.eval_on_selector_all(".ds-lesson__scale", "els => els.filter(e => e.offsetParent !== null).length")
+    fails += 0 if say(panes == 1, "из семи шкал открыта одна") else 1
+    page.click('[data-switch-btn="likert"]')
+    page.wait_for_timeout(80)
+    fails += 0 if say(page.is_visible('[data-switch-pane="likert"]'), "шкала согласия открывается") else 1
+
+    # чек-лист пилота
+    boxes = page.query_selector_all("[data-checklist] input")
+    for box in boxes:
+        box.check()
+    page.wait_for_timeout(100)
+    state = page.inner_text("[data-checklist-state]")
+    fails += 0 if say("можно рассылать" in state, "чек-лист пилота: " + state) else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "surveys-data-senior/")
+    page.wait_for_timeout(500)
+    head("surveys-data-senior · со скриптом")
+
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+
+    big = page.inner_text("#bcBig")
+    fails += 0 if say(big == "От 14 % до 70 % по всей базе", "вилка по умолчанию: " + big) else 1
+    page.fill("#bcResp", "600")
+    page.wait_for_timeout(120)
+    big = page.inner_text("#bcBig")
+    text = page.inner_text("#bcSay")
+    fails += 0 if say(big == "От 46 % до 70 % по всей базе", "вилка при 600 ответах: " + big) else 1
+    fails += 0 if say("Вилка умеренная" in text and "{" not in text, "вердикт сменился: " + text[-90:]) else 1
+    label = page.inner_text("#bcYesLab")
+    fails += 0 if say(label == "420 человек — это 70 % ответивших", "склонение: " + label) else 1
+
+    # разбор отчёта
+    notes = page.eval_on_selector_all(".ds-lesson__claim-note", "els => els.filter(e => e.offsetParent !== null).length")
+    fails += 0 if say(notes == 0, "разбор скрыт, пока читатель не составил мнение") else 1
+    page.click("[data-reveal-button] button")
+    page.wait_for_timeout(100)
+    notes = page.eval_on_selector_all(".ds-lesson__claim-note", "els => els.filter(e => e.offsetParent !== null).length")
+    label = page.inner_text("[data-reveal-button] button")
+    fails += 0 if say(notes == 5 and label == "Скрыть разбор", "разбор открыт: пояснений %d, кнопка «%s»" % (notes, label)) else 1
     page.close()
 
     browser.close()

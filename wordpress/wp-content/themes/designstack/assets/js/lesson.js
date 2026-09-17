@@ -141,7 +141,10 @@
 			} );
 
 			button.setAttribute( 'aria-pressed', open ? 'true' : 'false' );
-			button.textContent = open ? 'Скрыть замечания' : 'Показать замечания';
+			// Что именно открывается — «замечания», «разбор» — знает урок: подписи приходят атрибутами.
+			button.textContent = open
+				? ( root.getAttribute( 'data-reveal-hide' ) || 'Скрыть замечания' )
+				: ( root.getAttribute( 'data-reveal-show' ) || 'Показать замечания' );
 		}
 
 		button.type = 'button';

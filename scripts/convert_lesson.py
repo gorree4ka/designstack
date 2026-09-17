@@ -248,6 +248,51 @@ CLASS_MAP = {
     "missed": "is-missed",
     "wrongpick": "is-extra",
     "stem": "ds-quiz__question",
+    # компоненты темы «Опросы»
+    "bars": "ds-lesson__bars",
+    "brow": "ds-lesson__bar",
+    "blab": "ds-lesson__bar-label",
+    "btrack": "ds-lesson__bar-track",
+    "bfill": "ds-lesson__bar-fill",
+    "rt": "is-num",
+    "ppl": "ds-lesson__ppl",
+    "legend2": "ds-lesson__dots-legend",
+    "bias-view": "ds-lesson__bias-view",
+    "bias-title": "ds-lesson__bias-title",
+    "share-rows": "ds-lesson__share-rows",
+    "calcrow": "ds-lesson__share-row",
+    "calchd": "ds-lesson__share-head",
+    "calcout": "ds-lesson__build-out",
+    "lines": "ds-lesson__build-text ds-lesson__build-text--mono",
+    "res": "ds-lesson__share-part",
+    "pager": "ds-lesson__doc",
+    "rep": "ds-lesson__doc",
+    "opt-q": "ds-lesson__pick-q",
+    "opt-list": "ds-lesson__optlist",
+    "opt-name": "ds-lesson__opt-name",
+    "opt-why": "ds-lesson__opt-why",
+    "opt-meta": "ds-lesson__meta",
+    "opt-fix": "ds-lesson__result",
+    "sc-body": "",
+    "sc-card": "ds-lesson__scale",
+    "sc-ex": "ds-lesson__scale-ex",
+    "opts2": "ds-lesson__dim",
+    "sc-warn": "ds-lesson__scale-warn",
+    "cmp": "",
+    "cmp-row": "ds-lesson__cmp-row",
+    "cmp-two": "ds-lesson__cmp-two",
+    "cmp-v": "ds-lesson__cmp-verdict",
+    "bc-grid": "ds-lesson__build-grid",
+    "bc-out": "ds-lesson__out",
+    "bc-big": "ds-lesson__big",
+    "bc-say": "ds-lesson__say",
+    "rng": "ds-lesson__range",
+    "axis": "ds-lesson__range-axis",
+    "span": "ds-lesson__range-span",
+    "pt": "ds-lesson__range-point",
+    "ptlab": "ds-lesson__range-label",
+    "tick": "ds-lesson__range-tick",
+    "claim": "ds-lesson__claim",
     # компоненты темы «Сценарии и структура»
     "fig-scroll": "ds-lesson__figure",
     "btn-ghost": "",
@@ -303,6 +348,37 @@ LESSON_MAP = {
         "st": "ds-lesson__checkbar-state",
         "btn": "ds-button ds-button--secondary ds-button--sm",
     },
+    "surveys-junior": {
+        "q": "ds-lesson__qcard",
+        "typ": "ds-lesson__qcard-type",
+        "t": "ds-lesson__bar-name",
+        "v": "ds-lesson__bar-value",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "surveys-middle": {
+        "t": "ds-lesson__bar-name",
+        "v": "ds-lesson__bar-value",
+        "vd": "ds-lesson__verdict",
+        "same": "ds-lesson__verdict--keep",
+        "clash": "ds-lesson__verdict--kill",
+        "other": "ds-lesson__verdict--hold",
+        "st": "ds-lesson__checkbar-state",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "surveys-senior": {
+        "t": "ds-lesson__bar-name",
+        "v": "ds-lesson__bar-value",
+        "vd": "ds-lesson__verdict",
+        "hold": "ds-lesson__verdict--keep",
+        "soft": "ds-lesson__verdict--hold",
+        "drop": "ds-lesson__verdict--kill",
+        "n": "ds-lesson__tier-label",
+        "pts": "ds-lesson__three",
+        "pt-card": "ds-lesson__three-item",
+        "txt": "ds-lesson__claim-text",
+        "note": "ds-lesson__claim-note",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
     "flows-structure-junior": {
         "legend": "ds-lesson__shapes",
         "pin": "ds-lesson__hunt-pin",
@@ -347,9 +423,6 @@ LESSON_MAP = {
 # Опоры присланного скрипта: его `id` становятся нашими атрибутами. Скрипт сайта
 # не должен знать чужих идентификаторов, а разметка — тянуть их за собой.
 HOOKS = {
-    "prepList": "data-checklist",
-    "prepProg": "data-checklist-fill",
-    "prepSt": "data-checklist-state",
     "panelScore": "data-panel-score",
     "cUsers": 'data-calc-field="users"',
     "cShare": 'data-calc-field="share"',
@@ -453,6 +526,10 @@ WORDS = {
     "полистай": "полистайте", "раскопай": "раскопайте", "снимай": "снимайте",
     # подсказки под тренажёрами, которые вернулись в уроки 17.09.2026
     "сравнивай": "сравнивайте",
+    # тема «Опросы»
+    "убедись": "убедитесь", "описывай": "описывайте", "оценивай": "оценивайте",
+    "подменяй": "подменяйте", "переключай": "переключайте", "переформулируй": "переформулируйте",
+    "выгрузи": "выгрузите", "напомни": "напомните", "продумай": "продумайте", "реши": "решите",
     "уточни": "уточните", "объясни": "объясните", "покажи": "покажите",
     "попроси": "попросите", "укажи": "укажите", "обсуди": "обсудите",
     "добавь": "добавьте", "опиши": "опишите", "сохрани": "сохраните",
@@ -611,6 +688,7 @@ STEP_PHRASES = {
     "следующего уровня": "следующей ступени", "следующие уровни": "следующие ступени",
     "следующим уровням": "следующим ступеням", "ошибки уровня": "ошибки ступени",
     "ловушки уровня": "ловушки ступени", "ловушка уровня": "ловушка ступени",
+    "ошибка уровня": "ошибка ступени",
     "ловушку уровня": "ловушку ступени", "граница уровней": "граница ступеней",
     "границы уровней": "границы ступеней", "критерий уровня": "критерий ступени",
     "сердце уровня": "сердце ступени", "три уровня": "три ступени",
@@ -2220,11 +2298,30 @@ def js_var(js: str, name: str):
     return None
 
 
+# Слова языка, а не урока. Если такое приехало в подпись кнопки, регулярка зацепилась
+# не за то место: у `next ? 'true' : 'false'` и у подписи кнопки одинаковое начало.
+# Случай: 17.09.2026 — кнопка разбора в уроке «Опросы, Senior» называлась «true».
+JS_WORDS = {"true", "false", "null", "undefined", "on", "off", "block", "none", "flex", "0", "1"}
+PHRASE_REPORT = []
+
+
 def js_phrase(js: str, pattern: str, default: str = "") -> str:
     """Одна фраза из кода скрипта по регулярке с одной группой."""
     found = re.search(pattern, js, re.S)
 
-    return found.group(1).replace("\\'", "'") if found else default
+    if not found:
+        return default
+
+    out = found.group(1).replace("\\'", "'")
+
+    # Слово языка или обломок кода в подписи — верный признак, что регулярка
+    # зацепилась не за то место: `'` и `+` в тексте урока не встречаются.
+    if out.strip().lower() in JS_WORDS or re.search(r"'\s*\+|\+\s*'|\"\s*>", out):
+        PHRASE_REPORT.append(out.strip()[:60] + " ← " + pattern[:60])
+
+        return default
+
+    return out
 
 
 # Её переменные цвета → наши токены. Нужны только внутри SVG: там цвет задан прямо
@@ -2441,7 +2538,10 @@ def sort_markup(js: str, body: str, notes: list) -> str:
     split_text = js_phrase(js, r"verdict = '(Делится[^']*)'")
     flags = re.findall(r"flag = '<span class=\"flag\">([^<]*)</span>'", js)
     differs = js_phrase(js, r"<span class=\"dim\"[^>]*>((?:[^<])*)</span>' : ''")
-    heads = re.findall(r"<th>([^<]*)</th>", js_phrase(js, r"csRes\.innerHTML = '(.*?)</thead>"))
+    # Здесь из скрипта берётся не фраза, а кусок разметки таблицы: проверка на обломки
+    # кода к нему не применима, поэтому читаем напрямую.
+    table_head = re.search(r"csRes\.innerHTML = '(.*?)</thead>", js, re.S)
+    heads = re.findall(r"<th>([^<]*)</th>", table_head.group(1) if table_head else "")
     conclusion = re.search(r"'<div class=\"rule\"[^>]*>(.*?)</div>';", js, re.S)
     rows = []
 
@@ -2670,6 +2770,458 @@ def wiz_markup(js: str, body: str, notes: list) -> str:
     return body
 
 
+# ---------------------------------------------------------------------------
+# Живые куски темы «Опросы»: столбики результатов, симулятор смещения отклика,
+# калькулятор долей, разметка вариантов ответа, справочник шкал, калькулятор
+# «вилки» и разбор чужого отчёта.
+# ---------------------------------------------------------------------------
+
+
+def vy_text(phrase: str) -> str:
+    """Фраза из её скрипта с обращением на «вы».
+
+    Текст внутри атрибутов `data-*` общая замена обращения не видит: она идёт по тексту
+    между тегами. Поэтому всё, что переезжает из скрипта в атрибут, переводится здесь.
+    """
+    kept = len(SELF_REPORT)
+    out = to_vy(steps_and_odd(phrase, []), [], set())
+    del SELF_REPORT[kept:]
+
+    return out
+
+
+def vy_attr(phrase: str) -> str:
+    return html.escape(vy_text(phrase), quote=True)
+
+
+def bar_row(name: str, count: int, total: int, width: int = None, of: str = "из") -> str:
+    share = round(count / total * 100) if total else 0
+
+    return (
+        '<div class="brow"><div class="blab"><span class="t">{name}</span>'
+        '<span class="v">{count} {of} {total} · {share} %</span></div>'
+        '<div class="btrack"><span class="bfill" style="width:{width}%"></span></div></div>'
+    ).format(name=name, count=count, of=of, total=total, share=share, width=share if width is None else width)
+
+
+def bars_markup(body: str, notes: list) -> str:
+    """Столбики, заданные данными (`data-bars`), рисуются сразу разметкой: скрипт им не нужен."""
+    count = 0
+
+    def one(found):
+        nonlocal count
+        tag = found.group(0)
+        data = re.search(r"data-bars='([^']*)'", tag)
+        total = re.search(r'data-total="(\d+)"', tag)
+
+        if not data or not total:
+            return tag
+
+        rows = json.loads(html.unescape(data.group(1)))
+        whole = int(total.group(1))
+        # При множественном выборе ширина считается от самого частого варианта, доля — от числа ответивших.
+        top = max(n for _, n in rows) if "data-multi" in tag else whole
+        count += 1
+
+        return '<div class="bars">' + "".join(
+            bar_row(name, n, whole, round(n / top * 100) if top else 0) for name, n in rows
+        ) + "</div>"
+
+    body = re.sub(r'<div class="bars" data-bars=[^>]*></div>', one, body)
+
+    if count:
+        notes.append("диаграмм из данных нарисовано разметкой: " + str(count))
+
+    return body
+
+
+def plural_people(n: int) -> str:
+    a, b = n % 10, n % 100
+
+    if a == 1 and b != 11:
+        return "человек"
+
+    if 2 <= a <= 4 and not 12 <= b <= 14:
+        return "человека"
+
+    return "человек"
+
+
+def bias_sim_markup(js: str, body: str, notes: list) -> str:
+    """Симулятор смещения отклика: вся аудитория и те, кто ответил.
+
+    Модель у неё детерминированная — свой генератор с фиксированным зерном. Конвертер
+    повторяет его и кладёт в разметку обе картины с готовыми числами; скрипт сайта по тем
+    же параметрам рисует только сетку точек.
+    """
+    if 'id="pplGrid"' not in body:
+        return body
+
+    size = re.search(r"var N = (\d+), ANS = (\d+);", js)
+    seed0 = re.search(r"var seed = (\d+);", js)
+    moods = re.search(r"r < ([\d.]+) \? 'angry' : \(r < ([\d.]+) \? 'happy'", js)
+    chance = re.search(r"chance = \{ angry: ([\d.]+), happy: ([\d.]+), neutral: ([\d.]+) \}", js)
+
+    if not (size and seed0 and moods and chance):
+        notes.append("симулятор отклика: параметры модели не найдены — оставлен как есть")
+
+        return body
+
+    total, quota = int(size.group(1)), int(size.group(2))
+    state = int(seed0.group(1))
+    edge_angry, edge_happy = float(moods.group(1)), float(moods.group(2))
+    odds = {"angry": float(chance.group(1)), "happy": float(chance.group(2)), "neutral": float(chance.group(3))}
+
+    def rnd():
+        nonlocal state
+        state = (state * 9301 + 49297) % 233280
+
+        return state / 233280
+
+    people = []
+
+    for _ in range(total):
+        roll = rnd()
+        people.append(["angry" if roll < edge_angry else ("happy" if roll < edge_happy else "neutral"), False])
+
+    answered = 0
+
+    for one in people:
+        if answered >= quota:
+            break
+
+        if rnd() < odds[one[0]]:
+            one[1] = True
+            answered += 1
+
+    def counts(group):
+        return {mood: sum(1 for one in group if one[0] == mood) for mood in ("angry", "happy", "neutral")}
+
+    everyone = counts(people)
+    replied = counts([one for one in people if one[1]])
+    labels = re.search(r"\[\['([^']*)', c\.angry[^\]]*\], \['([^']*)', c\.happy[^\]]*\], \['([^']*)', c\.neutral", js)
+    names = labels.groups() if labels else ("Недовольны", "Довольны", "Всё нормально")
+    legend = re.findall(r"</i> ([^<]+)</span>", js)
+    titles = (
+        js_phrase(js, r": '(Все пользователи: )'", "Все пользователи: "),
+        js_phrase(js, r"\? '(Только те, кто ответил: )'", "Только те, кто ответил: "),
+    )
+    text_all = js_phrase(js, r": '(Так устроена аудитория[^']*)'\)")
+    share_replied = round(replied["angry"] / answered * 100) if answered else 0
+    share_all = round(everyone["angry"] / total * 100)
+    ratio = share_replied / share_all if share_all else 0
+    word = "втрое" if ratio >= 2.6 else ("вдвое" if ratio >= 1.7 else "заметно")
+    tail = js_phrase(js, r"' \+ word \+ '([^']*)'")
+    text_replied = (
+        "Среди ответивших недовольных — {a} %. Среди всех пользователей их {b} %. "
+        "В этой учебной модели доля недовольных среди ответивших {word}{tail}"
+    ).format(a=share_replied, b=share_all, word=word, tail=tail)
+
+    for phrase in ("'Среди ответивших недовольных — '", "' %. Среди всех пользователей их '", "' %. В этой учебной модели доля недовольных среди ответивших '"):
+        if phrase not in js:
+            notes.append("симулятор отклика: текст вывода в скрипте изменился — " + phrase)
+
+            return body
+
+    def view(key, title, group, whole, text, extra_legend):
+        marks = [("is-angry", legend[0] if legend else "недовольны"), ("is-happy", legend[1] if len(legend) > 1 else "довольны"),
+                 ("is-answered" if key == "ans" else "is-plain", legend[2] if len(legend) > 2 else "всё нормально")]
+
+        if extra_legend:
+            marks.append(("is-silent", legend[3] if len(legend) > 3 else "не ответили"))
+
+        return (
+            '<div class="bias-view" data-bias-view="{key}"><p class="bias-title"><b>{title}{n} {people}</b></p>'
+            '<div class="legend2">{legend}</div><div class="bars">{bars}</div><p class="dim">{text}</p></div>'
+        ).format(
+            key=key,
+            title=title,
+            n=whole,
+            people=plural_people(whole),
+            legend="".join('<span><i class="%s"></i> %s</span>' % pair for pair in marks),
+            bars="".join(bar_row(names[i], group[mood], whole) for i, mood in enumerate(("angry", "happy", "neutral"))),
+            text=text,
+        )
+
+    views = view("all", titles[0], everyone, total, text_all, False) + view("ans", titles[1], replied, answered, text_replied, True)
+    buttons = dict(re.findall(r'id="sim(All|Ans)"[^>]*>([^<]+)</button>', body))
+    params = (
+        ' data-bias data-bias-n="{n}" data-bias-quota="{q}" data-bias-seed="{s}" data-bias-angry="{a}" data-bias-happy="{h}"'
+        ' data-bias-odds="{oa},{oh},{on}" data-bias-all="{ball}" data-bias-ans="{bans}"'
+    ).format(
+        n=total, q=quota, s=seed0.group(1), a=edge_angry, h=edge_happy, oa=odds["angry"], oh=odds["happy"], on=odds["neutral"],
+        ball=vy_attr(buttons.get("All", "Все пользователи")), bans=vy_attr(buttons.get("Ans", "Кто ответил")),
+    )
+    body = re.sub(r'<button[^>]*id="simAll"[^>]*>.*?</button>\s*', "<span data-bias-actions></span>", body, flags=re.S)
+    body = re.sub(r'<button[^>]*id="simAns"[^>]*>.*?</button>\s*', "", body, flags=re.S)
+    body = body.replace('<div class="ppl" id="pplGrid"></div>', '<div class="ppl"' + params + ' aria-hidden="true" hidden></div>', 1)
+    body = re.sub(r'\s*<div class="legend2" id="pplLegend"></div>', "", body)
+    body = re.sub(r'<div id="pplOut"[^>]*></div>', '<div data-bias-views>' + views + "</div>", body, count=1)
+    notes.append(
+        "симулятор отклика: всего {}, ответили {}, недовольных {} % против {} %".format(total, answered, share_replied, share_all)
+    )
+
+    return body
+
+
+def share_calc_markup(js: str, body: str, notes: list) -> str:
+    """Калькулятор долей: варианты, количества, столбики и готовые строки для отчёта."""
+    rows = js_var(js, "DEF")
+
+    if not rows or 'id="calcRows"' not in body:
+        return body
+
+    total = sum(n for _, n in rows)
+    placeholder = js_phrase(js, r'placeholder="(Вариант )\' \+', "Вариант ")
+    fields = "".join(
+        '<div class="calcrow" data-share-row><input type="text" value="{name}" placeholder="{ph}{i}" aria-label="{ph}{i}" data-share-name>'
+        '<input type="number" min="0" step="1" value="{n}" aria-label="{count} {i}" data-share-count>'
+        '<span class="res" data-share-part>{part}</span></div>'.format(
+            name=html.escape(name, quote=True), ph=placeholder, i=index, n=n or "", count="Человек, вариант",
+            part=(str(round(n / total * 100)) + " %") if name and total else "",
+        )
+        for index, (name, n) in enumerate(rows, 1)
+    )
+    filled = [(name, n) for name, n in rows if name]
+    lines = "\n".join("{} — {} из {} ({} %)".format(name, n, total, round(n / total * 100)) for name, n in filled)
+    total_line = js_phrase(js, r"'\\n\\n(Всего ответили на вопрос: )' \+ total \+ '([^']*)'", "Всего ответили на вопрос: ")
+    total_tail = re.search(r"Всего ответили на вопрос: ' \+ total \+ '([^']*)'", js)
+    empty = js_phrase(js, r": '(Впиши варианты[^']*)'")
+    attrs = (
+        ' data-share data-share-line="{{name}} — {{n}} из {{total}} ({{p}} %)" data-share-total="{total}{{total}}{tail}"'
+        ' data-share-empty="{empty}" data-share-of="из"'
+    ).format(total=vy_attr(total_line), tail=vy_attr(total_tail.group(1) if total_tail else " человек"), empty=vy_attr(empty))
+    body = body.replace('<div id="calcRows"></div>', '<div class="share-rows" data-share-rows>' + fields + "</div>", 1)
+    body = re.sub(
+        r'(<div class="box-body")(>\s*<div class="calcrow"><span class="calchd">)', lambda m: m.group(1) + attrs + m.group(2), body, count=1
+    )
+    body = re.sub(r'(<span class="res" id="calcTotal"[^>]*>)0(</span>)', lambda m: m.group(1) + str(total) + m.group(2), body, count=1)
+    body = body.replace(
+        '<div class="bars" id="calcBars"></div>',
+        '<div class="bars" id="calcBars" data-share-bars>' + "".join(bar_row(name, n, total) for name, n in filled) + "</div>",
+        1,
+    )
+    body = body.replace(
+        '<div class="lines" id="calcLines"></div>',
+        '<div class="lines" id="calcLines" data-share-lines>' + lines + "\n\n"
+        + vy_text(total_line) + str(total) + vy_text(total_tail.group(1) if total_tail else " человек") + "</div>",
+        1,
+    )
+    body = re.sub(r'<button[^>]*id="calcReset"[^>]*>(.*?)</button>', lambda m: '<span data-share-actions data-share-reset="%s"></span>' % vy_attr(m.group(1).strip()), body, count=1, flags=re.S)
+    notes.append("калькулятор долей: строк {}, всего {}".format(len(rows), total))
+
+    return body
+
+
+def optmark_markup(js: str, body: str, notes: list) -> str:
+    """Разметка вариантов ответа: какие поломаны и чего в списке не хватает."""
+    options = js_var(js, "OPTS")
+
+    if not options or 'id="optList"' not in body:
+        return body
+
+    fine = js_phrase(js, r"checked \? '(С этим вариантом всё в порядке[^']*)'")
+    rows = "".join(
+        '<li data-opt="{bad}"{cls}><span class="opt-name" data-opt-name>{text}</span>'
+        '<span class="opt-why" data-opt-why>{why}</span></li>'.format(
+            bad="1" if one["bad"] else "0", cls=' class="is-bad"' if one["bad"] else "", text=one["t"], why=one["why"]
+        )
+        for one in options
+    )
+    fix = re.search(r"fix\.innerHTML = (.*?);\n", js, re.S)
+    total = sum(1 for one in options if one["bad"])
+    words = {
+        "count": js_phrase(js, r"\? '' : '(отмечено: )' \+ n", "отмечено: ") + "{n}",
+        "hint": js_phrase(js, r"meta\.innerHTML = '<span>([^<]*)</span>';"),
+        "found": js_phrase(js, r"<span style=\"color:var\(--bad\)\">([^']*)' \+ hit", "Нашёл поломок: ") + "{hit}" + js_phrase(js, r"\+ hit \+ '([^<]*)</span>'", " из 3"),
+        "extra": js_phrase(js, r"<span style=\"color:var\(--muted\)\">([^']*)' \+ wrong", "Лишних отмечено: ") + "{wrong}",
+        "missing": js_phrase(js, r"<span style=\"color:var\(--warn\)\">([^<]*)</span>'"),
+        "fine": fine,
+        "check": js_phrase(body, r'id="optCheck"[^>]*>([^<]*)</button>', "Проверить"),
+        "again": js_phrase(js, r"checkB\.textContent = '(Ещё раз)'", "Ещё раз"),
+    }
+    # «Нашёл поломок» — это про читателя: с «вы» глагол стоит во множественном числе.
+    words["found"] = words["found"].replace("Нашёл", "Нашли")
+    attrs = "".join(' data-opt-%s="%s"' % (key, vy_attr(value)) for key, value in words.items())
+    body = body.replace('<ul class="opt-list" id="optList"></ul>', '<ul class="opt-list" data-optmark data-opt-total="%d"%s>%s</ul>' % (total, attrs, rows), 1)
+    body = re.sub(r'<div class="opt-meta" id="optMeta"></div>', '<div class="opt-meta" data-opt-meta hidden></div>', body, count=1)
+    body = body.replace('<div class="opt-fix" id="optFix"></div>', '<div class="opt-fix" data-opt-fix>' + (js_string(fix.group(1)) if fix else "") + "</div>", 1)
+    body = re.sub(r'<span[^>]*id="optCount"[^>]*></span>', "<span class=\"hunt-count\" data-opt-count-out></span>", body, count=1)
+    body = re.sub(r'<button[^>]*id="optCheck"[^>]*>.*?</button>', "<span data-opt-actions></span>", body, count=1, flags=re.S)
+    notes.append("разметка вариантов: вариантов {}, поломанных {}".format(len(options), total))
+
+    return body
+
+
+def scales_markup(js: str, body: str, notes: list) -> str:
+    """Справочник шкал: семь типов вопроса, что каждый даёт и чего не даёт."""
+    scales = js_var(js, "SCALES")
+
+    if not scales or 'id="scTabs"' not in body:
+        return body
+
+    heads = re.findall(r"<h6>([^<]*)</h6>", js)
+    can_title = heads[0] if heads else "Что потом сможете сделать"
+    cant_title = heads[1] if len(heads) > 1 else "Чего не сможете"
+    example = js_phrase(js, r"<b>(Пример:)</b>", "Пример:")
+    watch = js_phrase(js, r"<p class=\"sc-warn\"><b>([^<]*)</b>", "На что смотреть:")
+    buttons = "".join(
+        '<button class="ds-switch__button" type="button" data-switch-btn="{k}" hidden>{n}</button>'.format(k=one["k"], n=one["n"])
+        for one in scales
+    )
+    panes = "".join(
+        '<div data-switch-pane="{k}" class="sc-card"><h5>{n}</h5>'
+        '<div class="sc-ex"><b>{example}</b> {q}<div class="opts2">{o}</div></div>'
+        '<div class="cmp-two"><div><h6>{can_title}</h6><ul>{can}</ul></div><div><h6>{cant_title}</h6><ul>{cant}</ul></div></div>'
+        '<p class="sc-warn"><b>{watch}</b> {warn}</p></div>'.format(
+            k=one["k"], n=one["n"], example=example, q=one["q"], o=one["o"], can_title=can_title, cant_title=cant_title,
+            can="".join("<li>" + item + "</li>" for item in one["can"]),
+            cant="".join("<li>" + item + "</li>" for item in one["cant"]),
+            watch=watch, warn=one["warn"],
+        )
+        for one in scales
+    )
+    body = body.replace('<div class="sc-tabs" id="scTabs"></div>', '<div class="ds-switch__bar">' + buttons + "</div>", 1)
+    body = body.replace('<div class="sc-body" id="scBody"></div>', '<div class="sc-body">' + panes + "</div>", 1)
+    body = re.sub(r'<div class="box-body">(\s*<div class="ds-switch__bar">)', r'<div class="box-body ds-switch" data-switch>\1', body)
+    notes.append("справочник шкал: типов вопроса " + str(len(scales)))
+
+    return body
+
+
+def fork_calc_markup(js: str, body: str, notes: list) -> str:
+    """Калькулятор «вилки»: в каких пределах гуляет ответ, если неответившие думают иначе."""
+    if 'id="bcBase"' not in body:
+        return body
+
+    start = {}
+
+    for name in ("bcBase", "bcResp", "bcYes", "bcOther"):
+        found = re.search(r'id="' + name + r'"[^>]*\bvalue="(\d+)"', body)
+
+        if not found:
+            return body
+
+        start[name] = int(found.group(1))
+
+    verdicts = re.search(
+        r"\(width >= (\d+)\s*\?\s*'((?:[^'\\]|\\.)*)'\s*:\s*width >= (\d+)\s*\?\s*'((?:[^'\\]|\\.)*)'\s*:\s*'((?:[^'\\]|\\.)*)'\)", js, re.S
+    )
+    lead = re.search(r"say\.innerHTML = (.*?) \+\s*\n\s*\(width >= ", js, re.S)
+
+    if not verdicts or not lead:
+        notes.append("калькулятор вилки: тексты не разобраны — оставлен как есть")
+
+        return body
+
+    template = lead.group(1)
+
+    for source, target in (
+        ("R", "{R}"), ("N", "{N}"), ("respShare", "{share}"), ("asP", "{as}"), ("nonResp", "{non}"),
+        ("Math.round(pO * 100)", "{po}"), ("lowP", "{low}"),
+    ):
+        template = re.sub(r"'\s*\+\s*" + re.escape(source) + r"\s*\+\s*'", target, template)
+
+    template = js_string(template)
+    words = {
+        # В её разметке стоит «42 человека», а шаблон скрипта дал бы «42 человек»: слово склоняется
+        # по числу, формы приезжают атрибутом. Поймано сверкой текста 17.09.2026.
+        "yes": "{yes} {people}" + js_phrase(js, r"yesCount \+ ' человек([^']*)' \+ Math", " — это ") + "{p}" + js_phrase(js, r"pY \* 100\) \+ '([^']*)';", " % ответивших"),
+        "people": "человек|человека|человек",
+        "other": js_phrase(js, r"otherLab\.textContent = '([^']*)'", "сейчас: ") + "{p} %",
+        "big": js_phrase(js, r"big\.textContent = '([^']*)' \+ lo", "От ") + "{lo}" + js_phrase(js, r"\+ lo \+ '([^']*)' \+ up", " % до ") + "{up}" + js_phrase(js, r"\+ up \+ '([^']*)';", " % по всей базе"),
+        # Якорь — класс подписи: то же `asP + '` встречается выше, у самой отметки,
+        # и без якоря в подпись уезжал кусок её разметки (`%">`).
+        "point": "{p}" + js_phrase(js, r"class=\"ptlab\".*?asP \+ '([^'<]*)</span>'", " % в опросе"),
+        "say": template,
+        "wide": verdicts.group(2).replace("\\'", "'"),
+        "mid": verdicts.group(4).replace("\\'", "'"),
+        "narrow": verdicts.group(5).replace("\\'", "'"),
+        "wide-from": verdicts.group(1),
+        "mid-from": verdicts.group(3),
+    }
+    # Расчёт по значениям по умолчанию — та же формула, что в её скрипте.
+    base, resp = max(1, start["bcBase"]), max(1, min(start["bcResp"], start["bcBase"]))
+    p_yes, p_other = start["bcYes"] / 100, start["bcOther"] / 100
+    yes_count = round(resp * p_yes)
+    silent = base - resp
+    low = round((yes_count + silent * p_other) / base * 100)
+    high = round((yes_count + silent * p_yes) / base * 100)
+    as_is = round(p_yes * 100)
+    lo, up = min(low, high), max(low, high)
+    width = up - lo
+    verdict = words["wide"] if width >= int(words["wide-from"]) else (words["mid"] if width >= int(words["mid-from"]) else words["narrow"])
+    filled = vy_text(words["say"])
+
+    for key, value in (("{R}", resp), ("{N}", base), ("{share}", round(resp / base * 100)), ("{as}", as_is), ("{non}", silent), ("{po}", round(p_other * 100)), ("{low}", low)):
+        filled = filled.replace(key, str(value))
+
+    scale = (
+        '<span class="axis"></span><span class="span" style="left:{lo}%;width:{w}%"></span><span class="pt" style="left:{a}%"></span>'
+        '<span class="ptlab" style="left:{a}%">{point}</span><span class="tick" style="left:{lo}%">{lo} %</span>'
+        '<span class="tick" style="left:{up}%">{up} %</span>'
+    ).format(lo=lo, up=up, w=max(1, width), a=as_is, point=words["point"].replace("{p}", str(as_is)))
+    attrs = "".join(' data-fork-%s="%s"' % (key, vy_attr(value)) for key, value in words.items())
+    body = re.sub(r'<div class="bc-grid">', '<div class="bc-grid" data-fork' + attrs + ">", body, count=1)
+    body = re.sub(r'(<span id="bcYesLab">)[^<]*(</span>)', lambda m: m.group(1) + words["yes"].replace("{yes}", str(yes_count)).replace("{people}", plural_people(yes_count)).replace("{p}", str(as_is)) + m.group(2), body, count=1)
+    body = re.sub(r'(<span id="bcOtherLab">)[^<]*(</span>)', lambda m: m.group(1) + words["other"].replace("{p}", str(round(p_other * 100))) + m.group(2), body, count=1)
+    body = re.sub(r'(<div class="bc-big" id="bcBig">)[^<]*(</div>)', lambda m: m.group(1) + words["big"].replace("{lo}", str(lo)).replace("{up}", str(up)) + m.group(2), body, count=1)
+    body = body.replace('<div class="rng" id="bcRng"></div>', '<div class="rng" id="bcRng" aria-hidden="true">' + scale + "</div>", 1)
+    body = body.replace('<div class="bc-say" id="bcSay"></div>', '<div class="bc-say" id="bcSay">' + filled + vy_text(verdict) + "</div>", 1)
+    body = re.sub(r'<button[^>]*id="bcReset"[^>]*>(.*?)</button>', lambda m: '<span data-fork-actions data-fork-reset="%s"></span>' % vy_attr(m.group(1).strip()), body, count=1, flags=re.S)
+    notes.append("калькулятор вилки: по умолчанию от {} % до {} %".format(lo, up))
+
+    return body
+
+
+def review_markup(js: str, body: str, notes: list) -> str:
+    """Разбор чужого отчёта: вердикты и пояснения открываются кнопкой (готовый `data-reveal`)."""
+    if 'id="revBtn"' not in body or 'id="repDoc"' not in body:
+        return body
+
+    show = js_phrase(body, r'id="revBtn"[^>]*>([^<]*)</button>', "Показать разбор")
+    # Якорь — именно `textContent`: строкой выше стоит `next ? 'true' : 'false'`
+    # для `aria-pressed`, и без якоря подписью кнопки становилось слово «true».
+    hide = js_phrase(js, r"textContent = next \? '([^']*)'", "Скрыть разбор")
+    box = [m for m in re.finditer(r'<div class="box">', body[:body.index('id="revBtn"')])]
+
+    if not box:
+        return body
+
+    at = box[-1].start()
+    body = body[:at] + '<div class="box" data-reveal data-reveal-show="%s" data-reveal-hide="%s">' % (vy_attr(show), vy_attr(hide)) + body[at + len('<div class="box">'):]
+    body = re.sub(r'<button[^>]*id="revBtn"[^>]*>.*?</button>', "<span data-reveal-button></span>", body, count=1, flags=re.S)
+    body, verdicts = re.subn(r'(<span class="vd [a-z]+")>', r"\1 data-reveal-item>", body)
+    body, texts = re.subn(r'(<(?:p|div) class="note")', r"\1 data-reveal-item", body)
+    notes.append("разбор отчёта: вердиктов {}, пояснений {}".format(verdicts, texts))
+
+    return body
+
+
+def checklist_markup(js: str, body: str, notes: list) -> str:
+    """Чек-лист со счётчиком: опоры для скрипта и фразы итога — из её урока.
+
+    Фразы у каждого урока свои («можно проводить», «можно рассылать»), поэтому они
+    приезжают атрибутами, а не лежат в скрипте темы.
+    """
+    for prefix in ("prep", "pil"):
+        if 'id="' + prefix + 'List"' not in body:
+            continue
+
+        words = re.search(r"\(n === boxes\.length \? '([^']*)' : '([^']*)'\)", js)
+        done, going = (words.group(1), words.group(2)) if words else ("", "")
+        body = body.replace('id="' + prefix + 'List"', "data-checklist", 1)
+        body = body.replace('id="' + prefix + 'Prog"', "data-checklist-fill", 1)
+        body = body.replace(
+            'id="' + prefix + 'St"',
+            'data-checklist-state data-checklist-done="%s" data-checklist-going="%s"' % (vy_attr(done), vy_attr(going)),
+            1,
+        )
+        notes.append("чек-лист: итог «" + done.strip(" —") + "»")
+
+    return body
+
+
 def copy_holder(text: str, notes: list) -> str:
     """Кнопка копирования → пустое место: кнопку рисует скрипт, и она работает.
 
@@ -2725,7 +3277,7 @@ def drop_inline_styles(text: str, notes: list) -> str:
     kept = []
     dropped = []
     lost = set()
-    data_rule = re.compile(r"(?:flex:\s*\d+|(?:left|top):\s*[\d.]+%)")
+    data_rule = re.compile(r"(?:flex:\s*\d+|(?:left|top|width):\s*[\d.]+%)")
 
     def one(match):
         rules = [r.strip() for r in match.group(1).split(";") if r.strip()]
@@ -2821,6 +3373,14 @@ body = cadence_markup(script, body, widget_notes)
 body = analog_table_markup(script, body, widget_notes)
 body = builder_markup(script, body, widget_notes)
 body = dig_markup(script, body, widget_notes)
+body = bars_markup(body, widget_notes)
+body = bias_sim_markup(script, body, widget_notes)
+body = share_calc_markup(script, body, widget_notes)
+body = optmark_markup(script, body, widget_notes)
+body = scales_markup(script, body, widget_notes)
+body = fork_calc_markup(script, body, widget_notes)
+body = review_markup(script, body, widget_notes)
+body = checklist_markup(script, body, widget_notes)
 body = tabs_to_switch(body, widget_notes)
 body = seq_markup(script, body, widget_notes)
 body = hunt_markup(script, body, widget_notes)
@@ -2908,6 +3468,11 @@ for piece in re.split(r"<[^>]+>", re.sub(r"<(script|style|svg)\b.*?</\1>", " ", 
         lost.append(piece)
 
 del SELF_REPORT[kept_report:]
+if PHRASE_REPORT:
+    print("фраз из скрипта взято не то (использован запасной текст):", len(PHRASE_REPORT))
+    for line in PHRASE_REPORT:
+        print("  ✕", line)
+
 print("её текст, не дошедший до тела:", len(lost))
 for piece in lost:
     print("  ✕", piece[:150])
