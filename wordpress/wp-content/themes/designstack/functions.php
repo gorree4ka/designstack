@@ -142,6 +142,21 @@ function designstack_enqueue_assets() {
 		);
 	}
 
+	// Баннер карты компетенций: знает, проходил ли человек проверку. Ответы лежат
+	// в браузере, поэтому состояние баннера подставляет скрипт, а не сервер.
+	if ( is_front_page() || has_block( 'designstack/grade-banner' ) ) {
+		wp_enqueue_script(
+			'designstack-banner',
+			get_theme_file_uri( 'assets/js/banner.js' ),
+			array(),
+			designstack_asset_version( 'assets/js/banner.js' ),
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
+
 	// Карта развития: подставляет ступень человека из ответов проверки и открывает нужный урок.
 	if ( is_singular() && ( has_block( 'designstack/skills-map' ) || designstack_is_template( 'page-map' ) ) ) {
 		wp_enqueue_script(

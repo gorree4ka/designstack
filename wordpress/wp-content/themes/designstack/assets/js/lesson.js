@@ -191,7 +191,9 @@
 			}
 		}
 
-		function answer( saidGood, btn ) {
+		// Ответ — строковый ключ, а не «верно / неверно»: вариантов в тренажёрах
+		// бывает от двух до пяти, и называются они по-разному в каждом уроке.
+		function answer( said, btn ) {
 			if ( answered ) {
 				return;
 			}
@@ -199,8 +201,7 @@
 			answered = true;
 
 			var item = items[ at ];
-			var good = '1' === item.getAttribute( 'data-good' );
-			var hit = saidGood === good;
+			var hit = said === item.getAttribute( 'data-answer' );
 
 			if ( hit ) {
 				right++;
@@ -313,7 +314,7 @@
 
 		Array.prototype.forEach.call( actions.children, function ( btn ) {
 			btn.addEventListener( 'click', function () {
-				answer( '1' === btn.getAttribute( 'data-quiz-answer' ), btn );
+				answer( btn.getAttribute( 'data-quiz-answer' ), btn );
 			} );
 		} );
 

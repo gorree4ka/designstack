@@ -104,6 +104,24 @@ CLASS_MAP = {
     "pagemark": "ds-lesson__pagemark",
     "acc": "ds-lesson__acc",
     "ans": "ds-lesson__ans",
+    # компоненты темы «Юзабилити-тесты»
+    "drillmark": "ds-lesson__tag",
+    "weeks": "ds-lesson__weeks",
+    "wk": "ds-lesson__week",
+    "big": "ds-lesson__big",
+    "cad": "ds-lesson__cadence",
+    "cad-out": "ds-lesson__cadence-out",
+    "kv": "ds-lesson__kv",
+    "calc": "ds-lesson__calc",
+    "fld": "ds-lesson__field",
+    "out": "ds-lesson__out",
+    "cap": "ds-lesson__cap",
+    "panel": "ds-lesson__panel",
+    "acts": "ds-lesson__acts",
+    "vd": "ds-lesson__vd",
+    "ok": "is-ok",
+    "no": "is-no",
+    "done": "is-done",
     "wrap": "",
     "btn": "",
     "lv": "",
@@ -126,9 +144,9 @@ PRONOUNS = {
 # Глаголы второго лица и словарь сайта. Список снят с уже утверждённого перевода трёх
 # уроков: он не выдуман, а извлечён сравнением присланных файлов с тем, что стоит на сайте.
 WORDS = {
-    # словарь сайта (docs/VOICE.md)
-    "уровень": "ступень", "уровня": "ступени", "уровню": "ступени", "уровне": "ступени",
-    "уровнем": "ступенью", "уровни": "ступени", "уровней": "ступеней", "уровням": "ступеням",
+    # словарь сайта (docs/VOICE.md). Слова «уровень» здесь нет намеренно: в уроках про
+    # структуру сайта «верхний уровень» — это уровень навигации, а не ступень обучения.
+    # Ступени разбираются отдельно, по сочетаниям — см. STEP_PHRASES.
     "респондент": "собеседник", "респондента": "собеседника", "респонденту": "собеседнику",
     "респонденте": "собеседнике", "респондентом": "собеседником", "респонденты": "собеседники",
     "респондентов": "собеседников", "респондентам": "собеседникам",
@@ -149,6 +167,7 @@ WORDS = {
     "получишь": "получите", "собираешь": "собираете", "пользуешься": "пользуетесь",
     "останавливаешься": "останавливаетесь", "обращаешься": "обращаетесь",
     "собираешься": "собираетесь", "подготовишься": "подготовитесь",
+    "сам": "сами", "сама": "сами",
     # второе лицо: повелительное наклонение
     "проведи": "проведите", "сгруппируй": "сгруппируйте", "прогони": "прогоните",
     "разложи": "разложите", "собери": "соберите", "попробуй": "попробуйте",
@@ -276,6 +295,52 @@ def link_catalog(text: str, linked: list) -> str:
     return text
 
 
+# «Уровень» в значении ступени обучения — только в этих сочетаниях. Всё остальное
+# («верхний уровень» в структуре сайта) остаётся как написано и попадает в отчёт.
+STEP_PHRASES = {
+    "этом уровне": "этой ступени", "этого уровня": "этой ступени",
+    "этому уровню": "этой ступени", "этот уровень": "эта ступень",
+    "этим уровнем": "этой ступенью", "прошлом уровне": "прошлой ступени",
+    "прошлого уровня": "прошлой ступени", "прошлым уровнем": "прошлой ступенью",
+    "предыдущего уровня": "предыдущей ступени", "предыдущих уровнях": "предыдущих ступенях",
+    "следующего уровня": "следующей ступени", "следующие уровни": "следующие ступени",
+    "следующим уровням": "следующим ступеням", "ошибки уровня": "ошибки ступени",
+    "ловушки уровня": "ловушки ступени", "ловушка уровня": "ловушка ступени",
+    "ловушку уровня": "ловушку ступени", "граница уровней": "граница ступеней",
+    "границы уровней": "границы ступеней", "критерий уровня": "критерий ступени",
+    "сердце уровня": "сердце ступени", "три уровня": "три ступени",
+    "навык уровня": "навык ступени", "раздел уровня": "раздел ступени",
+    "чек-лист уровня": "чек-лист ступени", "про уровни": "про ступени",
+    "уровне junior": "ступени Junior", "уровне middle": "ступени Middle",
+    "уровне senior": "ступени Senior", "уровень junior": "ступень Junior",
+    "уровень middle": "ступень Middle", "уровень senior": "ступень Senior",
+    "уровня junior": "ступени Junior", "уровня middle": "ступени Middle",
+    "уровня senior": "ступени Senior",
+}
+
+# Прошедшее время с чередованием: «вёл» во множественном — «вели», а не «вёли».
+PAST_ODD = {
+    "вёл": "вели", "шёл": "шли", "нашёл": "нашли", "провёл": "провели",
+    "привёл": "привели", "пришёл": "пришли", "подошёл": "подошли",
+    "нёс": "несли", "принёс": "принесли", "мог": "могли", "смог": "смогли",
+}
+
+# Общее правило «+и» даёт «вёли» и «шёли» — чередование чинится после него.
+PAST_AFTER = {"вёли": "вели", "шёли": "шли", "нёсли": "несли", "моги": "могли"}
+
+
+def steps_and_odd(text: str, notes: list) -> str:
+    """Сочетания про ступень и неправильное прошедшее время."""
+    for phrase, repl in STEP_PHRASES.items():
+        pattern = re.compile(r"(?<![А-Яа-яЁё])" + re.escape(phrase) + r"(?![А-Яа-яЁё])", re.I)
+        text, n = pattern.subn(lambda m: same_case(m.group(0), repl), text)
+
+        if n:
+            notes.append(phrase + " → " + repl)
+
+    return text
+
+
 # Форма на -шь, которой нет в словаре: правило работает для подавляющего большинства
 # глаголов, но каждое такое слово всё равно попадает в отчёт — их читают глазами.
 SKIP_SH = {"лишь", "вишь", "бишь"}
@@ -393,6 +458,13 @@ PAST_CHAIN = re.compile(
 
 
 def past_plural(text: str) -> str:
+    for odd, repl in PAST_ODD.items():
+        text = re.sub(
+            r"((?<![А-Яа-яЁё])(?:[Вв]ы|ли)\s+(?:[а-яё]+\s+){0,3}?)" + odd + r"(?![а-яё])",
+            lambda m, r=repl: m.group(1) + r,
+            text,
+        )
+
     text = PAST_AFTER_VY.sub(lambda m: m.group(1) + m.group(2) + "и", text)
 
     # Второй и третий глагол в ряду: правило крутится, пока цепочка не кончится.
@@ -400,9 +472,20 @@ def past_plural(text: str) -> str:
         after = PAST_CHAIN.sub(lambda m: m.group(1) + m.group(2) + "и", text)
 
         if after == text:
-            return text
+            break
 
         text = after
+
+    # Общее правило «+и» даёт «вёли» вместо «вели»: чередование чинится следом.
+    for wrong, right in PAST_AFTER.items():
+        text = re.sub(
+            r"(?<![А-Яа-яЁё])" + wrong + r"(?![а-яё])",
+            lambda m, r=right: same_case(m.group(0), r),
+            text,
+            flags=re.I,
+        )
+
+    return text
 
 
 def to_vy(text: str, changes: list, guessed: set) -> str:
@@ -489,41 +572,145 @@ def quiz_labels(source: str) -> tuple:
     )
 
 
-def quiz_markup(items: list, labels: tuple) -> str:
-    """Тренажёр разметкой, а не данными в скрипте: без JS вопросы видны списком."""
-    yes, no = labels
+def quiz_markup(items: list, options: list, title: str = "Тренажёр") -> str:
+    """Тренажёр разметкой, а не данными в скрипте: без JS вопросы видны списком.
+
+    Вариантов ответа бывает от двух до пяти, поэтому ключ ответа — строка, а не
+    «верно / неверно»: в разных уроках это «годится / переделать», «низкая / средняя
+    / высокая» и так далее.
+    """
     rows = []
+    labels = {one["key"]: one["label"] for one in options}
 
     for one in items:
         rows.append(
-            '<li data-quiz-q data-good="{good}"><p class="ds-quiz__question">{text}</p>'
+            '<li data-quiz-q data-answer="{key}"><p class="ds-quiz__question">{text}</p>'
             '<p class="ds-quiz__feedback" data-quiz-feedback><b>{word}</b>{back}</p></li>'.format(
-                good="1" if one["good"] else "0",
+                key=html.escape(one["answer"], quote=True),
                 text=one["text"],
-                word=yes if one["good"] else no,
+                word=labels.get(one["answer"], "Разбор"),
                 back=one["feedback"],
             )
         )
 
-    return (
+    buttons = "".join(
+        '<button class="ds-quiz__option" type="button" data-quiz-answer="{key}">{label}</button>'.format(
+            key=html.escape(one["key"], quote=True), label=one["label"]
+        )
+        for one in options
+    )
+
+    head = (
         '<div class="ds-lesson__box ds-quiz" data-quiz>\n'
-        '<div class="ds-lesson__box-head">Тренажёр · вопрос <span data-quiz-idx>1</span> из '
+        '<div class="ds-lesson__box-head">'
+        + title
+        + " · вопрос <span data-quiz-idx>1</span> из "
         + str(len(items))
         + '<span class="ds-lesson__spacer"></span><span data-quiz-score>0 верно</span></div>\n'
+    )
+    body = (
         '<div class="ds-lesson__box-body">\n<ol class="ds-quiz__list">\n'
         + "\n".join(rows)
         + '\n</ol>\n<div class="ds-quiz__actions" data-quiz-actions hidden>'
-        '<button class="ds-quiz__option" type="button" data-quiz-answer="1">' + yes + "</button>"
-        '<button class="ds-quiz__option" type="button" data-quiz-answer="0">' + no + "</button></div>\n"
+        + buttons
+        + "</div>\n"
         '<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span>'
         '<button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>'
         "Дальше</button></div>\n</div>\n</div>"
     )
 
+    return head + body
 
-def put_quiz(text: str, markup: str) -> bool:
-    """Меняет её пустую коробку тренажёра на нашу разметку. Возвращает, получилось ли."""
-    box = re.search(r'<div class="[^"]*" id="quiz">', text) or re.search(r'<div id="quiz"[^>]*>', text)
+
+def js_arrays(js: str, start: int) -> list:
+    """Два первых массива в аргументах вызова, со счётом скобок.
+
+    Поиском по регулярке их не взять: внутри текста вопросов встречаются и скобки,
+    и апострофы, а у вызова есть четвёртый аргумент — функция разбора.
+    """
+    out = []
+    depth = 0
+    begin = None
+    quote = None
+    i = start
+
+    while i < len(js) and len(out) < 2:
+        char = js[i]
+
+        if quote:
+            if char == "\\":
+                i += 2
+                continue
+            if char == quote:
+                quote = None
+        elif char in "'\"":
+            quote = char
+        elif char == "[":
+            depth += 1
+            if depth == 1:
+                begin = i + 1
+        elif char == "]":
+            depth -= 1
+            if depth == 0 and begin is not None:
+                out.append(js[begin:i])
+                begin = None
+        elif char == ")" and depth == 0:
+            break
+
+        i += 1
+
+    return out
+
+
+def drills_of(source: str) -> list:
+    """Тренажёры, собранные вызовом makeDrill('#id', [варианты], [вопросы], …)."""
+    js = "\n".join(m.group(1) for m in re.finditer(r"<script[^>]*>(.*?)</script>", source, re.S))
+    out = []
+    opt_re = re.compile(r"key:\s*'([^']*)'\s*,\s*label:\s*'((?:[^'\\]|\\.)*)'")
+    text_re = re.compile(r"t:\s*'((?:[^'\\]|\\.)*)'")
+    answer_re = re.compile(r"a:\s*'([^']*)'")
+    back_re = re.compile(r"fb:\s*'((?:[^'\\]|\\.)*)'")
+
+    def unquote(value: str) -> str:
+        return value.replace("\\'", "'").replace('\\"', '"')
+
+    for call in re.finditer(r"makeDrill\(\s*'#(\w+)'\s*,", js):
+        arrays = js_arrays(js, call.end())
+
+        if len(arrays) < 2:
+            continue
+
+        options = [
+            {"key": m.group(1), "label": unquote(m.group(2))} for m in opt_re.finditer(arrays[0])
+        ]
+        items = []
+
+        for one in re.finditer(r"\{(.*?)\}", arrays[1], re.S):
+            chunk = one.group(1)
+            text = text_re.search(chunk)
+            answer = answer_re.search(chunk)
+            back = back_re.search(chunk)
+
+            if not text or not answer:
+                continue
+
+            items.append(
+                {
+                    "text": unquote(text.group(1)),
+                    "answer": answer.group(1),
+                    "feedback": unquote(back.group(1)) if back else "",
+                }
+            )
+
+        if options and items:
+            out.append({"node": call.group(1), "options": options, "items": items})
+
+    return out
+
+
+def put_quiz(text: str, markup: str, node: str = "quiz"):
+    """Меняет её пустую коробку тренажёра на нашу разметку. Возвращает текст и успех."""
+    box = re.search(r'<div[^>]*\bid="' + re.escape(node) + r'"[^>]*>', text)
 
     if not box or not markup:
         return text, False
@@ -555,15 +742,36 @@ raw = path.read_text(encoding="utf-8")
 head = head_of(raw)
 head_changes = []
 head_guessed = set()
-head = {k: to_vy(v, head_changes, head_guessed) for k, v in head.items()}
+head = {k: to_vy(steps_and_odd(v, []), head_changes, head_guessed) for k, v in head.items()}
 items = quiz_data(raw)
 unknown = set()
 changes = []
 guessed = set()
 
 body = strip_page(raw)
-body, quiz_ok = put_quiz(body, quiz_markup(items, quiz_labels(raw)) if items else "")
+
+# Тренажёр в уроках собран двумя способами: массивом QS (первая тема) и вызовами
+# makeDrill (все остальные). Оба разворачиваются в одну и ту же нашу разметку.
+quizzes = 0
+yes, no = quiz_labels(raw)
+pairs = [{"key": "1", "label": yes}, {"key": "0", "label": no}]
+keyed = [
+    {"text": one["text"], "answer": "1" if one["good"] else "0", "feedback": one["feedback"]}
+    for one in items
+]
+
+body, quiz_ok = put_quiz(body, quiz_markup(keyed, pairs) if keyed else "", "quiz")
+quizzes += 1 if quiz_ok else 0
+
+for drill in drills_of(raw):
+    body, ok = put_quiz(
+        body, quiz_markup(drill["items"], drill["options"]), drill["node"]
+    )
+    quizzes += 1 if ok else 0
+
 body = map_classes(body, unknown)
+steps = []
+body = steps_and_odd(body, steps)
 body = to_vy(body, changes, guessed)
 
 notes = []
@@ -583,11 +791,12 @@ body = '<!-- wp:html -->\n<div class="ds-lesson">\n' + body + "\n</div>\n<!-- /w
 print("название:", head["title"])
 print("анонс:", head["excerpt"][:160])
 print("тело:", len(body), "байт")
-print("тренажёр:", f"{len(items)} вопросов развёрнуто в разметку" if quiz_ok else "нет или не подставился")
+print("тренажёров развёрнуто в разметку:", quizzes)
 print("строк с «ты» → «вы»:", len(changes))
 print("форм переведено по правилу, не по словарю:", len(guessed))
 if guessed:
     print(" ", "; ".join(sorted(guessed)))
+print("ступень вместо уровня:", len(steps), "; ".join(steps) if steps else "нет")
 print("правки разметки:", "; ".join(notes) if notes else "нет")
 print("пропусков уровня заголовка поправлено:", len(fixed), ", ".join(fixed) if fixed else "")
 print("ссылок на каталог поставлено:", len(linked), ", ".join(linked) if linked else "")

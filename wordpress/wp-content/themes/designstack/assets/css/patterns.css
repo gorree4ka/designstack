@@ -2348,6 +2348,164 @@ textarea.ds-field__control {
 	}
 }
 
+/* ---------- урок «Юзабилити-тесты», ступень Senior ---------- */
+
+/* Календарь на двенадцать недель: какие недели заняты исследованием. */
+.ds-lesson__weeks {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__week {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--xs);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Занятая неделя выделена подложкой, а не цветом текста: цветной текст
+   на подкрашенной плашке не добирает 4,5:1 (D157). */
+.ds-lesson__week.ds-lesson__big {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Ритм исследований: что получается при выбранной частоте. */
+.ds-lesson__cadence-out {
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__kv {
+	display: grid;
+	grid-template-columns: minmax(0, 12ch) minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--1) 0;
+}
+
+.ds-lesson__kv .ds-lesson__step-key {
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Разбор заявок на исследование: кто просит, что решаем. */
+.ds-lesson__panel {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-lesson__panel li {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	padding: var(--wp--preset--spacing--3) 0;
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__panel li:first-child {
+	border-top: none;
+}
+
+.ds-lesson__panel .ds-lesson__who b {
+	display: block;
+}
+
+.ds-lesson__panel .ds-lesson__who span {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__acts {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+}
+
+/* Разбор появляется после ответа: `:not([hidden])` обязателен, иначе `display`
+   перебьёт браузерное `[hidden] { display: none }` (правило раздела 10). */
+.ds-lesson__vd {
+	grid-column: 1 / -1;
+	padding-top: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__panel li:not(.is-done) .ds-lesson__vd {
+	display: none;
+}
+
+/* Прикидка объёма: поля и результат. */
+.ds-lesson__calc {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--4);
+}
+
+@media (min-width: 600px) {
+	.ds-lesson__calc {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__field label {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__field label span {
+	display: block;
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__field input,
+.ds-lesson__field select {
+	width: 100%;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__field input[type="range"] {
+	padding: 0;
+	accent-color: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__out {
+	margin-top: var(--wp--preset--spacing--4);
+	padding-top: var(--wp--preset--spacing--4);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__out .ds-lesson__big {
+	font-size: var(--wp--preset--font-size--3-xl);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--tight);
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-lesson__cap {
+	margin-top: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
 /* ---------- память урока ---------- */
 
 /* Строка возврата стоит над текстом и ничего не перекрывает: страница читается сверху,
@@ -2452,6 +2610,17 @@ textarea.ds-field__control {
 
 .ds-lesson-nav__next .ds-lesson-nav__title {
 	text-decoration: underline;
+}
+
+/* Ссылка «пройти заново» лежит поверх затемнения, поэтому цвет — `text-on-scrim`:
+   это единственная пара, проверенная на фото (D148, контраст 19,09:1). */
+.ds-banner__again {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-banner__again-link {
+	color: var(--wp--preset--color--text-on-scrim);
 }
 
 /* ---------- урок карты компетенций ---------- */

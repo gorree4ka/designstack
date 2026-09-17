@@ -428,7 +428,7 @@
 		flow.hidden = false;
 		bar.hidden = false;
 
-		var first = 0;
+		var first = -1;
 
 		items.some( function ( item, i ) {
 			if ( ! answerOf( item ) ) {
@@ -439,6 +439,14 @@
 
 			return false;
 		} );
+
+		// Отвечено всё — человеку нужен результат, а не первый вопрос заново.
+		// Пройти проверку ещё раз можно кнопкой на самом результате.
+		if ( first < 0 ) {
+			render();
+
+			return;
+		}
 
 		show( first, true );
 	}
@@ -470,7 +478,19 @@
 	flow.hidden = true;
 
 	if ( read() ) {
-		root.querySelector( '[data-check-resume]' ).hidden = false;
+		var resume = root.querySelector( '[data-check-resume]' );
+		var whole = items.every( answerOf );
+
+		// Подпись и кнопка говорят правду о состоянии: продолжить незаконченное —
+		// это не то же самое, что посмотреть готовый результат.
+		resume.textContent = whole
+			? 'Проверка пройдена — откроется ваш результат'
+			: 'Есть незаконченная попытка — продолжите с того же места';
+		resume.hidden = false;
+
+		if ( whole ) {
+			root.querySelector( '[data-check-start]' ).textContent = 'Посмотреть результат';
+		}
 	}
 
 	root.querySelector( '[data-check-start]' ).addEventListener( 'click', start );
