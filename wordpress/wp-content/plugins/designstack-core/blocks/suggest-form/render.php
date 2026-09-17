@@ -152,6 +152,6 @@ printf(
 	wp_nonce_field( 'designstack_suggest', 'designstack_suggest_nonce', true, false )
 	. '<input type="hidden" name="action" value="designstack_suggest">',
 	$ds_fields,
-	esc_html__( 'Не заполняй это поле', 'designstack-core' ),
+	esc_html__( 'Не заполняйте это поле', 'designstack-core' ),
 	esc_html__( 'Предложить ресурс', 'designstack-core' )
 );

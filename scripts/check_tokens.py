@@ -284,6 +284,34 @@ if PATTERNS.exists():
     twice = sorted({name for name in bases if bases.count(name) > 1})
     check("blocks", not twice, f"base rule written twice: {', '.join(twice)} — two patterns share one block name")
 
+    # 9. The `[hidden]` guard. A block rule with `display` beats the browser default
+    #    `[hidden] { display: none }`, and a step hidden by script stays on screen.
+    check(
+        "hidden",
+        re.search(r"^\[hidden\] \{\n\tdisplay: none !important;", css, re.M),
+        "the [hidden] guard rule is gone from patterns.css: scripts can no longer hide anything reliably",
+    )
+
+    # 10. Every class the lesson converter maps to must have a rule here, otherwise the
+    #     lesson renders unstyled and nobody notices: the markup is valid, just plain.
+    CONVERT = ROOT / "scripts/convert_lesson.py"
+
+    if CONVERT.exists():
+        source = CONVERT.read_text(encoding="utf-8")
+        mapped = set()
+
+        for table in re.findall(r"^(?:CLASS_MAP|LESSON_MAP) = \{(.*?)^\}", source, re.M | re.S):
+            for value in re.findall(r':\s*"([^"]*)"', table):
+                mapped.update(name for name in value.split() if name.startswith("ds-"))
+
+        styled = set(re.findall(r"\.(ds-[a-z0-9_-]+)", css))
+        naked = sorted(mapped - styled)
+        check(
+            "lessons",
+            not naked,
+            f"class without a rule in patterns.css: {', '.join(naked)} — the lesson renders unstyled",
+        )
+
 print(f"theme.json: {len(primitives)} primitives, {len(palette)} semantic tokens; theme-dark.css: {len(dark)} dark values")
 print(f"contrast: {len(pairs)} pairs, minimum for text and icons {minimum['light']:.2f}:1 light / {minimum['dark']:.2f}:1 dark")
 print(f"sizes: {size_count} component size tokens")

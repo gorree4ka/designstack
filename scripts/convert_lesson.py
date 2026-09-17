@@ -109,7 +109,6 @@ CLASS_MAP = {
     "weeks": "ds-lesson__weeks",
     "wk": "ds-lesson__week",
     "big": "ds-lesson__big",
-    "cad": "ds-lesson__cadence",
     "cad-out": "ds-lesson__cadence-out",
     "kv": "ds-lesson__kv",
     "calc": "ds-lesson__calc",
@@ -128,7 +127,119 @@ CLASS_MAP = {
     "on": "",
     "kicker": "",
     "lede": "",
+    # компоненты темы «Юзабилити-тесты», ступени Junior и Middle
+    "watch": "ds-lesson__watch",
+    "time": "ds-lesson__watch-time",
+    "log": "ds-lesson__log",
+    "ev": "ds-lesson__ev",
+    "verdictbox": "ds-lesson__result",
+    "wh-fb": "ds-lesson__result",
+    "wh-fix": "ds-lesson__note",
+    "wh-meta": "ds-lesson__meta",
+    "wh-text": "",
+    "chk": "ds-lesson__checklist",
+    "chkbar": "ds-lesson__checkbar",
+    "hint": "ds-lesson__hint",
+    "prog": "ds-quiz__track",
+    "cards": "ds-lesson__cards",
+    "card": "ds-lesson__card",
+    "card-ask": "ds-lesson__card-ask",
+    "tap": "",
+    "hd": "ds-lesson__sheet-head",
+    "tc": "ds-lesson__sheet-time",
+    "quo": "ds-lesson__sheet-note",
+    "sev": "ds-lesson__sev",
+    "s3": "ds-lesson__sev--critical",
+    "s2": "ds-lesson__sev--high",
+    "s1": "ds-lesson__sev--low",
+    "s0": "ds-lesson__sev--minor",
+    "tl": "ds-lesson__timeline",
+    "seg": "ds-lesson__seg",
+    "core": "ds-lesson__seg--core",
+    "mn": "ds-lesson__seg-time",
+    "nm": "ds-lesson__seg-name",
+    "ctr": "ds-lesson__ctr",
+    "mx": "ds-lesson__mx",
+    "hh": "ds-lesson__mx-head",
+    "rh": "ds-lesson__mx-row",
+    "cell": "ds-lesson__cell",
+    "mx-out": "ds-lesson__mx-out",
+    "mx-levels": "ds-lesson__mx-levels",
+    "mx-rows": "ds-lesson__mx-rows",
+    "w": "ds-lesson__word",
+    "ch-q": "ds-lesson__pick-q",
+    "ch-opts": "ds-lesson__pick-opts",
+    "ch-opt": "ds-lesson__pick-opt",
+    "ch-res": "ds-lesson__result",
+    "ch-score": "ds-lesson__pick-score",
+    "ch-side": "ds-lesson__pick-side",
+    "pts": "ds-lesson__pick-pts",
+    "lbl": "ds-lesson__pick-lbl",
+    "screens": "ds-lesson__screens",
+    "scr": "ds-lesson__screen",
+    "ui": "ds-lesson__ui",
+    "ui-top": "ds-lesson__ui-top",
+    "back": "ds-lesson__ui-back",
+    "ttl": "ds-lesson__ui-title",
+    "dots": "ds-lesson__ui-dots",
+    "ui-card": "ds-lesson__ui-card",
+    "ui-row": "ds-lesson__ui-row",
+    "ui-h": "ds-lesson__ui-h",
+    "ui-status": "ds-lesson__ui-status",
+    "ui-btn": "ds-lesson__ui-btn",
+    "pri": "ds-lesson__ui-btn--pri",
+    "ui-note": "ds-lesson__ui-note",
+    "pin": "ds-lesson__pin",
+    "pinlist": "ds-lesson__pinlist",
+    "solid": "ds-button--primary",
+    "danger": "ds-button--secondary",
+    "good": "is-good",
+    "bad": "is-bad",
+    "sel": "is-selected",
+    "picked": "is-picked",
+    "missed": "is-missed",
+    "wrongpick": "is-extra",
+    "stem": "ds-quiz__question",
+    "say": "ds-lesson__say",
+    "calc-case": "ds-lesson__calc-case",
+    "wk-test": "ds-lesson__week--test",
     "q": "",
+}
+
+
+# Короткие имена вроде `st`, `b`, `sec`, `cap` в разных уроках значат разное: в одном
+# `st` — ступень лесенки, в другом — подпись под чек-листом. Общая таблица тут врёт,
+# поэтому у урока может быть своя поправка. Ключ — имя присланного файла без расширения.
+LESSON_MAP = {
+    "usability-testing-junior": {
+        "st": "ds-lesson__checkbar-state",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "usability-testing-middle": {
+        "b": "ds-lesson__pin-num",
+        "sec": "ds-lesson__ui-btn--sec",
+        "link": "ds-lesson__ui-btn--link",
+        "cap": "ds-lesson__screen-cap",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+}
+
+# Опоры присланного скрипта: его `id` становятся нашими атрибутами. Скрипт сайта
+# не должен знать чужих идентификаторов, а разметка — тянуть их за собой.
+HOOKS = {
+    "prepList": "data-checklist",
+    "prepProg": "data-checklist-fill",
+    "prepSt": "data-checklist-state",
+    "panelScore": "data-panel-score",
+    "cUsers": 'data-calc-field="users"',
+    "cShare": 'data-calc-field="share"',
+    "cUnit": 'data-calc-field="unit"',
+    "cOutcome": 'data-calc-field="outcome"',
+    "cShareVal": "data-calc-share-out",
+    "cUnitLabel": "data-calc-label",
+    "cOut": "data-calc-out",
+    "cCap": "data-calc-cap",
+    "cSay": "data-calc-say",
 }
 
 # Местоимения второго лица: «ты» → «вы» (D150).
@@ -167,7 +278,6 @@ WORDS = {
     "получишь": "получите", "собираешь": "собираете", "пользуешься": "пользуетесь",
     "останавливаешься": "останавливаетесь", "обращаешься": "обращаетесь",
     "собираешься": "собираетесь", "подготовишься": "подготовитесь",
-    "сам": "сами", "сама": "сами",
     # второе лицо: повелительное наклонение
     "проведи": "проведите", "сгруппируй": "сгруппируйте", "прогони": "прогоните",
     "разложи": "разложите", "собери": "соберите", "попробуй": "попробуйте",
@@ -186,6 +296,38 @@ WORDS = {
     "разбери": "разберите", "заходи": "заходите", "жми": "жмите", "оставь": "оставьте",
     "предложи": "предложите", "пришли": "пришлите", "расскажи": "расскажите",
     "посмотри": "посмотрите",
+    # повелительное наклонение: прогон по шести урокам 17.09.2026 — «запусти», «понаблюдай»
+    "включи": "включите", "выдавай": "выдавайте", "выясняй": "выясняйте", "говори": "говорите",
+    "добавляй": "добавляйте", "дождись": "дождитесь", "заведи": "заведите", "заложи": "заложите",
+    "заменяй": "заменяйте", "заполняй": "заполняйте", "запусти": "запустите",
+    "зарезервируй": "зарезервируйте", "исправляй": "исправляйте", "ищи": "ищите",
+    "наблюдай": "наблюдайте", "назначь": "назначьте", "назови": "назовите", "называй": "называйте",
+    "обещай": "обещайте", "обобщай": "обобщайте", "обозначь": "обозначьте",
+    "объедини": "объедините", "отдай": "отдайте", "откладывай": "откладывайте",
+    "отличай": "отличайте", "оцени": "оцените", "передавай": "передавайте",
+    "переноси": "переносите", "пересмотри": "пересмотрите", "переспрашивай": "переспрашивайте",
+    "пиши": "пишите", "планируй": "планируйте", "повтори": "повторите", "повышай": "повышайте",
+    "подсказывай": "подсказывайте", "подстрой": "подстройте", "подумай": "подумайте",
+    "помогай": "помогайте", "помоги": "помогите", "пополняй": "пополняйте",
+    "предполагай": "предполагайте", "представляй": "представляйте", "представь": "представьте",
+    "предупреди": "предупредите", "предусмотри": "предусмотрите", "приведи": "приведите",
+    "приглашай": "приглашайте", "признай": "признайте", "приписывай": "приписывайте",
+    "продолжай": "продолжайте", "проси": "просите", "разберись": "разберитесь",
+    "рассмотри": "рассмотрите", "сверь": "сверьте", "сделай": "сделайте", "следи": "следите",
+    "собирай": "собирайте", "сопоставляй": "сопоставляйте", "составь": "составьте",
+    "спланируй": "спланируйте", "ставь": "ставьте", "считай": "считайте", "требуй": "требуйте",
+    "указывай": "указывайте", "уточняй": "уточняйте", "учти": "учтите", "фиксируй": "фиксируйте",
+    "выдвигай": "выдвигайте", "делай": "делайте", "доработай": "доработайте",
+    "досчитай": "досчитайте", "запланируй": "запланируйте", "защищай": "защищайте",
+    "обоснуй": "обоснуйте", "обсуждай": "обсуждайте", "объясняй": "объясняйте",
+    "ограничь": "ограничьте", "останавливай": "останавливайте", "остановись": "остановитесь",
+    "переведи": "переведите", "перепиши": "перепишите", "пересматривай": "пересматривайте",
+    "переходи": "переходите", "подожди": "подождите", "показывай": "показывайте",
+    "получи": "получите", "понаблюдай": "понаблюдайте", "предлагай": "предлагайте",
+    "придумывай": "придумывайте", "проследи": "проследите", "разбирай": "разбирайте",
+    "скорректируй": "скорректируйте", "соблюдай": "соблюдайте", "создай": "создайте",
+    "уложись": "уложитесь", "пытайся": "пытайтесь", "измени": "измените", "наполни": "наполните",
+    "пометь": "пометьте", "выдели": "выделите",
     "уточни": "уточните", "объясни": "объясните", "покажи": "покажите",
     "попроси": "попросите", "укажи": "укажите", "обсуди": "обсудите",
     "добавь": "добавьте", "опиши": "опишите", "сохрани": "сохраните",
@@ -230,6 +372,15 @@ def tidy_markup(text: str, notes: list) -> str:
 
     if n:
         notes.append("scope у заголовков таблиц: " + str(n))
+
+    # Подпись `aria-label` на обычном `div` запрещена: у него нет роли, и чтец
+    # атрибут игнорирует, а валидатор считает ошибкой. Роль `group` подпись принимает.
+    text, n = re.subn(
+        r'<div (?![^>]*\brole=)([^>]*\baria-label=)', r'<div role="group" \1', text
+    )
+
+    if n:
+        notes.append("роль group для подписанных блоков: " + str(n))
 
     # Жирная строка в начале блока целей — это заголовок блока, а не просто жирный текст.
     # Без своего тега WordPress оборачивает её абзацем и ломает вложенность.
@@ -424,20 +575,26 @@ def head_of(source: str) -> dict:
     }
 
 
-def map_classes(text: str, unknown: set) -> str:
+def map_classes(text: str, unknown: set, lesson: str = "") -> str:
     """Переводит классы по таблице, неизвестные оставляет и складывает в отчёт."""
+    table = dict(CLASS_MAP)
+    table.update(LESSON_MAP.get(lesson, {}))
 
     def one(found):
         out = []
 
         for name in found.group(1).split():
-            if name in CLASS_MAP:
-                if CLASS_MAP[name]:
-                    out.append(CLASS_MAP[name])
+            if name in table:
+                if table[name]:
+                    out.extend(table[name].split())
             else:
-                if not name.startswith("ds-"):
+                if not name.startswith(("ds-", "is-")):
                     unknown.add(name)
                 out.append(name)
+
+        # «btn solid» — это основная кнопка, а не основная поверх второстепенной.
+        if "ds-button--primary" in out and "ds-button--secondary" in out:
+            out.remove("ds-button--secondary")
 
         return 'class="' + " ".join(out) + '"' if out else ""
 
@@ -488,6 +645,55 @@ def past_plural(text: str) -> str:
     return text
 
 
+SELF_REPORT = []
+
+
+# «Сам» принадлежит читателю не всегда: «решите сам» — обращение, а «участник нашёл
+# решение сам» — про участника теста. Поэтому слово переводится, только если в том же
+# предложении есть обращение: «вы», «ваш» или глагол второго лица на «-те». Каждый
+# случай печатается в отчёт с предложением целиком — решение проверяется глазами.
+SELF_RE = re.compile(r"(?<![А-Яа-яЁё-])([Сс]ам|[Сс]ама)(?![А-Яа-яЁё-])")
+# Подлежащее третьего лица отменяет перевод: «найдёт ли человек корзину сам» —
+# про человека, даже если в том же предложении есть обращение к читателю.
+OTHER_RE = re.compile(
+    r"(?<![А-Яа-яЁё-])(?:участник[а-яё]*|человек[а-яё]*|собеседник[а-яё]*|"
+    r"пользовател[а-яё]+|он|она|они|ведущ[а-яё]+)(?![А-Яа-яЁё-])",
+    re.I,
+)
+READER_RE = re.compile(
+    r"(?<![А-Яа-яЁё-])(?:вы|вам|вас|вами|ваш[а-яё]*)(?![А-Яа-яЁё-])"
+    r"|(?<![А-Яа-яЁё-])[а-яё]{3,}(?:йте|ите|ете)(?![а-яё])",
+    re.I,
+)
+
+
+def self_word(text: str, report: list) -> str:
+    """Переводит «сам» → «сами» только в предложении, обращённом к читателю."""
+    out = []
+    at = 0
+
+    for found in SELF_RE.finditer(text):
+        left = max(text.rfind(sign, 0, found.start()) for sign in ".!?;<>")
+        right = min(
+            (place for place in (text.find(sign, found.end()) for sign in ".!?;<>") if place >= 0),
+            default=len(text),
+        )
+        around = text[left + 1:right].strip()
+        reader = bool(READER_RE.search(around)) and not OTHER_RE.search(around)
+        out.append(text[at:found.start()])
+        out.append(("сами" if found.group(1)[0] in "Сс" and reader else found.group(1)))
+
+        if reader:
+            out[-1] = "Сами" if found.group(1)[0] == "С" else "сами"
+
+        at = found.end()
+        report.append(("сам → сами" if reader else "сам оставлено") + ": " + around[:110])
+
+    out.append(text[at:])
+
+    return "".join(out)
+
+
 def to_vy(text: str, changes: list, guessed: set) -> str:
     """Переводит обращение на «вы» в тексте, не трогая теги, атрибуты и названия."""
     for n, phrase in enumerate(PROTECT):
@@ -525,6 +731,8 @@ def to_vy(text: str, changes: list, guessed: set) -> str:
         part if part.startswith("<") else fix(part)
         for part in re.split(r"(<[^>]+>)", text)
     )
+
+    out = self_word(out, SELF_REPORT)
 
     for n, phrase in enumerate(PROTECT):
         out = out.replace("@@keep" + str(n) + "@@", phrase)
@@ -731,6 +939,590 @@ def put_quiz(text: str, markup: str, node: str = "quiz"):
     return text[: box.start()] + markup + text[stop:], True
 
 
+# ---------------------------------------------------------------------------
+# Живые куски урока, которых нет в других темах: секундомер молчания, разметка
+# задания, подбор формата и учебная матрица. Данные для них лежат в присланном
+# скрипте, а на сайте должны быть в разметке: страница обязана читаться и без JS,
+# и попадать в поиск. Каждая функция срабатывает, только если в уроке есть её
+# опора, и молча пропускает урок, где такого куска нет.
+# ---------------------------------------------------------------------------
+
+
+def js_string(expr: str) -> str:
+    """Склеивает строковые литералы выражения в один текст.
+
+    В присланном скрипте разбор собран сложением: `'<b>…</b>' + items[i].fb + '…'`.
+    Подстановку секунд (` + s + `) заменяем местом, куда скрипт сайта впишет число.
+    """
+    expr = re.sub(r"'\s*\+\s*s\s*\+\s*'", "@@said@@", expr)
+    parts = re.findall(r"'((?:[^'\\]|\\.)*)'", expr, re.S)
+    text = "".join(parts).replace("\\'", "'").replace('\\"', '"').replace("\\n", " ")
+    text = text.replace("@@said@@", '<span data-sim-said></span>')
+    # Инлайновые стили из присланного файла ссылаются на чужие переменные.
+    return re.sub(r'\s*style="[^"]*"', "", text)
+
+
+def sim_markup(js: str, body: str, notes: list) -> str:
+    """Секундомер молчания: лента событий сессии и разбор по времени подсказки."""
+    events = re.findall(r"\{\s*at:\s*([\d.]+),\s*cls:\s*'(\w+)',\s*v:\s*'((?:[^'\\]|\\.)*)'", js)
+
+    if not events or 'id="simLog"' not in body:
+        return body
+
+    rows = []
+
+    for at, kind, text in events:
+        text = text.replace("\\'", "'")
+        rows.append(
+            '<div class="ds-lesson__ev{mod}" data-sim-at="{at}">'
+            '<span class="ds-lesson__ev-time">{sec} с</span>'
+            "<span>{text}</span></div>".format(
+                mod=" ds-lesson__ev--win" if kind == "win" else "",
+                at=at,
+                sec=int(float(at)),
+                text=text,
+            )
+        )
+
+    finish = re.search(r"function finish\(el, won\)\s*\{(.*?)\n    \}", js, re.S)
+
+    if not finish:
+        return body
+
+    texts = [js_string(m.group(1)) for m in re.finditer(r"vb\.innerHTML\s*=\s*(.*?);", finish.group(1), re.S)]
+    limits = ["win"] + re.findall(r"el\s*<\s*(\d+)", finish.group(1)) + ["end"]
+
+    if len(texts) != len(limits):
+        notes.append("симулятор: разборов {} на {} порогов — оставлен как есть".format(len(texts), len(limits)))
+
+        return body
+
+    verdicts = [
+        '<div class="ds-lesson__result" data-sim-verdict="{key}"{hide}>{text}</div>'.format(
+            key=key, hide="" if key == "win" else " hidden", text=text
+        )
+        for key, text in zip(limits, texts)
+    ]
+
+    win = events[-1][0]
+    body = body.replace(
+        '<div class="log" id="simLog"></div>',
+        '<div class="log" data-sim-log>\n' + "\n".join(rows) + "\n</div>",
+    )
+    body = body.replace('<div class="verdictbox" id="simVerdict"></div>', "\n".join(verdicts))
+    body = body.replace('<div class="watch">', '<div class="watch" data-sim data-sim-win="%s">' % win)
+    body = body.replace('id="simTime"', "data-sim-time")
+    # Кнопки рисует скрипт: без него они были бы мёртвыми (правило раздела 10).
+    body = re.sub(
+        r'<button[^>]*id="simStart"[^>]*>.*?</button>', '<span class="acts" data-sim-controls></span>', body, flags=re.S
+    )
+    body = re.sub(r'<button[^>]*id="simHelp"[^>]*>.*?</button>', "", body, flags=re.S)
+    body = re.sub(
+        r'<button[^>]*id="simReset"[^>]*>.*?</button>', '<span data-sim-actions></span>', body, flags=re.S
+    )
+    notes.append("симулятор молчания: событий " + str(len(rows)) + ", разборов " + str(len(verdicts)))
+
+    return body
+
+
+def marks_markup(js: str, body: str, notes: list) -> str:
+    """Разметка задания: какие слова подсказывают участнику путь."""
+    tokens = re.findall(r"\[\s*'((?:[^'\\]|\\.)*)'\s*,\s*([01])\s*\]", js)
+
+    if not tokens or 'id="whHost"' not in body:
+        return body
+
+    out = []
+    total = 0
+
+    for text, flag in tokens:
+        text = text.replace("\\'", "'")
+
+        if re.fullmatch(r"[,.\s]+", text):
+            out.append(text if text.strip() else " ")
+            continue
+
+        if flag == "1":
+            total += 1
+
+        out.append(
+            '<span class="ds-lesson__word{mod}" data-word="{flag}">{text}</span>'.format(
+                mod=" is-picked" if flag == "1" else "", flag=flag, text=text
+            )
+        )
+
+    host = (
+        '<div class="ds-lesson__marks" data-marks data-marks-total="{total}"><p>{text}</p></div>'.format(
+            total=total, text=" ".join(out).replace(" ,", ",").replace(" .", ".")
+        )
+    )
+    back = re.search(r"fbEl\.innerHTML\s*=\s*(.*?);\s*\n", js, re.S)
+
+    if back:
+        body = body.replace(
+            '<div class="wh-fb" id="whFb"></div>',
+            '<div class="wh-fb" data-marks-back>' + js_string(back.group(1)) + "</div>",
+        )
+
+    body = body.replace('<div id="whHost"></div>', host)
+    body = body.replace('<div class="wh-meta" id="whMeta"></div>', '<div class="wh-meta" data-marks-meta></div>')
+    body = re.sub(r'<button[^>]*id="whCheck"[^>]*>.*?</button>', '<span data-marks-actions></span>', body, flags=re.S)
+    body = re.sub(r'<span[^>]*id="whCount"[^>]*>\s*</span>', "", body)
+    notes.append("разметка задания: слов " + str(len(out)) + ", из них с подсказкой " + str(total))
+
+    return body
+
+
+def pick_markup(js: str, body: str, notes: list) -> str:
+    """Подбор формата: четыре вопроса, два исхода и объяснение на ничью."""
+    block = re.search(r"var QS = \[(.*?)\n    \];", js, re.S)
+
+    if not block or 'id="chooser"' not in body:
+        return body
+
+    questions = []
+
+    for one in re.finditer(r"\{\s*q:\s*'((?:[^'\\]|\\.)*)',\s*\n?\s*a:\s*\[(.*?)\]\s*\}", block.group(1), re.S):
+        answers = re.findall(
+            r"\{\s*t:\s*'((?:[^'\\]|\\.)*)',\s*s:\s*'(\w+)',\s*d:\s*'((?:[^'\\]|\\.)*)'\s*\}", one.group(2), re.S
+        )
+
+        if answers:
+            questions.append((one.group(1).replace("\\'", "'"), answers))
+
+    outcomes = re.search(r"var txt = tie(.*?);\s*\n", js, re.S)
+
+    if not questions or not outcomes:
+        return body
+
+    # В тройном условии есть и служебные литералы — сравнение `winner === 'mod'`.
+    # Исход — это связный текст, а не ключ в четыре буквы.
+    texts = [
+        js_string("'" + m + "'")
+        for m in re.findall(r"'((?:[^'\\]|\\.)*)'", outcomes.group(1), re.S)
+        if len(m) > 20
+    ]
+    rows = []
+
+    for number, (question, answers) in enumerate(questions, 1):
+        opts = "".join(
+            '<span class="ds-lesson__pick-opt" data-pick-side="{side}"><b>{title}</b><span>{hint}</span></span>'.format(
+                side=side, title=title.replace("\\'", "'"), hint=hint.replace("\\'", "'")
+            )
+            for title, side, hint in answers
+        )
+        rows.append(
+            '<li data-pick-step="{n}"><p class="ds-lesson__pick-q">{q}</p>'
+            '<div class="ds-lesson__pick-opts">{opts}</div></li>'.format(n=number, q=question, opts=opts)
+        )
+
+    keys = ["tie", "mod", "un"]
+    names = re.findall(r"<h5>([^<]+)</h5>", js)
+    result = "".join(
+        '<div class="ds-lesson__result" data-pick-out="{key}"{name}>{text}</div>'.format(
+            key=key,
+            name=' data-pick-name="%s"' % html.escape(names[number - 1], quote=True)
+            if key != "tie" and len(names) >= number
+            else "",
+            text=text,
+        )
+        for number, (key, text) in enumerate(zip(keys, texts))
+    )
+    markup = (
+        '<div class="box-body" data-pick data-pick-total="{total}">'
+        '<ol class="ds-lesson__pick-list">{rows}</ol>'
+        '<div class="chkbar"><span class="prog"><i data-pick-fill></i></span>'
+        '<span data-pick-step-of></span></div>{result}'
+        '<span data-pick-actions></span></div>'
+    ).format(total=len(questions), rows="".join(rows), result=result)
+
+    body = re.sub(r'<div class="box-body" id="chooser">.*?\n    </div>', markup, body, flags=re.S)
+    body = re.sub(r'<button[^>]*id="chReset"[^>]*>.*?</button>', "", body, flags=re.S)
+    notes.append("подбор формата: вопросов " + str(len(questions)) + ", исходов " + str(len(texts)))
+
+    return body
+
+
+def matrix_markup(js: str, body: str, notes: list) -> str:
+    """Учебная матрица важности: клетка, её уровень и пример строки."""
+    rows = re.findall(r"\{\s*n:\s*'((?:[^'\\]|\\.)*)',\s*ex:\s*'((?:[^'\\]|\\.)*)'\s*\}", js, re.S)
+    levels = re.findall(r"(s[0-3]):\s*\{\s*t:\s*'([^']*)',\s*d:\s*'((?:[^'\\]|\\.)*)'\s*\}", js, re.S)
+
+    if not rows or not levels or 'id="mx"' not in body:
+        return body
+
+    names = {"s3": "critical", "s2": "high", "s1": "low", "s0": "minor"}
+    legend = "".join(
+        "<dt>{title}</dt><dd data-mx-level=\"{key}\">{text}</dd>".format(
+            key=names[key], title=title, text=text.replace("\\'", "'")
+        )
+        for key, title, text in levels
+    )
+    examples = "".join(
+        '<li data-mx-row="{n}"><b>{name}</b> — {example}</li>'.format(
+            n=number, name=name.replace("\\'", "'"), example=example.replace("\\'", "'")
+        )
+        for number, (name, example) in enumerate(rows)
+    )
+    body = body.replace('<div class="mx" id="mx">', '<div class="mx" data-mx>')
+    body = re.sub(r'data-i="(\d+)" data-f="(\d+)"', r'data-mx-row="\1" data-mx-count="\2"', body)
+    body = re.sub(
+        r'<div class="mx-out" id="mxOut">(.*?)</div>',
+        lambda m: '<div class="mx-out" data-mx-out>' + m.group(1) + "</div>"
+        + '<dl class="mx-levels" data-mx-levels>' + legend + "</dl>"
+        + '<ul class="mx-rows" data-mx-rows>' + examples + "</ul>",
+        body,
+        flags=re.S,
+    )
+    notes.append("матрица важности: строк " + str(len(rows)) + ", уровней " + str(len(levels)))
+
+    return body
+
+
+def panel_markup(js: str, body: str, notes: list) -> str:
+    """Разбор заявок: карточки людей, кнопки «звать / не звать» и объяснение."""
+    people = re.findall(
+        r"\{\s*n:\s*'([^']*)',\s*d:\s*'((?:[^'\\]|\\.)*)',\s*ok:\s*(true|false),\s*\n?\s*why:\s*'((?:[^'\\]|\\.)*)'",
+        js,
+        re.S,
+    )
+
+    if not people or 'id="panelList"' not in body:
+        return body
+
+    labels = re.findall(r"data-v=\"(\d)\" type=\"button\">([^<]+)</button>", js)
+    yes = next((text for key, text in labels if key == "1"), "Звать")
+    no = next((text for key, text in labels if key == "0"), "Не звать")
+    rows = "".join(
+        '<li data-panel-ok="{ok}"><span class="who"><b>{name}</b><span>{about}</span></span>'
+        '<span class="acts" data-panel-acts></span>'
+        '<span class="vd">{why}</span></li>'.format(
+            ok="1" if ok == "true" else "0",
+            name=name,
+            about=about.replace("\\'", "'"),
+            why=why.replace("\\'", "'"),
+        )
+        for name, about, ok, why in people
+    )
+    body = body.replace(
+        '<ul class="panel" id="panelList"></ul>',
+        '<ul class="panel" data-panel data-panel-yes="{yes}" data-panel-no="{no}" '
+        'data-panel-total="{total}">{rows}</ul>'.format(yes=yes, no=no, total=len(people), rows=rows),
+    )
+    notes.append("разбор заявок: карточек " + str(len(people)))
+
+    return body
+
+
+def js_number(expr: str, minutes: int) -> float:
+    """Считает коэффициент выражения вида `affected * (minutes / 60) * p * 0.5`."""
+    plain = expr.replace("affected", "1").replace("minutes", str(minutes)).replace("p", "1")
+
+    if not re.fullmatch(r"[\d\s().*/+-]+", plain):
+        return 0.0
+
+    return eval(plain, {"__builtins__": {}}, {})  # noqa: S307 — выражение уже проверено
+
+
+def calc_markup(js: str, body: str, notes: list) -> str:
+    """Прикидка объёма: три последствия, у каждого свои коэффициенты и тексты."""
+    block = re.search(r"function calc\(\)\s*\{(.*?)\n    \}\n", js, re.S)
+
+    if not block or 'id="cUsers"' not in body:
+        return body
+
+    defaults = dict(re.findall(r"(\w+):\s*(\d+)", re.search(r"var DEFAULTS = \{([^}]*)\}", js).group(1)))
+    titles = dict(
+        re.findall(r"(\w+):\s*'((?:[^'\\]|\\.)*)'", re.search(r"var LABELS = \{(.*?)\n    \};", js, re.S).group(1))
+    )
+    order = re.findall(r'<option value="(\w+)"', body)
+    parts = re.split(r"\}\s*else(?:\s*if\s*\([^)]*\))?\s*\{", block.group(1))
+    cases = []
+
+    for key, chunk in zip(order, parts):
+        minutes = re.search(r"var minutes = (\d+)", chunk)
+        minutes = int(minutes.group(1)) if minutes else 0
+        low = re.search(r"lo\s*=\s*([^;]+);", chunk)
+        high = re.search(r"hi\s*=\s*([^;]+);", chunk)
+        cap = re.search(r"cap\s*=\s*(.*?);\n", chunk, re.S)
+        say = re.search(r"say\s*=\s*(.*?);\n", chunk, re.S)
+
+        if not (low and high and cap and say):
+            continue
+
+        def text(found):
+            out = found.group(1)
+            out = re.sub(r"'\s*\+\s*fmt\((\w+)\)\s*\+\s*'", lambda m: "{" + m.group(1) + "}", out)
+            out = re.sub(r"'\s*\+\s*minutes\s*\+\s*'", str(minutes), out)
+
+            return js_string(out)
+
+        cases.append(
+            '<div class="ds-lesson__calc-case" data-calc-case="{key}" data-calc-low="{low}" '
+            'data-calc-high="{high}" data-calc-unit="{unit}" data-calc-label="{label}" hidden>'
+            '<p data-calc-cap-text>{cap}</p><p data-calc-say-text>{say}</p></div>'.format(
+                key=key,
+                low=round(js_number(low.group(1), minutes), 6),
+                high=round(js_number(high.group(1), minutes), 6),
+                unit=defaults.get(key, ""),
+                label=html.escape(titles.get(key, ""), quote=True),
+                cap=text(cap),
+                say=text(say),
+            )
+        )
+
+    if not cases:
+        return body
+
+    body = body.replace('<div class="out">', '<div class="out" data-calc>' + "".join(cases), 1)
+    notes.append("прикидка объёма: последствий " + str(len(cases)))
+
+    return body
+
+
+def js_condition(expr: str) -> str:
+    """Переводит условие из присланного скрипта в выражение Python.
+
+    Нужно ровно для одного: разметить двенадцать недель в конструкторе ритма.
+    Правило каждой раскладки записано у неё выражением (`w % 2 === 0 ? …`), и
+    переписывать три таких правила руками — значит держать содержимое урока
+    в двух местах. Переводим тернарный оператор, сравнения и союзы; ничего,
+    кроме чисел, скобок, `w` и строковых литералов, к вычислению не допускаем.
+    """
+    expr = expr.strip()
+
+    # Внешние скобки снимаем: иначе первый же `(` уводит глубину, и тернарный
+    # оператор внутри них остаётся незамеченным.
+    while expr.startswith("(") and expr.endswith(")"):
+        depth = 0
+        whole = True
+
+        for i, char in enumerate(expr):
+            depth += 1 if char == "(" else (-1 if char == ")" else 0)
+
+            # Скобка закрылась не на конце — значит она обнимает не всё выражение,
+            # а только его часть: `(a || b) ? x : y`.
+            if depth == 0 and i < len(expr) - 1:
+                whole = False
+                break
+
+        if not whole:
+            break
+
+        expr = expr[1:-1].strip()
+
+    depth = 0
+    ask = -1
+
+    for i, char in enumerate(expr):
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+        elif char == "?" and depth == 0:
+            ask = i
+            break
+
+    if ask < 0:
+        return expr.replace("===", "==").replace("!==", "!=").replace("||", " or ").replace("&&", " and ")
+
+    depth = 0
+    nested = 0
+    colon = len(expr)
+
+    for j in range(ask + 1, len(expr)):
+        char = expr[j]
+
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+        elif char == "?" and depth == 0:
+            nested += 1
+        elif char == ":" and depth == 0:
+            if nested:
+                nested -= 1
+            else:
+                colon = j
+                break
+
+    return "((%s) if (%s) else (%s))" % (
+        js_condition(expr[ask + 1:colon]),
+        js_condition(expr[:ask]),
+        js_condition(expr[colon + 1:]),
+    )
+
+
+def cadence_markup(js: str, body: str, notes: list) -> str:
+    """Конструктор ритма: три раскладки двенадцати недель и разбор каждой.
+
+    Без скрипта видны все три плана подряд — это и есть содержание раздела.
+    Со скриптом их переключают кнопки: поведение берёт готовый `data-switch`.
+    """
+    block = re.search(r"var MODES = \{(.*?)\n    \};", js, re.S)
+
+    if not block or 'id="weeks"' not in body:
+        return body
+
+    modes = []
+
+    for one in re.finditer(
+        r"(\w+):\s*\{\s*mark:\s*function \(w\) \{ return ([^;]+); \},\s*title:\s*'((?:[^'\\]|\\.)*)',"
+        r"\s*rows:\s*\[(.*?)\]\s*\}",
+        block.group(1),
+        re.S,
+    ):
+        rule = js_condition(one.group(2))
+
+        if not re.fullmatch(r"[\w\s%='\"()<>!.|&+\-*/]+", rule):
+            continue
+
+        weeks = []
+
+        for week in range(1, 13):
+            kind = eval(rule, {"__builtins__": {}}, {"w": week})  # noqa: S307 — выражение проверено выше
+            weeks.append(
+                '<div class="wk{mod}"><span>Н{n}</span> <span>{sign}</span></div>'.format(
+                    mod=" big" if kind == "big" else (" wk-test" if kind == "test" else ""),
+                    n=week,
+                    sign="◆" if kind == "big" else ("●" if kind == "test" else "·"),
+                )
+            )
+
+        rows = "".join(
+            '<div class="kv"><span class="k">{key}</span><span class="v">{value}</span></div>'.format(
+                key=key.replace("\\'", "'"), value=value.replace("\\'", "'")
+            )
+            for key, value in re.findall(
+                r"\['((?:[^'\\]|\\.)*)',\s*'((?:[^'\\]|\\.)*)'\]", one.group(4), re.S
+            )
+        )
+        modes.append(
+            {
+                "key": one.group(1),
+                "title": one.group(3).replace("\\'", "'"),
+                "weeks": "".join(weeks),
+                "rows": rows,
+            }
+        )
+
+    if not modes:
+        return body
+
+    label = dict(re.findall(r'data-c="(\w+)" type="button"[^>]*>([^<]+)</button>', body))
+    buttons = "".join(
+        '<button class="ds-switch__button" type="button" data-switch-btn="{key}" hidden>{name}</button>'.format(
+            key=one["key"], name=label.get(one["key"], one["title"].split(" · ")[0])
+        )
+        for one in modes
+    )
+    panes = "".join(
+        '<div data-switch-pane="{key}"><div class="weeks">{weeks}</div>'
+        '<div class="cad-out"><p><b>{title}</b></p>{rows}</div></div>'.format(**one)
+        for one in modes
+    )
+    body = re.sub(r'<button class="btn cad"[^>]*>[^<]*</button>\s*', "", body)
+    body = body.replace('<div class="weeks" id="weeks"></div>', panes, 1)
+    body = re.sub(r'<div class="cad-out" id="cadOut"></div>\s*', "", body)
+    # Кнопки режимов стоят в шапке коробки, а панели — в её теле; общий предок
+    # у них только сама коробка, поэтому `data-switch` вешаем на неё.
+    body = re.sub(
+        r'<div class="box">(\s*<div class="box-head">Конструктор ритма.*?</span>)',
+        lambda m: '<div class="box ds-switch" data-switch>' + m.group(1) + buttons,
+        body,
+        count=1,
+        flags=re.S,
+    )
+    notes.append("конструктор ритма: раскладок " + str(len(modes)) + ", недель в каждой 12")
+
+    return body
+
+
+def copy_holder(text: str, notes: list) -> str:
+    """Кнопка копирования → пустое место: кнопку рисует скрипт, и она работает.
+
+    В присланном уроке кнопка сама несёт `data-copy="#id"`. Наш скрипт ждёт пустой
+    элемент с голым `id` и создаёт кнопку сам — иначе без JS она была бы мёртвой.
+    Селектор с решёткой `getElementById` не понимает, поэтому копирование молча
+    не работало во всех уроках сразу. Найдено прогоном в браузере 17.09.2026.
+    """
+    text, n = re.subn(
+        r'<button[^>]*data-copy="#?([A-Za-z0-9_-]+)"[^>]*>.*?</button>',
+        lambda m: '<span data-copy="%s"></span>' % m.group(1),
+        text,
+        flags=re.S,
+    )
+
+    if n:
+        notes.append("кнопок копирования переведено на место для скрипта: " + str(n))
+
+    return text
+
+
+def cards_to_details(text: str, notes: list) -> str:
+    """Карточка-кнопка «показать ответ» → details: ответ виден и без скрипта."""
+    def one(match):
+        ask = re.search(r'<span class="ask">(.*?)</span>', match.group(1), re.S)
+        answer = re.search(r'<span class="ans">(.*?)</span>', match.group(1), re.S)
+
+        if not ask or not answer:
+            return match.group(0)
+
+        return (
+            '<details class="card"><summary class="card-ask">{ask}</summary>'
+            '<div class="ans">{answer}</div></details>'
+        ).format(ask=ask.group(1), answer=answer.group(1))
+
+    text, n = re.subn(r'<button class="card"[^>]*>(.*?)</button>', one, text, flags=re.S)
+
+    if n:
+        notes.append("карточек-кнопок переведено в details: " + str(n))
+
+    return text
+
+
+def drop_inline_styles(text: str, notes: list) -> str:
+    """Снимает инлайновые стили присланной страницы.
+
+    Они ссылаются на её переменные (`var(--accent)`, `var(--hairline)`), которых у
+    нас нет, и задают размеры в пикселях мимо шкалы. Две вещи остаются: доля куска
+    на ленте времени (`flex:5` — это данные, а не оформление) и `display:none`,
+    который превращается в атрибут `hidden`.
+    """
+    kept = []
+    dropped = []
+
+    def one(match):
+        rules = [r.strip() for r in match.group(1).split(";") if r.strip()]
+        flex = [r for r in rules if re.fullmatch(r"flex:\s*\d+", r.replace(" ", " "))]
+        hide = any(r.replace(" ", "") == "display:none" for r in rules)
+
+        for rule in rules:
+            if rule not in flex and rule.replace(" ", "") != "display:none":
+                dropped.append(rule)
+
+        out = ""
+
+        if flex:
+            kept.extend(flex)
+            out += ' style="' + "; ".join(flex) + '"'
+
+        if hide:
+            out += " hidden"
+
+        return out
+
+    text = re.sub(r'\s*style="([^"]*)"', one, text)
+
+    if dropped:
+        notes.append("инлайновых объявлений снято: " + str(len(dropped)))
+
+    if kept:
+        notes.append("доли ленты времени сохранены: " + str(len(kept)))
+
+    return text
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument("source")
 parser.add_argument("--out", help="куда положить тело; без него только отчёт")
@@ -769,7 +1561,24 @@ for drill in drills_of(raw):
     )
     quizzes += 1 if ok else 0
 
-body = map_classes(body, unknown)
+widget_notes = []
+script = "\n".join(m.group(1) for m in re.finditer(r"<script[^>]*>(.*?)</script>", raw, re.S))
+body = sim_markup(script, body, widget_notes)
+body = marks_markup(script, body, widget_notes)
+body = pick_markup(script, body, widget_notes)
+body = matrix_markup(script, body, widget_notes)
+body = panel_markup(script, body, widget_notes)
+body = calc_markup(script, body, widget_notes)
+body = cadence_markup(script, body, widget_notes)
+body = re.sub(r'<button[^>]*id="calcReset"[^>]*>.*?</button>', '<span data-calc-actions></span>', body, flags=re.S)
+body = copy_holder(body, widget_notes)
+body = cards_to_details(body, widget_notes)
+body = drop_inline_styles(body, widget_notes)
+
+for hook, attribute in HOOKS.items():
+    body = body.replace('id="%s"' % hook, 'id="%s" %s' % (hook, attribute))
+
+body = map_classes(body, unknown, path.stem)
 steps = []
 body = steps_and_odd(body, steps)
 body = to_vy(body, changes, guessed)
@@ -798,6 +1607,10 @@ if guessed:
     print(" ", "; ".join(sorted(guessed)))
 print("ступень вместо уровня:", len(steps), "; ".join(steps) if steps else "нет")
 print("правки разметки:", "; ".join(notes) if notes else "нет")
+print("живые куски:", "; ".join(widget_notes) if widget_notes else "нет")
+print("«сам»:", len(SELF_REPORT))
+for line in SELF_REPORT:
+    print("  ", line)
 print("пропусков уровня заголовка поправлено:", len(fixed), ", ".join(fixed) if fixed else "")
 print("ссылок на каталог поставлено:", len(linked), ", ".join(linked) if linked else "")
 print("классов без нашей пары:", len(unknown), " ".join(sorted(unknown)) if unknown else "")

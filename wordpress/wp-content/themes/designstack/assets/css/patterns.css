@@ -7,6 +7,14 @@
 
 /* ---------- основа ---------- */
 
+/* `[hidden]` проигрывает любому правилу с `display`, и элемент, спрятанный скриптом,
+   остаётся на экране. Это случилось трижды: шаги проверки грейда, вопросы тренажёра,
+   лента симулятора. Правило-страж закрывает весь класс разом; сужать селекторы по
+   месту больше не нужно. Проверка — раздел «hidden» в scripts/check_tokens.py. */
+[hidden] {
+	display: none !important;
+}
+
 .screen-reader-text {
 	position: absolute;
 	width: var(--wp--custom--border-width--hairline);
@@ -2436,7 +2444,7 @@ textarea.ds-field__control {
 	font-size: var(--wp--preset--font-size--sm);
 }
 
-.ds-lesson__panel li:not(.is-done) .ds-lesson__vd {
+.ds-lesson__panel.is-live li:not(.is-done) .ds-lesson__vd {
 	display: none;
 }
 
@@ -3643,4 +3651,836 @@ a.ds-map__lesson:hover {
 		flex-shrink: 0;
 		justify-content: flex-end;
 	}
+}
+
+/* ---------- урок «Юзабилити-тесты», ступени Junior и Middle ---------- */
+
+/* Мелкая подпись под блоком: класс стоял в таблице соответствий с самого начала,
+   а правила к нему не было — текст шёл обычным кеглем. */
+.ds-lesson__dim {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__ctr {
+	text-align: center;
+}
+
+/* Важность находки. Цвет несёт подложка, текст всегда text-default: цветной текст
+   на подкрашенной плашке не добирает 4,5:1 (D157). Те же метки стоят на клетках
+   учебной матрицы, поэтому правила висят на модификаторе, а не на блоке. */
+.ds-lesson__sev {
+	display: inline-block;
+	padding: 0 var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.ds-lesson__sev--critical {
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__sev--high {
+	background: var(--wp--preset--color--bg-warning);
+}
+
+.ds-lesson__sev--low {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__sev--minor {
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+/* Секундомер молчания: сколько ведущий выдержал, прежде чем подсказать. */
+.ds-lesson__watch {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--4);
+	align-items: center;
+}
+
+.ds-lesson__watch-time {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--3-xl);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	line-height: var(--wp--custom--line-height--tight);
+}
+
+.ds-lesson__watch-time small {
+	font-size: var(--wp--preset--font-size--base);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Лента событий сессии. Без скрипта она видна целиком — это учебный сценарий,
+   и читать его списком не хуже, чем смотреть по секундам. */
+.ds-lesson__log {
+	margin-top: var(--wp--preset--spacing--4);
+	padding-top: var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__ev {
+	display: grid;
+	grid-template-columns: 6ch minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--1) 0;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__ev-time {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Событие «нашёл сам» — итог сценария. Выделено начертанием, а не цветом. */
+.ds-lesson__ev--win {
+	font-weight: 600;
+}
+
+/* Разбор: появляется после ответа, поэтому живёт с атрибутом hidden.
+   Своего display у блока нет намеренно — иначе он перебил бы [hidden]. */
+.ds-lesson__result {
+	margin-top: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__result > b {
+	display: block;
+	margin-bottom: var(--wp--preset--spacing--1);
+}
+
+/* Чек-лист подготовки: галочки работают и без скрипта, скрипт добавляет счётчик. */
+.ds-lesson__checklist {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-lesson__checklist li {
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__checklist li:first-child {
+	border-top: none;
+}
+
+.ds-lesson__checklist label {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	padding: var(--wp--preset--spacing--3) 0;
+	font-size: var(--wp--preset--font-size--sm);
+	cursor: pointer;
+}
+
+.ds-lesson__checklist input {
+	flex: none;
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+	margin: 0;
+	accent-color: var(--wp--preset--color--surface-action-primary);
+	cursor: pointer;
+}
+
+.ds-lesson__hint {
+	display: block;
+	margin-top: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__checkbar {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	margin-bottom: var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__checkbar-state {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+/* Полоску прогресса рисует та же пара классов, что и в тренажёре. Внутренний <i>
+   приходит из присланного урока без класса — поэтому правило на элементе. */
+.ds-quiz__track > i {
+	display: block;
+	width: 0;
+	height: 100%;
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+	transition: width var(--wp--custom--duration--base) var(--wp--custom--ease--standard);
+}
+
+/* Шпаргалка ответов участнику: вопрос виден всегда, ответ раскрывается.
+   Это details, а не кнопка со скриптом: без JS ответ всё равно доступен. */
+.ds-lesson__cards {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--2);
+}
+
+@media (min-width: 600px) {
+	.ds-lesson__cards {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__card {
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__card:hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__card-ask {
+	font-size: var(--wp--preset--font-size--sm);
+	cursor: pointer;
+}
+
+.ds-lesson__card-ask:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__card .ds-lesson__ans {
+	margin-top: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--2) 0 0;
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+/* Образец протокола: время, что произошло, мои мысли. Третья колонка появляется
+   с широкого экрана, на узком заметки идут под наблюдением. */
+.ds-lesson__sheet:has(.ds-lesson__sheet-head) {
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.ds-lesson__sheet-head {
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__sheet-time {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__sheet-note {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__sheet-note em {
+	font-style: normal;
+}
+
+@media (min-width: 700px) {
+	.ds-lesson__sheet:has(.ds-lesson__sheet-head) {
+		grid-template-columns: 7ch minmax(0, 1.4fr) minmax(0, 1fr);
+		gap: 0;
+	}
+
+	.ds-lesson__sheet:has(.ds-lesson__sheet-head) > div {
+		padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4);
+		border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+		border-left: none;
+	}
+
+	.ds-lesson__sheet > .ds-lesson__sheet-head {
+		border-top: none;
+	}
+}
+
+/* Структура сессии на шестьдесят минут: ширина куска равна его доле времени. */
+.ds-lesson__timeline {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	margin: var(--wp--preset--spacing--4) 0 var(--wp--preset--spacing--2);
+}
+
+@media (min-width: 700px) {
+	.ds-lesson__timeline {
+		flex-direction: row;
+	}
+}
+
+.ds-lesson__seg {
+	min-width: 0;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__seg--core {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__seg-time {
+	display: block;
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__seg-name {
+	display: block;
+	margin-top: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__seg--core .ds-lesson__seg-name {
+	font-weight: 600;
+}
+
+/* Учебная матрица важности: влияние по вертикали, сколько из пяти — по горизонтали. */
+.ds-lesson__mx {
+	display: grid;
+	grid-template-columns: minmax(0, 9ch) repeat(5, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+@media (min-width: 700px) {
+	.ds-lesson__mx {
+		grid-template-columns: minmax(0, 16ch) repeat(5, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__mx-head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	padding-bottom: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__mx-row {
+	display: flex;
+	align-items: center;
+	padding-right: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--xs);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__cell {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-align: center;
+	text-transform: uppercase;
+}
+
+button.ds-lesson__cell {
+	cursor: pointer;
+}
+
+button.ds-lesson__cell:hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__cell:focus-visible,
+.ds-lesson__cell[aria-pressed="true"] {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__mx-out {
+	margin-top: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__mx-out > b {
+	display: block;
+	margin-bottom: var(--wp--preset--spacing--1);
+}
+
+/* Разметка задания: какие слова подсказывают участнику путь. */
+.ds-lesson__marks {
+	font-size: var(--wp--preset--font-size--lg);
+	line-height: var(--wp--custom--line-height--base);
+}
+
+.ds-lesson__word {
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--xs);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+}
+
+button.ds-lesson__word {
+	cursor: pointer;
+}
+
+button.ds-lesson__word:hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__word:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Отмечено человеком, пропущено, отмечено лишнее. Подложка плюс начертание рамки:
+   одним цветом три состояния не различить, а подпись для чтеца ставит скрипт. */
+.ds-lesson__word.is-picked {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__word.is-missed {
+	border-color: var(--wp--preset--color--border-strong);
+	border-style: dashed;
+	background: var(--wp--preset--color--bg-warning);
+}
+
+.ds-lesson__word.is-extra {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--bg-error);
+	text-decoration: line-through;
+}
+
+/* Подбор формата: четыре вопроса и итог. */
+.ds-lesson__pick-q {
+	margin: 0 0 var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--lg);
+}
+
+.ds-lesson__pick-opts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__pick-opt {
+	display: flex;
+	flex: 1 1 14rem;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-size: var(--wp--preset--font-size--sm);
+	text-align: left;
+	cursor: pointer;
+}
+
+.ds-lesson__pick-opt:hover {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__pick-opt:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__pick-opt span {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__pick-score {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--3);
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__pick-side {
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-lesson__pick-side.is-win {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__pick-side h5 {
+	margin: 0 0 var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__pick-pts {
+	font-size: var(--wp--preset--font-size--2-xl);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-lesson__pick-lbl {
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Экраны «было и стало». Это рисунок чужого приложения, а не наш интерфейс,
+   но нарисован он нашими токенами: держать в теме второй набор цветов негде,
+   а рамка с подписью и так говорят, что перед нами макет. */
+.ds-lesson__screens {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--4);
+}
+
+@media (min-width: 700px) {
+	.ds-lesson__screens {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__screen {
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__screen-cap {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+.ds-lesson__screen-cap.is-bad {
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__screen-cap.is-good {
+	background: var(--wp--preset--color--bg-info);
+}
+
+.ds-lesson__ui {
+	padding: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__ui-top {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	padding: 0 var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__ui-back {
+	color: var(--wp--preset--color--text-action);
+}
+
+.ds-lesson__ui-title {
+	flex: 1;
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+.ds-lesson__ui-dots {
+	color: var(--wp--preset--color--text-muted);
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+}
+
+.ds-lesson__ui-card {
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__ui-card + .ds-lesson__ui-card {
+	margin-top: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__ui-row {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--1) 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__ui-row b {
+	color: var(--wp--preset--color--text-default);
+	font-weight: 500;
+}
+
+.ds-lesson__ui-h {
+	margin: var(--wp--preset--spacing--2) 0;
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+}
+
+.ds-lesson__ui-status {
+	display: inline-block;
+	padding: 0 var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-selected);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+.ds-lesson__ui-btn {
+	display: block;
+	margin-top: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--md);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+	text-align: center;
+}
+
+.ds-lesson__ui-btn--pri {
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-lesson__ui-btn--sec {
+	border-color: var(--wp--preset--color--border-strong);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__ui-btn--link {
+	color: var(--wp--preset--color--text-action);
+	font-weight: 500;
+}
+
+.ds-lesson__ui-note {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+}
+
+/* Номерок на элементе макета и та же цифра в списке находок под ним. */
+.ds-lesson__pin {
+	position: relative;
+}
+
+.ds-lesson__pin::after {
+	content: attr(data-pin);
+	position: absolute;
+	top: -0.5em;
+	right: -0.3em;
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	line-height: 1.5em;
+	text-align: center;
+}
+
+.ds-lesson__pin.is-ok::after {
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	line-height: 1.4em;
+}
+
+.ds-lesson__pinlist {
+	margin: var(--wp--preset--spacing--3) 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__pinlist li {
+	display: grid;
+	grid-template-columns: 1.5em minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--2);
+	margin: var(--wp--preset--spacing--2) 0;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__pin-num {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	line-height: 1.5em;
+	text-align: center;
+}
+
+.ds-lesson__pinlist.is-ok .ds-lesson__pin-num {
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	line-height: 1.4em;
+}
+
+.ds-lesson__pick-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Допущения и тексты каждого последствия лежат в разметке и видны на экране
+   только через результат: показывать три варианта разом незачем. */
+.ds-lesson__calc-case {
+	display: none;
+}
+
+/* Классы из таблицы конвертера, у которых до 17.09.2026 не было ни одного правила:
+   проверка «lessons» в check_tokens.py теперь такие ловит. */
+
+/* Неделя с серией в конструкторе ритма: заливка мягче, чем у финальной серии. */
+.ds-lesson__week--test {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Значение в строке «ключ — значение». Само значение приглушено, важное в нём — нет. */
+.ds-lesson__step-val {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__step-val b {
+	color: var(--wp--preset--color--text-default);
+	font-weight: 600;
+}
+
+/* Наблюдение в образце протокола и в разборе ответов. */
+.ds-lesson__obs {
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Метка «наблюдение» и метка «вывод» — это плашки, а не цветной текст (D157). */
+.ds-lesson__tag.ds-lesson__obs {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__tag.ds-lesson__int {
+	background: var(--wp--preset--color--bg-warning);
+}
+
+.ds-lesson__int {
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Формулировка вопроса в паре «так лучше — так хуже». */
+.ds-lesson__text {
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* Кнопки выбора раскладки стоят в шапке коробки. */
+.ds-lesson__box-head .ds-switch__button {
+	text-transform: none;
+	letter-spacing: normal;
+}
+
+/* Номерок на «⋯» в шапке макета отъезжает вбок: иначе он накрывает сами точки —
+   тот самый элемент, который помечает. */
+.ds-lesson__ui-dots.ds-lesson__pin::after {
+	top: -0.9em;
+	right: -1em;
+}
+
+/* Цвет важности на клетке матрицы. Правило клетки стоит в файле ниже меток важности
+   и при равной специфичности перебивало их подложку: матрица выходила белой, то есть
+   теряла ровно то, ради чего нарисована. Найдено глазами на скриншоте 17.09.2026. */
+.ds-lesson__cell.ds-lesson__sev--critical {
+	border-color: transparent;
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__cell.ds-lesson__sev--high {
+	border-color: transparent;
+	background: var(--wp--preset--color--bg-warning);
+}
+
+.ds-lesson__cell.ds-lesson__sev--low {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__cell.ds-lesson__sev--minor {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+/* Что значит каждый уровень и пример для каждой строки: видно всегда, и без скрипта тоже. */
+.ds-lesson__mx-levels {
+	display: grid;
+	grid-template-columns: minmax(0, 10ch) minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4);
+	margin: var(--wp--preset--spacing--4) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__mx-levels dt {
+	font-weight: 600;
+}
+
+.ds-lesson__mx-levels dd {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__mx-rows {
+	margin: var(--wp--preset--spacing--4) 0 0;
+	padding-left: var(--wp--preset--spacing--6);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__mx-rows b {
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Полоса шага под вопросами подбора формата — та же пара «дорожка и подпись»,
+   что над чек-листом, только стоит снизу. */
+.ds-lesson__pick-list + .ds-lesson__checkbar {
+	margin: var(--wp--preset--spacing--4) 0 0;
 }

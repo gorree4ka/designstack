@@ -282,7 +282,7 @@ function designstack_core_blocked_notice(): void {
 
 	printf(
 		'<div class="notice notice-warning"><p>%s</p></div>',
-		esc_html__( 'Ресурс вернулся на утверждение: не заполнена часть оценки «Когда не подойдёт». Заполни её и опубликуй снова.', 'designstack-core' )
+		esc_html__( 'Ресурс вернулся на утверждение: не заполнена часть оценки «Когда не подойдёт». Заполните её и опубликуйте снова.', 'designstack-core' )
 	);
 }
 add_action( 'admin_notices', 'designstack_core_blocked_notice' );

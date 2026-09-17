@@ -36,7 +36,7 @@
 		<input type="checkbox" id="ds-suggest-consent" name="resource_consent" required>
 		<label class="ds-field__label" for="ds-suggest-consent">Соглашаюсь с <a class="ds-link" href="/privacy/">политикой данных</a></label>
 	</div>
-	<div class="ds-suggest-form__trap" aria-hidden="true"><label>Не заполняй это поле<input type="text" name="resource_site" tabindex="-1" autocomplete="off"></label></div>
+	<div class="ds-suggest-form__trap" aria-hidden="true"><label>Не заполняйте это поле<input type="text" name="resource_site" tabindex="-1" autocomplete="off"></label></div>
 	<button type="submit" class="ds-button ds-button--primary ds-button--lg ds-suggest-form__submit">Предложить ресурс</button>
 </form>
 <!-- /wp:html -->

@@ -127,6 +127,22 @@ function designstack_enqueue_assets() {
 		);
 	}
 
+	// Живые куски уроков: чек-лист, секундомер молчания, разметка задания, подбор
+	// формата, матрица важности, разбор заявок и прикидка объёма. Отдельным файлом от
+	// тренажёра: тренажёр есть в каждом уроке, а эти куски — только в своих.
+	if ( is_singular( 'lesson' ) ) {
+		wp_enqueue_script(
+			'designstack-lesson-widgets',
+			get_theme_file_uri( 'assets/js/lesson-widgets.js' ),
+			array(),
+			designstack_asset_version( 'assets/js/lesson-widgets.js' ),
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
+
 	// Память урока: место в тексте, итог тренажёра и отметка «пройден».
 	// Отдельным файлом: тренажёр работает и без памяти, а память нужна и там, где тренажёра нет.
 	if ( is_singular( 'lesson' ) ) {
