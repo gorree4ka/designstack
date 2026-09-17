@@ -1,4 +1,4 @@
-"""Тренажёр, копирование и атрибут hidden во всех уроках — в браузере.
+"""Тренажёр, копирование, атрибут hidden и ритм отступов во всех уроках — в браузере.
 
     python scripts/check_lessons.py                               # локальный сайт
     python scripts/check_lessons.py --base https://designstack.ru  # живой
@@ -27,6 +27,31 @@ LESSONS = sorted(p.name.replace(".body.html", "") for p in (ROOT / "docs/content
 HIDDEN = """() => [...document.querySelectorAll('#ds-main [hidden]')]
   .filter(el => el.offsetParent !== null || getComputedStyle(el).display !== 'none')
   .map(el => el.tagName + '.' + el.className).slice(0, 6)"""
+# Ритм: зазор между соседними блоками урока. Блок без поля — таблица, плашка, коробка —
+# слипается с соседом; глазом это видно сразу, а проверками до 17.09.2026 не ловилось:
+# 135 слипшихся пар в девяти уроках нашла заказчица на скриншоте.
+RHYTHM = """() => {
+  const out = [];
+  const label = el => el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : '');
+  const block = el => ['DIV', 'DETAILS', 'FIGURE', 'TABLE'].includes(el.tagName);
+  const flow = (parent, need) => {
+    const kids = [...parent.children].filter(el => el.offsetParent !== null);
+    for (let i = 1; i < kids.length; i++) {
+      const a = kids[i - 1], b = kids[i];
+      const gap = Math.round(b.getBoundingClientRect().top - a.getBoundingClientRect().bottom);
+      // Подпись жмётся к своему блоку, а подзаголовок — к тому, что под ним: это близость по смыслу.
+      const close = b.classList.contains('ds-lesson__dim') || b.classList.contains('ds-lesson__lead')
+        || /^H[3-6]$/.test(a.tagName);
+      const want = need || (close ? 8 : (block(a) || block(b) ? 16 : 8));
+      if (gap < want) { out.push(label(a) + ' → ' + label(b) + ': ' + gap + 'px при норме ' + want); }
+    }
+  };
+  const root = document.querySelector('.ds-lesson > div:not([class])') || document.querySelector('.ds-lesson');
+  if (!root) { return ['нет корня урока .ds-lesson']; }
+  flow(root, 32);
+  root.querySelectorAll(':scope > section').forEach(s => flow(s, 0));
+  return out;
+}"""
 fails = 0
 
 with sync_playwright() as play:
@@ -37,6 +62,16 @@ with sync_playwright() as play:
         page.goto(args.base.rstrip("/") + "/lessons/" + slug + "/")
         page.wait_for_timeout(400)
         print("\n=== " + slug)
+
+        leak = page.evaluate(HIDDEN)
+        print(("  ок  " if not leak else "  ПЛОХО ") + "[hidden] скрывает" + (": " + str(leak) if leak else ""))
+        fails += 1 if leak else 0
+
+        tight = page.evaluate(RHYTHM)
+        more = " и ещё %d" % (len(tight) - 4) if len(tight) > 4 else ""
+        print(("  ок  " if not tight else "  ПЛОХО ") + "ритм: соседние блоки не слипаются"
+              + ("" if not tight else " — " + "; ".join(tight[:4]) + more))
+        fails += 1 if tight else 0
 
         # тренажёр: отвечаем верно на первый вопрос каждого тренажёра
         boxes = page.query_selector_all("[data-quiz]")

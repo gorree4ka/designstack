@@ -4960,3 +4960,57 @@ button.ds-lesson__word:hover {
 	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
 	outline-offset: var(--wp--custom--border-width--focus);
 }
+
+/* ---------- ритм урока ---------- */
+
+/* Разметка урока приходит из конвертера: внутри `.ds-lesson` одна обёртка без класса,
+   в ней блок целей, разделы `<section>` и подвал. Классов у разделов нет, поэтому правила
+   `.ds-lesson { gap }` и `.ds-lesson__section { gap }` выше не срабатывали ни в одном уроке:
+   у обёртки один ребёнок, а класса секции в разметке не бывает. Отступы держались на
+   случайных полях браузера — у абзаца они есть, у таблицы, плашки и коробки нет, и те
+   слипались с соседями и с заголовком следующего раздела (135 мест в девяти уроках,
+   замечание заказчицы 17.09.2026). Ритм задаётся по структуре, а не по классам:
+   так он действует на любой урок, который пройдёт через конвертер. */
+.ds-lesson > div:not([class]) {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--12);
+}
+
+@media (min-width: 700px) {
+	.ds-lesson > div:not([class]) {
+		gap: var(--wp--preset--spacing--16);
+	}
+}
+
+/* Внутри раздела поля соседей не складываются как попало: у каждого ребёнка поле одно,
+   сверху, и его размер зависит от того, что стоит рядом. */
+.ds-lesson section > * {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.ds-lesson section > * + * {
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+/* Блок — таблица, плашка, коробка, сетка карточек — держит воздух с обеих сторон. */
+.ds-lesson section > * + :is(div, details, figure, table),
+.ds-lesson section > :is(div, details, figure, table) + * {
+	margin-top: var(--wp--preset--spacing--6);
+}
+
+/* Подзаголовок ближе к своему тексту, чем к чужому: сверху больше, снизу меньше. */
+.ds-lesson section > * + :is(h3, h4, h5) {
+	margin-top: var(--wp--preset--spacing--8);
+}
+
+.ds-lesson section > :is(h3, h4, h5) + * {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+/* Подводка раздела стоит вплотную под его заголовком, подпись — под своим блоком. */
+.ds-lesson section > .ds-lesson__section-head + .ds-lesson__lead,
+.ds-lesson section > :is(div, details, figure, table) + .ds-lesson__dim {
+	margin-top: var(--wp--preset--spacing--2);
+}
