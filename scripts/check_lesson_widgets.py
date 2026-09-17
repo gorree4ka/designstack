@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты» и «Анализ конкурентов».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов» и «Сценарии и структура».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -306,6 +306,155 @@ with sync_playwright() as play:
     ) else 1
     opened = page.eval_on_selector_all("details.ds-lesson__pcard", "els => els.map(e => e.open)")
     fails += 0 if say(opened == [False, True, False, False], "после копирования карточки как были") else 1
+    page.close()
+
+    # ─── тема «Сценарии и структура» ─────────────────────────────────────────
+    plain = browser.new_context(java_script_enabled=False)
+
+    for slug, must in (
+        ("flows-structure-junior", ["Приходит из корзины", "Регистрируется по номеру телефона", "Откуда человек сюда попадает?", "Пятнадцать блоков", "С входами и выходами"]),
+        ("flows-structure-middle", ["Отменить заказ", "кандидат на два входа", "Активные заказы", "Человек 1", "Система не смогла"]),
+        ("flows-structure-senior", ["Подписка на регулярную доставку", "Куда встаёт", "Как выросло за три года"]),
+    ):
+        page = plain.new_page()
+        page.goto(BASE + slug + "/")
+        head(slug + " · без скрипта")
+        text = page.inner_text("#ds-main")
+
+        for phrase in must:
+            fails += 0 if say(phrase.lower() in text.lower(), "видно: " + phrase) else 1
+
+        buttons = page.eval_on_selector_all(
+            "#ds-main button",
+            "els => els.filter(e => e.offsetParent !== null).map(e => e.textContent.trim())",
+        )
+        fails += 0 if say(not buttons, "мёртвых кнопок нет" + (": " + str(buttons[:4]) if buttons else "")) else 1
+        page.close()
+
+    plain.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "flows-structure-junior/")
+    page.wait_for_timeout(500)
+    head("flows-structure-junior · со скриптом")
+
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+
+    # схемы: заливка фигур пришла из токенов, а не осталась чёрной
+    fills = page.evaluate("""() => [...document.querySelectorAll('.ds-lesson svg [style*="fill"]')]
+        .map(el => getComputedStyle(el).fill).filter(v => v === 'rgb(0, 0, 0)').length""")
+    shapes = page.evaluate("""document.querySelectorAll('.ds-lesson svg [style*="fill"]').length""")
+    fails += 0 if say(shapes > 0 and fills == 0, "фигур со своей заливкой: %d, чёрных среди них: %d" % (shapes, fills)) else 1
+
+    # вкладки
+    panes = page.eval_on_selector_all("[data-switch-pane]", "els => els.filter(e => e.offsetParent !== null).length")
+    fails += 0 if say(panes == 1, "из трёх вкладок открыта одна") else 1
+    page.click('[data-switch-btn="tp3"]')
+    page.wait_for_timeout(100)
+    fails += 0 if say(page.is_visible('[data-switch-pane="tp3"]'), "третья вкладка открывается") else 1
+
+    # сборка сценария: сначала ошибка, потом лишний, потом всё по порядку
+    cards = page.query_selector_all("[data-seq-pool] button")
+    fails += 0 if say(len(cards) == 8, "в стопке восемь карточек: семь шагов и лишняя") else 1
+    order = page.get_attribute("[data-seq]", "data-seq-order").split(",")
+    page.click("[data-seq-pool] button >> nth=%d" % order.index("3"))
+    page.wait_for_timeout(80)
+    fails += 0 if say("Пока рано" in page.inner_text("[data-seq-fb]"), "шаг не по порядку: «пока рано»") else 1
+    page.click("[data-seq-pool] button >> nth=%d" % order.index("x"))
+    page.wait_for_timeout(80)
+    fails += 0 if say("лишний" in page.inner_text("[data-seq-fb]"), "лишний вариант распознан") else 1
+
+    for k in range(7):
+        page.click("[data-seq-pool] button >> nth=%d" % order.index(str(k)))
+        page.wait_for_timeout(60)
+
+    fails += 0 if say("Собрано целиком" in page.inner_text("[data-seq-fb]"), "цепочка собрана целиком") else 1
+    fails += 0 if say(page.inner_text("[data-seq-count-out]").startswith("7 "), "счёт: " + page.inner_text("[data-seq-count-out]")) else 1
+
+    # поиск дыр
+    pins = page.query_selector_all("[data-hunt] button")
+    fails += 0 if say(len(pins) == 5, "точек-кнопок на схеме: " + str(len(pins))) else 1
+
+    for pin in pins:
+        pin.click()
+        page.wait_for_timeout(50)
+
+    fails += 0 if say("5 из 5" in page.inner_text("[data-hunt-count-out]").lower(), "все пять найдены: " + page.inner_text("[data-hunt-count-out]")) else 1
+    fails += 0 if say(page.is_visible("[data-hunt-all]"), "итог поиска показан") else 1
+    spot = page.evaluate("""() => { const b = document.querySelector('[data-hunt] button').getBoundingClientRect();
+        const h = document.querySelector('[data-hunt]').getBoundingClientRect();
+        return b.left >= h.left && b.right <= h.right && b.top >= h.top && b.bottom <= h.bottom; }""")
+    fails += 0 if say(spot, "точка стоит внутри схемы") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "flows-structure-middle/")
+    page.wait_for_timeout(500)
+    head("flows-structure-middle · со скриптом")
+
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+
+    cards = page.query_selector_all("details.ds-lesson__pcard")
+    fails += 0 if say(len(cards) == 12, "карточек-аккордеонов: " + str(len(cards))) else 1
+
+    # сортировка: все карточки в первый раздел
+    fails += 0 if say(not page.is_visible("[data-sort-result]"), "итог сортировки скрыт до раскладки") else 1
+
+    for _ in range(10):
+        page.click("[data-sort-pool] button >> nth=0")
+        page.click("[data-sort-groups] .ds-lesson__sort-name >> nth=0")
+        page.wait_for_timeout(40)
+
+    fails += 0 if say("10 из 10" in page.inner_text("[data-sort-count-out]").lower(), "разложено: " + page.inner_text("[data-sort-count-out]")) else 1
+    page.click("[data-sort-actions] button >> nth=0")
+    page.wait_for_timeout(120)
+    mine = page.eval_on_selector_all("td[data-sort-mine]", "els => els.filter(e => e.offsetParent !== null).map(e => e.textContent)")
+    differs = page.eval_on_selector_all("[data-sort-differs]", "els => els.filter(e => e.offsetParent !== null).length")
+    fails += 0 if say(len(mine) == 10 and mine[0] == "Мои заказы", "колонка «ваш вариант» заполнена: " + str(mine[:2])) else 1
+    fails += 0 if say(differs > 0, "отмечено, где вы разошлись с большинством: " + str(differs)) else 1
+
+    # проверка дерева: верный прямой путь
+    page.click("[data-tree-list] button >> text=Мои заказы")
+    page.wait_for_timeout(60)
+    page.click("[data-tree-list] button >> text=Активные заказы")
+    page.wait_for_timeout(120)
+    verdict = page.eval_on_selector_all("[data-tree-verdict]", "els => els.filter(e => !e.hidden).map(e => e.getAttribute('data-tree-verdict'))")
+    fails += 0 if say(verdict == ["direct"], "прямой верный путь: " + str(verdict)) else 1
+    fails += 0 if say("кликов: 2" in page.inner_text("[data-tree-count-out]").lower(), page.inner_text("[data-tree-count-out]")) else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "flows-structure-senior/")
+    page.wait_for_timeout(500)
+    head("flows-structure-senior · со скриптом")
+
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+
+    cases = page.query_selector_all("[data-wiz-cases] button")
+    fails += 0 if say(len(cases) == 6, "случаев стресс-теста: " + str(len(cases))) else 1
+    cases[0].click()
+    page.wait_for_timeout(80)
+    answers = page.get_attribute('[data-wiz-case="sub"]', "data-wiz-answers").split(",")
+
+    for n in range(len(answers)):
+        # жмём первый вариант в текущем вопросе: он не обязан быть верным
+        page.click(".ds-lesson__wiz-step >> nth=%d >> .ds-quiz__option >> nth=0" % n)
+        page.wait_for_timeout(60)
+
+    fails += 0 if say(page.is_visible("[data-wiz-body] [data-wiz-verdict]"), "после трёх вопросов показан вердикт") else 1
+    fails += 0 if say("1 из 6" in page.inner_text("[data-wiz-count-out]").lower(), "счёт: " + page.inner_text("[data-wiz-count-out]")) else 1
+    notes = page.eval_on_selector_all("[data-wiz-body] .ds-lesson__wiz-fb", "els => els.map(e => e.textContent.slice(0, 24))")
+    fails += 0 if say(len(notes) == len(answers), "объяснение под каждым ответом: " + str(notes)) else 1
+    # случай «блог» обрывается на первом вопросе
+    cases[4].click()
+    page.wait_for_timeout(60)
+    page.click(".ds-lesson__wiz-step >> nth=0 >> .ds-quiz__option >> nth=1")
+    page.wait_for_timeout(80)
+    steps = page.query_selector_all(".ds-lesson__wiz-step")
+    fails += 0 if say(len(steps) == 1 and page.is_visible("[data-wiz-body] [data-wiz-verdict]"), "короткий случай закрывается одним вопросом") else 1
     page.close()
 
     browser.close()

@@ -1,7 +1,8 @@
 /**
  * Живые куски уроков: чек-лист, секундомер молчания, разметка задания, подбор
- * формата, учебная матрица, разбор заявок, прикидка объёма, конструктор текста
- * и лесенка причин.
+ * формата, учебная матрица, разбор заявок, прикидка объёма, конструктор текста,
+ * лесенка причин, сборка сценария, поиск дыр на схеме, сортировка карточек,
+ * проверка дерева и стресс-тест структуры.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -1027,5 +1028,692 @@
 		place.appendChild( next );
 		( resetPlace || place ).appendChild( reset );
 		show();
+	}() );
+
+	/* ── сборка сценария по порядку ────────────────────────────────────────
+	   Без скрипта сценарий виден целиком: семь шагов по порядку, у каждого пояснение,
+	   и отдельно — лишний вариант. Со скриптом шаги уходят в перемешанную стопку,
+	   и цепочку надо собрать нажатиями. */
+	( function () {
+		var root = document.querySelector( '[data-seq]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var pool = root.querySelector( '[data-seq-pool]' );
+		var steps = Array.prototype.slice.call( root.querySelectorAll( '[data-seq-step]' ) );
+		var decoy = root.querySelector( '[data-seq-decoy]' );
+		var back = document.querySelector( '[data-seq-fb]' );
+		var empty = document.querySelector( '[data-seq-empty]' );
+		var counter = document.querySelector( '[data-seq-count-out]' );
+		var place = document.querySelector( '[data-seq-actions]' );
+
+		if ( ! pool || ! steps.length || ! back ) {
+			return;
+		}
+
+		function word( name ) {
+			return root.getAttribute( 'data-seq-' + name ) || '';
+		}
+
+		var order = word( 'order' ).split( ',' );
+		var expect = 0;
+
+		function textOf( step ) {
+			var node = step.querySelector( '.ds-lesson__seq-text' );
+			var copy = node.cloneNode( true );
+			var tag = copy.querySelector( '.ds-lesson__tag' );
+
+			if ( tag ) {
+				copy.removeChild( tag );
+			}
+
+			return copy.textContent.trim();
+		}
+
+		function say( title, text ) {
+			back.innerHTML = '';
+
+			var head = document.createElement( 'b' );
+
+			head.textContent = title;
+			back.appendChild( head );
+			back.appendChild( document.createTextNode( text ) );
+			back.hidden = false;
+		}
+
+		function count() {
+			if ( counter ) {
+				counter.textContent = word( 'count' ).replace( '{n}', expect ).replace( '{total}', steps.length );
+			}
+
+			if ( empty ) {
+				empty.hidden = expect > 0;
+			}
+		}
+
+		function flash( el ) {
+			el.classList.add( 'is-miss' );
+			window.setTimeout( function () {
+				el.classList.remove( 'is-miss' );
+			}, 900 );
+		}
+
+		function start() {
+			expect = 0;
+			pool.innerHTML = '';
+			back.hidden = true;
+
+			steps.forEach( function ( step ) {
+				step.hidden = true;
+
+				var note = step.querySelector( '[data-seq-note]' );
+
+				if ( note ) {
+					note.hidden = true;
+				}
+			} );
+
+			if ( decoy ) {
+				decoy.hidden = true;
+			}
+
+			order.forEach( function ( key ) {
+				var el = document.createElement( 'button' );
+				var extra = 'x' === key;
+
+				el.type = 'button';
+				el.className = 'ds-lesson__seq-card';
+				el.textContent = extra && decoy ? decoy.getAttribute( 'data-seq-decoy-text' ) : textOf( steps[ +key ] );
+
+				el.addEventListener( 'click', function () {
+					if ( el.disabled ) {
+						return;
+					}
+
+					if ( extra ) {
+						flash( el );
+						say( word( 'extra' ), decoy.querySelector( '[data-seq-decoy-note]' ).textContent );
+
+						return;
+					}
+
+					if ( +key !== expect ) {
+						flash( el );
+						say(
+							word( 'early' ),
+							0 === expect
+								? word( 'first' )
+								: word( 'next' ).replace( '{prev}', textOf( steps[ expect - 1 ] ).toLowerCase() )
+						);
+
+						return;
+					}
+
+					el.disabled = true;
+					steps[ expect ].hidden = false;
+					expect++;
+					count();
+
+					if ( expect === steps.length ) {
+						say( word( 'done-title' ), word( 'done' ) );
+					} else {
+						var note = steps[ expect - 1 ].querySelector( '[data-seq-note]' );
+
+						say( word( 'right' ), note ? note.textContent : '' );
+					}
+				} );
+
+				pool.appendChild( el );
+			} );
+
+			count();
+		}
+
+		if ( place ) {
+			var reset = button( place.getAttribute( 'data-seq-reset' ) || 'Начать заново' );
+
+			reset.addEventListener( 'click', start );
+			place.appendChild( reset );
+		}
+
+		start();
+	}() );
+
+	/* ── поиск дыр на схеме ────────────────────────────────────────────────
+	   Без скрипта под схемой стоит список всех пяти мест с разбором. Со скриптом
+	   точки на схеме становятся кнопками, а разбор показывается по одному. */
+	( function () {
+		var root = document.querySelector( '[data-hunt]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var list = document.querySelector( '[data-hunt-list]' );
+		var back = document.querySelector( '[data-hunt-fb]' );
+		var all = document.querySelector( '[data-hunt-all]' );
+		var counter = document.querySelector( '[data-hunt-count-out]' );
+		var items = list ? Array.prototype.slice.call( list.querySelectorAll( '[data-hunt-item]' ) ) : [];
+
+		if ( ! items.length || ! back ) {
+			return;
+		}
+
+		var found = {};
+		var total = items.length;
+
+		function count() {
+			var n = Object.keys( found ).length;
+
+			if ( counter ) {
+				counter.textContent = ( root.getAttribute( 'data-hunt-count' ) || '' )
+					.replace( '{n}', n ).replace( '{total}', total );
+			}
+
+			if ( all ) {
+				all.hidden = n < total;
+			}
+		}
+
+		Array.prototype.forEach.call( root.querySelectorAll( '[data-hunt-pin]' ), function ( pin ) {
+			var el = document.createElement( 'button' );
+			var index = +pin.getAttribute( 'data-hunt-pin' );
+
+			el.type = 'button';
+			el.className = pin.className;
+			el.setAttribute( 'style', pin.getAttribute( 'style' ) || '' );
+			el.setAttribute( 'aria-label', pin.getAttribute( 'data-hunt-label' ) || pin.textContent );
+			el.textContent = pin.textContent;
+			pin.parentNode.replaceChild( el, pin );
+
+			el.addEventListener( 'click', function () {
+				if ( ! items[ index ] ) {
+					return;
+				}
+
+				found[ index ] = 1;
+				el.classList.add( 'is-found' );
+				back.innerHTML = items[ index ].innerHTML;
+				back.hidden = false;
+				count();
+			} );
+		} );
+
+		list.hidden = true;
+		back.hidden = false;
+		count();
+	}() );
+
+	/* ── сортировка карточек ───────────────────────────────────────────────
+	   Без скрипта видна таблица: как разложили пятеро и что из этого следует.
+	   Со скриптом таблица прячется, а карточки надо разложить самому — тогда в ней
+	   появляется колонка «ваш вариант». */
+	( function () {
+		var root = document.querySelector( '[data-sort]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var pool = root.querySelector( '[data-sort-pool]' );
+		var boxes = root.querySelector( '[data-sort-groups]' );
+		var result = root.querySelector( '[data-sort-result]' );
+		var place = root.querySelector( '[data-sort-actions]' );
+		var counter = document.querySelector( '[data-sort-count-out]' );
+		var rows = result ? Array.prototype.slice.call( result.querySelectorAll( '[data-sort-card]' ) ) : [];
+
+		if ( ! pool || ! boxes || ! rows.length || ! place ) {
+			return;
+		}
+
+		function word( name ) {
+			return root.getAttribute( 'data-sort-' + name ) || '';
+		}
+
+		var groups = word( 'groups' ).split( '|' );
+		var cards = rows.map( function ( row ) {
+			return row.querySelector( 'td b' ).textContent;
+		} );
+		var placed = {};
+		var picked = -1;
+		var show = button( word( 'show' ), 'primary' );
+		var reset = button( word( 'reset' ) );
+
+		function paint() {
+			pool.innerHTML = '';
+			boxes.innerHTML = '';
+
+			cards.forEach( function ( text, i ) {
+				if ( placed[ i ] ) {
+					return;
+				}
+
+				var el = document.createElement( 'button' );
+
+				el.type = 'button';
+				el.className = 'ds-lesson__sort-card';
+				el.textContent = text;
+				el.setAttribute( 'aria-pressed', picked === i ? 'true' : 'false' );
+				el.addEventListener( 'click', function () {
+					picked = picked === i ? -1 : i;
+					paint();
+				} );
+				pool.appendChild( el );
+			} );
+
+			if ( ! pool.children.length ) {
+				var done = document.createElement( 'span' );
+
+				done.className = 'ds-lesson__dim';
+				done.textContent = word( 'empty' );
+				pool.appendChild( done );
+			}
+
+			groups.forEach( function ( name ) {
+				var box = document.createElement( 'div' );
+				var head = document.createElement( 'button' );
+				var any = false;
+
+				box.className = 'ds-lesson__sort-group' + ( picked >= 0 ? ' is-hot' : '' );
+				head.type = 'button';
+				head.className = 'ds-lesson__sort-name';
+				head.textContent = name;
+				head.disabled = picked < 0;
+				head.addEventListener( 'click', function () {
+					if ( picked < 0 ) {
+						return;
+					}
+
+					placed[ picked ] = name;
+					picked = -1;
+					paint();
+				} );
+				box.appendChild( head );
+
+				cards.forEach( function ( text, i ) {
+					if ( placed[ i ] !== name ) {
+						return;
+					}
+
+					any = true;
+
+					var el = document.createElement( 'button' );
+
+					el.type = 'button';
+					el.className = 'ds-lesson__sort-placed';
+					el.textContent = text;
+					el.title = word( 'back' );
+					el.addEventListener( 'click', function () {
+						delete placed[ i ];
+						paint();
+					} );
+					box.appendChild( el );
+				} );
+
+				if ( ! any ) {
+					var none = document.createElement( 'span' );
+
+					none.className = 'ds-lesson__dim';
+					none.textContent = word( 'none' );
+					box.appendChild( none );
+				}
+
+				boxes.appendChild( box );
+			} );
+
+			var n = Object.keys( placed ).length;
+
+			if ( counter ) {
+				counter.textContent = word( 'count' ).replace( '{n}', n ).replace( '{total}', cards.length );
+			}
+
+			show.disabled = n < cards.length;
+		}
+
+		show.addEventListener( 'click', function () {
+			Array.prototype.forEach.call( result.querySelectorAll( 'th[data-sort-mine]' ), function ( cell ) {
+				cell.hidden = false;
+			} );
+
+			rows.forEach( function ( row, i ) {
+				var mine = row.querySelector( 'td[data-sort-mine]' );
+				var differs = row.querySelector( '[data-sort-differs]' );
+
+				if ( mine ) {
+					mine.hidden = false;
+					mine.textContent = placed[ i ] || '—';
+				}
+
+				if ( differs ) {
+					differs.hidden = ! placed[ i ] || placed[ i ] === row.getAttribute( 'data-sort-top' );
+				}
+			} );
+
+			result.hidden = false;
+		} );
+
+		reset.addEventListener( 'click', function () {
+			placed = {};
+			picked = -1;
+			result.hidden = true;
+			paint();
+		} );
+
+		place.appendChild( show );
+		place.appendChild( reset );
+		pool.hidden = false;
+		boxes.hidden = false;
+		result.hidden = true;
+		paint();
+	}() );
+
+	/* ── проверка дерева ───────────────────────────────────────────────────
+	   Без скрипта видны дерево разделов, пути пяти участников и вывод. Со скриптом
+	   дерево проходится нажатиями, как у настоящего участника: только названия. */
+	( function () {
+		var root = document.querySelector( '[data-tree]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var source = root.querySelector( '[data-tree-source]' );
+		var list = root.querySelector( '[data-tree-list]' );
+		var result = root.querySelector( '[data-tree-result]' );
+		var place = root.querySelector( '[data-tree-actions]' );
+		var crumb = document.querySelector( '[data-tree-crumb]' );
+		var counter = document.querySelector( '[data-tree-count-out]' );
+
+		if ( ! source || ! list || ! result || ! place ) {
+			return;
+		}
+
+		function word( name ) {
+			return root.getAttribute( 'data-tree-' + name ) || '';
+		}
+
+		var tree = {};
+		var names = [];
+
+		Array.prototype.forEach.call( source.children, function ( item ) {
+			var name = item.querySelector( 'b' ).textContent;
+
+			names.push( name );
+			tree[ name ] = Array.prototype.map.call( item.querySelectorAll( 'li' ), function ( kid ) {
+				return kid.textContent;
+			} );
+		} );
+
+		var right = word( 'right' ).split( '|' );
+		var path = [];
+		var clicks = 0;
+		var backs = 0;
+		var done = false;
+		var up = button( word( 'back' ) );
+		var reset = button( word( 'reset' ) );
+
+		function paint() {
+			list.innerHTML = '';
+
+			( path.length ? tree[ path[ 0 ] ] : names ).forEach( function ( name ) {
+				var el = document.createElement( 'button' );
+				var leaf = path.length > 0;
+				var label = document.createElement( 'span' );
+				var hint = document.createElement( 'span' );
+
+				el.type = 'button';
+				el.className = 'ds-lesson__tree-node';
+				label.textContent = name;
+				hint.className = 'ds-lesson__dim';
+				hint.textContent = leaf ? word( 'leaf' ) : tree[ name ].length + word( 'kids' );
+				el.appendChild( label );
+				el.appendChild( hint );
+				el.addEventListener( 'click', function () {
+					choose( name, leaf );
+				} );
+				list.appendChild( el );
+			} );
+
+			if ( crumb ) {
+				crumb.hidden = false;
+				crumb.textContent = path.length ? word( 'in' ) + path.join( ' → ' ) : word( 'root' );
+			}
+
+			up.disabled = ! path.length || done;
+
+			if ( counter ) {
+				counter.textContent = word( 'clicks' ) + clicks;
+			}
+		}
+
+		function choose( name, leaf ) {
+			if ( done ) {
+				return;
+			}
+
+			clicks++;
+			path.push( name );
+
+			if ( ! leaf ) {
+				paint();
+
+				return;
+			}
+
+			done = true;
+			list.innerHTML = '';
+			up.disabled = true;
+
+			if ( crumb ) {
+				crumb.textContent = word( 'done' );
+			}
+
+			if ( counter ) {
+				counter.textContent = word( 'clicks' ) + clicks;
+			}
+
+			var hit = path[ 0 ] === right[ 0 ] && path[ 1 ] === right[ 1 ];
+			var key = hit ? ( backs ? 'back' : 'direct' ) : 'miss';
+			var mine = result.querySelector( '[data-tree-mine]' );
+
+			if ( mine ) {
+				mine.hidden = false;
+				mine.querySelector( '[data-tree-path]' ).textContent = path.join( ' → ' );
+
+				Array.prototype.forEach.call( mine.querySelectorAll( '[data-tree-verdict]' ), function ( one ) {
+					one.hidden = one.getAttribute( 'data-tree-verdict' ) !== key;
+				} );
+			}
+
+			result.hidden = false;
+		}
+
+		up.addEventListener( 'click', function () {
+			if ( ! path.length || done ) {
+				return;
+			}
+
+			path.pop();
+			backs++;
+			paint();
+		} );
+
+		reset.addEventListener( 'click', function () {
+			path = [];
+			clicks = 0;
+			backs = 0;
+			done = false;
+			result.hidden = true;
+			paint();
+		} );
+
+		place.appendChild( up );
+		place.appendChild( reset );
+		source.hidden = true;
+		list.hidden = false;
+		result.hidden = true;
+		paint();
+	}() );
+
+	/* ── стресс-тест структуры ─────────────────────────────────────────────
+	   Без скрипта шесть случаев раскрываются как details: вопросы правила, верные
+	   ответы с объяснением и вердикт. Со скриптом случай проходится по шагам —
+	   сначала свой ответ, потом что говорят правила. */
+	( function () {
+		var root = document.querySelector( '[data-wiz]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var asks = Array.prototype.map.call( root.querySelectorAll( '[data-wiz-questions] > li' ), function ( item ) {
+			return {
+				text: item.getAttribute( 'data-wiz-q' ),
+				opts: Array.prototype.map.call( item.querySelectorAll( '[data-wiz-opt]' ), function ( opt ) {
+					return { key: opt.getAttribute( 'data-wiz-opt' ), label: opt.textContent };
+				} ),
+			};
+		} );
+		var cases = Array.prototype.slice.call( root.querySelectorAll( '[data-wiz-case]' ) );
+		var bar = root.querySelector( '[data-wiz-cases]' );
+		var body = root.querySelector( '[data-wiz-body]' );
+		var list = root.querySelector( '[data-wiz-list]' );
+		var counter = document.querySelector( '[data-wiz-count-out]' );
+
+		if ( ! asks.length || ! cases.length || ! bar || ! body || ! list ) {
+			return;
+		}
+
+		function word( name ) {
+			return root.getAttribute( 'data-wiz-' + name ) || '';
+		}
+
+		var finished = {};
+		var current = null;
+		var picked = [];
+		var step = 0;
+		var prompt = body.innerHTML;
+
+		function count() {
+			if ( counter ) {
+				counter.textContent = word( 'count' )
+					.replace( '{n}', Object.keys( finished ).length ).replace( '{total}', cases.length );
+			}
+		}
+
+		function paint() {
+			var answers = current.getAttribute( 'data-wiz-answers' ).split( ',' );
+			var notes = current.querySelectorAll( '[data-wiz-fb]' );
+
+			body.innerHTML = '';
+
+			answers.forEach( function ( answer, i ) {
+				if ( i > step ) {
+					return;
+				}
+
+				var wrap = document.createElement( 'div' );
+				var ask = document.createElement( 'p' );
+				var opts = document.createElement( 'div' );
+				var answered = i < step;
+
+				wrap.className = 'ds-lesson__wiz-step';
+				ask.className = 'ds-lesson__wiz-q';
+				ask.textContent = ( i + 1 ) + '. ' + asks[ i ].text;
+				opts.className = 'ds-lesson__acts';
+				wrap.appendChild( ask );
+
+				asks[ i ].opts.forEach( function ( opt ) {
+					var el = document.createElement( 'button' );
+
+					el.type = 'button';
+					el.className = 'ds-quiz__option';
+					el.textContent = opt.label;
+
+					if ( answered ) {
+						el.disabled = true;
+
+						if ( opt.key === answer ) {
+							el.className += ' is-right';
+						} else if ( opt.key === picked[ i ] ) {
+							el.className += ' is-wrong';
+						}
+					} else {
+						el.addEventListener( 'click', function () {
+							picked[ i ] = opt.key;
+							step = i + 1;
+
+							if ( step >= answers.length ) {
+								finished[ current.getAttribute( 'data-wiz-case' ) ] = 1;
+								count();
+							}
+
+							paint();
+						} );
+					}
+
+					opts.appendChild( el );
+				} );
+
+				wrap.appendChild( opts );
+
+				if ( answered && notes[ i ] ) {
+					var note = document.createElement( 'p' );
+					var lead = document.createElement( 'b' );
+
+					note.className = 'ds-lesson__wiz-fb';
+					lead.textContent = picked[ i ] === answer ? word( 'right' ) : word( 'wrong' );
+					note.appendChild( lead );
+					note.appendChild( document.createTextNode( notes[ i ].textContent ) );
+					wrap.appendChild( note );
+				}
+
+				body.appendChild( wrap );
+			} );
+
+			if ( step >= answers.length ) {
+				var verdict = current.querySelector( '[data-wiz-verdict]' ).cloneNode( true );
+				var again = button( word( 'again' ) );
+
+				again.addEventListener( 'click', function () {
+					picked = [];
+					step = 0;
+					paint();
+				} );
+
+				body.appendChild( verdict );
+				body.appendChild( again );
+			}
+		}
+
+		cases.forEach( function ( one ) {
+			var el = document.createElement( 'button' );
+
+			el.type = 'button';
+			el.className = 'ds-switch__button';
+			el.textContent = one.querySelector( 'summary' ).textContent;
+			el.setAttribute( 'aria-pressed', 'false' );
+
+			el.addEventListener( 'click', function () {
+				Array.prototype.forEach.call( bar.children, function ( other ) {
+					other.setAttribute( 'aria-pressed', other === el ? 'true' : 'false' );
+				} );
+
+				current = one;
+				picked = [];
+				step = 0;
+				paint();
+			} );
+
+			bar.appendChild( el );
+		} );
+
+		bar.hidden = false;
+		body.hidden = false;
+		body.innerHTML = prompt;
+		list.hidden = true;
+		count();
 	}() );
 }() );

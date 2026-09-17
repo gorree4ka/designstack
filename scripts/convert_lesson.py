@@ -248,7 +248,47 @@ CLASS_MAP = {
     "missed": "is-missed",
     "wrongpick": "is-extra",
     "stem": "ds-quiz__question",
-    "say": "ds-lesson__say",
+    # компоненты темы «Сценарии и структура»
+    "fig-scroll": "ds-lesson__figure",
+    "btn-ghost": "",
+    "hunt": "ds-lesson__hunt",
+    "hunt-count": "ds-lesson__count",
+    "hunt-fb": "ds-lesson__result",
+    "hunt-list": "ds-lesson__hunt-list",
+    "hunt-all": "ds-lesson__dim",
+    "it": "ds-lesson__shape",
+    "ok-list": "ds-lesson__oklist",
+    "seq": "",
+    "seq-pool": "ds-lesson__seq-pool",
+    "seq-chain": "ds-lesson__seq-chain",
+    "seq-note": "ds-lesson__seq-note",
+    "seq-decoy": "ds-lesson__seq-decoy",
+    "seq-empty": "ds-lesson__dim",
+    "seq-fb": "ds-lesson__result",
+    "tabnote": "ds-lesson__result",
+    "cs-pool": "ds-lesson__sort-pool",
+    "cs-groups": "ds-lesson__sort-groups",
+    "cs-res": "ds-lesson__sort-result",
+    "mini": "ds-lesson__mini",
+    "top": "is-top",
+    "flag": "ds-lesson__flag",
+    "tt-task": "ds-lesson__tree-task",
+    "tt-crumb": "ds-lesson__tree-crumb",
+    "tt-list": "ds-lesson__tree-list",
+    "tt-tree": "ds-lesson__tree-source",
+    "tt-bar": "ds-lesson__acts",
+    "tt-res": "ds-lesson__result",
+    "path": "ds-lesson__path",
+    "h": "",
+    "metrics": "ds-lesson__metrics",
+    "metric": "ds-lesson__metric",
+    "cases": "ds-lesson__cases",
+    "wiz": "ds-lesson__wiz",
+    "wiz-list": "ds-lesson__pcards",
+    "wiz-case": "ds-lesson__pcard ds-lesson__wiz-case",
+    "qt": "ds-lesson__wiz-q",
+    "qfb": "ds-lesson__wiz-fb",
+    "rules": "ds-lesson__rules",
     "calc-case": "ds-lesson__calc-case",
     "wk-test": "ds-lesson__week--test",
     "q": "",
@@ -261,6 +301,22 @@ CLASS_MAP = {
 LESSON_MAP = {
     "usability-testing-junior": {
         "st": "ds-lesson__checkbar-state",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "flows-structure-junior": {
+        "legend": "ds-lesson__shapes",
+        "pin": "ds-lesson__hunt-pin",
+        "q": "ds-lesson__hunt-q",
+        "fix": "ds-lesson__hunt-fix",
+        "txt": "ds-lesson__seq-text",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "flows-structure-middle": {
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "flows-structure-senior": {
+        "verdict": "ds-lesson__wiz-verdict",
+        "vr": "ds-lesson__kv",
         "btn": "ds-button ds-button--secondary ds-button--sm",
     },
     "competitor-analysis-junior": {
@@ -395,6 +451,8 @@ WORDS = {
     # тема «Анализ конкурентов»
     "выведи": "выведите", "нарисуй": "нарисуйте", "подписывай": "подписывайте",
     "полистай": "полистайте", "раскопай": "раскопайте", "снимай": "снимайте",
+    # подсказки под тренажёрами, которые вернулись в уроки 17.09.2026
+    "сравнивай": "сравнивайте",
     "уточни": "уточните", "объясни": "объясните", "покажи": "покажите",
     "попроси": "попросите", "укажи": "укажите", "обсуди": "обсудите",
     "добавь": "добавьте", "опиши": "опишите", "сохрани": "сохраните",
@@ -451,6 +509,12 @@ def tidy_markup(text: str, notes: list) -> str:
         r'<div class="\1" tabindex="0" role="group" aria-label="Таблица, листается вбок"',
         text,
     )
+    text, figures = re.subn(
+        r'<div class="(ds-lesson__figure[^"]*)"(?![^>]*tabindex)',
+        r'<div class="\1" tabindex="0" role="group" aria-label="Схема, листается вбок"',
+        text,
+    )
+    n += figures
 
     if n:
         notes.append("таблиц с фокусом для прокрутки: " + str(n))
@@ -570,10 +634,17 @@ PAST_ODD = {
 PAST_AFTER = {"вёли": "вели", "шёли": "шли", "нёсли": "несли", "моги": "могли"}
 
 
+# После этих слов «уровень» — про устройство продукта, а не про ступень обучения:
+# «про уровни структуры продукта» — это книга Гарретта, а не Junior, Middle и Senior.
+# Найдено глазами в теме «Сценарии и структура» 17.09.2026: сочетание «про уровни»
+# было в списке ступеней и переводилось вслепую.
+NOT_A_STEP = r"(?!\s+(?:структур|навигац|меню|дерева|вложенност|иерарх|продукта|сайта|интерфейс|абстракц))"
+
+
 def steps_and_odd(text: str, notes: list) -> str:
     """Сочетания про ступень и неправильное прошедшее время."""
     for phrase, repl in STEP_PHRASES.items():
-        pattern = re.compile(r"(?<![А-Яа-яЁё])" + re.escape(phrase) + r"(?![А-Яа-яЁё])", re.I)
+        pattern = re.compile(r"(?<![А-Яа-яЁё])" + re.escape(phrase) + r"(?![А-Яа-яЁё])" + NOT_A_STEP, re.I)
         text, n = pattern.subn(lambda m: same_case(m.group(0), repl), text)
 
         if n:
@@ -747,7 +818,8 @@ SELF_RE = re.compile(r"(?<![А-Яа-яЁё-])([Сс]ам|[Сс]ама)(?![А-Я�
 # про человека, даже если в том же предложении есть обращение к читателю.
 OTHER_RE = re.compile(
     r"(?<![А-Яа-яЁё-])(?:участник[а-яё]*|человек[а-яё]*|собеседник[а-яё]*|"
-    r"пользовател[а-яё]+|он|она|они|ведущ[а-яё]+)(?![А-Яа-яЁё-])",
+    r"пользовател[а-яё]+|он|она|они|ведущ[а-яё]+|кто-то|кому-то|разработчик[а-яё]*|"
+    r"нович[а-яё]+|автор[а-яё]*)(?![А-Яа-яЁё-])",
     re.I,
 )
 READER_RE = re.compile(
@@ -769,7 +841,36 @@ def self_word(text: str, report: list) -> str:
             default=len(text),
         )
         around = text[left + 1:right].strip()
-        reader = bool(READER_RE.search(around)) and not OTHER_RE.search(around)
+        # Подлежащее третьего лица ищется только до слова «сам»: «найдёт ли человек корзину сам» —
+        # про человека, а «пройдите по нему сам или вместе с коллегой» — про читателя, хотя
+        # коллега в предложении тоже есть.
+        ahead = text[left + 1:found.start()]
+        reader = bool(READER_RE.search(around)) and not OTHER_RE.search(ahead)
+
+        # «Сам» перед существительным или прилагательным — это «сам по себе», а не обращение:
+        # «не работает сам проверяемый сценарий». К читателю слово относится, когда после него
+        # конец фразы, союз, предлог или глагол: «решаете сам и…», «сам определите».
+        # Случай: 17.09.2026 — на сайт уехало «не работает сами проверяемый сценарий».
+        after = re.match(r"\s+([А-Яа-яЁё-]+)(\s+[а-яё]+)?", text[found.end():right])
+
+        if after:
+            word = after.group(1).lower()
+            idiom = word == "по" and (after.group(2) or "").strip() == "себе"
+            link = word in {"и", "или", "а", "но", "либо", "из", "без", "от", "с", "со", "в", "на", "за", "для", "до", "при", "по"}
+            verb = re.search(r"(?:те|тесь|ть|ться|чь)$", word)
+
+            if idiom or not (link or verb):
+                reader = False
+
+        # «Сама» к читателю не относится никогда: у неё читатель — «ты … сам», а женский род
+        # согласуется с существительным рядом («схема должна работать сама»). И «сам» сразу
+        # после глагола в единственном числе — «пришёл сам» — тоже не про читателя: с «вы»
+        # глагол стоял бы во множественном. Оба случая найдены глазами 17.09.2026.
+        before = re.search(r"([А-Яа-яЁё]+)\s+$", text[max(0, found.start() - 40):found.start()])
+
+        if found.group(1).lower() == "сама" or (before and re.search(r"(?:л|лся|ёл|шёл)$", before.group(1).lower())):
+            reader = False
+
         out.append(text[at:found.start()])
         out.append(("сами" if found.group(1)[0] in "Сс" and reader else found.group(1)))
 
@@ -870,7 +971,7 @@ def quiz_labels(source: str) -> tuple:
     )
 
 
-def quiz_markup(items: list, options: list, title: str = "Тренажёр") -> str:
+def quiz_markup(items: list, options: list, title: str = "Тренажёр", foot: str = "") -> str:
     """Тренажёр разметкой, а не данными в скрипте: без JS вопросы видны списком.
 
     Вариантов ответа бывает от двух до пяти, поэтому ключ ответа — строка, а не
@@ -898,13 +999,15 @@ def quiz_markup(items: list, options: list, title: str = "Тренажёр") -> 
         for one in options
     )
 
+    # Счётчик вопроса и счёт имеют смысл только в пошаговом режиме: без скрипта вопросы
+    # идут списком, и «вопрос 1 из 10» над ним был бы неправдой. Показывает их lesson.js.
     head = (
         '<div class="ds-lesson__box ds-quiz" data-quiz>\n'
         '<div class="ds-lesson__box-head">'
         + title
-        + " · вопрос <span data-quiz-idx>1</span> из "
+        + '<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из '
         + str(len(items))
-        + '<span class="ds-lesson__spacer"></span><span data-quiz-score>0 верно</span></div>\n'
+        + " · <span data-quiz-score>0 верно</span></span></div>\n"
     )
     body = (
         '<div class="ds-lesson__box-body">\n<ol class="ds-quiz__list">\n'
@@ -914,7 +1017,9 @@ def quiz_markup(items: list, options: list, title: str = "Тренажёр") -> 
         + "</div>\n"
         '<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span>'
         '<button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>'
-        "Дальше</button></div>\n</div>\n</div>"
+        "Дальше</button></div>\n</div>\n"
+        + ('<div class="ds-lesson__box-foot">' + foot + "</div>\n" if foot else "")
+        + "</div>"
     )
 
     return head + body
@@ -1022,27 +1127,51 @@ def drills_of(source: str) -> list:
     return out
 
 
-def put_quiz(text: str, markup: str, node: str = "quiz"):
-    """Меняет её пустую коробку тренажёра на нашу разметку. Возвращает текст и успех."""
-    box = re.search(r'<div[^>]*\bid="' + re.escape(node) + r'"[^>]*>', text)
+def put_quiz(text: str, items: list, options: list, node: str = "quiz"):
+    """Меняет её коробку тренажёра на нашу разметку. Возвращает текст и успех.
 
-    if not box or not markup:
+    Заменяется коробка целиком, но её слова остаются: заголовок («Тренажёр 2 · разложи
+    запись по колонкам») и подсказка в подвале. Первая версия выбрасывала и то и другое —
+    текст заказчицы молча пропадал из каждого тренажёра (найдено 17.09.2026). В новых
+    уроках `id` стоит на внутреннем блоке, а не на коробке: тогда заменяется охватывающая
+    коробка, иначе выходит коробка в коробке с двумя шапками.
+    """
+    inner = re.search(r'<div[^>]*\bid="' + re.escape(node) + r'"[^>]*>', text)
+
+    if not inner or not items:
         return text, False
 
-    depth = 0
-    stop = None
+    start = inner.start()
 
-    for step in re.finditer(r"</?div\b[^>]*>", text[box.start():], re.I):
-        depth += -1 if step.group(0).startswith("</") else 1
+    # Класс `box` ищется как отдельное слово: `box-body` и `box-head` — это не коробка,
+    # а дефис для `\b` — граница слова, и первая версия принимала тело коробки за коробку.
+    is_box = r'class="(?:[^"]*\s)?box(?:\s[^"]*)?"'
 
-        if depth == 0:
-            stop = box.start() + step.end()
-            break
+    if not re.search(is_box, inner.group(0)):
+        outer = [m for m in re.finditer(r"<div " + is_box + r"[^>]*>", text[:start])]
 
-    if stop is None:
+        for candidate in reversed(outer):
+            if element_end(text, candidate.start()) > start:
+                start = candidate.start()
+                break
+
+    stop = element_end(text, start)
+
+    if stop < 0:
         return text, False
 
-    return text[: box.start()] + markup + text[stop:], True
+    box = text[start:stop]
+    head = re.search(r'<div class="box-head">(.*?)</div>', box, re.S)
+    title = "Тренажёр"
+
+    if head:
+        plain = re.sub(r'<span class="spacer">.*', "", head.group(1), flags=re.S)
+        plain = re.sub(r"<[^>]+>", "", plain).strip()
+        title = plain or title
+
+    foot = re.search(r'<div class="box-foot">(.*?)</div>\s*</div>\s*$', box, re.S)
+
+    return text[:start] + quiz_markup(items, options, title, foot.group(1).strip() if foot else "") + text[stop:], True
 
 
 # ---------------------------------------------------------------------------
@@ -1984,7 +2113,11 @@ def pcards_to_details(text: str, notes: list) -> str:
 
         content = "".join(out)
         summary = head.group(1) + ('<span class="hintline">' + hint.group(1) + "</span>" if hint else "")
-        fresh = '<details class="pcard" name="pcards"><summary>' + summary + "</summary>" + content + "</details>"
+        group = re.search(r'data-group="(\w+)"', found.group(0))
+        fresh = (
+            '<details class="pcard" name="' + (group.group(1) if group else "pcards") + '"><summary>'
+            + summary + "</summary>" + content + "</details>"
+        )
         text = text[:start] + fresh + text[stop:]
         at = start + len(fresh)
         count += 1
@@ -1993,6 +2126,548 @@ def pcards_to_details(text: str, notes: list) -> str:
         notes.append("карточек принципов переведено в details: " + str(count))
 
     return text
+
+
+# ---------------------------------------------------------------------------
+# Живые куски темы «Сценарии и структура»: вкладки со схемами, сборка цепочки
+# шагов, поиск дыр на схеме, сортировка карточек, проверка дерева и стресс-тест.
+# Данных в её скриптах здесь много и они вложенные, поэтому вместо регулярки на
+# каждый массив — общий разбор JS-литерала в обычные списки и словари.
+# ---------------------------------------------------------------------------
+
+
+def js_literal(source: str):
+    """JS-литерал (объект или массив) → данные Python.
+
+    Строки в одинарных кавычках становятся JSON-строками, голые ключи берутся
+    в кавычки, висячие запятые снимаются. Функций и выражений внутри не ждём:
+    на них json.loads упадёт, и это правильнее, чем молча прочитать мусор.
+    """
+    out = []
+    i = 0
+
+    while i < len(source):
+        char = source[i]
+
+        if char in "'\"":
+            j = i + 1
+            buf = []
+
+            while j < len(source) and source[j] != char:
+                if source[j] == "\\" and j + 1 < len(source):
+                    nxt = source[j + 1]
+                    buf.append({"n": "\n", "t": "\t"}.get(nxt, nxt))
+                    j += 2
+                    continue
+
+                buf.append(source[j])
+                j += 1
+
+            out.append(json.dumps("".join(buf), ensure_ascii=False))
+            i = j + 1
+            continue
+
+        out.append(char)
+        i += 1
+
+    text = "".join(out)
+    text = re.sub(r"([{,]\s*)([A-Za-z_]\w*)(\s*:)", r'\1"\2"\3', text)
+    text = re.sub(r",(\s*[}\]])", r"\1", text)
+
+    return json.loads(text)
+
+
+def js_var(js: str, name: str):
+    """Значение `var NAME = <литерал>` — со счётом скобок и с учётом строк."""
+    found = re.search(r"\bvar\s+" + re.escape(name) + r"\s*=\s*", js)
+
+    if not found:
+        return None
+
+    start = found.end()
+
+    if start >= len(js) or js[start] not in "[{":
+        return None
+
+    depth = 0
+    quote = None
+    i = start
+
+    while i < len(js):
+        char = js[i]
+
+        if quote:
+            if char == "\\":
+                i += 2
+                continue
+            if char == quote:
+                quote = None
+        elif char in "'\"":
+            quote = char
+        elif char in "[{":
+            depth += 1
+        elif char in "]}":
+            depth -= 1
+
+            if depth == 0:
+                try:
+                    return js_literal(js[start:i + 1])
+                except ValueError:
+                    return None
+
+        i += 1
+
+    return None
+
+
+def js_phrase(js: str, pattern: str, default: str = "") -> str:
+    """Одна фраза из кода скрипта по регулярке с одной группой."""
+    found = re.search(pattern, js, re.S)
+
+    return found.group(1).replace("\\'", "'") if found else default
+
+
+# Её переменные цвета → наши токены. Нужны только внутри SVG: там цвет задан прямо
+# на фигурах, и без перевода схема осталась бы чёрной (переменных у нас нет).
+SVG_VARS = {
+    "--raised": "surface-raised",
+    "--surface": "surface-subtle",
+    "--demo-bg": "surface-subtle",
+    "--page": "surface-default",
+    "--ink": "text-default",
+    "--ink-2": "text-muted",
+    "--muted": "text-muted",
+    "--svg-dim": "text-muted",
+    "--accent": "text-action",
+    "--accent-deep": "text-action",
+    "--chip": "surface-selected",
+    "--svg-chip": "surface-selected",
+    "--hairline": "border-default",
+    "--border": "border-default",
+    "--bad": "icon-error",
+    "--bad-soft": "bg-error",
+    "--good": "icon-success",
+    "--warn": "icon-warning",
+    "--warn-soft": "bg-warning",
+}
+
+
+def svg_tokens(svg: str, lost: set) -> str:
+    """Цвета схемы — на токены сайта; шрифт — наследуется от страницы."""
+
+    def swap(found):
+        name = found.group(1)
+
+        if name in SVG_VARS:
+            return "var(--wp--preset--color--" + SVG_VARS[name] + ")"
+
+        lost.add(name)
+
+        return found.group(0)
+
+    svg = re.sub(r"var\((--[a-z0-9-]+)\)", swap, svg)
+
+    return re.sub(r'\s+font-family="[^"]*"', "", svg)
+
+
+def tabs_to_switch(body: str, notes: list) -> str:
+    """Вкладки `role="tab"` → готовый переключатель `data-switch`.
+
+    Без скрипта у неё видна только первая вкладка, остальные закрыты наглухо.
+    У переключателя без скрипта видны все панели подряд, каждая со своим заголовком.
+    """
+    labels = dict(re.findall(r'<button[^>]*role="tab"[^>]*aria-controls="(\w+)"[^>]*>(.*?)</button>', body, re.S))
+
+    if not labels:
+        return body
+
+    def bar(found):
+        return '<div class="ds-switch__bar">' + "".join(
+            '<button class="ds-switch__button" type="button" data-switch-btn="{key}" hidden>{name}</button>'.format(
+                key=key, name=name.strip()
+            )
+            for key, name in re.findall(
+                r'<button[^>]*role="tab"[^>]*aria-controls="(\w+)"[^>]*>(.*?)</button>', found.group(0), re.S
+            )
+        ) + "</div>"
+
+    body = re.sub(r'<div class="tabs"[^>]*>.*?</div>', bar, body, flags=re.S)
+    body = re.sub(
+        r'<div class="tabpanel(?: on)?" id="(\w+)"[^>]*>',
+        lambda m: '<div data-switch-pane="{key}"><p class="ds-switch__title">{name}</p>'.format(
+            key=m.group(1), name=labels.get(m.group(1), "").strip()
+        ),
+        body,
+    )
+    body = re.sub(
+        r'<div class="box-body">(\s*<div class="ds-switch__bar">)', r'<div class="box-body ds-switch" data-switch>\1', body
+    )
+    notes.append("вкладок переведено в переключатель: " + str(len(labels)))
+
+    return body
+
+
+def accs_to_details(text: str, notes: list) -> str:
+    """Карточки-аккордеоны (`.acc[data-acc]`) — в ту же разметку, что карточки принципов."""
+    groups = 0
+
+    # Каждая группа получает своё имя: «открыта только одна» действует внутри группы.
+    parts = re.split(r'(<div class="accs"[^>]*>)', text)
+    out = [parts[0]]
+
+    for n in range(1, len(parts), 2):
+        groups += 1
+        chunk = parts[n + 1].replace('<div class="acc" data-acc>', '<div class="pcard" data-group="accs%d">' % groups)
+        out.append(parts[n].replace('class="accs"', 'class="pcards"'))
+        out.append(chunk)
+
+    if groups:
+        notes.append("групп аккордеонов переведено в карточки: " + str(groups))
+
+    return "".join(out)
+
+
+def seq_markup(js: str, body: str, notes: list) -> str:
+    """Сборка сценария по порядку: шаги, один лишний вариант и разбор каждого."""
+    steps = js_var(js, "SEQ")
+    decoy = js_var(js, "DECOY")
+    order = js_var(js, "ORDER")
+
+    if not steps or not order or 'id="seqPool"' not in body:
+        return body
+
+    rows = "".join(
+        '<li data-seq-step{io}><span class="txt">{text}{tag}</span> <span class="seq-note" data-seq-note>{note}</span></li>'.format(
+            io=' data-seq-io="%s"' % html.escape(one["io"], quote=True) if one.get("io") else "",
+            text=one["t"],
+            tag='<span class="tag">%s</span>' % one["io"] if one.get("io") else "",
+            note=one.get("n", ""),
+        )
+        for one in steps
+    )
+    extra = ""
+
+    if decoy:
+        extra = (
+            '<p class="seq-decoy" data-seq-decoy data-seq-decoy-text="{text}"><b>{title}: «{text}».</b> '
+            "<span data-seq-decoy-note>{note}</span></p>"
+        ).format(
+            title=js_phrase(js, r"'<b>(Это лишний вариант)</b>'", "Это лишний вариант"),
+            text=html.escape(decoy["t"], quote=True),
+            note=decoy["n"],
+        )
+
+    words = {
+        "right": js_phrase(js, r"'<b>(Верно)</b>'", "Верно"),
+        "early": js_phrase(js, r"'<b>(Пока рано)</b>'", "Пока рано"),
+        "extra": js_phrase(js, r"'<b>(Это лишний вариант)</b>'", "Это лишний вариант"),
+        "first": js_phrase(js, r"expect === 0\s*\?\s*'((?:[^'\\]|\\.)*)'"),
+        "next": js_phrase(js, r":\s*'(Сейчас на очереди[^']*)'") + "{prev}" + js_phrase(js, r"toLowerCase\(\) \+ '([^']*)'"),
+        "done-title": js_phrase(js, r"'<b>(Собрано целиком)</b>", "Собрано целиком"),
+        "done": js_phrase(js, r"<b>Собрано целиком</b>((?:[^'\\]|\\.)*)'"),
+        "count": "{n} из {total}",
+    }
+    attrs = "".join(' data-seq-%s="%s"' % (key, html.escape(value, quote=True)) for key, value in words.items())
+    markup = (
+        '<div class="seq" data-seq data-seq-order="{order}"{attrs}>'
+        '<div class="seq-pool" data-seq-pool></div>'
+        '<ol class="seq-chain" data-seq-steps>{rows}</ol>{extra}</div>'
+    ).format(order=",".join(str(one) for one in order), attrs=attrs, rows=rows, extra=extra)
+
+    body = body.replace('<div class="seq-pool" id="seqPool"></div>', markup, 1)
+    body = re.sub(r'\s*<div class="seq-chain" id="seqChain"></div>', "", body)
+    body = re.sub(r'<p class="seq-empty" id="seqEmpty">', '<p class="seq-empty" data-seq-empty hidden>', body)
+    body = body.replace('<div class="seq-fb" id="seqFb"></div>', '<div class="seq-fb" data-seq-fb hidden></div>', 1)
+    body = re.sub(r'<span class="hunt-count" id="seqCount">[^<]*</span>', '<span class="hunt-count" data-seq-count-out></span>', body)
+    body = re.sub(
+        r'<div[^>]*>\s*<button[^>]*id="seqReset"[^>]*>(.*?)</button>\s*</div>',
+        lambda m: '<span data-seq-actions data-seq-reset="%s"></span>' % html.escape(m.group(1).strip(), quote=True),
+        body,
+        flags=re.S,
+    )
+    notes.append("сборка сценария: шагов {}, лишних вариантов {}".format(len(steps), 1 if decoy else 0))
+
+    return body
+
+
+def hunt_markup(js: str, body: str, notes: list) -> str:
+    """Поиск дыр на схеме: точки на рисунке и разбор каждой."""
+    spots = js_var(js, "HUNT")
+
+    if not spots or 'id="hunt"' not in body:
+        return body
+
+    fix = js_phrase(js, r"'<span class=\"fix\"><b>((?:[^<])*)</b>'", "Как чинить. ")
+    rows = "".join(
+        '<li data-hunt-item><span class="q">{q}</span><span class="fix"><b>{fix}</b>{text}</span></li>'.format(
+            q=one["q"], fix=fix, text=one["fix"]
+        )
+        for one in spots
+    )
+    done = re.search(r"<span class=\"fix\" style=\"[^\"]*\">(<b>.*?)</span>' : ''", js, re.S)
+    # Точка без скрипта — не кнопка: нажать её нечем, зато номер на схеме остаётся.
+    body = re.sub(
+        r'<button class="pin" type="button" data-hunt="(\d+)" (style="[^"]*") aria-label="([^"]*)">(\d+)</button>',
+        r'<span class="pin" data-hunt-pin="\1" data-hunt-label="\3" \2>\4</span>',
+        body,
+    )
+    body = body.replace('<div class="hunt" id="hunt">', '<div class="hunt" data-hunt data-hunt-count="Найдено {n} из {total}">', 1)
+    body = re.sub(
+        r'<div class="hunt-fb" id="huntFb">(.*?)</div>',
+        lambda m: '<ol class="hunt-list" data-hunt-list>' + rows + "</ol>"
+        + '<div class="hunt-fb" data-hunt-fb hidden>' + m.group(1) + "</div>"
+        + ('<p class="hunt-all" data-hunt-all>' + done.group(1).replace("\\'", "'") + "</p>" if done else ""),
+        body,
+        count=1,
+        flags=re.S,
+    )
+    body = re.sub(r'<span class="hunt-count" id="huntCount">[^<]*</span>', '<span class="hunt-count" data-hunt-count-out></span>', body)
+    notes.append("поиск дыр: точек " + str(len(spots)))
+
+    return body
+
+
+def sort_markup(js: str, body: str, notes: list) -> str:
+    """Сортировка карточек: как разложили пятеро и что из этого следует."""
+    groups = js_var(js, "GROUPS")
+    cards = js_var(js, "CARDS")
+
+    if not groups or not cards or 'id="csPool"' not in body:
+        return body
+
+    spread_text = js_phrase(js, r"verdict = '(Разброс[^']*)'")
+    move_text = js_phrase(js, r"verdict = '(Люди кладут в «)'") + "{group}" + js_phrase(js, r"t\.g \+ '([^']*)'; flag = '<span class=\"flag\">менять")
+    agree_text = js_phrase(js, r"verdict = '(Согласие[^']*)'")
+    split_text = js_phrase(js, r"verdict = '(Делится[^']*)'")
+    flags = re.findall(r"flag = '<span class=\"flag\">([^<]*)</span>'", js)
+    differs = js_phrase(js, r"<span class=\"dim\"[^>]*>((?:[^<])*)</span>' : ''")
+    heads = re.findall(r"<th>([^<]*)</th>", js_phrase(js, r"csRes\.innerHTML = '(.*?)</thead>"))
+    conclusion = re.search(r"'<div class=\"rule\"[^>]*>(.*?)</div>';", js, re.S)
+    rows = []
+
+    for one in cards:
+        spread = one["p"]
+        top = max(spread, key=lambda key: spread[key])
+        chips = "".join(
+            '<span class="mini{top}">{name} · {n}</span>'.format(top=" top" if name == top else "", name=name, n=n)
+            for name, n in sorted(spread.items(), key=lambda kv: -kv[1])
+        )
+
+        if len(spread) >= 3:
+            verdict, flag = spread_text, flags[0] if flags else ""
+        elif top != one["ours"]:
+            verdict, flag = move_text.replace("{group}", top), flags[1] if len(flags) > 1 else ""
+        elif spread[top] >= 4:
+            verdict, flag = agree_text, ""
+        else:
+            verdict, flag = split_text, flags[2] if len(flags) > 2 else ""
+
+        rows.append(
+            '<tr data-sort-card data-sort-top="{top}"><td><b>{text}</b></td><td data-sort-mine hidden></td>'
+            "<td>{chips}</td><td>{verdict}{flag}"
+            '<span class="dim" data-sort-differs hidden><br>{differs}</span></td></tr>'.format(
+                top=html.escape(top, quote=True),
+                text=one["t"],
+                chips=chips,
+                verdict=verdict,
+                flag=' <span class="flag">%s</span>' % flag if flag else "",
+                differs=differs,
+            )
+        )
+
+    if len(heads) < 4:
+        heads = ["Карточка", "Ваш вариант", "Как разложили пятеро", "Итог"]
+
+    table = (
+        '<div class="tbl-scroll"><table><thead><tr><th>{h0}</th><th data-sort-mine hidden>{h1}</th>'
+        "<th>{h2}</th><th>{h3}</th></tr></thead><tbody>{rows}</tbody></table></div>"
+    ).format(h0=heads[0], h1=heads[1], h2=heads[2], h3=heads[3], rows="".join(rows))
+    rule = '<div class="rule">' + conclusion.group(1).replace("\\'", "'") + "</div>" if conclusion else ""
+    words = {
+        "count": "Разложено {n} из {total}",
+        "empty": js_phrase(js, r"d\.textContent = '([^']*)'", "Все карточки разложены."),
+        "none": js_phrase(js, r"e\.textContent = '([^']*)'", "пусто"),
+        "back": js_phrase(js, r"pb\.title = '([^']*)'", "Вернуть в стопку"),
+        "show": js_phrase(body, r'id="csShow"[^>]*>([^<]*)</button>', "Показать"),
+        "reset": js_phrase(body, r'id="csReset"[^>]*>([^<]*)</button>', "Заново"),
+        "groups": "|".join(groups),
+    }
+    attrs = "".join(' data-sort-%s="%s"' % (key, html.escape(value, quote=True)) for key, value in words.items())
+    body = body.replace(
+        '<div class="cs-pool" id="csPool"></div>',
+        '<div data-sort' + attrs + '><div class="cs-pool" data-sort-pool hidden></div>',
+        1,
+    )
+    body = body.replace('<div class="cs-groups" id="csGroups"></div>', '<div class="cs-groups" data-sort-groups hidden></div>', 1)
+    body = re.sub(
+        r'<div class="tt-bar">\s*<button[^>]*id="csShow"[^>]*>.*?</button>\s*<button[^>]*id="csReset"[^>]*>.*?</button>\s*</div>',
+        '<div class="tt-bar" data-sort-actions></div>',
+        body,
+        count=1,
+        flags=re.S,
+    )
+    body = body.replace(
+        '<div class="cs-res" id="csRes"></div>', '<div class="cs-res" data-sort-result>' + table + rule + "</div></div>", 1
+    )
+    body = re.sub(r'<span class="hunt-count" id="csCount">[^<]*</span>', '<span class="hunt-count" data-sort-count-out></span>', body)
+    notes.append("сортировка карточек: карточек {}, разделов {}".format(len(cards), len(groups)))
+
+    return body
+
+
+def tree_markup(js: str, body: str, notes: list) -> str:
+    """Проверка дерева: разделы, верный путь и что сделали пятеро."""
+    tree = js_var(js, "TREE")
+    right = js_var(js, "RIGHT")
+    people = js_var(js, "PEOPLE")
+
+    if not tree or not right or not people or 'id="ttList"' not in body:
+        return body
+
+    nested = "".join(
+        "<li><b>{name}</b><ul>{kids}</ul></li>".format(name=name, kids="".join("<li>" + kid + "</li>" for kid in kids))
+        for name, kids in tree.items()
+    )
+    verdicts = re.search(
+        r"\(ok \? \(direct \? '((?:[^'\\]|\\.)*)' : '((?:[^'\\]|\\.)*)'\)\s*:\s*'((?:[^'\\]|\\.)*)'\)", js, re.S
+    )
+    metrics = re.search(r"'(<div class=\"metrics\">'.*?'</div>') \+\s*\n\s*'<div class=\"tbl-scroll\"", js, re.S)
+    conclusion = re.search(r"'(<p style=\"margin-bottom:0\"><b>Вывод\.</b>.*?</p>)';", js, re.S)
+    heads = re.findall(r"<th>([^<]*)</th>", js_phrase(js, r"(<table><thead><tr><th>Кто.*?</thead>)"))
+    done_word = js_phrase(js, r"\(p\.ok \? '([^']*)'", "дошёл")
+    miss_word = js_phrase(js, r"\(p\.ok \? '[^']*' : '([^']*)'\)", "не дошёл")
+    person = js_phrase(js, r"'<tr><td><b>(Человек )'", "Человек ")
+    rows = "".join(
+        '<tr><td><b>{who}{n}</b></td><td class="path">{path}</td><td>{end} — {note}</td></tr>'.format(
+            who=person, n=one["n"], path=one["path"], end=done_word if one["ok"] else miss_word, note=one["note"]
+        )
+        for one in people
+    )
+
+    if len(heads) < 3:
+        heads = ["Кто", "Путь", "Чем кончилось"]
+
+    mine = ""
+
+    if verdicts:
+        mine = (
+            '<p data-tree-mine hidden><b class="h">{title}<span class="path" data-tree-path></span></b> '
+            '<span data-tree-verdict="direct" hidden>{a}</span><span data-tree-verdict="back" hidden>{b}</span>'
+            '<span data-tree-verdict="miss" hidden>{c}</span></p>'
+        ).format(
+            title=js_phrase(js, r"'<b class=\"h\">(Ваш путь: )<span", "Ваш путь: "),
+            a=verdicts.group(1).replace("\\'", "'"),
+            b=verdicts.group(2).replace("\\'", "'"),
+            c=verdicts.group(3).replace("\\'", "'"),
+        )
+
+    result = (
+        mine
+        + (js_string(metrics.group(1)) if metrics else "")
+        + '<div class="tbl-scroll"><table><thead><tr><th>{0}</th><th>{1}</th><th>{2}</th></tr></thead>'.format(*heads)
+        + "<tbody>" + rows + "</tbody></table></div>"
+        + (conclusion.group(1).replace("\\'", "'") if conclusion else "")
+    )
+    words = {
+        "right": "|".join(right),
+        "root": js_phrase(body, r'id="ttCrumb">([^<]*)<', "Вы в корне: выберите раздел"),
+        "in": js_phrase(js, r"\? '(Вы в разделе: )'", "Вы в разделе: "),
+        "done": js_phrase(js, r"ttCrumb\.textContent = '(Ответ записан)'", "Ответ записан"),
+        "clicks": js_phrase(js, r"ttCount\.textContent = '(Кликов: )'", "Кликов: "),
+        "leaf": js_phrase(js, r"\(leaf \? '([^']*)'", "искать здесь"),
+        "kids": js_phrase(js, r"\.length \+ '([^']*)'\)", " раздела"),
+        "back": js_phrase(body, r'id="ttBack"[^>]*>([^<]*)</button>', "На уровень выше"),
+        "reset": js_phrase(body, r'id="ttReset"[^>]*>([^<]*)</button>', "Начать заново"),
+    }
+    attrs = "".join(' data-tree-%s="%s"' % (key, html.escape(value, quote=True)) for key, value in words.items())
+    body = re.sub(r'<div class="tt-crumb" id="ttCrumb">[^<]*</div>', '<div class="tt-crumb" data-tree-crumb hidden></div>', body)
+    body = body.replace(
+        '<div class="tt-list" id="ttList"></div>',
+        '<div data-tree' + attrs + '><ul class="tt-tree" data-tree-source>' + nested + '</ul><div class="tt-list" data-tree-list hidden></div>',
+        1,
+    )
+    body = re.sub(
+        r'<div class="tt-bar">\s*<button[^>]*id="ttBack"[^>]*>.*?</button>\s*<button[^>]*id="ttReset"[^>]*>.*?</button>\s*</div>',
+        '<div class="tt-bar" data-tree-actions></div>',
+        body,
+        count=1,
+        flags=re.S,
+    )
+    body = body.replace('<div class="tt-res" id="ttRes"></div>', '<div class="tt-res" data-tree-result>' + result + "</div></div>", 1)
+    body = re.sub(r'<span class="hunt-count" id="ttCount">[^<]*</span>', '<span class="hunt-count" data-tree-count-out></span>', body)
+    notes.append("проверка дерева: разделов {}, участников {}".format(len(tree), len(people)))
+
+    return body
+
+
+def wiz_markup(js: str, body: str, notes: list) -> str:
+    """Стресс-тест: шесть будущих разделов, три вопроса правила и вердикт по каждому."""
+    questions = js_var(js, "WQ")
+    cases = js_var(js, "CASES")
+
+    if not questions or not cases or 'id="wizCases"' not in body:
+        return body
+
+    keys = re.findall(r"<span class=\"k\">([^<]*)</span><span class=\"v\">(?:<b>)?' \+ cur\.(\w+)", js)
+    labels = {field: label for label, field in keys} or {"where": "Куда встаёт", "breaks": "Что ломается", "todo": "Решить заранее"}
+    asks = "".join(
+        '<li data-wiz-q="{q}">{opts}</li>'.format(
+            q=html.escape(one["q"], quote=True),
+            opts="".join('<span data-wiz-opt="%s">%s</span>' % (opt["k"], opt["l"]) for opt in one["opts"]),
+        )
+        for one in questions
+    )
+    blocks = []
+
+    for one in cases:
+        steps = []
+
+        for n, answer in enumerate(one["a"]):
+            option = next((opt["l"] for opt in questions[n]["opts"] if opt["k"] == answer), answer)
+            steps.append(
+                '<li data-wiz-step><p class="qt">{q}</p><p class="qfb"><b>{option}.</b> '
+                "<span data-wiz-fb>{fb}</span></p></li>".format(q=questions[n]["q"], option=option.rstrip("."), fb=one["fb"][n])
+            )
+
+        verdict = "".join(
+            '<div class="vr"><span class="k">{label}</span><span class="v">{text}</span></div>'.format(
+                label=labels.get(field, field), text=("<b>" + one[field] + "</b>") if field == "where" else one[field]
+            )
+            for field in ("where", "breaks", "todo")
+            if one.get(field)
+        )
+        blocks.append(
+            '<details class="wiz-case" name="wiz" data-wiz-case="{id}" data-wiz-answers="{answers}">'
+            "<summary>{title}</summary><ol>{steps}</ol>"
+            '<div class="verdict" data-wiz-verdict>{verdict}</div></details>'.format(
+                id=one["id"], answers=",".join(one["a"]), title=one["t"], steps="".join(steps), verdict=verdict
+            )
+        )
+
+    words = {
+        "count": "Разобрано {n} из {total}",
+        "right": js_phrase(js, r"\? '(Так и есть\. )'", "Так и есть. "),
+        "wrong": js_phrase(js, r": '(По правилам[^']*)'\)", "По правилам — другой ответ. "),
+        "again": js_phrase(js, r"btn\.textContent = '([^']*)'", "Пройти этот случай заново"),
+    }
+    attrs = "".join(' data-wiz-%s="%s"' % (key, html.escape(value, quote=True)) for key, value in words.items())
+    body = body.replace(
+        '<div class="cases" id="wizCases"></div>',
+        '<div data-wiz' + attrs + '><ol data-wiz-questions hidden>' + asks + '</ol><div class="cases" data-wiz-cases hidden></div>',
+        1,
+    )
+    body = re.sub(
+        r'<div class="wiz" id="wizBody">(.*?)</div>',
+        lambda m: '<div class="wiz" data-wiz-body hidden>' + m.group(1) + "</div>"
+        + '<div class="wiz-list" data-wiz-list>' + "".join(blocks) + "</div></div>",
+        body,
+        count=1,
+        flags=re.S,
+    )
+    body = re.sub(r'<span class="hunt-count" id="wizCount">[^<]*</span>', '<span class="hunt-count" data-wiz-count-out></span>', body)
+    notes.append("стресс-тест: случаев {}, вопросов {}".format(len(cases), len(questions)))
+
+    return body
 
 
 def copy_holder(text: str, notes: list) -> str:
@@ -2042,42 +2717,59 @@ def drop_inline_styles(text: str, notes: list) -> str:
     """Снимает инлайновые стили присланной страницы.
 
     Они ссылаются на её переменные (`var(--accent)`, `var(--hairline)`), которых у
-    нас нет, и задают размеры в пикселях мимо шкалы. Две вещи остаются: доля куска
-    на ленте времени (`flex:5` — это данные, а не оформление) и `display:none`,
-    который превращается в атрибут `hidden`.
+    нас нет, и задают размеры в пикселях мимо шкалы. Остаются данные, а не оформление:
+    доля куска на ленте времени (`flex:5`), место точки на схеме (`left:4.1%; top:33%`)
+    и `display:none`, который превращается в атрибут `hidden`. Внутри SVG стиль не
+    снимается, а переводится на токены сайта: там он задаёт цвет самих фигур.
     """
     kept = []
     dropped = []
+    lost = set()
+    data_rule = re.compile(r"(?:flex:\s*\d+|(?:left|top):\s*[\d.]+%)")
 
     def one(match):
         rules = [r.strip() for r in match.group(1).split(";") if r.strip()]
-        flex = [r for r in rules if re.fullmatch(r"flex:\s*\d+", r.replace(" ", " "))]
+        keep = [r for r in rules if data_rule.fullmatch(r)]
         hide = any(r.replace(" ", "") == "display:none" for r in rules)
 
         for rule in rules:
-            if rule not in flex and rule.replace(" ", "") != "display:none":
+            if rule not in keep and rule.replace(" ", "") != "display:none":
                 dropped.append(rule)
 
         out = ""
 
-        if flex:
-            kept.extend(flex)
-            out += ' style="' + "; ".join(flex) + '"'
+        if keep:
+            kept.extend(keep)
+            out += ' style="' + "; ".join(keep) + '"'
 
         if hide:
             out += " hidden"
 
         return out
 
-    text = re.sub(r'\s*style="([^"]*)"', one, text)
+    parts = re.split(r"(<svg\b.*?</svg>)", text, flags=re.S)
+    svgs = 0
+
+    for n, part in enumerate(parts):
+        if part.startswith("<svg"):
+            parts[n] = svg_tokens(part, lost)
+            svgs += 1
+        else:
+            parts[n] = re.sub(r'\s*style="([^"]*)"', one, part)
 
     if dropped:
         notes.append("инлайновых объявлений снято: " + str(len(dropped)))
 
     if kept:
-        notes.append("доли ленты времени сохранены: " + str(len(kept)))
+        notes.append("данных в стиле сохранено (доли и точки): " + str(len(kept)))
 
-    return text
+    if svgs:
+        notes.append("схем SVG переведено на токены: " + str(svgs))
+
+    if lost:
+        notes.append("в SVG остались неизвестные переменные: " + ", ".join(sorted(lost)))
+
+    return "".join(parts)
 
 
 parser = argparse.ArgumentParser()
@@ -2098,6 +2790,7 @@ changes = []
 guessed = set()
 
 body = strip_page(raw)
+source_body = body
 
 # Тренажёр в уроках собран двумя способами: массивом QS (первая тема) и вызовами
 # makeDrill (все остальные). Оба разворачиваются в одну и ту же нашу разметку.
@@ -2109,13 +2802,11 @@ keyed = [
     for one in items
 ]
 
-body, quiz_ok = put_quiz(body, quiz_markup(keyed, pairs) if keyed else "", "quiz")
+body, quiz_ok = put_quiz(body, keyed, pairs, "quiz")
 quizzes += 1 if quiz_ok else 0
 
 for drill in drills_of(raw):
-    body, ok = put_quiz(
-        body, quiz_markup(drill["items"], drill["options"]), drill["node"]
-    )
+    body, ok = put_quiz(body, drill["items"], drill["options"], drill["node"])
     quizzes += 1 if ok else 0
 
 widget_notes = []
@@ -2130,6 +2821,13 @@ body = cadence_markup(script, body, widget_notes)
 body = analog_table_markup(script, body, widget_notes)
 body = builder_markup(script, body, widget_notes)
 body = dig_markup(script, body, widget_notes)
+body = tabs_to_switch(body, widget_notes)
+body = seq_markup(script, body, widget_notes)
+body = hunt_markup(script, body, widget_notes)
+body = sort_markup(script, body, widget_notes)
+body = tree_markup(script, body, widget_notes)
+body = wiz_markup(script, body, widget_notes)
+body = accs_to_details(body, widget_notes)
 body = pcards_to_details(body, widget_notes)
 body = re.sub(r'<button[^>]*id="calcReset"[^>]*>.*?</button>', '<span data-calc-actions></span>', body, flags=re.S)
 body = copy_holder(body, widget_notes)
@@ -2175,6 +2873,44 @@ for line in SELF_REPORT:
 print("пропусков уровня заголовка поправлено:", len(fixed), ", ".join(fixed) if fixed else "")
 print("ссылок на каталог поставлено:", len(linked), ", ".join(linked) if linked else "")
 print("классов без нашей пары:", len(unknown), " ".join(sorted(unknown)) if unknown else "")
+
+# Сверка: её текст не должен пропадать. Каждый кусок текста из присланной разметки
+# прогоняется через те же замены, что и тело, и ищется в готовом теле. Не нашёлся —
+# значит, конвертер его выбросил. До 17.09.2026 так молча пропадали заголовок и
+# подсказка каждого тренажёра: коробка заменялась целиком, а сверки не было.
+def squash(text: str) -> str:
+    """Текст для сравнения: без тегов, с одним пробелом и без пробелов у знаков препинания.
+
+    Ссылка на каталог ставит тег посреди фразы, и на его месте после снятия тегов
+    остаётся пробел перед точкой с запятой — сравнивать надо без таких пробелов.
+    """
+    text = " ".join(re.sub(r"<[^>]+>", " ", html.unescape(text)).split())
+    text = re.sub(r"\s+([,.;:!?»)])", r"\1", text)
+
+    return re.sub(r"([«(])\s+", r"\1", text)
+
+
+kept_report = len(SELF_REPORT)
+final_text = squash(body)
+# Подписи кнопок и подсказки упражнений переезжают в атрибуты `data-*`: это не потеря.
+final_attrs = html.unescape(" ".join(re.findall(r'="([^"]*)"', body)))
+lost = []
+
+for piece in re.split(r"<[^>]+>", re.sub(r"<(script|style|svg)\b.*?</\1>", " ", source_body, flags=re.S)):
+    piece = " ".join(html.unescape(piece).split())
+
+    if len(piece) < 25:
+        continue
+
+    same = squash(to_vy(steps_and_odd(piece, []), [], set()))
+
+    if same not in final_text and same not in final_attrs:
+        lost.append(piece)
+
+del SELF_REPORT[kept_report:]
+print("её текст, не дошедший до тела:", len(lost))
+for piece in lost:
+    print("  ✕", piece[:150])
 
 if changes:
     print("\n--- обращение: что изменилось ---")

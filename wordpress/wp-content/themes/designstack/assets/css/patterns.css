@@ -4961,6 +4961,524 @@ button.ds-lesson__word:hover {
 	outline-offset: var(--wp--custom--border-width--focus);
 }
 
+/* ---------- урок «Сценарии и структура» ---------- */
+
+/* Схемы нарисованы SVG прямо в уроке. Линии и подписи берут цвет текста (`currentColor`),
+   заливки переведены конвертером на токены — поэтому схема живёт в обеих темах сама. */
+.ds-lesson figure {
+	margin: 0;
+}
+
+.ds-lesson figcaption {
+	margin-top: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson figcaption b {
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson svg {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+/* Широкая схема листается вбок внутри своей рамки, страница при этом не едет. */
+.ds-lesson__figure {
+	overflow-x: auto;
+}
+
+.ds-lesson__figure > svg {
+	min-width: 35rem;
+	max-width: none;
+	width: 100%;
+}
+
+.ds-lesson__figure:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Ряд кнопок переключателя, когда он стоит в теле коробки, а не в её шапке. */
+.ds-switch__bar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+}
+
+/* Легенда схемы: фигура и что она значит. */
+.ds-lesson__shapes {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__shape {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__shape svg {
+	flex: none;
+	width: 3.4rem;
+}
+
+.ds-lesson__shape b {
+	display: block;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__shape span {
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Счётчик в шапке упражнения: «найдено 2 из 5», «кликов: 3». */
+.ds-lesson__count {
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Поиск дыр: точки стоят поверх схемы по процентам, которые приходят из урока. */
+.ds-lesson__hunt {
+	position: relative;
+}
+
+.ds-lesson__hunt-pin {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.7em;
+	height: 1.7em;
+	padding: 0;
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--surface-raised);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	transform: translate(-50%, -50%);
+}
+
+button.ds-lesson__hunt-pin {
+	cursor: pointer;
+}
+
+button.ds-lesson__hunt-pin:hover {
+	background: var(--wp--preset--color--surface-action-primary-hover);
+}
+
+.ds-lesson__hunt-pin:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Найденная точка меняет заливку на рамку: состояние видно формой, а не только цветом. */
+.ds-lesson__hunt-pin.is-found {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__hunt-list {
+	margin: 0;
+	padding-left: var(--wp--preset--spacing--6);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__hunt-list li + li {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__hunt-q {
+	display: block;
+	font-weight: 600;
+}
+
+.ds-lesson__hunt-fix {
+	display: block;
+	margin-top: var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__hunt-fix b {
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__oklist li b {
+	font-weight: 600;
+}
+
+/* Сборка сценария: стопка шагов и цепочка, которая из них складывается. */
+.ds-lesson__seq-pool,
+.ds-lesson__sort-pool,
+.ds-lesson__cases {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__seq-card,
+.ds-lesson__sort-card {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 500;
+	text-align: left;
+	cursor: pointer;
+}
+
+.ds-lesson__seq-card:hover:not([disabled]),
+.ds-lesson__sort-card:hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__seq-card:focus-visible,
+.ds-lesson__sort-card:focus-visible,
+.ds-lesson__sort-name:focus-visible,
+.ds-lesson__sort-placed:focus-visible,
+.ds-lesson__tree-node:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Использованный шаг гаснет токенами, а не прозрачностью (правило раздела 10). */
+.ds-lesson__seq-card[disabled] {
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+	cursor: default;
+}
+
+.ds-lesson__seq-card.is-miss {
+	border-color: var(--wp--preset--color--border-error);
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__seq-chain {
+	margin: var(--wp--preset--spacing--4) 0 0;
+	padding-left: var(--wp--preset--spacing--6);
+}
+
+.ds-lesson__seq-chain li + li {
+	margin-top: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__seq-text {
+	font-weight: 500;
+}
+
+.ds-lesson__seq-text .ds-lesson__tag {
+	margin-left: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__seq-note {
+	display: block;
+	margin-top: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__seq-decoy {
+	margin: var(--wp--preset--spacing--3) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__seq-decoy b {
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Сортировка карточек: выбранная карточка залита, разделы ждут её пунктиром. */
+.ds-lesson__sort-card[aria-pressed="true"] {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-lesson__sort-groups {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	gap: var(--wp--preset--spacing--2);
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__sort-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	align-items: flex-start;
+	min-height: 6rem;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__sort-group.is-hot {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__sort-name {
+	padding: 0;
+	border: none;
+	background: none;
+	color: var(--wp--preset--color--text-default);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.ds-lesson__sort-name[disabled] {
+	cursor: default;
+}
+
+.ds-lesson__sort-placed {
+	width: 100%;
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: left;
+	cursor: pointer;
+}
+
+.ds-lesson__sort-placed:hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__sort-result {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__mini {
+	display: inline-block;
+	margin: 0 var(--wp--preset--spacing--1) var(--wp--preset--spacing--1) 0;
+	padding: 0 var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	white-space: nowrap;
+}
+
+.ds-lesson__mini.is-top {
+	background: var(--wp--preset--color--surface-selected);
+	font-weight: 600;
+}
+
+.ds-lesson__flag {
+	display: inline-block;
+	padding: 0 var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--bg-warning);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+/* Проверка дерева: задача, хлебная крошка и список названий — больше ничего. */
+.ds-lesson__tree-task {
+	margin: 0;
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__tree-crumb {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__tree-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__tree-node {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	justify-content: space-between;
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 500;
+	text-align: left;
+	cursor: pointer;
+}
+
+.ds-lesson__tree-node:hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__tree-source {
+	margin: 0;
+	padding-left: var(--wp--preset--spacing--6);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__tree-source ul {
+	margin: var(--wp--preset--spacing--1) 0 var(--wp--preset--spacing--2);
+	padding-left: var(--wp--preset--spacing--6);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__path {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__metrics {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+	gap: var(--wp--preset--spacing--2);
+	margin: var(--wp--preset--spacing--3) 0;
+}
+
+.ds-lesson__metric {
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__metric .ds-lesson__big {
+	font-size: var(--wp--preset--font-size--2-xl);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: var(--wp--custom--line-height--tight);
+}
+
+.ds-lesson__metric .ds-lesson__tier-label {
+	margin: var(--wp--preset--spacing--1) 0 0;
+}
+
+/* Стресс-тест: вопросы правила по шагам и вердикт. */
+.ds-lesson__wiz {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__wiz-q {
+	margin: 0 0 var(--wp--preset--spacing--2);
+	font-weight: 600;
+}
+
+.ds-lesson__wiz-fb {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__wiz-fb b {
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__wiz-verdict {
+	padding-top: var(--wp--preset--spacing--2);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__wiz-case > summary {
+	font-weight: 600;
+}
+
+.ds-lesson__wiz-case > ol,
+.ds-lesson__wiz-case > .ds-lesson__wiz-verdict {
+	margin: 0 var(--wp--preset--spacing--6) var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__wiz-case > ol {
+	padding-left: var(--wp--preset--spacing--6);
+}
+
+.ds-lesson__wiz-case li + li {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+/* Свод правил структуры: номер правила — в своей плашке слева. */
+.ds-lesson__rules {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: 0;
+	list-style: none;
+	counter-reset: ds-rule;
+}
+
+.ds-lesson__rules > li {
+	position: relative;
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4) var(--wp--preset--spacing--3) 3.25rem;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	counter-increment: ds-rule;
+}
+
+.ds-lesson__rules > li::before {
+	content: counter(ds-rule);
+	position: absolute;
+	top: var(--wp--preset--spacing--3);
+	left: var(--wp--preset--spacing--3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.7em;
+	height: 1.7em;
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-default);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+}
+
+.ds-lesson__rules ul {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* Кнопки под полем упражнения не липнут к нему. */
+.ds-lesson__sort-groups + .ds-lesson__acts,
+.ds-lesson__tree-list + .ds-lesson__acts {
+	margin-top: var(--wp--preset--spacing--4);
+}
+
 /* ---------- ритм урока ---------- */
 
 /* Разметка урока приходит из конвертера: внутри `.ds-lesson` одна обёртка без класса,

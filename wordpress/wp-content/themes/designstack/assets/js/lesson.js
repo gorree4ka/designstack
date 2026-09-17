@@ -358,6 +358,14 @@
 			}
 		} );
 
+		// «Вопрос 1 из 10» и счёт над списком без скрипта были бы неправдой: в разметке они
+		// скрыты, показывает их пошаговый режим.
+		var meta = root.querySelector( '[data-quiz-meta]' );
+
+		if ( meta ) {
+			meta.hidden = false;
+		}
+
 		root.classList.add( 'is-stepped' );
 		show();
 	} );
