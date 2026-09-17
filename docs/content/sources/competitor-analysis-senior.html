@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Разбор аналогов: принципы, по которым можно решать</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 76px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .pr { display: block; background: var(--chip); border-radius: 8px; padding: 9px 12px; font-size: 14.5px; color: var(--accent-deep); margin-bottom: 10px; }
+  .drill .stem .pr b { color: var(--accent-deep); }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 175px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* principle cards */
+  .pcards { display: flex; flex-direction: column; gap: 12px; }
+  .pcard { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .pcard > button { width: 100%; text-align: left; background: none; border: none; padding: 15px 18px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .pcard > button:hover { background: var(--demo-bg); }
+  .pcard .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .pcard .ttl { flex: 1; font-size: 17px; font-weight: 600; letter-spacing: -.005em; }
+  .pcard .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; }
+  .pcard .tag.ok { background: var(--good-soft); color: var(--good); }
+  .pcard .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .pcard .body { display: none; padding: 0 18px 16px; }
+  .pcard.open .body { display: block; }
+  .pcard .row { display: grid; grid-template-columns: 124px 1fr; gap: 14px; padding: 8px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .pcard .row:first-child { border-top: none; padding-top: 2px; }
+  .pcard .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .pcard .row .v { color: var(--ink-2); }
+  .pcard .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .pcard .row { grid-template-columns: 1fr; gap: 2px; } }
+  .yn { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  @media (max-width: 560px) { .yn { grid-template-columns: 1fr; } }
+  .yn > div { border-radius: 9px; padding: 10px 12px; font-size: 14px; }
+  .yn .y { background: var(--good-soft); color: var(--ink); }
+  .yn .n { background: var(--bad-soft); color: var(--ink); }
+  .yn .lab { display: block; font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+  .yn .y .lab { color: var(--good); }
+  .yn .n .lab { color: var(--bad); }
+  .pcard .hintline { font-size: 13px; color: var(--muted); padding: 0 18px 14px; }
+  .pcard.open .hintline { display: none; }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Разбор аналогов · Senior · принципы, по которым можно решать</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · разбор аналогов</p>
+  <div class="levels" aria-label="Уровень темы: Senior, третий из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv done">Middle</span>
+    <span class="lv on">Senior</span>
+  </div>
+  <h1>Как превратить разбор аналогов в принципы, по которым команда сможет решать</h1>
+  <p class="lede">Разбор сделан, выводы понятны — кажется, осталось записать пару правил и пользоваться ими дальше. Но часто правила выходят такими широкими, что под них подходит любое решение: «делаем понятно», «уважаем время пользователя». Спор таким правилом не закрыть, и команда снова решает по привычке или по авторитету. Здесь разберёмся, как доводить разбор до принципа, по которому может принять решение другой человек, как отличать «так делают все» от «так работает» и как пересматривать принципы, когда меняется рынок.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#derive">Доводить разбор до принципа</a> — что повторяется и где проходит граница</li>
+    <li><a href="#write">Записывать принцип</a> так, чтобы по нему решал другой человек<span class="drillmark">карточки</span></li>
+    <li><a href="#test">Проверять, закроет ли принцип спор</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#works">Отличать «так делают все» от «так работает»</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#leader">Не превращать разбор в копирование лидера</a></li>
+    <li><a href="#review">Пересматривать принципы</a>, когда рынок изменился</li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Продолжаем ту же линию: разбор аналогов по задаче <b>«человек сам отменяет заказ»</b>, из которого на прошлом уровне вырос отказ от диалога подтверждения. Здесь этот отказ и ещё две находки превращаются в три принципа продукта: с причиной, примерами «так» и «не так» и условием, при котором принцип стоит пересмотреть.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется на этом уровне</h2></div>
+  <p class="sec-sub">Разбор перестаёт быть подготовкой к одному макету и становится общей опорой для решений.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Middle</th><th>Senior</th></tr></thead>
+      <tbody>
+        <tr><td><b>Кто делает разбор</b></td><td>вы, для своей задачи</td><td>команда вместе, для продукта</td></tr>
+        <tr><td><b>Результат</b></td><td>решение по одному приёму</td><td>принципы, по которым принимаются будущие решения</td></tr>
+        <tr><td><b>Срок жизни</b></td><td>до следующего макета</td><td>до следующего изменения рынка</td></tr>
+        <tr><td><b>Кто применяет</b></td><td>вы</td><td>любой в команде, включая тех, кто не был на разборе</td></tr>
+        <tr><td><b>Как закрываются споры</b></td><td>вашим аргументом</td><td>ссылкой на принцип</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>разбор отдельным файлом</td><td>красивые лозунги, на которые никто не ссылается в работе</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Две ловушки уровня</h3>
+  <ul>
+    <li><strong>Лозунги вместо принципов.</strong> «Делаем просто», «уважаем время пользователя», «пользователь в центре». Спорить с этим трудно, но и решить по этому тоже нельзя: под «делаем просто» подходит и диалог подтверждения, и его отсутствие. Признак: за месяц на принцип ни разу не сослались в споре.</li>
+    <li><strong>Принципы как личная власть.</strong> Вы написали их сами, сами объясняете и сами решаете, где они применимы. Формально принципы есть, а на деле это всё тот же ответ «как решил старший», только в письменном виде. Признак: без вас принцип никто не берётся применить.</li>
+  </ul>
+
+  <div class="rule"><b>Практичная проверка: вспомните последний спор, который закрылся ссылкой на принцип, а не авторитетом.</b> Если такого спора не было, принцип пока живёт только в документе, даже если текст разумный. Смысл не в том, чтобы зафиксировать чью-то правоту, а в том, чтобы команда могла принимать похожие решения без вас.</div>
+</section>
+
+<section id="derive">
+  <div class="sec-head"><h2><span class="h2-num">2</span>От разбора к принципу</h2></div>
+  <p class="sec-sub">Первый навык. Не каждая находка тянет на принцип — и это нормально.</p>
+
+  <p>Принцип — это <strong>повторяющееся решение, которое команда принимает одинаково в разных местах продукта</strong>. Если находка касается одного экрана, это просто решение. Если из неё следует, как поступать и в отмене заказа, и в удалении адреса, и в отписке от рассылки, — вот это принцип.</p>
+
+  <h3>Три вопроса, которые превращают находку в принцип</h3>
+  <ol>
+    <li><strong>Повторится ли эта ситуация в других местах продукта?</strong> Отмена заказа, удаление адреса, отмена подписки, удаление файла — одна и та же ситуация: обратимое действие, которое страшно сделать случайно. Значит, тянет на принцип.</li>
+    <li><strong>Какое общее правило стоит за конкретным решением?</strong> Мы отказались от диалога не потому, что диалоги плохие, а потому что действие у нас обратимо. Правило: там, где можно откатить, — откатываем вместо подтверждения.</li>
+    <li><strong>Есть ли противоположный случай?</strong> Если у принципа вообще нет границ, он легко превращается в лозунг. Здесь исключение есть: удаление аккаунта откатить нельзя, значит, там подтверждение остаётся. Наличие границы и делает принцип применимым.</li>
+  </ol>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Находка из разбора</th><th>Тянет на принцип?</th></tr></thead>
+      <tbody>
+        <tr><td>Отменяем сразу и даём откат вместо диалога подтверждения</td><td><b>Да.</b> Обратимых действий в продукте много, правило применимо ко всем</td></tr>
+        <tr><td>У троих срок отмены написан текстом под кнопкой</td><td><b>Да.</b> Условия и ограничения есть у многих действий — правило переносится</td></tr>
+        <tr><td>Отменяют один заказ из двадцати, поэтому не тормозим всех</td><td><b>Да.</b> Это про соотношение частого и редкого — встречается постоянно</td></tr>
+        <tr><td>У двоих кнопка отмены красная, у троих серая</td><td><b>Нет.</b> Это решение про один элемент, а не правило. Идёт в дизайн-систему, не в принципы</td></tr>
+        <tr><td>У одного аналога отмена работает только в приложении</td><td><b>Нет.</b> Это их особенность, из неё ничего общего не выводится</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Три принципа — удобное рабочее число.</b> Один редко покрывает продукт, десять трудно удержать в голове. Три можно назвать на встрече без поиска в документе. Если находок больше, часть из них лучше оформить как решения в дизайн-системе, а не как принципы продукта.</div>
+</section>
+
+<section id="write">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Как записать принцип, чтобы им пользовались</h2></div>
+  <p class="sec-sub">Второй навык. У рабочего принципа пять частей, и примеры «так / не так» делают его применимым.</p>
+
+  <p>Принцип пишется не для вас, а для человека, который не был на разборе и через полгода откроет документ, чтобы решить спор. Ему нужны: <strong>формулировка</strong>, <strong>причина</strong> (откуда это взялось), <strong>примеры «так» и «не так»</strong>, <strong>граница</strong> (когда принцип не применяется) и <strong>условие пересмотра</strong>.</p>
+
+  <p>Раскрой карточки ниже — первые три выведены из нашего разбора, четвёртая показывает, как выглядит то же самое, но в виде лозунга.</p>
+
+  <div class="box">
+    <div class="box-head">Три принципа продукта · нажми на карточку<span class="spacer"></span><button class="btn" data-copy="#pcards" type="button">Скопировать</button></div>
+    <div class="box-body">
+      <div class="pcards" id="pcards">
+
+        <div class="pcard" data-p>
+          <button type="button"><span class="idx">01</span><span class="ttl">Обратимость вместо подтверждения</span><span class="tag ok">Принцип</span></button>
+          <p class="hintline">Там, где действие можно откатить, мы даём откат, а не спрашиваем подтверждение.</p>
+          <div class="body">
+            <div class="row"><span class="k">Формулировка</span><span class="v">Там, где действие можно откатить, <b>мы даём откат, а не спрашиваем подтверждение</b>. Диалог «вы уверены?» — только для необратимого.</span></div>
+            <div class="row"><span class="k">Причина</span><span class="v">Разбор пяти аналогов, сентябрь 2026: диалог есть у всех, но у них отмена необратима — заказ уходит со склада. У нас логистика восстанавливает заказ в один клик за сутки. Ограничения, ради которого существует диалог, у нас нет.</span></div>
+            <div class="row"><span class="k">На практике</span><span class="v">
+              <div class="yn">
+                <div class="y"><span class="lab">Так</span>Отмена срабатывает сразу, появляется полоска «Вернуть» на 10 секунд, в списке сутки висит «Восстановить».</div>
+                <div class="n"><span class="lab">Не так</span>Модальное окно «Отменить заказ? Это действие нельзя отменить» перед каждой отменой.</div>
+              </div>
+            </span></div>
+            <div class="row"><span class="k">Граница</span><span class="v">Не применяется к действительно необратимому: удаление аккаунта, отправка денег внешнему получателю, публикация отзыва. Там подтверждение остаётся — и чем серьёзнее, тем больше трения.</span></div>
+            <div class="row"><span class="k">Пересмотр</span><span class="v">Если логистика перестанет восстанавливать заказы — принцип теряет основание и обсуждается заново.</span></div>
+          </div>
+        </div>
+
+        <div class="pcard" data-p>
+          <button type="button"><span class="idx">02</span><span class="ttl">Условие — рядом с действием</span><span class="tag ok">Принцип</span></button>
+          <p class="hintline">Сроки, ограничения и последствия пишем у кнопки, а не в справке.</p>
+          <div class="body">
+            <div class="row"><span class="k">Формулировка</span><span class="v">Срок, ограничение или последствие действия <b>написаны рядом с самим действием</b>, до того как человек его совершил. Не в справке, не в условиях, не после нажатия.</span></div>
+            <div class="row"><span class="k">Причина</span><span class="v">В разборе трое из пяти показывают срок отмены текстом под кнопкой. В наших тестах двое из пяти участников вслух сформулировали «наверное, тут вообще нельзя отменить» и перестали искать — то есть отсутствие условия читается как отсутствие возможности.</span></div>
+            <div class="row"><span class="k">На практике</span><span class="v">
+              <div class="yn">
+                <div class="y"><span class="lab">Так</span>Под кнопкой отмены: «Отмена возможна, пока заказ не передан курьеру». Видно до нажатия.</div>
+                <div class="n"><span class="lab">Не так</span>Человек нажимает «Отменить» и получает «Отмена недоступна на этом этапе». Условие показано после действия.</div>
+              </div>
+            </span></div>
+            <div class="row"><span class="k">Граница</span><span class="v">Не превращаем в стену текста: одно условие, одной строкой. Если условий больше двух, это признак того, что сам сценарий слишком сложный, и чинить надо его.</span></div>
+            <div class="row"><span class="k">Пересмотр</span><span class="v">Если появится юридическое требование показывать полные условия — формулировка уточняется, но принцип «до, а не после» остаётся.</span></div>
+          </div>
+        </div>
+
+        <div class="pcard" data-p>
+          <button type="button"><span class="idx">03</span><span class="ttl">Не тормозим большинство ради редкого случая</span><span class="tag ok">Принцип</span></button>
+          <p class="hintline">Защиту включаем адресно, а не ставим барьер на пути у всех.</p>
+          <div class="body">
+            <div class="row"><span class="k">Формулировка</span><span class="v">Если ошибка случается редко, а защита от неё стоит шага <b>всем</b>, — защита делается адресной: включается после ошибки или доступна тем, кому нужна. Барьер на общем пути не ставим.</span></div>
+            <div class="row"><span class="k">Причина</span><span class="v">По аналитике за квартал отменяют примерно один заказ из двадцати, а диалог подтверждения видели бы все сто процентов. Мы платим шагом за девятнадцать, чтобы защитить одного, — и то от ошибки, которая обратима.</span></div>
+            <div class="row"><span class="k">На практике</span><span class="v">
+              <div class="yn">
+                <div class="y"><span class="lab">Так</span>Действие проходит сразу; возможность исправить появляется после него и живёт ограниченное время.</div>
+                <div class="n"><span class="lab">Не так</span>Обязательный шаг подтверждения для всех, потому что «кто-нибудь может ошибиться».</div>
+              </div>
+            </span></div>
+            <div class="row"><span class="k">Граница</span><span class="v">Не применяется, когда цена редкой ошибки катастрофична: потеря денег без возврата, утечка данных, необратимое удаление. Там частота не важна.</span></div>
+            <div class="row"><span class="k">Пересмотр</span><span class="v">Если доля отмен вырастет заметно — соотношение меняется, и принцип пересчитывается по новым числам.</span></div>
+          </div>
+        </div>
+
+        <div class="pcard" data-p>
+          <button type="button"><span class="idx">✕</span><span class="ttl">Заботимся о пользователе и уважаем его время</span><span class="tag no">Лозунг</span></button>
+          <p class="hintline">Выглядит как принцип, но решить по нему ничего нельзя. Нажми, чтобы разобрать почему.</p>
+          <div class="body">
+            <div class="row"><span class="k">Почему не работает</span><span class="v"><b>Под него подходит любое решение.</b> Диалог подтверждения — забота о пользователе, он защищает от ошибки. Отсутствие диалога — тоже забота, оно экономит время. Спор «ставим диалог или нет» такой принцип не закрывает, потому что обе стороны на него сошлются.</span></div>
+            <div class="row"><span class="k">Нет причины</span><span class="v">Не сказано, откуда это взялось. Значит, невозможно проверить, устарело ли, и невозможно оспорить по существу.</span></div>
+            <div class="row"><span class="k">Нет «не так»</span><span class="v">Самый надёжный признак лозунга: нельзя привести пример того, что принцип запрещает. Если запрещённого нет, принцип ничего не ограничивает.</span></div>
+            <div class="row"><span class="k">Нет границы</span><span class="v">Применим везде и всегда — а значит, нигде конкретно.</span></div>
+            <div class="row"><span class="k">Как починить</span><span class="v">Спросить: «в каком споре этот принцип встанет на одну сторону?» Ответ и будет настоящим принципом. Здесь, например: «мы экономим шаги там, где ошибка обратима».</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="box-foot">Обрати внимание на строку «не так» в первых трёх карточках: она показывает, что принцип ограничивает. Если принцип ничего не запрещает, в споре под него легко подвести и решение, и его противоположность.</div>
+  </div>
+
+  <div class="rule"><b>Самая полезная строка — «граница».</b> Принцип без исключений выглядит сильнее, но применять его труднее: как только встречается случай, где он явно не подходит, доверие падает ко всему списку. Названная граница показывает, где принцип помогает, а где нужно другое правило.</div>
+</section>
+
+<section id="test">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Проверка: закроет ли принцип спор</h2></div>
+  <p class="sec-sub">Надёжная проверка принципа — попробовать решить им настоящий спор.</p>
+
+  <p>Текст принципа можно полировать бесконечно, но сам по себе он ещё не доказывает, что принцип работает. Проверяется он только применением: берёте реальную развилку и смотрите, <strong>встаёт ли принцип на одну из сторон</strong>. Если встаёт — принцип помогает. Если под него подходят оба варианта — это лозунг, каким бы аккуратным ни был текст.</p>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · что говорит принцип в этом споре<span class="spacer"></span><span class="sc num">0 / 8</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Обрати внимание на случаи «принцип не решает»: это не всегда провал. Иногда спор просто не про этот принцип — и тогда честно сказать «здесь он не помогает» полезнее, чем натягивать.</div>
+  </div>
+
+  <h3>Как принцип используют в разговоре</h3>
+  <ul>
+    <li><strong>Сначала ссылка, потом объяснение.</strong> «У нас принцип: там, где можно откатить, — откатываем. Он отсюда-то и вот почему». Если начать с объяснения, разговор снова станет спором двух мнений.</li>
+    <li><strong>Спорить с принципом можно и нужно.</strong> Правильный ответ на «я не согласен с принципом» — не защита, а «давай проверим его основание». Если основание изменилось, принцип пересматривается; если нет — решение принято.</li>
+    <li><strong>Границу называйте сами.</strong> Когда вы первым говорите «здесь принцип не применяется, потому что действие необратимо», доверие к нему растёт. Принцип, который натягивают на всё, перестают уважать.</li>
+    <li><strong>Источник принципа — разбор, а не вы.</strong> Ссылайтесь на документ и на данные, а не на себя. Иначе «ссылка на принцип» снова превращается в «мнение старшего», только с лишним шагом.</li>
+  </ul>
+</section>
+
+<section id="works">
+  <div class="sec-head"><h2><span class="h2-num">5</span>«Так делают все» против «так работает»</h2></div>
+  <p class="sec-sub">Четвёртый навык. Разговор, который повторяется с продуктом и заказчиком примерно каждую неделю.</p>
+
+  <p>«У конкурентов же так» — частый аргумент в пользу решения, но сам по себе слабый. Он говорит только о том, что <strong>решение существует</strong>, — а не о том, что оно работает. Разница между этими двумя вещами и есть то, что вы приносите в разговор.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Что услышали</th><th>Что это на самом деле</th><th>Что ответить</th></tr></thead>
+      <tbody>
+        <tr><td>«У всех конкурентов так»</td><td>Наблюдение о рынке</td><td>«Да, есть у всех. Давай посмотрим, из-за чего: у них отмена необратима, у нас — нет»</td></tr>
+        <tr><td>«Так делает лидер рынка»</td><td>Ссылка на авторитет</td><td>«У них другая экономика и другая аудитория. Какая наша причина сделать так же?»</td></tr>
+        <tr><td>«Это стандарт индустрии»</td><td>Чаще всего просто привычка</td><td>«Проверим: если сделать иначе, человек растеряется или просто заметит разницу?»</td></tr>
+        <tr><td>«Мы тестировали, конверсия выросла»</td><td><b>Это «так работает»</b></td><td>Принять и разобраться в условиях. Это данные, а не наблюдение о рынке, и они сильнее любого разбора аналогов</td></tr>
+        <tr><td>«В аналитике видно, что тут отваливаются»</td><td><b>Это «так работает»</b></td><td>Принять и разбираться в причине</td></tr>
+        <tr><td>«Мне так кажется удобнее»</td><td>Мнение</td><td>«Проверим на пяти людях — это два дня»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Формула, которая переводит разговор из спора в работу:</b> «То, что решение есть у всех, говорит о том, что оно существует. Работает ли оно — мы не знаем: у нас нет их метрик. Давай выясним, какая у них причина, и проверим, есть ли она у нас». После этой фразы обсуждение легче вернуть из спора о правоте в разговор о том, что проверить.</div>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · это «так делают все» или «так работает»<span class="spacer"></span><span class="sc num">0 / 7</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">«Так работает» стоит принимать честно и быстро, даже когда это ломает ваш вывод. Иначе разговор превращается в защиту разбора, и в следующий раз данные могут принести уже без вас.</div>
+  </div>
+</section>
+
+<section id="leader">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Почему копировать лидера — ловушка</h2></div>
+  <p class="sec-sub">Пятый навык. Самая уважаемая и самая опасная форма копирования.</p>
+
+  <p>Копировать лидера рынка кажется безопасным: у них большая команда, много данных, они наверняка всё проверили. Иногда так и есть. Но решение лидера часто держится на условиях, которых у вас нет.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Почему у лидера работает</th><th>Почему у вас не сработает</th></tr></thead>
+      <tbody>
+        <tr><td><b>У них узнаваемость.</b> Люди приходят, уже зная, чего хотят</td><td>Вам ещё надо объяснить, что вы вообще делаете — тот же лаконичный экран оставит человека в растерянности</td></tr>
+        <tr><td><b>У них масштаб.</b> Решение окупается на миллионах</td><td>Сложная механика, окупающаяся на миллионе людей, не окупится на десяти тысячах</td></tr>
+        <tr><td><b>У них привычка.</b> Их пользователи научились за годы</td><td>Ваши приходят с чистого листа — и им нужно объяснение, от которого лидер давно избавился</td></tr>
+        <tr><td><b>У них наследство.</b> Решение осталось от старой версии</td><td>Вы копируете компромисс, которого у вас нет. Это самый обидный случай</td></tr>
+        <tr><td><b>У них другая экономика.</b> Могут позволить себе терять часть людей</td><td>Для вас та же потеря может быть критичной</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Отдельный случай — когда лидер ошибается, а рынок повторяет.</b> Так тоже бывает: решение попадает в продукт лидера по внутренним причинам, остальные копируют его как эталон, и через пару лет это уже «стандарт индустрии», который никто не проверял. В таких местах часто есть шанс сделать лучше — поэтому на прошлом уровне мы так долго раскапывали причину, а не просто считали совпадения.</div>
+
+  <p>Практический приём: <strong>в разборе не выделяйте лидера отдельно</strong>. Пусть он будет одной из пяти строк таблицы, без пометки «эталон». Как только продукт помечен эталоном, команда начинает мерить по нему остальных, и разбор легко превращается в обоснование копирования.</p>
+</section>
+
+<section id="review">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Пересмотр: принципы стареют</h2></div>
+  <p class="sec-sub">Третий навык. Принцип, который нельзя пересмотреть, со временем начинает мешать.</p>
+
+  <p>Принцип выведен из состояния рынка и из ваших ограничений на конкретную дату. И то и другое меняется. Если основание исчезло, а на принцип продолжают ссылаться, он превращается в догму: текст остался, а причины уже нет.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Повод пересмотреть</th><th>Что проверить</th></tr></thead>
+      <tbody>
+        <tr><td>Изменилось ваше ограничение</td><td>Логистика перестала восстанавливать заказы — первый принцип теряет основание</td></tr>
+        <tr><td>Изменились числа</td><td>Доля отмен выросла с одной двадцатой до одной пятой — соотношение в третьем принципе другое</td></tr>
+        <tr><td>Рынок ушёл вперёд</td><td>Появился новый способ решать ту же задачу, которого не было в разборе</td></tr>
+        <tr><td>Принцип начали обходить</td><td>Если команда регулярно делает исключения — либо граница описана неверно, либо принцип устарел</td></tr>
+        <tr><td>Прошло полгода</td><td>Плановая проверка: перечитать, свериться с рынком, подтвердить или переписать</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Как пересматривать вслух</h3>
+  <ul>
+    <li><strong>Раз в полгода, на общей встрече, по списку.</strong> Двадцать минут на три принципа: основание ещё в силе? числа те же? рынок изменился?</li>
+    <li><strong>Решение фиксируется письменно</strong> рядом с принципом: «проверено в марте, основание в силе» или «переписан, причина такая-то».</li>
+    <li><strong>Историю не стирайте.</strong> Оставляйте прежнюю формулировку зачёркнутой с датой: через год кто-нибудь спросит, почему поменяли, и ответ должен быть в документе.</li>
+    <li><strong>Отменить принцип — нормально.</strong> Принцип, у которого исчезло основание, надо убрать, а не подпирать новыми объяснениями.</li>
+    <li><strong>Пересматривайте при всех.</strong> Принцип, изменённый вами в одиночку, снова становится вашим личным мнением — и команда перестанет на него ссылаться.</li>
+  </ul>
+
+  <div class="rule"><b>Хороший признак: за год хотя бы один принцип проверили и уточнили.</b> Если за год не поменялось ничего, стоит посмотреть, почему так: принципы могут быть слишком общими, команда может ими не пользоваться, а может рынок правда не дал повода для пересмотра. Важно не изменение ради изменения, а регулярная проверка основания.</div>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Провести разбор с командой и вынести из него три принципа.</p>
+
+  <h3>Часть 1 · Разбор с командой</h3>
+  <ol>
+    <li><strong>Позовите тех, кто будет принимать решения</strong> (продукт, разработка, поддержка), а не только дизайнеров. Разбор, сделанный в одиночку, потом придётся объяснять и защищать; разбор, сделанный вместе, проще принять.</li>
+    <li><strong>Подготовьте материал заранее</strong> — таблицу и экраны. На встрече лучше разбирать, а не собирать: сбор в группе съедает время, а закономерности всё равно видны хуже.</li>
+    <li><strong>Полтора часа, по критериям.</strong> Идите по колонкам, а не по продуктам: так видны закономерности, а не отдельные красивости.</li>
+    <li><strong>Фиксируйте развилки вслух:</strong> «у троих так, у двоих иначе — из-за чего?» Именно в этих местах и рождаются принципы.</li>
+  </ol>
+
+  <h3>Часть 2 · Три принципа</h3>
+  <ol>
+    <li><strong>Отберите находки, которые повторяются</strong> в разных местах продукта, по трём вопросам из раздела 2.</li>
+    <li><strong>Запишите каждый по пяти частям</strong> из раздела 3: формулировка, причина, «так» и «не так», граница, условие пересмотра.</li>
+    <li><strong>Проверьте применением.</strong> Возьмите три настоящих спора из последнего месяца и посмотрите, встаёт ли принцип на одну из сторон. Не встаёт — переписывайте.</li>
+    <li><strong>Дайте прочитать тому, кто не был на разборе,</strong> и попросите решить по принципу один из этих споров. Не смог — принцип написан для вас, а не для команды.</li>
+    <li><strong>Положите туда, где принимаются решения:</strong> в вики продукта, рядом с макетами, в описание задач. Не в папку дизайна.</li>
+  </ol>
+  <p class="dim">Ориентир: полтора часа встречи плюс 4–5 часов на подготовку и запись принципов.</p>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Разбор</strong> с критериями и датой — как на предыдущих уровнях.</li>
+    <li><strong>Три принципа</strong>, каждый по пяти частям, с примерами «так» и «не так».</li>
+    <li><strong>Проверка применением:</strong> три реальных спора и что говорит по ним каждый принцип.</li>
+    <li><strong>Где лежат</strong> и когда следующая плановая проверка.</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Дождитесь ближайшего спорного решения. Если кто-то не из авторов разбора ссылается на принцип и по нему удаётся выбрать сторону, принципы начали работать. Если последнее слово снова осталось за самым старшим в комнате, значит, принципам ещё не хватает конкретики: чаще всего строки «не так» или границы применения.</div>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>Команда не приходит на разбор.</strong> Сократите до часа и принесите готовый материал — приходят на встречу, где надо думать, а не собирать данные.</li>
+    <li><strong>Получились правила дизайн-системы, а не принципы.</strong> «Кнопки скруглённые» — это решение, а не принцип. Принцип отвечает на вопрос «как выбирать», а не «как выглядит».</li>
+    <li><strong>Все три принципа про одно и то же.</strong> Обычно значит, что разбор был по одному узкому сценарию. Это нормально для первого раза — так и запишите: принципы для сценариев отмены и удаления.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Принцип написан правильно, если</h3>
+  <ul>
+    <li>Из него следует, что делать в конкретной развилке</li>
+    <li>Есть причина с датой и источником — откуда он взялся</li>
+    <li>Есть пример «не так» — то, что принцип запрещает</li>
+    <li>Названа граница: где он не применяется</li>
+    <li>Названо условие пересмотра</li>
+    <li>Человек, не бывший на разборе, может по нему решить спор</li>
+    <li>Принципов три, и их можно назвать по памяти</li>
+    <li>Они лежат там, где команда принимает решения</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Лозунг вместо принципа.</b> «Заботимся о пользователе» — под это подходит и решение, и его противоположность.</li>
+    <li><b>Нет строки «не так».</b> Принцип, который ничего не запрещает, не может закрыть ни один спор.</li>
+    <li><b>Нет границы.</b> Первый же случай, где принцип явно не работает, обнуляет доверие ко всему списку.</li>
+    <li><b>Принцип без причины.</b> Невозможно проверить, устарел ли он, и невозможно оспорить по существу.</li>
+    <li><b>Десять принципов.</b> Их не помнят, значит, в споре не используют.</li>
+    <li><b>Принципы написаны в одиночку.</b> Формально общие, фактически ваши личные — команда это чувствует и не ссылается.</li>
+    <li><b>Вы единственный толкователь.</b> Применить принцип без вас никто не берётся — это тот же «как решил старший», только в длинной форме.</li>
+    <li><b>Принципы не пересматриваются.</b> Основание исчезло, а ссылаться продолжают — принцип превратился в догму.</li>
+    <li><b>Лидер помечен эталоном.</b> Разбор превращается в обоснование копирования.</li>
+    <li><b>«Так делают все» принято как «так работает».</b> Существование решения выдано за доказательство его пользы.</li>
+    <li><b>Данные отвергнуты ради разбора.</b> Обратная ошибка: вам принесли цифры, ломающие ваш вывод, а вы защищаете разбор.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы целиком</h2></div>
+  <p class="sec-sub">Тема закрыта. Ниже — вся лестница одним взглядом.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Отобрать продукты, решающие ту же задачу; заполнить таблицу по готовым колонкам; снять и подписать экраны; поставить дату; не переносить приём только потому, что он у всех</td>
+          <td class="dim">По таблице за минуту видно, как эту задачу решают другие</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Middle</b></td>
+          <td class="dim">Выводить критерии из задачи; раскапывать причину за чужим приёмом; формулировать отказ вместе с заменой; доводить разбор до правки в макете</td>
+          <td class="dim">Есть приём, от которого осознанно отказались, и причина написана так, что её можно оспорить</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Проводить разбор с командой; доводить его до принципов, по которым решает другой человек; отличать «так делают все» от «так работает»; не копировать лидера; пересматривать принципы вслух, когда рынок изменился</td>
+          <td>Спор в команде закрыт ссылкой на принцип, а не мнением старшего</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Разбор аналогов», уровень Senior. Сквозной пример — три принципа, выросшие из разбора сценария отмены заказа. Карточки принципов из раздела 3 копируются кнопкой как заготовка. Что почитать дальше: Алан Купер, «Об интерфейсе» — про обратимые и необратимые действия; материалы Nielsen Norman Group про принципы дизайна в продуктовых командах; открытые наборы принципов известных продуктов — полезно смотреть не на формулировки, а на то, есть ли в них примеры «не так».
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  var P1 = '<span class="pr"><b>Принцип 1:</b> там, где действие можно откатить, мы даём откат, а не спрашиваем подтверждение.</span>';
+  var P2 = '<span class="pr"><b>Принцип 2:</b> срок, ограничение или последствие написаны рядом с действием, до того как человек его совершил.</span>';
+  var P3 = '<span class="pr"><b>Принцип 3:</b> если ошибка редкая, а защита стоит шага всем — защита делается адресной.</span>';
+  var PX = '<span class="pr"><b>Принцип:</b> мы заботимся о пользователе и уважаем его время.</span>';
+
+  makeDrill('#d1',
+    [{ key: 'a', label: 'За первый вариант' }, { key: 'b', label: 'За второй вариант' }, { key: 'no', label: 'Принцип не решает' }],
+    [
+      { t: P1 + '<b>Спор:</b> удалять адрес доставки сразу или спрашивать подтверждение?<span class="sub">Адрес восстанавливается из истории заказов.</span>', a: 'a',
+        fb: 'Действие обратимо — значит, удаляем сразу и даём откат. Принцип встал на одну сторону, спор закрыт.' },
+      { t: P1 + '<b>Спор:</b> удалять аккаунт сразу или через подтверждение с вводом почты?<span class="sub">Восстановить аккаунт после удаления нельзя.</span>', a: 'b',
+        fb: 'Это ровно та граница, которая записана в принципе: необратимое действие — подтверждение остаётся, и чем серьёзнее, тем больше трения. Принцип работает и в эту сторону.' },
+      { t: PX + '<b>Спор:</b> ставить диалог подтверждения перед отменой заказа или нет?', a: 'no',
+        fb: 'Обе стороны сошлются на этот принцип: диалог защищает от ошибки — забота; отсутствие диалога экономит время — тоже забота. Лозунг не решает ничего.' },
+      { t: P2 + '<b>Спор:</b> писать срок возврата товара на странице заказа или в разделе «Помощь»?', a: 'a',
+        fb: 'Условие — рядом с действием, до того как человек его совершил. Справка не подходит по определению принципа.' },
+      { t: P3 + '<b>Спор:</b> добавлять ли подтверждение перед отправкой перевода стороннему человеку?<span class="sub">Вернуть деньги после отправки нельзя.</span>', a: 'b',
+        fb: 'Сработала граница третьего принципа: когда цена редкой ошибки катастрофична, частота не важна. Подтверждение ставим.' },
+      { t: P2 + '<b>Спор:</b> какой иконкой обозначить отмену — крестиком или корзиной?', a: 'no',
+        fb: 'Спор не про этот принцип: он о том, когда показывать условие, а не о выборе иконки. Честно сказать «здесь принцип не помогает» полезнее, чем натягивать его.' },
+      { t: P3 + '<b>Спор:</b> показывать ли всем подсказку про новую функцию при каждом входе?<span class="sub">Функция нужна примерно каждому десятому.</span>', a: 'b',
+        fb: 'Редкая потребность против шага у всех — тот же случай. Подсказку делаем адресной: показываем там, где функция нужна, а не на входе.' },
+      { t: P1 + '<b>Спор:</b> сколько секунд держать полоску отката — пять или десять?', a: 'no',
+        fb: 'Принцип говорит «даём откат», но не говорит сколько. Это вопрос настройки, и решается он тестом или аналитикой, а не принципом. Хорошему принципу и не нужно отвечать на всё.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Ты применяешь принципы, а не пересказываешь их. И, что важнее, видишь случаи, где принцип честно не помогает.'
+        : s >= 5 ? 'Хорошо. Обрати внимание на границы: принцип работает и в обратную сторону — запрещая то, что не подходит.'
+        : 'Вернись к разделу 3. Принцип лучше всего проверяется попыткой решить им настоящий спор.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'all', label: '«Так делают все»' }, { key: 'works', label: '«Так работает»' }, { key: 'op', label: 'Просто мнение' }],
+    [
+      { t: '<q>У всех маркетплейсов отмена лежит в меню «⋯», давай тоже туда.</q>', a: 'all',
+        fb: 'Наблюдение о рынке. Говорит только о том, что решение существует. Следующий шаг — выяснить причину и проверить, есть ли она у нас.' },
+      { t: '<q>Мы поменяли текст кнопки в прошлом квартале, и доля отмен через поддержку упала вдвое.</q>', a: 'works',
+        fb: 'Это данные о вашем продукте — они сильнее любого разбора аналогов. Их стоит принять, даже если они ломают ваш вывод.' },
+      { t: '<q>Мне кажется, полоска отката будет мешать.</q>', a: 'op',
+        fb: 'Мнение, и это нормально — с него часто начинается хорошая проверка. Ответ: «давай посмотрим на пяти людях, это два дня».' },
+      { t: '<q>Лидер рынка так делает, значит, они проверяли.</q>', a: 'all',
+        fb: 'Ссылка на авторитет. Они могли проверять, а могли унаследовать решение от старой версии. И даже если проверяли — у них другая аудитория и масштаб.' },
+      { t: '<q>В аналитике видно: 30 % возвращаются с шага оплаты назад в корзину.</q>', a: 'works',
+        fb: 'Факт о поведении ваших людей. Это «так работает» — точнее, «так не работает», и разбираться надо с причиной.' },
+      { t: '<q>Это же стандарт индустрии, все привыкли.</q>', a: 'all',
+        fb: 'Часто это привычка, которую никто не проверял. Проверяется просто: если сделать иначе, человек растеряется или просто заметит разницу?' },
+      { t: '<q>На тестах трое из пяти не нашли отмену в меню «⋯».</q>', a: 'works',
+        fb: 'Наблюдение за живыми людьми в вашем интерфейсе. Пять человек — не статистика, но это наблюдение за поведением, а не рассказ о рынке.' }
+    ],
+    function (s, n) {
+      return s >= 6 ? 'Ты разводишь наблюдение о рынке и данные о своём продукте. Это та разница, ради которой вас зовут в разговор.'
+        : s >= 4 ? 'Неплохо. Главный маркер: сказанное про чужие продукты — это «так делают все», сказанное про ваших людей и ваши цифры — «так работает».'
+        : 'Перечитай раздел 5. И держи наготове формулу: «решение существует — это факт; работает ли оно, мы не знаем, у нас нет их метрик».';
+    }
+  );
+
+  /* ── principle cards ── */
+  document.querySelectorAll('#pcards .pcard[data-p]').forEach(function (card) {
+    var btn = card.querySelector('button');
+    btn.addEventListener('click', function () {
+      var open = card.classList.contains('open');
+      document.querySelectorAll('#pcards .pcard').forEach(function (c) { c.classList.remove('open'); });
+      if (!open) card.classList.add('open');
+    });
+  });
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var open = [];
+      src.querySelectorAll('.pcard').forEach(function (c) { if (c.classList.contains('open')) open.push(c); c.classList.add('open'); });
+      var text = src.innerText.replace(/\n{3,}/g, '\n\n').trim();
+      src.querySelectorAll('.pcard').forEach(function (c) { c.classList.remove('open'); });
+      open.forEach(function (c) { c.classList.add('open'); });
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fb(text, done); });
+      } else { fb(text, done); }
+    });
+  });
+  function fb(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

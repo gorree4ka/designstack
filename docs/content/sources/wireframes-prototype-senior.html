@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вайрфреймы и прототипы: как сравнить варианты и принять решение</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --svg-chip: #eef3fb; --svg-dim: #6d6b66;
+    --wf-fill: #e7e6e1; --wf-fill-2: #f2f1ed; --wf-strong: #3a3935; --wf-strong-ink: #ffffff; --wf-ink: #5f5e59; --wf-line: #dbdad4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --svg-chip: #1f2733; --svg-dim: #9e9c95;
+      --wf-fill: #312f2c; --wf-fill-2: #262522; --wf-strong: #d8d6d0; --wf-strong-ink: #131312; --wf-ink: #a7a5a0; --wf-line: #3b3a36;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --svg-chip: #1f2733; --svg-dim: #9e9c95;
+    --wf-fill: #312f2c; --wf-fill-2: #262522; --wf-strong: #d8d6d0; --wf-strong-ink: #131312; --wf-ink: #a7a5a0; --wf-line: #3b3a36;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-ghost { background: var(--raised); color: var(--ink-2); }
+  .btn[disabled] { opacity: .45; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 72px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .pr { display: block; background: var(--chip); border-radius: 8px; padding: 9px 12px; font-size: 14.5px; color: var(--accent-deep); margin-bottom: 10px; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 128px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* accordion */
+  .accs { display: flex; flex-direction: column; gap: 10px; }
+  .acc { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .acc > button { width: 100%; text-align: left; background: none; border: none; padding: 14px 17px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .acc > button:hover { background: var(--demo-bg); }
+  .acc .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .acc .ttl { flex: 1; font-size: 16.5px; font-weight: 600; letter-spacing: -.005em; }
+  .acc .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; background: var(--chip); color: var(--accent-deep); }
+  .acc .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .acc .tag.ok { background: var(--good-soft); color: var(--good); }
+  .acc .hintline { font-size: 13.5px; color: var(--muted); padding: 0 17px 13px; }
+  .acc.open .hintline { display: none; }
+  .acc .body { display: none; padding: 0 17px 15px; }
+  .acc.open .body { display: block; }
+  .acc .row { display: grid; grid-template-columns: 136px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .acc .row:first-child { border-top: none; padding-top: 2px; }
+  .acc .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .acc .row .v { color: var(--ink-2); }
+  .acc .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .acc .row { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* card sort */
+  .cs-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 42px; }
+  .cs-card { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 8px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; }
+  .cs-card:hover { border-color: var(--accent); }
+  .cs-card.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .cs-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .cs-group { border: 1px dashed var(--border); border-radius: 11px; padding: 11px 12px; background: var(--surface); cursor: pointer; min-height: 110px; }
+  .cs-group.hot { border-color: var(--accent); border-style: solid; background: var(--chip); }
+  .cs-group h5 { margin: 0 0 9px; font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .cs-group .placed { display: block; width: 100%; text-align: left; font: 500 12.5px system-ui, sans-serif; background: var(--raised); border: 1px solid var(--hairline); color: var(--ink); border-radius: 7px; padding: 6px 9px; margin-bottom: 6px; cursor: pointer; }
+  .cs-group .placed:hover { border-color: var(--bad); }
+  .cs-empty { font-size: 12.5px; color: var(--muted); }
+  .cs-res { margin-top: 16px; display: none; }
+  .cs-res.on { display: block; }
+  .mini { display: inline-block; font: 600 11.5px system-ui, sans-serif; border-radius: 5px; padding: 1px 7px; margin: 0 4px 3px 0; background: var(--demo-bg); color: var(--ink-2); border: 1px solid var(--hairline); }
+  .mini.top { background: var(--chip); color: var(--accent-deep); border-color: transparent; }
+  .flag { font: 700 10px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; background: var(--warn-soft); color: var(--warn); }
+
+  /* tree test */
+  .tt-task { font-size: 15.5px; background: var(--chip); color: var(--accent-deep); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+  .tt-crumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; min-height: 20px; }
+  .tt-list { display: flex; flex-direction: column; gap: 7px; }
+  .tt-list button { text-align: left; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 11px 14px; font: 500 14.5px system-ui, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .tt-list button:hover { border-color: var(--accent); }
+  .tt-list button .ch { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+  .tt-bar { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .tt-res { margin-top: 16px; font-size: 14.5px; line-height: 1.5; padding: 13px 15px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .tt-res.on { display: block; }
+  .tt-res b.h { display: block; margin-bottom: 5px; }
+  .path { font: 13px ui-monospace, Menlo, monospace; color: var(--ink-2); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .metric { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; }
+  .metric .big { font: 700 22px system-ui, sans-serif; letter-spacing: -.02em; }
+  .metric .lab { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .metric.bad .big { color: var(--bad); }
+  .metric.ok .big { color: var(--good); }
+
+  .hunt-count { font: 600 13px system-ui, sans-serif; color: var(--muted); }
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  .ok-list li b { color: var(--good); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+
+  /* figures */
+  figure { margin: 18px 0; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin-top: 11px; }
+  figcaption b { color: var(--ink-2); }
+  .fig-scroll { overflow-x: auto; }
+  .fig-scroll > svg { min-width: 560px; }
+
+  /* toggle */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid var(--border); background: var(--raised); color: var(--ink-2); border-radius: 9px; padding: 8px 13px; font: 600 13.5px system-ui, sans-serif; cursor: pointer; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: var(--page); border-color: transparent; }
+  .tabpanel { display: none; }
+  .tabpanel.on { display: block; }
+  .tabnote { font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 12px 14px; margin-top: 14px; }
+  .tabnote b { display: block; margin-bottom: 3px; }
+
+  /* rules list */
+  .rules { counter-reset: r; display: flex; flex-direction: column; gap: 10px; margin: 18px 0; }
+  .rules > li { list-style: none; counter-increment: r; position: relative; background: var(--raised); border: 1px solid var(--border); border-radius: 11px; padding: 13px 16px 13px 50px; font-size: 15px; }
+  .rules > li::before { content: counter(r); position: absolute; left: 14px; top: 13px; font: 700 12px ui-monospace, Menlo, monospace; color: var(--accent-deep); background: var(--chip); border-radius: 6px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .rules > li b { color: var(--ink); }
+  .rules ul { margin: 7px 0 0; font-size: 14px; }
+
+  /* wizard */
+  .cases { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cases button { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 9px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .cases button:hover { border-color: var(--accent); }
+  .cases button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .wiz { margin-top: 18px; }
+  .wq { border-top: 1px solid var(--hairline); padding-top: 14px; margin-top: 14px; }
+  .wq:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .wq .qt { font-size: 15.5px; font-weight: 600; margin: 0 0 10px; }
+  .wq .qo { display: flex; gap: 9px; flex-wrap: wrap; }
+  .wq .qo button { flex: 1 1 200px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 10px 13px; font: 500 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .wq .qo button:hover:not([disabled]) { border-color: var(--accent); }
+  .wq .qo button[disabled] { opacity: .45; cursor: default; }
+  .wq .qo button.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .wq .qo button.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .wq .qfb { margin-top: 11px; font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 11px 13px; display: none; }
+  .wq .qfb.on { display: block; }
+  .verdict { margin-top: 18px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 11px; background: var(--surface); padding: 15px 17px; display: none; }
+  .verdict.on { display: block; }
+  .verdict .vr { display: grid; grid-template-columns: 126px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .verdict .vr:first-of-type { border-top: none; padding-top: 0; }
+  .verdict .vr .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .verdict .vr .v { color: var(--ink-2); }
+  .verdict .vr .v b { color: var(--ink); }
+  @media (max-width: 560px) { .verdict .vr { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* wireframe kit */
+  .wf { width: 100%; max-width: 330px; margin: 0 auto; background: var(--raised); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .wf-top { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--hairline); font: 600 13.5px system-ui, sans-serif; }
+  .wf-top .back { font: 500 12px system-ui, sans-serif; color: var(--wf-ink); }
+  .wf-top .ttl { flex: 1; }
+  .wf-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .wf-ph { background: var(--wf-fill); border-radius: 6px; }
+  .wf-ph.cap { display: flex; align-items: center; justify-content: center; font: 500 11px system-ui, sans-serif; color: var(--wf-ink); text-align: center; }
+  .wf-item { display: flex; gap: 10px; align-items: center; }
+  .wf-item .thumb { width: 42px; height: 42px; flex: none; background: var(--wf-fill); border-radius: 6px; }
+  .wf-item .meta { flex: 1; font-size: 12.5px; line-height: 1.35; }
+  .wf-item .meta span { display: block; color: var(--wf-ink); font-size: 11.5px; }
+  .wf-item .price { font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+  .wf-field { border: 1px solid var(--wf-line); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; }
+  .wf-field b { display: block; font: 600 9.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--wf-ink); margin-bottom: 3px; }
+  .wf-chips { display: flex; gap: 6px; }
+  .wf-chip { flex: 1; border: 1px solid var(--wf-line); border-radius: 8px; padding: 7px 3px; text-align: center; font-size: 11px; line-height: 1.3; }
+  .wf-chip.on { border-color: var(--wf-strong); background: var(--wf-fill); font-weight: 600; }
+  .wf-sum { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; border-top: 1px solid var(--wf-line); padding-top: 9px; }
+  .wf-btn { display: block; width: 100%; border: 1px solid var(--wf-line); background: var(--wf-fill-2); color: var(--ink); border-radius: 9px; padding: 10px; font: 600 13px system-ui, sans-serif; cursor: pointer; text-align: center; }
+  .wf-btn.primary { background: var(--wf-strong); color: var(--wf-strong-ink); border-color: transparent; font-size: 14.5px; padding: 13px; }
+  .wf-btn.hit, .wf-link.hit { border: 1px solid var(--bad); background: var(--bad-soft); color: var(--bad); }
+  .wf-link { display: block; width: 100%; background: none; border: none; color: var(--wf-ink); font: 500 12.5px system-ui, sans-serif; cursor: pointer; text-align: center; padding: 5px; text-decoration: underline; border-radius: 7px; }
+  .wf-note { font-size: 11px; color: var(--wf-ink); text-align: center; }
+  .wf-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+  .wf-col { flex: 1 1 290px; max-width: 340px; }
+  .wf-cap { font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 0 10px; }
+  .squint .wf { filter: blur(3.2px); }
+  .wf-sketch .wf-ph, .wf-sketch .wf-field, .wf-sketch .wf-chip { border: 1.5px dashed var(--wf-line); background: none; }
+  .wf-mock .wf-btn.primary { background: #2a78d6; color: #fff; box-shadow: 0 2px 8px rgba(42,120,214,.35); border-radius: 10px; }
+  .wf-mock .thumb { background: linear-gradient(135deg, #cfe0f5, #9dbbe4); }
+  .wf-mock .wf-chip.on { border-color: #2a78d6; color: #1c5cab; background: #eef3fb; }
+  .wf-mock .wf-top { font-family: Georgia, "Times New Roman", serif; }
+
+  /* prototype */
+  .proto { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+  .proto-stage { flex: 1 1 320px; }
+  .proto-side { flex: 1 1 250px; min-width: 230px; }
+  .proto-screen { display: none; }
+  .proto-screen.on { display: block; }
+  .proto-fb { font-size: 14px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); }
+  .proto-fb b { display: block; margin-bottom: 3px; }
+  .proto-fb.bad { background: var(--bad-soft); border-color: var(--bad); }
+  .proto-fb.good { background: var(--good-soft); border-color: var(--good); }
+  .proto-stat { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .proto-stat span { font: 600 12px system-ui, sans-serif; border: 1px solid var(--border); border-radius: 7px; padding: 4px 9px; color: var(--ink-2); background: var(--raised); }
+  .proto-list { margin: 12px 0 0; padding-left: 20px; font-size: 13.5px; color: var(--ink-2); }
+  .proto-list li { margin: 4px 0; }
+  .stub { border: 1px dashed var(--border); border-radius: 12px; padding: 22px 16px; text-align: center; font-size: 13.5px; color: var(--ink-2); background: var(--surface); }
+
+  /* accordion */
+  .accs { display: flex; flex-direction: column; gap: 10px; }
+  .acc { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .acc > button { width: 100%; text-align: left; background: none; border: none; padding: 14px 17px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .acc > button:hover { background: var(--demo-bg); }
+  .acc .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .acc .ttl { flex: 1; font-size: 16px; font-weight: 600; letter-spacing: -.005em; }
+  .acc .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; background: var(--chip); color: var(--accent-deep); }
+  .acc .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .acc .tag.ok { background: var(--good-soft); color: var(--good); }
+  .acc .hintline { font-size: 13.5px; color: var(--muted); padding: 0 17px 13px; }
+  .acc.open .hintline { display: none; }
+  .acc .body { display: none; padding: 0 17px 15px; }
+  .acc.open .body { display: block; }
+  .acc .row { display: grid; grid-template-columns: 136px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .acc .row:first-child { border-top: none; padding-top: 2px; }
+  .acc .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .acc .row .v { color: var(--ink-2); }
+  .acc .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .acc .row { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* screen window (виден только первый экран) */
+  .wf-window { position: relative; max-height: 430px; overflow: hidden; border-bottom: 2px dashed var(--bad); border-radius: 14px 14px 0 0; }
+  .wf-window::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46px; pointer-events: none;
+                      background: linear-gradient(to bottom, transparent, var(--surface)); }
+  .wf-window.fits { border-bottom-color: var(--good); }
+  .wf-window.fits::after { display: none; }
+  .foldnote { font: 600 11px system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; text-align: center; margin: 7px 0 0; }
+  .foldnote.bad { color: var(--bad); }
+  .foldnote.good { color: var(--good); }
+  .wf-skel { background: var(--wf-fill); border-radius: 6px; height: 13px; }
+  .findings { margin: 16px 0 0; padding-left: 20px; font-size: 14.5px; }
+  .findings li { margin: 6px 0; }
+  .findings li b { color: var(--bad); }
+
+  /* diff highlight */
+  .show-diff [data-diff] { outline: 2px dashed var(--accent); outline-offset: 4px; border-radius: 8px; }
+  .vs-note { font-size: 13.5px; color: var(--muted); text-align: center; margin: 12px 0 0; }
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  @media (max-width: 620px) { .twocol { grid-template-columns: 1fr; } }
+  .twocol > div { border: 1px solid var(--border); border-radius: 11px; padding: 13px 15px; background: var(--raised); font-size: 14.5px; line-height: 1.5; }
+  .twocol .h { display: block; font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 6px; }
+  .twocol .bad-h { color: var(--bad); }
+  .twocol .good-h { color: var(--good); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Вайрфреймы и прототипы · Senior · сравнение вариантов</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Проектирование · вайрфреймы и прототипы</p>
+  <div class="levels" aria-label="Уровень темы: Senior, третий из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv done">Middle</span>
+    <span class="lv on">Senior</span>
+  </div>
+  <h1>Как сравнить два варианта в прототипах и принять решение с командой</h1>
+  <p class="lede">Команда выбирает между двумя решениями, и у каждого есть свои аргументы. Прототипы помогут проверить, как люди выполняют задачу в обоих вариантах. Но сначала нужно договориться, что именно проверяем и как используем результат. В уроке разберём, когда стоит собирать прототипы, как сравнить их на равных условиях и обсудить наблюдения с командой. Затем запишем решение и подготовим материалы так, чтобы к ним можно было вернуться.</p>
+</header>
+
+<div class="goals">
+  <b>Что разберём</b>
+  <ol>
+    <li><a href="#split">Как выделить проверяемый вопрос</a> в командном обсуждении<span class="drillmark">тренажёр</span></li>
+    <li><a href="#pair">Как подготовить два варианта к сравнению</a><span class="drillmark">сравнение</span></li>
+    <li><a href="#worth">Когда нужен прототип</a>, а когда хватит других данных<span class="drillmark">тренажёр</span></li>
+    <li><a href="#show">Как обсудить сценарий с командой</a><span class="drillmark">шаблон</span></li>
+    <li><a href="#fix">Как записать наблюдения и решение</a><span class="drillmark">разбор</span></li>
+    <li><a href="#keep">Как хранить версии прототипа</a> и готовить материалы для разработки<span class="drillmark">разбор</span></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Пример для всего урока.</b> В интернет-магазине обсуждают оформление заказа. Продакт-менеджер предлагает <b>один длинный экран</b> в расчёте на меньшее число шагов и рост конверсии. Дизайнеры и разработчики предлагают <b>три коротких шага</b>: им кажется, что так будет проще замечать ошибки. В этом учебном примере выделим проверяемые предположения, сравним два прототипа и запишем основания выбора.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется на этом уровне</h2></div>
+  <p class="sec-sub">Прототип помогает команде обсудить альтернативы на основе наблюдений.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Middle</th><th>Senior</th></tr></thead>
+      <tbody>
+        <tr><td><b>Задача урока</b></td><td>Проверить идею с участниками</td><td>Сравнить варианты и помочь команде выбрать решение</td></tr>
+        <tr><td><b>Варианты в упражнении</b></td><td>Один, который дорабатываем по результатам</td><td>Два, которые сравниваем по общим вопросам</td></tr>
+        <tr><td><b>С кем работаем</b></td><td>С участниками проверки</td><td>С участниками, продакт-менеджером и разработчиками</td></tr>
+        <tr><td><b>Что может помешать</b></td><td>Пропущенные действия в прототипе</td><td>Неясный вопрос сравнения или неполные материалы для разработки</td></tr>
+        <tr><td><b>Что остаётся после</b></td><td>Наблюдения и доработанное решение</td><td>Решение с обоснованием и сохранённые версии прототипов</td></tr>
+        <tr><td><b>Чего стоит избегать</b></td><td>Выводов без связи с наблюдениями</td><td>Выбора только по настойчивости сторон</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Что может помешать</h3>
+  <ul>
+    <li><strong>Проверен только предпочитаемый вариант.</strong> Если обсуждается выбор между двумя подходами, полезно подготовить оба. Иначе у команды останутся вопросы к непроверенной альтернативе.</li>
+    <li><strong>Прототип для любого вопроса.</strong> Иногда достаточно аналитики, прежних исследований или обсуждения приоритетов. Сначала определите, чего не хватает для решения, затем выбирайте способ проверки.</li>
+  </ul>
+
+  <div class="rule"><b>Результат задания — согласованное решение с записью наблюдений, на которых оно основано.</b> Одного «выбрали три шага» мало. Полезнее: «На длинном экране трое из пяти не заметили ошибку в адресе и повторно нажимали кнопку оформления». Такая запись поможет восстановить контекст и понять, когда решение стоит пересмотреть.</div>
+</section>
+
+<section id="split">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Выделить вопрос для проверки</h2></div>
+  <p class="sec-sub">Отделите предположения о поведении от целей команды и личных предпочтений.</p>
+
+  <p>В одной реплике могут смешиваться разные основания: что сделает человек, какой результат важнее бизнесу и что нравится автору. Для каждого нужен свой способ обсуждения. Разделите их до работы над прототипом.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>О чём речь</th><th>Пример</th><th>Как разобраться</th></tr></thead>
+      <tbody>
+        <tr><td><b>О поведении</b></td><td>«Люди не заметят ошибку в длинной форме»</td><td>Проверить, замечают ли участники ошибку и как действуют дальше</td></tr>
+        <tr><td><b>О целях</b></td><td>«Нам важнее скорость, чем контроль»</td><td>Обсудить приоритет и его последствия с ответственным за продукт</td></tr>
+        <tr><td><b>О предпочтениях</b></td><td>«Три шага выглядят старомодно»</td><td>Уточнить, что имеется в виду и связано ли это с задачей продукта</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Попробуйте разложить аргументы по трём колонкам.</b> Вместе с коллегами запишите предположения о поведении, приоритеты и предпочтения. Выберите из первой колонки то, что можно проверить наблюдением. По второй договоритесь, кто принимает решение; третью при необходимости уточните.</div>
+
+  <h3>Как разложить наш пример</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Поведение — проверяем</th><th>Приоритеты — обсуждаем</th><th>Предпочтения — уточняем</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Заметят ли люди ошибку в поле, если форма длинная</td>
+          <td>Что важнее: меньше шагов или меньше ошибок</td>
+          <td>«Длинный экран выглядит современнее»</td>
+        </tr>
+        <tr>
+          <td>Понимают ли, сколько осталось до конца</td>
+          <td>Какой риск ошибок в заказах и нагрузки на поддержку приемлем</td>
+          <td>«Три шага — это как в банке»</td>
+        </tr>
+        <tr>
+          <td>Возвращаются ли исправлять или бросают</td>
+          <td>На какую аудиторию ориентируемся: новые или постоянные</td>
+          <td>«Мне так приятнее»</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Вопрос <strong>«какой вариант лучше» нужно уточнить</strong>. Например: где участник заметит ошибку, сможет ли её исправить, поймёт ли, сколько шагов осталось. Ответы помогут команде сделать выбор с учётом целей и ограничений.</p>
+
+  <div class="warnbox"><b>Чужой пример — повод разобраться в контексте.</b> Если звучит «у всех так», уточните, какие продукты сравнивают, для каких задач и с какими ограничениями. Само наличие решения у конкурента ещё не объясняет, подойдёт ли оно вам.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · о чём эта реплика<span class="spacer"></span><span class="sc">0 / 8</span></div>
+    <div class="box-body">
+      <div class="drill" id="d1">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Восемь реплик из учебного обсуждения. Определите, где предположение о поведении, где приоритет, а где личная оценка.</div>
+  </div>
+</section>
+
+<section id="pair">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Как сравнить два прототипа</h2></div>
+  <p class="sec-sub">Подготовьте варианты так, чтобы различия в наблюдениях можно было объяснить.</p>
+
+  <p>В нашем примере команда выбирает между одним экраном и тремя шагами. Чтобы сравнить подходы, соберём оба с одинаковой тщательностью. Тогда обсуждать можно будет действия участников в каждом варианте, а не только ожидания авторов.</p>
+
+  <ol class="rules">
+    <li><b>Одна проверяемая разница.</b> В нашем случае — распределение оформления по экранам. Не меняйте заодно содержание полей и условия заказа. Связанные изменения навигации опишите отдельно.</li>
+    <li><b>Одинаковая готовность.</b> В обоих вариантах должны работать действия, которые нужны для тестовой задачи.
+      <ul><li>До проверки покажите каждый вариант коллегам, которые его предложили. Уточните, верно ли вы передали задумку.</li></ul>
+    </li>
+    <li><b>Одинаковые данные.</b> Используйте сопоставимые заказы: те же имена, суммы, товары и длинные адреса.</li>
+    <li><b>Одинаковые состояния.</b> Если проверяете, как человек исправляет ошибку в адресе, воспроизведите её в обоих вариантах.</li>
+    <li><b>Чередование порядка.</b> Одному участнику сначала покажите первый вариант, следующему — второй. Учитывайте, что после первого прохождения человек уже знаком с задачей.</li>
+    <li><b>Нейтральные названия.</b> Например, «Вариант 1 — один экран» и «Вариант 2 — три шага». Названия должны описывать различие, а не подсказывать предпочтительный ответ.</li>
+  </ol>
+
+  <div class="box">
+    <div class="box-head">Пара прототипов · спор про количество экранов<span class="spacer"></span><button class="btn" id="diffBtn" type="button" aria-pressed="false">Подсветить, что различается</button></div>
+    <div class="box-body">
+      <div class="wf-row" id="pairRow">
+        <div class="wf-col">
+          <p class="wf-cap">Вариант 1 · один экран</p>
+          <div class="wf-window">
+            <div class="wf">
+              <div class="wf-top"><span class="ttl">Оформление заказа</span></div>
+              <div class="wf-body">
+                <div class="wf-field" data-diff><b>Адрес</b>ул. 40 лет Октябрьской революции, 128, кв. 214</div>
+                <div data-diff>
+                  <div style="font-size:12.5px; font-weight:600; margin-bottom:7px">Когда привезти</div>
+                  <div class="wf-chips">
+                    <div class="wf-chip on">завтра<br>10:00–14:00</div>
+                    <div class="wf-chip">завтра<br>16:00–20:00</div>
+                    <div class="wf-chip">12 марта<br>10:00–14:00</div>
+                  </div>
+                </div>
+                <div class="wf-field" data-diff><b>Способ оплаты</b>Карта •• 4417</div>
+                <div class="wf-field" data-diff><b>Комментарий курьеру</b>домофон не работает</div>
+                <div class="wf-item"><span class="thumb"></span><span class="meta">Кофемашина De'Longhi Magnifica Evo<span>1 шт.</span></span><span class="price">148 700 ₽</span></div>
+                <div class="wf-sum"><span>Итого</span><span>148 700 ₽</span></div>
+                <button class="wf-btn primary" type="button">Оформить заказ</button>
+              </div>
+            </div>
+          </div>
+          <p class="foldnote bad">Часть формы ниже видимой области</p>
+        </div>
+        <div class="wf-col">
+          <p class="wf-cap">Вариант 2 · три шага</p>
+          <div class="wf-window fits">
+            <div class="wf">
+              <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back" data-diff>Шаг 1 из 3</span></div>
+              <div class="wf-body">
+                <div class="wf-field"><b>Адрес</b>ул. 40 лет Октябрьской революции, 128, кв. 214</div>
+                <div>
+                  <div style="font-size:12.5px; font-weight:600; margin-bottom:7px">Когда привезти</div>
+                  <div class="wf-chips">
+                    <div class="wf-chip on">завтра<br>10:00–14:00</div>
+                    <div class="wf-chip">завтра<br>16:00–20:00</div>
+                    <div class="wf-chip">12 марта<br>10:00–14:00</div>
+                  </div>
+                </div>
+                <div class="wf-sum"><span>Итого</span><span>148 700 ₽</span></div>
+                <button class="wf-btn primary" type="button" data-diff>Дальше: оплата</button>
+                <p class="wf-note">Оплата и подтверждение — на следующих шагах</p>
+              </div>
+            </div>
+          </div>
+          <p class="foldnote good">Шаг помещается целиком</p>
+        </div>
+      </div>
+      <p class="vs-note">Один и тот же заказ: слева все блоки на одном экране, справа — первый из трёх шагов. Подсветка показывает различия в размещении и навигации.</p>
+    </div>
+    <div class="box-foot">Здесь показан только первый экран второго варианта. Для проверки нужно собрать оставшиеся шаги и настроить весь путь в обоих прототипах.</div>
+  </div>
+
+  <h3>Что смотрим на проверке</h3>
+  <p>Для обоих вариантов подготовим одинаковые вопросы:</p>
+  <ul>
+    <li><strong>Заметит ли человек ошибку в адресе?</strong> Для упражнения воспроизведём её в обоих вариантах.</li>
+    <li><strong>Понимает ли, сколько осталось до конца?</strong> На одном и том же этапе спросим: «Какие действия, по-вашему, ещё предстоят?»</li>
+    <li><strong>Сможет ли исправить ошибку?</strong> Запишем попытки возврата, исправления и повторные нажатия.</li>
+  </ul>
+  <p class="dim">В упражнении участвуют пять человек. Каждый выполняет одну задачу в обоих вариантах, порядок показа чередуем. Полтора часа на встречи — ориентир; если сценарий длинный, времени понадобится больше.</p>
+
+  <div class="warnbox"><b>Описывайте поведение и ограничения сравнения.</b> Например: «На длинном экране трое из пяти не заметили ошибку. На трёх шагах её нашли все, но двое назвали путь долгим». Эти наблюдения помогают выбрать следующий вариант для работы, но не доказывают его превосходство для всех пользователей.</div>
+</section>
+
+<section id="worth">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Когда нужен прототип</h2></div>
+  <p class="sec-sub">Выберите способ, который даст нужную информацию с разумными затратами.</p>
+
+  <p>Сборка прототипов, встречи с участниками и разбор результатов требуют времени. Перед началом оцените, <strong>какое решение зависит от проверки и сколько будет стоить ошибка</strong>. Иногда нужный ответ уже есть в аналитике или прежних исследованиях.</p>
+
+  <h3>Когда сравнение прототипов может помочь</h3>
+  <ol>
+    <li><strong>Есть два обоснованных подхода.</strong> Команда понимает их различия, но аргументов для выбора пока недостаточно.</li>
+    <li><strong>Предмет спора — поведение людей.</strong> В споре есть утверждение вида «люди не заметят / не поймут / не станут».</li>
+    <li><strong>Цена ошибки высокая:</strong> много разработки, ключевой сценарий, трудно откатить.</li>
+    <li><strong>Обсуждение повторяется без новых данных.</strong> Уточните, какое наблюдение помогло бы перейти к решению.</li>
+  </ol>
+
+  <h3>Когда начать с другого способа</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Ситуация</th><th>Что делать вместо прототипа</th></tr></thead>
+      <tbody>
+        <tr><td>Выбор приоритета: скорость или контроль</td><td>Обсудить последствия и договориться о приоритете с ответственным за продукт</td></tr>
+        <tr><td>Вопрос про частоту или долю</td><td>Посмотреть аналитику: сколько людей вообще доходит до этого экрана</td></tr>
+        <tr><td>Есть результаты прошлой проверки</td><td>Открыть запись и проверить, подходит ли прежний контекст к текущей задаче</td></tr>
+        <tr><td>Небольшое изменение, которое легко отменить</td><td>Оценить риск. Возможно, достаточно существующего правила или наблюдения после выпуска</td></tr>
+        <tr><td>Решение пока не влияет на план работы</td><td>Записать вопрос и вернуться к нему, когда появится задача</td></tr>
+        <tr><td>У коллег разный контекст</td><td>Сначала вместе посмотреть схему сценария, ограничения и прежние наблюдения</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Обсудите затраты и ожидаемый результат.</b> Например: «На пару прототипов и проверку понадобится полдня. Это поможет понять, замечают ли люди ошибку. Готовы выделить время?» Так команда сможет оценить пользу проверки до начала работы.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · чем закрывать этот спор<span class="spacer"></span><span class="sc">0 / 8</span></div>
+    <div class="box-body">
+      <div class="drill" id="d2">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Восемь ситуаций. Выберите, с чего начать: обсуждения, аналитики, решения о приоритетах или сравнения прототипов.</div>
+  </div>
+</section>
+
+<section id="show">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Показ команде: чтобы говорили о сценарии</h2></div>
+  <p class="sec-sub">Задайте тему встречи и покажите, как наблюдения связаны с выбором решения.</p>
+
+  <p>На показе легко перейти от сценария к отдельным деталям экрана. Чтобы сохранить тему разговора, заранее назовите вопрос, покажите результаты проверки и выделите время на остальные замечания.</p>
+
+  <ol class="rules">
+    <li><b>Оставьте подходящую детализацию.</b> Для обсуждения структуры в нашем примере достаточно серых экранов. Если оформление влияет на проверяемый вопрос, его тоже нужно учитывать.</li>
+    <li><b>Покажите вопрос встречи.</b> Например: «Как участники замечают ошибку в длинной форме?» Возвращайтесь к нему, когда обсуждение уходит в сторону.</li>
+    <li><b>Покажите выполнение задачи.</b> Используйте запись проверки или восстановите путь по заметкам, отдельно обозначив, что это пересказ. Так коллеги увидят контекст затруднений.</li>
+    <li><b>Записывайте вопросы вне темы отдельно.</b> Например: «Замечание об отступах записал, вернёмся к нему после обсуждения сценария».
+      <ul><li>В конце договоритесь, какие из этих вопросов нужно разобрать и кто этим займётся.</li></ul>
+    </li>
+    <li><b>Отделяйте наблюдения от предпочтений.</b> Вместо защиты своего варианта покажите, что делали участники, и поясните, какой вывод из этого предлагаете.</li>
+    <li><b>Договоритесь, кто принимает решение.</b> В нашем примере — продакт-менеджер после обсуждения с командой. В вашей команде ответственность может быть распределена иначе.</li>
+  </ol>
+
+  <h3>Тридцать минут встречи</h3>
+  <ol>
+    <li><strong>Вопрос и как проверяли</strong> — 3 минуты. Сколько людей, какая задача, в каком порядке показывали.</li>
+    <li><strong>Что видели на первом варианте</strong> — 7 минут, с записью или живым проходом.</li>
+    <li><strong>Что видели на втором</strong> — 7 минут.</li>
+    <li><strong>Выводы и их ограничения</strong> — 5 минут. Что позволяют сказать наблюдения и что осталось неизвестным.</li>
+    <li><strong>Решение</strong> — 5 минут. Ответственный формулирует выбор, команда уточняет следующие действия.</li>
+    <li><strong>Остальные вопросы</strong> — 3 минуты. Определите, что делать с замечаниями вне основной темы.</li>
+  </ol>
+
+  <div class="box">
+    <div class="box-head">Шаблон встречи с командой<span class="spacer"></span><button class="btn" data-copy="#meetTmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="meetTmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">ВСТУПЛЕНИЕ (пример, около минуты)
+«Мы сравнили два варианта с __ участниками.
+Сегодня обсудим наблюдения по вопросу:
+______________________________________________________________
+Решение принимает ____________. Я покажу наблюдения и предложу выводы.
+В этих прототипах мы проверяли структуру и переходы.
+Остальные вопросы запишем отдельно и разберём в конце.»
+
+ВОПРОС НА ЭКРАНЕ (крупно, висит всю встречу)
+______________________________________________________________
+
+КАК ПРОВЕРЯЛИ
+участников: __   задача: ______________________________________
+порядок показа чередовали: да / нет
+в обоих вариантах одинаковые: данные, тексты, состояния
+
+ЧТО ВИДЕЛИ — ВАРИАНТ 1 «____________»
+— __ из __ ____________________________________________________
+— __ из __ ____________________________________________________
+
+ЧТО ВИДЕЛИ — ВАРИАНТ 2 «____________»
+— __ из __ ____________________________________________________
+— __ из __ ____________________________________________________
+
+КАК ВЕРНУТЬСЯ К ТЕМЕ
+— «Замечание об оформлении записал, вернёмся к нему в конце».
+— «Давайте сравним это предположение с наблюдениями участников».
+— «Какой вопрос проверит третий вариант? Оценим время на него».
+— «Покажу, на каком наблюдении основан мой вывод».
+
+ВОПРОСЫ ДЛЯ ОТДЕЛЬНОГО ОБСУЖДЕНИЯ
+1. ____________________  2. ____________________
+
+РЕШЕНИЕ (формулировка ответственного, согласованная на встрече)
+______________________________________________________________
+кто принял: ____________   дата: __.__.____</pre>
+    </div>
+    <div class="box-foot">Пригласите разработчиков на обсуждение до выбора варианта. Они помогут оценить состояния, ограничения и объём реализации.</div>
+  </div>
+
+  <div class="warnbox"><b>Если наблюдения расходятся с вашим предположением, скажите об этом.</b> Объясните, что вы ожидали увидеть и что произошло на проверке. Это помогает обсуждать основания решения, а не защищать первоначальную позицию.</div>
+</section>
+
+<section id="fix">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Зафиксировать, что именно увидели</h2></div>
+  <p class="sec-sub">Запишите выбор вместе с контекстом проверки, наблюдениями и ограничениями вывода.</p>
+
+  <p>Команда может вернуться к решению, когда изменятся приоритеты или появятся новые данные. Чтобы не восстанавливать всё по памяти, сохраните, <strong>что наблюдали на проверке</strong> и как это повлияло на выбор. Запись позволит оценить, применимы ли прежние выводы к новой ситуации.</p>
+
+  <div class="box">
+    <div class="box-head">Две записи одного и того же решения</div>
+    <div class="box-body">
+      <div class="tabs" role="tablist" aria-label="Варианты записи решения">
+        <button type="button" role="tab" id="rb1" aria-selected="true" aria-controls="rp1">Без обоснования</button>
+        <button type="button" role="tab" id="rb2" aria-selected="false" aria-controls="rp2">С наблюдениями и контекстом</button>
+      </div>
+
+      <div class="tabpanel on" id="rp1" role="tabpanel" aria-labelledby="rb1">
+        <div class="twocol" style="grid-template-columns:1fr">
+          <div>
+            <span class="h bad-h">Запись в задаче</span>
+            «Обсудили оформление заказа. Решили делать в три шага, как предлагал дизайн. Прототип в Figma, ссылка в чате.»
+          </div>
+        </div>
+        <div class="tabnote"><b>Чего не хватает</b>Не указаны вопрос, условия проверки и наблюдения. По фразе «как предлагал дизайн» нельзя понять причину выбора. Ссылку на конкретную версию прототипа тоже придётся искать отдельно.</div>
+      </div>
+
+      <div class="tabpanel" id="rp2" role="tabpanel" aria-labelledby="rb2">
+        <div class="twocol" style="grid-template-columns:1fr">
+          <div>
+            <span class="h good-h">Запись в задаче</span>
+            <b>Выбор:</b> один экран — в расчёте на меньшее число шагов; три шага — в расчёте на более заметные ошибки.<br>
+            <b>Проверяли:</b> 5 человек, оба варианта каждому в разном порядке, одна задача, в обоих вариантах подложена ошибка в адресе. 12 марта.<br>
+            <b>Что увидели:</b> на одном экране 3 из 5 не заметили ошибку в адресе и нажали «Оформить» по два-три раза; 4 из 5 не смогли сказать, много ли осталось. На трёх шагах ошибку заметили все пятеро, но двое сказали «долговато».<br>
+            <b>Решение:</b> три шага, второй шаг сокращаем до двух полей. Принял: Аня (продукт), 12 марта.<br>
+            <b>Что не проверяли:</b> влияние на конверсию. Способ оценки в продукте согласуем до релиза; результаты рассмотрим через месяц.<br>
+            <b>Прототипы:</b> 2026-03-12-оформление-1экран, 2026-03-12-оформление-3шага (лежат рядом с задачей).
+          </div>
+        </div>
+        <div class="tabnote"><b>Что помогает понять решение</b>Здесь есть условия проверки, конкретные наблюдения и границы вывода. Видно, кто принял решение и где найти проверенные версии. Новые данные могут изменить выбор, но его прежние основания сохранятся.</div>
+      </div>
+    </div>
+    <div class="box-foot">Запишите итог в день встречи, пока детали обсуждения свежи. Дайте участникам проверить формулировку.</div>
+  </div>
+
+  <div class="box">
+    <div class="box-head">Шаблон записи решения<span class="spacer"></span><button class="btn" data-copy="#decTmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="decTmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">РЕШЕНИЕ: ______________________________        Дата: __.__.____
+
+ОБСУЖДАЕМЫЕ ВАРИАНТЫ
+сторона 1: ______________________ аргумент: ____________________
+сторона 2: ______________________ аргумент: ____________________
+
+ЧТО ПРОВЕРЯЛИ (только то, что наблюдаемо)
+______________________________________________________________
+
+КАК
+участников: __   порядок чередовали: да/нет   задача: ___________
+одинаковые в обоих вариантах: данные, тексты, состояния
+
+ЧТО УВИДЕЛИ
+вариант 1 «____________»
+— __ из __ ____________________________________________________
+вариант 2 «____________»
+— __ из __ ____________________________________________________
+
+РЕШЕНИЕ И КТО ПРИНЯЛ
+______________________________________________________________
+принял: ______________
+
+ЧТО НЕ ПРОВЕРЯЛИ (границы вывода)
+— ______________________________________________________________
+
+ОТДЕЛЬНЫЕ ВОПРОСЫ (что разобрать после основного решения)
+— ______________________________________________________________
+
+ПРОТОТИПЫ
+ГГГГ-ММ-ДД-сценарий-вариант : ____________________
+ГГГГ-ММ-ДД-сценарий-вариант : ____________________
+ссылки рядом с решением: ______________________________________</pre>
+    </div>
+    <div class="box-foot">В графе «Что не проверяли» обозначьте, на какие вопросы эти наблюдения не отвечают. Например, понимание формы ещё не подтверждает рост конверсии.</div>
+  </div>
+</section>
+
+<section id="keep">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Как хранить прототип и передавать результат</h2></div>
+  <p class="sec-sub">Сохраните проверенную версию и обозначьте, что ещё нужно описать для разработки.</p>
+
+  <p>Ссылка на прототип полезна, если по ней можно открыть именно ту версию, которую проверяли. Когда файл изменён или потерян, наблюдения труднее сопоставить с экранами. Продумайте хранение вместе с записью решения.</p>
+
+  <h3>Четыре правила хранения</h3>
+  <ol class="rules">
+    <li><b>Дата, сценарий и вариант в названии.</b> Например, <code>2026-03-12-оформление-3шага</code>. По такому имени проще отличить версии и найти нужную.</li>
+    <li><b>Ссылка рядом с решением.</b> Добавьте её в задачу или вики, чтобы не искать среди сообщений в чате.</li>
+    <li><b>Карточка перед экранами прототипа.</b> Укажите дату, вопрос проверки, статус и ссылку на решение. Это поможет открыть файл без дополнительных пояснений.</li>
+    <li><b>Отдельная проверенная версия.</b> Для дальнейших правок сделайте копию с новой датой или сохраните доступный снимок версии. Запись решения должна ссылаться на то, что видели участники.</li>
+  </ol>
+
+  <div class="wf-row" style="margin:20px 0">
+    <div class="wf-col" style="max-width:420px">
+      <p class="wf-cap">Карточка на первом экране прототипа</p>
+      <div class="stub" style="text-align:left">
+        <div style="font-weight:600; margin-bottom:8px">Оформление заказа · вариант 2 «три шага»</div>
+        <div style="font-size:13px; line-height:1.6">
+          <b>Дата:</b> 12 марта 2026<br>
+          <b>Вопрос:</b> заметят ли люди ошибку в адресе и понимают ли, сколько осталось<br>
+          <b>Статус:</b> проверено на 5 людях, решение принято<br>
+          <b>Решение:</b> ссылка на запись в задаче<br>
+          <b>Это черновик для проверки, не макет для разработки</b>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="dim">Последняя строка обозначает назначение файла. На передаче в разработку дополнительно поясните, какие материалы готовы и каких ещё не хватает.</p>
+
+  <h3>Что ещё нужно для разработки</h3>
+  <p>Кликабельный прототип может выглядеть готовым: на экранах есть данные, переходы работают. Но он показывает <strong>поведение в подготовленных сценариях</strong>, а для реализации нужно описать <strong>остальные условия и состояния</strong>. Проверьте, что уже есть в материалах, и договоритесь с разработчиками о недостающем.</p>
+
+  <div class="box">
+    <div class="box-head">Разбор · что дополнить к учебному прототипу</div>
+    <div class="box-body">
+      <div class="accs" id="accSpec">
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">01</span><span class="ttl">Сценарий и переходы</span><span class="tag ok">Прототип даёт</span></button>
+          <p class="hintline">Видно, как человек проходит подготовленную задачу.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что даёт</span><span class="v">Основной путь целиком и одну-две ветки — те, что нужны были для проверки.</span></div>
+            <div class="row"><span class="k">Что проверить</span><span class="v">Есть ли описание отмены, прав доступа, потери связи и других веток, которые не входили в тестовую задачу.</span></div>
+            <div class="row"><span class="k">Где описать</span><span class="v">В схеме сценария со всеми нужными ветками. Обновите её после проверки и приложите к материалам для разработки.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">02</span><span class="ttl">Состояния экранов</span><span class="tag no">Есть частично</span></button>
+          <p class="hintline">В учебном прототипе подготовлены состояния для тестовых задач.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что есть</span><span class="v">Загрузка, пустое состояние и ошибки, которые были нужны для проверки.</span></div>
+            <div class="row"><span class="k">Чего нет</span><span class="v">Полного списка: что с каждым элементом, когда данных нет, когда их слишком много, когда человек не авторизован, когда действие уже выполняется.</span></div>
+            <div class="row"><span class="k">Где описать</span><span class="v">В таблице состояний рядом с экраном или в другом принятом в команде формате.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">03</span><span class="ttl">Тексты</span><span class="tag no">Черновые</span></button>
+          <p class="hintline">Проверьте, какие формулировки согласованы, а какие остались черновыми.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что есть</span><span class="v">Подписи и сообщения для проверенного сценария.</span></div>
+            <div class="row"><span class="k">Что проверить</span><span class="v">Готовы ли тексты остальных ошибок, писем, уведомлений и пустых состояний.</span></div>
+            <div class="row"><span class="k">Что сделать</span><span class="v">Отметьте черновые формулировки и договоритесь, кто их уточнит до выпуска.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">04</span><span class="ttl">Длинные тексты и крайние значения</span><span class="tag no">Нужны правила</span></button>
+          <p class="hintline">Что будет с длинным названием, большой суммой, двенадцатью позициями.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что даёт</span><span class="v">Один экран на неудобных данных — если вы его сделали на прошлом уровне.</span></div>
+            <div class="row"><span class="k">Чего нет</span><span class="v">Правил: где обрезаем многоточием, где переносим, сколько строк максимум, что делать с нулём и с отрицательным.</span></div>
+            <div class="row"><span class="k">Где описать</span><span class="v">В правилах компонентов или описании экрана: где текст переносится, где сокращается, какие ограничения действуют.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">05</span><span class="ttl">Правила поведения</span><span class="tag no">Нужны детали</span></button>
+          <p class="hintline">Когда кнопка активна, что проверяется при вводе, что при повторном нажатии.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что есть</span><span class="v">Настроенные переходы и реакции. В простом прототипе они могут лишь изображать работу интерфейса.</span></div>
+            <div class="row"><span class="k">Что проверить</span><span class="v">Когда проверяются поля, как обрабатываются повторное нажатие, таймаут и возврат из другого приложения.</span></div>
+            <div class="row"><span class="k">Где описать</span><span class="v">В спецификации или описании задачи, например правилами «если — то». Формат согласуйте с разработчиками.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">06</span><span class="ttl">Права, роли и аналитика</span><span class="tag no">Проверить</span></button>
+          <p class="hintline">Кому что видно и какие события нужно отправлять.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что есть</span><span class="v">Роли и права, которые были нужны для тестовой задачи. В этом прототипе они не описаны полностью.</span></div>
+            <div class="row"><span class="k">Что проверить</span><span class="v">Какие действия доступны гостю и другим ролям. Отдельно определите события, нужные для оценки результата после выпуска.</span></div>
+            <div class="row"><span class="k">Почему важно</span><span class="v">Чтобы оценить конверсию после выпуска, заранее договоритесь, какие данные собирать и как сравнивать результат.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="box-foot">Прототип показывает выбранные сценарии. Материалы для разработки должны дополнительно описывать условия и правила, необходимые для реализации.</div>
+  </div>
+
+  <div class="rule"><b>Укажите, для чего готов прототип.</b> Добавьте пометку «Черновик для проверки» и на встрече назовите, что ещё предстоит подготовить: макеты, полную схему сценария, состояния и правила поведения. Договоритесь с разработчиками о составе передачи.</div>
+
+  <div class="warnbox"><b>Если разработка уже началась, сначала уточните пробелы.</b> Вместе с разработчиками определите, какие состояния, тексты и правила нужны в первую очередь. Оцените работу и договоритесь, кто её выполнит. Причины неполной передачи можно отдельно обсудить с командой.</div>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Возьмите решение, по которому команда пока не договорилась. Сравните два прототипа, обсудите наблюдения и запишите итог.</p>
+
+  <h3>Часть 1 · Выбрать вопрос, 30 минут</h3>
+  <ol>
+    <li><strong>Выберите реальную рабочую задачу,</strong> где команда рассматривает два подхода и не хватает данных для выбора.</li>
+    <li><strong>Проверьте, поможет ли прототип,</strong> по разделу 4: есть ли вопрос о поведении, насколько важны последствия ошибки, какие данные уже доступны.</li>
+    <li><strong>Разложите аргументы по трём колонкам</strong> вместе с коллегами: поведение, приоритеты, предпочтения.</li>
+    <li><strong>Запишите один вопрос проверки</strong> из первой колонки. Уточните, по каким наблюдениям будете сравнивать варианты.</li>
+  </ol>
+
+  <h3>Часть 2 · Собрать пару, полдня</h3>
+  <ol>
+    <li><strong>Одна проверяемая разница.</strong> Сохраните сопоставимые данные, тексты и состояния. Необходимые различия навигации опишите отдельно.</li>
+    <li><strong>Оба варианта должны передавать задумку авторов.</strong> Покажите их коллегам до тестирования и уточните спорные места.</li>
+    <li><strong>Нейтральные названия:</strong> «Вариант 1», «Вариант 2» с описанием сути, без «нового» и «старого».</li>
+    <li><strong>Подготовьте одинаковые условия проверки:</strong> например, ошибку в адресе или длинные данные в обоих вариантах.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить на людях, полтора часа</h3>
+  <ol>
+    <li><strong>Пригласите пять человек, которым знакома задача.</strong> Каждый проходит оба варианта; порядок показа чередуйте.</li>
+    <li><strong>Дайте одинаковую задачу</strong> и наблюдайте за выполнением. Записывайте затруднения, ожидания и подсказки, если они понадобились.</li>
+    <li><strong>Запишите наблюдения по каждому варианту:</strong> «__ из 5» и что именно произошло. Учитывайте, что второй вариант участники проходят уже после знакомства с задачей.</li>
+  </ol>
+
+  <h3>Часть 4 · Показать обеим сторонам, 30 минут</h3>
+  <ol>
+    <li><strong>Используйте шаблон из раздела 5:</strong> вопрос, условия проверки, наблюдения и отдельный список замечаний вне темы.</li>
+    <li><strong>Пригласите разработчиков и продакт-менеджера,</strong> чтобы оценить ограничения и объём реализации до выбора.</li>
+    <li><strong>Запишите решение ответственного</strong> и уточните, одинаково ли команда понимает следующие действия.</li>
+    <li><strong>Вернитесь к остальным замечаниям</strong> и договоритесь, что с ними делать.</li>
+  </ol>
+
+  <h3>Часть 5 · Зафиксировать, 30 минут в тот же день</h3>
+  <ol>
+    <li><strong>Заполните шаблон записи</strong> из раздела 6: спор, что проверяли, что увидели, решение, кто принял, что не проверяли.</li>
+    <li><strong>Положите её туда, где принимаются решения,</strong> и приложите ссылки на оба прототипа.</li>
+    <li><strong>Переименуйте прототипы</strong> по схеме с датой и добавьте карточку на первый экран.</li>
+  </ol>
+
+  <div class="rule"><b>Как понять, что задание выполнено.</b> Команда приняла решение с учётом наблюдений. В записи видны вопрос, условия проверки, результаты, основания выбора и то, что осталось неизвестным. Коллега может открыть её и понять ход решения без вашего пересказа.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Аргументы в трёх колонках</strong> и вопрос проверки о поведении.</li>
+    <li><strong>Два прототипа</strong> с описанным различием и сопоставимыми данными и состояниями.</li>
+    <li><strong>Наблюдения</strong> по пяти людям в форме «__ из 5» по каждому варианту.</li>
+    <li><strong>Запись решения</strong> по шаблону, включая графу «что не проверяли».</li>
+    <li><strong>Прототипы с именами и карточками,</strong> лежащие рядом с решением.</li>
+  </ul>
+  <p class="dim">Ориентир: полчаса на вопрос, полдня на прототипы, полтора часа на встречи с участниками, полчаса на командное обсуждение и полчаса на запись. Срок зависит от сложности сценария; поиск участников запланируйте отдельно.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Вопрос не о поведении».</strong> Уточните, какая информация нужна для решения. Возможно, стоит обратиться к аналитике или обсудить приоритет с ответственным за продукт.</li>
+    <li><strong>«Коллега не узнаёт свой вариант».</strong> Выясните, что передано неверно. Исправьте расхождения и согласуйте вариант до проверки.</li>
+    <li><strong>«Ни один вариант не подходит целиком».</strong> Сформулируйте, что полезного показал каждый. Новый комбинированный вариант тоже нужно проверить: он отличается от обоих исходных.</li>
+    <li><strong>«Разговор ушёл в оформление».</strong> Напомните вопрос встречи и покажите наблюдения. Уточните, влияет ли замечание на проверяемую задачу; если нет, запишите его для отдельного обсуждения.</li>
+    <li><strong>«Через неделю решение пересмотрели».</strong> Уточните, что изменилось: данные, цели или ограничения. Сохраните новую версию решения и причину пересмотра.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Сравнение подготовлено, если</h3>
+  <ul class="ok-list">
+    <li>Команда отделила предположения о поведении от приоритетов и предпочтений</li>
+    <li>Вопрос можно проверить наблюдением за выполнением задачи</li>
+    <li>Оба варианта подготовлены с одинаковой тщательностью</li>
+    <li>Проверяемая разница явно описана</li>
+    <li>Данные, тексты и состояния сопоставимы</li>
+    <li>Авторы подтвердили, что прототипы передают их задумку</li>
+    <li>Названия нейтральные, без «нового» и «старого»</li>
+    <li>Порядок показа участникам чередуется</li>
+    <li>Команда согласовала время и цель проверки</li>
+  </ul>
+
+  <h3>Обсуждение завершено, если</h3>
+  <ul class="ok-list">
+    <li>Детализация прототипов соответствует вопросу проверки</li>
+    <li>Вопрос висел на экране всю встречу</li>
+    <li>Команда увидела, как участники выполняли задачу</li>
+    <li>Замечания вне темы записаны и для них определён следующий шаг</li>
+    <li>Наблюдения отделены от предложенных объяснений</li>
+    <li>Ответственный сформулировал решение и его основания</li>
+    <li>Разработчики помогли оценить ограничения до выбора варианта</li>
+    <li>Запись сделана в тот же день и лежит рядом с задачей</li>
+    <li>В записи есть наблюдения с числами «__ из 5» и графа «что не проверяли»</li>
+    <li>Прототипы названы по дате и имеют карточку на первом экране</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Проверен только один из обсуждаемых вариантов.</b> Для сравнения не хватает наблюдений об альтернативе.</li>
+    <li><b>Один вариант подготовлен хуже.</b> Ограничения прототипа могут повлиять на результат сравнения.</li>
+    <li><b>Одновременно изменено много деталей.</b> Труднее понять, какое различие повлияло на поведение.</li>
+    <li><b>Неясно, что значит «лучше».</b> Нужны конкретные вопросы: заметит ли ошибку, сможет ли исправить, поймёт ли следующий шаг.</li>
+    <li><b>Сборка без ясного вопроса.</b> На прототип уходит время, хотя для решения могли подойти готовые данные.</li>
+    <li><b>Вывод о долях пользователей по пяти встречам.</b> Небольшая проверка помогает найти затруднения, но не оценивает показатели всего продукта.</li>
+    <li><b>Оформление не соответствует задаче обсуждения.</b> Лишние детали отвлекают, а нехватка нужных мешает проверить вопрос.</li>
+    <li><b>Наблюдения подбираются в пользу своего варианта.</b> Команда не видит полной картины и ограничений каждого подхода.</li>
+    <li><b>Неясно, кто принимает решение.</b> Участники могут по-разному понять итог обсуждения.</li>
+    <li><b>Записан только выбор.</b> Позже трудно восстановить, почему его сделали и какие альтернативы рассмотрели.</li>
+    <li><b>Не указаны границы вывода.</b> Проверку понимания формы могут принять за подтверждение роста конверсии.</li>
+    <li><b>Проверенная версия перезаписана.</b> Наблюдения больше нельзя сопоставить с теми экранами, которые видели участники.</li>
+    <li><b>Неполная передача в разработку.</b> Неописанные состояния, тексты и правила приходится уточнять уже во время реализации.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы целиком</h2></div>
+  <p class="sec-sub">От черновых экранов — к проверке решений и сравнению вариантов вместе с командой.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Что нужно уметь</th><th>Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Собирать черновые экраны с реальными подписями; выделять главное действие; настраивать переходы. Ориентир для упражнения — три-пять экранов за час</td>
+          <td class="dim">Прототип проходится от начала до конца без ваших подсказок и без тупиков</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Middle</b></td>
+          <td class="dim">Подбирать данные и состояния под тестовые задачи; выбирать детализацию; наблюдать за выполнением задач; дорабатывать решение или отказываться от идеи по результатам</td>
+          <td class="dim">В задании показано хотя бы одно решение, доработанное по наблюдениям до подробного оформления</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Выделять проверяемый вопрос; выбирать способ проверки; сравнивать варианты; обсуждать наблюдения с командой; записывать основания решения и сохранять версии; готовить полные материалы для разработки</td>
+          <td>Команда приняла решение с учётом проверки; наблюдения, основания выбора и ограничения записаны</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Ориентир по этой теме:</b> команда умеет определять, каких данных не хватает для выбора, и при необходимости сравнивать решения в прототипах. Результаты остаются в общей записи, а работу может продолжить другой дизайнер.</div>
+</section>
+
+<footer>
+  Урок по теме «Вайрфреймы и прототипы», уровень Senior. Учебный пример — сравнение оформления заказа на одном экране и в три шага. Шаблоны встречи и записи решения из разделов 5 и 6 можно скопировать. Для дальнейшего чтения: Джейк Кнапп, «Спринт»; Эрика Холл, «Just Enough Research»; материалы о записях решений в командах разработки — decision records.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next');
+    var sc = el.closest('.box').querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Здесь подходит «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>После упражнения</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'fact', label: 'Предположение о поведении' }, { key: 'goal', label: 'Выбор приоритета' }, { key: 'taste', label: 'Личная оценка' }],
+    [
+      { t: '<q>Люди не заметят ошибку в поле, если форма длинная</q>', a: 'fact',
+        fb: 'Можно наблюдать, заметили ли участники ошибку и что сделали после неё. Подготовьте одинаковую ошибку в обоих вариантах и сравните прохождения.' },
+      { t: '<q>На мой взгляд, оформление в три шага выглядит старомодно</q>', a: 'taste',
+        fb: 'Это оценка внешнего вида. Уточните, что именно кажется устаревшим и связано ли это с задачей. Пока в реплике нет проверяемого предположения о поведении.' },
+      { t: '<q>Нам сейчас важнее скорость оформления, чем количество ошибок</q>', a: 'goal',
+        fb: 'Здесь выбирают приоритет. Покажите известные последствия каждого подхода и обсудите выбор с ответственным за продукт.' },
+      { t: '<q>Человек на середине не понимает, сколько ещё осталось</q>', a: 'fact',
+        fb: 'Можно спросить участника на одном и том же этапе, какие действия ещё предстоят. Ответ поможет понять, как он представляет оставшийся путь.' },
+      { t: '<q>Мне нравится, когда всё оформление помещается на одной странице</q>', a: 'taste',
+        fb: 'Это личное предпочтение. Чтобы проверить пользу для пользователей, нужен отдельный вопрос: например, находят ли они нужное поле и замечают ли ошибку.' },
+      { t: '<q>Мы не готовы платить поддержкой за ошибки в адресах</q>', a: 'goal',
+        fb: 'Это выбор приемлемых затрат и рисков. Наблюдения помогут обсудить причины ошибок, но по небольшой проверке нельзя рассчитать будущую нагрузку на поддержку.' },
+      { t: '<q>Никто не станет возвращаться и исправлять — просто бросят</q>', a: 'fact',
+        fb: 'Можно проверить попытки исправления в прототипе. При этом отказ от тестовой задачи и отказ от покупки в реальном продукте — разные наблюдения.' },
+      { t: '<q>Мне с длинным экраном приятнее работать</q>', a: 'taste',
+        fb: 'Реплика описывает опыт автора. Он может подсказать вопрос для исследования, но сам по себе не объясняет, как будут действовать другие люди.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'В большинстве примеров вы отделили предположения от приоритетов и предпочтений. Попробуйте так же разобрать аргументы в своей рабочей задаче.'
+        : s >= 4 ? 'Пересмотрите пояснения. Определяйте смысл реплики: её можно проверить наблюдением, для неё нужно выбрать приоритет или она выражает личную оценку?'
+        : 'Вернитесь к таблице в разделе 2. Сначала выделите, что именно можно наблюдать, затем решите, какая проверка для этого подойдёт.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'pair', label: 'Сравнить два прототипа' }, { key: 'words', label: 'Обсудить с командой' },
+     { key: 'data', label: 'Посмотреть аналитику' }, { key: 'product', label: 'Согласовать приоритет' }],
+    [
+      { t: 'Команда выбирает между одним экраном оформления и тремя шагами: где люди легче заметят ошибку? Аргументы есть у обоих вариантов, разработка займёт две недели.', a: 'pair',
+        fb: 'Есть вопрос о поведении и два подхода с заметной стоимостью реализации. Сравнение прототипов поможет получить наблюдения до выбора.' },
+      { t: 'Сколько людей вообще доходит до экрана оплаты?', a: 'data',
+        fb: 'Начните с аналитики продукта: определите период, аудиторию и точку входа. Прохождения нескольких участников не покажут, сколько пользователей достигает оплаты.' },
+      { t: 'Что для нас важнее в этом квартале — скорость оформления или меньше ошибок?', a: 'product',
+        fb: 'Это решение о приоритетах. Подготовьте известные ограничения и последствия вариантов, затем обсудите выбор с ответственным за продукт.' },
+      { t: 'В дизайн-системе уже есть знак удаления. В новом стандартном списке обсуждают, взять его или нарисовать другой.', a: 'words',
+        fb: 'Сначала обсудите, чем новая задача отличается от существующих. Если отличий нет, можно применить принятое правило без сборки двух прототипов.' },
+      { t: '«А мы это, кажется, уже обсуждали весной, но никто не помнит чем кончилось».', a: 'words',
+        fb: 'Сначала найдите запись, задачу или материалы прошлой проверки и восстановите контекст. Если оснований не хватает или условия изменились, выберите следующий способ проверки.' },
+      { t: 'Дизайн и продукт спорят: найдут ли люди отмену заказа в новом меню. Переделка навигации — спринт.', a: 'pair',
+        fb: 'Здесь есть конкретный вопрос о поиске действия и значительная переделка. Сравните варианты меню на прототипах, затем обсудите наблюдения и ограничения.' },
+      { t: 'Какая доля заказов оформляется с телефона?', a: 'data',
+        fb: 'Проверьте данные заказов по устройствам за нужный период. Это вопрос о работе продукта, а не о прохождении прототипа.' },
+      { t: 'Делать ли раздел подписок в этом квартале или отложить на следующий?', a: 'product',
+        fb: 'Это вопрос о плане и приоритетах. Сначала обсудите цели, ресурсы и ограничения. Прототип может понадобиться позже, если для выбора не хватает ответа на конкретный вопрос.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'В большинстве ситуаций вы выбрали подходящий первый шаг. Для рабочей задачи тоже начните с вопроса и уже доступных данных.'
+        : s >= 4 ? 'Сопоставьте цель и затраты: какие сведения нужны для решения, где их можно получить и сколько времени это потребует?'
+        : 'Вернитесь к разделу 4. Сравнение прототипов полезно для вопросов о поведении; для других задач могут подойти аналитика, прежние результаты или обсуждение приоритетов.';
+    }
+  );
+
+  /* ── tabs (scoped per group) ── */
+  document.querySelectorAll('.tabs[role="tablist"]').forEach(function (group) {
+    var tabs = Array.prototype.slice.call(group.querySelectorAll('[role="tab"]'));
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (o) {
+          o.setAttribute('aria-selected', String(o === t));
+          var p = document.getElementById(o.getAttribute('aria-controls'));
+          if (p) p.classList.toggle('on', o === t);
+        });
+      });
+    });
+  });
+
+  /* ── accordions ── */
+  document.querySelectorAll('.accs').forEach(function (group) {
+    group.querySelectorAll('.acc[data-acc]').forEach(function (card) {
+      card.querySelector('button').addEventListener('click', function () {
+        var open = card.classList.contains('open');
+        group.querySelectorAll('.acc').forEach(function (c) { c.classList.remove('open'); });
+        if (!open) card.classList.add('open');
+      });
+    });
+  });
+
+  /* ── diff highlight ── */
+  var diffBtn = document.getElementById('diffBtn'), pairRow = document.getElementById('pairRow');
+  diffBtn.addEventListener('click', function () {
+    var on = pairRow.classList.toggle('show-diff');
+    diffBtn.setAttribute('aria-pressed', String(on));
+    diffBtn.textContent = on ? 'Убрать подсветку' : 'Подсветить, что различается';
+  });
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = (src.innerText || src.textContent).replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

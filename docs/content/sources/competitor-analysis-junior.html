@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Разбор аналогов: как собрать полезные находки</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 60px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 180px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* analog table */
+  .atbl { overflow-x: auto; }
+  .atbl table { min-width: 940px; font-size: 13.5px; }
+  .atbl th, .atbl td { padding: 9px 12px; }
+  .atbl thead th { position: sticky; top: 0; background: var(--surface); }
+  .atbl td:first-child { color: var(--ink); font-weight: 500; white-space: nowrap; }
+  .atbl .hintrow td { color: var(--muted); font-style: normal; font-size: 12.5px; }
+  .atbl .dt { display: block; font: 11.5px ui-monospace, Menlo, monospace; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+  /* screenshot cards */
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .shots { grid-template-columns: 1fr; } }
+  .shot { border: 1px solid var(--border); border-radius: 11px; overflow: hidden; background: var(--raised); }
+  .shot .cap { font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 9px 12px; border-bottom: 1px solid var(--hairline); color: var(--muted); }
+  .shot .cap.bad { color: var(--bad); }
+  .shot .cap.good { color: var(--good); }
+  .shot .ph { height: 108px; background: var(--demo-bg); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12.5px; border-bottom: 1px solid var(--hairline); }
+  .shot .fn { font: 12px ui-monospace, Menlo, monospace; color: var(--ink-2); padding: 10px 12px 4px; word-break: break-all; }
+  .shot .desc { font-size: 13.5px; color: var(--ink-2); padding: 0 12px 12px; }
+  .shot .desc b { color: var(--ink); }
+  .qs { list-style: none; margin: 10px 0 0; padding: 0 12px 12px; font-size: 13px; }
+  .qs li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; margin: 5px 0; color: var(--ink-2); }
+  .qs .m { font-weight: 700; }
+  .qs .no .m { color: var(--bad); }
+  .qs .yes .m { color: var(--good); }
+
+  /* caption builder */
+  .cb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 680px) { .cb-grid { grid-template-columns: 1fr; } }
+  .fld { display: flex; flex-direction: column; gap: 5px; }
+  .fld label { font-size: 13px; color: var(--ink-2); }
+  .fld input, .fld select { border: 1px solid var(--border); background: var(--page); color: var(--ink); border-radius: 8px; padding: 9px 11px; font: 14px system-ui, sans-serif; width: 100%; }
+  .cb-out { margin-top: 16px; border-top: 1px solid var(--hairline); padding-top: 14px; }
+  .cb-line { background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 12px 14px; font: 13.5px/1.7 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; color: var(--ink); }
+  .cb-note { font-size: 13.5px; color: var(--muted); margin-top: 10px; }
+  .cb-miss { color: var(--bad); }
+
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 680px) { .three { grid-template-columns: 1fr; } }
+  .three .c { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: var(--raised); }
+  .three .c h5 { margin: 0 0 4px; font-size: 15px; }
+  .three .c .lab { font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .three .c p { margin: 7px 0 0; font-size: 14px; max-width: none; color: var(--ink-2); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Разбор аналогов · Junior · как собрать полезные находки</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · разбор аналогов</p>
+  <div class="levels" aria-label="Уровень темы: Junior, первый из трёх">
+    <span class="lv on">Junior</span>
+    <span class="lv">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как разобрать аналоги и собрать находки, которые пригодятся в работе</h1>
+  <p class="lede">Разбор аналогов кажется делом на вечер: открыть пять продуктов, поснимать экраны, сложить в папку. Но через месяц в папке может оказаться сто скриншотов, по которым трудно ответить на простой вопрос: как другие решают эту задачу. Здесь разберёмся, как отбирать продукты с похожей задачей, что писать в колонки таблицы, как снимать и подписывать экраны и почему у каждого разбора должна стоять дата.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#pick">Отбирать продукты, которые решают ту же задачу</a>, а не просто из той же отрасли<span class="drillmark">тренажёр</span></li>
+    <li><a href="#table">Заполнять таблицу по готовым колонкам</a>, чтобы её можно было читать по вертикали<span class="drillmark">шаблон и пример</span></li>
+    <li><a href="#shots">Снимать и подписывать экраны</a> так, чтобы через месяц было понятно<span class="drillmark">конструктор</span></li>
+    <li><a href="#date">Ставить дату</a> и понимать срок годности разбора</li>
+    <li><a href="#copy">Не тащить приём в макет</a> только потому, что он есть у всех<span class="drillmark">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Задача, которую разбираем: <b>человек должен самостоятельно отменить заказ</b>. На ней хорошо видно главную ловушку уровня — разница между «тот же рынок» и «та же задача». Отмену заказа решают не только магазины, но и авиабилеты, доставка еды и банковские переводы. В непрямых аналогах часто находятся решения, которые не видно у прямых конкурентов.</div>
+
+<section id="what">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что даёт разбор аналогов и чего не даёт</h2></div>
+  <p class="sec-sub">Короткая, но важная развилка: этот метод часто отвечает не на тот вопрос, с которым его зовут.</p>
+
+  <p>Разбор аналогов показывает <strong>набор решений, которые уже придуманы</strong>. Это карта возможностей: какие способы вообще бывают, что считается нормой, какие есть развилки. Он экономит время: вам не нужно изобретать то, что уже придумали до вас. Ещё он показывает, где у многих одинаково, а значит, решение может быть привычным для людей.</p>
+
+  <p>Чего он не даёт: <strong>ответа, что правильно для вас</strong>. У конкурентов другая аудитория, другие ограничения, другая бизнес-модель, а иногда и просто неудачное решение. То, что решение существует, не значит, что оно работает, — вы видите результат, а не данные, на которых он построен.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Вопрос</th><th>Разбор аналогов поможет?</th></tr></thead>
+      <tbody>
+        <tr><td>Какие вообще бывают способы решить эту задачу?</td><td><b>Да.</b> Это его основная работа</td></tr>
+        <tr><td>Что люди привыкли видеть в таком месте?</td><td><b>Да, косвенно.</b> Если у всех одинаково, привычка скорее есть</td></tr>
+        <tr><td>Какое решение лучше для наших пользователей?</td><td><b>Нет.</b> Это проверяется тестом на своих людях</td></tr>
+        <tr><td>Почему конкурент сделал именно так?</td><td><b>Нет.</b> Вы видите итог, а не причины. Догадки о причинах — это догадки</td></tr>
+        <tr><td>Работает ли это у них?</td><td><b>Нет.</b> У вас нет их метрик. Красивое решение может плохо работать</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Самое полезное, что даёт разбор на этом уровне, — общий язык с командой.</b> Когда вы приносите таблицу, спор «а давайте сделаем как у них» превращается в разговор «вот пять способов, у каждого своя цена». Часто это экономит больше времени, чем сами найденные приёмы.</div>
+</section>
+
+<section id="pick">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Кого брать в аналоги</h2></div>
+  <p class="sec-sub">Первый навык. Частая ошибка — собрать конкурентов по рынку вместо продуктов, которые решают ту же задачу.</p>
+
+  <p>Начинать надо не со списка конкурентов, а с формулировки задачи. <strong>«Человек должен сам отменить заказ»</strong> — вот задача. Теперь вопрос: кто ещё в мире решает её же? И список обычно оказывается шире, чем прямые конкуренты.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Тип</th><th>Кто это</th><th>Зачем брать</th><th>Сколько</th></tr></thead>
+      <tbody>
+        <tr><td><b>Прямые</b></td><td>Продукты вашего рынка, где та же задача</td><td>Показывают, к чему привыкли ваши пользователи</td><td class="num">2–3</td></tr>
+        <tr><td><b>Непрямые</b></td><td>Другой рынок, но задача та же: отмена брони, отмена перевода, отмена доставки</td><td>Здесь часто находятся свежие решения — прямые конкуренты могли их не заметить</td><td class="num">2–3</td></tr>
+        <tr><td><b>Эталонные</b></td><td>Продукты, известные качеством интерфейса, даже из другой области</td><td>Показывают планку исполнения</td><td class="num">0–1</td></tr>
+        <tr><td class="dim"><b>Не берём</b></td><td class="dim">Тот же рынок, но другая задача. Или те, у кого этого просто нет</td><td class="dim">Занимают место и создают видимость полезного сравнения</td><td class="dim">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Проверка одним вопросом:</b> «какую задачу человека решает этот экран?» Если ответ совпадает с вашей задачей, продукт годится, даже если это авиакомпания, а вы делаете доставку еды. Если ответ другой, продукт лучше не брать в этот раз, даже если это главный конкурент. Отрасль здесь вторична.</div>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · это аналог для задачи «человек сам отменяет заказ»?<span class="spacer"></span><span class="sc num">0 / 8</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Правило набора: примерно поровну прямых и непрямых. Разбор из одних прямых конкурентов чаще показывает середину рынка: вы увидите привычные решения, но можете не найти новых ходов.</div>
+  </div>
+
+  <h3>Где искать непрямые аналоги</h3>
+  <ul>
+    <li><strong>Сформулируйте задачу без слов вашей отрасли</strong> и поищите так. «Отменить то, что уже заказал» — и в выдаче окажутся билеты, отели, такси, банки.</li>
+    <li><strong>Спросите себя, где ещё есть та же трудность:</strong> необратимость, окно времени, деньги уже списаны, страх сделать хуже. Продукты с той же трудностью — ваши аналоги.</li>
+    <li><strong>Библиотеки интерфейсов</strong> с фильтром по сценарию — Mobbin и подобные. Быстрее, чем регистрироваться в пяти сервисах.</li>
+    <li><strong>Спросите коллег и знакомых:</strong> «где ты недавно что-то отменял и как это прошло?» Живые примеры часто находятся за несколько минут.</li>
+    <li><strong>Зарубежные продукты</strong> — там часто другие решения, потому что другие привычки и другое регулирование.</li>
+  </ul>
+
+  <div class="rule"><b>Пять — удобное рабочее число.</b> На двух-трёх аналогах трудно увидеть закономерности, а на десяти легко потратить день на заполнение таблицы и перестать замечать различия. Пять аналогов, разобранных внимательно, полезнее пятнадцати, пролистанных бегло.</div>
+</section>
+
+<section id="table">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Таблица: колонки и что в них писать</h2></div>
+  <p class="sec-sub">Второй навык. Ниже готовая таблица для задания: шаблон и заполненный пример.</p>
+
+  <p>Смысл фиксированных колонок в том, что вы заполняете одно и то же по каждому продукту и потом читаете таблицу <strong>по вертикали</strong>. Именно вертикальное чтение и даёт ответ «как эту задачу решают другие»: видно, где все одинаковы, а где расходятся. Разбор в свободной форме хуже подходит для сравнения: каждый продукт описан по-своему, и закономерности приходится искать заново.</p>
+
+  <div class="box">
+    <div class="box-head">Таблица разбора аналогов
+      <span class="spacer"></span>
+      <button class="btn tt" id="ttTpl" type="button" aria-pressed="false">Шаблон</button>
+      <button class="btn tt" id="ttEx" type="button" aria-pressed="true">Пример</button>
+      <button class="btn" data-copy="#atblWrap" type="button">Скопировать</button>
+    </div>
+    <div class="box-body" style="padding:0">
+      <div class="atbl" id="atblWrap"></div>
+    </div>
+    <div class="box-foot">Заполняется примерно 20–30 минут на продукт. Если по какой-то колонке ответить нечем — так и пишите «нет» или «не нашёл»: пустая клетка выглядит как забывчивость, а «не нашёл» — это результат, иногда самый интересный.</div>
+  </div>
+
+  <h3>Как писать в колонки, чтобы таблица читалась</h3>
+  <ul>
+    <li><strong>Одной фразой, а не абзацем.</strong> Колонка с тремя предложениями ломает вертикальное чтение: приходится листать вбок, и сравнение быстро расползается.</li>
+    <li><strong>Фактами, а не оценками.</strong> «Два шага, подтверждение в диалоге» — факт. «Удобно сделано» — оценка, которую трудно сравнить с соседней строкой.</li>
+    <li><strong>Одинаковыми словами.</strong> Если в одной строке написали «шторка снизу», не пишите в другой «bottom sheet». Сравнивать нужно смысл, а не ваш словарный запас.</li>
+    <li><strong>Считайте шаги одинаково.</strong> Договоритесь с собой, что считается шагом (экран? клик?), и держитесь этого во всех строках.</li>
+    <li><strong>Колонки «сильное» и «слабое» — по одной мысли.</strong> Не список, а одно главное: что вы бы забрали или чего не стали бы повторять.</li>
+  </ul>
+
+  <div class="warnbox"><b>Не добавляйте колонку «оценка» или «баллы».</b> Соблазн поставить каждому продукту оценку от 1 до 5 велик, но эти баллы берутся из воздуха: вы не тестировали их интерфейсы на людях и не знаете их метрик. Таблица с баллами выглядит объективной, но часто состоит из впечатлений. Для учебного разбора лучше оставить факты и короткие выводы.</div>
+</section>
+
+<section id="shots">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Экраны: снять так, чтобы через месяц было понятно</h2></div>
+  <p class="sec-sub">Третий навык. Отличие рабочего разбора от папки с картинками — в понятных подписях.</p>
+
+  <p>Через месяц легко забыть, что происходило на скриншоте, куда человек до этого нажал и почему вы вообще его сняли. Другой человек без подписи тоже вряд ли восстановит контекст. Лечится это не количеством скриншотов, а тремя строчками текста рядом с каждым.</p>
+
+  <div class="shots">
+    <div class="shot">
+      <div class="cap bad">Так через месяц почти не помогает</div>
+      <div class="ph">экран отмены заказа</div>
+      <div class="fn">Screenshot 2026-09-16 at 14.32.11.png</div>
+      <div class="desc">Лежит в папке «Конкуренты» вместе с ещё девяноста файлами.</div>
+      <ul class="qs">
+        <li class="no"><span class="m">✕</span><span>Что это за продукт?</span></li>
+        <li class="no"><span class="m">✕</span><span>Какой это шаг сценария?</span></li>
+        <li class="no"><span class="m">✕</span><span>Что человек нажал до этого?</span></li>
+        <li class="no"><span class="m">✕</span><span>Зачем вы это сняли?</span></li>
+        <li class="no"><span class="m">✕</span><span>Актуально ли это сейчас?</span></li>
+      </ul>
+    </div>
+    <div class="shot">
+      <div class="cap good">Так работает и через год</div>
+      <div class="ph">экран отмены заказа</div>
+      <div class="fn">ozon_02_карточка-заказа_2026-09-16.png</div>
+      <div class="desc"><b>Шаг 2 из 3.</b> Карточка заказа после нажатия «Мои заказы». Отмена — текстовой кнопкой под составом, рядом условие «до передачи в доставку». <b>Снял ради:</b> вход в отмену находится прямо в карточке, а не в меню.</div>
+      <ul class="qs">
+        <li class="yes"><span class="m">✓</span><span>Продукт — в имени файла</span></li>
+        <li class="yes"><span class="m">✓</span><span>Номер шага — видно порядок</span></li>
+        <li class="yes"><span class="m">✓</span><span>Что было до — восстановим сценарий</span></li>
+        <li class="yes"><span class="m">✓</span><span>Зачем снял — главное поле</span></li>
+        <li class="yes"><span class="m">✓</span><span>Дата — понятно, насколько свежее</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="box-head">Конструктор · собери имя файла и подпись<span class="spacer"></span><button class="btn" data-copy="#cbOut" type="button">Скопировать</button></div>
+    <div class="box-body">
+      <div class="cb-grid">
+        <div class="fld"><label for="cbProd">Продукт</label><input type="text" id="cbProd" value="ozon" placeholder="например, ozon"></div>
+        <div class="fld"><label for="cbStep">Номер шага и всего шагов</label><input type="text" id="cbStep" value="2 из 3" placeholder="2 из 3"></div>
+        <div class="fld"><label for="cbScreen">Что за экран</label><input type="text" id="cbScreen" value="карточка заказа" placeholder="карточка заказа"></div>
+        <div class="fld"><label for="cbBefore">Что было до этого</label><input type="text" id="cbBefore" value="нажал «Мои заказы»" placeholder="нажал «Мои заказы»"></div>
+        <div class="fld" style="grid-column:1/-1"><label for="cbWhy">Зачем сняли — что здесь интересного</label><input type="text" id="cbWhy" value="вход в отмену прямо в карточке, а не в меню «⋯»" placeholder="что именно вы хотели зафиксировать"></div>
+        <div class="fld"><label for="cbDate">Дата просмотра</label><input type="date" id="cbDate"></div>
+      </div>
+      <div class="cb-out">
+        <div class="cb-line" id="cbOut"></div>
+        <p class="cb-note" id="cbNote"></p>
+      </div>
+    </div>
+    <div class="box-foot">Поле «зачем сняли» — главное. Скриншот без него быстро превращается в картинку: вроде красиво, но непонятно, что с этим делать.</div>
+  </div>
+
+  <h3>Правила съёмки</h3>
+  <ul>
+    <li><strong>Снимайте сценарий, а не экраны.</strong> Три-пять кадров подряд, показывающих путь от начала до конца, полезнее двадцати красивых отдельных экранов.</li>
+    <li><strong>Нумеруйте в имени файла:</strong> <code>01</code>, <code>02</code>, <code>03</code>. Порядок — половина смысла, а папка сортирует по алфавиту.</li>
+    <li><strong>Снимайте целый экран,</strong> а не вырезанный кусок. Через месяц вы не поймёте, что было вокруг.</li>
+    <li><strong>Снимайте и промежуточные состояния:</strong> что показывают при загрузке, что при ошибке, что если отменять поздно. Самое интересное часто оказывается там.</li>
+    <li><strong>Пишите подпись сразу,</strong> в момент съёмки. Отложите на вечер — не вспомните половину.</li>
+    <li><strong>Держите ссылку на источник</strong> рядом с продуктом в таблице: интерфейс может поменяться, но будет понятно, где проверять.</li>
+  </ul>
+</section>
+
+<section id="date">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Дата: у разбора есть срок годности</h2></div>
+  <p class="sec-sub">Четвёртый навык. Строчка на десять символов, без которой документ быстро теряет точность.</p>
+
+  <p>Интерфейсы переделывают постоянно. Разбор, сделанный в марте, к сентябрю описывает продукты, которых уже нет в таком виде. Проблема не в том, что он устарел, а в том, что <strong>без даты этого не видно</strong>. Человек открывает таблицу, читает «у них отмена в меню „⋯“», идёт спорить с командой — и оказывается неправ, потому что полгода назад это было так, а теперь иначе.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Где ставить дату</th><th>Зачем именно там</th></tr></thead>
+      <tbody>
+        <tr><td>В шапке всего разбора</td><td>Первое, что видит читатель: «собрано 16 сентября 2026»</td></tr>
+        <tr><td>В каждой строке таблицы</td><td>Продукты смотрят не в один день; у одного данные могут быть свежее</td></tr>
+        <tr><td>В имени каждого файла со скриншотом</td><td>Файлы расходятся по презентациям и чатам отдельно от таблицы</td></tr>
+        <tr><td>Рядом со ссылкой на продукт</td><td>Понятно, что проверять, если решение вдруг не находится</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Ориентир по сроку годности: три месяца — свежо, полгода — требует перепроверки, год — только как история.</b> Быстрее всего стареют мелочи: тексты кнопок, расположение элементов, конкретные экраны. Дольше живут общие подходы — «отмена доступна в течение часа», «подтверждение через ввод названия». Поэтому в старом разборе можно доверять колонке «как решена задача» а скриншоты лучше перепроверить.</div>
+
+  <p>И ещё одна привычка, которая почти ничего не стоит: <strong>укажите платформу и версию</strong>. «iOS-приложение, версия 4.12» или «веб, десктоп». Одна и та же компания может решать задачу по-разному на сайте и в приложении, и без этой пометки вы будете сравнивать несравнимое.</p>
+</section>
+
+<section id="copy">
+  <div class="sec-head"><h2><span class="h2-num">6</span>«У всех так» — это не причина</h2></div>
+  <p class="sec-sub">Пятый навык. Самая соблазнительная ошибка после хорошего разбора.</p>
+
+  <p>Когда таблица заполнена и видно, что четверо из пяти сделали одинаково, возникает естественная мысль: значит, так и надо. Иногда это правда — но по другой причине, чем кажется. <strong>«У всех так» само по себе не аргумент</strong>: продукты могли скопировать друг у друга, решать другую задачу или сохранить решение из старой версии.</p>
+
+  <p>Аргументом это становится только вместе с объяснением, <em>почему</em> так. Чаще всего есть три объяснения:</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Почему у всех одинаково</th><th>Что с этим делать</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Люди к этому привыкли.</b> Корзина справа вверху, кнопка «назад» слева. Ломать — значит заставлять переучиваться</td>
+          <td>Брать. Отступать можно, только если понимаете, что теряете</td>
+        </tr>
+        <tr>
+          <td><b>Так устроено ограничение.</b> Срок отмены зависит от логистики, а не от дизайна</td>
+          <td>Проверить, есть ли это ограничение у вас. Часто его нет — и тогда это ваше преимущество</td>
+        </tr>
+        <tr>
+          <td><b>Просто скопировали друг у друга.</b> Никто не проверял, все повторили за лидером рынка</td>
+          <td>Не брать автоматически. Здесь может быть место сделать лучше</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Как отличить одно от другого без отдельного исследования.</b> Спросите: «если сделать иначе, человек растеряется или просто заметит, что тут по-другому?» Растеряется — вероятно, это привычка, и ломать её дорого. Просто заметит — скорее мода, и её можно не повторять. На Junior-уровне такого различения достаточно; по-настоящему привычку проверяют юзабилити-тестом.</div>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · тащить это в свой макет?<span class="spacer"></span><span class="sc num">0 / 7</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Полезная формулировка для команды: «у четверых из пяти так, но у них это из-за логистики, а у нас её нет — значит, мы можем иначе». Она объясняет и находку, и решение одновременно.</div>
+  </div>
+</section>
+
+<section id="three">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Три строки итога</h2></div>
+  <p class="sec-sub">То, ради чего заполнялась таблица. Три предложения, которые помогут быстро понять вывод.</p>
+
+  <p>Таблицу целиком прочитают один-два человека. Остальные, скорее всего, прочитают три строки под ней — и по ним будут понимать вывод. Поэтому пишутся они не в свободной форме, а по трём вопросам: <strong>что общее у всех, что уникально, что вам не подошло бы</strong>.</p>
+
+  <div class="three">
+    <div class="c">
+      <span class="lab">Строка 1</span>
+      <h5>Что общее</h5>
+      <p>Отмена почти везде доступна ограниченное время — до сборки, до передачи курьеру, в течение часа. Пятеро из пяти показывают срок текстом рядом с кнопкой, а не прячут в условия.</p>
+    </div>
+    <div class="c">
+      <span class="lab">Строка 2</span>
+      <h5>Что уникально</h5>
+      <p>Только у сервиса доставки еды есть «отмена отмены» — 10 секунд на возврат действия вместо диалога «вы уверены». В остальных — обычное подтверждение.</p>
+    </div>
+    <div class="c">
+      <span class="lab">Строка 3</span>
+      <h5>Что не подошло бы нам</h5>
+      <p>Отмена через чат поддержки, как у двоих. У них сложные возвраты и живые операторы, у нас ни того, ни другого — для нас это просто перекладывание работы на человека.</p>
+    </div>
+  </div>
+
+  <div class="rule"><b>Проверка качества трёх строк: в каждой должно быть число и конкретика.</b> «Пятеро из пяти показывают срок текстом» работает; «многие показывают условия» — слишком расплывчато. И в третьей строке обязательно объяснение, почему не подошло бы, — иначе это просто вкусовщина, а не вывод из разбора.</div>
+
+  <h3>Чего в итогах быть не должно</h3>
+  <ul>
+    <li><strong>Оценок продуктов.</strong> «У Ozon сделано лучше всех» — это ваше впечатление, и оно не следует из таблицы.</li>
+    <li><strong>Готовых решений без объяснения.</strong> «Нам нужна отмена отмены» — это предложение, а не наблюдение. Его место в обсуждении после разбора.</li>
+    <li><strong>Пересказа таблицы.</strong> Если три строки повторяют содержимое колонок, они не нужны: их задача — сказать то, что видно только при взгляде сверху.</li>
+  </ul>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Своя задача, пять аналогов, заполненная таблица и три строки.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Сформулируй задачу</strong> (15 мин) одной фразой, словами человека, без названий разделов и без вашей отрасли. «Человек должен сам отменить заказ», а не «раздел отмены в личном кабинете».</li>
+    <li><strong>Собери список кандидатов</strong> (40 мин): 3–4 прямых, 3–4 непрямых. Прогони каждого через вопрос «какую задачу человека решает этот экран».</li>
+    <li><strong>Отбери пять</strong> — примерно поровну прямых и непрямых.</li>
+    <li><strong>Пройди сценарий в каждом руками</strong> (20–30 мин на продукт). Именно пройди, а не полистай: многие находки обнаруживаются на промежуточных экранах.</li>
+    <li><strong>Снимай экраны по ходу</strong> и подписывай сразу, по конструктору из раздела 4.</li>
+    <li><strong>Заполни таблицу</strong> — все колонки, без пустых клеток.</li>
+    <li><strong>Прочитай таблицу по вертикали</strong> (20 мин) и напиши три строки итога.</li>
+  </ol>
+  <p class="dim">Ориентир: 4–5 часов. Большая часть уйдёт на прохождение сценариев, и это правильно.</p>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Задача одной фразой</strong> и дата сбора в шапке.</li>
+    <li><strong>Таблица</strong> на пять продуктов, все колонки заполнены, у каждого — дата и платформа.</li>
+    <li><strong>Папка с экранами:</strong> имена по схеме <code>продукт_номер_экран_дата</code>, у каждого подпись «шаг, что было до, зачем снял».</li>
+    <li><strong>Три строки итога</strong> с числами.</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Дайте таблицу человеку, который не участвовал в сборе, и засеките минуту. За эту минуту он должен в общих чертах ответить на вопрос «как эту задачу решают другие», не открывая скриншоты. Если без папки с экранами ответ не складывается, таблица, вероятно, слишком многословная или в ней много оценок вместо фактов.</div>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и типовые ошибки</h2></div>
+
+  <h3>Перед сдачей</h3>
+  <ul>
+    <li>Задача сформулирована словами человека, а не названиями разделов</li>
+    <li>Среди пяти есть хотя бы два непрямых аналога</li>
+    <li>По каждому продукту сценарий пройден руками, а не пролистан</li>
+    <li>Все колонки заполнены; вместо пустых — «нет» или «не нашёл»</li>
+    <li>В колонках факты, а не оценки; одинаковые слова для одинаковых вещей</li>
+    <li>Дата стоит в шапке, в каждой строке и в именах файлов</li>
+    <li>Указана платформа: веб или приложение</li>
+    <li>У каждого скриншота есть подпись «шаг, что было до, зачем снял»</li>
+    <li>Три строки итога содержат числа</li>
+    <li>Таблица читается за минуту без скриншотов</li>
+  </ul>
+
+  <h3>Типовые ошибки</h3>
+  <ul class="err-list">
+    <li><b>Взял конкурентов по рынку.</b> Пять магазинов, которые все делают одинаково, — и мало новых мыслей.</li>
+    <li><b>Не проходил сценарий.</b> Открыл главную, снял красивый экран, задачу не решал. Главные находки часто лежат внутри сценария.</li>
+    <li><b>Папка со скриншотами вместо разбора.</b> Девяносто файлов с автоматическими именами и без подписей.</li>
+    <li><b>Нет даты.</b> Через полгода документ уверенно описывает то, чего уже нет.</li>
+    <li><b>Оценки вместо фактов.</b> «Удобно», «понятно», «топ» — такие слова плохо сравниваются между собой.</li>
+    <li><b>Разные слова для одного и того же.</b> «Шторка» в одной строке и «bottom sheet» в другой — вертикальное чтение ломается.</li>
+    <li><b>Баллы и оценки по пятибалльной шкале</b>, взятые из ощущений, но выглядящие как измерение.</li>
+    <li><b>Пустые клетки.</b> Непонятно, чего не было у продукта, а чего вы не проверили.</li>
+    <li><b>Перенос приёма без объяснения.</b> «У всех так» превращается в решение, минуя вопрос «почему у них так».</li>
+    <li><b>Сравнивал сайт с приложением</b> и не заметил этого.</li>
+    <li><b>Пятнадцать аналогов вместо пяти.</b> Два дня работы, поверхностные заметки, мало закономерностей.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Что остаётся на следующие уровни</h2></div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Что добавляется</th></tr></thead>
+      <tbody>
+        <tr><td><b>Junior</b> — этот урок</td><td>Отобрать продукты, решающие ту же задачу; заполнить таблицу по готовым колонкам; снять и подписать экраны; поставить дату; не переносить приём только потому, что он у всех</td></tr>
+        <tr><td>Middle</td><td>Придумывать колонки под свой вопрос, а не брать готовые; разбирать не экраны, а сценарии и решения целиком; понимать, какое ограничение стоит за чужим решением; доводить разбор до вариантов для своего макета; объяснять, почему выбрали один из них</td></tr>
+        <tr><td>Senior</td><td>Встраивать разбор в решения о продукте, а не в оформление презентаций; отличать привычку рынка от общей ошибки рынка; видеть, где все ошибаются одинаково, и делать на этом преимущество; поддерживать разбор живым и учить команду им пользоваться</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Разбор аналогов», уровень Junior. Сквозной пример — задача «человек сам отменяет заказ», та же, что в уроках про юзабилити-тесты. Таблица из раздела 3 копируется кнопкой в двух видах: пустой шаблон и заполненный пример. Что почитать дальше: материалы Nielsen Norman Group про конкурентный анализ в дизайне; библиотеки интерфейсов вроде Mobbin — для быстрого поиска непрямых аналогов по сценарию.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'dir', label: 'Прямой аналог' }, { key: 'ind', label: 'Непрямой — берём' },
+     { key: 'no', label: 'Та же отрасль, другая задача' }, { key: 'skip', label: 'Не аналог' }],
+    [
+      { t: 'Крупный интернет-магазин: в карточке заказа есть кнопка отмены до сборки.', a: 'dir',
+        fb: 'Тот же рынок, та же задача. Такие нужны, чтобы понимать, к чему привыкли ваши пользователи, но новые идеи чаще находятся не здесь.' },
+      { t: 'Авиакомпания: возврат билета с расчётом штрафа в зависимости от того, за сколько часов до вылета.', a: 'ind',
+        fb: 'Другой рынок, но задача та же: отменить то, что уже оформлено, в ограниченное время. Здесь как раз находят интересное — работа с окном отмены и с последствиями.' },
+      { t: 'Тот же интернет-магазин: экран каталога с фильтрами.', a: 'no',
+        fb: 'Конкурент ваш, но задача другая — выбрать товар, а не отменить заказ. В разбор не идёт, хотя именно такие экраны чаще всего и попадают в папки со скриншотами.' },
+      { t: 'Банковское приложение: отмена только что отправленного перевода в течение минуты.', a: 'ind',
+        fb: 'Та же задача с той же трудностью — необратимость и деньги. Отличный источник решений: там окно отмены сделано аккуратнее, чем почти везде.' },
+      { t: 'Сервис доставки еды: после нажатия «отменить» появляется полоска «отменяем… отменить действие» на 10 секунд.', a: 'ind',
+        fb: 'Та же задача, решённая иначе: вместо диалога «вы уверены» — возможность откатить. Ровно та находка, ради которой берут непрямые аналоги.' },
+      { t: 'Социальная сеть: удаление поста.', a: 'skip',
+        fb: 'Формально тоже «отменить сделанное», но ни денег, ни срока, ни последствий для другой стороны. Трудность совсем другая — сходство только словесное.' },
+      { t: 'Маркетплейс, где отмена возможна только через чат с поддержкой.', a: 'dir',
+        fb: 'Та же задача и тот же рынок. То, что решение вам не нравится, не повод выкинуть его из разбора: «чего не повторять» — тоже результат, и он пригодится в третьей строке итога.' },
+      { t: 'Сервис бронирования отелей: отмена брони с бесплатным окном до определённой даты.', a: 'ind',
+        fb: 'Другой рынок, задача та же. Плюс здесь хорошо видно, как показывают условия отмены заранее — до того, как человек захочет отменить.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Ты отбираешь по задаче, а не по отрасли. Это самое ценное умение уровня — оно определяет качество всего разбора.'
+        : s >= 5 ? 'Хорошо. Держи в голове проверку: какую задачу человека решает этот экран? Отрасль к делу не относится.'
+        : 'Вернись к разделу 2. Ключ в том, что «та же трудность» важнее, чем «тот же рынок»: необратимость, срок, деньги, последствия для другой стороны.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'take', label: 'Брать — это привычка' }, { key: 'check', label: 'Проверить ограничение' }, { key: 'skip', label: 'Не брать автоматически' }],
+    [
+      { t: 'У всех пяти отмена находится внутри карточки заказа, а не в отдельном разделе.', a: 'take',
+        fb: 'Люди идут искать отмену туда, где лежит сам заказ. Ломать это — заставлять переучиваться без выигрыша.' },
+      { t: 'У четверых отмена доступна только до передачи в доставку.', a: 'check',
+        fb: 'Это ограничение логистики, а не решение дизайнера. Проверьте, есть ли оно у вас: если ваш склад позволяет отменять дольше, это ваше преимущество.' },
+      { t: 'У всех пяти при отмене показывают диалог «Вы уверены?».', a: 'skip',
+        fb: 'Классический случай копирования друг у друга. Диалоги подтверждения перестают читать; возможность откатить действие работает лучше — и как раз у пятого продукта она есть.' },
+      { t: 'У троих условие отмены написано текстом прямо под кнопкой.', a: 'take',
+        fb: 'Снимает главный вопрос человека — «а можно ли вообще». Дешёвый приём с понятной пользой, брать смело.' },
+      { t: 'У всех пяти после отмены приходит письмо с подтверждением.', a: 'check',
+        fb: 'Похоже на привычку, но за этим может стоять требование закона или бухгалтерии. Уточните у своих — если требование есть, это не выбор дизайна.' },
+      { t: 'У четверых кнопка отмены красная.', a: 'skip',
+        fb: 'Мода, а не привычка. Красный здесь означает «опасно», хотя для человека отмена — это спасение, а не опасность. Если сделать иначе, никто не растеряется.' },
+      { t: 'У всех пяти отмена недоступна, если заказ уже в пути.', a: 'check',
+        fb: 'Снова ограничение реального мира: курьер уже едет. Но проверьте свою ситуацию — у некоторых компаний отмена в пути возможна, и это заметное отличие.' }
+    ],
+    function (s, n) {
+      return s >= 6 ? 'Ты отделяешь привычку от ограничения и от моды. Именно это отличает разбор от копирования.'
+        : s >= 4 ? 'Неплохо. Проверяй вопросом: если сделать иначе, человек растеряется или просто заметит разницу?'
+        : 'Перечитай раздел 6. Три причины, почему у всех одинаково, — привычка, ограничение, копирование — и три разных вывода.';
+    }
+  );
+
+  /* ── analog table: template / example ── */
+  (function () {
+    var host = document.getElementById('atblWrap'); if (!host) return;
+    var COLS = ['Продукт · платформа · дата', 'Кто пользователь', 'Как решена задача', 'Где вход', 'Шагов', 'Что предупреждают', 'Что после', 'Сильное решение', 'Слабое место'];
+    var HINTS = ['Название, веб или приложение, дата просмотра', 'Кому продукт адресован — одной фразой', 'Одним предложением, что человек делает', 'Откуда человек попадает в этот сценарий', 'Число экранов до результата', 'Условия, сроки, последствия — что показывают', 'Подтверждение, письмо, возможность откатить', 'Одна мысль — что забрал бы', 'Одна мысль — чего не повторил бы'];
+    var ROWS = [
+      ['Магазин А<span class="dt">веб · 16.09.2026</span>', 'Розничные покупатели', 'Кнопка отмены в карточке заказа, подтверждение в диалоге', 'Мои заказы → карточка', '2', 'Срок текстом: «до передачи в доставку»', 'Экран подтверждения + письмо', 'Условие отмены написано рядом с кнопкой', 'Диалог «вы уверены» без пояснения последствий'],
+      ['Магазин Б<span class="dt">приложение · 16.09.2026</span>', 'Розничные покупатели', 'Отмена только через чат поддержки', 'Профиль → помощь → чат', '4+', 'Ничего, пока не спросишь оператора', 'Ответ оператора, сроки не названы', 'Ничего не забрал бы', 'Задача решается человеком, а не продуктом'],
+      ['Авиакомпания<span class="dt">веб · 15.09.2026</span>', 'Пассажиры', 'Возврат билета с расчётом штрафа по времени до вылета', 'Мои поездки → бронь', '3', 'Сумма удержания показана до подтверждения', 'Письмо + статус возврата средств', 'Цена решения видна заранее, а не после', 'Три шага и много текста мелким шрифтом'],
+      ['Доставка еды<span class="dt">приложение · 15.09.2026</span>', 'Городские заказчики', 'Отмена одним нажатием, 10 секунд на откат', 'Экран заказа, кнопка внизу', '1', 'Предупреждение только если курьер уже выехал', 'Полоска «отменяем… отменить действие»', 'Откат вместо диалога подтверждения', 'Легко отменить случайно, если не заметить полоску'],
+      ['Банк<span class="dt">приложение · 15.09.2026</span>', 'Клиенты банка', 'Отмена перевода в течение минуты после отправки', 'Экран успеха, сразу после перевода', '1', 'Таймер обратного отсчёта на экране', 'Уведомление о возврате средств', 'Окно отмены показано таймером — видно, сколько осталось', 'После минуты только через поддержку, и это не объяснено']
+    ];
+    var mode = 'ex';
+    function build() {
+      var t = '<table><thead><tr>' + COLS.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '</tr></thead><tbody>';
+      if (mode === 'ex') {
+        ROWS.forEach(function (r) {
+          t += '<tr>' + r.map(function (c, i) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+        });
+      } else {
+        t += '<tr class="hintrow">' + HINTS.map(function (h) { return '<td>' + h + '</td>'; }).join('') + '</tr>';
+        for (var k = 0; k < 5; k++) {
+          t += '<tr>' + COLS.map(function (c, i) { return '<td>' + (i === 0 ? 'Аналог ' + (k + 1) : '') + '</td>'; }).join('') + '</tr>';
+        }
+      }
+      t += '</tbody></table>';
+      host.innerHTML = t;
+      document.getElementById('ttEx').setAttribute('aria-pressed', mode === 'ex' ? 'true' : 'false');
+      document.getElementById('ttTpl').setAttribute('aria-pressed', mode === 'tpl' ? 'true' : 'false');
+    }
+    document.getElementById('ttEx').addEventListener('click', function () { mode = 'ex'; build(); });
+    document.getElementById('ttTpl').addEventListener('click', function () { mode = 'tpl'; build(); });
+    build();
+  })();
+
+  /* ── caption builder ── */
+  (function () {
+    var out = document.getElementById('cbOut'); if (!out) return;
+    var note = document.getElementById('cbNote');
+    var f = {
+      prod: document.getElementById('cbProd'), step: document.getElementById('cbStep'),
+      screen: document.getElementById('cbScreen'), before: document.getElementById('cbBefore'),
+      why: document.getElementById('cbWhy'), date: document.getElementById('cbDate')
+    };
+    f.date.value = new Date().toISOString().slice(0, 10);
+    function slug(s) {
+      return s.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-zа-яё0-9\-]/gi, '');
+    }
+    function num(s) {
+      var m = (s || '').match(/(\d+)/);
+      return m ? String(m[1]).padStart(2, '0') : '01';
+    }
+    function ru(d) {
+      if (!d) return '';
+      var p = d.split('-');
+      return p[2] + '.' + p[1] + '.' + p[0];
+    }
+    function upd() {
+      var prod = f.prod.value.trim() || 'продукт';
+      var fname = slug(prod) + '_' + num(f.step.value) + '_' + (slug(f.screen.value) || 'экран') + '_' + (f.date.value || '');
+      var cap = 'Шаг ' + (f.step.value.trim() || '—') + '. ' + (f.screen.value.trim() || 'экран') +
+        (f.before.value.trim() ? ' после того, как ' + f.before.value.trim() : '') + '. ' +
+        (f.why.value.trim() ? 'Снял ради: ' + f.why.value.trim() + '.' : '') +
+        (f.date.value ? ' Просмотрено ' + ru(f.date.value) + '.' : '');
+      out.textContent = fname + '.png\n\n' + cap;
+      var miss = [];
+      if (!f.why.value.trim()) miss.push('«зачем сняли»');
+      if (!f.before.value.trim()) miss.push('«что было до»');
+      if (!f.date.value) miss.push('дату');
+      note.innerHTML = miss.length
+        ? '<span class="cb-miss">Не хватает: ' + miss.join(', ') + '.</span> Через месяц по такой подписи будет непонятно, что на экране происходит.'
+        : 'Подпись полная: по ней позже можно восстановить продукт, место в сценарии и причину скриншота.';
+    }
+    Object.keys(f).forEach(function (k) { f[k].addEventListener('input', upd); });
+    upd();
+  })();
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text;
+      if (src.querySelector('table')) {
+        var rows = [];
+        src.querySelectorAll('tr').forEach(function (tr) {
+          var cells = [];
+          tr.querySelectorAll('th,td').forEach(function (c) { cells.push(c.innerText.replace(/\n/g, ' ').trim()); });
+          rows.push(cells.join('\t'));
+        });
+        text = rows.join('\n');
+      } else {
+        text = src.innerText.replace(/\n{3,}/g, '\n\n').trim();
+      }
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fb(text, done); });
+      } else { fb(text, done); }
+    });
+  });
+  function fb(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

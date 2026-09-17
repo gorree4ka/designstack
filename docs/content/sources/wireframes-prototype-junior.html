@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вайрфреймы и прототипы: черновые экраны</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --svg-chip: #eef3fb; --svg-dim: #6d6b66;
+    --wf-fill: #e7e6e1; --wf-fill-2: #f2f1ed; --wf-strong: #3a3935; --wf-strong-ink: #ffffff; --wf-ink: #5f5e59; --wf-line: #dbdad4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --svg-chip: #1f2733; --svg-dim: #9e9c95;
+      --wf-fill: #312f2c; --wf-fill-2: #262522; --wf-strong: #d8d6d0; --wf-strong-ink: #131312; --wf-ink: #a7a5a0; --wf-line: #3b3a36;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --svg-chip: #1f2733; --svg-dim: #9e9c95;
+    --wf-fill: #312f2c; --wf-fill-2: #262522; --wf-strong: #d8d6d0; --wf-strong-ink: #131312; --wf-ink: #a7a5a0; --wf-line: #3b3a36;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-ghost { background: var(--raised); color: var(--ink-2); }
+  .btn[disabled] { opacity: .45; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 72px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .pr { display: block; background: var(--chip); border-radius: 8px; padding: 9px 12px; font-size: 14.5px; color: var(--accent-deep); margin-bottom: 10px; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 128px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* accordion */
+  .accs { display: flex; flex-direction: column; gap: 10px; }
+  .acc { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .acc > button { width: 100%; text-align: left; background: none; border: none; padding: 14px 17px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .acc > button:hover { background: var(--demo-bg); }
+  .acc .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .acc .ttl { flex: 1; font-size: 16.5px; font-weight: 600; letter-spacing: -.005em; }
+  .acc .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; background: var(--chip); color: var(--accent-deep); }
+  .acc .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .acc .tag.ok { background: var(--good-soft); color: var(--good); }
+  .acc .hintline { font-size: 13.5px; color: var(--muted); padding: 0 17px 13px; }
+  .acc.open .hintline { display: none; }
+  .acc .body { display: none; padding: 0 17px 15px; }
+  .acc.open .body { display: block; }
+  .acc .row { display: grid; grid-template-columns: 136px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .acc .row:first-child { border-top: none; padding-top: 2px; }
+  .acc .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .acc .row .v { color: var(--ink-2); }
+  .acc .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .acc .row { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* card sort */
+  .cs-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 42px; }
+  .cs-card { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 8px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; }
+  .cs-card:hover { border-color: var(--accent); }
+  .cs-card.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .cs-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .cs-group { border: 1px dashed var(--border); border-radius: 11px; padding: 11px 12px; background: var(--surface); cursor: pointer; min-height: 110px; }
+  .cs-group.hot { border-color: var(--accent); border-style: solid; background: var(--chip); }
+  .cs-group h5 { margin: 0 0 9px; font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .cs-group .placed { display: block; width: 100%; text-align: left; font: 500 12.5px system-ui, sans-serif; background: var(--raised); border: 1px solid var(--hairline); color: var(--ink); border-radius: 7px; padding: 6px 9px; margin-bottom: 6px; cursor: pointer; }
+  .cs-group .placed:hover { border-color: var(--bad); }
+  .cs-empty { font-size: 12.5px; color: var(--muted); }
+  .cs-res { margin-top: 16px; display: none; }
+  .cs-res.on { display: block; }
+  .mini { display: inline-block; font: 600 11.5px system-ui, sans-serif; border-radius: 5px; padding: 1px 7px; margin: 0 4px 3px 0; background: var(--demo-bg); color: var(--ink-2); border: 1px solid var(--hairline); }
+  .mini.top { background: var(--chip); color: var(--accent-deep); border-color: transparent; }
+  .flag { font: 700 10px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; background: var(--warn-soft); color: var(--warn); }
+
+  /* tree test */
+  .tt-task { font-size: 15.5px; background: var(--chip); color: var(--accent-deep); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+  .tt-crumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; min-height: 20px; }
+  .tt-list { display: flex; flex-direction: column; gap: 7px; }
+  .tt-list button { text-align: left; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 11px 14px; font: 500 14.5px system-ui, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .tt-list button:hover { border-color: var(--accent); }
+  .tt-list button .ch { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+  .tt-bar { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .tt-res { margin-top: 16px; font-size: 14.5px; line-height: 1.5; padding: 13px 15px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .tt-res.on { display: block; }
+  .tt-res b.h { display: block; margin-bottom: 5px; }
+  .path { font: 13px ui-monospace, Menlo, monospace; color: var(--ink-2); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .metric { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; }
+  .metric .big { font: 700 22px system-ui, sans-serif; letter-spacing: -.02em; }
+  .metric .lab { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .metric.bad .big { color: var(--bad); }
+  .metric.ok .big { color: var(--good); }
+
+  .hunt-count { font: 600 13px system-ui, sans-serif; color: var(--muted); }
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  .ok-list li b { color: var(--good); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+
+  /* figures */
+  figure { margin: 18px 0; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin-top: 11px; }
+  figcaption b { color: var(--ink-2); }
+  .fig-scroll { overflow-x: auto; }
+  .fig-scroll > svg { min-width: 560px; }
+
+  /* toggle */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid var(--border); background: var(--raised); color: var(--ink-2); border-radius: 9px; padding: 8px 13px; font: 600 13.5px system-ui, sans-serif; cursor: pointer; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: var(--page); border-color: transparent; }
+  .tabpanel { display: none; }
+  .tabpanel.on { display: block; }
+  .tabnote { font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 12px 14px; margin-top: 14px; }
+  .tabnote b { display: block; margin-bottom: 3px; }
+
+  /* rules list */
+  .rules { counter-reset: r; display: flex; flex-direction: column; gap: 10px; margin: 18px 0; }
+  .rules > li { list-style: none; counter-increment: r; position: relative; background: var(--raised); border: 1px solid var(--border); border-radius: 11px; padding: 13px 16px 13px 50px; font-size: 15px; }
+  .rules > li::before { content: counter(r); position: absolute; left: 14px; top: 13px; font: 700 12px ui-monospace, Menlo, monospace; color: var(--accent-deep); background: var(--chip); border-radius: 6px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .rules > li b { color: var(--ink); }
+  .rules ul { margin: 7px 0 0; font-size: 14px; }
+
+  /* wizard */
+  .cases { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cases button { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 9px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .cases button:hover { border-color: var(--accent); }
+  .cases button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .wiz { margin-top: 18px; }
+  .wq { border-top: 1px solid var(--hairline); padding-top: 14px; margin-top: 14px; }
+  .wq:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .wq .qt { font-size: 15.5px; font-weight: 600; margin: 0 0 10px; }
+  .wq .qo { display: flex; gap: 9px; flex-wrap: wrap; }
+  .wq .qo button { flex: 1 1 200px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 10px 13px; font: 500 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .wq .qo button:hover:not([disabled]) { border-color: var(--accent); }
+  .wq .qo button[disabled] { opacity: .45; cursor: default; }
+  .wq .qo button.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .wq .qo button.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .wq .qfb { margin-top: 11px; font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 11px 13px; display: none; }
+  .wq .qfb.on { display: block; }
+  .verdict { margin-top: 18px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 11px; background: var(--surface); padding: 15px 17px; display: none; }
+  .verdict.on { display: block; }
+  .verdict .vr { display: grid; grid-template-columns: 126px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .verdict .vr:first-of-type { border-top: none; padding-top: 0; }
+  .verdict .vr .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .verdict .vr .v { color: var(--ink-2); }
+  .verdict .vr .v b { color: var(--ink); }
+  @media (max-width: 560px) { .verdict .vr { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* wireframe kit */
+  .wf { width: 100%; max-width: 330px; margin: 0 auto; background: var(--raised); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .wf-top { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--hairline); font: 600 13.5px system-ui, sans-serif; }
+  .wf-top .back { font: 500 12px system-ui, sans-serif; color: var(--wf-ink); }
+  .wf-top .ttl { flex: 1; }
+  .wf-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .wf-ph { background: var(--wf-fill); border-radius: 6px; }
+  .wf-ph.cap { display: flex; align-items: center; justify-content: center; font: 500 11px system-ui, sans-serif; color: var(--wf-ink); text-align: center; }
+  .wf-item { display: flex; gap: 10px; align-items: center; }
+  .wf-item .thumb { width: 42px; height: 42px; flex: none; background: var(--wf-fill); border-radius: 6px; }
+  .wf-item .meta { flex: 1; font-size: 12.5px; line-height: 1.35; }
+  .wf-item .meta span { display: block; color: var(--wf-ink); font-size: 11.5px; }
+  .wf-item .price { font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+  .wf-field { border: 1px solid var(--wf-line); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; }
+  .wf-field b { display: block; font: 600 9.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--wf-ink); margin-bottom: 3px; }
+  .wf-chips { display: flex; gap: 6px; }
+  .wf-chip { flex: 1; border: 1px solid var(--wf-line); border-radius: 8px; padding: 7px 3px; text-align: center; font-size: 11px; line-height: 1.3; }
+  .wf-chip.on { border-color: var(--wf-strong); background: var(--wf-fill); font-weight: 600; }
+  .wf-sum { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; border-top: 1px solid var(--wf-line); padding-top: 9px; }
+  .wf-btn { display: block; width: 100%; border: 1px solid var(--wf-line); background: var(--wf-fill-2); color: var(--ink); border-radius: 9px; padding: 10px; font: 600 13px system-ui, sans-serif; cursor: pointer; text-align: center; }
+  .wf-btn.primary { background: var(--wf-strong); color: var(--wf-strong-ink); border-color: transparent; font-size: 14.5px; padding: 13px; }
+  .wf-btn.hit, .wf-link.hit { border: 1px solid var(--bad); background: var(--bad-soft); color: var(--bad); }
+  .wf-link { display: block; width: 100%; background: none; border: none; color: var(--wf-ink); font: 500 12.5px system-ui, sans-serif; cursor: pointer; text-align: center; padding: 5px; text-decoration: underline; border-radius: 7px; }
+  .wf-note { font-size: 11px; color: var(--wf-ink); text-align: center; }
+  .wf-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+  .wf-col { flex: 1 1 290px; max-width: 340px; }
+  .wf-cap { font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 0 10px; }
+  .squint .wf { filter: blur(3.2px); }
+  .wf-sketch .wf-ph, .wf-sketch .wf-field, .wf-sketch .wf-chip { border: 1.5px dashed var(--wf-line); background: none; }
+  .wf-mock .wf-btn.primary { background: #2a78d6; color: #fff; box-shadow: 0 2px 8px rgba(42,120,214,.35); border-radius: 10px; }
+  .wf-mock .thumb { background: linear-gradient(135deg, #cfe0f5, #9dbbe4); }
+  .wf-mock .wf-chip.on { border-color: #2a78d6; color: #1c5cab; background: #eef3fb; }
+  .wf-mock .wf-top { font-family: Georgia, "Times New Roman", serif; }
+
+  /* prototype */
+  .proto { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+  .proto-stage { flex: 1 1 320px; }
+  .proto-side { flex: 1 1 250px; min-width: 230px; }
+  .proto-screen { display: none; }
+  .proto-screen.on { display: block; }
+  .proto-fb { font-size: 14px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); }
+  .proto-fb b { display: block; margin-bottom: 3px; }
+  .proto-fb.bad { background: var(--bad-soft); border-color: var(--bad); }
+  .proto-fb.good { background: var(--good-soft); border-color: var(--good); }
+  .proto-stat { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .proto-stat span { font: 600 12px system-ui, sans-serif; border: 1px solid var(--border); border-radius: 7px; padding: 4px 9px; color: var(--ink-2); background: var(--raised); }
+  .proto-list { margin: 12px 0 0; padding-left: 20px; font-size: 13.5px; color: var(--ink-2); }
+  .proto-list li { margin: 4px 0; }
+  .stub { border: 1px dashed var(--border); border-radius: 12px; padding: 22px 16px; text-align: center; font-size: 13.5px; color: var(--ink-2); background: var(--surface); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Вайрфреймы и прототипы · Junior · экраны и переходы</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Проектирование · вайрфреймы и прототипы</p>
+  <div class="levels" aria-label="Уровень темы: Junior, первый из трёх">
+    <span class="lv on">Junior</span>
+    <span class="lv">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как собрать черновые экраны и связать их в прототип</h1>
+  <p class="lede">Вайрфрейм помогает разобраться, что должно быть на экране и как человек выполнит задачу. Но даже в черновике легко увлечься шрифтами и иконками, оставив без внимания тексты кнопок и переходы. В этом уроке соберём экраны оформления заказа: напишем понятные подписи, выделим главное действие и свяжем экраны в прототип. Затем пройдём его и найдём места, где человек может застрять.</p>
+</header>
+
+<div class="goals">
+  <b>Что разберём</b>
+  <ol>
+    <li><a href="#what">Чем отличаются схема, вайрфрейм и макет</a><span class="drillmark">три уровня</span></li>
+    <li><a href="#grey">Какой детализации достаточно для черновика</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#labels">Как писать реальные подписи</a> вместо «рыбы»<span class="drillmark">тренажёр</span></li>
+    <li><a href="#main">Как выделить главное действие</a> без цвета<span class="drillmark">прищур</span></li>
+    <li><a href="#fast">Как собрать черновой экран за десять минут</a></li>
+    <li><a href="#link">Как связать экраны переходами</a></li>
+    <li><a href="#run">Как проверить прототип и найти тупики</a><span class="drillmark">прототип</span></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Пример для всего урока.</b> Возьмём карту сценария из предыдущей темы: <b>«человек оформляет заказ»</b> в интернет-магазине. В ней четыре шага: корзина, доставка, оплата, подтверждение заказа. По этой карте соберём вайрфреймы и кликабельный прототип, который можно пройти прямо в уроке.</div>
+
+<section id="what">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Схема, вайрфрейм, макет</h2></div>
+  <p class="sec-sub">Каждый инструмент помогает ответить на свой вопрос: куда человек идёт, что видит и как выглядит интерфейс.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Инструмент</th><th>Отвечает на вопрос</th><th>Что на нём видно</th><th>Когда обновлять</th></tr></thead>
+      <tbody>
+        <tr><td><b>Схема сценария</b></td><td>Куда человек идёт и откуда возвращается</td><td>Шаги, экраны, ветки, входы и выходы</td><td>Когда меняется сценарий</td></tr>
+        <tr><td><b>Вайрфрейм</b></td><td>Что человек видит на каждом шаге</td><td>Состав экрана, расположение элементов и главное действие</td><td>Пока уточняете структуру экрана</td></tr>
+        <tr><td><b>Макет</b></td><td>Как выглядит интерфейс</td><td>Цвет, шрифты, иллюстрации, состояния кнопок</td><td>Когда меняется интерфейс</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Схема у нас уже есть. Теперь превратим её блоки в экраны: <strong>для шага «Указывает, куда и когда везти» покажем поля адреса, выбор времени и кнопку перехода к оплате</strong>. Визуальное оформление можно будет проработать после того, как станет понятна структура.</p>
+
+  <h3>Один экран с разной детализацией</h3>
+  <p>Переключите вкладки и сравните набросок, вайрфрейм и макет. Чем больше деталей, тем больше работы может потребоваться при изменении экрана.</p>
+
+  <div class="box">
+    <div class="box-head">Экран «Доставка» · три уровня</div>
+    <div class="box-body">
+      <div class="tabs" role="tablist" aria-label="Уровни детализации">
+        <button type="button" role="tab" id="tb1" aria-selected="true" aria-controls="tp1">1 · Набросок</button>
+        <button type="button" role="tab" id="tb2" aria-selected="false" aria-controls="tp2">2 · Вайрфрейм</button>
+        <button type="button" role="tab" id="tb3" aria-selected="false" aria-controls="tp3">3 · Макет</button>
+      </div>
+
+      <div class="tabpanel on" id="tp1" role="tabpanel" aria-labelledby="tb1">
+        <div style="margin-top:16px">
+          <div class="wf wf-sketch">
+            <div class="wf-top"><span class="ttl">Доставка</span></div>
+            <div class="wf-body">
+              <div class="wf-ph cap" style="height:54px">адрес</div>
+              <div class="wf-ph cap" style="height:68px">выбор дня и времени</div>
+              <div class="wf-ph cap" style="height:44px">комментарий курьеру</div>
+              <div class="wf-ph cap" style="height:48px">кнопка дальше</div>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Что здесь решаем</b>Какие блоки нужны на экране и в каком порядке их расположить. На набросок отведём пять минут; его можно сделать на бумаге. Уже сейчас получится обсудить, нужен ли комментарий курьеру, и быстро переставить или убрать блок.</div>
+      </div>
+
+      <div class="tabpanel" id="tp2" role="tabpanel" aria-labelledby="tb2">
+        <div style="margin-top:16px">
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-ph cap map" style="height:64px">карта с точкой доставки</div>
+              <div class="wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="wf-link" type="button">Изменить адрес</button>
+              <div>
+                <div style="font-size:12.5px; font-weight:600; margin-bottom:7px">Когда привезти</div>
+                <div class="wf-chips">
+                  <div class="wf-chip on">завтра<br>10:00–14:00</div>
+                  <div class="wf-chip">завтра<br>16:00–20:00</div>
+                  <div class="wf-chip">12 марта<br>10:00–14:00</div>
+                </div>
+              </div>
+              <div class="wf-field"><b>Комментарий курьеру</b>домофон не работает, позвоните</div>
+              <div class="wf-sum"><span>Доставка</span><span>бесплатно от 2 000 ₽</span></div>
+              <button class="wf-btn primary" type="button">К оплате</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Что здесь решаем</b>Как расположить элементы и выделить главное действие. С реальными подписями видно, сколько места занимает адрес, чем отличаются три варианта доставки и куда ведёт кнопка «К оплате». На такой черновик отведём десять минут. Эта детализация нужна для задания.</div>
+      </div>
+
+      <div class="tabpanel" id="tp3" role="tabpanel" aria-labelledby="tb3">
+        <div style="margin-top:16px">
+          <div class="wf wf-mock">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-ph cap" style="height:64px; background:linear-gradient(135deg,#dfe9d9,#c3d6ea); color:#3c4a5c">карта</div>
+              <div class="wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="wf-link" type="button">Изменить адрес</button>
+              <div>
+                <div style="font-size:12.5px; font-weight:600; margin-bottom:7px">Когда привезти</div>
+                <div class="wf-chips">
+                  <div class="wf-chip on">завтра<br>10:00–14:00</div>
+                  <div class="wf-chip">завтра<br>16:00–20:00</div>
+                  <div class="wf-chip">12 марта<br>10:00–14:00</div>
+                </div>
+              </div>
+              <div class="wf-field"><b>Комментарий курьеру</b>домофон не работает, позвоните</div>
+              <div class="wf-sum"><span>Доставка</span><span>бесплатно от 2 000 ₽</span></div>
+              <button class="wf-btn primary" type="button">К оплате</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Что здесь решаем</b>Как будет выглядеть интерфейс: выбираем цвет, шрифт, тени, вид карты. Структура остаётся прежней, но внимание уже могут привлекать детали оформления — например, синяя кнопка. Поэтому состав экрана удобнее обсудить на черновике.</div>
+      </div>
+    </div>
+    <div class="box-foot">Проходить все три этапа необязательно. Для простого экрана можно пропустить набросок. Если состав экрана ещё вызывает вопросы, стоит обсудить их до перехода к деталям.</div>
+  </div>
+
+  <h3>Когда вайрфрейм не нужен</h3>
+  <ul>
+    <li><strong>Мелкая правка в существующем интерфейсе.</strong> Поменять текст кнопки или порядок двух полей быстрее показать прямо в макете.</li>
+    <li><strong>Экран уже существует и не меняется.</strong> Для прототипа можно использовать готовый макет.</li>
+    <li><strong>Достаточно схемы.</strong> Если нужно разобраться только в переходах между шагами, отдельные вайрфреймы могут не понадобиться.</li>
+  </ul>
+</section>
+
+<section id="grey">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Почему вайрфрейм серый</h2></div>
+  <p class="sec-sub">Черновое оформление помогает сосредоточиться на составе экрана и действиях человека.</p>
+
+  <p>В этом уроке на вайрфрейме решаем три задачи: <strong>что есть на экране</strong>, <strong>где это расположено</strong> и <strong>что здесь главное</strong>. Подбор цвета, шрифтов, иллюстраций и скруглений пока отложим: они могут отвлечь от обсуждения структуры.</p>
+
+  <div class="rule"><b>Показывайте ту степень детализации, которую готовы обсуждать.</b> Если сейчас нужно выбрать поля и расположить блоки, серого черновика достаточно. В подробном макете коллеги могут обратить внимание на оформление, даже если вы хотели поговорить о структуре.</div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Используем в упражнении</th><th>Оставим на потом</th></tr></thead>
+      <tbody>
+        <tr><td>Прямоугольники и линии</td><td>Цвета, кроме оттенков серого</td></tr>
+        <tr><td>Два-три оттенка серого</td><td>Подбор шрифтовых пар</td></tr>
+        <tr><td>Один системный шрифт, два кегля</td><td>Фотографии и иллюстрации</td></tr>
+        <tr><td>Настоящие тексты и числа</td><td>Иконки ради красоты</td></tr>
+        <tr><td>Выравнивание и отступы, кратные 8</td><td>Тени, градиенты, фирменные скругления</td></tr>
+        <tr><td>Заливка серым для выделения главного</td><td>Анимации переходов</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Что делать с картинками и иконками</h3>
+  <ul>
+    <li><strong>Вместо фото — серый прямоугольник с подписью</strong> и соотношением сторон: «фото товара 1:1». Так можно оценить, сколько места останется для текста.</li>
+    <li><strong>Вместо иконки — слово.</strong> Например, «поиск» вместо лупы. Для этого упражнения подписи достаточно: она помогает обсудить действие, не тратя время на подбор значка.</li>
+    <li><strong>Карту, график или аватар</strong> тоже можно обозначить серым блоком с подписью, если для текущей проверки достаточно показать их место на экране.</li>
+  </ul>
+
+  <div class="warnbox"><b>Черновой вид помогает показать, что решение ещё обсуждается.</b> Подробный макет могут принять за готовый и предложить сразу отдать в разработку. Вместе с вайрфреймом поясните, что уже решили, а что ещё предстоит проверить.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · это ещё вайрфрейм?<span class="spacer"></span><span class="sc">0 / 9</span></div>
+    <div class="box-body">
+      <div class="drill" id="d1">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Девять решений для черновых экранов. Определите, что подходит для нашей задачи, что пока лишнее и чего не хватает.</div>
+  </div>
+</section>
+
+<section id="labels">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Реальные подписи вместо «рыбы»</h2></div>
+  <p class="sec-sub">С реальным текстом легче заметить, чего не хватает на экране и где нужно больше места.</p>
+
+  <p>«Рыба» вроде Lorem ipsum заполняет место, но не помогает проверить смысл. По ней трудно понять, хватит ли человеку информации и поместятся ли реальные данные. Вот что она скрывает.</p>
+
+  <ul>
+    <li><strong>Длину.</strong> Вместо короткого «Lorem ipsum dolor sit» в карточке может оказаться «Кофе в зёрнах Lavazza Crema e Aroma, 1 кг». Реальное название помогает заранее проверить переносы строк.</li>
+    <li><strong>Содержание.</strong> По тексту-заполнителю не понять, достаточно ли информации, чтобы узнать товар или выбрать действие.</li>
+    <li><strong>Нерешённые вопросы.</strong> Слово «Заголовок» обозначает место для текста, но не говорит, что там будет написано. На наброске этого может хватить, а для обсуждения экрана уже нужна формулировка.</li>
+  </ul>
+
+  <div class="rule"><b>Пишите текст, который мог бы появиться в интерфейсе.</b> Если точной формулировки ещё нет, предложите черновую и добавьте пометку: «уточнить с редактором». Тогда у команды будет текст, который можно прочитать, обсудить и поправить.</div>
+
+  <h3>Где брать настоящие тексты</h3>
+  <ul>
+    <li><strong>Из продукта.</strong> Скопируйте из интерфейса названия, суммы и статусы, которые подходят вашему сценарию.</li>
+    <li><strong>Из схемы сценария.</strong> Подписи переходов могут стать основой для текста кнопок: «Оформить», «К оплате», «Подтвердить».</li>
+    <li><strong>Из обращений в поддержку.</strong> Посмотрите, какие ошибки встречают люди и какие вопросы задают.</li>
+    <li><strong>У редактора,</strong> если он есть в команде. На черновике можно вместе подобрать текст и сразу увидеть, как он работает на экране.</li>
+  </ul>
+
+  <h3>Используйте реалистичные числа и даты</h3>
+  <p>Одной условной суммы «1234 ₽» мало для проверки. Возьмите цены из продукта разной длины: например, 3 480 ₽, 12 999 ₽, 149 ₽. Посмотрите, помещаются ли они рядом с названием и как выравниваются. То же с датами: «12 марта, 10:00–14:00» занимает больше места, чем заглушка «Дата доставки».</p>
+
+  <h3>Проверьте длинные тексты и пустые состояния</h3>
+  <p>На черновике удобно проверить, что происходит с экраном при разных данных. Нарисуйте рядом вариант блока для каждого случая:</p>
+  <ul>
+    <li><strong>Самое длинное название,</strong> которое есть в базе.</li>
+    <li><strong>Двенадцать позиций в корзине</strong> вместо двух.</li>
+    <li><strong>Ноль:</strong> пустая корзина, ни одного адреса, ничего не найдено.</li>
+    <li><strong>Длинные имена и адреса:</strong> «Константинопольский Вячеслав Александрович», «ул. 40 лет Октябрьской революции, 128, корп. 3, кв. 214».</li>
+  </ul>
+  <p class="dim">Эти состояния уже отмечены на схеме сценария. Теперь можно показать, как выглядит каждое из них, и проверить, хватает ли места для нужных элементов.</p>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · что написано на вайрфрейме<span class="spacer"></span><span class="sc">0 / 9</span></div>
+    <div class="box-body">
+      <div class="drill" id="d2">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Определите, где реальная подпись, где «рыба», а где слово-заглушка. В разборе каждого примера объясним, что такая подпись позволяет проверить.</div>
+  </div>
+</section>
+
+<section id="main">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Главное действие экрана</h2></div>
+  <p class="sec-sub">Размер, положение, заливка и свободное место помогают выделить действие даже в сером черновике.</p>
+
+  <p>В нашем сценарии у каждого экрана есть главное действие: в корзине — оформить заказ, на доставке — перейти к оплате, на оплате — заплатить. Остальные действия тоже нужны, но их можно сделать менее заметными. Если все кнопки выглядят одинаково, человеку приходится читать каждую, чтобы понять, как продолжить.</p>
+
+  <h3>Четыре инструмента, которые работают без цвета</h3>
+  <ol>
+    <li><strong>Размер.</strong> Главную кнопку можно сделать крупнее остальных. В нашем примере она занимает всю ширину блока.</li>
+    <li><strong>Положение.</strong> Разместите главное действие после информации, которую нужно прочитать или заполнить перед нажатием.</li>
+    <li><strong>Визуальный вес.</strong> Серая заливка, контур и простой текст помогают показать разную значимость действий.</li>
+    <li><strong>Свободное место.</strong> Отступы вокруг кнопки отделяют её от соседних элементов и помогают заметить.</li>
+  </ol>
+
+  <div class="box">
+    <div class="box-head">Прищур-тест · два экрана оплаты<span class="spacer"></span><button class="btn" id="squintBtn" type="button" aria-pressed="false">Прищуриться</button></div>
+    <div class="box-body">
+      <div class="wf-row" id="squintRow">
+        <div class="wf-col">
+          <p class="wf-cap">Кнопки выглядят одинаково</p>
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Оплата</span><span class="back">Шаг 3 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-field"><b>Способ оплаты</b>Карта •• 4417</div>
+              <div class="wf-field"><b>Промокод</b>не применён</div>
+              <div class="wf-sum"><span>К оплате</span><span>3 480 ₽</span></div>
+              <button class="wf-btn" type="button">Оплатить</button>
+              <button class="wf-btn" type="button">Другая карта</button>
+              <button class="wf-btn" type="button">Назад</button>
+            </div>
+          </div>
+        </div>
+        <div class="wf-col">
+          <p class="wf-cap">Главное действие выделено</p>
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Оплата</span><span class="back">Шаг 3 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-field"><b>Способ оплаты</b>Карта •• 4417</div>
+              <div class="wf-field"><b>Промокод</b>не применён</div>
+              <div class="wf-sum"><span>К оплате</span><span>3 480 ₽</span></div>
+              <button class="wf-btn primary" type="button">Оплатить 3 480 ₽</button>
+              <button class="wf-link" type="button">Оплатить другой картой</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="box-foot">Нажмите «Прищуриться», чтобы размыть экраны. Слева три кнопки выглядят одинаково, справа главная выделяется даже без читаемых букв. Так можно быстро проверить визуальную иерархию, а понятность подписи стоит проверить отдельно.</div>
+  </div>
+
+  <h3>Что проверить в расположении кнопок</h3>
+  <ul class="err-list">
+    <li><b>Три одинаково заметные кнопки.</b> На экране оплаты они могут затруднить поиск следующего шага.</li>
+    <li><b>«Назад» выглядит так же, как «Оплатить».</b> Возврат должен оставаться доступным, но в этом сценарии главное действие — оплата.</li>
+    <li><b>Главное действие за пределами видимой области.</b> Проверьте, понятно ли, что экран нужно прокрутить. Для этого задайте вайрфрейму высоту реального экрана.</li>
+  </ul>
+
+  <div class="warnbox"><b>Если главными кажутся два действия, уточните задачу экрана.</b> Данные аналитики и обращения в поддержку помогут понять, зачем люди сюда приходят. Иногда два действия можно представить как выбор перед одной кнопкой: например, предложить варианты «оплатить сейчас» и «оплатить при получении», а ниже — подтверждение заказа.</div>
+</section>
+
+<section id="fast">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Экран за десять минут</h2></div>
+  <p class="sec-sub">Попробуем собрать три-пять черновых экранов за час. Для этого заранее ограничим детализацию.</p>
+
+  <p>Экраны нашего сценария удобно разделить на три зоны. В черновике начнём с главного действия, затем добавим содержимое и шапку.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Зона</th><th>На какой вопрос отвечает</th><th>Что в ней</th></tr></thead>
+      <tbody>
+        <tr><td><b>Шапка</b></td><td>Где я и как отсюда выйти</td><td>Название экрана, «назад», шаг сценария</td></tr>
+        <tr><td><b>Содержимое</b></td><td>С чем я работаю</td><td>То, что человек смотрит, вводит или выбирает</td></tr>
+        <tr><td><b>Действие</b></td><td>Что я делаю дальше</td><td>Главное действие и менее заметные вторичные</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Как распределить десять минут</h3>
+  <ol>
+    <li><strong>Минута.</strong> Выпишите из схемы, что человек делает на этом шаге. Достаточно одной фразы с глаголом.</li>
+    <li><strong>Минута.</strong> Нарисуйте кнопку главного действия с реальной подписью. Она поможет определить, что ещё нужно на экране.</li>
+    <li><strong>Четыре минуты.</strong> Добавьте поля, варианты выбора и суммы, которые нужны для этого действия. Используйте реалистичные тексты и данные.</li>
+    <li><strong>Минута.</strong> Добавьте шапку: название экрана и кнопку «Назад». Основу можно скопировать с предыдущего экрана.</li>
+    <li><strong>Две минуты.</strong> Добавьте вторичные действия и важные пояснения: условия оплаты, ссылку «Изменить».</li>
+    <li><strong>Минута.</strong> Проверьте выравнивание и убедитесь, что главное действие заметно при размытии.</li>
+  </ol>
+
+  <div class="rule"><b>Если застряли на детали, обозначьте её и продолжайте.</b> Серый блок с подписью «Условия доставки, уточнить» поможет не потерять вопрос и собрать остальные экраны. Вернитесь к нему, когда увидите сценарий целиком.</div>
+
+  <h3>На чём можно сэкономить время</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Что занимает время</th><th>Как упростить</th></tr></thead>
+      <tbody>
+        <tr><td>Подбор шрифта и кеглей</td><td>Системный шрифт, два размера: обычный и мелкий</td></tr>
+        <tr><td>Рисование иконок</td><td>Слово вместо иконки</td></tr>
+        <tr><td>Пиксельное выравнивание</td><td>Одна левая граница и отступы 8 / 16 / 24</td></tr>
+        <tr><td>Поиск референсов</td><td>Использовать результаты разбора аналогов. Если их недостаточно, ограничить дополнительный поиск десятью минутами</td></tr>
+        <tr><td>Перерисовка шапки на каждом экране</td><td>Скопировать основу с первого экрана и обновить подписи</td></tr>
+        <tr><td>Выбор цвета</td><td>Пока использовать оттенки серого</td></tr>
+        <tr><td>Доведение первого экрана до идеала</td><td>Сначала собрать все черновики, затем пройтись по ним ещё раз</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Дополнительные состояния разместите рядом</h3>
+  <p>Для пустой корзины, отклонённого платежа и сообщения «Ничего не найдено» подготовьте отдельные варианты экранов. Разместите их рядом с основными и подпишите: «Корзина — пусто», «Оплата — карта отклонена». В прототипе свяжите их с нужными ветками. Так основной путь оформления заказа останется понятным.</p>
+
+  <div class="warnbox"><b>Если сложно начать, возьмите простой экран.</b> По нему можно выбрать подход к шапке, полям и кнопкам, а затем использовать его на остальных экранах. Не задерживайтесь на деталях: задача упражнения — собрать сценарий целиком.</div>
+</section>
+
+<section id="link">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Связать экраны переходами</h2></div>
+  <p class="sec-sub">Переходы позволяют пройти сценарий и проверить, как экраны работают вместе.</p>
+
+  <p>Кликабельный прототип состоит из экранов и переходов между ними. Человек нажимает кнопку и видит следующий шаг. Так сценарий можно <strong>пройти без ваших пояснений</strong> и заметить места, где непонятно, что делать дальше.</p>
+
+  <h3>Что связывать обязательно</h3>
+  <ul>
+    <li><strong>Основной путь целиком</strong> — от входа в сценарий до результата, без пропущенных шагов.</li>
+    <li><strong>Возврат на предыдущие шаги.</strong> Если человек захочет проверить или изменить данные, кнопка «Назад» должна работать.</li>
+    <li><strong>Одну-две ветки</strong> из схемы: например, пустое состояние или ошибку. Для упражнения не нужно связывать все дополнительные ветки.</li>
+  </ul>
+
+  <div class="rule"><b>В учебном прототипе у каждой видимой кнопки должен быть переход или заглушка.</b> Заглушка — экран с пояснением «Этот сценарий не входит в прототип» и кнопкой возврата. Она помогает продолжить проверку. Если же кнопка никак не реагирует, человеку трудно понять, пропущена ли связь или он сделал что-то не так.</div>
+
+  <div class="wf-row" style="margin:20px 0">
+    <div class="wf-col" style="max-width:360px">
+      <p class="wf-cap">Заглушка объясняет ограничение</p>
+      <div class="stub">Дальше начинается другой сценарий — регистрация. В этот прототип он не входит.<br><br><span style="text-decoration:underline">Вернуться к оформлению</span></div>
+    </div>
+    <div class="wf-col" style="max-width:360px">
+      <p class="wf-cap">Тупик оставляет без ответа</p>
+      <div class="stub" style="border-color:var(--bad); color:var(--bad)">Человек нажимает кнопку.<br><br>Ничего не происходит.</div>
+    </div>
+  </div>
+
+  <h3>Что проверить при настройке переходов</h3>
+  <ol>
+    <li><strong>Связывайте кнопку, а не весь экран.</strong> Если переход срабатывает при нажатии в любом месте, человек сможет продолжить, даже не найдя нужную кнопку. По такому прохождению трудно судить, понятен ли экран.</li>
+    <li><strong>Используйте мгновенные переходы.</strong> Для проверки структуры в этом упражнении анимация не нужна. Её можно настроить позже, если она понадобится для проверки взаимодействия.</li>
+    <li><strong>Называйте экраны как в схеме:</strong> «2. Указывает, куда и когда везти — Доставка». Так будет проще сопоставлять схему с прототипом и записывать замечания к шагам.</li>
+    <li><strong>Начинайте с точки входа, указанной на схеме.</strong> В нашем сценарии это корзина. Если сразу открыть оплату, часть пути останется непроверенной.</li>
+  </ol>
+
+  <h3>В каком инструменте собрать прототип</h3>
+  <p>Можно использовать режим прототипирования в Figma или другой инструмент, в котором к кнопкам привязываются переходы. Для простого сценария подойдёт и PDF со ссылками. Перед проверкой убедитесь, что <strong>участник может открыть прототип и пройти его самостоятельно</strong>. Если отправляете ссылку, проверьте доступ.</p>
+</section>
+
+<section id="run">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Как пройти прототип и найти тупики</h2></div>
+  <p class="sec-sub">После настройки переходов проверьте прототип сами, а затем дайте его человеку, который не знает, как всё задумано.</p>
+
+  <p>Для упражнения проведём три проверки. <strong>Сами</strong> пройдите по кнопкам и найдите пропущенные связи. <strong>Коллегу из команды</strong> попросите выполнить задачу: он может заметить непонятные подписи и пропущенные шаги. <strong>Человек не из команды</strong> поможет увидеть, что вызывает вопросы без знания проекта.</p>
+
+  <div class="rule"><b>Дайте задачу и не подсказывайте, куда нажимать.</b> Например: «Вы выбрали кофе и хотите его заказать». Если человек остановился, понаблюдайте, что он пытается сделать, и уточните, чего он ожидает. Подсказки о нужной кнопке могут скрыть проблему интерфейса. Если без помощи пройти не удалось, запишите место: теперь понятно, что нужно доработать.</div>
+
+  <h3>Что записывать</h3>
+  <ul>
+    <li><strong>Где человек остановился</strong> и сколько времени искал следующий шаг.</li>
+    <li><strong>На что нажал и чего ожидал.</strong> Если нажал повторно, возможно, не заметил реакции.</li>
+    <li><strong>Где спросил «А что дальше?»</strong> — здесь стоит проверить подписи и переходы.</li>
+    <li><strong>Какой элемент принял за кнопку,</strong> хотя перехода у него нет.</li>
+  </ul>
+
+  <p>Ниже — собранный прототип нашего сценария. Пройдите его целиком: от корзины до подтверждения. В нём спрятаны два тупика — найдите их по дороге.</p>
+
+  <div class="box">
+    <div class="box-head">Прототип · пройдите сценарий<span class="spacer"></span><span class="hunt-count" id="protoCount">Экранов: 1 из 4 · тупиков найдено: 0 из 2</span></div>
+    <div class="box-body">
+      <div class="proto">
+        <div class="proto-stage">
+
+          <div class="proto-screen on" data-screen="cart">
+            <div class="wf">
+              <div class="wf-top"><span class="ttl">Корзина</span><span class="back">2 товара</span></div>
+              <div class="wf-body">
+                <div class="wf-item"><span class="thumb"></span><span class="meta">Кофе в зёрнах Lavazza Crema e Aroma, 1 кг<span>2 шт.</span></span><span class="price">2 380 ₽</span></div>
+                <div class="wf-item"><span class="thumb"></span><span class="meta">Фильтры бумажные для кофеварки, 100 шт.<span>1 шт.</span></span><span class="price">1 100 ₽</span></div>
+                <div class="wf-sum"><span>Итого</span><span>3 480 ₽</span></div>
+                <button class="wf-btn primary" type="button" data-go="delivery">Оформить заказ</button>
+                <button class="wf-link" type="button" data-dead="Удалить товар">Удалить товар</button>
+                <button class="wf-link" type="button" data-out="Каталог">Вернуться в каталог</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-screen" data-screen="delivery">
+            <div class="wf">
+              <div class="wf-top"><button class="back" type="button" data-go="cart" style="border:none;background:none;cursor:pointer;color:var(--wf-ink)">← назад</button><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+              <div class="wf-body">
+                <div class="wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+                <button class="wf-link" type="button" data-go="address">Изменить адрес</button>
+                <div>
+                  <div style="font-size:12.5px; font-weight:600; margin-bottom:7px">Когда привезти</div>
+                  <div class="wf-chips">
+                    <div class="wf-chip on">завтра<br>10:00–14:00</div>
+                    <div class="wf-chip">завтра<br>16:00–20:00</div>
+                    <div class="wf-chip">12 марта<br>10:00–14:00</div>
+                  </div>
+                </div>
+                <div class="wf-field"><b>Комментарий курьеру</b>домофон не работает, позвоните</div>
+                <div class="wf-sum"><span>Доставка</span><span>бесплатно</span></div>
+                <button class="wf-btn primary" type="button" data-go="payment">К оплате</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-screen" data-screen="address">
+            <div class="wf">
+              <div class="wf-top"><button class="back" type="button" data-go="delivery" style="border:none;background:none;cursor:pointer;color:var(--wf-ink)">← назад</button><span class="ttl">Адрес доставки</span></div>
+              <div class="wf-body">
+                <div class="wf-field"><b>Поиск</b>Лесная</div>
+                <div class="wf-item"><span class="thumb" style="width:20px;height:20px;border-radius:50%"></span><span class="meta"><b>ул. Лесная, 8, кв. 14</b><span>сохранённый адрес</span></span></div>
+                <div class="wf-item"><span class="thumb" style="width:20px;height:20px;border-radius:50%"></span><span class="meta">пр. Мира, 44, офис 3<span>сохранённый адрес</span></span></div>
+                <div class="wf-ph cap" style="height:44px">список найденных адресов</div>
+                <button class="wf-btn primary" type="button" data-go="delivery">Сохранить адрес</button>
+                <button class="wf-link" type="button" data-go="delivery">Отмена</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-screen" data-screen="payment">
+            <div class="wf">
+              <div class="wf-top"><button class="back" type="button" data-go="delivery" style="border:none;background:none;cursor:pointer;color:var(--wf-ink)">← назад</button><span class="ttl">Оплата</span><span class="back">Шаг 3 из 3</span></div>
+              <div class="wf-body">
+                <div class="wf-field"><b>Способ оплаты</b>Карта •• 4417</div>
+                <button class="wf-link" type="button" data-dead="Другая карта">Другая карта</button>
+                <div class="wf-field"><b>Промокод</b>не применён</div>
+                <div class="wf-sum"><span>К оплате</span><span>3 480 ₽</span></div>
+                <button class="wf-btn primary" type="button" data-go="done">Оплатить 3 480 ₽</button>
+                <p class="wf-note">Спишем с карты после подтверждения</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-screen" data-screen="done">
+            <div class="wf">
+              <div class="wf-top"><span class="ttl">Заказ оформлен</span></div>
+              <div class="wf-body">
+                <div class="wf-ph cap" style="height:46px">галочка или иллюстрация</div>
+                <div style="font-size:15px; font-weight:600">Заказ №1287 принят</div>
+                <div style="font-size:12.5px; color:var(--wf-ink)">Привезём 12 марта, 10:00–14:00 по адресу ул. Лесная, 8, кв. 14</div>
+                <div style="font-size:12.5px; color:var(--wf-ink)">Чек отправили на a.ivanova@mail.ru</div>
+                <button class="wf-btn primary" type="button" data-out="Мои заказы">Смотреть заказ</button>
+                <button class="wf-link" type="button" data-out="Главная">На главную</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="proto-screen" data-screen="stub">
+            <div class="stub">
+              <div style="font-weight:600; margin-bottom:8px" id="stubTtl">Другой сценарий</div>
+              <div id="stubTxt">Дальше начинается сценарий, которого нет в этом прототипе.</div>
+              <div style="margin-top:16px"><button class="btn btn-ghost" type="button" id="stubBack">Вернуться</button></div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="proto-side">
+          <div class="proto-fb" id="protoFb"><b>Начните с корзины</b>Ваша задача — оформить заказ. По пути проверьте кнопки и найдите два тупика. Справа будут появляться пояснения к экранам.</div>
+          <ul class="proto-list" id="protoLog"></ul>
+          <div style="margin-top:14px"><button class="btn btn-ghost" id="protoReset" type="button">Начать заново</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="box-foot">Серых блоков и реальных подписей уже достаточно, чтобы проверить основной путь и найти пропущенные переходы.</div>
+  </div>
+
+  <h3>Три типичных тупика</h3>
+  <ul class="err-list">
+    <li><b>Кнопка без связи.</b> Видна, но не реагирует на нажатие. Добавьте переход или заглушку. Если действие не нужно в сценарии, уберите кнопку.</li>
+    <li><b>Не работает «Назад».</b> Путь вперёд связан, а вернуться к предыдущему шагу и изменить данные не получается.</li>
+    <li><b>Ветка обрывается.</b> Например, экран ошибки есть, но с него нельзя вернуться или повторить действие.</li>
+  </ul>
+
+  <p>После проверки исправьте найденные проблемы и пройдите прототип ещё раз сами. Если хотите проверить, понятен ли он с первого раза, пригласите нового человека: предыдущий участник уже знаком с маршрутом.</p>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Возьмите сценарий из предыдущей темы, нарисуйте его экраны и свяжите их в кликабельный прототип.</p>
+
+  <h3>Часть 1 · Подготовка, 15 минут</h3>
+  <ol>
+    <li><strong>Выпишите экраны из схемы.</strong> Два шага могут находиться на одном экране. Для упражнения ориентируйтесь на 3–5 экранов.</li>
+    <li><strong>Определите главное действие каждого экрана</strong> и напишите текст кнопки. За основу можно взять подписи переходов на схеме.</li>
+    <li><strong>Соберите настоящие тексты:</strong> названия, суммы, даты, статусы. Откройте свой продукт и скопируйте оттуда.</li>
+    <li><strong>Выберите одно дополнительное состояние:</strong> пустой экран или ошибку. Для упражнения этого достаточно.</li>
+  </ol>
+
+  <div class="box">
+    <div class="box-head">План прототипа · заполните перед работой<span class="spacer"></span><button class="btn" data-copy="#wfTmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="wfTmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">СЦЕНАРИЙ: ______________________        Дата: __.__.____
+ВХОД: ______________________   ВЫХОД: ______________________
+
+ЭКРАНЫ
+1. экран «______________»
+   главное действие (текст кнопки): ______________________
+   что нужно человеку для этого действия: ______________________
+   настоящие тексты: ______________________________________
+   ведёт на: ______________  назад на: ______________
+
+2. экран «______________»
+   главное действие: ______________________
+   что нужно: ______________________________________
+   настоящие тексты: ______________________________________
+   ведёт на: ______________  назад на: ______________
+
+3. экран «______________»
+   главное действие: ______________________
+   что нужно: ______________________________________
+   настоящие тексты: ______________________________________
+   ведёт на: ______________  назад на: ______________
+
+СОСТОЯНИЕ, которое рисуем дополнительно: ______________________
+
+КНОПКИ, ВЕДУЩИЕ ЗА ГРАНИЦУ СЦЕНАРИЯ (им нужна заглушка)
+— ______________________
+— ______________________
+
+ПРОВЕРКА
+самостоятельно: ____ тупиков найдено
+коллега: остановился на ______________, спросил ______________
+человек не из команды: остановился на ______________
+исправлено: ______________________________________</pre>
+    </div>
+    <div class="box-foot">Заполните план до начала работы над экранами. Он поможет собрать нужные данные и заметить вопросы, которые стоит уточнить заранее.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать экраны, час</h3>
+  <ol>
+    <li><strong>Отведите по десять минут на экран.</strong> Порядок из раздела 5: главное действие → содержимое → шапка → вторичные действия и пояснения → проверка иерархии.</li>
+    <li><strong>Начинайте с простых экранов,</strong> сложный оставьте на потом.</li>
+    <li><strong>Используйте оттенки серого, реальные тексты и один шрифт.</strong> Оформление можно будет проработать позже.</li>
+    <li><strong>Если застряли на детали, обозначьте её серым блоком</strong> с пояснением и переходите к следующей.</li>
+    <li><strong>Нарисуйте выбранное состояние</strong> в копии основного экрана и разместите рядом.</li>
+  </ol>
+
+  <h3>Часть 3 · Настроить переходы, 20 минут</h3>
+  <ol>
+    <li><strong>Свяжите основной путь целиком,</strong> от входа до результата.</li>
+    <li><strong>Добавьте возвраты на предыдущие шаги.</strong></li>
+    <li><strong>Свяжите ветку с дополнительным состоянием</strong> и настройте возврат из неё.</li>
+    <li><strong>Добавьте заглушки</strong> для кнопок, ведущих за пределы сценария.</li>
+    <li><strong>Проверьте, что связаны кнопки, а не целые экраны.</strong></li>
+  </ol>
+
+  <h3>Часть 4 · Проверить и исправить, 30 минут</h3>
+  <ol>
+    <li><strong>Сами:</strong> проверьте все кнопки, включая вторичные действия и возвраты.</li>
+    <li><strong>С коллегой:</strong> опишите задачу одной фразой и наблюдайте, как он её выполняет. Не подсказывайте, куда нажимать.</li>
+    <li><strong>С человеком не из команды:</strong> повторите проверку. Записывайте остановки, лишние нажатия и вопросы.</li>
+    <li><strong>Исправьте найденные проблемы</strong> и ещё раз пройдите прототип сами.</li>
+  </ol>
+
+  <div class="rule"><b>Как понять, что задание выполнено.</b> Человек проходит прототип от начала до конца без подсказок о том, куда нажимать, и не попадает в тупики. Если пришлось помочь, запишите, что вызвало затруднение, исправьте это место и проверьте снова.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Вайрфреймы всех экранов сценария</strong> — серые, с настоящими подписями.</li>
+    <li><strong>Минимум одно состояние</strong> рядом с основным экраном.</li>
+    <li><strong>Кликабельный прототип</strong> со связанным главным путём, возвратами и заглушками.</li>
+    <li><strong>Заполненный план прототипа</strong> с результатами трёх проверок.</li>
+  </ul>
+  <p class="dim">План работы: 15 минут на подготовку, час на экраны, 20 минут на переходы и полчаса на проверку с правками. Всего — около двух часов. Это ориентир для упражнения; договориться с участниками лучше заранее.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Экранов получилось десять».</strong> Проверьте, не включили ли вы дополнительные состояния в основной путь. Возможно, сценарий стоит разделить на несколько задач.</li>
+    <li><strong>«Хочется заняться оформлением».</strong> Попробуйте бумагу или файл без библиотеки стилей. Заранее выберите один шрифт и несколько оттенков серого.</li>
+    <li><strong>«Не знаю, что написать».</strong> Предложите черновую формулировку и пометьте, что нужно уточнить. Такой текст уже можно обсудить.</li>
+    <li><strong>«Некого позвать на проверку».</strong> Для этого упражнения можно попросить друга, соседа по коворкингу или коллегу из другой команды, который не видел проект. Он поможет заметить непонятные шаги. Для специализированного продукта нужен человек, знакомый с задачами его пользователей.</li>
+    <li><strong>«Прототип прошли с первого раза без замечаний».</strong> Убедитесь, что не подсказывали и переходы срабатывали только по кнопкам. Если всё так, отметьте результат и проверьте сценарий со следующим участником.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Вайрфреймы для задания готовы, если</h3>
+  <ul class="ok-list">
+    <li>Использованы оттенки серого и один шрифт</li>
+    <li>Названия, суммы, даты и ошибки соответствуют сценарию</li>
+    <li>Вместо «Lorem ipsum», «Заголовок» и «Название товара» стоят реальные или черновые тексты</li>
+    <li>Картинки обозначены серыми блоками с подписью и нужным соотношением сторон</li>
+    <li>Иконки заменены словами</li>
+    <li>Главное действие выделено и заметно при размытии</li>
+    <li>Вторичные действия менее заметны, чем главное</li>
+    <li>Блоки выровнены, отступы кратны 8</li>
+    <li>Нарисовано хотя бы одно дополнительное состояние экрана</li>
+    <li>Проверены длинные названия, много позиций и отсутствие данных</li>
+  </ul>
+
+  <h3>Прототип для задания готов, если</h3>
+  <ul class="ok-list">
+    <li>Главный путь связан целиком, от входа до выхода</li>
+    <li>Работают возвраты на предыдущие шаги</li>
+    <li>Связана хотя бы одна ветка и возврат из неё</li>
+    <li>Каждая видимая кнопка ведёт либо на экран, либо на заглушку</li>
+    <li>Переходы настроены на кнопках</li>
+    <li>Экраны названы как в схеме сценария</li>
+    <li>Стартовый экран — тот же вход, что на схеме</li>
+    <li>Участник может открыть прототип по ссылке и пройти его без подсказок</li>
+  </ul>
+
+  <h3>Что мешает собрать и проверить прототип</h3>
+  <ul class="err-list">
+    <li><b>Ранний переход к оформлению.</b> Подбор шрифтов, цвета и теней отнимает время и может отвлечь обсуждение от структуры.</li>
+    <li><b>«Lorem ipsum».</b> Скрывает главное: влезает ли настоящий текст и достаточно ли его человеку.</li>
+    <li><b>Слова-заглушки.</b> «Заголовок», «Кнопка», «Название товара» — признак, что решение ещё не принято.</li>
+    <li><b>Три одинаково заметные кнопки.</b> Человеку сложнее найти главное действие.</li>
+    <li><b>Доведение первого экрана до идеала.</b> На остальные экраны и настройку переходов может не хватить времени.</li>
+    <li><b>Дополнительные состояния в основной цепочке.</b> Из-за них труднее проследить основной путь.</li>
+    <li><b>Кнопки без связей.</b> Тупик: человек нажимает, ничего не происходит, прогон обрывается.</li>
+    <li><b>Не работает «Назад».</b> Человек не может вернуться к предыдущему шагу и изменить данные.</li>
+    <li><b>Переход по нажатию в любом месте.</b> Человек может пройти сценарий, не найдя нужных кнопок.</li>
+    <li><b>Подсказки о нужном действии.</b> Они мешают заметить места, где интерфейс непонятен.</li>
+    <li><b>Нет доступа к прототипу.</b> Участник не сможет начать проверку, пока вы не настроите доступ или не пришлёте файл.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы</h2></div>
+  <p class="sec-sub">В этом уроке учимся собирать черновые экраны и связывать их в понятный сценарий. На следующих уровнях — проверять решения и выбирать, что стоит прототипировать.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Что нужно уметь</th><th>Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Собирать черновые экраны с реальными подписями; выделять главное действие без цвета; связывать экраны в прототип. Ориентир для упражнения — три-пять экранов за час</td>
+          <td>Прототип проходится от начала до конца без ваших подсказок и без тупиков</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Middle</b></td>
+          <td class="dim">Выбирать детализацию под задачу; готовить прототип к тестированию с реалистичными данными, состояниями и ветками; проверять спорные решения; вести версии и передавать разработчикам понятное описание поведения</td>
+          <td class="dim">Гипотеза проверена на прототипе, результаты теста помогают решить, что сохранить или изменить</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Senior</b></td>
+          <td class="dim">Определять, что и насколько подробно нужно прототипировать; помогать команде принимать решения по результатам проверок; создавать общие заготовки и правила, чтобы другие тоже могли собирать прототипы</td>
+          <td class="dim">Результаты проверки прототипа помогли принять решение о крупной функции до начала её разработки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Ориентир по этой теме:</b> вы умеете собрать черновые экраны, связать их и проверить с другим человеком. Он понимает, как выполнить задачу, а вы замечаете затруднения и знаете, что доработать.</div>
+</section>
+
+<footer>
+  Урок по теме «Вайрфреймы и прототипы», уровень Junior. Пример — оформление заказа из предыдущей темы. План прототипа в разделе 8 можно скопировать, а упражнение в разделе 7 — пройти повторно. Для дальнейшего чтения: Билл Бакстон, «Sketching User Experiences» — о работе с набросками; Стив Круг, «Не заставляйте меня думать» — о понятности интерфейсов и проверке с пользователями; документация Figma по прототипированию — о настройке экранов и переходов.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next');
+    var sc = el.closest('.box').querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Здесь подходит «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>После упражнения</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'ok', label: 'Подходит' }, { key: 'extra', label: 'Пока лишнее' }, { key: 'miss', label: 'Чего-то не хватает' }],
+    [
+      { t: 'Фото товара заменено серым прямоугольником с подписью «фото 1:1».', a: 'ok',
+        fb: 'Так видно, сколько места займёт фото и сколько останется для названия и цены. Для проверки структуры карточки этого достаточно.' },
+      { t: 'Подобрана пара шрифтов: заголовки Playfair, основной текст Inter.', a: 'extra',
+        fb: 'Для нашего черновика достаточно одного шрифта. Подбор пары можно отложить до работы над оформлением.' },
+      { t: 'На главной кнопке написано «Далее» вместо «Оплатить 3 480 ₽».', a: 'miss',
+        fb: 'По слову «Далее» непонятно, спишутся ли деньги или откроется следующий шаг. На экране оплаты нужна подпись, которая объясняет действие.' },
+      { t: 'Все блоки выровнены по левому краю, отступы кратны восьми.', a: 'ok',
+        fb: 'Выравнивание и последовательные отступы помогают читать экран. В этом упражнении используем шаг в восемь пикселей, чтобы не подбирать каждый отступ отдельно.' },
+      { t: 'Кнопке подобран фирменный синий цвет и добавлена мягкая тень.', a: 'extra',
+        fb: 'Цвет и тень пока можно отложить: в этом упражнении мы проверяем структуру. Чтобы выделить кнопку, достаточно серой заливки.' },
+      { t: 'На экране пустой корзины нет ни одной кнопки.', a: 'miss',
+        fb: 'Нужен способ продолжить: например, перейти в каталог. Иначе человек увидит пустую корзину, но не поймёт, как вернуться к покупкам.' },
+      { t: 'Иконки заменены словами: «поиск», «фильтр», «удалить».', a: 'ok',
+        fb: 'Слова помогают понять действия без подбора иконок. Когда перейдёте к макету, можно будет выбрать подходящие значки.' },
+      { t: 'Рядом нарисован тот же экран, но с самым длинным названием товара из базы.', a: 'ok',
+        fb: 'Так можно заранее заметить, что название не помещается, и решить, как показать его в карточке.' },
+      { t: 'Подобраны скругления углов и градиент в шапке.', a: 'extra',
+        fb: 'Скругления и градиент относятся к оформлению. Сейчас важнее проверить состав экрана и расположение элементов.' }
+    ],
+    function (s, n) {
+      return s >= 8 ? 'В большинстве примеров вы выбрали подходящую детализацию. Попробуйте применить тот же подход к своим экранам: оставить всё, что помогает проверить структуру и действия.'
+        : s >= 5 ? 'Посмотрите пояснения к ответам. Перед добавлением детали спросите себя: она помогает понять действие и структуру экрана или нужна для оформления?'
+        : 'Вернитесь к примерам в разделе 2. Для этого упражнения на черновике проверяем состав экрана, расположение элементов и главное действие.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'good', label: 'Годится' }, { key: 'fish', label: '«Рыба»' }, { key: 'stub', label: 'Слово-заглушка' }],
+    [
+      { t: 'На карточке товара: <q>Lorem ipsum dolor sit amet, consectetur</q>', a: 'fish',
+        fb: 'Этот текст заполняет место, но не помогает узнать товар. По нему также нельзя проверить, как поместится реальное название.' },
+      { t: 'На карточке товара: <q>Кофе в зёрнах Lavazza Crema e Aroma, 1 кг</q>', a: 'good',
+        fb: 'Такую подпись можно использовать для проверки: понятно, что это за товар, и видно, сколько места нужно его названию.' },
+      { t: 'Над списком: <q>Заголовок</q>', a: 'stub',
+        fb: 'Слово обозначает место для заголовка, но скрывает его смысл. Перед обсуждением экрана стоит написать хотя бы черновой вариант.' },
+      { t: 'В блоке описания: <q>Текст, который будет здесь позже</q>', a: 'fish',
+        fb: 'Это текст-заполнитель. Лучше предложить черновое описание и пометить, что нужно уточнить. Тогда можно будет проверить смысл и длину.' },
+      { t: 'На главной кнопке: <q>Оплатить 3 480 ₽</q>', a: 'good',
+        fb: 'Подпись объясняет действие и показывает сумму. На вайрфрейме уже можно проверить, помещается ли весь текст в кнопку.' },
+      { t: 'В строке списка: <q>Название товара</q>', a: 'stub',
+        fb: 'Здесь указано, какой текст нужен, но самого названия нет. Поэтому нельзя проверить ни содержание, ни переносы строк.' },
+      { t: 'На экране подтверждения: <q>Привезём 12 марта, 10:00–14:00</q>', a: 'good',
+        fb: 'Указаны дата и интервал доставки. С ними можно проверить, хватает ли места и понятно ли, когда ждать заказ.' },
+      { t: 'На кнопке: <q>Кнопка действия</q>', a: 'stub',
+        fb: 'По такой подписи непонятно, что произойдёт после нажатия. Нужен текст самого действия: например, «Сохранить адрес».' },
+      { t: 'В состоянии ошибки: <q>Банк отклонил платёж. Попробуйте другую карту</q>', a: 'good',
+        fb: 'Сообщение объясняет, что произошло, и предлагает следующий шаг. Такой текст уже можно проверить вместе с экраном.' }
+    ],
+    function (s, n) {
+      return s >= 8 ? 'Вы распознали большинство подписей. В своём черновике проверьте не только названия и кнопки, но и суммы, даты и сообщения об ошибках.'
+        : s >= 5 ? 'Сравните примеры ещё раз: «рыба» заполняет место, а слово-заглушка называет тип будущего текста. Для проверки экрана оба варианта нужно заменить хотя бы черновой формулировкой.'
+        : 'Вернитесь к разделу 3 и посмотрите примеры. Пишите текст, который мог бы появиться в интерфейсе. Неизвестные формулировки можно предложить вчерне и пометить для уточнения.';
+    }
+  );
+
+  /* ── tabs ── */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]'));
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      tabs.forEach(function (o) {
+        o.setAttribute('aria-selected', String(o === t));
+        var p = document.getElementById(o.getAttribute('aria-controls'));
+        if (p) p.classList.toggle('on', o === t);
+      });
+    });
+  });
+
+  /* ── squint ── */
+  var sq = document.getElementById('squintBtn'), sqRow = document.getElementById('squintRow');
+  sq.addEventListener('click', function () {
+    var on = sqRow.classList.toggle('squint');
+    sq.setAttribute('aria-pressed', String(on));
+    sq.textContent = on ? 'Вернуть резкость' : 'Прищуриться';
+  });
+
+  /* ── prototype ── */
+  var NAMES = { cart: 'Корзина', delivery: 'Доставка', address: 'Адрес', payment: 'Оплата', done: 'Готово' };
+  var MAIN = ['cart', 'delivery', 'payment', 'done'];
+  var NOTES = {
+    cart: '<b>Начните с корзины</b>Ваша задача — оформить заказ. По пути проверьте кнопки и найдите два тупика. Справа будут появляться пояснения к экранам.',
+    delivery: '<b>Второй шаг</b>Главное действие — «К оплате». Остальные действия менее заметны. Проверьте возврат в корзину: человек может захотеть изменить заказ.',
+    address: '<b>Дополнительная ветка</b>Здесь человек меняет адрес. Кнопки «Сохранить адрес», «Отмена» и «Назад» возвращают к доставке. Каждую связь нужно проверить.',
+    payment: '<b>Третий шаг</b>Проверьте главное действие и остальные кнопки: так можно заметить пропущенные связи.',
+    done: ''
+  };
+  var DEAD = {
+    'Удалить товар': 'У этой кнопки нет перехода. В прототипе нужно связать её с корзиной без удалённого товара или добавить заглушку. Если действие не входит в проверяемый сценарий и его не нужно показывать, кнопку можно убрать.',
+    'Другая карта': 'Кнопка есть, но экран выбора карты не подключён. Добавьте этот экран и переход к нему или заглушку с возвратом к оплате.'
+  };
+  var stage = document.querySelector('.proto-stage');
+  var protoFb = document.getElementById('protoFb'), protoLog = document.getElementById('protoLog');
+  var protoCount = document.getElementById('protoCount');
+  var stubTtl = document.getElementById('stubTtl'), stubTxt = document.getElementById('stubTxt');
+  var visited = {}, deads = {}, current = 'cart', stubReturn = 'cart';
+
+  function show(id) {
+    stage.querySelectorAll('.proto-screen').forEach(function (s) {
+      s.classList.toggle('on', s.getAttribute('data-screen') === id);
+    });
+  }
+  function update() {
+    var n = MAIN.filter(function (k) { return visited[k]; }).length;
+    protoCount.textContent = 'Экранов: ' + n + ' из 4 · тупиков найдено: ' + Object.keys(deads).length + ' из 2';
+  }
+  function logLine(html) {
+    var li = document.createElement('li');
+    li.innerHTML = html;
+    protoLog.appendChild(li);
+  }
+  function goTo(id, label) {
+    if (label) logLine('→ ' + NAMES[current] + ' → <b>' + NAMES[id] + '</b> <span class="dim">(' + label + ')</span>');
+    current = id;
+    visited[id] = 1;
+    show(id);
+    if (id === 'done') {
+      var found = Object.keys(deads).length;
+      protoFb.className = 'proto-fb good';
+      protoFb.innerHTML = '<b>Сценарий пройден</b>От корзины до подтверждения, четыре экрана. Тупиков найдено: ' + found + ' из 2. ' +
+        (found === 2 ? 'Вы нашли оба тупика. Проверка вторичных кнопок помогла заметить связи, которых не хватает.'
+                     : 'Чтобы найти оставшиеся тупики, начните заново и проверьте вторичные кнопки на всех экранах.');
+    } else {
+      protoFb.className = 'proto-fb';
+      protoFb.innerHTML = NOTES[id] || '';
+    }
+    update();
+  }
+  stage.addEventListener('click', function (e) {
+    var btn = e.target.closest('button'); if (!btn) return;
+    var go = btn.getAttribute('data-go'), dead = btn.getAttribute('data-dead'), out = btn.getAttribute('data-out');
+    if (go) { goTo(go, btn.textContent.trim()); return; }
+    if (dead) {
+      btn.classList.add('hit');
+      setTimeout(function () { btn.classList.remove('hit'); }, 1400);
+      if (!deads[dead]) { deads[dead] = 1; logLine('✕ тупик: <b>' + dead + '</b>'); }
+      protoFb.className = 'proto-fb bad';
+      protoFb.innerHTML = '<b>Ничего не произошло</b>' + DEAD[dead];
+      update();
+      return;
+    }
+    if (out) {
+      stubReturn = current;
+      stubTtl.textContent = out;
+      stubTxt.textContent = 'Дальше начинается другой сценарий — «' + out + '». В этот прототип он не входит.';
+      show('stub');
+      logLine('↗ выход за границу сценария: <b>' + out + '</b>');
+      protoFb.className = 'proto-fb';
+      protoFb.innerHTML = '<b>Переход на заглушку</b>Этот сценарий не входит в прототип. Заглушка объясняет ограничение и позволяет вернуться к проверке оформления заказа.';
+      return;
+    }
+  });
+  document.getElementById('stubBack').addEventListener('click', function () {
+    show(stubReturn);
+    protoFb.className = 'proto-fb';
+    protoFb.innerHTML = NOTES[stubReturn] || '';
+  });
+  document.getElementById('protoReset').addEventListener('click', function () {
+    visited = {}; deads = {}; current = 'cart'; stubReturn = 'cart';
+    protoLog.innerHTML = '';
+    goTo('cart');
+  });
+  goTo('cart');
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = (src.innerText || src.textContent).replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опросы: когда цифра спорит с разговором</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --bar: #2a78d6; --track: #e1e0d9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --bar: #3987e5; --track: #2c2c2a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --bar: #3987e5; --track: #2c2c2a;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 820px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn[disabled] { opacity: .5; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 58px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 175px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* option marker */
+  .opt-q { font-size: 15.5px; font-weight: 600; margin: 0 0 10px; }
+  .opt-list { list-style: none; margin: 0; padding: 0; }
+  .opt-list li { border-top: 1px solid var(--hairline); }
+  .opt-list li:first-child { border-top: none; }
+  .opt-list button { width: 100%; text-align: left; background: none; border: none; color: var(--ink); font: 15px system-ui, sans-serif; padding: 10px 12px; cursor: pointer; border-radius: 7px; display: flex; gap: 10px; align-items: flex-start; }
+  .opt-list button:hover { background: var(--chip); }
+  .opt-list button .mk { width: 15px; height: 15px; border: 1.5px solid var(--quote-bar); border-radius: 50%; flex: none; margin-top: 3px; }
+  .opt-list li.picked button { background: var(--bad-soft); }
+  .opt-list li.picked button .mk { background: var(--bad); border-color: var(--bad); }
+  .opt-list li.reveal-bad button { background: var(--bad-soft); }
+  .opt-list li.reveal-bad button .mk { background: var(--bad); border-color: var(--bad); }
+  .opt-list li.reveal-miss button { background: var(--warn-soft); }
+  .opt-list li.reveal-miss button .mk { background: var(--warn); border-color: var(--warn); }
+  .opt-list li.reveal-wrong button { opacity: .55; }
+  .opt-why { display: none; font-size: 13.5px; color: var(--ink-2); padding: 0 12px 11px 37px; }
+  .opt-list li.revealed .opt-why { display: block; }
+  .opt-meta { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13.5px; color: var(--muted); margin-top: 12px; }
+  .opt-fix { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: var(--good-soft); border: 1px solid var(--border); font-size: 14.5px; display: none; }
+  .opt-fix.on { display: block; }
+  .opt-fix b { color: var(--good); }
+
+  /* scale reference */
+  .sc-tabs { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+  .sc-body h5 { margin: 0 0 4px; font-size: 16px; }
+  .sc-ex { background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 12px 14px; margin: 10px 0 14px; font-size: 14.5px; }
+  .sc-ex .opts2 { color: var(--ink-2); font-size: 13.5px; margin-top: 5px; }
+  .sc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 640px) { .sc-grid { grid-template-columns: 1fr; } }
+  .sc-cell { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--raised); }
+  .sc-cell h6 { margin: 0 0 6px; font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .sc-cell ul { margin: 0; padding-left: 18px; font-size: 14px; max-width: none; }
+  .sc-cell li { margin: 3px 0; color: var(--ink-2); }
+  .sc-warn { margin-top: 12px; font-size: 14px; color: var(--ink-2); border-left: 3px solid var(--warn); padding-left: 11px; }
+  .sc-warn b { color: var(--ink); }
+
+  /* pilot checklist */
+  .chk { list-style: none; margin: 0; padding: 0; }
+  .chk li { border-top: 1px solid var(--hairline); }
+  .chk li:first-child { border-top: none; }
+  .chk label { display: flex; gap: 12px; align-items: flex-start; padding: 10px 2px; cursor: pointer; font-size: 14.5px; }
+  .chk input { width: 17px; height: 17px; margin: 3px 0 0; flex: none; accent-color: var(--accent); cursor: pointer; }
+  .chk .hint { display: block; font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .chk input:checked + span { color: var(--muted); }
+  .chkbar { display: flex; align-items: center; gap: 12px; font-size: 13.5px; }
+  .chkbar .prog { flex: 1; height: 6px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .chkbar .prog i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s ease; }
+  .chkbar .st { font-weight: 600; white-space: nowrap; }
+
+  /* bars */
+  .bars { display: flex; flex-direction: column; gap: 10px; }
+  .brow { display: grid; gap: 4px; }
+  .blab { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; align-items: baseline; }
+  .blab .t { color: var(--ink); }
+  .blab .v { color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13.5px; }
+  .btrack { height: 14px; background: var(--track); border-radius: 3px; overflow: hidden; }
+  .bfill { display: block; height: 100%; background: var(--bar); border-radius: 0 4px 4px 0; }
+
+  .said { margin: 0 0 10px; padding-left: 11px; border-left: 2px solid var(--quote-bar); color: var(--ink); max-width: none; font-size: 14.5px; }
+  .said .who { display: block; font-size: 12.5px; color: var(--muted); margin-top: 3px; }
+
+  /* compare rows */
+  .cmp { }
+  .cmp-row { border-top: 1px solid var(--hairline); padding: 15px 18px; }
+  .cmp-row:first-child { border-top: none; }
+  .cmp-row h5 { margin: 0 0 9px; font-size: 15.5px; }
+  .cmp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 640px) { .cmp-two { grid-template-columns: 1fr; } }
+  .cmp-two > div { font-size: 14px; }
+  .cmp-two h6 { margin: 0 0 6px; font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .cmp-v { margin-top: 11px; font-size: 14.5px; }
+  .vd { display: inline-block; font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; }
+  .vd.same { background: var(--good-soft); color: var(--good); }
+  .vd.clash { background: var(--bad-soft); color: var(--bad); }
+  .vd.other { background: var(--chip); color: var(--accent-deep); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Опросы · Middle · когда цифра спорит с разговором</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · опросы и цифры</p>
+  <div class="levels" aria-label="Уровень темы: Middle, второй из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv on">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как собрать свой опрос и спокойно разобраться, если цифры разошлись с интервью</h1>
+  <p class="lede">Своя анкета выглядит как работа на полчаса: выписал вопросы, придумал варианты, отправил. Сложность в том, что варианты, которые вы придумали, и есть потолок того, что можно услышать — всё остальное в ответы может просто не попасть. А когда цифры расходятся с тем, что люди говорили на интервью, легко решить, что один из методов ошибся. Здесь разберёмся, как вывести анкету из вопроса задачи, как проверить формулировки до рассылки, что даёт и чего не даёт каждая шкала и что делать с расхождением.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#build">Превращать вопрос задачи в анкету</a> — что спрашиваем и в каком порядке</li>
+    <li><a href="#leading">Писать вопросы, которые не подсказывают ответ</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#options">Составлять варианты ответов</a>, которые не загоняют людей в неподходящий выбор<span class="drillmark">разметка</span></li>
+    <li><a href="#scales">Выбирать шкалу</a> и понимать, что потом с ней можно сделать<span class="drillmark">справочник</span></li>
+    <li><a href="#pilot">Проверять анкету на нескольких людях</a> до рассылки<span class="drillmark">чек-лист</span></li>
+    <li><a href="#merge">Сводить цифру и реплику</a> и разбирать расхождение<span class="drillmark">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Продолжаем задачу из предыдущих уроков: <b>люди уходят с шага оплаты</b>. Пять интервью уже проведены, четыре причины найдены — теперь нужно понять, насколько часто встречается каждая. В разделе 7 опрос и интервью разойдутся в самом важном месте, и мы разберём, чему верить.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется по сравнению с прошлым уровнем</h2></div>
+  <p class="sec-sub">Считать доли вы уже умеете. Теперь вы отвечаете за то, как именно сформулирован вопрос.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Junior</th><th>Middle</th></tr></thead>
+      <tbody>
+        <tr><td><b>Анкета</b></td><td>готовая</td><td>своя, под конкретный вопрос задачи</td></tr>
+        <tr><td><b>Варианты ответов</b></td><td>даны</td><td>придумываете вы — и они ограничивают всё, что можно услышать</td></tr>
+        <tr><td><b>Шкалы</b></td><td>какие есть</td><td>выбираете, понимая, что потом сможете посчитать</td></tr>
+        <tr><td><b>Перед рассылкой</b></td><td>проверить на себе</td><td>пилот на нескольких людях с проговариванием вслух</td></tr>
+        <tr><td><b>Результат</b></td><td>страница с цифрами</td><td>цифры, сведённые с тем, что говорили на интервью</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>проценты без «из скольких»</td><td>анкета, которая красиво подтвердила исходную догадку</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Главная ловушка уровня.</b> Вы придумываете варианты ответов, исходя из того, что сами считаете причиной. Люди выбирают из предложенного — другого им не дано. На выходе получается красивая диаграмма, которая подтверждает вашу же гипотезу и почти ничего не добавляет. Поэтому опрос редко стоит делать первым: сначала разговоры, где люди говорят своими словами, потом анкета, где вы считаете уже услышанное.</div>
+</section>
+
+<section id="build">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Из вопроса задачи в анкету</h2></div>
+  <p class="sec-sub">Первый навык. Между «почему уходят с оплаты» и списком вопросов есть два обязательных шага.</p>
+
+  <p>Прямой вопрос «почему вы ушли» обычно плохо работает: человек может не помнить и дать правдоподобное объяснение задним числом. Поэтому вопрос задачи сначала распадается на <strong>то, что вы уже знаете из разговоров</strong>, а потом — на <strong>то, что нужно посчитать</strong>. Надёжнее считать конкретные события: что человек делал, а не что он думает о своих причинах.</p>
+
+  <div class="box">
+    <div class="box-body">
+      <p style="margin-top:0;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700">Шаг 1 · что уже известно из пяти интервью</p>
+      <ul style="max-width:none;font-size:14.5px">
+        <li>Уходят и возвращаются позже с другого устройства — карта не под рукой</li>
+        <li>Сверяют итоговую сумму, потому что она отличается от ожидаемой</li>
+        <li>Часть заказов доводят по телефону через менеджера</li>
+        <li>Один человек искал отзывы перед вводом карты — покупал впервые</li>
+      </ul>
+
+      <p style="margin:18px 0 6px;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700">Шаг 2 · что из этого можно посчитать</p>
+      <div class="tbl-scroll" style="margin:6px 0 0">
+        <table>
+          <thead><tr><th>Что хотим узнать</th><th>Как спросить, чтобы получить факт</th></tr></thead>
+          <tbody>
+            <tr><td>Насколько часто уходят и возвращаются</td><td>«Случалось ли за последние 3 месяца, что вы начали оформлять заказ, а закончили позже или на другом устройстве?»</td></tr>
+            <tr><td>Насколько часто сверяют сумму</td><td>«Возвращались ли вы назад с шага оплаты, чтобы что-то проверить? Если да — что именно проверяли?»</td></tr>
+            <tr><td>Насколько часто заказ уходит в другой канал</td><td>«Случалось ли, что вы начали оформлять на сайте, а завершили по телефону или в чате?»</td></tr>
+            <tr><td>Насколько часто это первая покупка</td><td>«Сколько заказов вы у нас делали?»</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin:16px 0 0;font-size:14.5px;max-width:none"><b>Шаг 3 — порядок.</b> Вопросы выстраиваются от простого и нейтрального к конкретному, а всё, что относится к вашей гипотезе, ставится ближе к концу.</p>
+    </div>
+  </div>
+
+  <h3>Порядок вопросов: четыре правила</h3>
+  <ul>
+    <li><strong>Сначала фильтр.</strong> Первым вопросом отсеките тех, кто не подходит: «Делали ли вы заказ за последние три месяца?» Если нет — анкета для человека заканчивается. Иначе он будет отвечать наугад, и данные станут грязнее.</li>
+    <li><strong>Потом факты, потом мнения.</strong> Сначала «что вы делали», в конце «как вам это». Если начать с оценок, человек настроится на режим «оценивать» и дальше может вспоминать под своё же первое впечатление.</li>
+    <li><strong>Целевой вопрос — не первым.</strong> Спросите про оплату на первом экране — и вся анкета для человека станет «про оплату», он начнёт подгонять остальные ответы.</li>
+    <li><strong>Свободный текст — в конце</strong> и необязательным. Он самый трудозатратный: поставите в начало — потеряете часть людей уже на нём.</li>
+  </ul>
+
+  <div class="rule"><b>Рабочее правило длины: держите анкету в пределах десяти вопросов.</b> Каждый лишний вопрос повышает шанс, что человек бросит анкету на середине, причём чаще уходят самые занятые. Если вопросов получилось пятнадцать, сокращайте: по каждому спросите себя «что я сделаю с ответом?». Если решения нет, вопрос лишний.</div>
+</section>
+
+<section id="leading">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Вопросы, которые не подсказывают ответ</h2></div>
+  <p class="sec-sub">Второй навык. В анкете подсказка опаснее, чем в интервью: в разговоре вы можете переспросить, а здесь — нет.</p>
+
+  <p>Подсказка в вопросе работает незаметно. Человек не думает «мне навязывают ответ» — он просто выбирает тот вариант, который звучит разумнее в контексте самого вопроса. Пять типичных способов подсказать:</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Приём</th><th>Как выглядит</th><th>Почему плохо</th></tr></thead>
+      <tbody>
+        <tr><td><b>Утверждение вместо вопроса</b></td><td>«Насколько вам мешает долгая загрузка?»</td><td>Уже сказано, что она долгая и что мешает. Остаётся выбрать степень</td></tr>
+        <tr><td><b>Оценка внутри вопроса</b></td><td>«Как вам наш удобный новый поиск?»</td><td>Слово «удобный» задаёт тон всему ответу</td></tr>
+        <tr><td><b>Два вопроса в одном</b></td><td>«Понятно ли и быстро ли оформляется заказ?»</td><td>Что отвечать, если понятно, но медленно? Ответ будет случайным</td></tr>
+        <tr><td><b>Ссылка на других</b></td><td>«Многие отмечают, что стало удобнее. А вы?»</td><td>Человек не хочет выделяться и соглашается</td></tr>
+        <tr><td><b>Негатив только с одной стороны</b></td><td>«Были ли у вас проблемы с оплатой?»</td><td>Вопрос ищет проблемы и находит их даже там, где их не заметили</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · подсказывает или нет<span class="spacer"></span><span class="sc num">0 / 8</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Быстрая самопроверка: закрой варианты ответов и прочитай только вопрос. Если из него понятно, какой ответ вам нравится, — переписывайте.</div>
+  </div>
+</section>
+
+<section id="options">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Варианты ответов: потолок того, что вы услышите</h2></div>
+  <p class="sec-sub">Третий навык. Вопрос можно написать хорошо и всё равно получить мусор — если варианты составлены плохо.</p>
+
+  <p>Список вариантов — это не оформление, а сам инструмент измерения. Чего в списке нет, того почти не будет и в результатах: человек выберет ближайшее по смыслу, и вы можете не заметить промах. Пять поломок встречаются чаще всего.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Поломка</th><th>Пример</th><th>Что происходит</th></tr></thead>
+      <tbody>
+        <tr><td><b>Варианты пересекаются</b></td><td>«1–3 заказа», «3–5 заказов»</td><td>У кого ровно три — не знает, что выбрать. Выберет наугад</td></tr>
+        <tr><td><b>Список неполный</b></td><td>Нет «ничего из перечисленного» или «другое»</td><td>Человек выберет наименее неверное. Доля этого варианта окажется завышенной</td></tr>
+        <tr><td><b>Перекос в одну сторону</b></td><td>«Отлично / хорошо / нормально / плохо»</td><td>Три хороших варианта против одного плохого — средний ответ уедет вверх</td></tr>
+        <tr><td><b>Нет выхода для тех, кто не знает</b></td><td>Нет «не помню» и «не пользовался»</td><td>Люди без опыта могут выбрать наугад и размыть результат</td></tr>
+        <tr><td><b>Варианты из вашей головы</b></td><td>«Неинтуитивный интерфейс»</td><td>Люди так обычно не думают и не говорят; часть выберет случайно</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box" id="optBox">
+    <div class="box-head">Разметка · найди поломанные варианты<span class="spacer"></span><span class="dim num" id="optCount" style="font-size:13px"></span><button class="btn" id="optCheck" type="button">Проверить</button></div>
+    <div class="box-body">
+      <p class="dim" style="margin-top:0;font-size:14px">Нажимай на варианты, с которыми что-то не так. Здесь есть несколько поломок.</p>
+      <p class="opt-q">Сколько заказов вы сделали у нас за последний год?</p>
+      <ul class="opt-list" id="optList"></ul>
+      <div class="opt-meta" id="optMeta"></div>
+      <div class="opt-fix" id="optFix"></div>
+    </div>
+    <div class="box-foot">Проверка своего списка занимает минуту: попробуйте мысленно ответить на вопрос за трёх разных людей — новичка, постоянного клиента и того, кто вообще не помнит. Если хоть одному некуда встать, список неполный.</div>
+  </div>
+
+  <h3>Правила, которые закрывают почти все случаи</h3>
+  <ul>
+    <li><strong>Границы не пересекаются:</strong> «1–3», «4–6», «7 и больше». Никаких «3–5» после «1–3».</li>
+    <li><strong>Дайте выход:</strong> «ничего из перечисленного» для списков событий, «другое» со свободным полем, «не помню» там, где память может подвести.</li>
+    <li><strong>Шкала симметрична:</strong> сколько положительных вариантов, столько и отрицательных, с нейтральным посередине.</li>
+    <li><strong>Варианты из языка людей,</strong> а не из вашей документации. Берите формулировки прямо из интервью — люди узнают свои слова и отвечают точнее.</li>
+    <li><strong>Порядок случайный там, где он может влиять.</strong> Первые пункты длинного списка выбирают чаще просто потому, что они первые; если сервис умеет перемешивать варианты, используйте это.</li>
+    <li><strong>Пять–семь вариантов — хороший ориентир.</strong> Длинный список многие не дочитывают до конца.</li>
+  </ul>
+</section>
+
+<section id="scales">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Шкалы: что вы сможете с ними сделать потом</h2></div>
+  <p class="sec-sub">Четвёртый навык. Тип вопроса выбирается не по красоте, а по тому, что вы собираетесь считать.</p>
+
+  <p>Главная мысль раздела: <strong>тип вопроса определяет, какие выводы потом будут доступны</strong>. Решать это надо до рассылки — потому что переделать уже собранные ответы нельзя. Переключай карточки и смотри, что даёт каждый тип.</p>
+
+  <div class="box">
+    <div class="box-head">Справочник · выбери тип вопроса<span class="spacer"></span></div>
+    <div class="box-body">
+      <div class="sc-tabs" id="scTabs"></div>
+      <div class="sc-body" id="scBody"></div>
+    </div>
+    <div class="box-foot">Общее правило: чем проще тип вопроса, тем надёжнее то, что вы из него достанете. Сложные шкалы дают ощущение точности, но на небольших выборках эта точность часто мнимая.</div>
+  </div>
+</section>
+
+<section id="pilot">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Пилот на нескольких людях</h2></div>
+  <p class="sec-sub">Пятый навык. Небольшая проверка, которая спасает весь опрос.</p>
+
+  <p>Пилот — это не «дать знакомому пройти и спросить, всё ли понятно». Это несколько коротких сессий, где человек заполняет анкету <strong>при вас и вслух</strong>: проговаривает, как понимает вопрос, почему выбирает вариант, где задумался. Вы слушаете и почти не подсказываете — как на юзабилити-тесте, только вместо интерфейса анкета.</p>
+
+  <p>Пять человек — не магическое число, а удобный ориентир для учебного задания. Вы ищете не статистику, а поломки формулировок. Если двое из пяти поняли вопрос по-разному, это сильный сигнал: формулировку стоит чинить.</p>
+
+  <div class="box">
+    <div class="box-head">Чек-лист пилота · отмечай по ходу</div>
+    <div class="box-body">
+      <div class="chkbar" style="margin-bottom:12px"><span class="prog"><i id="pilProg"></i></span><span class="st" id="pilSt">0 из 10</span></div>
+      <ul class="chk" id="pilList">
+        <li><label><input type="checkbox"><span>Все участники поняли каждый вопрос одинаково<span class="hint">Просите пересказать вопрос своими словами до того, как отвечать</span></span></label></li>
+        <li><label><input type="checkbox"><span>Никто не спросил «а что вы имеете в виду?»<span class="hint">Такой вопрос — верный признак, что формулировку надо менять</span></span></label></li>
+        <li><label><input type="checkbox"><span>Каждый нашёл подходящий себе вариант ответа<span class="hint">Если кто-то сказал «ну, наверное, вот этот» — список неполный</span></span></label></li>
+        <li><label><input type="checkbox"><span>Никто не выбирал вариант дольше 10 секунд<span class="hint">Долгий выбор значит, что варианты пересекаются или непонятны</span></span></label></li>
+        <li><label><input type="checkbox"><span>Проверено время прохождения — не больше 4 минут</span></label></li>
+        <li><label><input type="checkbox"><span>Никто не бросил анкету на середине</span></label></li>
+        <li><label><input type="checkbox"><span>Ответы отличаются друг от друга<span class="hint">Если все ответили одинаково, проверьте, действительно ли вопрос что-то измеряет</span></span></label></li>
+        <li><label><input type="checkbox"><span>Свободные поля заполнены хоть кем-то<span class="hint">Если все пропустили — формулировка не вызывает желания отвечать</span></span></label></li>
+        <li><label><input type="checkbox"><span>Проверено, как анкета выглядит на телефоне</span></label></li>
+        <li><label><input type="checkbox"><span>Выгружены пробные ответы и проверено, что таблица читается<span class="hint">Бывает, что сервис отдаёт данные так, что их трудно посчитать</span></span></label></li>
+      </ul>
+    </div>
+    <div class="box-foot">Пилотные ответы в итоговую выборку не идут — это проверка инструмента, а не сбор данных. И записывайте, что поменяли после пилота: это хороший материал для рассказа о работе.</div>
+  </div>
+
+  <div class="rule"><b>Самый полезный вопрос пилота — «как вы поняли, о чём вас спросили?».</b> Люди отвечают на тот вопрос, который услышали, а не обязательно на тот, который вы написали. Расхождение между этими двумя вопросами — главная поломка анкет, и её лучше увидеть вслух до рассылки.</div>
+</section>
+
+<section id="merge">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Сводим цифру и реплику</h2></div>
+  <p class="sec-sub">Шестой навык и главная часть уровня. Опрос и интервью отвечают на разные вопросы — поэтому их и кладут рядом.</p>
+
+  <p>Схема простая: <strong>интервью говорит, что бывает и почему; опрос говорит, насколько часто</strong>. Вы берёте каждый вывод из разговоров и смотрите, что по нему показала анкета. Возможных исходов три, и все три полезны.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Исход</th><th>Что это значит</th><th>Что делать</th></tr></thead>
+      <tbody>
+        <tr><td><span class="vd same">Сошлись</span></td><td>Люди говорили — цифры подтвердили масштаб</td><td>Можно нести в работу. Это самый спокойный и удобный случай</td></tr>
+        <tr><td><span class="vd clash">Спорят</span></td><td>Разговоры и цифры показывают разное</td><td>Разбирать. Часто оказывается, что вопрос был сформулирован не так или спрашивали разных людей</td></tr>
+        <tr><td><span class="vd other">Про разное</span></td><td>Кажется, что противоречие, но методы измеряли не одно и то же</td><td>Развести формулировки и не пытаться свести насильно</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <div class="box-head">Образец · выводы интервью против результатов опроса, задача «уход с оплаты»</div>
+    <div class="cmp">
+      <div class="cmp-row">
+        <h5>1. Сумма на шаге оплаты отличается от ожидаемой, и люди уходят проверять</h5>
+        <div class="cmp-two">
+          <div><h6>Говорили на интервью · 5 человек</h6>
+            <p class="said" style="margin:0">«Там сумма была на триста рублей больше, чем я насчитал. Я вернулся в корзину смотреть, откуда»<span class="who">Р1</span></p>
+            <p style="margin:8px 0 0;max-width:none">Встречалось у 3 из 5</p>
+          </div>
+          <div><h6>Показал опрос · 214 ответов</h6>
+            <div class="bars"><div class="brow"><div class="blab"><span class="t">Возвращались проверить сумму</span><span class="v">78 из 214 · 36 %</span></div><div class="btrack"><span class="bfill" style="width:36%"></span></div></div></div>
+          </div>
+        </div>
+        <p class="cmp-v"><span class="vd same">Сошлись</span> Треть людей делает то же, что трое из пяти на интервью. Масштаб подтверждён, причина известна из разговоров — можно чинить.</p>
+      </div>
+
+      <div class="cmp-row">
+        <h5>2. Уходят и возвращаются позже с другого устройства</h5>
+        <div class="cmp-two">
+          <div><h6>Говорили на интервью · 5 человек</h6>
+            <p class="said" style="margin:0">«Я потом с ноутбука всё доделал, часа через два. Просто с телефона карту искать было лень»<span class="who">Р2</span></p>
+            <p style="margin:8px 0 0;max-width:none">Встречалось у 4 из 5 — самая частая история</p>
+          </div>
+          <div><h6>Показал опрос · 214 ответов</h6>
+            <div class="bars"><div class="brow"><div class="blab"><span class="t">«Не завершил из-за карты»</span><span class="v">19 из 214 · 9 %</span></div><div class="btrack"><span class="bfill" style="width:9%"></span></div></div></div>
+          </div>
+        </div>
+        <p class="cmp-v"><span class="vd clash">Спорят</span> Четверо из пяти против девяти процентов — заметное расхождение. Разбор ниже.</p>
+      </div>
+
+      <div class="cmp-row">
+        <h5>3. Не доверяют форме оплаты</h5>
+        <div class="cmp-two">
+          <div><h6>Говорили на интервью · 5 человек</h6>
+            <p class="said" style="margin:0">«Я перед оплатой глянул отзывы, первый раз же заказывал»<span class="who">Р4</span></p>
+            <p style="margin:8px 0 0;max-width:none">Встречалось у 1 из 5, у новичка</p>
+          </div>
+          <div><h6>Показал опрос · 214 ответов</h6>
+            <div class="bars"><div class="brow"><div class="blab"><span class="t">Искали отзывы перед оплатой</span><span class="v">11 из 214 · 5 %</span></div><div class="btrack"><span class="bfill" style="width:5%"></span></div></div>
+            <div class="brow"><div class="blab"><span class="t">Из них: покупали впервые</span><span class="v">9 из 11</span></div><div class="btrack"><span class="bfill" style="width:82%"></span></div></div></div>
+          </div>
+        </div>
+        <p class="cmp-v"><span class="vd other">Про разное</span> В целом редко — 5 %. Но почти все, кто так делал, покупали впервые. Значит, это не общая проблема, а проблема одного сегмента; и интервью, и опрос правы, просто говорят о разных группах.</p>
+      </div>
+    </div>
+    <div class="box-foot">Обрати внимание на третью строку: разбивка «из них» превращает незначительную цифру в осмысленную находку. Такую разбивку стоит закладывать в анкету заранее — для этого и нужен вопрос «сколько заказов вы делали».</div>
+  </div>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · сошлись, спорят или про разное<span class="spacer"></span><span class="sc num">0 / 7</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Порядок разбора: сначала проверьте, об одном ли вы спрашивали, потом — одних ли людей, и только потом делайте вывод о поведении.</div>
+  </div>
+</section>
+
+<section id="clash">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Расхождение — это находка</h2></div>
+  <p class="sec-sub">Разбираем спор из второй строки: 4 из 5 на интервью против 9 % в опросе.</p>
+
+  <p>Когда цифра и разговор не сходятся, первый порыв — выбрать, какой метод ошибся. Обычно жертвой становится интервью: пять человек против двухсот выглядят неубедительно. Но <strong>расхождение не обязательно означает, что кто-то соврал</strong>. Оно означает, что два метода померили немного разные вещи — и вот это «немного» и есть самое интересное.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Возможная причина</th><th>Как проверить</th></tr></thead>
+      <tbody>
+        <tr><td><b>Вопрос отсёк нужных людей</b></td><td>Перечитать формулировку. «Почему вы не завершили заказ» не относится к тем, кто завершил его позже — они честно пропустили вопрос</td></tr>
+        <tr><td><b>Люди не помнят</b></td><td>Событие было месяц назад и закончилось хорошо — оно не запомнилось. Спрашивайте про короткий период: «за последние две недели»</td></tr>
+        <tr><td><b>Отвечали разные люди</b></td><td>Сравнить, кто был на интервью и кто заполнил анкету. Пять активных против двухсот случайных — это разные аудитории</td></tr>
+        <tr><td><b>Нужного варианта не было в списке</b></td><td>Посмотреть, много ли выбрали «другое» и что написали в свободном поле</td></tr>
+        <tr><td><b>Признаваться неловко</b></td><td>«Не разобрался» выбирают реже, чем это случается. Ищите то же самое в поведении, а не в ответах</td></tr>
+        <tr><td><b>Интервью показало редкий, но яркий случай</b></td><td>Бывает и так: цифра права, а пять человек оказались нетипичными. Это тоже нормальный исход</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <div class="box-head">Разбор · что оказалось на самом деле</div>
+    <div class="box-body">
+      <p style="margin-top:0;max-width:none"><b>Проверили формулировку.</b> В анкете вопрос звучал так: <i>«Если вы не завершили заказ, что вам помешало?»</i> — с вариантом «не было под рукой карты». Но люди, которые ушли и вернулись через два часа с ноутбука, <b>заказ завершили</b>. Для себя они его не бросали — просто доделали позже. Этот вопрос был им не адресован, и они его пропустили.</p>
+      <p style="max-width:none"><b>Проверили по другому вопросу.</b> В анкете был отдельный вопрос про перерыв: <i>«Случалось ли, что вы начали оформлять заказ, а закончили позже или на другом устройстве?»</i> Там картина другая:</p>
+      <div class="bars" style="margin:14px 0">
+        <div class="brow"><div class="blab"><span class="t">Да, случалось за последние 3 месяца</span><span class="v">103 из 214 · 48 %</span></div><div class="btrack"><span class="bfill" style="width:48%"></span></div></div>
+        <div class="brow"><div class="blab"><span class="t">Нет, всегда за один раз</span><span class="v">96 из 214 · 45 %</span></div><div class="btrack"><span class="bfill" style="width:45%"></span></div></div>
+        <div class="brow"><div class="blab"><span class="t">Не помню</span><span class="v">15 из 214 · 7 %</span></div><div class="btrack"><span class="bfill" style="width:7%"></span></div></div>
+      </div>
+      <p style="max-width:none"><b>Вывод.</b> Противоречия не было. Интервью и опрос сошлись — просто первый вопрос измерял «бросил навсегда», а разговоры были про «сделал перерыв». Почти половина людей оформляет заказ в два захода, и для продукта это гораздо более важная новость, чем 9 % «не завершивших».</p>
+      <p style="max-width:none;margin-bottom:0"><b>Чему решили верить и почему.</b> Обеим цифрам, но разным: 9 % — это доля тех, кто действительно отказался от покупки; 48 % — доля тех, кто делает паузу. Первая цифра говорит, сколько мы теряем. Вторая — что сценарий с перерывом надо поддержать, а не мешать ему.</p>
+    </div>
+    <div class="box-foot">Именно такой разбор и нужно сдать по заданию: где разошлось, почему разошлось и какое решение вы приняли о том, чему верить. Обрати внимание: здесь рабочий ответ — «верить обеим, но про разные вещи». Такое бывает часто.</div>
+  </div>
+
+  <div class="rule"><b>Практический порядок разбора расхождения.</b> 1 — перечитать формулировку вопроса и проверить, к тем ли людям он обращён. 2 — посмотреть, нет ли в анкете второго вопроса про то же самое. 3 — сравнить, кто отвечал на анкету и кто был на интервью. 4 — посмотреть свободные ответы: там часто лежит объяснение. 5 — только после этого делать вывод. Во многих случаях причина находится на первых двух шагах.</div>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Задание</h2></div>
+  <p class="sec-sub">Свой опрос под живой вопрос проекта и разбор того, где он сошёлся с интервью, а где нет.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Возьми вопрос задачи</strong> (30 мин), по которому у тебя уже есть разговоры с людьми. Если интервью не было — сначала проведи хотя бы три: без них опрос будет проверять твои догадки, а не реальность.</li>
+    <li><strong>Выпиши выводы из интервью</strong> (30 мин) — три-пять штук, каждый одной строкой. Это то, что вы будете считать.</li>
+    <li><strong>Разложи по схеме раздела 2</strong> (1 ч): что уже знаю → что из этого можно посчитать → как спросить, чтобы получить факт.</li>
+    <li><strong>Собери анкету</strong> (1,5 ч): до десяти вопросов, фильтр первым, целевой ближе к концу, свободный текст в конце.</li>
+    <li><strong>Прогони каждый вопрос через тренажёр из раздела 3</strong> и каждый список вариантов — через правила раздела 4.</li>
+    <li><strong>Проведи пилот на нескольких людях</strong> (1,5 ч) по чек-листу. Запиши, что поменялось.</li>
+    <li><strong>Разошли и собери ответы.</strong> Записывай, скольким отправил.</li>
+    <li><strong>Сведи цифры с интервью</strong> (1,5 ч) по образцу из раздела 7 и разбери расхождение по порядку из раздела 8.</li>
+  </ol>
+  <p class="dim">Ориентир: 8–10 часов работы плюс несколько дней на сбор ответов.</p>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Вопрос задачи</strong> и выводы из интервью — списком, с числом «сколько человек из скольких».</li>
+    <li><strong>Анкета</strong> в финальном виде и заметка, что поменялось после пилота.</li>
+    <li><strong>Результаты:</strong> доли с указанием «из скольких», по образцу прошлого уровня.</li>
+    <li><strong>Таблица сведения:</strong> по каждому выводу интервью — что показал опрос и вердикт: сошлись, спорят или про разное.</li>
+    <li><strong>Разбор одного расхождения:</strong> где разошлось, какие причины проверили, что оказалось, чему решили верить.</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> В таблице сведения есть хотя бы одна строка «спорят» или «про разное», и под ней написано, как вы решали, чему верить: с проверенными причинами, а не просто «в опросе больше людей». Если все строки «сошлись», проверьте, не спрашивали ли вы ровно то, что уже знали.</div>
+
+  <h3>Если расхождений не нашлось</h3>
+  <p>Такое бывает, и это нормально. Но прежде чем считать задание выполненным, проверьте три вещи: были ли в анкете варианты, которых вы не ожидали увидеть в топе; был ли хоть один вопрос, ответ на который вы не могли предсказать заранее; смотрели ли вы свободные ответы. Нередко расхождение находится именно в свободном поле: там люди пишут то, чего не было в ваших вариантах.</p>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Перед рассылкой</h3>
+  <ul>
+    <li>Каждый вопрос выведен из вывода интервью, а не придуман</li>
+    <li>Вопросов не больше десяти, фильтр стоит первым</li>
+    <li>Ни по одному вопросу нельзя понять, какой ответ вам нравится</li>
+    <li>В каждом списке есть выход: «другое», «ничего из перечисленного», «не помню»</li>
+    <li>Границы диапазонов не пересекаются, шкалы симметричны</li>
+    <li>Формулировки вариантов взяты из языка людей, а не из документации</li>
+    <li>Для каждого вопроса понятно, что вы с ним сделаете после сбора</li>
+    <li>Пилот пройден, правки внесены и записаны</li>
+  </ul>
+
+  <h3>После сбора</h3>
+  <ul>
+    <li>У каждой цифры написано, из скольких она посчитана</li>
+    <li>Есть таблица сведения с интервью по каждому выводу</li>
+    <li>Расхождения разобраны по порядку из раздела 8, а не объявлены ошибкой метода</li>
+    <li>Свободные ответы прочитаны целиком — там объяснения расхождений</li>
+    <li>Названо, чему решили верить и почему</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Опрос вместо интервью.</b> Опрос запущен до разговоров — варианты придуманы из головы, и результат подтверждает автора.</li>
+    <li><b>Вопрос обращён не к тем людям.</b> «Почему вы не завершили заказ» пропускают все, кто завершил его позже, — и вы теряете половину картины.</li>
+    <li><b>Нет «другое» и «ничего из перечисленного».</b> Люди выбирают ближайшее, и доля этого варианта оказывается завышенной.</li>
+    <li><b>Пересекающиеся диапазоны.</b> «1–3» и «3–5» — данные испорчены у всех, у кого ровно три.</li>
+    <li><b>Шкала с перекосом.</b> Три хороших варианта против одного плохого — средний ответ уезжает вверх, и легко принять это за хороший результат.</li>
+    <li><b>Пилот «на глазок».</b> Дали пройти знакомому и спросили «нормально?» вместо того, чтобы слушать, как человек понимает вопросы вслух.</li>
+    <li><b>Шкалу выбрали, не подумав, что с ней делать.</b> Собрали свободный текст на двести ответов и не знают, как его считать.</li>
+    <li><b>Расхождение объявлено ошибкой интервью.</b> «Там было всего пять человек» — и находка выброшена вместе с разговорами.</li>
+    <li><b>Расхождение объявлено ошибкой опроса.</b> «Люди в анкетах врут» — и цифры выброшены, потому что не понравились.</li>
+    <li><b>Свободные ответы не прочитаны.</b> Обидная ошибка: объяснение расхождения часто лежит именно там.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">11</span>Где проходит граница уровней</h2></div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Разослать готовую анкету и понимать, кто отвечает; считать доли; называть выборку и «из скольких»; замечать вопрос, который ничего не измерил</td>
+          <td class="dim">Рядом с каждой цифрой написано, из скольких она посчитана</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Вывести анкету из вопроса задачи; писать вопросы без подсказок и варианты без дыр; выбирать шкалу под будущий анализ; пилотировать; сводить цифры с интервью и разбирать расхождения</td>
+          <td>Есть место, где цифра и разговор разошлись, и написано, как решали, чему верить</td>
+        </tr>
+        <tr>
+          <td>Senior</td>
+          <td>Строить регулярные измерения и следить за цифрами во времени; выбирать между опросом и другими способами узнать то же самое; отвечать за качество чужих опросов; защищать результаты перед теми, кому они не нравятся; понимать, когда цифра перестала быть измерением и стала показателем</td>
+          <td>Команда принимает решения по цифрам, которые собираете не только вы</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Опросы и количественные данные», уровень Middle. Сквозной пример — задача про уход с шага оплаты, та же, что в уроках про интервью и юзабилити-тесты. Что почитать дальше: Кэролайн Джарретт, «Surveys That Work» — про то, как люди на самом деле читают вопросы анкеты; материалы Nielsen Norman Group про формулировки вопросов и про сочетание качественных и количественных методов.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'ok', label: 'Нормальный вопрос' }, { key: 'no', label: 'Подсказывает — переписать' }],
+    [
+      { t: '<q>Насколько вам мешает долгая загрузка списка?</q>', a: 'no',
+        fb: 'В вопросе уже сказано, что загрузка долгая и что она мешает. Человеку остаётся выбрать только степень. Правильно: «Как быстро, по вашим ощущениям, открывается список?» — со шкалой в обе стороны.' },
+      { t: '<q>Случалось ли за последние три месяца, что вы начали оформлять заказ, а закончили позже?</q>', a: 'ok',
+        fb: 'Про конкретное событие, за конкретный период, без оценки. Такой вопрос даёт факт, а не мнение.' },
+      { t: '<q>Понятно ли и быстро ли у нас оформляется заказ?</q>', a: 'no',
+        fb: 'Два вопроса в одном. Если понятно, но медленно, — что отвечать? Ответ будет случайным, и вы не узнаете, про что он. Разделите на два вопроса.' },
+      { t: '<q>Многие пользователи отмечают, что стало удобнее. Вы согласны?</q>', a: 'no',
+        fb: 'Ссылка на мнение большинства. Люди не любят выделяться и соглашаются чаще, чем думают на самом деле. Уберите первую фразу целиком.' },
+      { t: '<q>Сколько заказов вы сделали у нас за последний год?</q>', a: 'ok',
+        fb: 'Факт, который человек может вспомнить хотя бы примерно. Такие вопросы потом позволяют разбивать результаты по группам — новички против постоянных.' },
+      { t: '<q>Были ли у вас проблемы при оплате?</q>', a: 'no',
+        fb: 'Вопрос ищет проблемы — и находит их даже там, где человек ничего не заметил. Нейтральнее: «Как прошла последняя оплата?» с вариантами в обе стороны, включая «без затруднений».' },
+      { t: '<q>Насколько вы довольны нашим удобным новым поиском?</q>', a: 'no',
+        fb: 'Сразу две подсказки: «удобным» и «насколько довольны» — оба слова задают положительный тон. Правильно: «Как вам новый поиск?» со шкалой от «стало хуже» до «стало лучше».' },
+      { t: '<q>Что вы делали, когда увидели итоговую сумму заказа?</q><span class="sub">Варианты: оплатил сразу · вернулся проверить состав · закрыл и вернулся позже · ничего из этого</span>', a: 'ok',
+        fb: 'Спрашивает про действие, а не про впечатление, и даёт выход тем, у кого было иначе. Это образец хорошего вопроса для анкеты.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Ты слышишь подсказку в формулировке. Можно смело писать свои анкеты и проверять чужие.'
+        : s >= 5 ? 'Хорошо. Слабое место — мягкие подсказки: оценочные прилагательные и вопросы, которые ищут только проблемы.'
+        : 'Вернись к таблице в разделе 3. Пять приёмов подсказки стоит выучить — с них удобно начинать проверку вопросов.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'same', label: 'Сошлись' }, { key: 'clash', label: 'Спорят' }, { key: 'other', label: 'Про разное' }],
+    [
+      { t: 'На интервью 3 из 5 возвращались проверить сумму. В опросе так делали 78 из 214 (36 %).', a: 'same',
+        fb: 'Треть против трёх из пяти — это одна и та же картина. Масштаб подтверждён, причина известна из разговоров.' },
+      { t: 'На интервью 4 из 5 рассказали, что уходили и возвращались позже. В опросе «не завершил заказ из-за карты» выбрали 19 из 214 (9 %).', a: 'clash',
+        fb: 'Разрыв слишком большой. Первое, что надо проверить, — формулировку: вопрос про «не завершил» не адресован тем, кто завершил позже. Разбор в разделе 8.' },
+      { t: 'На интервью один новичок искал отзывы перед оплатой. В опросе так делали 11 из 214 (5 %), из них 9 — новички.', a: 'other',
+        fb: 'Формально редкость, но внутри своего сегмента это норма. Методы говорят о разных группах — и оба правы.' },
+      { t: 'На интервью никто не жаловался на скорость. В опросе 130 из 214 (61 %) выбрали «работает медленно».', a: 'clash',
+        fb: 'Скорее всего, дело в формулировке варианта: «работает медленно» легко выбрать, даже если это не мешает. Проверьте, был ли нейтральный вариант и сколько людей его выбрали.' },
+      { t: 'На интервью 2 из 5 звонили менеджеру, чтобы закончить заказ. В опросе 41 из 214 (19 %) отметили «завершал по телефону».', a: 'same',
+        fb: 'Пятая часть против двоих из пяти — разница есть, но она в пределах того, что можно ожидать при пяти интервью. Картина одна.' },
+      { t: 'На интервью люди называли форму оплаты «страницей банка». В опросе вариант «форма оплаты» выбрали всего 8 из 214 (4 %), зато в свободном поле 30 человек написали про «страницу банка».', a: 'clash',
+        fb: 'Классический случай: вы назвали вариант своим словом, люди его не узнали. Свободное поле спасло данные — поэтому его и оставляют.' },
+      { t: 'На интервью 4 из 5 сказали, что доставка важнее цены. В опросе 60 % выбрали «важна цена» и 58 % — «важна доставка» (можно было выбрать несколько).', a: 'other',
+        fb: 'Интервью спрашивало про выбор между двумя вещами, опрос — про важность каждой по отдельности. Это разные вопросы: важно почти всё, а выбирать приходится одно.' }
+    ],
+    function (s, n) {
+      return s >= 6 ? 'Ты разводишь «спорят» и «про разное» — а это и есть главный навык уровня.'
+        : s >= 4 ? 'Неплохо. Держи в голове: прежде чем объявить спор, проверь, об одном ли вы спрашивали и одних ли людей.'
+        : 'Перечитай разделы 7 и 8. Три исхода и шесть причин расхождения — их стоит помнить наизусть.';
+    }
+  );
+
+  /* ── option marker ── */
+  (function () {
+    var list = document.getElementById('optList'); if (!list) return;
+    var checkB = document.getElementById('optCheck'), meta = document.getElementById('optMeta');
+    var fix = document.getElementById('optFix'), cnt = document.getElementById('optCount');
+    var OPTS = [
+      { t: '1–3 заказа', bad: false, why: '' },
+      { t: '3–5 заказов', bad: true, why: 'Границы пересекаются с предыдущим вариантом. Человек с тремя заказами не знает, что выбрать, и выберет наугад — данные испорчены у целой группы.' },
+      { t: '5–10 заказов', bad: true, why: 'Снова пересечение: пять попадает и сюда, и в предыдущий вариант.' },
+      { t: 'Больше 10', bad: false, why: '' },
+      { t: 'Я постоянный клиент', bad: true, why: 'Это не количество, а самоощущение — вариант из другой системы координат. Человек с двумя заказами может считать себя постоянным, и вы получите двойной счёт.' }
+    ];
+    var MISSING = 'Не помню · Ни одного (первый заказ)';
+    var picked = {}, checked = false;
+    var badCount = OPTS.filter(function (o) { return o.bad; }).length + 1; /* +1 за отсутствующие варианты */
+
+    function render() {
+      list.innerHTML = '';
+      OPTS.forEach(function (o, i) {
+        var li = document.createElement('li');
+        var cls = '';
+        if (checked) {
+          cls = o.bad ? (picked[i] ? 'reveal-bad revealed' : 'reveal-miss revealed') : (picked[i] ? 'reveal-wrong revealed' : '');
+        } else if (picked[i]) cls = 'picked';
+        li.className = cls;
+        li.innerHTML = '<button type="button"><span class="mk"></span><span>' + o.t + '</span></button>' +
+          '<div class="opt-why">' + (o.bad ? o.why : (picked[i] && checked ? 'С этим вариантом всё в порядке — границы не пересекаются и он отвечает на заданный вопрос.' : '')) + '</div>';
+        if (!checked) {
+          li.querySelector('button').addEventListener('click', function () { picked[i] = !picked[i]; render(); });
+        } else {
+          li.querySelector('button').style.cursor = 'default';
+        }
+        list.appendChild(li);
+      });
+      var n = Object.keys(picked).filter(function (k) { return picked[k]; }).length;
+      cnt.textContent = checked ? '' : 'отмечено: ' + n;
+      if (!checked) meta.innerHTML = '<span>Поломок здесь три — плюс кое-чего в списке не хватает.</span>';
+    }
+
+    checkB.addEventListener('click', function () {
+      if (checked) { checked = false; picked = {}; fix.className = 'opt-fix'; checkB.textContent = 'Проверить'; render(); return; }
+      checked = true;
+      var hit = 0, wrong = 0;
+      OPTS.forEach(function (o, i) { if (o.bad && picked[i]) hit++; if (!o.bad && picked[i]) wrong++; });
+      render();
+      meta.innerHTML = '<span style="color:var(--bad)">Нашёл поломок: ' + hit + ' из 3</span>' +
+        (wrong ? '<span style="color:var(--muted)">Лишних отмечено: ' + wrong + '</span>' : '') +
+        '<span style="color:var(--warn)">Плюс не хватает двух вариантов</span>';
+      fix.className = 'opt-fix on';
+      fix.innerHTML = '<b>Чего не хватает:</b> «Ни одного, это первый заказ» и «Не помню». Без первого новички выберут «1–3» и завысят долю активных. Без второго те, кто не помнит, ответят наугад.' +
+        '<div style="margin-top:10px"><b>Как надо:</b> 1–2 · 3–5 · 6–10 · Больше 10 · Ни одного, это первый заказ · Не помню. Границы не пересекаются, всем есть куда встать.</div>';
+      checkB.textContent = 'Ещё раз';
+    });
+
+    render();
+  })();
+
+  /* ── scale reference ── */
+  (function () {
+    var tabs = document.getElementById('scTabs'), body = document.getElementById('scBody');
+    if (!tabs) return;
+    var SCALES = [
+      { k: 'yn', n: 'Да / нет',
+        q: 'Случалось ли, что вы закончили заказ позже, чем начали?', o: 'Да · Нет · Не помню',
+        can: ['Посчитать долю: «48 % из 214»', 'Разбить людей на две группы и сравнить их по другим вопросам', 'Сравнить с прошлым опросом — цифра сопоставима'],
+        cant: ['Узнать, насколько часто это бывает', 'Понять причину', 'Увидеть оттенки: «бывало, но редко» сюда не помещается'],
+        warn: 'Самый простой тип вопроса. Если сомневаетесь, начните с него: с ним меньше риска ошибиться при анализе.' },
+      { k: 'one', n: 'Один вариант',
+        q: 'Что вы сделали, когда увидели итоговую сумму?', o: 'Оплатил сразу · Вернулся проверить состав · Закрыл и вернулся позже · Ничего из этого',
+        can: ['Посчитать доли — в сумме будет ровно 100 %', 'Найти самый частый сценарий', 'Сравнить группы между собой'],
+        cant: ['Узнать, что человек делал ещё — выбор только один', 'Поймать сочетания поведений'],
+        warn: 'Главное — чтобы варианты не пересекались и чтобы был выход для тех, у кого было иначе.' },
+      { k: 'multi', n: 'Несколько вариантов',
+        q: 'Что из этого случалось за последний месяц?', o: 'Не нашёл нужное · Писал в поддержку · Переделывал заново · Ничего из этого',
+        can: ['Посчитать долю по каждому варианту отдельно', 'Увидеть, что встречается вместе', 'Найти самое частое событие'],
+        cant: ['Сложить доли в 100 % — сумма будет больше', 'Понять, что было главным: галочки равны между собой'],
+        warn: 'Помечайте в отчёте «можно было выбрать несколько». Иначе читатель может решить, что вы ошиблись в расчётах.' },
+      { k: 'likert', n: 'Шкала согласия 1–5',
+        q: 'Оформить заказ было легко', o: '1 — совсем не согласен … 5 — полностью согласен',
+        can: ['Посчитать, сколько выбрали каждое значение', 'Сложить крайние: «4 и 5 выбрали 60 %»', 'Сравнить с той же шкалой в следующем опросе'],
+        cant: ['Считать среднее и доверять ему — расстояние между 3 и 4 не равно расстоянию между 4 и 5', 'Утверждать, что 4,2 лучше, чем 3,9, на сотне ответов'],
+        warn: 'Самая частая ошибка уровня — посчитать среднее по такой шкале и построить на нём вывод. Считайте доли по значениям или объединяйте края.' },
+      { k: 'nps', n: 'Оценка 0–10',
+        q: 'Насколько вероятно, что вы порекомендуете нас знакомым?', o: '0 — точно нет … 10 — точно да',
+        can: ['Разбить на группы: 0–6, 7–8, 9–10', 'Следить за цифрой во времени, если вопрос не меняется'],
+        cant: ['Понять причину оценки без дополнительного открытого вопроса', 'Сравнивать с чужими компаниями — у всех разные условия сбора'],
+        warn: 'Такая оценка полезна только в паре со свободным вопросом «почему такая оценка». Без него это число, с которым нечего делать.' },
+      { k: 'open', n: 'Свободный текст',
+        q: 'Что было самым неудобным в последний раз?', o: 'Поле для ответа, необязательное',
+        can: ['Услышать то, чего не было в ваших вариантах', 'Взять цитаты для отчёта', 'Найти слова, которыми люди называют вещи'],
+        cant: ['Посчитать доли без ручной разметки', 'Рассчитывать, что ответят все — обычно отвечает 20–40 %'],
+        warn: 'Один-два открытых вопроса на анкету, в конце. Именно здесь чаще всего находится объяснение расхождения с интервью.' },
+      { k: 'rank', n: 'Ранжирование',
+        q: 'Расставьте по важности: цена, скорость доставки, ассортимент', o: 'Перетащить в порядке важности',
+        can: ['Увидеть, что люди ставят на первое место', 'Заставить сделать выбор — в отличие от «оцените важность каждого»'],
+        cant: ['Понять, насколько сильно первое важнее второго', 'Рассчитывать, что все дочитают: такие вопросы бросают чаще других'],
+        warn: 'Не больше четырёх-пяти пунктов и не больше одного такого вопроса на анкету. На телефоне перетаскивание работает плохо.' }
+    ];
+    var cur = 0;
+    function paint() {
+      tabs.innerHTML = '';
+      SCALES.forEach(function (s, i) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'btn'; b.textContent = s.n;
+        b.setAttribute('aria-pressed', i === cur ? 'true' : 'false');
+        b.addEventListener('click', function () { cur = i; paint(); });
+        tabs.appendChild(b);
+      });
+      var s = SCALES[cur];
+      body.innerHTML =
+        '<h5>' + s.n + '</h5>' +
+        '<div class="sc-ex"><b>Пример:</b> ' + s.q + '<div class="opts2">' + s.o + '</div></div>' +
+        '<div class="sc-grid">' +
+          '<div class="sc-cell"><h6>Что потом сможете сделать</h6><ul>' + s.can.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+          '<div class="sc-cell"><h6>Чего не сможете</h6><ul>' + s.cant.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+        '</div>' +
+        '<p class="sc-warn"><b>На что смотреть:</b> ' + s.warn + '</p>';
+    }
+    paint();
+  })();
+
+  /* ── pilot checklist ── */
+  (function () {
+    var list = document.getElementById('pilList'); if (!list) return;
+    var boxes = list.querySelectorAll('input[type="checkbox"]');
+    var prog = document.getElementById('pilProg'), st = document.getElementById('pilSt');
+    function upd() {
+      var n = 0;
+      Array.prototype.forEach.call(boxes, function (b) { if (b.checked) n++; });
+      prog.style.width = (n / boxes.length * 100) + '%';
+      st.textContent = n + ' из ' + boxes.length + (n === boxes.length ? ' — можно рассылать' : '');
+      st.style.color = n === boxes.length ? 'var(--good)' : '';
+    }
+    Array.prototype.forEach.call(boxes, function (b) { b.addEventListener('change', upd); });
+    upd();
+  })();
+})();
+</script>
+</body>
+</html>

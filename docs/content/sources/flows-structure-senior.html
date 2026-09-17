@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Структура и потоки: как структура выдерживает рост</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --svg-chip: #eef3fb; --svg-dim: #6d6b66;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --svg-chip: #1f2733; --svg-dim: #9e9c95;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --svg-chip: #1f2733; --svg-dim: #9e9c95;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-ghost { background: var(--raised); color: var(--ink-2); }
+  .btn[disabled] { opacity: .45; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 72px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .pr { display: block; background: var(--chip); border-radius: 8px; padding: 9px 12px; font-size: 14.5px; color: var(--accent-deep); margin-bottom: 10px; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 128px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* accordion */
+  .accs { display: flex; flex-direction: column; gap: 10px; }
+  .acc { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .acc > button { width: 100%; text-align: left; background: none; border: none; padding: 14px 17px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .acc > button:hover { background: var(--demo-bg); }
+  .acc .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .acc .ttl { flex: 1; font-size: 16.5px; font-weight: 600; letter-spacing: -.005em; }
+  .acc .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; background: var(--chip); color: var(--accent-deep); }
+  .acc .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .acc .tag.ok { background: var(--good-soft); color: var(--good); }
+  .acc .hintline { font-size: 13.5px; color: var(--muted); padding: 0 17px 13px; }
+  .acc.open .hintline { display: none; }
+  .acc .body { display: none; padding: 0 17px 15px; }
+  .acc.open .body { display: block; }
+  .acc .row { display: grid; grid-template-columns: 136px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .acc .row:first-child { border-top: none; padding-top: 2px; }
+  .acc .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .acc .row .v { color: var(--ink-2); }
+  .acc .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .acc .row { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* card sort */
+  .cs-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 42px; }
+  .cs-card { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 8px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; }
+  .cs-card:hover { border-color: var(--accent); }
+  .cs-card.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .cs-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .cs-group { border: 1px dashed var(--border); border-radius: 11px; padding: 11px 12px; background: var(--surface); cursor: pointer; min-height: 110px; }
+  .cs-group.hot { border-color: var(--accent); border-style: solid; background: var(--chip); }
+  .cs-group h5 { margin: 0 0 9px; font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .cs-group .placed { display: block; width: 100%; text-align: left; font: 500 12.5px system-ui, sans-serif; background: var(--raised); border: 1px solid var(--hairline); color: var(--ink); border-radius: 7px; padding: 6px 9px; margin-bottom: 6px; cursor: pointer; }
+  .cs-group .placed:hover { border-color: var(--bad); }
+  .cs-empty { font-size: 12.5px; color: var(--muted); }
+  .cs-res { margin-top: 16px; display: none; }
+  .cs-res.on { display: block; }
+  .mini { display: inline-block; font: 600 11.5px system-ui, sans-serif; border-radius: 5px; padding: 1px 7px; margin: 0 4px 3px 0; background: var(--demo-bg); color: var(--ink-2); border: 1px solid var(--hairline); }
+  .mini.top { background: var(--chip); color: var(--accent-deep); border-color: transparent; }
+  .flag { font: 700 10px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; background: var(--warn-soft); color: var(--warn); }
+
+  /* tree test */
+  .tt-task { font-size: 15.5px; background: var(--chip); color: var(--accent-deep); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+  .tt-crumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; min-height: 20px; }
+  .tt-list { display: flex; flex-direction: column; gap: 7px; }
+  .tt-list button { text-align: left; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 11px 14px; font: 500 14.5px system-ui, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .tt-list button:hover { border-color: var(--accent); }
+  .tt-list button .ch { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+  .tt-bar { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .tt-res { margin-top: 16px; font-size: 14.5px; line-height: 1.5; padding: 13px 15px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .tt-res.on { display: block; }
+  .tt-res b.h { display: block; margin-bottom: 5px; }
+  .path { font: 13px ui-monospace, Menlo, monospace; color: var(--ink-2); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .metric { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; }
+  .metric .big { font: 700 22px system-ui, sans-serif; letter-spacing: -.02em; }
+  .metric .lab { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .metric.bad .big { color: var(--bad); }
+  .metric.ok .big { color: var(--good); }
+
+  .hunt-count { font: 600 13px system-ui, sans-serif; color: var(--muted); }
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  .ok-list li b { color: var(--good); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+
+  /* figures */
+  figure { margin: 18px 0; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin-top: 11px; }
+  figcaption b { color: var(--ink-2); }
+  .fig-scroll { overflow-x: auto; }
+  .fig-scroll > svg { min-width: 560px; }
+
+  /* toggle */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid var(--border); background: var(--raised); color: var(--ink-2); border-radius: 9px; padding: 8px 13px; font: 600 13.5px system-ui, sans-serif; cursor: pointer; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: var(--page); border-color: transparent; }
+  .tabpanel { display: none; }
+  .tabpanel.on { display: block; }
+  .tabnote { font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 12px 14px; margin-top: 14px; }
+  .tabnote b { display: block; margin-bottom: 3px; }
+
+  /* rules list */
+  .rules { counter-reset: r; display: flex; flex-direction: column; gap: 10px; margin: 18px 0; }
+  .rules > li { list-style: none; counter-increment: r; position: relative; background: var(--raised); border: 1px solid var(--border); border-radius: 11px; padding: 13px 16px 13px 50px; font-size: 15px; }
+  .rules > li::before { content: counter(r); position: absolute; left: 14px; top: 13px; font: 700 12px ui-monospace, Menlo, monospace; color: var(--accent-deep); background: var(--chip); border-radius: 6px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .rules > li b { color: var(--ink); }
+  .rules ul { margin: 7px 0 0; font-size: 14px; }
+
+  /* wizard */
+  .cases { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cases button { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 9px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .cases button:hover { border-color: var(--accent); }
+  .cases button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .wiz { margin-top: 18px; }
+  .wq { border-top: 1px solid var(--hairline); padding-top: 14px; margin-top: 14px; }
+  .wq:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .wq .qt { font-size: 15.5px; font-weight: 600; margin: 0 0 10px; }
+  .wq .qo { display: flex; gap: 9px; flex-wrap: wrap; }
+  .wq .qo button { flex: 1 1 200px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 10px 13px; font: 500 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .wq .qo button:hover:not([disabled]) { border-color: var(--accent); }
+  .wq .qo button[disabled] { opacity: .45; cursor: default; }
+  .wq .qo button.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .wq .qo button.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .wq .qfb { margin-top: 11px; font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 11px 13px; display: none; }
+  .wq .qfb.on { display: block; }
+  .verdict { margin-top: 18px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 11px; background: var(--surface); padding: 15px 17px; display: none; }
+  .verdict.on { display: block; }
+  .verdict .vr { display: grid; grid-template-columns: 126px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .verdict .vr:first-of-type { border-top: none; padding-top: 0; }
+  .verdict .vr .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .verdict .vr .v { color: var(--ink-2); }
+  .verdict .vr .v b { color: var(--ink); }
+  @media (max-width: 560px) { .verdict .vr { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Структура и потоки · Senior · архитектура продукта и правила роста</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Проектирование · структура и потоки</p>
+  <div class="levels" aria-label="Уровень темы: Senior, третий из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv done">Middle</span>
+    <span class="lv on">Senior</span>
+  </div>
+  <h1>Как задать структуру продукта, чтобы она выдерживала новые разделы</h1>
+  <p class="lede">Структура кажется решённой задачей: разделы названы, всё лежит по местам, названия проверены на людях. Но настоящая проверка начинается позже — когда в продукт добавляют то, чего раньше не было. Без правил новые разделы кладут туда, где сейчас свободно, и верхний уровень постепенно становится похож на список отделов. Здесь разберёмся, как увидеть, по какому признаку продукт растёт, чем раздел для человека отличается от раздела для отдела, какие правила навигации записать, как объяснить команде, почему новый раздел не встаёт, и как переносить разделы без 404.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#axes">Видеть ось роста</a> и заранее оставлять под неё место</li>
+    <li><a href="#conway">Отличать раздел для человека</a> от раздела, отражающего устройство компании<span class="drillmark">схема + тренажёр</span></li>
+    <li><a href="#rules">Записывать правила навигации</a>, по которым можно принять решение<span class="drillmark">шаблон</span></li>
+    <li><a href="#stress">Прогонять будущие разделы по правилам</a><span class="drillmark">стресс-тест</span></li>
+    <li><a href="#nofit">Объяснять, почему раздел не встаёт</a>, и предлагать рабочую замену</li>
+    <li><a href="#moves">Переносить разделы без 404</a><span class="drillmark">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Тот же интернет-магазин, но на два уровня выше: не сценарий оформления заказа, а <b>вся навигация продукта</b>. Разберём, как верхний уровень за три года зарос отделами, какие правила помогают это остановить и что происходит, когда в структуру приходят шесть новых разделов, которых раньше не было.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется на этом уровне</h2></div>
+  <p class="sec-sub">Вопрос уже не только в том, понятна ли структура сейчас. Важно, выдержит ли она то, чего в продукте ещё нет.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Middle</th><th>Senior</th></tr></thead>
+      <tbody>
+        <tr><td><b>Предмет работы</b></td><td>сценарий со всеми ветками</td><td>структура продукта целиком и правила, по которым она меняется</td></tr>
+        <tr><td><b>Горизонт</b></td><td>до выхода фичи</td><td>два-три года и десятки разделов, которых пока нет</td></tr>
+        <tr><td><b>Главный вопрос</b></td><td>найдут ли люди то, что есть</td><td>куда встанет то, чего ещё нет, и кто это решит без вас</td></tr>
+        <tr><td><b>Что проверяется</b></td><td>названия и пути — на людях</td><td>структура — будущими разделами, которых ещё нет</td></tr>
+        <tr><td><b>Результат</b></td><td>изменённая структура с объяснением</td><td>правила, по которым команда добавляет новое без отдельного спора каждый раз</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>люди не находят раздел</td><td>каждый новый раздел требует совещания и переделки меню</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Две ловушки уровня</h3>
+  <ul>
+    <li><strong>Спроектировать идеальную структуру на сегодня.</strong> Она выглядит стройной до первого раздела, которого в ней не предусмотрели. Потом начинается «давай пока положим сюда», а через год это «пока» становится структурой.</li>
+    <li><strong>Спроектировать структуру под все возможные будущие.</strong> Обратная крайность — пустые контейнеры «Услуги», «Сервисы», «Другое», в которых лежит по одному пункту. Человек видит разделы без понятного содержания, а команда всё равно кладёт новое не туда.</li>
+  </ul>
+
+  <div class="rule"><b>Критерий уровня проверяется без вас.</b> Новый раздел добавили по правилам <b>другие люди</b>, и навигацию при этом не пришлось переделывать. Пока решение о том, куда положить новое, принимаете только вы, правил нет — есть ваш опыт. Архитектура начинается там, где команда может пользоваться правилами без автора.</div>
+</section>
+
+<section id="axes">
+  <div class="sec-head"><h2><span class="h2-num">2</span>По какому признаку растёт продукт</h2></div>
+  <p class="sec-sub">Первый навык: увидеть одну-две оси, по которым в продукт чаще всего добавляется новое.</p>
+
+  <p>Не нужно предусматривать всё. Достаточно посмотреть, что добавлялось в продукт за последние год-два, и найти закономерность. Часто новое приходит по одному и тому же признаку. Этот признак и есть <strong>ось роста</strong> — то, под что стоит заранее оставлять место.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Ось</th><th>Как выглядит рост</th><th>Что это значит для структуры</th></tr></thead>
+      <tbody>
+        <tr><td><b>Тип предложения</b></td><td>Был товар — появились услуга, аренда, подписка, сертификат</td><td>Каталог перестаёт быть списком товаров; нужен способ различать типы, а «Заказы» должны уметь показывать разное</td></tr>
+        <tr><td><b>Роль человека</b></td><td>Был покупатель — появились продавец, корпоративный клиент, курьер</td><td>Это не новый раздел, а другой продукт в том же интерфейсе: переключение роли, а не пункт меню для всех</td></tr>
+        <tr><td><b>География и язык</b></td><td>Один город — страна — соседние страны</td><td>Меняются адреса, доступность разделов и способы доставки; структура должна выдерживать «этого здесь нет»</td></tr>
+        <tr><td><b>Канал</b></td><td>Сайт — приложение — бот — виджет партнёра</td><td>Один и тот же сценарий живёт в разных местах; структура должна существовать отдельно от конкретного экрана</td></tr>
+        <tr><td><b>Глубина одного сценария</b></td><td>Заказ — отмена, возврат, обмен, гарантия, ремонт</td><td>Растёт не верхний уровень, а вложенность; сигнал, что раздел пора превращать в самостоятельный со своей внутренней навигацией</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Как найти свою ось за полчаса</h3>
+  <ol>
+    <li><strong>Выпишите всё, что добавилось в продукт за два года.</strong> Не крупные проекты целиком, а разделы и куски интерфейса — обычно набирается 10–20 пунктов.</li>
+    <li><strong>Разложите по осям</strong> из таблицы. Если два и больше пункта попали в одну ось, с ней уже можно работать.</li>
+    <li><strong>Добавьте то, что просят,</strong> но ещё не сделали: планы продукта, запросы отделов, «нам бы ещё вот это». Часто они попадают в ту же ось.</li>
+    <li><strong>Возьмите одну, максимум две</strong> самые нагруженные оси. Под них и проектируете; остальные случаи закрываются правилами.</li>
+  </ol>
+
+  <div class="warnbox"><b>В нашем магазине ось видна сразу.</b> За два года добавились подписка на регулярную доставку, подарочные сертификаты и обсуждается аренда инструмента. Три пункта из одной оси — <b>тип предложения</b>. Значит, вопрос не в том, появится ли четвёртый тип, а в том, куда он встанет. Структура, где «Каталог» означает только список товаров на продажу, к этому не готова.</div>
+
+  <h3>Что значит «заложить место»</h3>
+  <p>Это не пустой раздел в меню. Пустой раздел только мешает: человек заходит и ничего не находит, а команда всё равно кладёт новое мимо. Место закладывается тремя способами, и все три снаружи почти не видны.</p>
+  <ul>
+    <li><strong>Держите верхний уровень с запасом.</strong> Если человеку комфортно выбирать из 5–7 пунктов, занимайте пять. Два свободных места — это место под рост, и его не стоит отдавать разделам, которые спокойно живут ниже.</li>
+    <li><strong>Группируйте по смыслу, а не по сущности.</strong> «Покупки» переживут появление аренды, а «Товары» — нет. Название верхнего уровня должно описывать <em>задачу</em>: она меняется медленнее, чем способ её закрыть.</li>
+    <li><strong>Не занимайте верхний уровень тем, что помещается внутрь.</strong> Каждый пункт, вынесенный наверх ради видимости, забирает место у того, что позже действительно может не поместиться.</li>
+  </ul>
+
+  <div class="rule"><b>Проверка на будущее.</b> Возьмите три вещи, которых в продукте ещё нет, но которые вероятны в вашей оси роста, и попробуйте положить их в текущую структуру. Если хотя бы две не встают без переделки меню, структуру стоит пересмотреть заранее. Ровно это и есть задание в конце урока.</div>
+</section>
+
+<section id="conway">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Раздел для человека и раздел для компании</h2></div>
+  <p class="sec-sub">Второй навык: замечать, когда навигация начинает повторять устройство компании.</p>
+
+  <p>Есть закономерность, которую в разработке называют законом Конвея: <strong>продукт со временем начинает повторять структуру компании, которая его делает</strong>. В навигации это видно особенно хорошо. Появился отдел лояльности — появился раздел «Бонусы». Появился отдел партнёрств — появился пункт «Партнёрам», хотя партнёров три сотни, а покупателей три миллиона.</p>
+
+  <p>Обычно это происходит не из вредности. Пункт в меню — понятный способ показать, что направление существует: его видно всем, он попадает в отчёты, по нему мерят успех. Поэтому за каждым лишним пунктом стоит человек с понятной мотивацией, и спорить с ним словами «это неправильно» бесполезно.</p>
+
+  <div class="box">
+    <div class="box-head">Верхний уровень магазина · две версии</div>
+    <div class="box-body">
+      <div class="tabs" role="tablist" aria-label="Версии верхнего уровня">
+        <button type="button" role="tab" id="tb1" aria-selected="true" aria-controls="tp1">Как выросло за три года</button>
+        <button type="button" role="tab" id="tb2" aria-selected="false" aria-controls="tp2">Как выглядит по задачам людей</button>
+      </div>
+
+      <div class="tabpanel on" id="tp1" role="tabpanel" aria-labelledby="tb1">
+        <figure>
+          <div class="fig-scroll">
+          <svg viewBox="0 0 840 272" role="img" aria-label="Верхний уровень из десяти пунктов, половина из которых соответствует отделам компании: бонусы, подписки, для бизнеса, блог, партнёрам">
+            <defs><marker id="aA" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto"><polygon points="0,0 9,3.5 0,7" fill="currentColor"/></marker></defs>
+            <rect x="345" y="6" width="150" height="32" rx="16" style="fill:var(--raised);stroke:currentColor" stroke-width="1.4"/>
+            <text x="420" y="27" fill="currentColor" font-family="system-ui, sans-serif" font-size="13" text-anchor="middle">Главная</text>
+            <line x1="420" y1="38" x2="420" y2="60" stroke="currentColor" stroke-width="1.3" marker-end="url(#aA)" fill="none"/>
+            <rect x="5" y="64" width="830" height="190" rx="12" style="fill:none;stroke:currentColor" stroke-width="1.1" stroke-dasharray="5 4" opacity=".55"/>
+            <text x="18" y="84" fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10" letter-spacing="1.1">ВЕРХНИЙ УРОВЕНЬ · 10 ПУНКТОВ</text>
+            <g style="fill:var(--raised);stroke:currentColor" stroke-width="1.3">
+              <rect x="17" y="96" width="152" height="62" rx="8"/><rect x="183" y="96" width="152" height="62" rx="8"/><rect x="349" y="96" width="152" height="62" rx="8"/><rect x="515" y="96" width="152" height="62" rx="8"/><rect x="681" y="96" width="152" height="62" rx="8"/>
+              <rect x="17" y="176" width="152" height="62" rx="8"/><rect x="183" y="176" width="152" height="62" rx="8"/><rect x="349" y="176" width="152" height="62" rx="8"/><rect x="515" y="176" width="152" height="62" rx="8"/><rect x="681" y="176" width="152" height="62" rx="8"/>
+            </g>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="13" font-weight="600" text-anchor="middle">
+              <text x="93" y="122">Каталог</text><text x="259" y="122">Мои заказы</text><text x="425" y="122">Профиль</text><text x="591" y="122">Помощь</text><text x="757" y="122">Избранное</text>
+              <text x="93" y="202">Бонусы</text><text x="259" y="202">Подписки</text><text x="425" y="202">Для бизнеса</text><text x="591" y="202">Блог</text><text x="757" y="202">Партнёрам</text>
+            </g>
+            <g fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">
+              <text x="93" y="142">задача человека</text><text x="259" y="142">задача человека</text><text x="425" y="142">задача человека</text><text x="591" y="142">задача человека</text><text x="757" y="142">задача человека</text>
+            </g>
+            <g style="fill:var(--bad)" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">
+              <text x="93" y="222">отдел лояльности</text><text x="259" y="222">отдел подписок</text><text x="425" y="222">отдел продаж b2b</text><text x="591" y="222">маркетинг</text><text x="757" y="222">отдел партнёрств</text>
+            </g>
+          </svg>
+          </div>
+          <figcaption><b>Пять пунктов из десяти появились не от задач людей, а от появления отделов.</b> При этом бонусы и подписки лежат ещё и внутри профиля — то есть одно и то же живёт в двух местах. «Блог» дублирует статьи из помощи. «Партнёрам» видят все, хотя партнёры — три сотни человек из трёх миллионов.</figcaption>
+        </figure>
+        <div class="tabnote"><b>Как это получилось</b>Каждый пункт добавляли отдельно и каждый раз по понятной причине: направление запустили, его надо показать. Ни одно решение само по себе не было катастрофой. Проблема в том, что не было правила, по которому спорный пункт можно спокойно отклонить, не переводя разговор в личный спор.</div>
+      </div>
+
+      <div class="tabpanel" id="tp2" role="tabpanel" aria-labelledby="tb2">
+        <figure>
+          <div class="fig-scroll">
+          <svg viewBox="0 0 840 252" role="img" aria-label="Верхний уровень из четырёх разделов — покупки, заказы, профиль, помощь — и одно свободное место под новый тип предложения">
+            <defs><marker id="aB" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto"><polygon points="0,0 9,3.5 0,7" fill="currentColor"/></marker></defs>
+            <rect x="345" y="6" width="150" height="32" rx="16" style="fill:var(--raised);stroke:currentColor" stroke-width="1.4"/>
+            <text x="420" y="27" fill="currentColor" font-family="system-ui, sans-serif" font-size="13" text-anchor="middle">Главная</text>
+            <line x1="420" y1="38" x2="420" y2="56" stroke="currentColor" stroke-width="1.3" fill="none"/>
+            <line x1="84" y1="56" x2="756" y2="56" stroke="currentColor" stroke-width="1.3" fill="none"/>
+            <g stroke="currentColor" stroke-width="1.3" marker-end="url(#aB)" fill="none">
+              <line x1="84" y1="56" x2="84" y2="74"/><line x1="252" y1="56" x2="252" y2="74"/><line x1="420" y1="56" x2="420" y2="74"/><line x1="588" y1="56" x2="588" y2="74"/><line x1="756" y1="56" x2="756" y2="74"/>
+            </g>
+            <g style="fill:var(--raised);stroke:currentColor" stroke-width="1.4">
+              <rect x="10" y="78" width="148" height="44" rx="8"/><rect x="178" y="78" width="148" height="44" rx="8"/><rect x="346" y="78" width="148" height="44" rx="8"/><rect x="514" y="78" width="148" height="44" rx="8"/>
+            </g>
+            <rect x="682" y="78" width="148" height="44" rx="8" style="fill:none;stroke:var(--accent)" stroke-width="1.4" stroke-dasharray="5 4"/>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle">
+              <text x="84" y="105">Покупки</text><text x="252" y="105">Заказы</text><text x="420" y="105">Профиль</text><text x="588" y="105">Помощь</text>
+            </g>
+            <text x="756" y="105" style="fill:var(--accent)" font-family="system-ui, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle">свободно</text>
+            <g fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">
+              <text x="84" y="146">каталог</text><text x="84" y="164">поиск</text><text x="84" y="182">избранное</text><text x="84" y="200">сертификаты</text>
+              <text x="252" y="146">активные</text><text x="252" y="164">история</text><text x="252" y="182">возвраты</text><text x="252" y="200">подписки</text>
+              <text x="420" y="146">данные</text><text x="420" y="164">адреса</text><text x="420" y="182">способы оплаты</text><text x="420" y="200">бонусы</text>
+              <text x="588" y="146">частые вопросы</text><text x="588" y="164">поддержка</text><text x="588" y="182">условия</text>
+              <text x="756" y="146">место под новый</text><text x="756" y="164">тип предложения:</text><text x="756" y="182">аренда, услуги</text>
+            </g>
+            <line x1="756" y1="124" x2="756" y2="136" style="stroke:var(--accent)" stroke-width="1.2" stroke-dasharray="3 3"/>
+          </svg>
+          </div>
+          <figcaption><b>Четыре раздела вместо десяти, и пятое место оставлено свободным нарочно.</b> Бонусы и подписки не исчезли — они переехали туда, где их проще найти: бонусы стали частью аккаунта, подписки — видом заказа. «Блог» и «Партнёрам» вышли из навигации продукта: у них свои входы — из карточек товаров и с отдельной страницы для партнёров.</figcaption>
+        </figure>
+        <div class="tabnote"><b>Почему «Покупки», а не «Товары»</b>Название верхнего уровня описывает задачу человека, а не способ её решить. «Товары» перестанут работать, когда появится аренда; «Покупки» переживут и аренду, и услуги, и подписку. Задача меняется медленнее, чем способ её закрыть, — на этом держится структура, которую не приходится переделывать при каждом новом типе предложения.</div>
+      </div>
+    </div>
+    <div class="box-foot">Свободное место — не пустой раздел в меню: снаружи его не видно. Это решение не занимать пятый пункт тем, что помещается внутрь первых четырёх.</div>
+  </div>
+
+  <h3>Три вопроса, которые отличают раздел человека от раздела компании</h3>
+  <ol>
+    <li><strong>Человек приходит с этой задачей?</strong> Не «может ли он этим воспользоваться», а приходит ли специально. За бонусами приходят; за «модулем лояльности» — нет.</li>
+    <li><strong>Название существует в его языке?</strong> Если слово встречается только внутри компании, это ваша внутренняя карта. Сотрудники знают «Службу заботы», а люди чаще ищут «Помощь».</li>
+    <li><strong>Раздел переживёт реорганизацию?</strong> Это честная проверка. Если завтра отделы перетасуют и раздел потеряет смысл, он отражал отдел, а не задачу.</li>
+  </ol>
+
+  <div class="rule"><b>С отделом не нужно воевать — ему нужно дать видимость другим способом.</b> Вход из релевантного места (бонусы — на шаге оплаты, там они и нужны), блок на главной, отдельная страница со своим адресом, на которую ведёт реклама. Часто настоящая потребность — именно видимость, а пункт в меню просто первое решение, которое приходит в голову. Разговор становится проще, если предлагать замену, а не отказ.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · чьё это название<span class="spacer"></span><span class="sc">0 / 9</span></div>
+    <div class="box-body">
+      <div class="drill" id="d1">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Девять названий разделов. Проверьте каждое по трём вопросам: приходят ли с этой задачей, существует ли слово в языке человека, переживёт ли раздел реорганизацию.</div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Правила навигации</h2></div>
+  <p class="sec-sub">Третий навык: записать одну страницу правил, которая снимает большинство споров о новых разделах.</p>
+
+  <p>Правила нужны не для порядка ради порядка. Они нужны, чтобы решение «куда положить новое» принимал не самый настойчивый и не самый старший, а человек, который открыл документ. Если правил нет, каждый новый раздел превращается в совещание, а результат зависит от того, кто на него пришёл.</p>
+
+  <p>Правила должны быть <strong>короткими, проверяемыми и с примерами</strong>. «Соблюдаем простоту» — не правило. «Верхний уровень — не больше семи пунктов» уже можно применить без автора.</p>
+
+  <ol class="rules">
+    <li><b>Верхний уровень — это задачи людей, и их не больше пяти-семи.</b> Не отделы, не системы, не типы контента. Пять — хорошая рабочая цифра: остаётся место под рост.
+      <ul><li>У нас: покупки, заказы, профиль, помощь.</li></ul>
+    </li>
+    <li><b>Новый пункт появляется наверху, только если выполнены все три условия.</b> Это отдельная задача, с которой приходят специально; её нельзя выполнить внутри существующего раздела; к ней обращаются не реже, чем к самому редкому из текущих верхних пунктов.
+      <ul><li>Не выполнено хотя бы одно — идём к правилу 3.</li></ul>
+    </li>
+    <li><b>Всё остальное встаёт внутрь.</b> Вкладкой в существующем разделе, фильтром в списке или входом из того места, где о задаче думают.
+      <ul><li>Ремонт — вход из карточки заказа, а не пункт меню.</li></ul>
+    </li>
+    <li><b>От главной до действия — не больше трёх уровней.</b> Четвёртый уровень означает, что раздел пора делать самостоятельным со своей внутренней навигацией.</li>
+    <li><b>Одна вещь живёт в одном месте.</b> Второй вход — это ссылка на то же самое, а не копия. Копии расходятся за полгода, и дальше поддержка объясняет людям, какая из них настоящая.</li>
+    <li><b>Названия проверяются на людях до запуска.</b> Несколько человек, карточная сортировка или проверка дерева. Спор о названии лучше закрывать проверкой, а не обсуждением.</li>
+    <li><b>У каждого раздела есть владелец и одна фраза: какую задачу он закрывает.</b> Если фраза не пишется, раздел рано запускать. Это же защита от разрастания: сформулировать задачу для «Прочего» почти невозможно.</li>
+    <li><b>Раздел, в который полгода не заходят, выносится на пересмотр.</b> Не удаляется автоматически — обсуждается: перенести внутрь, объединить или убрать.</li>
+    <li><b>Любой перенос сопровождается постоянным редиректом, старый адрес живёт минимум год.</b> И не переиспользуется под другое содержимое.</li>
+    <li><b>Исключение возможно, если записаны причина и срок.</b> «Ставим "Партнёрам" наверх до конца квартала, потому что идёт запуск; в апреле возвращаемся к вопросу». Исключение с датой остаётся решением, а исключение без даты быстро становится новой структурой.</li>
+  </ol>
+
+  <div class="warnbox"><b>Десятое правило особенно важно.</b> Свод без права на исключение либо нарушают молча, либо он тормозит работу. Записанное исключение с причиной и сроком сохраняет и правило, и возможность двигаться быстро. А через квартал видно, было решение временным или просто осталось в продукте.</div>
+
+  <div class="box">
+    <div class="box-head">Свод правил · заготовка для своего продукта<span class="spacer"></span><button class="btn" data-copy="#rulesTmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="rulesTmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">СТРУКТУРА ПРОДУКТА ___________     Владелец: ______  Дата: __.__.____
+Пересмотр: раз в полгода, ближайший __.__.____
+
+ВЕРХНИЙ УРОВЕНЬ (задача, которую закрывает раздел — одной фразой)
+1. ______________ — ______________________________________
+2. ______________ — ______________________________________
+3. ______________ — ______________________________________
+4. ______________ — ______________________________________
+5. свободно — место под рост по оси «______________»
+
+ВНЕ НАВИГАЦИИ ПРОДУКТА (свои адреса и входы)
+— ______________________  вход: ______________________
+
+ОСЬ РОСТА: ______________________________________________
+основание: за 2 года по ней добавилось: ___, ___, ___
+
+ПРАВИЛА
+1. Верхний уровень — задачи людей, не больше __ пунктов
+2. Наверх — только если: отдельная задача + не встаёт внутрь + не реже,
+   чем самый редкий верхний
+3. Всё остальное — вкладкой, фильтром или входом из релевантного места
+4. Не глубже __ уровней от главной до действия
+5. Одна вещь — одно место; второй вход это ссылка, а не копия
+6. Название проверяется на 5 людях до запуска
+7. У раздела есть владелец и фраза «какую задачу закрывает»
+8. Раздел без обращений __ месяцев — на пересмотр
+9. Перенос — постоянный редирект, старый адрес живёт __ месяцев
+10. Исключение — только с причиной и датой пересмотра
+
+ДЕЙСТВУЮЩИЕ ИСКЛЮЧЕНИЯ
+— ______________  причина: ______________  до: __.__.____</pre>
+    </div>
+    <div class="box-foot">Одна страница. Храните её там же, где схемы и макеты, а ссылку добавьте в шаблон задачи на новый раздел: так правила прочитают до того, как что-то нарисовали.</div>
+  </div>
+</section>
+
+<section id="stress">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Стресс-тест: прогон будущих разделов</h2></div>
+  <p class="sec-sub">Правила проверяются не на текущей структуре, а на том, что может появиться позже.</p>
+
+  <p>Структура, в которую всё встало, ещё ничего не доказывает: вы её под это и делали. Проверка выглядит иначе — берёте вещи, которых в продукте пока нет, но которые вероятны, и прогоняете по правилам. Часть встанет, часть нет. Это «нет» как раз и помогает подготовиться заранее.</p>
+
+  <p>Ниже шесть разделов, которых в нашем магазине ещё нет. Выберите любой, ответьте на три вопроса из правила №2 и посмотрите, что говорят правила и что при этом ломается.</p>
+
+  <div class="box">
+    <div class="box-head">Стресс-тест · шесть разделов, которых пока нет<span class="spacer"></span><span class="hunt-count" id="wizCount">Разобрано 0 из 6</span></div>
+    <div class="box-body">
+      <div class="cases" id="wizCases"></div>
+      <div class="wiz" id="wizBody"><p class="dim" style="margin-bottom:0">Выберите раздел выше, чтобы начать прогон.</p></div>
+    </div>
+    <div class="box-foot">Три вопроса — одни и те же для любого раздела. В этом смысл правила: у вас, у продакта и у человека, который придёт в команду через полгода, должен получиться один и тот же ход рассуждений.</div>
+  </div>
+
+  <div class="rule"><b>Итог прогона такой: из шести будущих разделов на верхний уровень просится один — аренда.</b> И он же идёт по оси роста, которую мы нашли в разделе 2. Это нормальное соотношение: большинство нового встаёт внутрь, а наверх поднимается только то, что приносит новый тип предложения. Если в вашем прогоне наверх просятся четыре из шести, стоит проверить структуру и правило №2: возможно, они слишком мягкие к новым пунктам.</div>
+
+  <h3>Что делать с результатами прогона</h3>
+  <ul>
+    <li><strong>Встало без изменений</strong> — ничего не меняем, просто знаем, что структура выдержит.</li>
+    <li><strong>Встало, но меняет смысл раздела</strong> (подписки внутри «Заказов») — заранее решаем, как раздел будет называться и вести себя, когда это появится. На бумаге это дешевле, чем после запуска.</li>
+    <li><strong>Не встало вообще</strong> (аренда) — проверяем, есть ли свободное место наверху. Если места нет, мы нашли будущую переделку заранее и можем подготовиться.</li>
+    <li><strong>Встало в навигацию, но ломает сценарий</strong> (сертификаты) — задача уходит на предыдущий уровень: достраивать ветки и состояния.</li>
+  </ul>
+</section>
+
+<section id="nofit">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Когда новый раздел не встаёт</h2></div>
+  <p class="sec-sub">Четвёртый навык: не просто отказывать новому пункту, а показывать, куда он может встать.</p>
+
+  <p>Главная мысль, которую полезно произносить вслух: <strong>верхний уровень — ограниченный ресурс</strong>. Не потому что так красивее, а потому что человек не выбирает из десяти равнозначных пунктов — он замечает несколько и с ними работает. Значит, разговор не о том, важен ли новый раздел, а о том, <em>что уходит вниз</em>, если он поднимается наверх.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Ответ</th><th>Когда подходит</th><th>Как звучит</th></tr></thead>
+      <tbody>
+        <tr><td><b>Внутрь существующего раздела</b></td><td>Задача та же, просто новый её вид</td><td>«Подписки — это вид заказа. Кладём вкладкой в "Заказы", человек ищет их там же»</td></tr>
+        <tr><td><b>Вход из релевантного места</b></td><td>Задача редкая, но возникает в понятный момент</td><td>«Ремонт нужен тому, у кого сломалось. Вход — из карточки заказа, там про это и думают»</td></tr>
+        <tr><td><b>Свой адрес вне навигации продукта</b></td><td>Это канал привлечения или другая аудитория</td><td>«Блог живёт отдельно: вход из карточек товаров и из поиска. В меню его почти не ищут»</td></tr>
+        <tr><td><b>Наверх — но по обмену</b></td><td>Все три условия правила №2 выполнены</td><td>«Хорошо, аренда идёт наверх. Тогда "Избранное" уезжает внутрь "Покупок" — место одно»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Разговор в четыре шага</h3>
+  <ol>
+    <li><strong>Что вижу.</strong> «Сейчас на верхнем уровне десять пунктов, из них пять появились за последний год».</li>
+    <li><strong>Какое правило.</strong> «У нас записано: наверх — только если это отдельная задача, она не встаёт внутрь и к ней обращаются не реже, чем к самому редкому верхнему. Здесь не выполняется второе».</li>
+    <li><strong>Что предлагаю.</strong> «Давай сделаем вкладку в "Заказах" и вход с шага оплаты — там человек как раз думает про бонусы. Так раздел будет заметнее, чем в меню».</li>
+    <li><strong>Чем померяем.</strong> «Через месяц посмотрим заходы. Если из меню приходило бы больше — вернёмся к вопросу, это обратимо».</li>
+  </ol>
+
+  <p>Четвёртый шаг часто важнее первых трёх. Он превращает спор о вкусах в проверяемое решение и снимает главный страх собеседника — что его направление спрячут навсегда.</p>
+
+  <div class="warnbox"><b>Чего лучше не говорить.</b> «Так не делают», «это неправильно», «по гайдлайнам так нельзя» — слабые аргументы для такого разговора. Первые два звучат как «моё мнение против твоего», третий — как ссылка на авторитет, которого нет в комнате. Гораздо лучше работают наблюдение, записанное правило и предложенная замена.</div>
+
+  <div class="rule"><b>Если решили иначе, оформите это как исключение.</b> «Ставим наверх до конца квартала, причина — запуск направления, в апреле смотрим на заходы». Так правило продолжает действовать, а у исключения есть дата, к которой разговор вернётся. И к этому моменту у вас будут цифры, а не только позиция.</div>
+</section>
+
+<section id="moves">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Переезды без 404</h2></div>
+  <p class="sec-sub">Пятый навык: менять структуру так, чтобы старые ссылки не превращались в тупик.</p>
+
+  <p><strong>Адрес — это обещание.</strong> Человек сохранил ссылку в закладки, получил её в письме, нашёл в поиске или в чьей-то статье. Когда раздел переезжает, а старый адрес отдаёт 404, это обещание ломается для всех, кто им пользовался. Часто команда узнаёт об этом только по обращениям в поддержку.</p>
+
+  <h3>Где живут старые адреса, о которых забывают</h3>
+  <ul>
+    <li><strong>Закладки людей.</strong> Невидимы для аналитики до тех пор, пока не сломаются.</li>
+    <li><strong>Письма и уведомления,</strong> отправленные за последние годы, — они продолжают жить в почте.</li>
+    <li><strong>Поисковая выдача.</strong> Переиндексация занимает недели, а то и месяцы.</li>
+    <li><strong>Реклама и кампании,</strong> в том числе давно оплаченные.</li>
+    <li><strong>Печать и QR-коды</strong> на упаковке, листовках, визитках — их почти невозможно обновить после выпуска.</li>
+    <li><strong>Интеграции партнёров,</strong> которые ходят по вашим адресам программно.</li>
+    <li><strong>Документация поддержки,</strong> где в скриптах ответов прописаны прямые ссылки.</li>
+    <li><strong>Старые версии приложения,</strong> в которых зашиты ссылки на экраны: обновятся не все и не сразу.</li>
+  </ul>
+
+  <h3>Два вида редиректа человеческими словами</h3>
+  <ul>
+    <li><strong>Постоянный (301)</strong> — «переехали навсегда». Поисковики переносят на новый адрес накопленный вес, браузеры запоминают. Ставится, когда возврата не планируется.</li>
+    <li><strong>Временный (302)</strong> — «сейчас здесь, потом вернёмся». Поисковики оставляют в выдаче старый адрес. Ставится на время эксперимента, распродажи, технических работ.</li>
+  </ul>
+  <p class="dim">Разница не техническая придирка: постоянный редирект, поставленный «на время», может унести адрес из выдачи надолго, а временный, оставленный на годы, мешает новому адресу набрать вес.</p>
+
+  <div class="warnbox"><b>Редирект всех старых адресов на главную часто хуже, чем 404.</b> Человек пришёл за конкретной вещью, оказался на витрине и не понимает, что случилось: страница исчезла, его перепутали или он ошибся ссылкой. 404 хотя бы честна и может предложить выход. Правило простое: редирект ведёт на <b>ближайшее по смыслу</b> место, а если такого нет — на честную страницу «этого больше нет, вот что можно вместо».</div>
+
+  <h3>План переезда на один рабочий день</h3>
+  <ol>
+    <li><strong>Соберите список адресов,</strong> которые меняются. Не только разделов — всех страниц внутри.</li>
+    <li><strong>Сделайте карту «старый → новый»</strong> построчно. Строки, где новый адрес не нашёлся, — самые важные: это места, где что-то исчезает совсем.</li>
+    <li><strong>Поставьте редиректы</strong> до переключения, а не после.</li>
+    <li><strong>Обновите внутренние ссылки:</strong> меню, письма, шаблоны уведомлений, документацию поддержки, описания в рекламе.</li>
+    <li><strong>Смотрите 404 первые две недели.</strong> Так всплывут адреса, о которых никто не помнил.</li>
+    <li><strong>Не переиспользуйте старый адрес</strong> под другое содержимое минимум год: человек по закладке попадёт не туда, куда шёл, и не поймёт этого.</li>
+  </ol>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · что делать со старым адресом<span class="spacer"></span><span class="sc">0 / 6</span></div>
+    <div class="box-body">
+      <div class="drill" id="d2">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Шесть ситуаций из переезда нашего магазина. Вопрос один: что увидит человек, который придёт по старому адресу завтра и через год.</div>
+  </div>
+
+  <p>Отдельно про приложение: ссылки внутри него ведут на экраны, а не на адреса, но ломаются так же. Если экран исчез, старая версия приложения должна открыть что-то осмысленное — обычно ближайший по смыслу экран с пояснением. Это тот же редирект, только его нужно заложить в код заранее, потому что обновятся не все.</p>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Опишите верхний уровень продукта и правила, по которым в него добавляется новое. Потом прогоните по правилам три будущих раздела и посмотрите, что ломается.</p>
+
+  <h3>Часть 1 · Описать то, что есть</h3>
+  <ol>
+    <li><strong>Выпишите верхний уровень как есть,</strong> без улучшений. Рядом с каждым пунктом — одна фраза: какую задачу человека он закрывает.</li>
+    <li><strong>Отметьте пункты, для которых фраза не пишется</strong> или пишется через силу. Часто это разделы, отражающие отделы или устройство системы.</li>
+    <li><strong>Найдите дубли:</strong> что лежит в двух местах. Отметьте, какая из копий настоящая.</li>
+  </ol>
+
+  <h3>Часть 2 · Найти ось роста</h3>
+  <ol>
+    <li><strong>Выпишите всё, что добавилось за два года,</strong> и разложите по осям из раздела 2.</li>
+    <li><strong>Добавьте то, что просят, но ещё не сделали.</strong></li>
+    <li><strong>Назовите ось одной фразой</strong> и запишите основание: какие именно три пункта в неё попали.</li>
+  </ol>
+
+  <h3>Часть 3 · Записать правила</h3>
+  <p>Возьмите заготовку из раздела 4 и заполните под свой продукт. Десять правил — это потолок, а не цель: шесть работающих лучше десяти формальных. Проверяйте каждое одним вопросом: <strong>может ли по нему принять решение человек, который не участвовал в обсуждении?</strong> Если нет — переписывайте.</p>
+
+  <h3>Часть 4 · Прогнать три будущих раздела</h3>
+  <ol>
+    <li><strong>Возьмите три вещи, которых в продукте нет,</strong> но которые вероятны: две по своей оси роста, одну — нарочно из другой оси.</li>
+    <li><strong>Прогоните каждую по правилу №2</strong> и по трём вопросам стресс-теста из раздела 5.</li>
+    <li><strong>Запишите три вещи по каждой:</strong> куда встаёт по правилам, что при этом ломается, что надо решить заранее.</li>
+    <li><strong>Отметьте то, что не встало вообще.</strong> Это и есть результат задания — место, где структура не выдержит роста.</li>
+  </ol>
+
+  <h3>Часть 5 · Отдать в работу</h3>
+  <ol>
+    <li><strong>Положите свод туда, где принимаются решения:</strong> в вики продукта и ссылкой в шаблон задачи «новый раздел».</li>
+    <li><strong>Проведите двадцать минут с командой:</strong> не презентацию, а прогон одного настоящего будущего раздела по правилам вслух.</li>
+    <li><strong>Назначьте дату пересмотра</strong> — через полгода, и запишите её прямо в документ.</li>
+    <li><strong>Дождитесь первого настоящего случая</strong> и не вмешивайтесь: пусть решение примут по правилам без вас.</li>
+  </ol>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Новый раздел добавили по правилам другие люди, и навигацию при этом не пришлось переделывать. Проверяется терпением: нужно дождаться настоящего случая и не решать всё самому. Если по правилам решили не так, как решили бы вы, это не провал, а первая проверка: либо правило сформулировано неточно и его надо поправить, либо ваше решение было вкусовым.</div>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Верхний уровень как есть</strong> — с фразой «какую задачу закрывает» у каждого пункта и отметками там, где фраза не пишется.</li>
+    <li><strong>Ось роста</strong> с основанием: что именно за два года по ней добавилось.</li>
+    <li><strong>Свод правил</strong> на одну страницу, с владельцем, датой и разделом «исключения».</li>
+    <li><strong>Прогон трёх будущих разделов:</strong> куда встают, что ломается, что решаем заранее.</li>
+    <li><strong>Список того, что не встаёт,</strong> — и предложение, что с этим делать.</li>
+  </ul>
+  <p class="dim">Ориентир по времени: полдня на описание и ось, полдня на правила, два часа на прогон, двадцать минут на встречу с командой.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«У нас в продукте и так бардак, начинать не с чего».</strong> Начните не с уборки, а с правил: без них структура быстро зарастёт снова. Опишите как есть, запишите правила и приводите структуру в порядок по одному разделу за релиз.</li>
+    <li><strong>«Правила приняли и тут же нарушили».</strong> Нормально, если нарушение оформлено исключением с датой. Плохо, если его сделали молча: тогда возвращайтесь не к правилу, а к разговору — почему по нему не получилось решить.</li>
+    <li><strong>«Не могу придумать будущие разделы».</strong> Их не обязательно выдумывать: возьмите то, что просили за последний год и отложили, плюс то, что уже есть у двух конкурентов.</li>
+    <li><strong>«Все три будущих раздела встали».</strong> Возможно, структура правда хорошая, а возможно, правила слишком мягкие. Проверьте вторым способом: возьмите то, что заведомо не встаёт — другую роль пользователя, другой тип предложения, — и посмотрите, что скажут правила.</li>
+    <li><strong>«Решение всё равно принимают без правил».</strong> Проверьте, где лежит свод. Документ, о котором знают, но который не встроен в шаблон задачи, обычно читают один раз.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Структура выдержит рост, если</h3>
+  <ul class="ok-list">
+    <li>Верхний уровень — задачи людей, не больше пяти-семи пунктов</li>
+    <li>У каждого пункта есть фраза «какую задачу закрывает» и владелец</li>
+    <li>Названы ось роста и основание: что по ней добавилось за два года</li>
+    <li>Под ось роста оставлено место — не пустой раздел, а незанятые пункты</li>
+    <li>Названия описывают задачу, а не то, чем вы её решаете</li>
+    <li>Ни одна вещь не лежит в двух местах копиями</li>
+    <li>Правила записаны и лежат там, где принимаются решения</li>
+    <li>По правилам может принять решение человек, который не участвовал в обсуждении</li>
+    <li>Исключения оформлены с причиной и датой пересмотра</li>
+    <li>Три будущих раздела прогнаны, и известно, что ломается</li>
+    <li>У переездов есть постоянные редиректы, а старые адреса живут год</li>
+    <li>Назначена дата пересмотра структуры</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Структура повторяет отделы.</b> Каждому направлению по пункту в меню; через год верхний уровень — это оргсхема.</li>
+    <li><b>Название описывает сущность, а не задачу.</b> «Товары» умирают в день, когда появляется аренда.</li>
+    <li><b>Верхний уровень занят тем, что помещается внутрь.</b> Место потрачено на редкое, а частому его не хватило.</li>
+    <li><b>Пустые контейнеры на будущее.</b> Раздел «Услуги» с одним пунктом внутри: человек заходит и не понимает, зачем он здесь.</li>
+    <li><b>Проектирование под все возможные будущие.</b> Обратная ошибка: структура усложняется ради того, чего никогда не случится.</li>
+    <li><b>Правила без проверяемости.</b> «Соблюдаем простоту» — по этому нельзя принять ни одного решения.</li>
+    <li><b>Правила есть, но решаете по ним только вы.</b> Значит, команда пока опирается не на архитектуру, а на ваш опыт.</li>
+    <li><b>Исключение без даты.</b> Через квартал оно становится структурой, и никто не помнит почему.</li>
+    <li><b>Отказ без альтернативы.</b> «Это не встаёт» без предложения, куда деть, просто переносит решение в другой разговор.</li>
+    <li><b>Одна вещь в двух местах копиями.</b> Через полгода копии расходятся, и поддержка объясняет, какая настоящая.</li>
+    <li><b>Переезд без редиректов.</b> Закладки, письма и печатные QR-коды ведут в 404, а команда узнаёт об этом из поддержки.</li>
+    <li><b>Редирект всего на главную.</b> Человек не понимает, что случилось: иногда это хуже честной 404.</li>
+    <li><b>Старый адрес переиспользован под другое.</b> Человек по закладке попадает не туда и не замечает подмены.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы целиком</h2></div>
+  <p class="sec-sub">Тема собрана целиком. Ниже — вся лестница одним взглядом.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Разложить один сценарий на шаги и экраны; отличать экран от состояния; называть шаги глаголами человека; показывать входы и выходы; держать одну схему на один сценарий</td>
+          <td class="dim">Коллега, не знающий продукта, пересказывает сценарий по схеме и не спрашивает «а что здесь происходит»</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Middle</b></td>
+          <td class="dim">Достраивать пять веток к каждому шагу; выводить человека из любой ветки; проверять структуру на людях сортировкой и проверкой дерева; читать результат как повторяющееся поведение; переделывать структуру и объяснять, что изменилось и почему</td>
+          <td class="dim">В схеме нет обрывающихся веток, и хотя бы одно название раздела изменено по результату проверки</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Находить ось роста и оставлять под неё место; отличать раздел человека от раздела отдела; записывать правила навигации, по которым команда может принять решение; прогонять структуру будущими разделами; объяснять, почему раздел не встаёт, и предлагать замену; переносить разделы без 404</td>
+          <td>Новый раздел добавлен по правилам кем-то другим, и навигацию при этом не переделывали</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Тему можно считать закрытой,</b> когда структура продукта описана, правила записаны и по ним хотя бы один раз приняли решение без вас. С этого момента ваша работа меняется: вы не решаете, куда положить новое, а следите, чтобы правила оставались верными, и пересматриваете их, когда продукт начинает расти по другой оси.</div>
+</section>
+
+<footer>
+  Урок по теме «Структура и потоки», уровень Senior. Сквозной пример — навигация интернет-магазина и шесть разделов, которых в нём ещё нет. Заготовка свода правил из раздела 4 копируется кнопкой. Что почитать дальше: Луис Розенфельд и Питер Морвиль, «Информационная архитектура в интернете» — про структуру, которая переживает рост; Эбби Кови, «Как сделать смысл» — про общий язык внутри команды; материалы Nielsen Norman Group про навигацию и закон Конвея в интерфейсах.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next');
+    var sc = el.closest('.box').querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'h', label: 'Для человека' }, { key: 'c', label: 'Отражает отделы компании' }, { key: 's', label: 'Отражает устройство системы' }],
+    [
+      { t: 'Пункт меню <q>Бонусы</q>', a: 'h',
+        fb: 'За бонусами приходят специально — посмотреть, сколько накопилось, и потратить. Слово живёт в языке людей. Другой вопрос, должен ли этот пункт быть на верхнем уровне: по правилам он помещается внутрь профиля и на шаг оплаты.' },
+      { t: 'Пункт меню <q>Модуль лояльности</q>', a: 's',
+        fb: 'Так называется кусок системы, который всё считает. Человек не приходит «в модуль» — он приходит за бонусами. Хороший признак: слово встречается в задачах разработки, но не встречается в обращениях в поддержку.' },
+      { t: 'Пункт меню <q>Финансы</q>', a: 'c',
+        fb: 'Так называется отдел. У человека нет задачи «финансы» — у него есть «посмотреть, за что списали» и «скачать чек». Проверка реорганизацией: если отделы перетасуют, раздел потеряет смысл.' },
+      { t: 'Пункт меню <q>Мои платежи и чеки</q>', a: 'h',
+        fb: 'Задача названа словами человека, и с ней действительно приходят. Это то, во что превращается «Финансы» после перевода с внутреннего языка на человеческий.' },
+      { t: 'Пункт меню <q>Служба заботы</q> — так в компании называется поддержка', a: 'c',
+        fb: 'Внутреннее имя отдела, иногда ещё и часть бренда. Люди чаще ищут «Помощь» или «Поддержка» — это можно быстро проверить сортировкой.' },
+      { t: 'Пункт меню <q>CRM</q>', a: 's',
+        fb: 'Название системы, причём чужой. Встречается в продуктах для бизнеса чаще, чем хотелось бы: раздел назван по инструменту, а не по задаче, которую в нём решают.' },
+      { t: 'Пункт меню <q>Заказы и возвраты</q>', a: 'h',
+        fb: 'Две задачи, обе человеческие, обе про одно и то же — то, что я уже купил. Заодно название отвечает на находку из прошлого уровня: «Мои заказы» читалось как архив, а «и возвраты» показывает, что тут можно действовать.' },
+      { t: 'Пункт меню <q>Партнёрам</q>, который видят все покупатели, хотя партнёров 0,3 %', a: 'c',
+        fb: 'Раздел существует, потому что есть отдел партнёрств и ему нужна видимость. Задача настоящая, аудитория настоящая — но это другая роль, а роль лучше решать отдельным входом, а не пунктом в общем меню.' },
+      { t: 'Пункт меню <q>Интеграции</q> в продукте для обычных покупателей', a: 's',
+        fb: 'Слово из архитектуры системы. У человека задача звучит иначе — «подключить умную колонку» или «настроить оплату из банка», — и по ней название строится совсем по-другому.' }
+    ],
+    function (s, n) {
+      return s >= 8 ? 'Вы хорошо различаете три языка: людей, компании и системы. Это половина работы над структурой. Вторая половина — предлагать отделам замену, а не просто отказ.'
+        : s >= 5 ? 'Хорошо. Надёжная проверка — реорганизацией: раздел, который потеряет смысл после перетасовки отделов, скорее всего отражал отдел.'
+        : 'Вернитесь к трём вопросам в разделе 3. Главный из них первый: приходят ли с этой задачей специально — или мы просто показываем, что направление существует.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: '301', label: 'Постоянный редирект' }, { key: '302', label: 'Временный редирект' },
+     { key: 'keep', label: 'Оставить страницу живой' }, { key: 'drop', label: 'Убрать без редиректа' }],
+    [
+      { t: 'Раздел «Мои заказы» переименован в «Заказы и возвраты», адрес поменялся.', a: '301',
+        fb: 'Возврата не планируется, значит, нужен постоянный редирект: поисковая выдача переедет на новый адрес, а закладки и ссылки из писем продолжат работать. Старый адрес держим год и не отдаём под другое.' },
+      { t: 'На две недели эксперимента раздел переехал на новый адрес. Если не взлетит — вернём.', a: '302',
+        fb: 'Временный. Постоянный редирект здесь навредит: поисковики перенесут вес на адрес, который вы через две недели удалите, и вернуть всё обратно будет дороже самого эксперимента.' },
+      { t: 'Товар снят с продажи навсегда, но на его страницу до сих пор приходят из поиска.', a: 'keep',
+        fb: 'Страница остаётся живой: «этого товара больше нет» плюс похожие варианты. Редирект в каталог выглядит как потеря — человек шёл за конкретной вещью и не понял, куда она делась. Страница с честным ответом закрывает вопрос быстрее.' },
+      { t: 'Служебный адрес, который использовался только внутри команды и снаружи не публиковался.', a: 'drop',
+        fb: 'По этому адресу никому ничего не обещали: нет закладок, писем и выдачи. Это редкий случай, когда редирект не нужен. Но перед удалением всё равно проверьте по логам, что заходов действительно не было.' },
+      { t: 'Бонусы переехали внутрь профиля. Старый адрес три года стоял в письмах.', a: '301',
+        fb: 'Постоянный, и ведёт он не на профиль вообще, а прямо на вкладку бонусов — на ближайшее по смыслу место. Письма за три года будут открывать ещё долго, и каждое из них остаётся обещанием, которое вы давали.' },
+      { t: 'Категория «Инструменты» разделилась на «Ручной инструмент» и «Электроинструмент».', a: 'keep',
+        fb: 'Одного правильного адреса теперь нет: половина людей шла за одним, половина за другим. Оставьте старую страницу развилкой с двумя ссылками. Постоянный редирект на любую из половин отправит половину людей не туда — и молча.' }
+    ],
+    function (s, n) {
+      return s >= 5 ? 'Хорошо. Главное вы уловили: решение принимается не по типу изменения, а по тому, кому и что обещал старый адрес.'
+        : s >= 3 ? 'Неплохо. Держите в голове два крайних случая: постоянный редирект на ближайшее по смыслу место и живая страница там, где такого места нет.'
+        : 'Перечитайте раздел 7. Адрес — это обещание: вопрос всегда в том, что увидит человек, пришедший по нему завтра и через год.';
+    }
+  );
+
+  /* ── tabs ── */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]'));
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      tabs.forEach(function (o) {
+        o.setAttribute('aria-selected', String(o === t));
+        var p = document.getElementById(o.getAttribute('aria-controls'));
+        if (p) p.classList.toggle('on', o === t);
+      });
+    });
+  });
+
+  /* ── stress test wizard ── */
+  var WQ = [
+    { q: 'Это отдельная задача, с которой человек приходит специально?',
+      opts: [{ k: 'y', l: 'Да, приходят специально' }, { k: 'n', l: 'Нет — это способ сделать то, что уже есть' }] },
+    { q: 'Она встаёт внутрь существующего раздела?',
+      opts: [{ k: 'y', l: 'Да, встаёт внутрь' }, { k: 'n', l: 'Нет, не встаёт' }] },
+    { q: 'Как часто к ней обращаются в сравнении с самым редким верхним разделом?',
+      opts: [{ k: 'often', l: 'Так же или чаще' }, { k: 'rare', l: 'Заметно реже' }] }
+  ];
+  var CASES = [
+    { id: 'sub', t: 'Подписка на регулярную доставку', a: ['y', 'y', 'rare'],
+      fb: ['За управлением подпиской — пауза, смена периодичности, отмена — приходят специально и в конкретный момент.',
+           'Встаёт: человек ищет подписку там же, где заказы, потому что для него это заказ, который повторяется.',
+           'Реже: к подписке возвращаются раз в месяц-полтора, а в заказы заходят после каждой покупки.'],
+      where: 'Вкладка внутри «Заказы». Верхний уровень не трогаем.',
+      breaks: 'Смысл слова «заказ»: теперь это и разовая покупка, и регулярная. Карточка заказа должна показывать периодичность, паузу и следующую дату, а отмена одной доставки и отмена подписки целиком — разные ветки.',
+      todo: 'Заранее договориться, что заказ бывает разовым и регулярным, и заложить это в язык интерфейса и в схему сценария. Переименовывать раздел не нужно: понятие шире названия.' },
+    { id: 'rent', t: 'Аренда инструмента', a: ['y', 'n', 'often'],
+      fb: ['Да, и задача отдельная: человек приходит взять вещь на время, а не купить.',
+           'Не встаёт. Внутрь «Покупок» помещается только выбор вещи; дальше у аренды свой цикл — срок, залог, продление, возврат.',
+           'Сопоставимо: если направление запускают всерьёз, обращаться к нему будут не реже, чем к «Помощи».'],
+      where: 'Верхний уровень — подходящее место. Как раз под такой случай и оставляли свободный пятый пункт.',
+      breaks: '«Заказы» перестают быть однородными: появляется вид, где вещь у человека на руках и её надо вернуть. Это новое состояние, которого в схеме нет, и новая ветка — «залог не прошёл».',
+      todo: 'Решить заранее: аренда живёт общим разделом «Заказы» с разными типами (правило 5 — одна вещь, одно место) или своим. И проверить, свободно ли пятое место: если его занял блог, переделка меню уже неизбежна.' },
+    { id: 'b2b', t: 'Закупки для бизнеса', a: ['n', 'n', 'rare'],
+      fb: ['Нет — и это ловушка. Задача та же самая, покупка; меняется роль: человек покупает не себе, а компании. Три вопроса правила отвечают про задачи, а здесь другая ось.',
+           'Не встаёт: другие цены, документы, отсрочка, права внутри компании-клиента. Но и наверх нельзя — по числу людей это доли процента.',
+           'Реже по числу людей, хотя по деньгам может быть сопоставимо. В этом и ловушка: важность направления и частота обращения — разные вещи.'],
+      where: 'Не пункт меню. Роль переключается на уровне аккаунта — «личный» и «компания», — и внутри роли меняется всё: цены, документы, доступные разделы.',
+      breaks: 'Пункт меню для всех означает, что почти все покупатели видят раздел, который им не нужен. Отдельный продукт на своём адресе требует общего входа и единого аккаунта, иначе человек заведёт два.',
+      todo: 'Добавить в свод правил отдельный пункт про ось «роль»: новая роль — это режим продукта, а не раздел. «Для бизнеса» остаётся лендингом для привлечения, вне навигации.' },
+    { id: 'repair', t: 'Ремонт техники', a: ['y', 'y', 'rare'],
+      fb: ['Да, приходят специально — но только те, у кого сломалось, и обычно уже после покупки.',
+           'Встаёт: вход из карточки заказа и из карточки товара. В момент поломки человек думает о вещи, а не о разделе меню.',
+           'Заметно реже: даже при высокой поломочности это единицы процентов от числа заказов.'],
+      where: 'Вход из релевантного места плюс страница в «Помощи». Верхний уровень не трогаем.',
+      breaks: 'В навигации — ничего. Ломается другое: ремонт это услуга со своим сценарием — приём, диагностика, сроки, отказ в гарантии, — то есть новый тип предложения по той же оси роста, что и аренда.',
+      todo: 'Нарисовать сценарий ремонта отдельно и достроить его ветки. И считать заходы: если через год ремонтов станет много, правило №2 само поднимет раздел наверх — без спора.' },
+    { id: 'blog', t: 'Блог с рецептами', a: ['n'], stop: 1,
+      fb: ['Нет. За блогом не приходят в магазин — в него попадают из поиска или из карточки товара. Это канал привлечения, а не задача человека внутри продукта. Дальше можно не спрашивать: первый вопрос уже дал ответ.'],
+      where: 'Вне навигации продукта: свой адрес, вход из карточек товаров, из поиска и из рассылки.',
+      breaks: 'В продукте — ничего. Ломается разговор с маркетингом, которому нужна видимость. Лечится цифрой: сколько заходов в блог приходит из меню и сколько из поиска — разница обычно в десятки раз.',
+      todo: 'Дать видимость иначе: блок на главной в сезон, ссылки из карточек товаров, рассылка. Настоящая потребность здесь — видимость, а пункт меню просто первое решение, которое приходит в голову.' },
+    { id: 'certs', t: 'Подарочные сертификаты', a: ['y', 'y', 'rare'],
+      fb: ['Да — за сертификатом приходят специально, особенно в декабре.',
+           'Встаёт: сертификат это товар, частный случай каталога. Категория внутри «Покупок».',
+           'Реже, но неравномерно: одиннадцать месяцев почти ноль и всплеск в декабре. Сезонность — не повод занимать пункт меню круглый год.'],
+      where: 'Категория внутри «Покупок» плюс сезонный вход на главной, который включается и выключается по календарю.',
+      breaks: 'Не навигация, а сценарий: у сертификата нет доставки в обычном смысле, зато есть срок действия, получатель и другой возврат. Ветки предыдущего уровня — «пусто», «ошибка», «нет прав» — придётся достраивать заново.',
+      todo: 'Проверить, что «Заказы» умеют показывать нематериальное, и что сезонный вход включается настройкой, а не переделкой меню.' }
+  ];
+
+  var wizCases = document.getElementById('wizCases'), wizBody = document.getElementById('wizBody');
+  var wizCount = document.getElementById('wizCount'), doneCases = {};
+  var cur = null, step = 0;
+
+  CASES.forEach(function (c) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = c.t; b.setAttribute('aria-pressed', 'false');
+    b.setAttribute('data-case', c.id);
+    b.addEventListener('click', function () {
+      Array.prototype.forEach.call(wizCases.children, function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      cur = c; step = 0; wizPaint();
+    });
+    wizCases.appendChild(b);
+  });
+
+  function wizPaint() {
+    wizBody.innerHTML = '';
+    var total = cur.stop || WQ.length;
+    for (var i = 0; i <= step && i < total; i++) wizBody.appendChild(qBlock(i));
+    if (step >= total) wizBody.appendChild(verdictBlock());
+  }
+  function qBlock(i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'wq';
+    var answered = i < step;
+    var h = document.createElement('p'); h.className = 'qt'; h.textContent = (i + 1) + '. ' + WQ[i].q;
+    wrap.appendChild(h);
+    var opts = document.createElement('div'); opts.className = 'qo';
+    WQ[i].opts.forEach(function (o) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.textContent = o.l;
+      if (answered) {
+        b.disabled = true;
+        if (o.k === cur.a[i]) b.className = 'right';
+        else if (o.k === (cur.picked || [])[i]) b.className = 'wrong';
+      } else {
+        b.addEventListener('click', function () {
+          cur.picked = cur.picked || [];
+          cur.picked[i] = o.k;
+          step = i + 1;
+          var total = cur.stop || WQ.length;
+          if (step >= total && !doneCases[cur.id]) {
+            doneCases[cur.id] = 1;
+            wizCount.textContent = 'Разобрано ' + Object.keys(doneCases).length + ' из ' + CASES.length;
+          }
+          wizPaint();
+        });
+      }
+      opts.appendChild(b);
+    });
+    wrap.appendChild(opts);
+    if (answered) {
+      var fb = document.createElement('div');
+      fb.className = 'qfb on';
+      var mine = (cur.picked || [])[i];
+      fb.innerHTML = '<b>' + (mine === cur.a[i] ? 'Так и есть. ' : 'По правилам — другой ответ. ') + '</b>' + cur.fb[i];
+      wrap.appendChild(fb);
+    }
+    return wrap;
+  }
+  function verdictBlock() {
+    var v = document.createElement('div');
+    v.className = 'verdict on';
+    v.innerHTML =
+      '<div class="vr"><span class="k">Куда встаёт</span><span class="v"><b>' + cur.where + '</b></span></div>' +
+      '<div class="vr"><span class="k">Что ломается</span><span class="v">' + cur.breaks + '</span></div>' +
+      '<div class="vr"><span class="k">Решить заранее</span><span class="v">' + cur.todo + '</span></div>';
+    var again = document.createElement('div');
+    again.style.marginTop = '14px';
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'btn btn-ghost'; btn.textContent = 'Пройти этот случай заново';
+    btn.addEventListener('click', function () { cur.picked = []; step = 0; wizPaint(); });
+    again.appendChild(btn);
+    v.appendChild(again);
+    return v;
+  }
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = (src.innerText || src.textContent).replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Структура и потоки: ветки и проверка структуры</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --svg-chip: #eef3fb; --svg-dim: #6d6b66;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --svg-chip: #1f2733; --svg-dim: #9e9c95;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --svg-chip: #1f2733; --svg-dim: #9e9c95;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-ghost { background: var(--raised); color: var(--ink-2); }
+  .btn[disabled] { opacity: .45; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 72px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .pr { display: block; background: var(--chip); border-radius: 8px; padding: 9px 12px; font-size: 14.5px; color: var(--accent-deep); margin-bottom: 10px; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 128px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* accordion */
+  .accs { display: flex; flex-direction: column; gap: 10px; }
+  .acc { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .acc > button { width: 100%; text-align: left; background: none; border: none; padding: 14px 17px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .acc > button:hover { background: var(--demo-bg); }
+  .acc .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .acc .ttl { flex: 1; font-size: 16.5px; font-weight: 600; letter-spacing: -.005em; }
+  .acc .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; background: var(--chip); color: var(--accent-deep); }
+  .acc .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .acc .tag.ok { background: var(--good-soft); color: var(--good); }
+  .acc .hintline { font-size: 13.5px; color: var(--muted); padding: 0 17px 13px; }
+  .acc.open .hintline { display: none; }
+  .acc .body { display: none; padding: 0 17px 15px; }
+  .acc.open .body { display: block; }
+  .acc .row { display: grid; grid-template-columns: 136px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .acc .row:first-child { border-top: none; padding-top: 2px; }
+  .acc .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .acc .row .v { color: var(--ink-2); }
+  .acc .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .acc .row { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* card sort */
+  .cs-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 42px; }
+  .cs-card { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 8px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; }
+  .cs-card:hover { border-color: var(--accent); }
+  .cs-card.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .cs-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .cs-group { border: 1px dashed var(--border); border-radius: 11px; padding: 11px 12px; background: var(--surface); cursor: pointer; min-height: 110px; }
+  .cs-group.hot { border-color: var(--accent); border-style: solid; background: var(--chip); }
+  .cs-group h5 { margin: 0 0 9px; font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .cs-group .placed { display: block; width: 100%; text-align: left; font: 500 12.5px system-ui, sans-serif; background: var(--raised); border: 1px solid var(--hairline); color: var(--ink); border-radius: 7px; padding: 6px 9px; margin-bottom: 6px; cursor: pointer; }
+  .cs-group .placed:hover { border-color: var(--bad); }
+  .cs-empty { font-size: 12.5px; color: var(--muted); }
+  .cs-res { margin-top: 16px; display: none; }
+  .cs-res.on { display: block; }
+  .mini { display: inline-block; font: 600 11.5px system-ui, sans-serif; border-radius: 5px; padding: 1px 7px; margin: 0 4px 3px 0; background: var(--demo-bg); color: var(--ink-2); border: 1px solid var(--hairline); }
+  .mini.top { background: var(--chip); color: var(--accent-deep); border-color: transparent; }
+  .flag { font: 700 10px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; background: var(--warn-soft); color: var(--warn); }
+
+  /* tree test */
+  .tt-task { font-size: 15.5px; background: var(--chip); color: var(--accent-deep); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+  .tt-crumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; min-height: 20px; }
+  .tt-list { display: flex; flex-direction: column; gap: 7px; }
+  .tt-list button { text-align: left; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 11px 14px; font: 500 14.5px system-ui, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .tt-list button:hover { border-color: var(--accent); }
+  .tt-list button .ch { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+  .tt-bar { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .tt-res { margin-top: 16px; font-size: 14.5px; line-height: 1.5; padding: 13px 15px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .tt-res.on { display: block; }
+  .tt-res b.h { display: block; margin-bottom: 5px; }
+  .path { font: 13px ui-monospace, Menlo, monospace; color: var(--ink-2); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .metric { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; }
+  .metric .big { font: 700 22px system-ui, sans-serif; letter-spacing: -.02em; }
+  .metric .lab { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .metric.bad .big { color: var(--bad); }
+  .metric.ok .big { color: var(--good); }
+
+  .hunt-count { font: 600 13px system-ui, sans-serif; color: var(--muted); }
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  .ok-list li b { color: var(--good); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Структура и потоки · Middle · весь сценарий и проверка на людях</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Проектирование · структура и потоки</p>
+  <div class="levels" aria-label="Уровень темы: Middle, второй из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv on">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как достроить ветки сценария и не оставить человека в тупике</h1>
+  <p class="lede">Счастливый путь нарисован, и кажется, что осталось добавить пару экранов с ошибками. Но ветки обычно дорисовывают до сообщения «что-то пошло не так» и на этом останавливаются — дальше человеку идти некуда. А названия разделов часто остаются теми, что придумала команда: своей логикой их не проверить, потому что вы знаете, где что лежит, а человек снаружи не знает. Здесь разберёмся, какие пять веток есть в любом сценарии, куда человек попадает после каждой, как проверить структуру на пяти людях карточной сортировкой и проверкой дерева и как переделать её по результату, объяснив команде, что изменилось и почему.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#branches">Достраивать пять веток</a>: ошибка, отмена, пусто, нет прав, потеря связи<span class="drillmark">тренажёр</span></li>
+    <li><a href="#deadend">Не оставлять тупиков</a> — у каждой ветки есть выход<span class="drillmark">тренажёр</span></li>
+    <li><a href="#cardsort">Проверять названия карточной сортировкой</a><span class="drillmark">симулятор</span></li>
+    <li><a href="#tree">Проверять структуру проверкой дерева</a><span class="drillmark">симулятор</span></li>
+    <li><a href="#read">Читать результат</a>: где люди искали не там<span class="drillmark">разбор</span></li>
+    <li><a href="#redo">Переделывать структуру</a> и объяснять, что изменилось и почему</li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Продолжаем ту же карту: сценарий <b>«человек оформляет заказ»</b> из прошлого уровня. К ней достраиваем ветки, а разделы продукта — «Мои заказы», «Профиль», «Помощь», «Каталог» — проверяем на пяти людях и по результату переименовываем один из них. Все цифры в уроке — учебный пример, похожий на рабочую проверку: пять человек, десять карточек, одна задача на дереве.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется на этом уровне</h2></div>
+  <p class="sec-sub">Схема перестаёт быть рассказом только о том, как всё работает, когда получается.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Junior</th><th>Middle</th></tr></thead>
+      <tbody>
+        <tr><td><b>Что на схеме</b></td><td>основной путь от входа до выхода</td><td>основной путь плюс все ветки: ошибка, отмена, пусто, нет прав, потеря связи</td></tr>
+        <tr><td><b>Откуда берётся правда</b></td><td>из вашей логики и знания продукта</td><td>из поведения людей на проверке</td></tr>
+        <tr><td><b>Названия разделов</b></td><td>какие приняты в команде</td><td>какие читаются снаружи — это лучше проверять, а не только обсуждать</td></tr>
+        <tr><td><b>Кто проверяет</b></td><td>коллега пересказывает схему вслух</td><td>несколько человек, не знающих продукт, ищут в структуре настоящие вещи</td></tr>
+        <tr><td><b>Результат работы</b></td><td>читаемая схема сценария</td><td>схема без обрывов плюс изменённая структура с объяснением, что и почему</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>схема, которую никто не понял</td><td>красивый счастливый путь, к которому ветки дописывают в разработке на ходу</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Две ловушки уровня</h3>
+  <ul>
+    <li><strong>Ветка дорисована до экрана ошибки и брошена.</strong> «Карта отклонена» — блок есть, стрелки из него нет. Формально ветка на схеме присутствует, фактически человек в ней заперт. Так часто выглядят «полные» схемы.</li>
+    <li><strong>Структура проверена на коллегах.</strong> Коллега не ищет — он вспоминает, где что лежит. Проверка на своих легко даёт высокий успех и мало информации. Нужны люди, которые продукт не знают.</li>
+  </ul>
+
+  <div class="rule"><b>Критерий уровня из задания короткий: в схеме нет обрывающихся веток, и есть хотя бы одно название раздела, изменённое по результату проверки.</b> Вторая половина важна: если после проверки не изменилось ничего, стоит проверить саму проверку — не было ли там коллег, подсказок в формулировках или задач, придуманных под готовую структуру.</div>
+</section>
+
+<section id="branches">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Пять веток, которые стоит проверить</h2></div>
+  <p class="sec-sub">Первый навык. Их не надо каждый раз выдумывать с нуля — удобно пройтись по списку.</p>
+
+  <p>Счастливый путь — это случай, когда у человека всё есть и всё работает: он авторизован, товар в наличии, карта принята, интернет ловит. В жизни так бывает не всегда, и каждый раз, когда не так, сценарий уходит в сторону. Эти «в сторону» и есть ветки. Их удобно искать списком из пяти пунктов, приложенным к каждому шагу схемы.</p>
+
+  <div class="rule"><b>Приём.</b> Возьмите схему и пройдите по каждому блоку пять раз подряд, спрашивая: что здесь будет, если <b>ошибка</b>? если человек <b>отменит</b>? если <b>пусто</b>? если <b>нет прав</b>? если <b>пропала связь</b>? Пять вопросов на блок, четыре блока — двадцать вопросов, час работы. Часть ответов, скорее всего, окажется «а мы об этом не думали».</div>
+
+  <p>Раскройте карточки: у каждой ветки свой повод, свой вид и своя типичная ошибка проектирования.</p>
+
+  <div class="box">
+    <div class="box-head">Каталог веток · нажмите на карточку</div>
+    <div class="box-body">
+      <div class="accs" id="accBranch">
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">01</span><span class="ttl">Ошибка</span><span class="tag">Система не смогла</span></button>
+          <p class="hintline">Человек сделал всё правильно, но не получилось: карта отклонена, сервер не ответил, адрес не найден.</p>
+          <div class="body">
+            <div class="row"><span class="k">Когда возникает</span><span class="v">Действие не выполнилось по причине, которую человек не контролирует: банк отклонил платёж, сервис адресов лежит, товар кончился между корзиной и оплатой.</span></div>
+            <div class="row"><span class="k">Что должно быть</span><span class="v"><b>Что случилось</b> человеческими словами, <b>можно ли это исправить</b> и <b>что делать дальше</b>. «Банк отклонил платёж. Попробуйте другую карту или оплатите при получении» — три вещи в одной фразе.</span></div>
+            <div class="row"><span class="k">Куда попадает</span><span class="v">Как правило, остаётся там же, с сохранённым вводом. Уводить человека с экрана после ошибки — почти всегда лишнее.</span></div>
+            <div class="row"><span class="k">Типичная ошибка</span><span class="v">«Что-то пошло не так» и кнопка «ОК». Не сказано ни что случилось, ни что делать; кнопка закрывает окно и оставляет человека на том же месте с тем же вопросом.</span></div>
+            <div class="row"><span class="k">В нашем сценарии</span><span class="v">Карта отклонена на шаге оплаты; сервис адресов не ответил при сохранении адреса; товар закончился, пока человек выбирал день доставки.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">02</span><span class="ttl">Отмена</span><span class="tag">Человек передумал</span></button>
+          <p class="hintline">Нажал «Назад», закрыл окно, отказался от действия, ушёл из сценария по своей воле.</p>
+          <div class="body">
+            <div class="row"><span class="k">Когда возникает</span><span class="v">На любом шаге. Отмена — не сбой, а нормальное поведение: человек сравнивает цены, вспомнил, что забыл товар, решил оформить с телефона.</span></div>
+            <div class="row"><span class="k">Что должно быть</span><span class="v">Ответ на три вопроса: <b>куда он попадает</b>, <b>что сохраняется</b> и <b>как вернуться</b>. Сохранённая корзина после ухода с оплаты стоит дешевле, чем потерянный заказ.</span></div>
+            <div class="row"><span class="k">Куда попадает</span><span class="v">На шаг назад, если отменил действие внутри шага; в начало сценария или туда, откуда пришёл, если отменил сценарий целиком.</span></div>
+            <div class="row"><span class="k">Типичная ошибка</span><span class="v">Отмена внутри шага выбрасывает в начало и стирает введённое. Человек вводил адрес десять минут, нажал «Назад», чтобы поправить товар, — и потерял всё.</span></div>
+            <div class="row"><span class="k">В нашем сценарии</span><span class="v">«Назад» с оплаты на доставку; закрытие вкладки; отказ в диалоге подтверждения; уход в каталог, чтобы добавить ещё один товар.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">03</span><span class="ttl">Пусто</span><span class="tag">Данных ещё нет</span></button>
+          <p class="hintline">Нет заказов, нет адресов, ничего не найдено, список фильтров дал ноль результатов.</p>
+          <div class="body">
+            <div class="row"><span class="k">Когда возникает</span><span class="v">Три разных случая, и их лучше не путать: <b>ещё ничего не создано</b> (новый человек), <b>всё удалено</b> (был список, стал пустым) и <b>ничего не найдено</b> (данные есть, но не подходят под запрос).</span></div>
+            <div class="row"><span class="k">Что должно быть</span><span class="v">Объяснение, <b>что тут бывает</b>, и <b>одно понятное действие</b>. «Заказов пока нет» плюс кнопка «Перейти в каталог». Для поиска — «Ничего не нашлось» плюс совет, что поменять в запросе.</span></div>
+            <div class="row"><span class="k">Куда попадает</span><span class="v">Остаётся на месте — но с выходом. Пустой экран без действия работает как тупик.</span></div>
+            <div class="row"><span class="k">Типичная ошибка</span><span class="v">Пустое состояние вообще не нарисовано, поэтому в продукте на этом месте оказывается голый экран с заголовком. Ещё один частый вариант: нарисовано, но без кнопки.</span></div>
+            <div class="row"><span class="k">В нашем сценарии</span><span class="v">Корзина пустая; у человека нет ни одного сохранённого адреса; в выбранную дату нет свободных слотов доставки.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">04</span><span class="ttl">Нет прав</span><span class="tag">Не пускает</span></button>
+          <p class="hintline">Не авторизован, чужой заказ, роль без доступа, гостю недоступна часть возможностей.</p>
+          <div class="body">
+            <div class="row"><span class="k">Когда возникает</span><span class="v">Человек хочет то, на что у него нет права: открыть заказ с другого аккаунта, оплатить бонусами без входа, увидеть раздел, доступный только сотрудникам.</span></div>
+            <div class="row"><span class="k">Что должно быть</span><span class="v"><b>Почему не пускает</b> и <b>что сделать, чтобы пустило</b> — если это вообще возможно. И главное: <b>вернуть человека туда же</b>, откуда его развернули, а не на главную.</span></div>
+            <div class="row"><span class="k">Куда попадает</span><span class="v">В сценарий входа или регистрации — пилюлей, как на прошлом уровне, — и обратно на тот же самый экран с сохранённым состоянием.</span></div>
+            <div class="row"><span class="k">Типичная ошибка</span><span class="v">После входа человек оказывается на главной. Формально всё честно: он вошёл. Фактически он потерял место, и половина людей на этом уходит.</span></div>
+            <div class="row"><span class="k">В нашем сценарии</span><span class="v">Гость дошёл до оплаты, а списание бонусов требует аккаунта; человек открыл ссылку на заказ, оформленный не им.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">05</span><span class="ttl">Потеря связи</span><span class="tag">Непонятно, дошло ли</span></button>
+          <p class="hintline">Интернет пропал, запрос завис, ответа нет, приложение свернули на полчаса.</p>
+          <div class="body">
+            <div class="row"><span class="k">Когда возникает</span><span class="v">Метро, лифт, плохой вайфай, перегруженный сервер. Особенность ветки в том, что <b>непонятно, выполнилось действие или нет</b> — и это хуже явной ошибки.</span></div>
+            <div class="row"><span class="k">Что должно быть</span><span class="v">Ответ на вопрос <b>что с уже введёнными данными</b>, возможность <b>повторить</b> и защита от двойного действия: человек нажмёт «Оплатить» ещё раз, и второй заказ создаваться не должен.</span></div>
+            <div class="row"><span class="k">Куда попадает</span><span class="v">Остаётся на месте с сохранённым вводом. Когда связь вернётся — показать актуальное состояние, а не то, что было до обрыва.</span></div>
+            <div class="row"><span class="k">Типичная ошибка</span><span class="v">Бесконечный крутящийся индикатор. Человек не знает, ждать ему или перезагружать, и в итоге делает и то и другое — иногда получая два одинаковых заказа.</span></div>
+            <div class="row"><span class="k">В нашем сценарии</span><span class="v">Связь пропала между «Оплатить» и ответом банка; человек вернулся к оформлению через час, когда цены и наличие уже изменились.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">+1</span><span class="ttl">Долгое ожидание</span><span class="tag ok">Шестая, про которую спорят</span></button>
+          <p class="hintline">Формально это не ветка: сценарий идёт по основному пути, просто медленно. Но для человека оно ведёт себя как ветка.</p>
+          <div class="body">
+            <div class="row"><span class="k">Почему отдельно</span><span class="v">Ожидание дольше нескольких секунд перестаёт быть состоянием загрузки и становится отдельным куском сценария: человек уходит из вкладки, закрывает приложение, нажимает кнопку второй раз.</span></div>
+            <div class="row"><span class="k">Что должно быть</span><span class="v">Сообщение, <b>сколько примерно ждать</b>, возможность уйти и вернуться, и ответ на вопрос, что будет, если он не вернётся.</span></div>
+            <div class="row"><span class="k">В нашем сценарии</span><span class="v">Оплата через приложение банка: человек уходит туда на минуту-две, и всё это время наш заказ висит в промежуточном состоянии.</span></div>
+            <div class="row"><span class="k">Что делать на этом уровне</span><span class="v">Добавляйте шестым пунктом к списку вопросов, если в сценарии есть что-то, что длится дольше пары секунд. Если такого нет — не усложняйте.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="box-foot">Список не священный: в вашем продукте может быть своя постоянная ветка — например, «не хватает денег на счёте» или «документ на проверке». Добавьте её к пяти и проходите по шести.</div>
+  </div>
+
+  <div class="warnbox"><b>Ветка — это не то же самое, что состояние.</b> Разница из прошлого уровня работает и здесь: «карта отклонена» — состояние экрана оплаты, а ветка — это то, <b>куда сценарий идёт дальше</b> из этого состояния. Состояние рисуется чипом внутри блока, ветка — стрелкой с подписанным условием и своим продолжением. Если в схеме появился чип, но не появилась стрелка дальше, ветка ещё не достроена.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · какая это ветка<span class="spacer"></span><span class="sc">0 / 9</span></div>
+    <div class="box-body">
+      <div class="drill" id="d1">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Девять ситуаций из сценария оформления заказа. Определите, к какой из пяти веток относится каждая: от этого зависит, что именно надо дорисовать.</div>
+  </div>
+</section>
+
+<section id="deadend">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Куда человек попадает после ветки</h2></div>
+  <p class="sec-sub">Второй навык. Нарисовать ветку — половина работы; вторая половина — показать выход из неё.</p>
+
+  <p>Тупик — это место, где человек оказался и откуда единственный выход находится вне продукта: закрыть вкладку, написать в поддержку, забыть. Тупики почти никогда не делают нарочно. Они получаются сами, потому что ветку рисуют до момента «мы сообщили о проблеме» — и на этом считают задачу выполненной. Сообщить о проблеме и решить её — разные вещи.</p>
+
+  <div class="rule"><b>Правило трёх ответов.</b> Ветка достроена, когда на неё есть три ответа: <b>где человек оказался</b>, <b>что он может сделать дальше</b> — хотя бы одно действие — и <b>что осталось в системе</b>. Нет ответа хотя бы на один — ветка ещё не достроена, даже если экран нарисован красиво.</div>
+
+  <h3>Пять способов вывести человека из ветки</h3>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Способ</th><th>Когда подходит</th><th>Пример из нашего сценария</th></tr></thead>
+      <tbody>
+        <tr><td><b>Остаться на месте и дать повторить</b></td><td>Ошибка, которую можно исправить здесь же</td><td>Карта отклонена — форма на месте, данные сохранены, рядом «Другой способ оплаты»</td></tr>
+        <tr><td><b>Вернуть на шаг назад</b></td><td>Отмена действия внутри шага</td><td>Передумал менять адрес — возвращается к списку адресов, ничего не потеряв</td></tr>
+        <tr><td><b>Вернуть туда, откуда пришёл</b></td><td>Отмена сценария целиком; возврат после входа</td><td>Ушёл с оформления — попадает в корзину, состав сохранён</td></tr>
+        <tr><td><b>Перевести в другой сценарий и вернуть обратно</b></td><td>Нет прав, нужна регистрация, оплата во внешнем приложении</td><td>Гость идёт во вход — и после входа возвращается ровно на шаг оплаты</td></tr>
+        <tr><td><b>Честно закончить и предложить обходной путь</b></td><td>Когда в этом сценарии сделать уже ничего нельзя</td><td>Доставки по этому адресу нет — предлагаем пункт выдачи или другой адрес</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Пятый способ может выглядеть как поражение, но именно он отличает достроенный сценарий от недостроенного. «Здесь у нас не получится, зато вот так — получится» — это выход. «Доставка по этому адресу недоступна» без продолжения — тупик, даже если фраза вежливая.</p>
+
+  <h3>Шесть тупиков, которые встречаются чаще остальных</h3>
+  <ul class="err-list">
+    <li><b>Экран ошибки без действия.</b> «Что-то пошло не так» и кнопка «ОК», которая закрывает окно и возвращает на тот же самый сломанный экран.</li>
+    <li><b>Пустое состояние без кнопки.</b> «У вас нет заказов» — и всё. Человеку сообщили факт, но не дали способа это изменить.</li>
+    <li><b>Вечный индикатор загрузки.</b> Через сколько секунд он превратится в ошибку — не решено, поэтому не превращается никогда.</li>
+    <li><b>Вход, после которого человек на главной.</b> Формально ветка соединена, фактически он потерял место и товар в корзине.</li>
+    <li><b>«Назад» в пустоту.</b> Человек пришёл по прямой ссылке из письма, нажимает «Назад» — и попадает в никуда, потому что предыдущего экрана в его истории нет.</li>
+    <li><b>Отправка в поддержку как единственный выход.</b> Иногда это честно, но чаще это способ не проектировать ветку: «напишите нам» вместо решения.</li>
+  </ul>
+
+  <div class="warnbox"><b>Отдельно про «Назад».</b> На схеме стрелка «назад» выглядит невинно, а в продукте это три разных перехода: назад в истории браузера, назад по иерархии разделов и отмена действия. Подписывайте, какой именно: <code>назад к списку адресов</code> вместо просто «назад». Много тупиков в ветках начинается с неподписанных стрелок возврата, которые в разработке поняли не так.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · тупик или выход есть<span class="spacer"></span><span class="sc">0 / 8</span></div>
+    <div class="box-body">
+      <div class="drill" id="d2">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Проверяйте по правилу трёх ответов: где оказался, что может сделать, что осталось в системе. Достаточно, чтобы не было ответа на один из трёх.</div>
+  </div>
+
+  <h3>Как это выглядит на схеме</h3>
+  <p>Чтобы схема не превратилась в паутину, ветки рисуют не как отдельные ответвления в сторону, а <strong>короткими петлями рядом с шагом</strong>: стрелка вниз с подписанным условием, блок ветки и стрелка возврата туда, куда человек попадает. Если возврат ведёт на тот же шаг, достаточно подписать петлю — рисовать длинную стрелку через всю схему не нужно.</p>
+  <p>Ветки, которые ведут в другие сценарии, остаются пилюлями: «→ схема "Вход и регистрация", возврат на шаг 3». Внутренности чужого сценария по-прежнему не рисуются — но точка возврата должна быть названа, иначе появится тот самый вход, после которого человек оказывается на главной.</p>
+</section>
+
+<section id="cardsort">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Карточная сортировка</h2></div>
+  <p class="sec-sub">Третий навык. Способ узнать, куда люди кладут вещи, до того как вы закрепили структуру.</p>
+
+  <p>Суть простая. Вы выписываете на карточки то, что человек может у вас искать: «отменить заказ», «узнать, где посылка», «скачать чек». Даёте стопку человеку и просите разложить по группам. Дальше только смотрите и записываете. Через пять человек становится видно, какие вещи для людей лежат вместе, а какие вы держите рядом только потому, что так устроена ваша база данных.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Открытая сортировка</th><th>Закрытая сортировка</th></tr></thead>
+      <tbody>
+        <tr><td><b>Что делает человек</b></td><td>Сам придумывает группы и сам их называет</td><td>Раскладывает по вашим готовым группам</td></tr>
+        <tr><td><b>Что проверяет</b></td><td>Какая структура вообще напрашивается</td><td>Работают ли ваши названия разделов</td></tr>
+        <tr><td><b>Когда брать</b></td><td>Разделов ещё нет или их надо придумать заново</td><td>Разделы есть и надо проверить, попадают ли в них вещи</td></tr>
+        <tr><td><b>Что получите</b></td><td>Группы и слова людей — часто прямо готовые названия</td><td>Список карточек, которые попадают не туда, куда вы клали</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="dim">В задании нужна закрытая: разделы у вас уже есть, вопрос в том, читаются ли они. Открытую полезно провести дополнительно с двумя-тремя людьми — из их формулировок часто выходит название, до которого команда сама не додумалась.</p>
+
+  <h3>Как подготовить карточки</h3>
+  <ul>
+    <li><strong>10–20 штук.</strong> Тридцать человек устают раскладывать, и последние десять он кидает наугад.</li>
+    <li><strong>Пишите задачу человека, а не название раздела.</strong> «Отменить заказ», а не «Управление заказами». Названия разделов — это то, что вы проверяете, их на карточках быть не должно.</li>
+    <li><strong>Не используйте слова из названий групп.</strong> Если раздел называется «Мои заказы», а карточка — «посмотреть мои заказы», вы проверили не структуру, а умение находить одинаковые слова.</li>
+    <li><strong>Берите настоящие вещи.</strong> Самые частые обращения в поддержку, самые частые запросы в поиске по сайту, то, что люди спрашивают в отзывах. Не придумывайте из головы — придумаете под свою структуру.</li>
+    <li><strong>Добавьте пару спорных.</strong> Те, про которые в команде спорили, куда их положить: вот на них и будет видно, кто был прав.</li>
+  </ul>
+
+  <h3>Как провести на пяти людях</h3>
+  <ol>
+    <li><strong>По одному человеку, 15–20 минут.</strong> Группой нельзя: люди смотрят друг на друга и повторяют.</li>
+    <li><strong>Объясните задачу и замолчите.</strong> «Вот список того, что люди делают в интернет-магазине. Разложите по разделам так, как вам кажется правильным. Правильных ответов нет, я проверяю разделы, а не вас».</li>
+    <li><strong>Просите думать вслух</strong> и не подсказывайте. «Куда бы вы посмотрели?» — можно. «А может, сюда?» — нельзя.</li>
+    <li><strong>Разрешите отложить карточку в «не знаю»</strong> — это ценнее случайного выбора.</li>
+    <li><strong>Спрашивайте «почему сюда»</strong> после каждой спорной карточки, а не в конце: в конце он уже не вспомнит.</li>
+    <li><strong>Записывайте не только итог, но и метания:</strong> карточка, которую переложили трижды, — сигнал не слабее неправильной.</li>
+  </ol>
+
+  <p class="dim">Чем: стикеры на столе, доска в FigJam или Miro, специальные сервисы вроде Optimal Workshop. Для пяти человек хватит стикеров — они же и самые честные: человек берёт карточку в руки и видно, как он сомневается.</p>
+
+  <div class="box">
+    <div class="box-head">Симулятор · закрытая сортировка, 10 карточек<span class="spacer"></span><span class="hunt-count" id="csCount">Разложено 0 из 10</span></div>
+    <div class="box-body">
+      <p style="margin-top:0">Нажмите карточку, потом раздел, куда бы вы её положили. Разложите все десять — и сравните с тем, как разложили пять человек, не знающих продукт. Карточку из раздела можно вернуть обратно нажатием.</p>
+      <div class="cs-pool" id="csPool"></div>
+      <div class="cs-groups" id="csGroups"></div>
+      <div class="tt-bar">
+        <button class="btn" id="csShow" type="button" disabled>Показать, как разложили пятеро</button>
+        <button class="btn btn-ghost" id="csReset" type="button">Заново</button>
+      </div>
+      <div class="cs-res" id="csRes"></div>
+    </div>
+    <div class="box-foot">Данные пяти человек здесь выдуманы, но распределение типичное: сильное согласие по половине карточек и разброс по двум-трём — именно они и есть результат проверки.</div>
+  </div>
+
+  <h3>Что из этого читается</h3>
+  <p>На пяти людях статистики нет, и считать проценты бессмысленно. Зато отлично видны три вещи:</p>
+  <ul>
+    <li><strong>Согласие.</strong> Пять из пяти положили «узнать, где посылка» в «Мои заказы» — вопрос закрыт, тут всё в порядке.</li>
+    <li><strong>Устойчивое несогласие.</strong> Трое из пяти положили «отменить заказ» в «Помощь». Это не случайность: для людей отмена — это «что-то пошло не так», а не работа со списком покупок. Наш раздел «Мои заказы» читается как архив.</li>
+    <li><strong>Разброс.</strong> «Скачать чек» разошёлся по трём разделам. Обычно это значит, что вещь нужна в двух местах сразу — и правильный ответ не «выбрать одно», а сделать два входа в одно и то же.</li>
+  </ul>
+
+  <div class="warnbox"><b>Одна карточка в уроке склеена нарочно — «изменить адрес доставки».</b> Люди делят её пополам: адрес в профиле и адрес конкретного заказа — для них разные дела. Это ошибка формулировки карточки, а не структуры: её надо расщепить на две и проверить заново. Полезно знать заранее, потому что в своей первой сортировке вы почти наверняка склеите что-нибудь похожее.</div>
+</section>
+
+<section id="tree">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Проверка дерева</h2></div>
+  <p class="sec-sub">Тот же третий навык, вторая половина. Сортировка спрашивает «где это должно лежать», проверка дерева — «найдёте ли вы это там, где оно лежит».</p>
+
+  <p>Структура у вас уже есть — разделы и подразделы. Вы выписываете её голым списком, без картинок, кнопок и поиска, и даёте человеку задачу: найди вот это. Он кликает по названиям, вы смотрите, куда он пошёл. Всё.</p>
+
+  <p>Голый список — не упрощение, а суть метода. <strong>Если человек не находит вещь в дереве из одних названий, в интерфейсе он найдёт её только случайно</strong> — по яркой кнопке, по поиску, по подсказке. Иногда этого достаточно, но чаще это значит, что структура держится на костылях, и первый же редизайн их сломает.</p>
+
+  <h3>Как сформулировать задачу</h3>
+  <p>Задача — это ситуация человека, а не название того, что надо найти. Главное правило: <strong>в формулировке не должно быть слов из дерева</strong>, иначе вы проверяете умение сопоставлять одинаковые слова.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Так не надо</th><th>Почему</th><th>Как лучше</th></tr></thead>
+      <tbody>
+        <tr><td>Найдите раздел «Мои заказы»</td><td>Ответ в вопросе</td><td><b>Вчера вы оформили заказ и передумали. Где будете искать, как его отменить?</b></td></tr>
+        <tr><td>Где посмотреть историю заказов?</td><td>Слово «история» есть в дереве — это подсказка</td><td><b>Вы хотите повторить покупку, которую делали год назад. Куда пойдёте?</b></td></tr>
+        <tr><td>Как изменить настройки уведомлений?</td><td>Тоже слова из дерева, к тому же так люди не думают</td><td><b>Вам приходит слишком много писем от магазина. Где это выключить?</b></td></tr>
+        <tr><td>Найдите условия доставки</td><td>Прямая подсказка</td><td><b>Вы хотите понять, привезут ли заказ в субботу. Куда посмотрите?</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="dim">Три-пять задач на человека, минут пятнадцать. Больше — устаёт и начинает угадывать вместо того, чтобы искать.</p>
+
+  <div class="box">
+    <div class="box-head">Симулятор · проверка дерева, одна задача<span class="spacer"></span><span class="hunt-count" id="ttCount">Кликов: 0</span></div>
+    <div class="box-body">
+      <p class="tt-task">Вчера вы оформили заказ в интернет-магазине и передумали. Где будете искать, как его отменить?</p>
+      <div class="tt-crumb" id="ttCrumb">Вы в корне: выберите раздел</div>
+      <div class="tt-list" id="ttList"></div>
+      <div class="tt-bar">
+        <button class="btn btn-ghost" id="ttBack" type="button" disabled>На уровень выше</button>
+        <button class="btn btn-ghost" id="ttReset" type="button">Начать заново</button>
+      </div>
+      <div class="tt-res" id="ttRes"></div>
+    </div>
+    <div class="box-foot">Никакого интерфейса, только названия — именно так проверка дерева и выглядит для участника. Дойдите до конечного пункта, в котором стали бы искать, и увидите, что сделали пятеро.</div>
+  </div>
+
+  <h3>Три метрики, и одна из них главная</h3>
+  <ul>
+    <li><strong>Первый клик.</strong> Куда человек пошёл с самого верха. Самая ценная цифра: если первый клик верный, шанс дойти до цели резко выше, а если нет — человек обычно блуждает и сдаётся. Одна эта метрика отвечает на вопрос «читаются ли названия разделов».</li>
+    <li><strong>Успех.</strong> Дошёл ли вообще, пусть и с возвратами.</li>
+    <li><strong>Прямой путь.</strong> Дошёл ли без единого возврата. Разница между успехом и прямым путём показывает, где структура «в принципе работает, но приходится продираться».</li>
+  </ul>
+
+  <div class="rule"><b>Если успех высокий, а прямых путей мало — проблема не в том, что вещь лежит не там, а в том, что название не подсказывает.</b> Человек доходит, но только перебрав пару разделов. В интерфейсе это выглядит как «вроде всё находят» и не считается проблемой до тех пор, пока кто-нибудь не посмотрит на метания.</div>
+
+  <h3>Чем проводить</h3>
+  <p>Существуют сервисы для проверки дерева, где можно запустить задачу на сто человек. Для пяти это лишнее: достаточно выписать структуру списком в документе, показать человеку и попросить говорить, куда он нажимает. Пятнадцать минут, никаких инструментов, а находки те же самые. Единственное, за чем следить: не показывать дерево целиком раскрытым — человек должен открывать разделы по одному, иначе он просто прочитает все названия сразу и найдёт нужное глазами.</p>
+</section>
+
+<section id="read">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Как прочитать результат</h2></div>
+  <p class="sec-sub">Четвёртый навык. Самая частая ошибка здесь — считать проценты там, где их нет, и делать вид, что пять человек это статистика.</p>
+
+  <p>Пять человек не дают цифр, которым можно верить. Они дают другое: <strong>повторяющееся поведение</strong>. Один человек пошёл не туда — случайность. Трое из пяти пошли не туда одинаково — это уже не про людей, а про вашу структуру. Именно так результат и читается: не «40 % не справились», а «трое из пяти искали отмену в разделе помощи, потому что для них это проблема, а не работа со списком заказов».</p>
+
+  <p>Причин у «искали не там» всего три, и лечатся они по-разному. Раскройте карточки — в каждой наблюдение из настоящей проверки и то, что из него следует.</p>
+
+  <div class="box">
+    <div class="box-head">Разбор · что означает наблюдение</div>
+    <div class="box-body">
+      <div class="accs" id="accRead">
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">01</span><span class="ttl">Трое из пяти начали с «Помощи»</span><span class="tag no">Менять</span></button>
+          <p class="hintline">Первый клик мимо, и мимо одинаково. Самый сильный сигнал из всех.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что это значит</span><span class="v">Название раздела не читается как место, где с заказом можно что-то <b>сделать</b>. «Мои заказы» звучит как архив: посмотреть, что покупал. Отмена для человека — это про проблему, а проблемы лежат в «Помощи».</span></div>
+            <div class="row"><span class="k">Что делать</span><span class="v">Два рабочих решения. Первое: <b>переименовать</b> так, чтобы читалось действие, — «Заказы и возвраты». Второе: <b>сделать второй вход</b> — в «Помощи» пункт «Отмена и возврат», который ведёт в тот же самый заказ.</span></div>
+            <div class="row"><span class="k">Чего не делать</span><span class="v">Переносить отмену в «Помощь» целиком. Тогда сломается у тех двоих, кто искал правильно, а вещь окажется в разделе справочной информации, где её нельзя выполнить.</span></div>
+            <div class="row"><span class="k">Как проверить</span><span class="v">Перезапустить ту же задачу на трёх новых людях после изменения. Первый клик должен переехать.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">02</span><span class="ttl">Карточка попала в три разные группы</span><span class="tag no">Разбираться</span></button>
+          <p class="hintline">Разброс без большинства. Обычно значит не «люди разные», а что-то одно из двух.</p>
+          <div class="body">
+            <div class="row"><span class="k">Версия первая</span><span class="v"><b>Вещь нужна в двух местах.</b> «Скачать чек» ищут и в заказе, и в профиле — и обе версии разумны. Решение не «выбрать правильную», а сделать два входа в одно и то же место.</span></div>
+            <div class="row"><span class="k">Версия вторая</span><span class="v"><b>Карточка склеила два разных дела.</b> «Изменить адрес доставки» — это и адрес в профиле, и адрес конкретного заказа. Люди делят её не потому, что путаются, а потому что для них это две задачи.</span></div>
+            <div class="row"><span class="k">Что делать</span><span class="v">Расщепить карточку на две, сформулировать точнее и проверить ещё на трёх людях. Если разброс исчез — была вторая версия; если остался — первая, и нужны два входа.</span></div>
+            <div class="row"><span class="k">Чего не делать</span><span class="v">Считать среднее и класть туда, где «больше всего». При раскладе 2–2–1 большинства нет, а решение по нему будет случайным.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">03</span><span class="ttl">Дошёл, но после трёх возвратов</span><span class="tag">Уточнять</span></button>
+          <p class="hintline">Успех есть, прямого пути нет. Тихая проблема, которую обычно не замечают.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что это значит</span><span class="v">Вещь лежит там, где надо, но название не подсказывает — человек убеждается методом перебора. В продукте это выглядит благополучно: все находят.</span></div>
+            <div class="row"><span class="k">Что делать</span><span class="v">Уточнить название или добавить к разделу короткое пояснение. Часто достаточно одного слова: «Доставка» → «Доставка и оплата».</span></div>
+            <div class="row"><span class="k">Как заметить</span><span class="v">Сравнить два числа: сколько дошли и сколько дошли без возвратов. Расхождение между ними и есть размер проблемы.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">04</span><span class="ttl">Все пятеро сделали одинаково не так, как ожидала команда</span><span class="tag no">Сильный сигнал</span></button>
+          <p class="hintline">Редкий и сильный результат на пяти людях.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что это значит</span><span class="v">У людей есть общая модель, и она не совпадает с вашей. Спорить здесь трудно: это не разброс мнений, а устойчивое ожидание.</span></div>
+            <div class="row"><span class="k">Что делать</span><span class="v">Менять структуру под их ожидание, а не объяснять им свою. Проверка всё равно полезна после правки, но само наблюдение уже достаточно сильное.</span></div>
+            <div class="row"><span class="k">Приятный побочный эффект</span><span class="v">Такой результат проще защищать в команде: «пять из пяти» переводит разговор из вкуса в наблюдение.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">05</span><span class="ttl">Один из пяти пошёл не туда</span><span class="tag ok">Не трогать</span></button>
+          <p class="hintline">Остальные четверо сразу верно. Записать и оставить в покое.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что это значит</span><span class="v">Скорее всего, это пока не повод для изменения. У одного человека может быть свой опыт с другим продуктом, где это лежало иначе.</span></div>
+            <div class="row"><span class="k">Что делать</span><span class="v">Записать наблюдение и проверить при следующей проверке. Если повторится у второго человека — станет сигналом; если нет — так и останется единичным случаем.</span></div>
+            <div class="row"><span class="k">Чего не делать</span><span class="v">Менять структуру под одного. Так легко сломать то, что работало у четверых, и потерять доверие к проверкам: «мы всё переделали из-за одного человека».</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">06</span><span class="ttl">Все пятеро справились быстро и одинаково</span><span class="tag ok">Идти дальше</span></button>
+          <p class="hintline">Тоже результат, и хороший: этот кусок структуры проверен и закрыт.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что это значит</span><span class="v">Здесь всё в порядке — можно перестать обсуждать этот раздел на каждом созвоне и заняться другими задачами.</span></div>
+            <div class="row"><span class="k">Что делать</span><span class="v">Проверить другие задачи. И записать результат: «проверено на пяти, все нашли сразу» — это защитит раздел от переименования просто потому, что кому-то в команде разонравилось слово.</span></div>
+            <div class="row"><span class="k">Осторожно</span><span class="v">Если все задачи прошли идеально, проверьте, не сформулированы ли они словами из дерева. Перечитайте формулировки: стопроцентный успех на пяти людях чаще говорит о подсказке, чем о гениальной структуре.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="box-foot">Полезная привычка: записывать наблюдение и решение отдельно. Наблюдение — что человек сделал; решение — что вы с этим сделали. Через месяц вы вспомните только решение, а спорить будут про наблюдение.</div>
+  </div>
+
+  <div class="warnbox"><b>Отдельно про «он просто невнимательный».</b> Эта мысль легко приходит в голову на первой проверке, но обычно ведёт не туда. Человек не обязан быть внимательным: у него нет ни вашей карты в голове, ни желания разбираться. Всё, что он сделал, он сделал по названиям, которые увидел, — значит, названия работают ровно так, как вы наблюдали, а не так, как задумывалось.</div>
+</section>
+
+<section id="redo">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Переделать и объяснить</h2></div>
+  <p class="sec-sub">Пятый навык. Проверка без выводов и решений быстро превращается в мероприятие.</p>
+
+  <p>После проверки у вас список наблюдений. Превратить его в изменения — отдельная работа, и делается она по трём правилам: <strong>менять то, что повторилось</strong> у нескольких человек; <strong>менять по одному</strong>, а не всё сразу; <strong>записывать причину</strong> рядом с каждым изменением. Третье правило кажется бюрократией до того момента, когда через два месяца кто-нибудь спросит, почему раздел называется так странно.</p>
+
+  <h3>Три лекарства от «искали не там»</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Лекарство</th><th>Когда подходит</th><th>Пример</th></tr></thead>
+      <tbody>
+        <tr><td><b>Переименовать</b></td><td>Вещь лежит правильно, но название не говорит, что здесь можно сделать</td><td>«Мои заказы» → «Заказы и возвраты»</td></tr>
+        <tr><td><b>Перенести</b></td><td>Люди устойчиво ищут в другом разделе, и там это уместно</td><td>Условия доставки — из «Профиля» в «Помощь»</td></tr>
+        <tr><td><b>Сделать второй вход</b></td><td>Вещь нужна в двух местах, и обе версии разумны</td><td>«Скачать чек» — и в карточке заказа, и в разделе с документами</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Второй вход — не признак слабой структуры, а нормальное решение: один и тот же экран может быть доступен из двух мест. Плохо, когда второй вход ведёт <em>в другую копию</em> того же самого — вот это уже дубль, и он расходится через полгода.</p>
+
+  <h3>«До» и «после» с пометками</h3>
+  <p>Сдаётся не только новая схема, а <strong>обе рядом</strong>. Старая нужна не для отчётности: по ней видно, что именно изменилось, и из-за чего. Оформляется просто — две схемы и список изменений, в каждом три строки: <em>что было</em>, <em>что стало</em>, <em>из-за какого наблюдения</em>.</p>
+
+  <div class="box">
+    <div class="box-head">Запись решения · заготовка<span class="spacer"></span><button class="btn" data-copy="#redoTmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="redoTmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">ЧТО ПРОВЕРЯЛИ: названия разделов ______________________   Дата: __.__.____
+КАК: закрытая карточная сортировка, __ карточек, 5 человек по 20 минут
+     + проверка дерева, __ задачи
+
+ЧТО УВИДЕЛИ (наблюдения, без выводов)
+— 3 из 5 ____________________________________________
+— 2 из 5 ____________________________________________
+— разброс по карточке «____________» : ______________
+
+ЧТО ИЗМЕНИЛИ
+1. было: ______________  стало: ______________
+   причина: ______________________________________
+2. было: ______________  стало: ______________
+   причина: ______________________________________
+
+ЧТО НЕ СТАЛИ МЕНЯТЬ
+— ______________________  причина: только 1 из 5, ждём повторения
+— ______________________  причина: ______________________
+
+ПРОВЕРИЛИ ЗАНОВО: __ человека, задача «______________»
+результат: первый клик верный у __ из __</pre>
+    </div>
+    <div class="box-foot">Раздел «что не стали менять» важнее, чем кажется: без него любое ваше изменение выглядит как вкусовщина, а с ним видно, что вы выбирали.</div>
+  </div>
+
+  <h3>Проверить заново</h3>
+  <p>После изменений — ещё два-три человека и та же задача. Это пятнадцать минут и надёжный способ понять, что вы починили, а не переставили проблему в другое место. Частый результат: первый клик переехал туда, куда надо, и появилась новая мелкая проблема в соседнем разделе. Это нормально, так и должно быть.</p>
+
+  <h3>Как объяснить команде</h3>
+  <p>Изменение структуры часто кому-то не нравится: разделы придумывали живые люди, и у них есть к ним отношение. Разговор получается коротким, если говорить не мнениями, а тремя шагами.</p>
+  <ol>
+    <li><strong>Наблюдение.</strong> «Трое из пяти искали отмену заказа в "Помощи"».</li>
+    <li><strong>Объяснение.</strong> «Похоже, "Мои заказы" читается как архив: посмотреть, что покупал. А отмена для человека — это про проблему».</li>
+    <li><strong>Решение и его цена.</strong> «Предлагаю переименовать в "Заказы и возвраты" — это правка текста, полдня разработки. Если не сработает, вернём: проверим на трёх людях через неделю».</li>
+  </ol>
+
+  <div class="rule"><b>Если команда против, предложите проверить.</b> «Давайте я покажу оба названия трём людям, это займёт полчаса» часто закрывает спор быстрее аргументов и делает проверку нормальной частью работы. Если окажется, что ваш вариант хуже, вы узнаете это за полчаса, а не за квартал.</div>
+
+  <div class="warnbox"><b>Не переделывайте всё сразу после одной проверки.</b> Пять человек — это пять человек. Меняйте то, что повторилось, по одному изменению за раз, и смотрите, что получилось. Если переписать всю структуру разом, будет трудно понять, какое изменение помогло, а какое сломало соседний сценарий.</div>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Достроить к своей карте сценария все ветки и проверить названия разделов на пяти людях карточной сортировкой.</p>
+
+  <h3>Часть 1 · Достроить ветки</h3>
+  <ol>
+    <li><strong>Возьмите свою схему</strong> с прошлого уровня — ту, где нарисован основной путь.</li>
+    <li><strong>Пройдите по каждому блоку пять раз:</strong> ошибка, отмена, пусто, нет прав, потеря связи. Записывайте даже те ответы, которые кажутся очевидными, — «тут отмены не бывает» тоже ответ, и его полезно увидеть написанным.</li>
+    <li><strong>Каждую найденную ветку нарисуйте петлёй</strong> рядом с шагом: стрелка с подписанным условием, блок, стрелка возврата.</li>
+    <li><strong>По правилу трёх ответов</strong> проверьте каждую: где оказался, что может сделать, что осталось в системе.</li>
+  </ol>
+
+  <h3>Часть 2 · Тупик-проверка</h3>
+  <p>Пройдите по всем концам веток подряд и в каждом ответьте вслух: «отсюда человек может…». Место, где фраза не заканчивается, — тупик. Отметьте их на схеме и почините: пять способов вывода из раздела 3 закрывают большинство случаев.</p>
+
+  <h3>Часть 3 · Подготовить сортировку</h3>
+  <ol>
+    <li><strong>Выпишите 10–15 карточек</strong> — то, что люди действительно у вас делают. Источники: обращения в поддержку, запросы в поиске по сайту, вопросы в отзывах.</li>
+    <li><strong>Проверьте формулировки:</strong> задача человека, без слов из названий ваших разделов, одна карточка — одно дело.</li>
+    <li><strong>Выпишите свои разделы</strong> как группы — закрытая сортировка.</li>
+    <li><strong>Найдите пятерых,</strong> кто не знает ваш продукт. Друзья, соседи по коворкингу, коллеги из другого отдела подойдут лучше, чем ваша команда.</li>
+  </ol>
+
+  <div class="box">
+    <div class="box-head">Что говорить участнику · скрипт и бланк<span class="spacer"></span><button class="btn" data-copy="#csTmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="csTmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">ВСТУПЛЕНИЕ (одна минута, дословно)
+«Спасибо, что согласились. Сейчас я дам вам список того, что люди
+делают в [продукт]. Нужно разложить это по разделам — так, как кажется
+правильным вам. Правильных ответов нет: я проверяю разделы, а не вас.
+Если про какую-то карточку непонятно — откладывайте в сторону, это
+нормально. И, если получится, говорите вслух, о чём думаете.»
+
+ВО ВРЕМЯ (что делаю я)
+— молчу, пока он раскладывает
+— после спорной карточки спрашиваю: «а почему сюда?»
+— не подсказываю и не соглашаюсь вслух («да, точно» — уже подсказка)
+— записываю метания: какую карточку перекладывал и сколько раз
+
+БЛАНК ЗАПИСИ                              человек __ из 5, дата __.__
+карточка                     | куда положил   | сомневался | что сказал
+_____________________________|________________|____________|____________
+_____________________________|________________|____________|____________
+_____________________________|________________|____________|____________
+_____________________________|________________|____________|____________
+отложил в «не знаю»: ____________________________________________
+
+ПОСЛЕ (два вопроса на выход)
+— «Какая карточка была самой непонятной?»
+— «Чего, по-вашему, в этих разделах не хватает?»</pre>
+    </div>
+    <div class="box-foot">Около двадцати минут на человека, включая разговор. Пятерых можно уложить в один рабочий день, если договориться заранее.</div>
+  </div>
+
+  <h3>Часть 4 · Провести и свести</h3>
+  <ol>
+    <li><strong>По одному человеку,</strong> 15–20 минут каждый.</li>
+    <li><strong>Сведите в таблицу:</strong> строки — карточки, столбцы — пять человек, в ячейке раздел. Согласие и разброс станут видны сразу.</li>
+    <li><strong>Отметьте три вещи:</strong> карточки, где все сошлись; карточки, где сошлись, но не на вашем варианте; карточки с разбросом.</li>
+  </ol>
+
+  <h3>Часть 5 · Переделать и оформить</h3>
+  <ol>
+    <li><strong>Измените то, что повторилось</strong> у троих и больше. Лекарство выбирайте по разделу 7: переименовать, перенести или сделать второй вход.</li>
+    <li><strong>Заполните запись решения</strong> — заготовка в разделе 7, вместе с графой «что не стали менять».</li>
+    <li><strong>Сделайте «до» и «после»</strong>: две схемы рядом и список изменений с причинами.</li>
+    <li><strong>Проверьте заново</strong> на двух-трёх новых людях.</li>
+  </ol>
+
+  <div class="rule"><b>Как понять, что сделано.</b> В схеме нет ни одной ветки, которая обрывается, и есть хотя бы одно название раздела, изменённое по результату проверки. Второе — обязательное: если после пяти человек не изменилось ничего, проверьте: не были ли участники «своими», не подсказывали ли слова из дерева, не придумали ли задачи под готовую структуру.</div>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Схема «до»</strong> — основной путь с прошлого уровня.</li>
+    <li><strong>Схема «после»</strong> — с ветками, у каждой есть выход и ответ на три вопроса.</li>
+    <li><strong>Список изменений:</strong> что было, что стало, из-за какого наблюдения.</li>
+    <li><strong>Сводная таблица сортировки</strong> по пяти людям.</li>
+    <li><strong>Запись решения</strong> вместе с графой «что не стали менять».</li>
+  </ul>
+  <p class="dim">Ориентир по времени: 2–3 часа на ветки, час на подготовку карточек, день на пятерых участников, 2 часа на сведение и переделку.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Веток получилось больше, чем основного пути».</strong> Это нормально. Чтобы схема осталась читаемой, рисуйте ветки петлями у шага, а не длинными стрелками через всё полотно, и выносите повторяющиеся (например, «нет связи») в один общий блок со ссылкой.</li>
+    <li><strong>«Негде взять пятерых».</strong> Годятся любые люди, не знающие продукт: сортировка не всегда требует вашу аудиторию — она проверяет язык и логику разделов, а не готовность покупать.</li>
+    <li><strong>«Все разложили по-разному».</strong> Разброс по всем карточкам сразу — обычно признак того, что карточки написаны вашими словами, а не словами людей. Перепишите формулировки и проверьте на трёх новых.</li>
+    <li><strong>«Люди разложили правильно, а в продукте всё равно не находят».</strong> Сортировка проверяет, куда человек <em>положил бы</em>, а проверка дерева — найдёт ли он там. Это разные вопросы: добавьте вторую проверку из раздела 5.</li>
+    <li><strong>«Команда не даёт менять названия».</strong> Не спорьте — предложите проверить оба варианта на трёх людях. Полчаса работы — и решение перестаёт быть ничьим мнением.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Сценарий достроен, если</h3>
+  <ul class="ok-list">
+    <li>По каждому шагу пройден список из пяти веток</li>
+    <li>У каждой ветки подписано условие, при котором в неё попадают</li>
+    <li>У каждой ветки есть ответ на три вопроса: где оказался, что может сделать, что осталось в системе</li>
+    <li>Нет ни одного экрана ошибки без действия</li>
+    <li>Нет ни одного пустого состояния без кнопки</li>
+    <li>Все стрелки возврата подписаны: куда именно назад</li>
+    <li>Возврат после входа ведёт туда же, откуда человека развернули</li>
+    <li>Ветки в другие сценарии — пилюлями, с названной точкой возврата</li>
+  </ul>
+
+  <h3>Структура проверена, если</h3>
+  <ul class="ok-list">
+    <li>Проверяли люди, не знающие продукт, — не команда</li>
+    <li>Карточки написаны как задачи человека, без слов из названий разделов</li>
+    <li>Было несколько человек, по одному, каждый отдельно</li>
+    <li>Записано не только куда положил, но и что говорил и где сомневался</li>
+    <li>Результат прочитан как повторяющееся поведение, а не как проценты</li>
+    <li>Изменено хотя бы одно название — и записано, из-за какого наблюдения</li>
+    <li>Записано и то, что не стали менять, с причиной</li>
+    <li>После изменений проверили заново на двух-трёх людях</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Ветка дорисована до экрана и брошена.</b> Блок «Ошибка» есть, стрелки из него нет — человек заперт.</li>
+    <li><b>Ошибка без следующего шага.</b> «Что-то пошло не так» и кнопка «ОК»: сообщили о проблеме и посчитали, что решили её.</li>
+    <li><b>Пустое состояние без действия.</b> Факт сообщили, способа изменить не дали.</li>
+    <li><b>Возврат после входа на главную.</b> Самая дорогая мелочь во всём уроке: человек теряет место и уходит.</li>
+    <li><b>Неподписанное «назад».</b> В продукте это превращается в три разных перехода, и выбирает их разработчик.</li>
+    <li><b>Проверка на коллегах.</b> Высокий успех и мало информации: они не ищут, а вспоминают.</li>
+    <li><b>Подсказки в формулировках.</b> Слова из дерева в тексте задачи превращают проверку структуры в проверку зрения.</li>
+    <li><b>Карточки придуманы из головы.</b> Получается проверка вашей же логики: вы придумали задачи под свою структуру.</li>
+    <li><b>Проценты на пяти людях.</b> «40 % не справились» звучит научно и означает «двое из пяти». Говорите людьми.</li>
+    <li><b>Изменение под одного человека.</b> Сломает то, что работало у четверых.</li>
+    <li><b>Всё переделано разом.</b> Непонятно, что помогло, а что сломало.</li>
+    <li><b>Проверили и ничего не изменили.</b> Формально проверка была, но в продукте она ничего не изменила.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы</h2></div>
+  <p class="sec-sub">Middle закрыт, когда выполнены оба условия критерия: ни одной обрывающейся ветки и хотя бы одно изменение по результату проверки.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Разложить один сценарий на шаги и экраны; отличать экран от состояния; называть шаги глаголами человека; показывать входы и выходы; держать одну схему на один сценарий</td>
+          <td class="dim">Коллега, не знающий продукта, пересказывает сценарий по схеме и не спрашивает «а что здесь происходит»</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Достраивать пять веток к каждому шагу; выводить человека из любой ветки; проверять структуру карточной сортировкой и проверкой дерева на людях; читать результат как повторяющееся поведение; переделывать структуру и объяснять команде, что изменилось и почему</td>
+          <td>В схеме нет обрывающихся веток, и хотя бы одно название раздела изменено по результату проверки</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Senior</b></td>
+          <td class="dim">Отвечать за структуру и навигацию продукта в целом; решать, где новому сценарию место, и не плодить параллельные пути к одному результату; читать сложность схемы как сигнал о проблеме в продукте или процессе; задавать команде общий язык описания сценариев и делать проверки регулярной практикой, а не разовой акцией</td>
+          <td class="dim">Споры о структуре закрываются по схеме и по данным проверок, а новый сценарий встраивается без переделки навигации</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Тему можно считать закрытой,</b> когда у вас есть схема со всеми ветками, из каждой из которых человек может выйти, и запись проверки на нескольких людях, по итогам которой в продукте что-то изменилось — с причиной, записанной рядом.</div>
+</section>
+
+<footer>
+  Урок по теме «Структура и потоки», уровень Middle. Сквозной пример — сценарий оформления заказа и разделы интернет-магазина. Заготовки из разделов 7 и 8 копируются кнопками. Что почитать дальше: Донна Спенсер, «Card Sorting: Designing Usable Categories» — про подготовку карточек и чтение результатов; материалы Nielsen Norman Group про tree testing и про empty states; Стив Круг, «Не заставляйте меня думать» — про то, почему названия разделов читаются не так, как задумано.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next');
+    var sc = el.closest('.box').querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'err', label: 'Ошибка' }, { key: 'cancel', label: 'Отмена' }, { key: 'empty', label: 'Пусто' },
+     { key: 'perm', label: 'Нет прав' }, { key: 'net', label: 'Потеря связи' }],
+    [
+      { t: 'Человек открыл «Мои заказы», а он у вас ещё ничего не покупал.', a: 'empty',
+        fb: 'Пусто, причём самый первый его подвид: ещё ничего не создано. Здесь нужен не просто текст «заказов нет», а объяснение, что тут бывает, и кнопка в каталог — иначе человек упирается в пустой экран на первом же визите.' },
+      { t: 'Банк отклонил карту на шаге оплаты.', a: 'err',
+        fb: 'Ошибка: человек всё сделал правильно, не сработало по причине вне его контроля. Ветка достраивается тремя вещами: что случилось, можно ли исправить, что делать дальше.' },
+      { t: 'На шаге оплаты человек нажал «Назад» и ушёл в каталог дозаказать ещё один товар.', a: 'cancel',
+        fb: 'Отмена — и нормальное поведение, а не сбой. Вопрос ветки: сохранится ли введённый адрес и вернётся ли он в оформление там же, где ушёл.' },
+      { t: 'Человек открыл присланную ему ссылку на заказ, оформленный с другого аккаунта.', a: 'perm',
+        fb: 'Нет прав. Нужно сказать, почему не пускает, и — если это возможно — что сделать. И не отправлять на главную: у чужого заказа нет продолжения, но вернуть человека в его собственные заказы можно.' },
+      { t: 'В метро пропал интернет ровно между нажатием «Оплатить» и ответом банка.', a: 'net',
+        fb: 'Потеря связи, и худший её вид: непонятно, прошёл платёж или нет. Ветка обязана ответить, что с данными, дать повторить и не создать второй заказ при повторном нажатии.' },
+      { t: 'Человек ввёл в поиск запрос, по которому ничего не нашлось.', a: 'empty',
+        fb: 'Пусто, подвид «ничего не найдено». Отличается от первого тем, что данные в продукте есть, просто не подошли, — поэтому и выход другой: подсказать, что поменять в запросе, а не звать в каталог.' },
+      { t: 'Гость дошёл до оплаты, а списать бонусы можно только с аккаунта.', a: 'perm',
+        fb: 'Нет прав. Ветка ведёт в сценарий входа — пилюлей — и обязательно обратно на шаг оплаты с сохранённым заказом. Возврат на главную здесь стоит дороже всего: человек уже почти заплатил.' },
+      { t: 'Сервис адресов не ответил, и сохранить адрес не удалось.', a: 'err',
+        fb: 'Ошибка на стороне системы. Человек ни при чём, поэтому формулировка «проверьте правильность адреса» будет нечестной: надо честно сказать, что не сработало у нас, и дать повторить.' },
+      { t: 'Запрос ушёл, ответа нет тридцать секунд, человек нажимает «Оплатить» второй раз.', a: 'net',
+        fb: 'Потеря связи. Помимо сообщения нужна защита от двойного действия — иначе могут появиться два одинаковых заказа, и разбираться с ними будет поддержка.' }
+    ],
+    function (s, n) {
+      return s >= 8 ? 'Отлично. Список из пяти веток уже держится в голове — теперь его надо прикладывать к каждому блоку схемы, а не к схеме целиком.'
+        : s >= 5 ? 'Хорошо. Чаще всего путают «пусто» и «ошибку»: пусто — это когда всё работает, просто данных нет.'
+        : 'Вернитесь к каталогу в разделе 2. Ветки различаются не по тому, что видит человек, а по причине: не сработало, передумал, нечего показать, не пускает, не дошло.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'ok', label: 'Выход есть' }, { key: 'dead', label: 'Тупик' }],
+    [
+      { t: '<q>Банк отклонил платёж. Попробуйте другую карту или оплатите при получении</q> — форма на месте, данные сохранены.', a: 'ok',
+        fb: 'Все три ответа есть: человек остался на оплате, может выбрать другой способ, заказ ждёт оплаты. Хорошо достроенная ветка ошибки.' },
+      { t: '<q>Что-то пошло не так</q> и кнопка «ОК», которая закрывает окно.', a: 'dead',
+        fb: 'Тупик. Не сказано, что случилось, не сказано, что делать, а кнопка возвращает на тот же самый экран. Человек может только перезагрузить страницу и надеяться.' },
+      { t: '<q>Войдите, чтобы увидеть заказ</q>, кнопка «Войти», после входа открывается тот самый заказ.', a: 'ok',
+        fb: 'Выход есть, и главное — правильная точка возврата. Именно на ней ветка «нет прав» обычно и ломается.' },
+      { t: '<q>У вас нет заказов</q> — и больше на экране ничего.', a: 'dead',
+        fb: 'Тупик. Факт сообщили, способа его изменить не дали. Достаточно одной кнопки «Перейти в каталог», чтобы ветка стала достроенной.' },
+      { t: 'Крутящийся индикатор, который крутится, пока человек не уйдёт.', a: 'dead',
+        fb: 'Тупик, причём тот, который в схеме почти никогда не рисуют. Решается решением: через сколько секунд ожидание превращается в сообщение и что в нём написано.' },
+      { t: 'Человек отменил оформление — возвращается в корзину, состав сохранён.', a: 'ok',
+        fb: 'Где оказался — в корзине; что может сделать — оформить заново или уйти; что осталось — корзина. Три ответа есть.' },
+      { t: '<q>Доставка по этому адресу недоступна</q> — вежливо и без продолжения.', a: 'dead',
+        fb: 'Тупик, замаскированный под вежливость. В этом сценарии человеку сделать больше нечего, а значит, нужен обходной путь: пункт выдачи, другой адрес, уведомление о появлении доставки.' },
+      { t: 'Сессия истекла, человек входит заново и попадает на главную.', a: 'dead',
+        fb: 'Формально не тупик — продукт работает, идти есть куда. Фактически человек потерял место и половину введённого, и это ровно та ветка, на которой люди уходят молча. Считайте тупиком: правило трёх ответов проваливается на первом же вопросе «где он оказался».' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Тупики вы видите. Теперь приложите это к своей схеме — там их обычно три-четыре, и все выглядят законченными.'
+        : s >= 5 ? 'Неплохо. Держитесь правила трёх ответов: чаще всего проваливается второй — «что он может сделать дальше».'
+        : 'Перечитайте раздел 3. Сообщить о проблеме и решить её — разные вещи, и большинство тупиков живёт ровно в этом промежутке.';
+    }
+  );
+
+  /* ── accordions ── */
+  document.querySelectorAll('.accs').forEach(function (group) {
+    group.querySelectorAll('.acc[data-acc]').forEach(function (card) {
+      card.querySelector('button').addEventListener('click', function () {
+        var open = card.classList.contains('open');
+        group.querySelectorAll('.acc').forEach(function (c) { c.classList.remove('open'); });
+        if (!open) card.classList.add('open');
+      });
+    });
+  });
+
+  /* ── card sort ── */
+  var GROUPS = ['Мои заказы', 'Профиль', 'Помощь', 'Каталог'];
+  var CARDS = [
+    { t: 'Отменить заказ', ours: 'Мои заказы', p: { 'Помощь': 3, 'Мои заказы': 2 } },
+    { t: 'Узнать, где посылка', ours: 'Мои заказы', p: { 'Мои заказы': 5 } },
+    { t: 'Вернуть товар', ours: 'Мои заказы', p: { 'Помощь': 3, 'Мои заказы': 2 } },
+    { t: 'Изменить адрес доставки', ours: 'Профиль', p: { 'Профиль': 3, 'Мои заказы': 2 } },
+    { t: 'Поменять способ оплаты по умолчанию', ours: 'Профиль', p: { 'Профиль': 5 } },
+    { t: 'Посмотреть, что покупал год назад', ours: 'Мои заказы', p: { 'Мои заказы': 4, 'Профиль': 1 } },
+    { t: 'Пожаловаться на курьера', ours: 'Помощь', p: { 'Помощь': 4, 'Мои заказы': 1 } },
+    { t: 'Скачать чек', ours: 'Мои заказы', p: { 'Мои заказы': 3, 'Профиль': 1, 'Помощь': 1 } },
+    { t: 'Отписаться от писем', ours: 'Профиль', p: { 'Профиль': 4, 'Помощь': 1 } },
+    { t: 'Узнать условия доставки', ours: 'Помощь', p: { 'Помощь': 4, 'Каталог': 1 } }
+  ];
+  var placed = {}, sel = -1;
+  var csPool = document.getElementById('csPool'), csGroups = document.getElementById('csGroups');
+  var csShow = document.getElementById('csShow'), csRes = document.getElementById('csRes'), csCount = document.getElementById('csCount');
+
+  function csPaint() {
+    csPool.innerHTML = '';
+    CARDS.forEach(function (c, i) {
+      if (placed[i]) return;
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'cs-card' + (sel === i ? ' sel' : '');
+      b.textContent = c.t;
+      b.addEventListener('click', function () { sel = (sel === i ? -1 : i); csPaint(); });
+      csPool.appendChild(b);
+    });
+    if (!csPool.children.length) {
+      var d = document.createElement('span');
+      d.className = 'cs-empty'; d.textContent = 'Все карточки разложены.';
+      csPool.appendChild(d);
+    }
+    csGroups.innerHTML = '';
+    GROUPS.forEach(function (g) {
+      var box = document.createElement('div');
+      box.className = 'cs-group' + (sel >= 0 ? ' hot' : '');
+      var h = document.createElement('h5'); h.textContent = g; box.appendChild(h);
+      var any = false;
+      CARDS.forEach(function (c, i) {
+        if (placed[i] !== g) return;
+        any = true;
+        var pb = document.createElement('button');
+        pb.type = 'button'; pb.className = 'placed'; pb.textContent = c.t;
+        pb.title = 'Вернуть в стопку';
+        pb.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (sel >= 0) { placed[sel] = g; sel = -1; csPaint(); return; }
+          delete placed[i]; csPaint();
+        });
+        box.appendChild(pb);
+      });
+      if (!any) { var e = document.createElement('span'); e.className = 'cs-empty'; e.textContent = 'пусто'; box.appendChild(e); }
+      box.addEventListener('click', function () {
+        if (sel < 0) return;
+        placed[sel] = g; sel = -1; csPaint();
+      });
+      csGroups.appendChild(box);
+    });
+    var n = Object.keys(placed).length;
+    csCount.textContent = 'Разложено ' + n + ' из ' + CARDS.length;
+    csShow.disabled = n < CARDS.length;
+  }
+  function topOf(p) {
+    var best = null, bn = 0;
+    for (var k in p) if (p[k] > bn) { bn = p[k]; best = k; }
+    return { g: best, n: bn };
+  }
+  csShow.addEventListener('click', function () {
+    var rows = CARDS.map(function (c, i) {
+      var t = topOf(c.p), mine = placed[i] || '—';
+      var dist = '';
+      Object.keys(c.p).sort(function (a, b) { return c.p[b] - c.p[a]; }).forEach(function (k) {
+        dist += '<span class="mini' + (k === t.g ? ' top' : '') + '">' + k + ' · ' + c.p[k] + '</span>';
+      });
+      var spread = Object.keys(c.p).length, verdict, flag = '';
+      if (spread >= 3) { verdict = 'Разброс по трём разделам — кандидат на два входа'; flag = '<span class="flag">разброс</span>'; }
+      else if (t.g !== c.ours) { verdict = 'Люди кладут в «' + t.g + '»'; flag = '<span class="flag">менять</span>'; }
+      else if (t.n >= 4) { verdict = 'Согласие, совпало с вашим'; }
+      else { verdict = 'Делится 3 против 2 — проверить формулировку карточки'; flag = '<span class="flag">делится</span>'; }
+      var youNote = (mine !== '—' && mine !== t.g) ? '<br><span class="dim" style="font-size:13px">вы положили иначе, чем большинство</span>' : '';
+      return '<tr><td><b>' + c.t + '</b></td><td>' + mine + '</td><td>' + dist + '</td><td>' + verdict + ' ' + flag + youNote + '</td></tr>';
+    }).join('');
+    csRes.innerHTML = '<div class="tbl-scroll"><table><thead><tr><th>Карточка</th><th>Ваш вариант</th><th>Как разложили пятеро</th><th>Итог</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      '<div class="rule" style="margin-bottom:0"><b>Что видно сразу.</b> Две карточки из десяти люди устойчиво кладут не туда, где они лежат у нас: «отменить заказ» и «вернуть товар» уезжают в «Помощь» — обе про то, что что-то пошло не так. Одна («скачать чек») рассыпалась по трём разделам: это кандидат на два входа. И одна («изменить адрес доставки») разделилась пополам, потому что склеила два разных дела — адрес в профиле и адрес конкретного заказа.</div>';
+    csRes.classList.add('on');
+  });
+  document.getElementById('csReset').addEventListener('click', function () {
+    placed = {}; sel = -1; csRes.classList.remove('on'); csRes.innerHTML = ''; csPaint();
+  });
+  csPaint();
+
+  /* ── tree test ── */
+  var TREE = {
+    'Каталог': ['Категории', 'Акции', 'Новинки', 'Бренды'],
+    'Мои заказы': ['Активные заказы', 'История заказов', 'Возвраты'],
+    'Профиль': ['Личные данные', 'Адреса', 'Способы оплаты', 'Уведомления'],
+    'Помощь': ['Частые вопросы', 'Написать в поддержку', 'Условия доставки и оплаты'],
+    'Избранное': ['Списки', 'Отложенные']
+  };
+  var RIGHT = ['Мои заказы', 'Активные заказы'];
+  var PEOPLE = [
+    { n: 1, path: 'Помощь → Частые вопросы', ok: false, note: 'сдался, не найдя отмены' },
+    { n: 2, path: 'Помощь → Написать в поддержку', ok: false, note: 'уверен, что отменяют только через поддержку' },
+    { n: 3, path: 'Профиль → Личные данные → назад → Мои заказы → Активные заказы', ok: true, note: 'но с двумя возвратами' },
+    { n: 4, path: 'Мои заказы → Активные заказы', ok: true, note: 'сразу и уверенно' },
+    { n: 5, path: 'Помощь → Условия доставки и оплаты', ok: false, note: 'искал правила отмены, а не саму отмену' }
+  ];
+  var ttPath = [], ttClicks = 0, ttBacks = 0, ttFirst = null, ttDone = false;
+  var ttList = document.getElementById('ttList'), ttCrumb = document.getElementById('ttCrumb');
+  var ttBack = document.getElementById('ttBack'), ttRes = document.getElementById('ttRes'), ttCount = document.getElementById('ttCount');
+
+  function ttPaint() {
+    ttList.innerHTML = '';
+    var items = ttPath.length === 0 ? Object.keys(TREE) : TREE[ttPath[0]];
+    items.forEach(function (name) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      var leaf = ttPath.length > 0;
+      b.innerHTML = '<span>' + name + '</span><span class="ch">' + (leaf ? 'искать здесь' : (TREE[name].length + ' раздела')) + '</span>';
+      b.addEventListener('click', function () { ttClick(name, leaf); });
+      ttList.appendChild(b);
+    });
+    ttCrumb.textContent = ttPath.length ? 'Вы в разделе: ' + ttPath.join(' → ') : 'Вы в корне: выберите раздел';
+    ttBack.disabled = ttPath.length === 0 || ttDone;
+    ttCount.textContent = 'Кликов: ' + ttClicks;
+  }
+  function ttClick(name, leaf) {
+    if (ttDone) return;
+    ttClicks++;
+    if (!leaf) { if (ttFirst === null) ttFirst = name; ttPath.push(name); ttPaint(); return; }
+    ttPath.push(name);
+    ttDone = true;
+    var ok = ttPath[0] === RIGHT[0] && ttPath[1] === RIGHT[1];
+    var direct = ok && ttBacks === 0;
+    ttList.innerHTML = '';
+    ttCrumb.textContent = 'Ответ записан';
+    ttBack.disabled = true;
+    var rows = PEOPLE.map(function (p) {
+      return '<tr><td><b>Человек ' + p.n + '</b></td><td class="path">' + p.path + '</td><td>' + (p.ok ? 'дошёл' : 'не дошёл') + ' — ' + p.note + '</td></tr>';
+    }).join('');
+    ttRes.innerHTML =
+      '<b class="h">Ваш путь: <span class="path">' + ttPath.join(' → ') + '</span></b>' +
+      (ok ? (direct ? 'Верно и прямым путём — так сделал один человек из пяти.' : 'Верно, но с возвратами: так дошёл ещё один участник из пяти.')
+          : 'Отмена лежит в «Мои заказы» → «Активные заказы»: там у каждого заказа есть кнопка «Отменить». Вы искали не там — и вместе с вами трое из пяти.') +
+      '<div class="metrics">' +
+        '<div class="metric bad"><div class="big">2 из 5</div><div class="lab">дошли до цели</div></div>' +
+        '<div class="metric bad"><div class="big">1 из 5</div><div class="lab">без единого возврата</div></div>' +
+        '<div class="metric bad"><div class="big">1 из 5</div><div class="lab">верный первый клик</div></div>' +
+      '</div>' +
+      '<div class="tbl-scroll" style="margin-bottom:0"><table><thead><tr><th>Кто</th><th>Путь</th><th>Чем кончилось</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+      '<p style="margin-bottom:0"><b>Вывод.</b> Трое из пяти начали с «Помощи» — и это тот самый устойчивый первый клик мимо. Для человека отмена заказа не работа со списком покупок, а проблема, а проблемы лежат в помощи. Раздел «Мои заказы» читается как архив: посмотреть, что покупал. Дальше выбор из двух лекарств — переименовать в «Заказы и возвраты» или сделать второй вход из «Помощи» в тот же заказ.</p>';
+    ttRes.classList.add('on');
+    ttCount.textContent = 'Кликов: ' + ttClicks;
+  }
+  ttBack.addEventListener('click', function () {
+    if (!ttPath.length || ttDone) return;
+    ttPath.pop(); ttBacks++; ttPaint();
+  });
+  document.getElementById('ttReset').addEventListener('click', function () {
+    ttPath = []; ttClicks = 0; ttBacks = 0; ttFirst = null; ttDone = false;
+    ttRes.classList.remove('on'); ttRes.innerHTML = ''; ttPaint();
+  });
+  ttPaint();
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = (src.innerText || src.textContent).replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вайрфреймы и прототипы: подготовка к тестированию</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --svg-chip: #eef3fb; --svg-dim: #6d6b66;
+    --wf-fill: #e7e6e1; --wf-fill-2: #f2f1ed; --wf-strong: #3a3935; --wf-strong-ink: #ffffff; --wf-ink: #5f5e59; --wf-line: #dbdad4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --svg-chip: #1f2733; --svg-dim: #9e9c95;
+      --wf-fill: #312f2c; --wf-fill-2: #262522; --wf-strong: #d8d6d0; --wf-strong-ink: #131312; --wf-ink: #a7a5a0; --wf-line: #3b3a36;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --svg-chip: #1f2733; --svg-dim: #9e9c95;
+    --wf-fill: #312f2c; --wf-fill-2: #262522; --wf-strong: #d8d6d0; --wf-strong-ink: #131312; --wf-ink: #a7a5a0; --wf-line: #3b3a36;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-ghost { background: var(--raised); color: var(--ink-2); }
+  .btn[disabled] { opacity: .45; cursor: default; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 72px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .pr { display: block; background: var(--chip); border-radius: 8px; padding: 9px 12px; font-size: 14.5px; color: var(--accent-deep); margin-bottom: 10px; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 128px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* accordion */
+  .accs { display: flex; flex-direction: column; gap: 10px; }
+  .acc { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .acc > button { width: 100%; text-align: left; background: none; border: none; padding: 14px 17px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .acc > button:hover { background: var(--demo-bg); }
+  .acc .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .acc .ttl { flex: 1; font-size: 16.5px; font-weight: 600; letter-spacing: -.005em; }
+  .acc .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; background: var(--chip); color: var(--accent-deep); }
+  .acc .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .acc .tag.ok { background: var(--good-soft); color: var(--good); }
+  .acc .hintline { font-size: 13.5px; color: var(--muted); padding: 0 17px 13px; }
+  .acc.open .hintline { display: none; }
+  .acc .body { display: none; padding: 0 17px 15px; }
+  .acc.open .body { display: block; }
+  .acc .row { display: grid; grid-template-columns: 136px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .acc .row:first-child { border-top: none; padding-top: 2px; }
+  .acc .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .acc .row .v { color: var(--ink-2); }
+  .acc .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .acc .row { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* card sort */
+  .cs-pool { display: flex; flex-wrap: wrap; gap: 8px; min-height: 42px; }
+  .cs-card { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 8px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; }
+  .cs-card:hover { border-color: var(--accent); }
+  .cs-card.sel { border-color: var(--accent); background: var(--accent); color: #fff; }
+  .cs-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 16px; }
+  .cs-group { border: 1px dashed var(--border); border-radius: 11px; padding: 11px 12px; background: var(--surface); cursor: pointer; min-height: 110px; }
+  .cs-group.hot { border-color: var(--accent); border-style: solid; background: var(--chip); }
+  .cs-group h5 { margin: 0 0 9px; font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .cs-group .placed { display: block; width: 100%; text-align: left; font: 500 12.5px system-ui, sans-serif; background: var(--raised); border: 1px solid var(--hairline); color: var(--ink); border-radius: 7px; padding: 6px 9px; margin-bottom: 6px; cursor: pointer; }
+  .cs-group .placed:hover { border-color: var(--bad); }
+  .cs-empty { font-size: 12.5px; color: var(--muted); }
+  .cs-res { margin-top: 16px; display: none; }
+  .cs-res.on { display: block; }
+  .mini { display: inline-block; font: 600 11.5px system-ui, sans-serif; border-radius: 5px; padding: 1px 7px; margin: 0 4px 3px 0; background: var(--demo-bg); color: var(--ink-2); border: 1px solid var(--hairline); }
+  .mini.top { background: var(--chip); color: var(--accent-deep); border-color: transparent; }
+  .flag { font: 700 10px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 4px; padding: 1px 6px; background: var(--warn-soft); color: var(--warn); }
+
+  /* tree test */
+  .tt-task { font-size: 15.5px; background: var(--chip); color: var(--accent-deep); border-radius: 10px; padding: 12px 14px; margin: 0 0 14px; }
+  .tt-crumb { font-size: 13px; color: var(--muted); margin-bottom: 10px; min-height: 20px; }
+  .tt-list { display: flex; flex-direction: column; gap: 7px; }
+  .tt-list button { text-align: left; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 11px 14px; font: 500 14.5px system-ui, sans-serif; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+  .tt-list button:hover { border-color: var(--accent); }
+  .tt-list button .ch { margin-left: auto; color: var(--muted); font-size: 12.5px; }
+  .tt-bar { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; align-items: center; }
+  .tt-res { margin-top: 16px; font-size: 14.5px; line-height: 1.5; padding: 13px 15px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .tt-res.on { display: block; }
+  .tt-res b.h { display: block; margin-bottom: 5px; }
+  .path { font: 13px ui-monospace, Menlo, monospace; color: var(--ink-2); }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin: 14px 0 0; }
+  .metric { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 11px 13px; }
+  .metric .big { font: 700 22px system-ui, sans-serif; letter-spacing: -.02em; }
+  .metric .lab { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .metric.bad .big { color: var(--bad); }
+  .metric.ok .big { color: var(--good); }
+
+  .hunt-count { font: 600 13px system-ui, sans-serif; color: var(--muted); }
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  .ok-list li b { color: var(--good); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+
+  /* figures */
+  figure { margin: 18px 0; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin-top: 11px; }
+  figcaption b { color: var(--ink-2); }
+  .fig-scroll { overflow-x: auto; }
+  .fig-scroll > svg { min-width: 560px; }
+
+  /* toggle */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid var(--border); background: var(--raised); color: var(--ink-2); border-radius: 9px; padding: 8px 13px; font: 600 13.5px system-ui, sans-serif; cursor: pointer; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: var(--page); border-color: transparent; }
+  .tabpanel { display: none; }
+  .tabpanel.on { display: block; }
+  .tabnote { font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 12px 14px; margin-top: 14px; }
+  .tabnote b { display: block; margin-bottom: 3px; }
+
+  /* rules list */
+  .rules { counter-reset: r; display: flex; flex-direction: column; gap: 10px; margin: 18px 0; }
+  .rules > li { list-style: none; counter-increment: r; position: relative; background: var(--raised); border: 1px solid var(--border); border-radius: 11px; padding: 13px 16px 13px 50px; font-size: 15px; }
+  .rules > li::before { content: counter(r); position: absolute; left: 14px; top: 13px; font: 700 12px ui-monospace, Menlo, monospace; color: var(--accent-deep); background: var(--chip); border-radius: 6px; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+  .rules > li b { color: var(--ink); }
+  .rules ul { margin: 7px 0 0; font-size: 14px; }
+
+  /* wizard */
+  .cases { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cases button { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 9px 12px; font: 500 13.5px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .cases button:hover { border-color: var(--accent); }
+  .cases button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .wiz { margin-top: 18px; }
+  .wq { border-top: 1px solid var(--hairline); padding-top: 14px; margin-top: 14px; }
+  .wq:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .wq .qt { font-size: 15.5px; font-weight: 600; margin: 0 0 10px; }
+  .wq .qo { display: flex; gap: 9px; flex-wrap: wrap; }
+  .wq .qo button { flex: 1 1 200px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 10px 13px; font: 500 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .wq .qo button:hover:not([disabled]) { border-color: var(--accent); }
+  .wq .qo button[disabled] { opacity: .45; cursor: default; }
+  .wq .qo button.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .wq .qo button.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .wq .qfb { margin-top: 11px; font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 11px 13px; display: none; }
+  .wq .qfb.on { display: block; }
+  .verdict { margin-top: 18px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 11px; background: var(--surface); padding: 15px 17px; display: none; }
+  .verdict.on { display: block; }
+  .verdict .vr { display: grid; grid-template-columns: 126px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .verdict .vr:first-of-type { border-top: none; padding-top: 0; }
+  .verdict .vr .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .verdict .vr .v { color: var(--ink-2); }
+  .verdict .vr .v b { color: var(--ink); }
+  @media (max-width: 560px) { .verdict .vr { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* wireframe kit */
+  .wf { width: 100%; max-width: 330px; margin: 0 auto; background: var(--raised); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .wf-top { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--hairline); font: 600 13.5px system-ui, sans-serif; }
+  .wf-top .back { font: 500 12px system-ui, sans-serif; color: var(--wf-ink); }
+  .wf-top .ttl { flex: 1; }
+  .wf-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .wf-ph { background: var(--wf-fill); border-radius: 6px; }
+  .wf-ph.cap { display: flex; align-items: center; justify-content: center; font: 500 11px system-ui, sans-serif; color: var(--wf-ink); text-align: center; }
+  .wf-item { display: flex; gap: 10px; align-items: center; }
+  .wf-item .thumb { width: 42px; height: 42px; flex: none; background: var(--wf-fill); border-radius: 6px; }
+  .wf-item .meta { flex: 1; font-size: 12.5px; line-height: 1.35; }
+  .wf-item .meta span { display: block; color: var(--wf-ink); font-size: 11.5px; }
+  .wf-item .price { font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+  .wf-field { border: 1px solid var(--wf-line); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; }
+  .wf-field b { display: block; font: 600 9.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--wf-ink); margin-bottom: 3px; }
+  .wf-chips { display: flex; gap: 6px; }
+  .wf-chip { flex: 1; border: 1px solid var(--wf-line); border-radius: 8px; padding: 7px 3px; text-align: center; font-size: 11px; line-height: 1.3; }
+  .wf-chip.on { border-color: var(--wf-strong); background: var(--wf-fill); font-weight: 600; }
+  .wf-sum { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; border-top: 1px solid var(--wf-line); padding-top: 9px; }
+  .wf-btn { display: block; width: 100%; border: 1px solid var(--wf-line); background: var(--wf-fill-2); color: var(--ink); border-radius: 9px; padding: 10px; font: 600 13px system-ui, sans-serif; cursor: pointer; text-align: center; }
+  .wf-btn.primary { background: var(--wf-strong); color: var(--wf-strong-ink); border-color: transparent; font-size: 14.5px; padding: 13px; }
+  .wf-btn.hit, .wf-link.hit { border: 1px solid var(--bad); background: var(--bad-soft); color: var(--bad); }
+  .wf-link { display: block; width: 100%; background: none; border: none; color: var(--wf-ink); font: 500 12.5px system-ui, sans-serif; cursor: pointer; text-align: center; padding: 5px; text-decoration: underline; border-radius: 7px; }
+  .wf-note { font-size: 11px; color: var(--wf-ink); text-align: center; }
+  .wf-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+  .wf-col { flex: 1 1 290px; max-width: 340px; }
+  .wf-cap { font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: center; margin: 0 0 10px; }
+  .squint .wf { filter: blur(3.2px); }
+  .wf-sketch .wf-ph, .wf-sketch .wf-field, .wf-sketch .wf-chip { border: 1.5px dashed var(--wf-line); background: none; }
+  .wf-mock .wf-btn.primary { background: #2a78d6; color: #fff; box-shadow: 0 2px 8px rgba(42,120,214,.35); border-radius: 10px; }
+  .wf-mock .thumb { background: linear-gradient(135deg, #cfe0f5, #9dbbe4); }
+  .wf-mock .wf-chip.on { border-color: #2a78d6; color: #1c5cab; background: #eef3fb; }
+  .wf-mock .wf-top { font-family: Georgia, "Times New Roman", serif; }
+
+  /* prototype */
+  .proto { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+  .proto-stage { flex: 1 1 320px; }
+  .proto-side { flex: 1 1 250px; min-width: 230px; }
+  .proto-screen { display: none; }
+  .proto-screen.on { display: block; }
+  .proto-fb { font-size: 14px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); }
+  .proto-fb b { display: block; margin-bottom: 3px; }
+  .proto-fb.bad { background: var(--bad-soft); border-color: var(--bad); }
+  .proto-fb.good { background: var(--good-soft); border-color: var(--good); }
+  .proto-stat { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .proto-stat span { font: 600 12px system-ui, sans-serif; border: 1px solid var(--border); border-radius: 7px; padding: 4px 9px; color: var(--ink-2); background: var(--raised); }
+  .proto-list { margin: 12px 0 0; padding-left: 20px; font-size: 13.5px; color: var(--ink-2); }
+  .proto-list li { margin: 4px 0; }
+  .stub { border: 1px dashed var(--border); border-radius: 12px; padding: 22px 16px; text-align: center; font-size: 13.5px; color: var(--ink-2); background: var(--surface); }
+
+  /* accordion */
+  .accs { display: flex; flex-direction: column; gap: 10px; }
+  .acc { border: 1px solid var(--border); border-radius: 11px; background: var(--raised); overflow: hidden; }
+  .acc > button { width: 100%; text-align: left; background: none; border: none; padding: 14px 17px; cursor: pointer; color: inherit; font: inherit; display: flex; gap: 12px; align-items: baseline; }
+  .acc > button:hover { background: var(--demo-bg); }
+  .acc .idx { font: 700 11px ui-monospace, Menlo, monospace; color: var(--muted); flex: none; }
+  .acc .ttl { flex: 1; font-size: 16px; font-weight: 600; letter-spacing: -.005em; }
+  .acc .tag { font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; flex: none; background: var(--chip); color: var(--accent-deep); }
+  .acc .tag.no { background: var(--bad-soft); color: var(--bad); }
+  .acc .tag.ok { background: var(--good-soft); color: var(--good); }
+  .acc .hintline { font-size: 13.5px; color: var(--muted); padding: 0 17px 13px; }
+  .acc.open .hintline { display: none; }
+  .acc .body { display: none; padding: 0 17px 15px; }
+  .acc.open .body { display: block; }
+  .acc .row { display: grid; grid-template-columns: 136px 1fr; gap: 14px; padding: 9px 0; font-size: 14.5px; border-top: 1px solid var(--hairline); }
+  .acc .row:first-child { border-top: none; padding-top: 2px; }
+  .acc .row .k { font: 700 10.5px/1.4 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+  .acc .row .v { color: var(--ink-2); }
+  .acc .row .v b { color: var(--ink); }
+  @media (max-width: 560px) { .acc .row { grid-template-columns: 1fr; gap: 2px; } }
+
+  /* screen window (виден только первый экран) */
+  .wf-window { position: relative; max-height: 430px; overflow: hidden; border-bottom: 2px dashed var(--bad); border-radius: 14px 14px 0 0; }
+  .wf-window::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 46px; pointer-events: none;
+                      background: linear-gradient(to bottom, transparent, var(--surface)); }
+  .wf-window.fits { border-bottom-color: var(--good); }
+  .wf-window.fits::after { display: none; }
+  .foldnote { font: 600 11px system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; text-align: center; margin: 7px 0 0; }
+  .foldnote.bad { color: var(--bad); }
+  .foldnote.good { color: var(--good); }
+  .wf-skel { background: var(--wf-fill); border-radius: 6px; height: 13px; }
+  .findings { margin: 16px 0 0; padding-left: 20px; font-size: 14.5px; }
+  .findings li { margin: 6px 0; }
+  .findings li b { color: var(--bad); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Вайрфреймы и прототипы · Middle · подготовка к тестированию</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Проектирование · вайрфреймы и прототипы</p>
+  <div class="levels" aria-label="Уровень темы: Middle, второй из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv on">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как подготовить прототип к тестированию и доработать его по результатам</h1>
+  <p class="lede">Связанных экранов ещё недостаточно для тестирования. Участник может захотеть изменить карту, выбрать другой адрес или повторить действие после ошибки. Чтобы проверить решение, эти пути нужно подготовить заранее. В уроке разберём, какие данные и состояния добавить в прототип, какую детализацию выбрать и как записывать наблюдения. Затем решим, что исправить в самом прототипе, а что — в интерфейсе.</p>
+</header>
+
+<div class="goals">
+  <b>Что разберём</b>
+  <ol>
+    <li><a href="#data">Как подобрать правдоподобные данные</a><span class="drillmark">сравнение</span></li>
+    <li><a href="#states">Какие состояния подготовить</a>: загрузка, ошибка, пусто<span class="drillmark">переключатель</span></li>
+    <li><a href="#level">Как выбрать детализацию под вопрос проверки</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#prep">Как подготовить проверку</a>: ситуация, задачи, стартовый экран<span class="drillmark">шаблон</span></li>
+    <li><a href="#run">Как записывать затруднения участников</a><span class="drillmark">разбор</span></li>
+    <li><a href="#after">Что исправить и от чего отказаться</a><span class="drillmark">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Пример для всего урока.</b> Продолжим работу над оформлением заказа. Допустим, команда предлагает <b>убрать отдельный экран оплаты</b>: если карта сохранена, платить с экрана подтверждения. В учебном примере разработку оценили в две недели, а сборку прототипа и проверку с тремя участниками — в полдня. Разберём, что такая проверка может показать и какие решения придётся пересмотреть.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется на этом уровне</h2></div>
+  <p class="sec-sub">Теперь прототип нужен, чтобы проверить конкретное предположение о поведении человека.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Junior</th><th>Middle</th></tr></thead>
+      <tbody>
+        <tr><td><b>Зачем прототип</b></td><td>Показать сценарий и проверить переходы</td><td>Проверить идею до разработки</td></tr>
+        <tr><td><b>Данные на экранах</b></td><td>Реальные подписи</td><td>Реалистичные данные, в том числе длинные тексты и пустые поля</td></tr>
+        <tr><td><b>Состояния</b></td><td>одно-два для примера</td><td>все, в которые человек может попасть на тесте</td></tr>
+        <tr><td><b>Кто проходит в упражнении</b></td><td>Коллега и человек не из команды</td><td>Трое участников, по заданным задачам, с записью наблюдений</td></tr>
+        <tr><td><b>Результат задания</b></td><td>Прототип можно пройти без подсказок</td><td>Решение доработано по наблюдениям до подробного оформления</td></tr>
+        <tr><td><b>Что мешает проверке</b></td><td>Пропущенные переходы</td><td>Показ готовой идеи без вопроса, на который нужно ответить</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Что может помешать</h3>
+  <ul>
+    <li><strong>Подробное оформление до проверки структуры.</strong> В макет уже вложено много времени, и менять его сложнее. Если сейчас нужно проверить шаги и действия, начните с черновика.</li>
+    <li><strong>Демонстрация вместо выполнения задачи.</strong> Когда вы сами нажимаете кнопки и объясняете переходы, не видно, сможет ли человек разобраться самостоятельно. На проверке дайте ему задачу и наблюдайте.</li>
+  </ul>
+
+  <div class="rule"><b>В задании нужно показать хотя бы одно решение, доработанное по результатам проверки до подробного оформления.</b> Это позволит проследить связь между наблюдением и правкой. Если проверка не выявила проблем, менять что-то ради отчёта не нужно: проверьте, был ли конкретный вопрос, подходили ли участники и не помогали ли вы им пройти сценарий.</div>
+</section>
+
+<section id="data">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Правдоподобные данные</h2></div>
+  <p class="sec-sub">Короткое имя и круглая сумма подходят для примера, но не показывают, как экран работает с разными данными.</p>
+
+  <p>На прошлом уровне мы заменили Lorem ipsum реальными подписями. Теперь нужно подобрать данные, по которым участник сможет принимать решения. Добавьте не только короткие названия и небольшие суммы, но и длинные адреса, несколько товаров, пустые поля. Так будет легче заметить ограничения экрана.</p>
+
+  <p>Сравните две карточки заказа. В левой — короткие тексты и один товар, в правой — длинные данные, несколько позиций и другой статус.</p>
+
+  <div class="box">
+    <div class="box-head">Карточка заказа · одинаковая вёрстка, разные данные</div>
+    <div class="box-body">
+      <div class="wf-row">
+        <div class="wf-col">
+          <p class="wf-cap">Удобные данные</p>
+          <div class="wf-window fits">
+            <div class="wf">
+              <div class="wf-top"><span class="ttl">Заказ №14</span><span class="back">Доставлен</span></div>
+              <div class="wf-body">
+                <div class="wf-field"><b>Получатель</b>Иван Петров</div>
+                <div class="wf-field"><b>Адрес</b>ул. Мира, 1</div>
+                <div class="wf-item"><span class="thumb"></span><span class="meta">Кофе, 1 кг<span>1 шт.</span></span><span class="price">1 200 ₽</span></div>
+                <div class="wf-sum"><span>Итого</span><span>1 200 ₽</span></div>
+                <button class="wf-btn primary" type="button">Повторить заказ</button>
+              </div>
+            </div>
+          </div>
+          <p class="foldnote good">Всё поместилось на экран</p>
+        </div>
+        <div class="wf-col">
+          <p class="wf-cap">Длинные тексты и несколько товаров</p>
+          <div class="wf-window">
+            <div class="wf">
+              <div class="wf-top"><span class="ttl">Заказ №100482</span><span class="back">Ожидает оплаты · 19 мин</span></div>
+              <div class="wf-body">
+                <div class="wf-field"><b>Получатель</b>Константинопольский Вячеслав Александрович</div>
+                <div class="wf-field"><b>Адрес</b>ул. 40 лет Октябрьской революции, 128, корп. 3, кв. 214, домофон не работает</div>
+                <div class="wf-field"><b>Комментарий курьеру</b><span style="color:var(--wf-ink)">—</span></div>
+                <div class="wf-item"><span class="thumb"></span><span class="meta">Кофемашина автоматическая De'Longhi Magnifica Evo ECAM 290.61.SB<span>1 шт.</span></span><span class="price">148 700 ₽</span></div>
+                <div class="wf-item"><span class="thumb"></span><span class="meta">Кофе в зёрнах Lavazza Crema e Aroma, 1 кг<span>12 шт.</span></span><span class="price">14 280 ₽</span></div>
+                <div class="wf-sum"><span>Итого</span><span>162 980 ₽</span></div>
+                <button class="wf-btn primary" type="button">Оплатить 162 980 ₽</button>
+              </div>
+            </div>
+          </div>
+          <p class="foldnote bad">Кнопка ушла ниже границы экрана</p>
+        </div>
+      </div>
+
+      <ul class="findings">
+        <li><b>Длинное имя</b> может занять несколько строк и увеличить высоту блока.</li>
+        <li><b>Адрес с корпусом, квартирой и комментарием</b> занимает больше места, чем короткая улица и номер дома.</li>
+        <li><b>Длинное название товара</b> переносится на несколько строк.</li>
+        <li><b>Шестизначная сумма</b> оставляет меньше места для названия в той же строке.</li>
+        <li><b>Пустой комментарий</b> требует решения: оставлять строку с прочерком или скрывать её.</li>
+        <li><b>Статус «Ожидает оплаты · 19 мин»</b> поднимает ещё один вопрос: что произойдёт, когда время закончится?</li>
+        <li><b>Главная кнопка оказалась ниже видимой области.</b> В прототипе нужна прокрутка, а на проверке стоит посмотреть, найдёт ли её участник.</li>
+      </ul>
+    </div>
+    <div class="box-foot">Основа карточек одинаковая, но с более длинными данными нужно больше места. Проверьте такие варианты до подробной работы над макетом.</div>
+  </div>
+
+  <h3>Какие данные подготовить</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Что берём</th><th>Зачем</th><th>Где взять</th></tr></thead>
+      <tbody>
+        <tr><td><b>Длинные</b> имена, названия, адреса</td><td>Помогают проверить переносы и высоту блоков</td><td>Из каталога или подготовленного набора примеров</td></tr>
+        <tr><td><b>Короткие и пустые значения</b></td><td>Показывают, что делать с пустыми полями и отсутствующими фото</td><td>Из продукта или специально подготовленных примеров</td></tr>
+        <tr><td><b>Большие и маленькие числа</b></td><td>162 980 ₽ и 49 ₽ занимают разное место</td><td>Реальные чеки: минимальный и максимальный</td></tr>
+        <tr><td><b>Много и мало элементов</b></td><td>Один товар и двенадцать — разные экраны</td><td>Средняя и максимальная корзина по аналитике</td></tr>
+        <tr><td><b>Настоящие статусы и ошибки</b></td><td>«Ожидает оплаты · 19 мин» длиннее, чем «Оплачен»</td><td>Из продукта и из обращений в поддержку</td></tr>
+        <tr><td><b>Знакомые участнику данные</b>, если уместно</td><td>Помогают соотнести задачу с привычной ситуацией</td><td>Заранее уточнить город, тип товаров или привычный способ оплаты</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Начните с типичных данных, затем проверьте крайние значения.</b> Для основного пути подготовьте привычный заказ. В упражнении добавьте <b>один экран с длинными текстами, большой суммой и пустым полем</b>. Он поможет заметить проблемы, которые не видны на коротких примерах.</div>
+</section>
+
+<section id="states">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Состояния: загрузка, ошибка, пусто</h2></div>
+  <p class="sec-sub">Подготовьте состояния, которые нужны для выбранного сценария проверки.</p>
+
+  <p>Участник может выбрать адрес, которого нет в списке, повторить действие после ошибки или начать оформление без входа в аккаунт. Если в прототипе эти пути обрываются, трудно понять, что вызвало затруднение: интерфейс или пропущенный экран. <strong>Проверьте доступные действия заранее</strong>, чтобы на встрече можно было наблюдать за решением задачи.</p>
+
+  <div class="rule"><b>Составьте список состояний для тестовых задач.</b> Подготовьте те, <b>в которые участник может попасть при выполнении задания</b>. На каждом шаге проверьте: что будет, если данных нет, загрузка затянулась или действие не удалось?</div>
+
+  <div class="box">
+    <div class="box-head">Экран «Доставка» · пять состояний</div>
+    <div class="box-body">
+      <div class="tabs" role="tablist" aria-label="Состояния экрана">
+        <button type="button" role="tab" id="sb1" aria-selected="true" aria-controls="sp1">Обычное</button>
+        <button type="button" role="tab" id="sb2" aria-selected="false" aria-controls="sp2">Загрузка</button>
+        <button type="button" role="tab" id="sb3" aria-selected="false" aria-controls="sp3">Пусто</button>
+        <button type="button" role="tab" id="sb4" aria-selected="false" aria-controls="sp4">Ошибка</button>
+        <button type="button" role="tab" id="sb5" aria-selected="false" aria-controls="sp5">Гость</button>
+      </div>
+
+      <div class="tabpanel on" id="sp1" role="tabpanel" aria-labelledby="sb1">
+        <div style="margin-top:16px">
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="wf-link" type="button">Изменить адрес</button>
+              <div>
+                <div style="font-size:12.5px; font-weight:600; margin-bottom:7px">Когда привезти</div>
+                <div class="wf-chips">
+                  <div class="wf-chip on">завтра<br>10:00–14:00</div>
+                  <div class="wf-chip">завтра<br>16:00–20:00</div>
+                  <div class="wf-chip">12 марта<br>10:00–14:00</div>
+                </div>
+              </div>
+              <div class="wf-sum"><span>Доставка</span><span>бесплатно</span></div>
+              <button class="wf-btn primary" type="button">К оплате</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Основной путь</b>Адрес указан, дни доставки доступны, можно перейти к оплате. Кроме этого варианта подготовьте состояния, которые могут встретиться в ваших тестовых задачах.</div>
+      </div>
+
+      <div class="tabpanel" id="sp2" role="tabpanel" aria-labelledby="sb2">
+        <div style="margin-top:16px">
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="wf-link" type="button">Изменить адрес</button>
+              <div>
+                <div style="font-size:12.5px; font-weight:600; margin-bottom:7px">Когда привезти</div>
+                <div class="wf-chips">
+                  <div class="wf-chip" style="padding:0"><div class="wf-skel" style="height:34px; border-radius:8px"></div></div>
+                  <div class="wf-chip" style="padding:0"><div class="wf-skel" style="height:34px; border-radius:8px"></div></div>
+                  <div class="wf-chip" style="padding:0"><div class="wf-skel" style="height:34px; border-radius:8px"></div></div>
+                </div>
+                <p class="wf-note" style="text-align:left; margin:8px 0 0">Подбираем свободные дни для этого адреса</p>
+              </div>
+              <div class="wf-sum"><span>Доставка</span><span>—</span></div>
+              <button class="wf-btn primary" type="button" style="opacity:.45">К оплате</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Что нужно объяснить</b>Дни доставки ещё загружаются. Серые блоки показывают, где появятся варианты, а подпись поясняет, чего ждём. Кнопка перехода к оплате пока выглядит недоступной. В интерактивном прототипе проверьте, что её поведение соответствует этому виду.</div>
+      </div>
+
+      <div class="tabpanel" id="sp3" role="tabpanel" aria-labelledby="sb3">
+        <div style="margin-top:16px">
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="wf-link" type="button">Изменить адрес</button>
+              <div style="font-size:12.5px; line-height:1.5">
+                <b style="display:block; font-size:13.5px; margin-bottom:4px">На этой неделе свободных дней нет</b>
+                <span style="color:var(--wf-ink)">Ближайшая доставка по этому адресу — 18 марта, 10:00–14:00</span>
+              </div>
+              <button class="wf-btn primary" type="button">Выбрать 18 марта</button>
+              <button class="wf-link" type="button">Забрать из пункта выдачи</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Что нужно объяснить</b>На этой неделе доставки нет, но заказ можно получить позже или забрать из пункта выдачи. Оба варианта позволяют продолжить оформление.</div>
+      </div>
+
+      <div class="tabpanel" id="sp4" role="tabpanel" aria-labelledby="sb4">
+        <div style="margin-top:16px">
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-field"><b>Адрес</b>ул. Лесная, 8, кв. 14</div>
+              <button class="wf-link" type="button">Изменить адрес</button>
+              <div style="font-size:12.5px; line-height:1.5">
+                <b style="display:block; font-size:13.5px; margin-bottom:4px">Не удалось загрузить дни доставки</b>
+                <span style="color:var(--wf-ink)">Это на нашей стороне. Заказ сохранён, ничего не потерялось</span>
+              </div>
+              <button class="wf-btn primary" type="button">Повторить</button>
+              <button class="wf-link" type="button">Забрать из пункта выдачи</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Что нужно объяснить</b>Не удалось загрузить дни доставки; человек может повторить попытку или выбрать пункт выдачи. Сообщайте причину ошибки и сохранность заказа, только если это известно. Для кнопки «Повторить» подготовьте переход к повторной загрузке.</div>
+      </div>
+
+      <div class="tabpanel" id="sp5" role="tabpanel" aria-labelledby="sb5">
+        <div style="margin-top:16px">
+          <div class="wf">
+            <div class="wf-top"><span class="back">←</span><span class="ttl">Доставка</span><span class="back">Шаг 2 из 3</span></div>
+            <div class="wf-body">
+              <div class="wf-field"><b>Адрес</b><span style="color:var(--wf-ink)">не указан</span></div>
+              <div style="font-size:12.5px; line-height:1.5">
+                <b style="display:block; font-size:13.5px; margin-bottom:4px">Войдите, чтобы использовать сохранённые адреса</b>
+                <span style="color:var(--wf-ink)">Или укажите адрес вручную</span>
+              </div>
+              <button class="wf-btn primary" type="button">Войти</button>
+              <button class="wf-btn" type="button">Указать адрес вручную</button>
+            </div>
+          </div>
+        </div>
+        <div class="tabnote"><b>Что нужно объяснить</b>Сохранённые адреса доступны после входа, а новый можно указать вручную. Если участник по сценарию не вошёл в аккаунт, подготовьте оба пути и возврат к оформлению.</div>
+      </div>
+    </div>
+    <div class="box-foot">Состояния удобно собирать на основе главного экрана. Затем свяжите их переходами и проверьте, можно ли продолжить оформление из каждого.</div>
+  </div>
+
+  <h3>Пять состояний для проверки</h3>
+  <p>Вернитесь к схеме из темы структуры: <strong>её ветки помогут составить список состояний</strong>. Для каждой определите, что увидит человек и что сможет сделать.</p>
+  <ul>
+    <li><strong>Загрузка</strong> — что происходит и, если известно, сколько ждать.</li>
+    <li><strong>Пусто</strong> — что тут бывает и что сделать первым.</li>
+    <li><strong>Ошибка</strong> — что не удалось, что произошло с введёнными данными и как продолжить.</li>
+    <li><strong>Нет прав</strong> — почему не пускает и как пройти дальше.</li>
+    <li><strong>Успех</strong> — подтверждение, что действие выполнено. Без него человек может нажать кнопку повторно.</li>
+  </ul>
+
+  <div class="warnbox"><b>Если действие нужно для проверки, подготовьте его полностью.</b> Для переходов за пределы сценария можно поставить заглушку с возвратом. Необработанное нажатие мешает участнику продолжить, а вам — понять причину затруднения.</div>
+</section>
+
+<section id="level">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Какой детализации хватит</h2></div>
+  <p class="sec-sub">Подробность прототипа зависит от того, что вы хотите узнать.</p>
+
+  <p>Детализация требует времени, а часть деталей может не пригодиться для проверки. Перед работой спросите себя: <strong>какой прототип позволит ответить на мой вопрос</strong>? Подготовьте нужные действия и данные, затем решите, требуется ли подробное оформление.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Что проверяем</th><th>С чего начать</th><th>Что учесть</th></tr></thead>
+      <tbody>
+        <tr><td>Все ли шаги сценария учтены</td><td><b>Набросок</b> или схема</td><td>Для обсуждения последовательности подробные экраны пока не нужны</td></tr>
+        <tr><td>Понятны ли названия разделов</td><td><b>Серый прототип</b> со структурой и подписями</td><td>Добавьте контекст, без которого названия непонятны</td></tr>
+        <tr><td>Пройдёт ли человек сценарий самостоятельно</td><td><b>Прототип с данными и состояниями</b></td><td>Действия из задания должны работать, а нужные элементы — быть различимыми</td></tr>
+        <tr><td>Помещаются ли данные</td><td><b>Прототип с данными и состояниями</b></td><td>Черновик выявит явные проблемы; после выбора шрифтов проверьте размещение снова</td></tr>
+        <tr><td>Вырастет ли доля оплаченных заказов</td><td><b>Проверка в работающем продукте</b></td><td>Результат небольшой проверки прототипа нельзя переносить на конверсию продукта</td></tr>
+        <tr><td>Замечают ли новое действие при привычном использовании</td><td><b>Наблюдение в работающем продукте</b></td><td>Прототип поможет проверить заметность в тесте, но поведение в обычной ситуации может отличаться</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>С какими выводами стоит быть осторожнее</h3>
+  <ul>
+    <li><strong>Конверсия продукта.</strong> Если трое из трёх выполнили задачу, так и запишите. Это результат этих встреч, а не прогноз доли покупок после запуска.</li>
+    <li><strong>Скорость работы.</strong> Время в прототипе можно записывать, но учитывать условия: человек комментирует действия, впервые видит экран, сталкивается с ограничениями прототипа.</li>
+    <li><strong>Привычка.</strong> Одна встреча показывает первое знакомство с решением. По ней нельзя судить, как человек будет пользоваться им каждый день.</li>
+    <li><strong>Готовность платить.</strong> Нажатие «Оплатить» без реального списания не подтверждает, что человек купит товар.</li>
+  </ul>
+
+  <div class="rule"><b>Подготовьте все действия, которые входят в задание.</b> Если нужно ввести адрес, поле должно принимать текст. После оплаты нужно показать результат. Соседние разделы и детали, которые не влияют на проверяемый вопрос, можно оставить за пределами прототипа.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · чего хватит для проверки<span class="spacer"></span><span class="sc">0 / 8</span></div>
+    <div class="box-body">
+      <div class="drill" id="d1">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Восемь вопросов к интерфейсу. Выберите, с какого способа проверки стоит начать.</div>
+  </div>
+</section>
+
+<section id="prep">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Подготовка проверки</h2></div>
+  <p class="sec-sub">Сначала сформулируйте вопрос и определите, какие наблюдения помогут на него ответить.</p>
+
+  <p>Без конкретного вопроса легко ограничиться общим впечатлением от экранов. До встречи запишите: <strong>что вы хотите узнать и по каким действиям участника это поймёте</strong>.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Общий вопрос</th><th>Чего не хватает</th><th>Что проверить</th></tr></thead>
+      <tbody>
+        <tr><td>Удобно ли оформлять заказ?</td><td>Непонятно, по чему оценивать удобство</td><td><b>Понимает ли человек, что после нажатия кнопки спишутся деньги?</b></td></tr>
+        <tr><td>Нравится ли новый экран?</td><td>Проверяет отношение, а не поведение</td><td><b>Найдёт ли человек, как поменять карту, не выходя из оформления?</b></td></tr>
+        <tr><td>Всё ли понятно?</td><td>Общее «да» не объясняет, как человек понял интерфейс</td><td><b>Пройдёт ли человек оформление в два шага без подсказок?</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="dim">В нашем примере проверяем, <strong>понимают ли люди, что кнопка «Оформить заказ» сразу запускает оплату</strong>. Это поможет оценить вариант без отдельного экрана оплаты. Остальные наблюдения тоже запишем.</p>
+
+  <h3>Что готовим, кроме прототипа</h3>
+  <ol>
+    <li><strong>Легенда</strong> — одна-две фразы про ситуацию человека. «Вы выбрали кофемашину и хотите заказать её с доставкой на завтра». Без объяснения интерфейса.</li>
+    <li><strong>Две-три задачи,</strong> сформулированные целью и без слов из интерфейса. «Сделайте так, чтобы заказ приехал завтра утром» — да. «Нажмите "К оплате"» — нет.</li>
+    <li><strong>Стартовый экран</strong> — тот же, с которого человек начинает в жизни.</li>
+    <li><strong>Знакомый участнику контекст,</strong> если он важен для задачи: например, город или привычный способ оплаты. Уточните его заранее.</li>
+    <li><strong>Бланк наблюдений</strong> с колонкой «пришлось подсказать»: именно её вы сдаёте по итогам задания.</li>
+    <li><strong>Трое участников</strong> не из команды, которым знакома задача покупки. В упражнении этого достаточно, чтобы потренироваться наблюдать и сопоставлять результаты. Выводы будут относиться к этим встречам.</li>
+  </ol>
+
+  <div class="box">
+    <div class="box-head">План встречи и бланк наблюдений<span class="spacer"></span><button class="btn" data-copy="#testTmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="testTmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">ВОПРОС ПРОВЕРКИ (один, письменно, до встречи)
+______________________________________________________________
+как пойму ответ: ______________________________________________
+
+ВСТУПЛЕНИЕ (пример, около минуты)
+«Спасибо, что согласились помочь. Это черновой прототип,
+часть действий в нём пока недоступна. Мы хотим понять,
+насколько удобен интерфейс; ваши навыки здесь не оцениваются.
+Пожалуйста, говорите, если что-то непонятно, и рассказывайте
+вслух, что пытаетесь сделать и чего ожидаете.»
+
+ЛЕГЕНДА
+«______________________________________________________________»
+
+ЗАДАЧИ (целью, без слов из интерфейса)
+1. ______________________________________________________________
+2. ______________________________________________________________
+
+КАК ВЕСТИ ВСТРЕЧУ
+— Не указывать нужную кнопку: «нажмите сюда», «она справа».
+— Не оценивать действия словами «правильно» или «неправильно».
+— Не объяснять устройство экрана до выполнения задачи.
+— На вопрос «что дальше?» уточнить: «Что вы ожидаете сделать?»
+
+БЛАНК                                   участник __ из 3, дата __.__
+экран        | что сделал        | что сказал     | подсказал? | сек
+_____________|___________________|________________|____________|____
+_____________|___________________|________________|____________|____
+_____________|___________________|________________|____________|____
+_____________|___________________|________________|____________|____
+
+ВОПРОСЫ НА ВЫХОД (после всех задач)
+— «Что здесь было самым непонятным?»
+— «Что, по-вашему, произошло, когда вы нажали последнюю кнопку?»
+— «Если бы это был настоящий магазин, что бы вы сделали дальше?»
+
+ИТОГ ПО УЧАСТНИКУ
+дошёл до конца: да / нет      подсказок понадобилось: __
+главная заминка: ______________________________________________</pre>
+    </div>
+    <div class="box-foot">Для упражнения отведите по 20–30 минут на встречу и около часа на подготовку, если прототип уже собран. О времени с участниками договоритесь заранее.</div>
+  </div>
+
+  <div class="warnbox"><b>В начале объясните, что именно проверяете.</b> Скажите, что это черновик и вы хотите услышать о затруднениях. Так участнику будет проще сообщить, что он не понимает, без ощущения, что оценивают его навыки.</div>
+</section>
+
+<section id="run">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Как наблюдать и записывать затруднения</h2></div>
+  <p class="sec-sub">Записывайте действия, вопросы и подсказки: по ним будет проще восстановить, что произошло.</p>
+
+  <p>Во время проверки не направляйте человека к нужной кнопке. Если без помощи продолжить нельзя, <strong>запишите, где и что вы подсказали</strong>. Отделяйте самостоятельное выполнение от выполнения с помощью. Вместе с остальными наблюдениями это поможет выбрать правки.</p>
+
+  <h3>Что делать, когда человек застрял</h3>
+  <ol>
+    <li><strong>Дайте время разобраться.</strong> Небольшая пауза позволяет увидеть, как человек ищет следующий шаг.</li>
+    <li><strong>Спросите, а не подскажите:</strong> «О чём вы сейчас думаете?» или «А что бы вы сделали, если бы меня здесь не было?»</li>
+    <li><strong>Если совсем тупик</strong> — подскажите минимально, чтобы продолжить, и сразу поставьте отметку в бланке. Дальше идёте по сценарию.</li>
+    <li><strong>Не меняйте прототип во время выполнения задачи.</strong> Если он сломался, остановитесь и поясните, что это ограничение черновика. Запишите проблему и исправьте её перед следующей встречей.</li>
+  </ol>
+
+  <h3>Шесть наблюдений и возможные объяснения</h3>
+  <p>Ниже — учебные примеры записей о двухшаговом оформлении. Раскройте каждый, чтобы сравнить наблюдение, его возможную причину и следующий шаг.</p>
+
+  <div class="box">
+    <div class="box-head">Разбор · пример проверки с тремя участниками</div>
+    <div class="box-body">
+      <div class="accs" id="accRun">
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">01</span><span class="ttl">Нажал «Оформить заказ» дважды</span><span class="tag no">Двое из трёх</span></button>
+          <p class="hintline">Нажал, подождал секунду, нажал ещё раз. Оба раза — не глядя на экран.</p>
+          <div class="body">
+            <div class="row"><span class="k">Возможная причина</span><span class="v">Между нажатием и экраном успеха нет реакции. Участнику может быть непонятно, началась ли оплата. Нужно проверить, какое поведение предусмотрено в продукте.</span></div>
+            <div class="row"><span class="k">Что изменить</span><span class="v"><b>Добавить обратную связь.</b> Покажите обработку платежа в прототипе. С разработчиками обсудите повторное нажатие и подтверждение результата.</span></div>
+            <div class="row"><span class="k">Почему важно</span><span class="v">Повторное нажатие показывает, что реакция интерфейса могла остаться незаметной. Приведёт ли оно к повторному заказу, зависит от реализации — это нужно уточнить отдельно.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">02</span><span class="ttl">Двадцать секунд искал, где поменять карту</span><span class="tag no">Двое из трёх</span></button>
+          <p class="hintline">Водил курсором по экрану, открыл «Изменить адрес», вернулся, спросил: «а карта тут вообще меняется?»</p>
+          <div class="body">
+            <div class="row"><span class="k">Возможная причина</span><span class="v">В двухшаговом варианте выбор карты стал строкой на экране подтверждения. Переход к её смене оказался незаметным. Это <b>наблюдение о новом варианте оформления</b>, которое стоит учесть при доработке.</span></div>
+            <div class="row"><span class="k">Что делаем</span><span class="v">Рядом со строкой «Карта •• 4417» добавляем «Изменить». Затем проверяем, помогает ли ссылка найти смену карты.</span></div>
+            <div class="row"><span class="k">Как оценить</span><span class="v">Затруднение повторилось у двух участников. Это повод изучить расположение ссылки. Даже единичное наблюдение стоит сохранить: частота — не единственный признак важности проблемы.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">03</span><span class="ttl">Спросил: «а деньги уже списались?»</span><span class="tag no">Трое из трёх</span></button>
+          <p class="hintline">Вопрос прозвучал уже после экрана успеха, у всех троих.</p>
+          <div class="body">
+            <div class="row"><span class="k">Возможная причина</span><span class="v">Участники не поняли, когда списываются деньги, даже <b>после</b> действия. Проверьте и подпись кнопки, и сообщение на экране результата: оба места могут влиять на понимание.</span></div>
+            <div class="row"><span class="k">Что делаем</span><span class="v">На кнопке указываем действие и сумму: «Оплатить 162 980 ₽». На экране успеха — «Списали с карты •• 4417». Проверяем с двумя новыми участниками, понятно ли им, что произошло.</span></div>
+            <div class="row"><span class="k">Граница вывода</span><span class="v">Вопрос возник у всех троих — его стоит разобрать. Этих наблюдений достаточно, чтобы предложить правку, но недостаточно для вывода обо всех пользователях.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">04</span><span class="ttl">Не заметил поле комментария курьеру</span><span class="tag">Один из трёх</span></button>
+          <p class="hintline">Прошёл мимо, на вопрос на выходе ответил: «а, я его не видел».</p>
+          <div class="body">
+            <div class="row"><span class="k">Что уточнить</span><span class="v">Нужен ли был комментарий для задачи участника? Само по себе пропущенное поле ещё не объясняет, что нужно менять.</span></div>
+            <div class="row"><span class="k">Что делаем</span><span class="v">Записываем наблюдение и его контекст. Если комментарий важен для доставки, проверяем, насколько легко найти поле. Перестраивать экран без понимания причины пока рано.</span></div>
+            <div class="row"><span class="k">Полезная привычка</span><span class="v">Заведите в бланке графу «на будущее». Туда уходят находки не по теме проверки — иначе они либо потеряются, либо потянут вас переделывать всё сразу.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">05</span><span class="ttl">Нажал на серый блок «карта с точкой доставки»</span><span class="tag ok">Ошибка прототипа</span></button>
+          <p class="hintline">Нажал, ничего не произошло, нажал ещё раз, сказал: «наверное, не работает».</p>
+          <div class="body">
+            <div class="row"><span class="k">Что уточнить</span><span class="v">Должна ли карта открываться в продукте? Если да, здесь пропущен переход в прототипе. Если нет, нужно разобраться, почему блок выглядит интерактивным.</span></div>
+            <div class="row"><span class="k">Что делаем</span><span class="v">В нашем примере переход пропущен: добавляем его или заглушку до следующей встречи. Если меняем внешний вид блока, это уже новая версия решения — отмечаем её отдельно.</span></div>
+            <div class="row"><span class="k">Как отличить</span><span class="v">Сопоставьте поведение прототипа с задуманным поведением продукта. Пропущенная связь — ошибка сборки. Непонятное действие может быть проблемой самого интерфейса.</span></div>
+          </div>
+        </div>
+
+        <div class="acc" data-acc>
+          <button type="button"><span class="idx">06</span><span class="ttl">«Я бы такую дорогую кофемашину онлайн не покупал»</span><span class="tag">Контекст задачи</span></button>
+          <p class="hintline">Сказано в середине сценария, дальше человек прошёл всё до конца.</p>
+          <div class="body">
+            <div class="row"><span class="k">Что это значит</span><span class="v">Реплика относится к покупке, но может влиять и на выполнение задания. Уточните, насколько предложенная ситуация знакома участнику. По этой фразе нельзя судить об удобстве интерфейса или спросе на товар.</span></div>
+            <div class="row"><span class="k">Что делаем</span><span class="v">Записываем реплику и учитываем её при разборе. Если покупка для участника неправдоподобна, стоит пересмотреть задачу или критерии подбора людей.</span></div>
+            <div class="row"><span class="k">Чего избегать</span><span class="v">Не убеждайте участника купить товар. Лучше уточнить его опыт и ожидания, чтобы понять, как они связаны с наблюдением.</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="box-foot">Пауза или лишнее нажатие могут иметь разные причины. Сначала запишите, что произошло, затем отделите наблюдение от своего объяснения.</div>
+  </div>
+
+  <h3>Как собрать результаты трёх встреч</h3>
+  <p>Сведите наблюдения в одну таблицу для команды. Пишите «двое из трёх»: так виден размер проверки и меньше риска принять результат за статистику продукта.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Место</th><th>У кого возникло затруднение</th><th>Подсказки</th><th>Что делаем</th></tr></thead>
+      <tbody>
+        <tr><td>Момент списания денег</td><td>3 из 3</td><td>1 раз</td><td><b>Переделать</b>: сумма на кнопке, списание на экране успеха</td></tr>
+        <tr><td>Смена карты в подтверждении</td><td>2 из 3</td><td>2 раза</td><td><b>Переделать</b>: «Изменить» рядом со способом оплаты</td></tr>
+        <tr><td>Двойное нажатие «Оформить»</td><td>2 из 3</td><td>0</td><td><b>Переделать</b>: подтверждение и блокировка повторного</td></tr>
+        <tr><td>Серый блок карты</td><td>2 из 3</td><td>2 раза</td><td><b>Починить прототип</b>: заглушка</td></tr>
+        <tr><td>Поле комментария</td><td>1 из 3</td><td>0</td><td>Записать на будущее</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="after">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Что исправить и от чего отказаться</h2></div>
+  <p class="sec-sub">После проверки определите, что нужно изменить в прототипе, в интерфейсе или в самой идее.</p>
+
+  <p>Перед правками разберите причины затруднений. Где прототип не передаёт задуманное поведение? Где нужно изменить интерфейс? Какие наблюдения ставят под вопрос саму идею? Это поможет выбрать следующий шаг.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Решение</th><th>Основание</th><th>Что делать</th></tr></thead>
+      <tbody>
+        <tr><td><b>Исправить прототип</b></td><td>Он не воспроизводит задуманное поведение</td><td>Исправить до следующей встречи и записать изменение</td></tr>
+        <tr><td><b>Доработать интерфейс</b></td><td>Наблюдения указывают на непонятное действие или информацию</td><td>Предложить правку, оценить её важность и проверить повторно</td></tr>
+        <tr><td><b>Отказаться от идеи</b></td><td>Не подтвердилось предположение, на котором она основана</td><td>Обсудить выводы с командой и записать причину отказа</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · что это за находка<span class="spacer"></span><span class="sc">0 / 8</span></div>
+    <div class="box-body">
+      <div class="drill" id="d2">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Сначала разберите возможную причину наблюдения: ограничение прототипа, проблема интерфейса или контекст участника. Затем выбирайте действие.</div>
+  </div>
+
+  <h3>Когда стоит пересмотреть саму идею</h3>
+  <p>Иногда достаточно изменить подпись или расположение ссылки. Но если проверка ставит под сомнение <strong>основное предположение идеи</strong>, стоит вернуться к её цели. Обсудите, сохраняется ли польза после необходимых правок.</p>
+
+  <div class="rule"><b>Продолжение учебного примера.</b> Кроме двухшагового оформления команда проверяет идею <b>скрыть шаг доставки</b> и автоматически подставлять последний адрес. Все трое ищут, куда привезут заказ; один говорит, что сейчас находится в другом месте. Команда отказывается от скрытой подстановки: адрес нужно показать и дать возможность изменить. Само двухшаговое оформление остаётся в работе, но с понятной оплатой и заметной ссылкой смены карты.</div>
+
+  <h3>Как обсудить отказ от идеи</h3>
+  <ul>
+    <li><strong>Уже потрачено время.</strong> Сравните оставшуюся работу с тем, что теперь известно о решении. Затраты на прототип сами по себе не повод продолжать разработку.</li>
+    <li><strong>Отказ кажется неудачей.</strong> Проверка помогла заметить проблему раньше. Сохраните, что удалось узнать, и используйте это в следующем варианте.</li>
+    <li><strong>Команда рассчитывала на идею.</strong> Покажите наблюдения и предложите следующий шаг: «Все трое искали адрес на подтверждении. Предлагаю показывать его и оставить возможность изменения».</li>
+  </ul>
+
+  <div class="warnbox"><b>Сохраните причину отказа.</b> Запишите, что проверяли, что наблюдали и почему выбрали другой путь. Приложите ссылку на версию прототипа или снимки экранов. Если команда вернётся к идее, будет понятно, на чём основано прежнее решение.</div>
+
+  <h3>После переделки — короткая повторная проверка</h3>
+  <p>Для упражнения пригласите одного-двух новых участников и дайте те же задачи. Посмотрите, возникает ли прежнее затруднение. В отчёте опишите наблюдение конкретно: «После правки оба участника верно объяснили, когда спишутся деньги».</p>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Подготовьте прототип, проверьте его с тремя участниками и запишите затруднения, в том числе места, где понадобилась ваша помощь.</p>
+
+  <h3>Часть 1 · Вопрос проверки, 15 минут</h3>
+  <ol>
+    <li><strong>Сформулируйте один вопрос</strong> так, чтобы на него можно было ответить наблюдением, а не мнением.</li>
+    <li><strong>Опишите признаки понимания:</strong> например, участник до нажатия верно объясняет, когда спишутся деньги. Запишите также, какие наблюдения покажут затруднение.</li>
+    <li><strong>Выберите детализацию</strong> по таблице из раздела 4. Проверьте, что её хватит для вашей задачи.</li>
+  </ol>
+
+  <h3>Часть 2 · Данные и состояния, 1–2 часа</h3>
+  <ol>
+    <li><strong>Заполните основной путь</strong> реалистичными данными: именами, суммами, адресами и статусами.</li>
+    <li><strong>Сделайте один экран на самых неудобных данных:</strong> длинное имя, большая сумма, двенадцать позиций, пустое поле.</li>
+    <li><strong>Пройдите свой тестовый сценарий</strong> и на каждом экране спросите: что если данных нет? что если долго? что если не сработало? что если гость?</li>
+    <li><strong>Подготовьте недостающие состояния</strong> на основе основных экранов.</li>
+    <li><strong>Пройдите прототип сами</strong> и проверьте все доступные кнопки. Для действий из задания настройте переходы, для остальных — заглушки с возвратом.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверка на трёх людях, полдня</h3>
+  <ol>
+    <li><strong>Возьмите скрипт и бланк</strong> из раздела 5, заполните легенду и задачи.</li>
+    <li><strong>Пригласите троих не из команды, которым знакома задача.</strong> Проведите отдельные встречи по 20–30 минут.</li>
+    <li><strong>Наблюдайте и уточняйте ожидания.</strong> Если пришлось подсказать действие, запишите это в бланке.</li>
+    <li><strong>Исправляйте технические ошибки прототипа между встречами</strong> и отмечайте изменения. Для сравнения наблюдений оставьте само решение одинаковым у всех трёх участников.</li>
+  </ol>
+
+  <h3>Часть 4 · Свод и переделка, 2 часа</h3>
+  <ol>
+    <li><strong>Сведите находки в таблицу:</strong> место, сколько человек споткнулось, подсказывали ли, что делаем.</li>
+    <li><strong>Определите дальнейшие действия:</strong> исправить прототип, доработать интерфейс или пересмотреть идею. Наблюдения без ясного объяснения сохраните для уточнения.</li>
+    <li><strong>Доработайте решение по наблюдениям</strong> <em>до</em> подробного оформления. Учитывайте последствия проблемы, её повторяемость и связь с задачей.</li>
+    <li><strong>Проверьте правки с одним-двумя новыми участниками:</strong> посмотрите, осталось ли затруднение.</li>
+  </ol>
+
+  <div class="rule"><b>Как понять, что задание выполнено.</b> Вы показали связь между наблюдением, правкой и результатом повторной проверки. Для этого задания нужен пример хотя бы одного доработанного решения. Если в выбранном сценарии проблем не нашлось, не придумывайте их: сохраните результат и возьмите другой вопрос для тренировки.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Прототип с реалистичными данными</strong> и отдельным экраном для проверки крайних значений.</li>
+    <li><strong>Состояния:</strong> загрузка, пусто, ошибка, нет прав — те, в которые участник мог попасть.</li>
+    <li><strong>Список мест, где пришлось подсказывать,</strong> — по каждому участнику.</li>
+    <li><strong>Сводка трёх встреч</strong> с причинами затруднений и следующими действиями.</li>
+    <li><strong>Что переделано</strong> и результат повторной проверки.</li>
+  </ul>
+  <p class="dim">Для планирования отведите до полудня на данные и состояния, полдня на три встречи и около двух часов на разбор и правки. Время повторной проверки и поиск участников учтите отдельно.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Прототип не сработал на первой встрече».</strong> Исправьте ошибки и проверьте переходы сами. Отметьте, какие задачи участник не смог выполнить из-за ограничений прототипа. При необходимости запланируйте дополнительную встречу.</li>
+    <li><strong>«Участник всё прошёл и похвалил интерфейс».</strong> Сопоставьте отзыв с наблюдениями: где он останавливался, что переспрашивал, нужна ли была помощь. Это разные части результата.</li>
+    <li><strong>«Не получается найти троих».</strong> Начните с доступных участников и прямо укажите размер проверки. Даже одна встреча может показать проблему, но не расскажет, насколько она распространена.</li>
+    <li><strong>«Команда хочет сначала оформить макет».</strong> Объясните, какой вопрос можно проверить на черновике и какое решение зависит от ответа. Договоритесь о времени на проверку.</li>
+    <li><strong>«Нашли двадцать проблем».</strong> Начните с тех, которые мешают выполнить задачу или могут привести к серьёзной ошибке. Повторяемость поможет расставить приоритеты, но единичную важную проблему тоже стоит разобрать.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Прототип готов к проверке, если</h3>
+  <ul class="ok-list">
+    <li>Записан один вопрос проверки и способ понять ответ</li>
+    <li>Данные реалистичны и подходят тестовым задачам</li>
+    <li>Есть хотя бы один экран на самых неудобных данных</li>
+    <li>Подготовлены состояния, необходимые для сценария проверки</li>
+    <li>Есть подтверждение успеха — экран или явное изменение</li>
+    <li>Каждая кнопка ведёт на экран, состояние или заглушку</li>
+    <li>Всё, что участник тронет по сценарию, работает</li>
+    <li>Уровень детализации не выше, чем нужно для вопроса</li>
+    <li>Прототип открывается по ссылке и проходится без вас</li>
+  </ul>
+
+  <h3>После проверки у вас есть</h3>
+  <ul class="ok-list">
+    <li>Записи трёх отдельных встреч с участниками, которым знакома задача</li>
+    <li>Задания, сформулированные через цель без указания нужных кнопок</li>
+    <li>Записи всех подсказок и мест, где они понадобились</li>
+    <li>Наблюдения за поведением и отдельные записи отзывов</li>
+    <li>Пометки о технических исправлениях между встречами</li>
+    <li>Разбор причин затруднений и дальнейших действий</li>
+    <li>Для задания — пример решения, доработанного до подробного оформления</li>
+    <li>Результат повторной проверки после правок</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Подробное оформление слишком рано.</b> На непроверенную структуру уходит время, а менять её после этого сложнее.</li>
+    <li><b>Только короткие данные.</b> По ним не видно, что происходит с длинными названиями, большими суммами и пустыми полями.</li>
+    <li><b>Пропущенные состояния.</b> Участник упирается в ограничение прототипа, и проверить задуманный путь не получается.</li>
+    <li><b>Нет подтверждения результата.</b> Человек может не понять, сработало ли действие, и повторить его.</li>
+    <li><b>Лишняя детализация.</b> На неё уходит время, хотя для текущего вопроса достаточно более простого прототипа.</li>
+    <li><b>Вы выполняете задачу за участника.</b> Так не видно, сможет ли он разобраться самостоятельно.</li>
+    <li><b>Незаписанные подсказки.</b> В отчёте выполнение с помощью может выглядеть как самостоятельное.</li>
+    <li><b>Незаметная смена решения между встречами.</b> Результаты разных версий трудно сопоставить, если изменения не отмечены.</li>
+    <li><b>Правка без разбора причины.</b> Сначала выясните, что помешало участнику и насколько важны последствия.</li>
+    <li><b>Проценты вместо людей.</b> «67 % не справились» на трёх людях — это «двое из трёх», и говорить надо так.</li>
+    <li><b>Спор с участником.</b> За объяснением своей идеи легко упустить его ожидания и затруднения.</li>
+    <li><b>Разработка без учёта результатов.</b> Команда продолжает работу, хотя ключевое предположение идеи осталось под вопросом.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы</h2></div>
+  <p class="sec-sub">На этом уровне важно уметь подготовить проверку и связать наблюдения с решением о дальнейшей работе.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Что нужно уметь</th><th>Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Собирать черновые экраны с реальными подписями; выделять главное действие; настраивать переходы. Ориентир для упражнения — три-пять экранов за час</td>
+          <td class="dim">Прототип проходится от начала до конца без ваших подсказок и без тупиков</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Подбирать данные и состояния под тестовые задачи; выбирать детализацию; наблюдать за выполнением задач; дорабатывать решение или отказываться от идеи по результатам</td>
+          <td>В задании показано хотя бы одно решение, доработанное по наблюдениям до подробного оформления</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Senior</b></td>
+          <td class="dim">Определять, что стоит прототипировать; сравнивать варианты; помогать команде принимать решения; создавать общие заготовки и правила работы</td>
+          <td class="dim">Решение о крупной функции принято по прототипу до того, как на неё потратили спринт разработки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Ориентир по этой теме:</b> вы можете подготовить прототип под конкретный вопрос, провести проверку и объяснить, что узнали. Предложенные правки опираются на наблюдения, а не только на впечатления от встречи.</div>
+</section>
+
+<footer>
+  Урок по теме «Вайрфреймы и прототипы», уровень Middle. Учебный пример — проверка двухшагового оформления заказа с тремя участниками. План встречи и бланк из раздела 5 можно скопировать. Для дальнейшего чтения: Стив Круг, «Не заставляйте меня думать»; Роберт Хоекман, «Проектируем эффективно»; материалы Nielsen Norman Group о детализации прототипов и пустых состояниях.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next');
+    var sc = el.closest('.box').querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Здесь подходит «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>После упражнения</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'sketch', label: 'Набросок' }, { key: 'wire', label: 'Серый прототип' },
+     { key: 'data', label: 'Прототип с данными и состояниями' }, { key: 'real', label: 'Проверка в работающем продукте' }],
+    [
+      { t: '<q>Ничего ли мы не забыли в сценарии возврата — все ли шаги на месте?</q>', a: 'sketch',
+        fb: 'Начните со схемы или наброска: они помогут обсудить состав и порядок шагов. Подробные экраны для этого пока не нужны.' },
+      { t: '<q>Понятно ли из названий, где искать отмену заказа?</q>', a: 'wire',
+        fb: 'Для проверки названий начните со структуры и подписей. Добавьте только тот контекст, без которого участник не сможет понять задачу.' },
+      { t: '<q>Пройдёт ли человек оформление в два шага без подсказок?</q>', a: 'data',
+        fb: 'Подготовьте данные, поля, кнопки и состояния для задания. Иначе ограничение прототипа может помешать проверить само решение.' },
+      { t: '<q>Влезает ли сумма 162 980 ₽ рядом с длинным названием товара?</q>', a: 'data',
+        fb: 'Подставьте длинное название и нужную сумму. На черновике можно заметить явный недостаток места; после выбора шрифтов проверьте размещение ещё раз.' },
+      { t: '<q>Вырастет ли доля оплаченных заказов, если убрать шаг?</q>', a: 'real',
+        fb: 'Для оценки изменения конверсии нужны данные работающего продукта. Небольшая проверка прототипа поможет найти затруднения, но не предскажет долю оплаченных заказов.' },
+      { t: '<q>Понимает ли человек, что деньги спишутся сразу?</q>', a: 'data',
+        fb: 'Покажите реалистичную сумму, способ оплаты и результат нажатия. Проверьте, как участник объясняет происходящее. Кнопка и пояснения должны быть достаточно заметны.' },
+      { t: '<q>Из скольких экранов должен состоять сценарий подписки?</q>', a: 'sketch',
+        fb: 'Сначала разложите сценарий на шаги в схеме или наброске. Так проще обсудить последовательность до подробной работы над экранами.' },
+      { t: '<q>Будут ли постоянные покупатели замечать новую кнопку в обычном использовании, без тестового задания?</q>', a: 'real',
+        fb: 'Для ответа наблюдайте за использованием работающего продукта. В прототипе можно проверить заметность в условиях теста, но это не то же самое, что привычное поведение.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'В большинстве примеров вы выбрали подходящий способ проверки. Перед своим прототипом тоже запишите вопрос и решите, какая детализация для него нужна.'
+        : s >= 4 ? 'Посмотрите пояснения к ответам. Прототип помогает исследовать понимание и действия, но результаты нескольких встреч нельзя переносить на показатели всего продукта.'
+        : 'Вернитесь к таблице в разделе 4. Начните с вопроса проверки и выберите, какие экраны, данные и действия нужны для ответа.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'proto', label: 'Ошибка прототипа' }, { key: 'sol', label: 'Проблема решения' }, { key: 'person', label: 'Контекст участника' }],
+    [
+      { t: 'По задумке фото товара открывается по нажатию. В прототипе участник нажал на его серую заглушку, но ничего не произошло.', a: 'proto',
+        fb: 'В описании известно, что фото должно открываться. Добавьте пропущенный переход или заглушку, если просмотр фото не входит в задачу.' },
+      { t: 'Двое из трёх не нашли, где поменять способ оплаты.', a: 'sol',
+        fb: 'Участникам трудно найти действие. Проверьте, как показан способ оплаты, и попробуйте разместить рядом ссылку «Изменить». Затем проверьте правку.' },
+      { t: 'Трое из трёх спросили: «а это точно последний шаг?»', a: 'sol',
+        fb: 'Все трое не уверены, что будет после нажатия. Посмотрите, как обозначены шаги и подписана кнопка. Предложите правку и проверьте, стало ли действие понятнее.' },
+      { t: 'Поле ввода не принимало текст, участник решил, что всё сломалось.', a: 'proto',
+        fb: 'Если задача предполагает ввод адреса, поле должно принимать текст. Исправьте это перед следующей встречей и отметьте, что прежнее затруднение вызвал прототип.' },
+      { t: '«Я всегда плачу при получении, картой вообще не пользуюсь».', a: 'person',
+        fb: 'Это сведения о привычках участника. Уточните, знакома ли ему задача оплаты картой и подходит ли она для этой встречи. По одной реплике нельзя судить об удобстве экрана.' },
+      { t: 'Участник попробовал прокрутить экран, а прототип не прокручивался.', a: 'proto',
+        fb: 'Если содержимое продолжается ниже экрана, настройте прокрутку. Пока её нет, нельзя понять, найдёт ли участник элементы внизу.' },
+      { t: 'Прочитал «Оплатить 3 480 ₽» и спросил, входит ли сюда доставка.', a: 'sol',
+        fb: 'Вопрос указывает на возможную нехватку информации о составе суммы. Проверьте, показана ли стоимость доставки, добавьте пояснение и проверьте его с новыми участниками.' },
+      { t: 'Участник оказался дизайнером и полчаса комментировал отступы и шрифт.', a: 'person',
+        fb: 'Верните разговор к выполнению задачи. Профессия сама по себе не исключает участника: важно, знакома ли ему задача продукта. Комментарии об оформлении запишите отдельно от наблюдений за действиями.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'В большинстве примеров вы отделили ограничения прототипа от вопросов к интерфейсу и контексту участника. Это поможет выбрать подходящие действия после проверки.'
+        : s >= 4 ? 'Сравните наблюдение с задуманным поведением продукта. Затем уточните контекст: выполнял ли участник знакомую задачу и что именно ему помешало?'
+        : 'Вернитесь к примерам в разделе 6. Сначала запишите, что произошло, затем возможную причину и способ её проверить.';
+    }
+  );
+
+  /* ── tabs (scoped per group) ── */
+  document.querySelectorAll('.tabs[role="tablist"]').forEach(function (group) {
+    var tabs = Array.prototype.slice.call(group.querySelectorAll('[role="tab"]'));
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (o) {
+          o.setAttribute('aria-selected', String(o === t));
+          var p = document.getElementById(o.getAttribute('aria-controls'));
+          if (p) p.classList.toggle('on', o === t);
+        });
+      });
+    });
+  });
+
+  /* ── accordions ── */
+  document.querySelectorAll('.accs').forEach(function (group) {
+    group.querySelectorAll('.acc[data-acc]').forEach(function (card) {
+      card.querySelector('button').addEventListener('click', function () {
+        var open = card.classList.contains('open');
+        group.querySelectorAll('.acc').forEach(function (c) { c.classList.remove('open'); });
+        if (!open) card.classList.add('open');
+      });
+    });
+  });
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = (src.innerText || src.textContent).replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

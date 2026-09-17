@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опросы: как отклонить чужой вывод</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --bar: #2a78d6; --track: #e1e0d9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --bar: #3987e5; --track: #2c2c2a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --bar: #3987e5; --track: #2c2c2a;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 820px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 58px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 165px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* bias calculator */
+  .bc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 680px) { .bc-grid { grid-template-columns: 1fr; } }
+  .fld { display: flex; flex-direction: column; gap: 5px; }
+  .fld label { font-size: 13.5px; color: var(--ink-2); }
+  .fld label span { display: block; color: var(--muted); font-size: 12.5px; }
+  .fld input[type="number"] { border: 1px solid var(--border); background: var(--page); color: var(--ink); border-radius: 8px; padding: 9px 11px; font: 14px ui-monospace, Menlo, monospace; width: 100%; }
+  .fld input[type="range"] { accent-color: var(--accent); width: 100%; }
+  .bc-out { margin-top: 18px; border-top: 1px solid var(--hairline); padding-top: 16px; }
+  .rng { position: relative; height: 40px; margin: 10px 0 6px; }
+  .rng .axis { position: absolute; left: 0; right: 0; top: 18px; height: 6px; background: var(--track); border-radius: 3px; }
+  .rng .span { position: absolute; top: 18px; height: 6px; background: var(--bar); border-radius: 3px; }
+  .rng .tick { position: absolute; top: 28px; font: 11px ui-monospace, Menlo, monospace; color: var(--muted); transform: translateX(-50%); white-space: nowrap; }
+  .rng .pt { position: absolute; top: 12px; width: 3px; height: 18px; background: var(--ink); border-radius: 2px; transform: translateX(-1px); }
+  .rng .ptlab { position: absolute; top: -4px; font: 11px system-ui; color: var(--ink); transform: translateX(-50%); white-space: nowrap; }
+  .bc-say { margin-top: 14px; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 12px 14px; font-size: 14.5px; }
+  .bc-say b { color: var(--ink); }
+  .bc-big { font: 600 26px/1.15 system-ui; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+
+  /* report review */
+  .rep { background: var(--raised); border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+  .rep h4 { margin: 0 0 3px; font-size: 18px; }
+  .rep .meta { font-size: 13.5px; color: var(--muted); margin: 0 0 16px; }
+  .rep h5 { margin: 18px 0 8px; font-size: 14.5px; }
+  .claim { border-left: 3px solid var(--hairline); padding: 4px 0 4px 13px; margin: 12px 0; }
+  .claim .txt { font-size: 15px; }
+  .claim .note { display: none; margin-top: 9px; font-size: 14px; color: var(--ink-2); }
+  .claim .note b { color: var(--ink); }
+  .rep.review .claim.hold { border-left-color: var(--good); }
+  .rep.review .claim.soft { border-left-color: var(--warn); }
+  .rep.review .claim.drop { border-left-color: var(--bad); }
+  .rep.review .claim .note { display: block; }
+  .vd { display: inline-block; font: 700 10.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase; border-radius: 5px; padding: 2px 8px; margin-bottom: 6px; }
+  .vd.hold { background: var(--good-soft); color: var(--good); }
+  .vd.soft { background: var(--warn-soft); color: var(--warn); }
+  .vd.drop { background: var(--bad-soft); color: var(--bad); }
+  .rep .claim .vd { display: none; }
+  .rep.review .claim .vd { display: inline-block; }
+
+  .bars { display: flex; flex-direction: column; gap: 9px; margin: 10px 0; }
+  .brow { display: grid; gap: 4px; }
+  .blab { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; align-items: baseline; }
+  .blab .t { color: var(--ink); }
+  .blab .v { color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13.5px; }
+  .btrack { height: 13px; background: var(--track); border-radius: 3px; overflow: hidden; }
+  .bfill { display: block; height: 100%; background: var(--bar); border-radius: 0 4px 4px 0; }
+
+  /* three points */
+  .pts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 680px) { .pts { grid-template-columns: 1fr; } }
+  .pt-card { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: var(--raised); }
+  .pt-card .n { font: 700 10.5px system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+  .pt-card h5 { margin: 5px 0 8px; font-size: 16px; }
+  .pt-card ul { margin: 0; padding-left: 18px; font-size: 14px; max-width: none; }
+  .pt-card li { margin: 4px 0; color: var(--ink-2); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Опросы · Senior · как отклонить чужой вывод</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · опросы и цифры</p>
+  <div class="levels" aria-label="Уровень темы: Senior, третий из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv done">Middle</span>
+    <span class="lv on">Senior</span>
+  </div>
+  <h1>Как разобрать чужое исследование и не скатиться в спор о вкусах</h1>
+  <p class="lede">На этом уровне к вам приходят с чужим отчётом и спрашивают, можно ли на нём строить решение. Сложность в том, что плохо собранные данные часто выглядят так же убедительно, как хорошие: проценты те же, диаграммы те же. А возражение «мне кажется, это не так» звучит как вкусовщина и обычно не помогает. Здесь разберёмся, как подбирать метод под вопрос, как замечать, кто не дошёл до анкеты, как проверять чужое исследование по трём точкам и как говорить о неопределённости так, чтобы её учли.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#method">Подбирать метод под вопрос</a> — где хватит пяти разговоров, где нужен опрос, где аналитика<span class="drillmark">тренажёр</span></li>
+    <li><a href="#bias">Видеть смещение выборки</a> и понимать, как оно может менять вывод<span class="drillmark">калькулятор</span></li>
+    <li><a href="#three">Проверять чужое исследование по трём точкам</a></li>
+    <li><a href="#review">Разбирать чужой отчёт</a> и отделять выводы, которые держатся, от тех, что нет<span class="drillmark">разбор</span></li>
+    <li><a href="#stop">Останавливать решение</a> на слабых данных, не переходя на вкусы<span class="drillmark">тренажёр</span></li>
+    <li><a href="#uncert">Объяснять неопределённость</a> так, чтобы её учли</li>
+  </ol>
+</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется на этом уровне</h2></div>
+  <p class="sec-sub">Собирать данные вы уже умеете. Теперь вы отвечаете за то, что из них можно, а чего нельзя выводить.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Middle</th><th>Senior</th></tr></thead>
+      <tbody>
+        <tr><td><b>Метод</b></td><td>делаете опрос</td><td>решаете, нужен ли он вообще, и предлагаете другой</td></tr>
+        <tr><td><b>Выборка</b></td><td>описываете, кто ответил</td><td>считаете, как отличаются те, кто не ответил</td></tr>
+        <tr><td><b>Чужие исследования</b></td><td>читаете</td><td>разбираете и говорите, какие выводы держатся</td></tr>
+        <tr><td><b>Слабые данные</b></td><td>отмечаете оговоркой</td><td>останавливаете решение, построенное на них</td></tr>
+        <tr><td><b>Неопределённость</b></td><td>упоминаете в конце отчёта</td><td>переводите в то, чем рискует команда</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>анкета, подтвердившая автора</td><td>решение, принятое по слабым данным, — при том что вы это видели</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Две ловушки уровня</h3>
+  <ul>
+    <li><strong>Молчание из вежливости.</strong> Вы видите, что отчёт не держится, но коллега старался, а совещание идёт к концу. Через месяц решение принято, деньги потрачены, и выясняется, что опрашивали двадцать человек из одного чата. Ваша роль здесь — сказать вовремя, а не оказаться правым задним числом.</li>
+    <li><strong>Роль скептика.</strong> Обратная крайность: вы придираетесь к каждой цифре, и команда перестаёт приносить вам данные. Признак — вас зовут, когда решение уже принято, «чтобы не тормозить процесс». Лекарство простое: на каждое «это не держится» приносите «а вот это держится, и вот что из этого следует».</li>
+  </ul>
+
+  <div class="rule"><b>Правило, которое разводит обе ловушки: отклоняйте не вывод, а способ его получения.</b> «Я не согласен, что людям нужен тёмный режим» — это ваше мнение против чужого, спор без разрешения. «Опрашивали только подписчиков телеграм-канала, а вопрос был „хотели бы вы тёмную тему“ — на него все отвечают да» — это проверяемое утверждение о данных. Первое легко отклонить как мнение, второе можно проверить.</div>
+</section>
+
+<section id="method">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Метод под вопрос</h2></div>
+  <p class="sec-sub">Первый навык. Самая дорогая ошибка исследования делается до его начала.</p>
+
+  <p>Каждый метод отвечает на свой тип вопроса, и подмена обычно плохо работает. Пять разговоров не скажут, насколько часто это встречается. Опрос на тысячу человек не объяснит, почему они так делают. Аналитика покажет, где люди отваливаются, но не расскажет, что у них при этом происходило.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Если вопрос про…</th><th>Метод</th><th>Сколько нужно</th><th>Сколько времени</th></tr></thead>
+      <tbody>
+        <tr><td><b>Почему и как</b> — что происходит с человеком</td><td>Интервью</td><td class="num">5–8</td><td>1–2 недели</td></tr>
+        <tr><td><b>Справится ли</b> — работает ли интерфейс</td><td>Юзабилити-тест</td><td class="num">5</td><td>несколько дней</td></tr>
+        <tr><td><b>Сколько и как часто</b> — масштаб</td><td>Опрос</td><td class="num">от 100–200</td><td>1–2 недели</td></tr>
+        <tr><td><b>Что происходит на самом деле</b> — поведение</td><td>Аналитика</td><td>весь трафик</td><td>часы, если данные уже есть</td></tr>
+        <tr><td><b>Какой вариант лучше</b> — сравнение</td><td>A/B-тест</td><td>зависит от трафика</td><td>2–4 недели</td></tr>
+        <tr><td><b>Что будет через месяц</b> — привычка</td><td>Когорты или дневниковое</td><td class="num">8–12 человек</td><td>месяц и больше</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Порядок, который экономит больше всего времени: сначала посмотрите в аналитику.</b> Она уже собрана, стоит ноль и часто отвечает на вопрос целиком. Второй шаг — несколько разговоров, чтобы понять, что за цифрой стоит. И только третий — опрос, чтобы посчитать масштаб того, что нашли в разговорах. Опрос первым часто делают тогда, когда хочется быстро получить цифру, но ещё непонятно, что именно считать.</div>
+
+  <h3>Когда правильный ответ — «исследование не нужно»</h3>
+  <ul>
+    <li><strong>Решение дешевле проверить, чем исследовать.</strong> Поменять текст кнопки и посмотреть на метрику иногда быстрее любого опроса.</li>
+    <li><strong>Ответ уже известен.</strong> Если исследование подтвердит то, что все и так делают, оно может превратиться в двухнедельную церемонию.</li>
+    <li><strong>Решение всё равно принято.</strong> Честнее сказать это вслух, чем провести исследование, которое никто не собирался учитывать.</li>
+    <li><strong>Вопрос не про пользователей.</strong> «Сколько это будет стоить в разработке» — вопрос к команде, а не к людям.</li>
+  </ul>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · чем отвечать на этот вопрос<span class="spacer"></span><span class="sc num">0 / 8</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Подсказка по формулировкам: «почему» и «как» — разговоры, «сколько» и «как часто» — опрос или аналитика, «какой лучше» — тест, «что происходит сейчас» — аналитика.</div>
+  </div>
+</section>
+
+<section id="bias">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Кто не дошёл до анкеты</h2></div>
+  <p class="sec-sub">Второй навык. Недооценённая проблема в опросах: после сбора её уже почти не починить.</p>
+
+  <p>Вы знаете только тех, кто ответил. Про остальных данных нет. И часто они отличаются: отвечают те, у кого есть повод, время и мнение. Вопрос, который вы должны уметь задать себе и другим, звучит так: <strong>что должно быть правдой про неответивших, чтобы вывод развалился?</strong></p>
+
+  <p>Для рабочего разговора не всегда нужен сложный расчёт — часто достаточно прикинуть границы. Ниже калькулятор: он показывает, в каких пределах гуляет ответ по всей базе, если предположения о неответивших меняются.</p>
+
+  <div class="box">
+    <div class="box-head">Калькулятор · что если те, кто не ответил, думают иначе<span class="spacer"></span><button class="btn" id="bcReset" type="button">Сбросить</button></div>
+    <div class="box-body">
+      <div class="bc-grid">
+        <div class="fld"><label for="bcBase">Всего людей в базе<span>кому отправили анкету</span></label>
+          <input type="number" id="bcBase" value="1000" min="1" step="50"></div>
+        <div class="fld"><label for="bcResp">Сколько ответило<span>и из них выбрали нужный вариант</span></label>
+          <input type="number" id="bcResp" value="60" min="1" step="5"></div>
+        <div class="fld"><label for="bcYes">Из ответивших выбрали вариант<span id="bcYesLab">42 человека — это 70 % ответивших</span></label>
+          <input type="range" id="bcYes" min="0" max="100" step="1" value="70"></div>
+        <div class="fld"><label for="bcOther">Предположим, среди неответивших так думают<span id="bcOtherLab">от 10 % до 70 %</span></label>
+          <input type="range" id="bcOther" min="0" max="100" step="5" value="10"></div>
+      </div>
+      <div class="bc-out">
+        <div class="bc-big" id="bcBig">—</div>
+        <div class="rng" id="bcRng"></div>
+        <div class="bc-say" id="bcSay"></div>
+      </div>
+    </div>
+    <div class="box-foot">Смысл упражнения не в точной оценке, а в ширине вилки. Если ответ по всей базе может оказаться где угодно между 14 % и 70 % из-за непроверяемого предположения о неответивших, на этой цифре нельзя строить дорогое решение. И это уже разговор о данных, а не о вкусах.</div>
+  </div>
+
+  <h3>Признаки, что выборка смещена сильно</h3>
+  <ul>
+    <li><strong>Ответило меньше 10 %.</strong> Не приговор, но повод писать «те, кто ответил», а не «пользователи».</li>
+    <li><strong>Приглашали через один канал.</strong> Подписчики канала, участники чата, посетители конференции — это не аудитория продукта, это её самая вовлечённая часть.</li>
+    <li><strong>Была награда.</strong> Розыгрыш и подарок притягивают людей, которым нужен подарок, а не тех, у кого есть что сказать.</li>
+    <li><strong>Спрашивали в момент эмоции.</strong> Сразу после ошибки или сразу после успешной покупки — обе картины перекошены, в разные стороны.</li>
+    <li><strong>Анкета была длинной.</strong> До конца доходят самые терпеливые и самые заинтересованные — а это уже другая группа, чем те, кто начал.</li>
+    <li><strong>Невозможно сказать, скольким отправили.</strong> Пост в соцсетях: знаменатель неизвестен, доля отклика не считается, о смещении сказать нечего.</li>
+  </ul>
+
+  <div class="warnbox"><b>Проверка на пять минут:</b> сравните ответивших с обычными пользователями по тому, что вы и так знаете: давность регистрации, частота захода, устройство, средний чек. Если ответившие заходят вдвое чаще средних, их ответы описывают более активную часть базы. Это не повод выбрасывать данные, но повод честно подписать, к кому они относятся.</div>
+</section>
+
+<section id="three">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Три точки проверки чужого исследования</h2></div>
+  <p class="sec-sub">Третий навык. Любой отчёт разбирается по одной и той же схеме, и она короткая.</p>
+
+  <p>Не нужно читать чужой отчёт как охоту за ошибками. Надо задать три вопроса в фиксированном порядке — и почти все проблемы находятся на первых двух. Порядок важен: если сломана первая точка, вывод уже нужно сужать, даже если остальная часть отчёта выглядит аккуратно.</p>
+
+  <div class="pts">
+    <div class="pt-card">
+      <span class="n">Точка 1</span>
+      <h5>Кого спрашивали</h5>
+      <ul>
+        <li>Сколько человек и из скольких?</li>
+        <li>Как их нашли — какой канал?</li>
+        <li>Чем они отличаются от обычных пользователей?</li>
+        <li>Кого заведомо не было в выборке?</li>
+        <li>Была ли награда за участие?</li>
+      </ul>
+    </div>
+    <div class="pt-card">
+      <span class="n">Точка 2</span>
+      <h5>Как спрашивали</h5>
+      <ul>
+        <li>Дословные формулировки вопросов есть в отчёте?</li>
+        <li>Нет ли подсказки внутри вопроса?</li>
+        <li>Какие были варианты ответа и чего в них не хватало?</li>
+        <li>Спрашивали про факт или про намерение?</li>
+        <li>Про какой период — «вообще» или «за месяц»?</li>
+      </ul>
+    </div>
+    <div class="pt-card">
+      <span class="n">Точка 3</span>
+      <h5>Что из этого следует</h5>
+      <ul>
+        <li>Вывод шире данных или ровно по ним?</li>
+        <li>Сказано «пользователи» там, где были «ответившие»?</li>
+        <li>Выдана ли разница в пару процентов за тренд?</li>
+        <li>Не подменено ли «сколько» на «почему»?</li>
+        <li>Есть ли то, что не подтвердилось?</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule"><b>Если формулировок вопросов в отчёте нет — это уже находка.</b> Без дословных вопросов невозможно проверить вторую точку, а значит, выводы нужно читать осторожнее. Просить анкету — не придирка, а нормальная часть разбора исследования. Причина отсутствия может быть любой, поэтому не додумывайте её: просто зафиксируйте, что проверить формулировки нельзя.</div>
+</section>
+
+<section id="review">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Разбор чужого отчёта</h2></div>
+  <p class="sec-sub">Ниже отчёт, похожий на рабочий. Прочитай его сам, реши, что здесь держится, — потом включи разбор.</p>
+
+  <div class="box">
+    <div class="box-head">Чужое исследование · включи разбор, когда составишь своё мнение<span class="spacer"></span><button class="btn" id="revBtn" type="button" aria-pressed="false">Показать разбор</button></div>
+    <div class="box-body">
+      <div class="rep" id="repDoc">
+        <h4>Нужен ли пользователям тёмный режим</h4>
+        <p class="meta">Опрос, март · 112 ответов · собрано за 4 дня</p>
+
+        <h5>Как собирали</h5>
+        <p style="font-size:14.5px;max-width:none;margin:0 0 4px">Анкету опубликовали в телеграм-канале продукта и в двух профильных чатах. Среди заполнивших разыграли подписку на год.</p>
+
+        <h5>Результаты</h5>
+        <div class="bars">
+          <div class="brow"><div class="blab"><span class="t">Хотели бы тёмный режим</span><span class="v">94 из 112 · 84 %</span></div><div class="btrack"><span class="bfill" style="width:84%"></span></div></div>
+          <div class="brow"><div class="blab"><span class="t">Пользуются тёмной темой в других приложениях</span><span class="v">78 из 112 · 70 %</span></div><div class="btrack"><span class="bfill" style="width:70%"></span></div></div>
+          <div class="brow"><div class="blab"><span class="t">Работают вечером и ночью</span><span class="v">61 из 112 · 54 %</span></div><div class="btrack"><span class="bfill" style="width:54%"></span></div></div>
+          <div class="brow"><div class="blab"><span class="t">Готовы платить за это отдельно</span><span class="v">13 из 112 · 12 %</span></div><div class="btrack"><span class="bfill" style="width:12%"></span></div></div>
+        </div>
+
+        <h5>Выводы</h5>
+
+        <div class="claim" data-v="drop">
+          <span class="vd drop">Не держится</span>
+          <p class="txt" style="margin:0">1. <b>84 % пользователей хотят тёмный режим</b> — это подтверждённый спрос, надо делать в ближайшем квартале.</p>
+          <p class="note"><b>Что сломано: сразу две точки.</b> Первая — «пользователи»: опрашивали подписчиков канала и участников профильных чатов, то есть самую вовлечённую и технически подкованную часть аудитории. Вторая — сам вопрос: «хотели бы вы тёмный режим» — это вопрос о желании, на который бесплатно отвечают «да» почти все. Плюс розыгрыш подписки мог притянуть людей, которым интересен сам приз.<br><br><b>Что можно сказать вместо:</b> «84 из 112 подписчиков канала ответили, что хотели бы тёмный режим. Это про интерес, а не про спрос: вопрос ничего не стоил отвечающему».</p>
+        </div>
+
+        <div class="claim" data-v="hold">
+          <span class="vd hold">Держится</span>
+          <p class="txt" style="margin:0">2. <b>70 % опрошенных уже пользуются тёмной темой в других приложениях.</b></p>
+          <p class="note"><b>Почему держится:</b> это вопрос про факт, а не про желание — человек либо пользуется, либо нет, и ему это легко вспомнить. Цифра описывает опрошенных, и в такой формулировке она корректна. <b>Оговорка:</b> в отчёте надо заменить «опрошенных» на «подписчиков канала» — распространять на всю аудиторию нельзя, но сама цифра честная и полезная: она говорит, что привычка у этой группы есть.</p>
+        </div>
+
+        <div class="claim" data-v="soft">
+          <span class="vd soft">Нужна оговорка</span>
+          <p class="txt" style="margin:0">3. <b>Больше половины работают вечером и ночью</b> — значит, тёмный режим снизит усталость глаз.</p>
+          <p class="note"><b>Первая часть держится, вторая — нет.</b> «54 из 112 работают вечером» — нормальная цифра по опрошенным. А «снизит усталость глаз» опрос вообще не измерял: это догадка автора, приклеенная к цифре. Такие сцепки — самое частое место, где отчёт незаметно перестаёт опираться на данные. Проверить это можно только замерами, а не анкетой.</p>
+        </div>
+
+        <div class="claim" data-v="hold">
+          <span class="vd hold">Держится, и это самое интересное</span>
+          <p class="txt" style="margin:0">4. <b>Платить отдельно готовы только 12 %</b> — вывод: делать бесплатно, монетизировать не пытаться.</p>
+          <p class="note"><b>Почему держится:</b> это вопрос, где ответ был ближе к реальному выбору, — и цифра упала с 84 % до 12 %. Разрыв между «хотел бы» и «заплатил бы» — самая полезная находка этого отчёта, хотя автор поставил её последней. <b>Что добавить:</b> даже 12 % завышены, потому что это всё ещё намерение, а не оплата, — но направление верное.</p>
+        </div>
+
+        <div class="claim" data-v="drop">
+          <span class="vd drop">Не держится</span>
+          <p class="txt" style="margin:0">5. <b>Отсутствие тёмного режима — причина оттока</b>, в свободных ответах его упоминали чаще всего.</p>
+          <p class="note"><b>Что сломано:</b> анкета была про тёмный режим целиком — конечно, в свободных ответах упоминали именно его. Это может быть не находка, а эхо вопроса. Про отток анкета не спрашивала вообще: в ней не было ни одного вопроса про то, ушёл человек или остался. Вывод не просто шире данных, он про другое. <b>Как проверить по-настоящему:</b> посмотреть в аналитике, отличается ли отток у тех, кто спрашивал про тёмную тему в поддержке.</p>
+        </div>
+
+        <h5>Чего в отчёте нет</h5>
+        <p style="font-size:14.5px;max-width:none;margin:0"><span class="vd drop" style="margin-right:6px">Пропуск</span>Нет дословных формулировок вопросов, нет доли отклика (скольким показали анкету), нет разбивки по давности использования продукта и не сказано, что не подтвердилось.</p>
+      </div>
+    </div>
+    <div class="box-foot">Обрати внимание на структуру разбора: по каждому выводу сказано не «я не согласен», а что именно в сборе данных не позволяет его сделать. Два вывода из пяти при этом держатся — и об этом сказано прямо. Разбор, где всё плохо, часто читается как придирка и хуже влияет на решение.</div>
+  </div>
+</section>
+
+<section id="stop">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Как останавливать решение и не спорить о вкусах</h2></div>
+  <p class="sec-sub">Четвёртый навык. Разница между «мне кажется» и «эти данные этого не показывают» — в том, что второе проверяемо.</p>
+
+  <p>Когда вы говорите «я не думаю, что людям нужен тёмный режим», вы ставите своё мнение против чужой цифры. Обычно это слабая позиция: у них диаграмма, у вас ощущение. Когда вы говорите «в анкете спросили „хотели бы вы“, а на такой вопрос все отвечают да», вы спорите не с желанием людей, а с тем, что из вопроса сделали слишком широкий вывод: вы показываете, что вывод не следует из того, как собирали. Возразить на это можно только фактом про метод, и на это уже нужно отвечать фактами про метод.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Так спор о вкусах</th><th>Так разговор о данных</th></tr></thead>
+      <tbody>
+        <tr><td>«Мне кажется, это не так»</td><td>«Опрашивали подписчиков канала — это самая вовлечённая часть. На всей базе цифра будет другой, и мы не знаем, насколько»</td></tr>
+        <tr><td>«Десять человек — это мало»</td><td>«На десяти ответах разница между 40 % и 60 % не существует. Если один человек передумает, цифра сдвинется на десять пунктов»</td></tr>
+        <tr><td>«Опросы врут»</td><td>«Вопрос был про желание, а не про поступок. В той же анкете есть вопрос про готовность платить — там 12 % вместо 84 %»</td></tr>
+        <tr><td>«Нужно больше исследований»</td><td>«Этот вывод держится, а вот этот нет. Чтобы закрыть второй, нужно два дня аналитики — посмотреть, отличается ли отток»</td></tr>
+        <tr><td>«Я бы так не делал»</td><td>«Решение обратимое и дешёвое — можно делать и на этих данных. А вот это необратимо, и здесь я бы сначала проверил»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Четыре шага разговора</h3>
+  <ol>
+    <li><strong>Согласитесь с тем, что держится.</strong> Начните с «вот это хорошая находка, её беру» — и назовите конкретную. Тогда дальнейшее не читается как атака.</li>
+    <li><strong>Назовите механизм, а не вывод.</strong> Что именно в сборе данных не позволяет так утверждать: кого спрашивали, как спрашивали.</li>
+    <li><strong>Скажите, что можно утверждать вместо этого.</strong> Отклонённый вывод часто можно переформулировать в более узкий и честный. Это важнее самого отклонения: вы не обнуляете чужую работу, а сужаете её до честного.</li>
+    <li><strong>Предложите, чем закрыть пробел,</strong> с ценой в днях. «Два дня аналитики» обсуждается, «нужно нормальное исследование» — нет.</li>
+  </ol>
+
+  <div class="rule"><b>Соразмеряйте строгость с ценой ошибки.</b> Данные на десяти ответах — плохое основание для переписывания платёжного модуля и совершенно нормальное для того, чтобы поменять формулировку на кнопке. Требовать одинаковой доказательности от обратимого и необратимого решения — быстрый способ потерять влияние там, где строгость действительно нужна.</div>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · вывод держится?<span class="spacer"></span><span class="sc num">0 / 8</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Три исхода вместо двух: часть выводов не выбрасывается, а сужается до того, что данные действительно показывают. Это самый полезный ход в разборе.</div>
+  </div>
+</section>
+
+<section id="uncert">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Как говорить о неопределённости, чтобы её учли</h2></div>
+  <p class="sec-sub">Пятый навык. Оговорка в конце отчёта часто не работает: её пролистывают.</p>
+
+  <p>Проблема оговорок в том, что они часто звучат как ритуальная скромность. «Выборка небольшая, результаты носят предварительный характер» — эту фразу легко прочитать как «автор вежливый», а не как «цифру нельзя брать без условий». Чтобы неопределённость учли, её надо перевести в то, чем рискует команда, и поставить туда, где принимается решение.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Так не услышат</th><th>Так услышат</th></tr></thead>
+      <tbody>
+        <tr><td>«Выборка небольшая»</td><td>«Настоящая цифра где-то между 30 % и 70 %. Если она ближе к 30 %, эта работа не окупится»</td></tr>
+        <tr><td>«Результаты предварительные»</td><td>«Мы не знаем, ведут ли себя так новички: их в выборке было двое из шестидесяти»</td></tr>
+        <tr><td>«Нужна дополнительная проверка»</td><td>«Один день аналитики закроет вопрос. Предлагаю начать делать, но проверить до того, как уйдём в разработку»</td></tr>
+        <tr><td>«Данные могут быть смещены»</td><td>«Если среди неответивших этот вариант выбрал бы каждый десятый, а не каждый второй, вывод меняется на противоположный»</td></tr>
+        <tr><td>«С осторожностью»</td><td>«Под это решение я бы не стал закладывать спринт. Под изменение текста — вполне»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Три приёма, которые реально работают</h3>
+  <ul>
+    <li><strong>Называйте вилку, а не точку.</strong> «Где-то между 30 и 70 %» честнее, чем «примерно 50 %»: так видно, что вы понимаете пределы данных.</li>
+    <li><strong>Переводите в решение, а не в статистику.</strong> Не «доверительный интервал широкий», а «при худшем раскладе мы потратим спринт зря».</li>
+    <li><strong>Ставьте оговорку рядом с цифрой,</strong> в ту же строку. Оговорка в конце документа физически не доезжает до совещания, где на цифру ссылаются.</li>
+  </ul>
+
+  <div class="warnbox"><b>И обратная сторона, про которую забывают.</b> Неопределённость — не повод ничего не делать. Если решение дешёвое и обратимое, правильный ответ звучит так: «данные слабые, но риск маленький — давайте сделаем и посмотрим». Senior отличается не тем, что чаще говорит «нет», а тем, что точнее понимает, где «нет» защищает команду, а где только тормозит.</div>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Взять чужое исследование и написать разбор.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Найди исследование</strong> (30 мин). Своей команды — лучше всего. Если нет — публичное: отчёты компаний, исследования рынка, статьи с цифрами про пользователей. Своё прошлое исследование лучше не брать: к собственной работе трудно быть внимательным без защиты.</li>
+    <li><strong>Разбери по трём точкам</strong> (1,5 ч) из раздела 4. По каждой точке выпишите, что известно и чего в отчёте нет.</li>
+    <li><strong>Разложи выводы на три группы</strong> (1 ч): держится · нужна оговорка · не держится. Для каждого отклонённого вывода назовите механизм: что именно в сборе данных не позволяет так утверждать.</li>
+    <li><strong>Переформулируй отклонённое</strong> (30 мин). Что можно утверждать вместо этого — более узко, но честно.</li>
+    <li><strong>Предложи, чем закрыть пробелы</strong> (30 мин), с ценой в днях по каждому.</li>
+    <li><strong>Если исследование своей команды</strong> — обсуди разбор с автором и запишите, с чем он не согласился.</li>
+  </ol>
+  <p class="dim">Ориентир: 4–5 часов.</p>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Шапка:</strong> что за исследование, кто делал, какой вопрос решало.</li>
+    <li><strong>Три точки:</strong> кого спрашивали, как спрашивали, что из этого следует — с тем, чего в отчёте не хватает.</li>
+    <li><strong>Выводы по группам:</strong> держится · с оговоркой · не держится, с механизмом по каждому отклонённому.</li>
+    <li><strong>Переформулировки</strong> отклонённых выводов до честного размера.</li>
+    <li><strong>Что предлагаете сделать дальше</strong> и сколько это стоит в днях.</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> В разборе есть хотя бы один вывод, который сужен или отклонён, и причина названа не через «я не согласен», а через способ получения данных: кого спросили, как спросили, из чего посчитали. Проверка простая: покажите разбор человеку, который не знает ни вас, ни автора отчёта. Если он поймёт, почему вывод не держится, без вашего авторитета, разбор написан понятно.</div>
+
+  <h3>Чего в разборе быть не должно</h3>
+  <ul>
+    <li><strong>Отклонения по содержанию.</strong> «Вывод неверный, потому что я думаю иначе» — это спор о вкусах, от которого мы как раз уходим.</li>
+    <li><strong>Сплошного негатива.</strong> Если у вас не нашлось ни одного вывода, который держится, проверьте себя на предвзятость. Такой разбор сложно принять.</li>
+    <li><strong>Придирок к оформлению.</strong> Кривая диаграмма — не то же самое, что неверный вывод. Отметьте отдельно и не смешивайте.</li>
+    <li><strong>Требований без цены.</strong> «Нужно нормальное исследование» не обсуждается; «два дня аналитики» обсуждается.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-листы и ошибки уровня</h2></div>
+
+  <h3>Разбор чужого исследования готов, если</h3>
+  <ul>
+    <li>Известно, сколько человек, из скольких и через какой канал их нашли</li>
+    <li>Есть дословные формулировки вопросов — или отмечено, что их нет</li>
+    <li>Названо, кого в выборке заведомо не было</li>
+    <li>Каждый вывод отнесён к одной из трёх групп</li>
+    <li>По каждому отклонённому назван механизм, а не несогласие</li>
+    <li>Отклонённые выводы переформулированы до честного размера</li>
+    <li>Есть хотя бы один вывод, который держится, и это сказано прямо</li>
+    <li>Предложения закрыть пробелы имеют цену в днях</li>
+  </ul>
+
+  <h3>Свой опрос готов к показу, если</h3>
+  <ul>
+    <li>Метод выбран под вопрос, и объяснено, почему не другой</li>
+    <li>Названа доля отклика и, где возможно, сказано, чем ответившие отличаются от остальных</li>
+    <li>Прикинута вилка: как меняется вывод при разных предположениях о неответивших</li>
+    <li>Оговорки стоят рядом с цифрами, а не в конце документа</li>
+    <li>Названо, что не подтвердилось</li>
+    <li>Сказано, под какие решения этих данных хватает, а под какие нет</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Спор о выводе вместо разговора о методе.</b> «Я не согласен» против чужой диаграммы — проигрышная позиция, даже когда вы правы.</li>
+    <li><b>Разбор, где всё плохо.</b> Читается как придирка, вызывает защиту и редко меняет решение.</li>
+    <li><b>Молчание из вежливости.</b> Вы видели слабое место, но не сказали — а через месяц решение уже принято.</li>
+    <li><b>Одинаковая строгость ко всему.</b> Требовать доказательности от смены текста кнопки так же, как от переписывания оплаты.</li>
+    <li><b>Оговорка в конце отчёта.</b> До совещания она не доезжает, на цифру ссылаются без неё.</li>
+    <li><b>Неопределённость в терминах статистики.</b> «Широкий доверительный интервал» вместо «при худшем раскладе спринт потрачен зря».</li>
+    <li><b>Проценты от маленьких чисел в чужом отчёте пропущены.</b> «84 %» от 112 человек из одного канала — несколько проблем в одной строке, и их стоит назвать.</li>
+    <li><b>Метод выбран по привычке.</b> Опрос, потому что вы умеете опросы, — хотя вопрос можно было закрыть просмотром аналитики за час.</li>
+    <li><b>«Нужно больше данных» как универсальный ответ.</b> Иногда данных достаточно, а решение просто неприятное.</li>
+    <li><b>Отклонили вывод и на этом остановились.</b> Без переформулировки и без предложения, что делать дальше, разбор оставляет команду ни с чем.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы целиком</h2></div>
+  <p class="sec-sub">Тема закрыта. Ниже — вся лестница одним взглядом.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Разослать готовую анкету и понимать, кто отвечает; считать доли; называть выборку и «из скольких»; замечать вопрос, который ничего не измерил</td>
+          <td class="dim">Рядом с каждой цифрой написано, из скольких она посчитана</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Middle</b></td>
+          <td class="dim">Вывести анкету из вопроса задачи; писать вопросы без подсказок и варианты без дыр; выбирать шкалу под будущий анализ; пилотировать; сводить цифры с интервью</td>
+          <td class="dim">Есть место, где цифра и разговор разошлись, и написано, как решали, чему верить</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Подбирать метод под вопрос и отказываться от лишних исследований; считать, как смещение меняет вывод; разбирать чужие исследования по трём точкам; останавливать решения на слабых данных через разговор о методе; переводить неопределённость в риск</td>
+          <td>В разборе есть отклонённый вывод, и причина названа через способ получения данных</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Опросы и количественные данные», уровень Senior. Что почитать дальше: Кэролайн Джарретт, «Surveys That Work» — главы про выборку и про то, что люди на самом деле отвечают; Даррелл Хафф, «Как лгать при помощи статистики» — короткая старая книга, которая до сих пор объясняет почти все трюки с цифрами; Альберто Кайро, «Как не соврать с помощью графиков» — про то же самое, но в картинках; материалы Nielsen Norman Group про смещение выборки и про сочетание методов.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'iv', label: 'Разговоры' }, { key: 'sv', label: 'Опрос' },
+     { key: 'an', label: 'Аналитика' }, { key: 'no', label: 'Исследование не нужно' }],
+    [
+      { t: '<q>Сколько наших пользователей заходят с телефона?</q>', a: 'an',
+        fb: 'Это уже лежит в данных и стоит ноль. Спрашивать людей про их же устройство — тратить две недели на то, что видно за пять минут.' },
+      { t: '<q>Почему люди бросают оформление на шаге оплаты?</q>', a: 'iv',
+        fb: 'Вопрос про причину и контекст. Пять-восемь разговоров дадут механизм; опрос даст список ваших же догадок, отсортированный по популярности.' },
+      { t: '<q>Насколько распространена проблема, которую мы нашли в интервью?</q>', a: 'sv',
+        fb: 'Классическая связка: разговоры нашли, опрос посчитал. Тут опрос на своём месте — и только потому, что до него были интервью.' },
+      { t: '<q>На каком шаге формы люди чаще всего останавливаются?</q>', a: 'an',
+        fb: 'Поведение, которое уже записано. Опрос покажет, что люди помнят, а аналитика — что было на самом деле.' },
+      { t: '<q>Стоит ли менять «Отправить» на «Оформить заказ» на кнопке?</q>', a: 'no',
+        fb: 'Решение обратимое и дешёвое. Поменять и посмотреть на метрику быстрее и точнее любого исследования. Исследование здесь — способ отложить решение.' },
+      { t: '<q>Что происходит с человеком в те двадцать минут, пока он не на сайте?</q>', a: 'iv',
+        fb: 'Всё, что происходит вне продукта, аналитика не видит по определению. Только разговоры.' },
+      { t: '<q>Сколько людей знает, что у нас есть доставка в день заказа?</q>', a: 'sv',
+        fb: 'Знание — не поведение, в аналитике его нет. Это как раз вопрос «сколько», и на него отвечает опрос.' },
+      { t: '<q>Какая из двух формулировок заголовка приведёт больше регистраций?</q>', a: 'no',
+        fb: 'Строго говоря, это A/B-тест. Из предложенных вариантов ближе всего «исследование не нужно»: опрос про «какой вариант нравится» не связан с поведением. Опрос про «какой вариант нравится» даст ответ, не связанный с поведением.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Ты подбираешь метод под вопрос, а не под привычку. Это экономит команде недели.'
+        : s >= 5 ? 'Хорошо. Проверяй себя вопросом: не лежит ли ответ уже в аналитике? В половине случаев лежит.'
+        : 'Вернись к таблице в разделе 2 и к правилу порядка: сначала аналитика, потом разговоры, и только потом опрос.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'hold', label: 'Держится' }, { key: 'soft', label: 'Нужна оговорка' }, { key: 'drop', label: 'Не держится' }],
+    [
+      { t: '<q>84 % пользователей хотят тёмный режим</q><span class="sub">Опрос в телеграм-канале продукта, 112 ответов, вопрос «хотели бы вы тёмный режим».</span>', a: 'drop',
+        fb: 'Три поломки: «пользователи» вместо подписчиков канала, вопрос о желании вместо поступка, розыгрыш среди заполнивших. Вывод не спасти оговоркой — его надо переформулировать целиком.' },
+      { t: '<q>70 % опрошенных уже пользуются тёмной темой в других приложениях</q><span class="sub">Тот же опрос, вопрос про факт.</span>', a: 'hold',
+        fb: 'Вопрос про факт, формулировка честная — сказано «опрошенных», а не «пользователей». Цифру можно брать, добавив, кто эти опрошенные.' },
+      { t: '<q>Больше половины работают вечером, значит, тёмный режим снизит усталость глаз</q>', a: 'soft',
+        fb: 'Первая половина держится, вторая — приклеенная догадка. Оставьте факт, уберите следствие: усталость глаз анкета не измеряла.' },
+      { t: '<q>Конверсия в оплату выросла на 0,4 % после релиза</q><span class="sub">Аналитика, 2 недели, 40 000 человек.</span>', a: 'soft',
+        fb: 'Данных достаточно по объёму, но за две недели могло измениться что угодно: сезон, реклама, другой релиз. Нужна оговорка про то, что это не изолированный эксперимент.' },
+      { t: '<q>Пользователи не понимают статус заказа</q><span class="sub">Пять юзабилити-тестов, трое из пяти не смогли объяснить, что означает статус.</span>', a: 'soft',
+        fb: 'Находка настоящая, но «пользователи» — слишком широко для пяти человек. Правильно: «трое из пяти участников не смогли объяснить». Сама проблема при этом реальна и требует внимания.' },
+      { t: '<q>Женщины пользуются приложением чаще мужчин</q><span class="sub">Опрос, 210 ответов: 54 % против 46 %.</span>', a: 'drop',
+        fb: 'Восемь пунктов разницы на двухстах ответах — это в пределах случайного колебания. Кроме того, речь о самооценке частоты, а не о реальных заходах, которые видно в аналитике.' },
+      { t: '<q>Платить отдельно готовы 12 %</q><span class="sub">Тот же опрос про тёмный режим.</span>', a: 'hold',
+        fb: 'Это вопрос, где ответ был ближе к реальному выбору. Разрыв с 84 % — самая полезная находка отчёта. Даже с учётом того, что это намерение, направление верное.' },
+      { t: '<q>Новые пользователи чаще ищут отзывы перед оплатой</q><span class="sub">Опрос, 214 ответов. Отзывы искали 11 человек, из них 9 — новички.</span>', a: 'soft',
+        fb: 'Направление правдоподобное и интересное, но одиннадцать человек — очень мало. Формулировать лучше через числа: «из 11 искавших отзывы 9 покупали впервые» — и проверять отдельно.' }
+    ],
+    function (s, n) {
+      return s >= 7 ? 'Ты различаешь три исхода вместо двух — и это главное, что отличает разбор от критики.'
+        : s >= 5 ? 'Неплохо. Чаще всего промахиваются на «нужна оговорка»: вывод не выбрасывают, а сужают до того, что данные показывают.'
+        : 'Перечитай разделы 5 и 6. Порядок проверки: кого спрашивали → как спрашивали → что из этого следует.';
+    }
+  );
+
+  /* ── bias calculator ── */
+  (function () {
+    var base = document.getElementById('bcBase'); if (!base) return;
+    var resp = document.getElementById('bcResp'), yes = document.getElementById('bcYes'), other = document.getElementById('bcOther');
+    var yesLab = document.getElementById('bcYesLab'), otherLab = document.getElementById('bcOtherLab');
+    var big = document.getElementById('bcBig'), rng = document.getElementById('bcRng'), say = document.getElementById('bcSay');
+    var reset = document.getElementById('bcReset');
+
+    function calc() {
+      var N = Math.max(1, +base.value || 1);
+      var R = Math.min(Math.max(1, +resp.value || 1), N);
+      var pY = +yes.value / 100;
+      var pO = +other.value / 100;
+      var yesCount = Math.round(R * pY);
+      var nonResp = N - R;
+      yesLab.textContent = yesCount + ' человек — это ' + Math.round(pY * 100) + ' % ответивших';
+      otherLab.textContent = 'сейчас: ' + Math.round(pO * 100) + ' %';
+
+      var low = (yesCount + nonResp * pO) / N;
+      var asIs = pY;
+      var hi = (yesCount + nonResp * pY) / N;
+
+      var lowP = Math.round(low * 100), asP = Math.round(asIs * 100), hiP = Math.round(hi * 100);
+      var lo = Math.min(lowP, hiP), up = Math.max(lowP, hiP);
+
+      big.textContent = 'От ' + lo + ' % до ' + up + ' % по всей базе';
+
+      rng.innerHTML = '<span class="axis"></span>' +
+        '<span class="span" style="left:' + lo + '%;width:' + Math.max(1, up - lo) + '%"></span>' +
+        '<span class="pt" style="left:' + asP + '%"></span>' +
+        '<span class="ptlab" style="left:' + asP + '%">' + asP + ' % в опросе</span>' +
+        '<span class="tick" style="left:' + lo + '%">' + lo + ' %</span>' +
+        '<span class="tick" style="left:' + up + '%">' + up + ' %</span>';
+
+      var respShare = Math.round(R / N * 100);
+      var width = up - lo;
+      say.innerHTML = '<b>Как это читать.</b> Ответили ' + R + ' из ' + N + ' — это ' + respShare + ' % базы. ' +
+        'Опрос показал ' + asP + ' %. Но эти ' + asP + ' % описывают только ответивших. ' +
+        'Если среди остальных ' + nonResp + ' человек так думает ' + Math.round(pO * 100) + ' %, то по всей базе получается ' + lowP + ' %. ' +
+        (width >= 25
+          ? '<br><br><b>Вилка шире 25 пунктов.</b> Ответ сильно зависит от предположения, которое вы не можете проверить. На такой цифре нельзя строить дорогое решение — и это утверждение про данные, а не про ваше мнение.'
+          : width >= 10
+            ? '<br><br><b>Вилка умеренная.</b> Направление понятно, точная цифра — нет. Годится для обратимых решений, но слабовато для того, под что закладывают спринт.'
+            : '<br><br><b>Вилка узкая.</b> Отклик достаточно высокий, чтобы смещение мало влияло. Такие данные можно нести в решение, назвав долю отклика.');
+    }
+    [base, resp, yes, other].forEach(function (el) { el.addEventListener('input', calc); });
+    reset.addEventListener('click', function () {
+      base.value = 1000; resp.value = 60; yes.value = 70; other.value = 10; calc();
+    });
+    calc();
+  })();
+
+  /* ── report review toggle ── */
+  (function () {
+    var btn = document.getElementById('revBtn'), doc = document.getElementById('repDoc');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var on = btn.getAttribute('aria-pressed') === 'true';
+      var next = !on;
+      btn.setAttribute('aria-pressed', next ? 'true' : 'false');
+      btn.textContent = next ? 'Скрыть разбор' : 'Показать разбор';
+      doc.className = next ? 'rep review' : 'rep';
+      if (next) {
+        doc.querySelectorAll('.claim').forEach(function (c) {
+          c.classList.add(c.getAttribute('data-v'));
+        });
+      } else {
+        doc.querySelectorAll('.claim').forEach(function (c) {
+          c.classList.remove('hold', 'soft', 'drop');
+        });
+      }
+    });
+  })();
+})();
+</script>
+</body>
+</html>

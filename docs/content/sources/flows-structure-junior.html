@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Структура и потоки: карта одного сценария</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --svg-chip: #eef3fb; --svg-dim: #6d6b66;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --svg-chip: #1f2733; --svg-dim: #9e9c95;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --svg-chip: #1f2733; --svg-dim: #9e9c95;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn-ghost { background: var(--raised); color: var(--ink-2); }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 72px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .pr { display: block; background: var(--chip); border-radius: 8px; padding: 9px 12px; font-size: 14.5px; color: var(--accent-deep); margin-bottom: 10px; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 175px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* figures */
+  figure { margin: 18px 0; }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin-top: 11px; }
+  figcaption b { color: var(--ink-2); }
+  .fig-scroll { overflow-x: auto; }
+  .fig-scroll > svg { min-width: 560px; }
+
+  /* tabs */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tabs button { border: 1px solid var(--border); background: var(--raised); color: var(--ink-2); border-radius: 9px; padding: 8px 13px; font: 600 13.5px system-ui, sans-serif; cursor: pointer; }
+  .tabs button:hover { color: var(--ink); }
+  .tabs button[aria-selected="true"] { background: var(--ink); color: var(--page); border-color: transparent; }
+  .tabpanel { display: none; }
+  .tabpanel.on { display: block; }
+  .tabnote { font-size: 14.5px; line-height: 1.5; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 10px; padding: 12px 14px; margin-top: 14px; }
+  .tabnote b { display: block; margin-bottom: 3px; }
+
+  /* legend */
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .legend .it { display: flex; gap: 12px; align-items: flex-start; border: 1px solid var(--border); background: var(--raised); border-radius: 10px; padding: 11px 13px; }
+  .legend .it svg { flex: none; width: 54px; height: 34px; }
+  .legend .it b { display: block; font-size: 14px; margin-bottom: 2px; }
+  .legend .it span { font-size: 13px; color: var(--ink-2); line-height: 1.45; }
+
+  /* sequence builder */
+  .seq-pool { display: flex; flex-wrap: wrap; gap: 8px; }
+  .seq-pool button { border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 9px; padding: 9px 12px; font: 500 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .seq-pool button:hover:not([disabled]) { border-color: var(--accent); }
+  .seq-pool button[disabled] { opacity: .3; cursor: default; }
+  .seq-pool button.miss { border-color: var(--bad); background: var(--bad-soft); }
+  .seq-chain { margin-top: 16px; display: flex; flex-direction: column; gap: 0; }
+  .seq-chain .row { display: flex; gap: 11px; align-items: center; font-size: 14.5px; }
+  .seq-chain .n { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: #fff; font: 700 12px system-ui, sans-serif; display: flex; align-items: center; justify-content: center; }
+  .seq-chain .row.io .n { background: var(--good); }
+  .seq-chain .txt { padding: 3px 0; }
+  .seq-chain .tag { font: 700 9.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--good); border: 1px solid var(--good); border-radius: 4px; padding: 1px 5px; margin-left: 7px; vertical-align: 1px; }
+  .seq-chain .link { height: 14px; margin-left: 11px; border-left: 2px solid var(--hairline); }
+  .seq-empty { font-size: 14px; color: var(--muted); margin-top: 16px; }
+  .seq-fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .seq-fb.on { display: block; }
+  .seq-fb b { display: block; margin-bottom: 3px; }
+
+  /* hunt */
+  .hunt { position: relative; }
+  .hunt .pin { position: absolute; transform: translate(-50%, -50%); width: 25px; height: 25px; border-radius: 50%;
+               border: 2px solid var(--page); background: var(--accent); color: #fff; font: 700 12px system-ui, sans-serif;
+               cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
+  .hunt .pin:hover { transform: translate(-50%, -50%) scale(1.12); }
+  .hunt .pin.found { background: var(--good); }
+  @media (max-width: 620px) { .hunt .pin { width: 19px; height: 19px; font-size: 10.5px; border-width: 1.5px; } }
+  .hunt-fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 13px 15px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); }
+  .hunt-fb .q { display: block; font-weight: 600; margin-bottom: 4px; }
+  .hunt-fb .fix { display: block; margin-top: 7px; color: var(--ink-2); }
+  .hunt-fb .fix b { color: var(--good); }
+  .hunt-count { font: 600 13px system-ui, sans-serif; color: var(--muted); }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  .ok-list li b { color: var(--good); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Структура и потоки · Junior · карта одного сценария</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Проектирование · структура и потоки</p>
+  <div class="levels" aria-label="Уровень темы: Junior, первый из трёх">
+    <span class="lv on">Junior</span>
+    <span class="lv">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как собрать карту сценария, которую поймёт команда</h1>
+  <p class="lede">Схема сценария кажется механической работой: вспомнил экраны, расставил в ряд, соединил стрелками. Но без правила «экран или состояние» она быстро разрастается до десятков блоков, названия страниц не показывают, что человек делает, а входы и выходы не попадают на лист. Потом разработчик приходит с вопросами. Здесь разберёмся, чем экран отличается от состояния, как называть шаги, откуда в сценарий входят и куда из него выходят, и как нарисовать схему так, чтобы её прочитали без вас.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#why">Понимать, на какие вопросы отвечает схема</a> — и на какие не должна</li>
+    <li><a href="#state">Отличать экран от состояния</a><span class="drillmark">тренажёр</span></li>
+    <li><a href="#verbs">Называть шаги глаголами человека</a>, а не названиями страниц<span class="drillmark">тренажёр</span></li>
+    <li><a href="#io">Показывать входы и выходы</a><span class="drillmark">конструктор</span></li>
+    <li><a href="#draw">Рисовать схему в пяти фигурах</a><span class="drillmark">живая схема</span></li>
+    <li><a href="#one">Держать одну схему на один сценарий</a>, чтобы она не расползалась</li>
+    <li><a href="#dev">Собирать схему так, чтобы её прочитал разработчик</a><span class="drillmark">поиск дыр</span></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Один сценарий интернет-магазина — <b>«человек оформляет заказ»</b>: от корзины до момента, когда заказ принят. На нём разберём все пять навыков и соберём схему целиком. В задании вы возьмёте свой сценарий: регистрацию, оформление заказа или настройку.</div>
+
+<section id="why">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Зачем схема и на какие вопросы она отвечает</h2></div>
+  <p class="sec-sub">Схема — не украшение макетов, а способ договориться о сценарии до разработки.</p>
+
+  <p>Пока сценарий живёт у вас в голове, он кажется простым: человек кладёт товар в корзину, оформляет заказ, платит. Как только вы начинаете рисовать его по шагам, выясняется, что в «оформляет заказ» спрятаны пять развилок, два способа туда попасть и три способа оттуда уйти. <strong>Схема нужна, чтобы эти скрытые места появились на бумаге заранее</strong>, а не в разработке, когда переделывать дороже.</p>
+
+  <h3>Четыре вопроса, ради которых её рисуют</h3>
+  <ol>
+    <li><strong>Что человек делает по шагам?</strong> Не «какие у нас есть страницы», а именно последовательность действий.</li>
+    <li><strong>Откуда он сюда попадает?</strong> Вход редко бывает один, и от него зависит, что человек уже успел сделать.</li>
+    <li><strong>Чем всё заканчивается?</strong> И не только успешно: выходов обычно несколько.</li>
+    <li><strong>Где сценарий может пойти не так?</strong> Пустая корзина, отклонённая карта, адрес вне зоны доставки.</li>
+  </ol>
+
+  <div class="rule"><b>Короткая проверка: отдайте схему человеку, который не знает продукт, и попросите пересказать сценарий вслух.</b> Если он пересказывает и не спрашивает «а что здесь происходит», схема работает. Это же критерий задания в конце урока: вы рисуете не для себя, а для чтения другим человеком.</div>
+
+  <h3>Чего схема делать не должна</h3>
+  <ul>
+    <li><strong>Не заменяет макеты.</strong> На схеме не видно, как выглядит кнопка, — и не надо. Схема отвечает на вопрос «куда человек идёт», макет — «что он видит».</li>
+    <li><strong>Не описывает техническую архитектуру.</strong> Какие сервисы дёргаются при оплате — это другая схема и другой автор.</li>
+    <li><strong>Не вмещает весь продукт.</strong> Один сценарий — одна схема. Про это отдельный раздел, потому что такую ошибку легко сделать.</li>
+  </ul>
+
+  <h3>Три слова, которые дальше используются строго в одном значении</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Слово</th><th>Что значит здесь</th><th>Пример из нашего сценария</th></tr></thead>
+      <tbody>
+        <tr><td><b>Сценарий</b></td><td>Путь человека от намерения до результата</td><td>Оформить заказ: от «хочу купить» до «заказ принят»</td></tr>
+        <tr><td><b>Шаг</b></td><td>Одно действие человека внутри сценария</td><td>Указывает адрес доставки</td></tr>
+        <tr><td><b>Экран</b></td><td>Место, где человек делает один или несколько шагов</td><td>Экран доставки, на котором и адрес, и день</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Обратите внимание на третью строку: <strong>шаг и экран — не одно и то же</strong>. На одном экране может происходить три шага, а один шаг может занимать два экрана. Схема рисуется по шагам, экраны указываются рядом — так она остаётся верной, даже если завтра вы объедините два экрана в один.</p>
+</section>
+
+<section id="state">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Экран или состояние</h2></div>
+  <p class="sec-sub">Первый навык и главная причина, по которой схемы разрастаются до нечитаемого размера.</p>
+
+  <p>Частая ошибка: вспомнить всё, что человек может увидеть, и каждую картинку положить в отдельный блок. Пустая корзина — блок. Корзина с товаром — блок. Корзина, где товар закончился, — ещё блок. Три блока вместо одного, и так по всему сценарию: вместо семи экранов получается сорок, стрелки идут во все стороны, схему трудно читать.</p>
+
+  <p>Между тем это одно место. Человек не переходит «на экран пустой корзины» — он <strong>открывает корзину, и она оказывается пустой</strong>. Разница простая, вот как её проверить.</p>
+
+  <div class="rule"><b>Правило.</b> Экран — это <b>место, куда человек приходит</b>. Состояние — это <b>то, каким он это место застал</b>. Один экран, разные обстоятельства — значит, состояния, и живут они внутри блока экрана, а не рядом с ним.</div>
+
+  <h3>Три вопроса, если сомневаетесь</h3>
+  <ol>
+    <li><strong>Человек делает отдельное действие, чтобы сюда попасть?</strong> Нажал «К оплате» — это переход на другой экран. Ничего не нажимал, а картинка изменилась, потому что товар закончился, — это состояние.</li>
+    <li><strong>Задача человека здесь та же?</strong> На пустой и на полной корзине задача одна — разобраться с составом заказа. Значит, экран один.</li>
+    <li><strong>У этого есть отдельный адрес, на который можно вернуться?</strong> Страница с номером заказа, которую открывают из письма, — да, экран. «Корзина с ошибкой» своего адреса не имеет.</li>
+  </ol>
+
+  <p class="dim">Три «нет» подряд — скорее всего, состояние. Один уверенный «да» — экран.</p>
+
+  <h3>Четвёртая категория, про которую забывают</h3>
+  <p>Кроме экранов и состояний в сценарии есть то, что делает <strong>система, а не человек</strong>: резерв товара на складе, отправка письма с чеком, перевод заказа в статус «ждёт оплаты» через двадцать минут. Экрана у этого нет, но на схеме такие вещи отмечают — иначе разработчик спросит, откуда взялось письмо. Рисуют их пунктирной стрелкой или отдельной пометкой — в разделе про нотацию будет показано как.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Что видим</th><th>Это</th><th>Почему</th></tr></thead>
+      <tbody>
+        <tr><td>Корзина с тремя товарами</td><td><b>Экран</b></td><td>Место, куда человек пришёл по кнопке «Корзина»</td></tr>
+        <tr><td>Корзина пустая</td><td><b>Состояние</b></td><td>То же место, просто в нём ничего нет</td></tr>
+        <tr><td>Корзина, где один товар закончился</td><td><b>Состояние</b></td><td>Тот же экран, изменились обстоятельства</td></tr>
+        <tr><td>Экран оплаты</td><td><b>Экран</b></td><td>Человек нажал «К оплате» и перешёл</td></tr>
+        <tr><td>«Банк отклонил карту»</td><td><b>Состояние</b></td><td>Человек остался на оплате, изменился результат попытки</td></tr>
+        <tr><td>Списание денег с карты</td><td><b>Действие системы</b></td><td>Происходит без экрана, но в сценарии есть</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Обратная ошибка тоже бывает.</b> Иногда состояние рисуют внутри блока, хотя человек реально переходит в другое место: «оплата картой» и «оплата при получении» — это разные экраны с разными полями, а не два состояния одного. Признак: если внутри «состояния» человек делает <b>другие</b> шаги, чем в основном, это отдельный экран.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · экран, состояние или действие системы<span class="spacer"></span><span class="sc">0 / 10</span></div>
+    <div class="box-body">
+      <div class="drill" id="d1">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Десять вещей из сценария оформления заказа. Решайте по трём вопросам выше: пришёл сам — экран; застал таким — состояние; человек вообще ни при чём — система.</div>
+  </div>
+</section>
+
+<section id="verbs">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Шаги называем глаголами человека</h2></div>
+  <p class="sec-sub">Второй навык. Схема из названий страниц выглядит аккуратно, но плохо объясняет действия человека.</p>
+
+  <p>Сравните две цепочки. Первая: <code>Корзина → Checkout → Payment → Success</code>. Вторая: <code>Проверяет состав заказа → Указывает, куда и когда везти → Выбирает, чем платить → Видит, что заказ принят</code>. Обе описывают один сценарий, но по первой нельзя сказать, что человек вообще делает, — можно только сказать, какие страницы у нас есть.</p>
+
+  <p>Это не придирка к формулировкам. От названий зависит, что вы заметите. Блок «Payment» выглядит законченным, и вопросов к нему нет. Блок «Выбирает, чем платить» сразу вызывает вопрос: <strong>а из чего он выбирает и что будет, если подходящего способа нет?</strong> — и в схеме появляется развилка, которой иначе там не было бы.</p>
+
+  <div class="rule"><b>Правило.</b> В блоке крупно пишем <b>глагол человека</b>, а мелко рядом — имя экрана, на котором это происходит. Так схема остаётся верной, даже если экраны переименуют или объединят: действия человека меняются гораздо реже, чем страницы.</div>
+
+  <h3>Проверка в одну секунду</h3>
+  <p>Подставьте перед названием блока слово <strong>«Человек»</strong> и прочитайте вслух. «Человек корзина» — не работает, значит, это название страницы. «Человек проверяет состав заказа» — работает, значит, это шаг.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Так писать не надо</th><th>Что не так</th><th>Как лучше</th></tr></thead>
+      <tbody>
+        <tr><td>Корзина</td><td>Название страницы — не видно действия</td><td><b>Проверяет состав заказа</b></td></tr>
+        <tr><td>Checkout step 2</td><td>Внутреннее имя, чужому непонятно вообще ничего</td><td><b>Указывает, куда и когда везти</b></td></tr>
+        <tr><td>Валидация адреса</td><td>Глагол системы — человек этого не делает</td><td><b>Система проверяет зону доставки</b> (пунктиром)</td></tr>
+        <tr><td>Форма оплаты</td><td>Название куска интерфейса, а не шага</td><td><b>Выбирает, чем платить</b></td></tr>
+        <tr><td>Успех</td><td>Не сказано, что человек здесь узнаёт</td><td><b>Видит номер заказа и когда привезут</b></td></tr>
+        <tr><td>Показ ошибки</td><td>Действие интерфейса, причём непонятно какой</td><td><b>Понимает, что карта не прошла</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Откуда берутся плохие названия</h3>
+  <ul>
+    <li><strong>Из структуры сайта.</strong> Вы смотрите на меню и переписываете его в блоки. Получается карта страниц, а не сценарий.</li>
+    <li><strong>Из задач в трекере.</strong> «Реализовать валидацию адреса» — формулировка разработчика, и она про систему.</li>
+    <li><strong>Из макетов.</strong> Файл называется «Payment_v3», блок называется так же. Через месяц макет переименуют, и схема начнёт врать.</li>
+  </ul>
+
+  <div class="warnbox"><b>Глагол человека — это то, что он делает, а не то, что он «должен сделать по нашему замыслу».</b> «Соглашается с условиями» — это наш замысел; человек в этот момент просто ставит галочку не читая. Чем честнее глагол, тем полезнее схема: на честных формулировках сразу видно шаги, которые существуют только для нас, и их можно попробовать убрать.</div>
+
+  <div class="box">
+    <div class="box-head">Тренажёр · что написано в блоке<span class="spacer"></span><span class="sc">0 / 9</span></div>
+    <div class="box-body">
+      <div class="drill" id="d2">
+        <div class="stem"></div>
+        <div class="opts"></div>
+        <div class="fb"></div>
+        <div class="bar"><button class="btn next" type="button">Дальше</button><span class="prog"><i></i></span></div>
+      </div>
+    </div>
+    <div class="box-foot">Подставляйте «Человек …» перед надписью. Не читается — значит, либо название страницы, либо глагол системы.</div>
+  </div>
+</section>
+
+<section id="io">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Входы и выходы</h2></div>
+  <p class="sec-sub">Третий навык. Часть схемы, которую часто пропускают, и первое, о чём спросит разработчик.</p>
+
+  <p>Схема обычно начинается с первого экрана и заканчивается успехом. Между тем сценарий начинается раньше и заканчивается по-разному. <strong>Вход</strong> — это то, откуда человек попал в сценарий. <strong>Выход</strong> — то, чем для него всё закончилось, включая случаи, когда он ушёл.</p>
+
+  <h3>Входов обычно больше одного</h3>
+  <p>В наш сценарий оформления заказа попадают как минимум тремя способами, и человек приходит в разном состоянии:</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Вход</th><th>Куда приводит</th><th>Чем этот человек отличается</th></tr></thead>
+      <tbody>
+        <tr><td><b>Из корзины</b>, кнопка «Оформить»</td><td>На первый шаг</td><td>Обычный случай: состав заказа он уже видел</td></tr>
+        <tr><td><b>Из карточки товара</b>, кнопка «Купить сейчас»</td><td>Сразу на доставку, минуя корзину</td><td>Состав заказа не проверял — товар ровно один</td></tr>
+        <tr><td><b>Из письма</b> «вы забыли товары в корзине»</td><td>На первый шаг</td><td>Пришёл через день: цена или наличие могли измениться</td></tr>
+        <tr><td><b>По ссылке из поддержки</b></td><td>Обычно на доставку</td><td>Что-то уже не получилось — он раздражён и торопится</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Зачем это на схеме. Во-первых, <strong>забытый вход всплывает в разработке</strong> вопросом «а если он пришёл из карточки товара, у него корзина пустая или там один товар?» — и отвечать на него приходится на ходу. Во-вторых, из входов видно, какие состояния обязаны быть предусмотрены: человек из письма приходит на изменившиеся цены, значит, состояние «цена изменилась» нужно нарисовать.</p>
+
+  <h3>Выходов тоже больше одного, и не все успешные</h3>
+  <p>Выход — это не только «заказ оформлен». Полезно разделить на три вида:</p>
+  <ul>
+    <li><strong>Успех.</strong> Человек получил то, за чем пришёл: заказ принят, номер показан.</li>
+    <li><strong>Уход в другой сценарий.</strong> Понадобилось зарегистрироваться, оплатить в приложении банка, дозаказать товар. Сценарий не провалился — он поставлен на паузу, и важно показать, вернётся человек сюда или нет.</li>
+    <li><strong>Обрыв.</strong> Закрыл вкладку, передумал, ушёл сравнивать цены. Схему это не портит — наоборот, обрыв нарисованный честно показывает, где сценарий теряет людей.</li>
+  </ul>
+
+  <div class="rule"><b>Главный вопрос к каждому выходу: что осталось в системе после ухода человека?</b> Ушёл с оплаты — заказ висит в статусе «ждёт оплаты» двадцать минут, потом отменяется. Закрыл вкладку на доставке — не осталось ничего, но корзина сохранена. Пока на этот вопрос нет ответа, сценарий не дорисован: именно здесь живут заказы-призраки и списанные деньги без заказа.</div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Выход</th><th>Вид</th><th>Что осталось в системе</th></tr></thead>
+      <tbody>
+        <tr><td>Заказ оформлен, номер показан</td><td>Успех</td><td>Заказ в статусе «собирается», письмо отправлено</td></tr>
+        <tr><td>Ушёл платить в приложение банка</td><td>Уход в другой сценарий</td><td>Заказ в статусе «ждёт оплаты» 20 минут — и он может вернуться</td></tr>
+        <tr><td>Карта не прошла три раза, закрыл</td><td>Обрыв</td><td>Заказ «ждёт оплаты», деньги не списаны, корзина цела</td></tr>
+        <tr><td>Адрес вне зоны, ушёл</td><td>Обрыв</td><td>Ничего, кроме корзины. И это тот случай, где стоит спросить, почему мы не предложили пункт выдачи</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <div class="box-head">Конструктор · соберите сценарий по порядку<span class="spacer"></span><span class="hunt-count" id="seqCount">0 из 7</span></div>
+    <div class="box-body">
+      <p style="margin-top:0">Нажимайте шаги в том порядке, в каком их проходит человек. Начинается всё со входа, заканчивается выходом. Один вариант лишний — он из другого сценария.</p>
+      <div class="seq-pool" id="seqPool"></div>
+      <div class="seq-chain" id="seqChain"></div>
+      <p class="seq-empty" id="seqEmpty">Цепочка пока пустая — начните со входа.</p>
+      <div class="seq-fb" id="seqFb"></div>
+      <div style="margin-top:14px"><button class="btn btn-ghost" id="seqReset" type="button">Начать заново</button></div>
+    </div>
+    <div class="box-foot">Порядок внутри экрана доставки не случайный: дни доставки зависят от адреса, поэтому сначала адрес.</div>
+  </div>
+</section>
+
+<section id="draw">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Как это рисуется: пять фигур и живая схема</h2></div>
+  <p class="sec-sub">Четвёртый навык начинается здесь: нотация должна быть такой, чтобы её не надо было объяснять.</p>
+
+  <p>Существуют толстые стандарты нотаций со своими правилами для каждой фигуры. Для карты одного сценария они обычно не нужны: <strong>пяти фигур хватает для большинства сценариев</strong>, а всё, что сложнее, читается хуже. Главное — не количество фигур, а то, что легенда нарисована прямо на схеме.</p>
+
+  <div class="box">
+    <div class="box-head">Легенда · пять фигур, больше не нужно</div>
+    <div class="box-body">
+      <div class="legend">
+        <div class="it">
+          <svg viewBox="0 0 54 34" role="img" aria-label="Прямоугольник"><rect x="3" y="5" width="48" height="24" rx="4" style="fill:var(--raised);stroke:currentColor" stroke-width="1.4"/><line x1="10" y1="14" x2="34" y2="14" stroke="currentColor" stroke-width="1.4"/><line x1="10" y1="21" x2="26" y2="21" stroke="currentColor" stroke-width="1.4" opacity=".4"/></svg>
+          <div><b>Прямоугольник — шаг</b><span>Крупно глагол человека, мелко имя экрана</span></div>
+        </div>
+        <div class="it">
+          <svg viewBox="0 0 54 34" role="img" aria-label="Чип внутри прямоугольника"><rect x="3" y="5" width="48" height="24" rx="4" style="fill:var(--raised);stroke:currentColor" stroke-width="1.4" opacity=".55"/><rect x="9" y="12" width="36" height="11" rx="5.5" style="fill:var(--svg-chip);stroke:var(--accent)" stroke-width="1.2"/></svg>
+          <div><b>Чип внутри — состояние</b><span>Тот же экран в других обстоятельствах</span></div>
+        </div>
+        <div class="it">
+          <svg viewBox="0 0 54 34" role="img" aria-label="Пилюля"><rect x="3" y="8" width="48" height="18" rx="9" style="fill:none;stroke:currentColor" stroke-width="1.4" stroke-dasharray="4 3"/></svg>
+          <div><b>Пилюля пунктиром — вход или выход</b><span>Граница сценария: откуда пришли, куда ушли</span></div>
+        </div>
+        <div class="it">
+          <svg viewBox="0 0 54 34" role="img" aria-label="Подписанная стрелка"><line x1="4" y1="22" x2="44" y2="22" stroke="currentColor" stroke-width="1.4"/><polygon points="50,22 42,18.4 42,25.6" fill="currentColor"/><text x="4" y="13" font-size="9" fill="currentColor" opacity=".7">нажал</text></svg>
+          <div><b>Стрелка с подписью — переход</b><span>Что человек сделал, чтобы оказаться дальше</span></div>
+        </div>
+        <div class="it">
+          <svg viewBox="0 0 54 34" role="img" aria-label="Пунктирная стрелка"><line x1="4" y1="17" x2="44" y2="17" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 3"/><polygon points="50,17 42,13.4 42,20.6" fill="currentColor"/></svg>
+          <div><b>Пунктирная стрелка — система</b><span>То, что происходит без человека</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="box-foot">Развилку отдельной фигурой можно не рисовать: достаточно двух стрелок из блока с подписанными условиями — «адрес в зоне» и «адрес вне зоны».</div>
+  </div>
+
+  <h3>Одна и та же схема в трёх состояниях</h3>
+  <p>Ниже — наш сценарий оформления заказа. Переключайте вкладки: сначала то, что обычно получается с первого раза, потом то же самое после правила «экран или состояние», потом с добавленными входами и выходами.</p>
+
+  <div class="box">
+    <div class="box-head">Живая схема · три вкладки</div>
+    <div class="box-body">
+      <div class="tabs" role="tablist" aria-label="Состояния схемы">
+        <button type="button" role="tab" id="tb1" aria-selected="true" aria-controls="tp1">1 · Как получается сначала</button>
+        <button type="button" role="tab" id="tb2" aria-selected="false" aria-controls="tp2">2 · После правила «экран или состояние»</button>
+        <button type="button" role="tab" id="tb3" aria-selected="false" aria-controls="tp3">3 · С входами и выходами</button>
+      </div>
+
+      <div class="tabpanel on" id="tp1" role="tabpanel" aria-labelledby="tb1">
+        <figure>
+          <div class="fig-scroll">
+          <svg viewBox="0 0 780 360" role="img" aria-label="Схема из пятнадцати блоков: каждое состояние корзины, доставки и оплаты нарисовано отдельным прямоугольником, стрелки не подписаны, входов и выходов нет">
+            <defs><marker id="arrA" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto"><polygon points="0,0 9,3.5 0,7" fill="currentColor"/></marker></defs>
+            <g stroke="currentColor" stroke-width="1" opacity=".55" marker-end="url(#arrA)" fill="none">
+              <line x1="170" y1="42" x2="204" y2="42"/>
+              <line x1="120" y1="64" x2="270" y2="106"/>
+              <line x1="360" y1="42" x2="394" y2="42"/>
+              <line x1="550" y1="42" x2="584" y2="42"/>
+              <line x1="440" y1="64" x2="160" y2="106"/>
+              <line x1="285" y1="64" x2="115" y2="106"/>
+              <line x1="170" y1="132" x2="204" y2="132"/>
+              <line x1="360" y1="132" x2="394" y2="132"/>
+              <line x1="550" y1="132" x2="584" y2="132"/>
+              <line x1="440" y1="154" x2="130" y2="196"/>
+              <line x1="640" y1="154" x2="330" y2="286"/>
+              <line x1="170" y1="222" x2="204" y2="222"/>
+              <line x1="360" y1="222" x2="394" y2="222"/>
+              <line x1="550" y1="222" x2="584" y2="222"/>
+              <line x1="620" y1="244" x2="150" y2="286"/>
+              <line x1="440" y1="244" x2="320" y2="286"/>
+              <line x1="95" y1="244" x2="95" y2="282"/>
+              <line x1="460" y1="244" x2="470" y2="282"/>
+            </g>
+            <g style="fill:var(--raised);stroke:currentColor" stroke-width="1.3">
+              <rect x="20" y="20" width="150" height="44" rx="6"/><rect x="210" y="20" width="150" height="44" rx="6"/><rect x="400" y="20" width="150" height="44" rx="6"/><rect x="590" y="20" width="150" height="44" rx="6"/>
+              <rect x="20" y="110" width="150" height="44" rx="6"/><rect x="210" y="110" width="150" height="44" rx="6"/><rect x="400" y="110" width="150" height="44" rx="6"/><rect x="590" y="110" width="150" height="44" rx="6"/>
+              <rect x="20" y="200" width="150" height="44" rx="6"/><rect x="210" y="200" width="150" height="44" rx="6"/><rect x="400" y="200" width="150" height="44" rx="6"/><rect x="590" y="200" width="150" height="44" rx="6"/>
+              <rect x="20" y="290" width="150" height="44" rx="6"/><rect x="210" y="290" width="150" height="44" rx="6"/><rect x="400" y="290" width="150" height="44" rx="6"/>
+            </g>
+            <g fill="currentColor" font-size="12.5" text-anchor="middle" font-family="system-ui, sans-serif">
+              <text x="95" y="47">Корзина</text><text x="285" y="47">Корзина пустая</text><text x="475" y="47">Корзина с товаром</text><text x="665" y="47">Товар закончился</text>
+              <text x="95" y="137">Доставка</text><text x="285" y="137">Адрес не выбран</text><text x="475" y="137">Адрес выбран</text><text x="665" y="137">Адрес вне зоны</text>
+              <text x="95" y="227">Оплата</text><text x="285" y="227">Способ не выбран</text><text x="475" y="227">Карта отклонена</text><text x="665" y="227">Оплата прошла</text>
+              <text x="95" y="317">Спасибо</text><text x="285" y="317">Ошибка</text><text x="475" y="317">Загрузка</text>
+            </g>
+          </svg>
+          </div>
+          <figcaption><b>Пятнадцать блоков, ни одной подписи на стрелках, ни одного входа и выхода.</b> Каждое состояние вынесено в отдельный прямоугольник, поэтому корзина занимает четыре блока вместо одного. Пересказать по такой схеме сценарий нельзя — можно только перечислить, что бывает.</figcaption>
+        </figure>
+        <div class="tabnote"><b>Что именно сломано</b>Названия — это страницы, а не действия. Состояния подняты до уровня экранов. Стрелки без подписей: непонятно, что человек сделал, чтобы перейти. Не видно, откуда приходят и чем всё кончается. При этом схема выглядит «полной» — в этом и ловушка.</div>
+      </div>
+
+      <div class="tabpanel" id="tp2" role="tabpanel" aria-labelledby="tb2">
+        <figure>
+          <div class="fig-scroll">
+          <svg viewBox="0 0 820 275" role="img" aria-label="Схема из четырёх шагов: проверяет состав заказа, указывает куда и когда везти, выбирает чем платить, видит что заказ принят; состояния показаны чипами внутри блоков, переходы подписаны, действия системы вынесены пунктиром">
+            <defs><marker id="arrB" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto"><polygon points="0,0 9,3.5 0,7" fill="currentColor"/></marker></defs>
+            <g style="fill:var(--raised);stroke:currentColor" stroke-width="1.4">
+              <rect x="5" y="40" width="150" height="155" rx="8"/><rect x="225" y="40" width="150" height="155" rx="8"/><rect x="445" y="40" width="150" height="155" rx="8"/><rect x="665" y="40" width="150" height="155" rx="8"/>
+            </g>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle">
+              <text x="80" y="72">Проверяет</text><text x="80" y="89">состав заказа</text>
+              <text x="300" y="72">Указывает, куда</text><text x="300" y="89">и когда везти</text>
+              <text x="520" y="72">Выбирает,</text><text x="520" y="89">чем платить</text>
+              <text x="740" y="72">Видит, что</text><text x="740" y="89">заказ принят</text>
+            </g>
+            <g fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10.5" text-anchor="middle">
+              <text x="80" y="109">экран «Корзина»</text><text x="300" y="109">экран «Доставка»</text><text x="520" y="109">экран «Оплата»</text><text x="740" y="109">экран «Готово»</text>
+              <text x="80" y="128">состояния</text><text x="300" y="128">состояния</text><text x="520" y="128">состояния</text><text x="740" y="128">состояния</text>
+            </g>
+            <g style="fill:var(--svg-chip);stroke:var(--accent)" stroke-width="1.1">
+              <rect x="17" y="136" width="126" height="21" rx="10.5"/><rect x="17" y="163" width="126" height="21" rx="10.5"/>
+              <rect x="237" y="136" width="126" height="21" rx="10.5"/><rect x="237" y="163" width="126" height="21" rx="10.5"/>
+              <rect x="457" y="136" width="126" height="21" rx="10.5"/><rect x="457" y="163" width="126" height="21" rx="10.5"/>
+              <rect x="677" y="136" width="126" height="21" rx="10.5"/>
+            </g>
+            <g fill="var(--accent-deep)" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">
+              <text x="80" y="151">пустая</text><text x="80" y="178">товар закончился</text>
+              <text x="300" y="151">адрес вне зоны</text><text x="300" y="178">нет свободных дней</text>
+              <text x="520" y="151">карта отклонена</text><text x="520" y="178">нужен вход в банк</text>
+              <text x="740" y="151">оплата ещё идёт</text>
+            </g>
+            <g stroke="currentColor" stroke-width="1.4" marker-end="url(#arrB)" fill="none">
+              <line x1="155" y1="118" x2="221" y2="118"/><line x1="375" y1="118" x2="441" y2="118"/><line x1="595" y1="118" x2="661" y2="118"/>
+            </g>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">
+              <text x="188" y="110">Оформить</text><text x="408" y="110">К оплате</text><text x="628" y="110">Оплатить</text>
+            </g>
+            <line x1="520" y1="195" x2="520" y2="221" stroke="currentColor" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arrB)" fill="none"/>
+            <rect x="390" y="225" width="425" height="34" rx="17" style="fill:none;stroke:currentColor" stroke-width="1.2" stroke-dasharray="5 4" opacity=".8"/>
+            <text x="602" y="247" fill="currentColor" font-family="system-ui, sans-serif" font-size="11.5" text-anchor="middle" opacity=".85">Система: списывает деньги, резервирует товар, шлёт письмо</text>
+          </svg>
+          </div>
+          <figcaption><b>Пятнадцать блоков превратились в четыре шага.</b> Состояния не исчезли — они переехали внутрь блоков чипами, где им и место. Переходы подписаны действиями человека, действия системы вынесены пунктиром. Читается сверху вниз одной фразой.</figcaption>
+        </figure>
+        <div class="tabnote"><b>Что изменилось</b>Блоков стало вчетверо меньше, а информации — больше: видно и шаги, и то, что может пойти не так на каждом. «Корзина пустая» осталась в схеме, но перестала притворяться экраном. Не хватает пока одного — границ сценария.</div>
+      </div>
+
+      <div class="tabpanel" id="tp3" role="tabpanel" aria-labelledby="tb3">
+        <figure>
+          <div class="fig-scroll">
+          <svg viewBox="0 0 820 470" role="img" aria-label="Та же схема из четырёх шагов, к которой добавлены три входа сверху и три выхода снизу: успех, пауза с уходом в банк и обрыв">
+            <defs><marker id="arrC" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto"><polygon points="0,0 9,3.5 0,7" fill="currentColor"/></marker></defs>
+
+            <rect x="5" y="14" width="340" height="96" rx="12" style="fill:none;stroke:currentColor" stroke-width="1.2" stroke-dasharray="5 4" opacity=".7"/>
+            <text x="20" y="34" fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10" letter-spacing="1.2">ВХОДЫ</text>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="11.5">
+              <text x="20" y="56">— из корзины, кнопка «Оформить»</text>
+              <text x="20" y="77">— из письма «вы забыли товары»</text>
+              <text x="20" y="98">— из карточки товара, «Купить сейчас»</text>
+            </g>
+            <g stroke="currentColor" stroke-width="1.3" marker-end="url(#arrC)" fill="none">
+              <line x1="110" y1="112" x2="80" y2="166"/>
+              <line x1="275" y1="112" x2="300" y2="166"/>
+            </g>
+            <text x="120" y="146" fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10.5">обычный вход</text>
+            <text x="312" y="146" fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10.5">«Купить сейчас» — минуя корзину</text>
+
+            <g style="fill:var(--raised);stroke:currentColor" stroke-width="1.4">
+              <rect x="5" y="170" width="150" height="135" rx="8"/><rect x="225" y="170" width="150" height="135" rx="8"/><rect x="445" y="170" width="150" height="135" rx="8"/><rect x="665" y="170" width="150" height="135" rx="8"/>
+            </g>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="13.5" font-weight="600" text-anchor="middle">
+              <text x="80" y="202">Проверяет</text><text x="80" y="219">состав заказа</text>
+              <text x="300" y="202">Указывает, куда</text><text x="300" y="219">и когда везти</text>
+              <text x="520" y="202">Выбирает,</text><text x="520" y="219">чем платить</text>
+              <text x="740" y="202">Видит, что</text><text x="740" y="219">заказ принят</text>
+            </g>
+            <g fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10.5" text-anchor="middle">
+              <text x="80" y="239">экран «Корзина»</text><text x="300" y="239">экран «Доставка»</text><text x="520" y="239">экран «Оплата»</text><text x="740" y="239">экран «Готово»</text>
+            </g>
+            <g style="fill:var(--svg-chip);stroke:var(--accent)" stroke-width="1.1">
+              <rect x="17" y="256" width="126" height="21" rx="10.5"/><rect x="237" y="256" width="126" height="21" rx="10.5"/><rect x="457" y="256" width="126" height="21" rx="10.5"/><rect x="677" y="256" width="126" height="21" rx="10.5"/>
+            </g>
+            <g fill="var(--accent-deep)" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">
+              <text x="80" y="271">пустая · нет товара</text><text x="300" y="271">адрес вне зоны</text><text x="520" y="271">карта отклонена</text><text x="740" y="271">оплата ещё идёт</text>
+            </g>
+            <g stroke="currentColor" stroke-width="1.4" marker-end="url(#arrC)" fill="none">
+              <line x1="155" y1="235" x2="221" y2="235"/><line x1="375" y1="235" x2="441" y2="235"/><line x1="595" y1="235" x2="661" y2="235"/>
+            </g>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">
+              <text x="188" y="227">Оформить</text><text x="408" y="227">К оплате</text><text x="628" y="227">Оплатить</text>
+            </g>
+
+            <text x="10" y="412" fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10" letter-spacing="1.2">ВЫХОДЫ</text>
+            <g stroke="currentColor" stroke-width="1.3" marker-end="url(#arrC)" fill="none">
+              <line x1="300" y1="305" x2="300" y2="371"/><line x1="520" y1="305" x2="520" y2="371"/><line x1="740" y1="305" x2="740" y2="371"/>
+            </g>
+            <g fill="var(--svg-dim)" font-family="system-ui, sans-serif" font-size="10.5">
+              <text x="307" y="342">закрыл вкладку</text><text x="527" y="342">ушёл платить в банк</text><text x="747" y="342">оплатил</text>
+            </g>
+            <g style="fill:none;stroke:currentColor" stroke-width="1.3" stroke-dasharray="5 4">
+              <rect x="210" y="375" width="180" height="62" rx="20"/><rect x="430" y="375" width="180" height="62" rx="20"/><rect x="640" y="375" width="175" height="62" rx="20"/>
+            </g>
+            <g fill="currentColor" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle">
+              <text x="300" y="400">Обрыв: заказа нет,</text><text x="300" y="416">корзина сохранена</text>
+              <text x="520" y="400">Пауза: заказ ждёт оплаты</text><text x="520" y="416">20 минут, потом отмена</text>
+              <text x="727" y="400">Успех: заказ принят,</text><text x="727" y="416">письмо отправлено</text>
+            </g>
+          </svg>
+          </div>
+          <figcaption><b>Та же схема с границами сценария.</b> Сверху — три входа, причём один приводит человека сразу на второй шаг. Снизу — три выхода, и у каждого написано, что осталось в системе. Именно эти две рамки и отличают карту сценария от картинки с экранами.</figcaption>
+        </figure>
+        <div class="tabnote"><b>Теперь схему можно пересказать вслух</b>«Человек приходит из корзины — или сразу на доставку по кнопке "Купить сейчас". Проверяет состав, указывает адрес и день, выбирает оплату, подтверждает. Уйти он может в трёх местах, и в каждом мы знаем, что остаётся в системе». Это и есть проверка из задания.</div>
+      </div>
+    </div>
+    <div class="box-foot">Схема нарисована в четыре блока не потому, что сценарий простой, — а потому что состояния убраны на свой уровень. У вас получится столько же, если проверять каждый блок вопросом «человек пришёл сюда сам?».</div>
+  </div>
+
+  <h3>Чем рисовать</h3>
+  <p>Инструмент вторичен: Figma (FigJam), Miro, Excalidraw, Whimsical, хоть лист бумаги. Важны три вещи, одинаковые везде: <strong>схема помещается на один экран</strong> (иначе её не показать на созвоне), <strong>у неё есть легенда</strong>, и <strong>она лежит там, где команда её найдёт</strong> — рядом с макетами и в задаче, а не в вашем личном файле.</p>
+</section>
+
+<section id="one">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Одна схема — один сценарий</h2></div>
+  <p class="sec-sub">Пятый навык. Сюда легко попасть, потому что соблазн нарисовать всё разом очень силён.</p>
+
+  <p>Часто начинается одинаково: вы рисуете оформление заказа, вспоминаете, что незарегистрированному человеку надо где-то войти, дорисовываете регистрацию. Потом вспоминаете про отмену заказа — она же рядом. Через час на листе сто блоков, три сценария и клубок стрелок между ними. Такую схему трудно читать и обсуждать: любой вопрос по ней тянет за собой два других.</p>
+
+  <div class="rule"><b>Признак, что это другой сценарий: у человека другое намерение и другой результат.</b> «Хочу купить» и «хочу завести аккаунт» — разные намерения. «Заказ принят» и «аккаунт создан» — разные результаты. Значит, две схемы, даже если экраны идут подряд.</div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Кусок</th><th>Это часть оформления заказа?</th></tr></thead>
+      <tbody>
+        <tr><td>Выбор способа доставки</td><td><b>Да.</b> Без него заказ не оформить, результат тот же</td></tr>
+        <tr><td>Вход или регистрация перед оплатой</td><td><b>Нет.</b> Отдельный сценарий с другим результатом. На нашей схеме — пилюля «→ схема "Вход и регистрация"» с возвратом обратно</td></tr>
+        <tr><td>Оплата в приложении банка</td><td><b>Нет.</b> Это вообще чужой продукт. Пилюля выхода и стрелка возврата</td></tr>
+        <tr><td>Добавление товара в корзину</td><td><b>Нет.</b> Другое намерение — «выбираю товар». Это вход в наш сценарий</td></tr>
+        <tr><td>Отмена оформленного заказа</td><td><b>Нет.</b> Начинается после того, как наш сценарий закончился успехом</td></tr>
+        <tr><td>Ввод промокода</td><td><b>Да.</b> Тот же результат, просто ещё один шаг внутри</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Как связывать схемы между собой</h3>
+  <ul>
+    <li><strong>Через пилюли.</strong> Там, где человек уходит в другой сценарий, рисуете пилюлю с его названием — и стрелку обратно, если он возвращается. Внутренности другого сценария не рисуете вообще.</li>
+    <li><strong>Общие куски — отдельной схемой.</strong> Вход и регистрация нужны в пяти сценариях. Рисуете один раз, остальные ссылаются пилюлей.</li>
+    <li><strong>Возврат обязательно подписывать.</strong> «Вернулся туда, откуда ушёл» и «вернулся в начало» — это разные вещи, и разработчик про них спросит. Лучше ответить заранее.</li>
+  </ul>
+
+  <div class="warnbox"><b>Схема не помещается на экран — это сигнал, а не только проблема рисования.</b> Два варианта: либо в неё попали два сценария и её надо разделить, либо один сценарий в вашем продукте действительно устроен слишком сложно. Второй случай — ценная находка: вы нашли это на схеме за час, а не в разработке за две недели.</div>
+</section>
+
+<section id="dev">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Чтобы схему прочитали без вас</h2></div>
+  <p class="sec-sub">Четвёртый навык целиком. Разработчик не будет расшифровывать схему: он додумает недостающее по-своему.</p>
+
+  <p>Схема часто попадает к людям, которых не было при её рисовании. Разработчик открывает её в понедельник, вас нет на месте, а задачу делать надо. Всё, что на схеме не написано, он решит сам — часто разумно, но не так, как вы задумали. Через неделю выяснится, что после неудачной оплаты человек возвращается в корзину, а не остаётся на оплате, и переделывать придётся уже код.</p>
+
+  <p>Поэтому <strong>полнота схемы измеряется не количеством блоков, а количеством вопросов, которые она не оставляет</strong>. Ниже схема с типичными дырами: найдите пять мест, о которых спросит разработчик.</p>
+
+  <div class="box">
+    <div class="box-head">Поиск дыр · нажимайте на точки<span class="spacer"></span><span class="hunt-count" id="huntCount">Найдено 0 из 5</span></div>
+    <div class="box-body">
+      <div class="hunt" id="hunt">
+        <svg viewBox="0 0 820 270" role="img" aria-label="Схема из четырёх блоков с названиями страниц, неподписанными стрелками, ветвлением без условия и тупиковым блоком «Ошибка»">
+          <defs><marker id="arrH" markerWidth="9" markerHeight="7" refX="8.5" refY="3.5" orient="auto"><polygon points="0,0 9,3.5 0,7" fill="currentColor"/></marker></defs>
+          <g style="fill:var(--raised);stroke:currentColor" stroke-width="1.4">
+            <rect x="60" y="60" width="150" height="58" rx="8"/><rect x="260" y="60" width="150" height="58" rx="8"/><rect x="460" y="60" width="150" height="58" rx="8"/><rect x="660" y="60" width="150" height="58" rx="8"/>
+            <rect x="460" y="180" width="150" height="58" rx="8"/>
+          </g>
+          <g fill="currentColor" font-family="system-ui, sans-serif" font-size="13.5" text-anchor="middle">
+            <text x="135" y="94">Корзина</text><text x="335" y="94">Checkout 2</text><text x="535" y="94">Оплата</text><text x="735" y="94">Готово</text>
+            <text x="535" y="214">Ошибка</text>
+          </g>
+          <g stroke="currentColor" stroke-width="1.4" marker-end="url(#arrH)" fill="none">
+            <line x1="210" y1="89" x2="256" y2="89"/><line x1="410" y1="89" x2="456" y2="89"/><line x1="610" y1="89" x2="656" y2="89"/>
+            <line x1="535" y1="118" x2="535" y2="176"/>
+          </g>
+        </svg>
+        <button class="pin" type="button" data-hunt="0" style="left:4.1%; top:33%" aria-label="Точка 1">1</button>
+        <button class="pin" type="button" data-hunt="1" style="left:40.9%; top:22%" aria-label="Точка 2">2</button>
+        <button class="pin" type="button" data-hunt="2" style="left:28.4%; top:33%" aria-label="Точка 3">3</button>
+        <button class="pin" type="button" data-hunt="3" style="left:65.2%; top:55.6%" aria-label="Точка 4">4</button>
+        <button class="pin" type="button" data-hunt="4" style="left:77.5%; top:77.4%" aria-label="Точка 5">5</button>
+      </div>
+      <div class="hunt-fb" id="huntFb"><span class="q">Нажмите на любую точку</span>В каждой из них разработчик остановится и задаст вопрос. Пока ответа на схеме нет, он ответит сам.</div>
+    </div>
+    <div class="box-foot">Это та же схема оформления заказа, но собранная так, как её рисуют в спешке: названия страниц, стрелки без подписей, ветвление без условия и тупик.</div>
+  </div>
+
+  <h3>Восемь вещей, из-за отсутствия которых приходят с вопросами</h3>
+  <ol>
+    <li><strong>Легенда на самой схеме.</strong> Один угол, пять строк. Без неё каждый читает фигуры по-своему.</li>
+    <li><strong>Понятные имена экранов</strong> — те же, что в макетах. Если в Figma экран называется «Доставка», на схеме тоже «Доставка», а не «Checkout 2».</li>
+    <li><strong>Подпись на каждой стрелке:</strong> что человек сделал — <code>нажал «К оплате»</code>, а не просто линия.</li>
+    <li><strong>Условие на каждой развилке,</strong> словами: «адрес в зоне» / «адрес вне зоны». Развилка без условия — самое дорогое место схемы.</li>
+    <li><strong>Состояния внутри блока,</strong> включая ошибки и загрузку. Иначе их просто не сделают.</li>
+    <li><strong>Входы и выходы</strong> с ответом на вопрос «что осталось в системе».</li>
+    <li><strong>Ссылки на макеты</strong> прямо с блоков — чтобы от шага можно было перейти к экрану.</li>
+    <li><strong>Дата, автор и версия.</strong> Схема устаревает за месяц; без даты непонятно, верить ей или нет.</li>
+  </ol>
+
+  <div class="rule"><b>Полезный приём: покажите схему коллеге и молчите.</b> Не рассказывайте, что нарисовано, попросите пересказать вслух. Место, где он запнулся или спросил, — кандидат на правку. Отмечайте и чините, а не объясняйте устно: объяснение работает только в вашем присутствии, а схема должна работать сама.</div>
+
+  <h3>Где схема живёт</h3>
+  <p>Вложите её туда, где команда и так бывает: ссылкой в задаче, рядом с макетами, в вики продукта. Схема в личном файле, о которой знаете только вы, формально существует, но для команды почти бесполезна. И договоритесь с собой об одном: <strong>если сценарий изменился, схему стоит поправить сразу</strong>: устаревшая схема хуже отсутствующей, потому что по ней уже принимают решения.</p>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Задание</h2></div>
+  <p class="sec-sub">Взять один сценарий своего продукта и собрать карту экранов со всеми шагами: вход, действия, выход.</p>
+
+  <h3>Часть 1 · Выберите сценарий</h3>
+  <ol>
+    <li><strong>Один результат.</strong> Регистрация, оформление заказа, настройка уведомлений — что угодно, где понятно, чем всё заканчивается.</li>
+    <li><strong>4–8 шагов.</strong> Меньше — может быть нечего рисовать, больше — проверьте, не спрятались ли внутри два сценария.</li>
+    <li><strong>Запишите двумя строчками</strong> до того, как рисовать: <em>намерение</em> («человек хочет купить товар прямо сейчас») и <em>результат</em> («заказ принят, известен номер и дата доставки»). Эти две строки потом не дадут схеме расползтись: всё, что не ведёт к результату, — другой сценарий.</li>
+  </ol>
+
+  <h3>Часть 2 · Соберите текстом, не рисуя</h3>
+  <p>Рисование раньше времени часто делает схему кривой: вы начинаете двигать блоки вместо того, чтобы думать о шагах. Сначала соберите всё списком по этой заготовке, и только потом переносите в схему.</p>
+
+  <div class="box">
+    <div class="box-head">Заготовка · собрать сценарий текстом<span class="spacer"></span><button class="btn" data-copy="#tmpl" type="button">Скопировать</button></div>
+    <div class="box-body">
+<pre id="tmpl" style="white-space:pre-wrap; font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; background:var(--demo-bg); border:1px solid var(--hairline); border-radius:10px; padding:14px 16px; overflow-x:auto; margin:0; color:var(--ink-2)">СЦЕНАРИЙ: ______________________        Автор: ______  Дата: __.__.____
+
+НАМЕРЕНИЕ: человек хочет ______________________________
+РЕЗУЛЬТАТ: ____________________________________________
+
+ВХОДЫ (откуда сюда попадают)
+1. ____________________  →  приводит на шаг №__
+2. ____________________  →  приводит на шаг №__
+3. ____________________  →  приводит на шаг №__
+
+ШАГИ (глагол человека — экран — состояния)
+1. ____________________  |  экран ____________  |  состояния: ______________
+2. ____________________  |  экран ____________  |  состояния: ______________
+3. ____________________  |  экран ____________  |  состояния: ______________
+4. ____________________  |  экран ____________  |  состояния: ______________
+5. ____________________  |  экран ____________  |  состояния: ______________
+
+ПЕРЕХОДЫ (что человек сделал между шагами)
+1 → 2: ______________    2 → 3: ______________    3 → 4: ______________
+
+РАЗВИЛКИ (условие — куда ведёт)
+— если ____________________ → шаг __ ; если ____________________ → шаг __
+
+ДЕЛАЕТ СИСТЕМА (без экрана)
+— ______________________________________________
+
+ВЫХОДЫ (чем закончилось — что осталось в системе)
+1. успех: ____________________  →  осталось: ______________________
+2. пауза: ____________________  →  осталось: ______________________
+3. обрыв: ____________________  →  осталось: ______________________</pre>
+    </div>
+    <div class="box-foot">Заполняется за 30–40 минут. Если в графе «состояния» пусто у всех шагов, вы, скорее всего, описали только счастливый путь, вернитесь и спросите себя, что может пойти не так на каждом экране.</div>
+  </div>
+
+  <h3>Часть 3 · Перенесите в схему</h3>
+  <ol>
+    <li><strong>Блоки — по списку шагов,</strong> слева направо. Глагол крупно, имя экрана мелко.</li>
+    <li><strong>Состояния — чипами внутрь блоков.</strong> Не заводите под них отдельные прямоугольники, даже если хочется.</li>
+    <li><strong>Подпишите каждую стрелку</strong> действием человека и каждую развилку — условием.</li>
+    <li><strong>Пририсуйте входы сверху, выходы снизу,</strong> пунктирными пилюлями.</li>
+    <li><strong>Добавьте легенду, дату, автора и ссылки на макеты.</strong></li>
+  </ol>
+
+  <h3>Часть 4 · Проверьте вслух</h3>
+  <ol>
+    <li><strong>Прочитайте схему сами вслух,</strong> как рассказ: «человек приходит оттуда-то, делает то-то…». Место, где приходится добавлять от себя, — дыра на схеме.</li>
+    <li><strong>Дайте коллеге, который не знает продукт,</strong> и попросите пересказать. Молчите, пока он говорит.</li>
+    <li><strong>Запишите каждый его вопрос</strong> — это и есть список правок. Не объясняйте, а чините.</li>
+  </ol>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Коллега, не знающий продукта, по схеме пересказывает сценарий вслух и не спрашивает «а что здесь происходит». Если спросил, правите это место и даёте схему следующему человеку. Часто второй прогон уже проходит заметно спокойнее.</div>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Схема на одном экране</strong> с легендой, датой и автором.</li>
+    <li><strong>Шаги — глаголами человека,</strong> имена экранов — как в макетах.</li>
+    <li><strong>Состояния — внутри блоков,</strong> минимум по одному у каждого экрана, где есть чему пойти не так.</li>
+    <li><strong>Все входы и все выходы,</strong> у каждого выхода — что осталось в системе.</li>
+    <li><strong>Заполненная заготовка</strong> из части 2 — по ней потом легко править схему.</li>
+  </ul>
+  <p class="dim">Ориентир по времени: 30–40 минут на текст, час на схему, полчаса на проверку с коллегой и правки.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Сценарий оказался огромным».</strong> Почти всегда внутри два: проверьте по намерению и результату. Оформление заказа и регистрация — разное, даже когда идут подряд.</li>
+    <li><strong>«Я не знаю всех состояний».</strong> Нормально. Спросите разработчика — он знает про ошибки больше всех, — и загляните в обращения поддержки: там состояния описаны словами людей.</li>
+    <li><strong>«В продукте нет схем и никто не просил».</strong> Схема часто окупается на первом обсуждении задачи: вместо «давайте обсудим оформление заказа» есть предмет, на который можно показывать пальцем.</li>
+    <li><strong>«Не получается уместить на экран».</strong> Уберите состояния в чипы (обычно этого хватает) и вынесите чужие сценарии в пилюли. Если всё равно не влезает — это находка, а не неудача: см. раздел 6.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Чек-лист и частые ошибки</h2></div>
+
+  <h3>Схема готова, если</h3>
+  <ul class="ok-list">
+    <li>Каждый блок читается как «Человек <b>делает что-то</b>»</li>
+    <li>Имя экрана указано рядом и совпадает с макетом</li>
+    <li>Состояния лежат внутри блоков, а не рядом с ними</li>
+    <li>У каждой стрелки написано, что человек сделал</li>
+    <li>У каждой развилки написано условие</li>
+    <li>Показаны все входы, включая неочевидные</li>
+    <li>Показаны все выходы: успех, пауза, обрыв</li>
+    <li>У каждого выхода сказано, что осталось в системе</li>
+    <li>Действия системы отмечены пунктиром</li>
+    <li>Есть легенда, дата и автор</li>
+    <li>Схема помещается на один экран</li>
+    <li>В ней один сценарий, остальные — пилюлями</li>
+    <li>Коллега пересказал её вслух без вопросов</li>
+  </ul>
+
+  <h3>Ошибки, из-за которых схему трудно читать</h3>
+  <ul class="err-list">
+    <li><b>Каждое состояние — отдельный блок.</b> Корзина занимает четыре прямоугольника, схема разрастается вчетверо, а информации в ней не прибавляется.</li>
+    <li><b>Блоки названы страницами.</b> «Корзина → Checkout → Payment» — карта сайта, а не сценарий: не видно, что человек делает.</li>
+    <li><b>Глаголы системы вместо глаголов человека.</b> «Валидация адреса» — это не шаг человека; такие вещи идут пунктиром.</li>
+    <li><b>Стрелки без подписей.</b> Непонятно, что человек нажал и почему оказался там.</li>
+    <li><b>Развилка без условия.</b> Две стрелки из блока, а когда какая — неизвестно. Разработчик решит сам.</li>
+    <li><b>Нет входов.</b> Схема начинается с первого экрана, будто человек там материализовался.</li>
+    <li><b>Один выход — успешный.</b> Всё, что не «успех», на схеме не существует, поэтому и в продукте не сделано.</li>
+    <li><b>Выход без последствия.</b> Не сказано, что осталось в системе, — отсюда заказы без понятного статуса и деньги без заказа.</li>
+    <li><b>Три сценария в одной схеме.</b> Сто блоков, клубок стрелок, обсуждать трудно.</li>
+    <li><b>Нет легенды.</b> Каждый читатель трактует фигуры по-своему, а спросить некого.</li>
+    <li><b>Нет даты.</b> Через месяц непонятно, актуальна схема или нет, и её перестают открывать.</li>
+    <li><b>Схема красивая, но неверная.</b> Сценарий поменяли, схему не поправили — по ней продолжают принимать решения, и это хуже, чем её отсутствие.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">10</span>Три уровня темы</h2></div>
+  <p class="sec-sub">Junior закрыт, когда выполнен критерий задания. Ниже — что относится к следующим уровням, чтобы вы не пытались сделать это сейчас.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Разложить один сценарий на шаги и экраны; отличать экран от состояния; называть шаги глаголами человека; показывать входы и выходы; держать одну схему на один сценарий; рисовать так, чтобы прочитали без вас</td>
+          <td>Коллега, не знающий продукта, пересказывает сценарий по схеме вслух и не спрашивает «а что здесь происходит»</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Middle</b></td>
+          <td class="dim">Собирать структуру продукта целиком, а не отдельный сценарий; описывать все ветки и ошибочные пути, а не счастливый путь; связывать сценарии между собой и находить дубли; договариваться с командой об общей нотации; поддерживать схемы живыми при изменениях</td>
+          <td class="dim">По схемам видно не только как всё работает, когда получается, но и что происходит, когда не получается — и разработка перестаёт приходить с вопросами «а если…»</td>
+        </tr>
+        <tr>
+          <td class="dim"><b>Senior</b></td>
+          <td class="dim">Отвечать за структуру и навигацию продукта в целом; решать, где новому сценарию место и не плодить параллельные пути к одному результату; читать сложность схемы как сигнал о проблеме в продукте или процессе, а не в рисовании; задавать команде общий язык описания сценариев</td>
+          <td class="dim">Споры о структуре закрываются по схеме, а новый сценарий встраивается в продукт без переделки навигации</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Тему можно считать закрытой,</b> когда у вас есть схема одного сценария, которую чужой человек пересказал вслух без единого вопроса, — и когда вы, глядя на любой кусок интерфейса, за пару секунд отвечаете, экран это или состояние.</div>
+</section>
+
+<footer>
+  Урок по теме «Структура и потоки», уровень Junior. Сквозной пример — сценарий оформления заказа в интернет-магазине. Заготовка из раздела 8 копируется кнопкой. Что почитать дальше: Джесс Джеймс Гарретт, «Элементы опыта взаимодействия» — про уровни структуры продукта; материалы Nielsen Norman Group про flowcharts и user flows; из практики полезнее всего посмотреть, как схемы сценариев устроены в дизайн-документации открытых продуктов — обращайте внимание не на красоту, а на то, подписаны ли стрелки.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next');
+    var sc = el.closest('.box').querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 's', label: 'Экран' }, { key: 'st', label: 'Состояние экрана' }, { key: 'sys', label: 'Действие системы' }],
+    [
+      { t: 'Корзина, в которой ни одного товара.', a: 'st',
+        fb: 'Человек не нажимал ничего, чтобы сюда попасть, — он открыл корзину, и она оказалась пустой. Задача та же: разобраться с составом заказа. Значит, состояние, и живёт оно чипом внутри блока «Проверяет состав заказа».' },
+      { t: 'Место, куда человек попадает по кнопке «К оплате».', a: 's',
+        fb: 'Отдельное действие, чтобы туда попасть, и другая задача — выбрать способ оплаты. Это экран.' },
+      { t: 'Банк отклонил карту, человек видит сообщение под формой оплаты.', a: 'st',
+        fb: 'Человек остался ровно там же, изменился результат попытки. Состояние экрана оплаты — и одно из самых важных: именно такие состояния забывают нарисовать, а потом их легко забывают сделать.' },
+      { t: 'В момент подтверждения заказа товар резервируется на складе.', a: 'sys',
+        fb: 'Экрана у этого нет, человек ничего не делает. Но в сценарии это есть, и на схеме отмечается пунктиром — иначе разработчик спросит, когда именно списывается остаток.' },
+      { t: 'Страница с номером заказа, которую можно открыть по ссылке из письма.', a: 's',
+        fb: 'Свой адрес, на который можно вернуться через неделю, — верный признак экрана. Плюс задача здесь новая: узнать, когда привезут.' },
+      { t: 'Пока грузятся свободные дни доставки, на месте календаря серые полосы.', a: 'st',
+        fb: 'Загрузка — это состояние экрана, причём обязательное: если его не нарисовать, в продукте на этом месте окажется пустота или дёрганье. Отдельным блоком его выносить не надо.' },
+      { t: 'Через 20 минут неоплаченный заказ сам переходит в статус «отменён».', a: 'sys',
+        fb: 'Никакого экрана, никакого действия человека — и при этом важнейшая часть сценария: это ответ на вопрос «что осталось в системе после выхода».' },
+      { t: 'Адрес оказался вне зоны доставки, человек видит это на том же экране.', a: 'st',
+        fb: 'Тот же экран, изменились обстоятельства. Внутри блока «Указывает, куда и когда везти» это чип «адрес вне зоны», а из него — стрелка с подписанным условием, если дальше сценарий идёт иначе.' },
+      { t: 'Человек нажимает «Изменить адрес» и попадает в справочник адресов с поиском.', a: 's',
+        fb: 'Отдельное действие, чтобы туда попасть, и другая задача — найти адрес. Экран. Вот здесь работает та самая обратная проверка: внутри человек делает не то же самое, что на предыдущем шаге.' },
+      { t: 'Письмо с чеком, которое уходит после успешной оплаты.', a: 'sys',
+        fb: 'Типичный забытый элемент: письма нет ни на одном экране, поэтому его не рисуют, а потом выясняется, что его никто не сделал. Пунктирная стрелка от шага «Видит, что заказ принят».' }
+    ],
+    function (s, n) {
+      return s >= 9 ? 'Отличный результат. Различение экрана и состояния — это то, что удерживает схему от разрастания, и у вас это уже получается.'
+        : s >= 6 ? 'Хорошо. Держите в голове три вопроса: пришёл сам? задача та же? есть свой адрес? Три «нет» подряд — состояние.'
+        : 'Вернитесь к разделу 2. Самая надёжная проверка простая: если человек ничего не нажимал, а картинка изменилась, — это состояние.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'h', label: 'Глагол человека' }, { key: 'p', label: 'Название страницы' }, { key: 'sys', label: 'Глагол системы' }],
+    [
+      { t: 'В блоке написано: <q>Корзина</q>', a: 'p',
+        fb: '«Человек корзина» не читается. Это название страницы: понятно, где мы, но не понятно, что здесь происходит. Лучше: «Проверяет состав заказа».' },
+      { t: 'В блоке написано: <q>Проверяет состав заказа</q>', a: 'h',
+        fb: '«Человек проверяет состав заказа» — читается. Это шаг. Имя экрана допишите мелко рядом.' },
+      { t: 'В блоке написано: <q>Валидация адреса по базе зон</q>', a: 'sys',
+        fb: 'Это делает система, а не человек. На схеме такие вещи идут пунктиром, а шагом остаётся то, что делает человек: «Указывает адрес».' },
+      { t: 'В блоке написано: <q>Checkout step 2</q>', a: 'p',
+        fb: 'Внутреннее имя из вёрстки или трекера. Чужому человеку оно не говорит ничего, а через полгода и вам может быть непонятно.' },
+      { t: 'В блоке написано: <q>Выбирает, чем платить</q>', a: 'h',
+        fb: 'Читается с «Человек» и сразу вызывает правильный вопрос: из чего выбирает и что будет, если подходящего способа нет. Хорошие названия помогают достраивать схему.' },
+      { t: 'В блоке написано: <q>Отправка письма с чеком</q>', a: 'sys',
+        fb: 'Человек в этот момент ничего не делает. На схеме нужно, но пунктиром и без претензии на шаг.' },
+      { t: 'В блоке написано: <q>Личный кабинет</q>', a: 'p',
+        fb: 'Название раздела. Внутри личного кабинета человек может делать десяток разных вещей — какую именно, из блока не видно.' },
+      { t: 'В блоке написано: <q>Понимает, когда привезут заказ</q>', a: 'h',
+        fb: 'Не самый очевидный, но правильный вариант: «понимает» и «узнаёт» — тоже действия человека. На последнем шаге сценария они как раз уместнее, чем «нажимает».' },
+      { t: 'В блоке написано: <q>Показ ошибки оплаты</q>', a: 'sys',
+        fb: 'Это действие интерфейса. Со стороны человека здесь происходит другое: «понимает, что карта не прошла», — и дальше он выбирает другую карту. Из формулировки со стороны человека сразу видно следующий шаг, из «показа ошибки» — нет.' }
+    ],
+    function (s, n) {
+      return s >= 8 ? 'Отлично. Проверка подстановкой «Человек …» уже работает: схемы будут про людей, а не про страницы.'
+        : s >= 5 ? 'Неплохо. Чаще всего путаются глаголы системы: если действие делает не человек, это пунктир, а не блок.'
+        : 'Перечитайте раздел 3 и прогоните каждый блок через «Человек …». Не читается — перепишите.';
+    }
+  );
+
+  /* ── tabs ── */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tabs [role="tab"]'));
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      tabs.forEach(function (o) {
+        o.setAttribute('aria-selected', String(o === t));
+        var p = document.getElementById(o.getAttribute('aria-controls'));
+        if (p) p.classList.toggle('on', o === t);
+      });
+    });
+  });
+
+  /* ── sequence builder ── */
+  var SEQ = [
+    { t: 'Приходит из корзины по кнопке «Оформить»', io: 'вход',
+      n: 'Вход — это не шаг, а граница сценария. С него схема и начинается, иначе человек будто материализовался на первом экране.' },
+    { t: 'Проверяет состав заказа', n: 'Экран «Корзина». Состояния: пустая, товар закончился, цена изменилась.' },
+    { t: 'Указывает адрес доставки', n: 'Экран «Доставка». Отсюда растёт развилка: адрес в зоне или вне зоны.' },
+    { t: 'Выбирает день и время', n: 'Тот же экран «Доставка» — два шага на одном экране, и это нормально. Порядок не случайный: свободные дни зависят от адреса.' },
+    { t: 'Выбирает, чем платить', n: 'Экран «Оплата». Состояния: карта отклонена, нужен переход в приложение банка.' },
+    { t: 'Подтверждает заказ', n: 'Последнее действие человека. Дальше начинает работать система: резерв товара, списание, письмо — всё пунктиром.' },
+    { t: 'Видит номер заказа и когда привезут', io: 'выход',
+      n: 'Выход «успех». У него, как и у остальных выходов, надо указать, что осталось в системе: заказ в статусе «собирается», письмо отправлено.' }
+  ];
+  var DECOY = { t: 'Регистрируется по номеру телефона',
+    n: 'Это другой сценарий: другое намерение («хочу завести аккаунт») и другой результат («аккаунт создан»). На нашей схеме он появляется пилюлей «→ схема "Вход и регистрация"» со стрелкой возврата, но внутренности его здесь не рисуются.' };
+  var ORDER = [2, 5, 0, 'x', 3, 6, 1, 4];
+
+  var pool = document.getElementById('seqPool'), chain = document.getElementById('seqChain');
+  var seqFb = document.getElementById('seqFb'), seqCount = document.getElementById('seqCount');
+  var seqEmpty = document.getElementById('seqEmpty'), expect = 0;
+
+  function seqInit() {
+    expect = 0;
+    pool.innerHTML = ''; chain.innerHTML = '';
+    seqFb.className = 'seq-fb'; seqFb.innerHTML = '';
+    seqEmpty.style.display = '';
+    seqCount.textContent = '0 из 7';
+    ORDER.forEach(function (k) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = (k === 'x') ? DECOY.t : SEQ[k].t;
+      b.setAttribute('data-k', String(k));
+      b.addEventListener('click', function () { seqClick(k, b); });
+      pool.appendChild(b);
+    });
+  }
+  function seqClick(k, btn) {
+    if (btn.disabled) return;
+    if (k === 'x') {
+      flash(btn);
+      seqFb.className = 'seq-fb on';
+      seqFb.innerHTML = '<b>Это лишний вариант</b>' + DECOY.n;
+      return;
+    }
+    if (k !== expect) {
+      flash(btn);
+      seqFb.className = 'seq-fb on';
+      seqFb.innerHTML = '<b>Пока рано</b>' + (expect === 0
+        ? 'Начните с того, откуда человек попадает в сценарий: схема начинается со входа, а не с первого экрана.'
+        : 'Сейчас на очереди то, что человек делает сразу после «' + SEQ[expect - 1].t.toLowerCase() + '».');
+      return;
+    }
+    btn.disabled = true;
+    if (chain.children.length) {
+      var link = document.createElement('div');
+      link.className = 'link'; chain.appendChild(link);
+    }
+    var row = document.createElement('div');
+    row.className = 'row' + (SEQ[k].io ? ' io' : '');
+    row.innerHTML = '<span class="n">' + (SEQ[k].io ? (SEQ[k].io === 'вход' ? '↓' : '✓') : (k)) + '</span>' +
+      '<span class="txt">' + SEQ[k].t + (SEQ[k].io ? '<span class="tag">' + SEQ[k].io + '</span>' : '') + '</span>';
+    chain.appendChild(row);
+    seqEmpty.style.display = 'none';
+    expect++;
+    seqCount.textContent = expect + ' из 7';
+    seqFb.className = 'seq-fb on';
+    if (expect === SEQ.length) {
+      seqFb.innerHTML = '<b>Собрано целиком</b>Обратите внимание на две вещи. Первая: первый и последний блоки — не шаги, а границы сценария, и без них схема начинается ниоткуда и заканчивается в никуда. Вторая: шагов семь, а экранов всего четыре — «указывает адрес» и «выбирает день» происходят на одном экране доставки. Шаг и экран это не одно и то же.';
+    } else {
+      seqFb.innerHTML = '<b>Верно</b>' + SEQ[k].n;
+    }
+  }
+  function flash(btn) {
+    btn.classList.add('miss');
+    setTimeout(function () { btn.classList.remove('miss'); }, 900);
+  }
+  document.getElementById('seqReset').addEventListener('click', seqInit);
+  seqInit();
+
+  /* ── hunt ── */
+  var HUNT = [
+    { q: 'Откуда человек сюда попадает?',
+      fix: 'Входов минимум три: из корзины, из письма «вы забыли товары», из карточки товара по кнопке «Купить сейчас» — причём последний приводит сразу на доставку, минуя корзину. Пририсуйте их пунктирными пилюлями сверху.' },
+    { q: 'Что такое «Checkout 2»?',
+      fix: 'Внутреннее имя ничего не говорит тому, кто его не придумывал. Напишите крупно глагол человека — «Указывает, куда и когда везти», — а мелко имя экрана из макета: «Доставка».' },
+    { q: 'Что человек нажал, чтобы оказаться дальше?',
+      fix: 'Подпишите стрелку действием: «Оформить». Неподписанная стрелка означает всего лишь «эти два блока как-то связаны» — а связей бывает несколько, и разработчик выберет свою.' },
+    { q: 'В каком случае человек попадает сюда, а в каком — дальше?',
+      fix: 'Развилка без условия — самое дорогое место схемы. Напишите на каждой стрелке условие словами: «карта отклонена» — вниз, «оплата прошла» — дальше.' },
+    { q: 'А отсюда куда?',
+      fix: 'Тупиковый блок означает, что после ошибки человек остаётся ни с чем. Покажите возврат — «пробует другую карту» обратно на оплату — и выход на случай, если он уйдёт: заказ висит в статусе «ждёт оплаты» 20 минут, потом отменяется.' }
+  ];
+  var found = {}, huntFb = document.getElementById('huntFb'), huntCount = document.getElementById('huntCount');
+  document.querySelectorAll('#hunt .pin').forEach(function (pin) {
+    pin.addEventListener('click', function () {
+      var i = +pin.getAttribute('data-hunt');
+      pin.classList.add('found');
+      found[i] = 1;
+      var n = Object.keys(found).length;
+      huntCount.textContent = 'Найдено ' + n + ' из 5';
+      huntFb.innerHTML = '<span class="q">' + HUNT[i].q + '</span>' +
+        '<span class="fix"><b>Как чинить. </b>' + HUNT[i].fix + '</span>' +
+        (n === 5 ? '<span class="fix" style="margin-top:10px"><b>Все пять найдены. </b>Заметьте, что ни одна из дыр не про то, чего в продукте нет: сценарий работает, просто схема о нём молчит. Именно в этих молчаливых местах разработчик и принимает решения за вас.</span>' : '');
+    });
+  });
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = (src.innerText || src.textContent).replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fallback(text, done); });
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>

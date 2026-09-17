@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Разбор аналогов: как объяснить отказ от чужого приёма</title>
+<style>
+  :root {
+    color-scheme: light;
+    --page: #f9f9f7; --surface: #fcfcfb; --raised: #ffffff;
+    --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+    --hairline: #e1e0d9; --border: rgba(11,11,11,0.10);
+    --accent: #2a78d6; --accent-deep: #1c5cab; --chip: #eef3fb;
+    --bad: #d03b3b; --bad-soft: rgba(208,59,59,.10);
+    --good: #006300; --good-soft: rgba(0,99,0,.10);
+    --warn: #8a6d12; --warn-soft: rgba(250,178,25,.16);
+    --demo-bg: #f4f3f0; --quote-bar: #c3c2b7;
+    --ui-bg: #f2f2f5; --ui-card: #ffffff; --ui-line: #e3e3e8; --ui-ink: #111114; --ui-ink2: #8a8a92;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+      --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+      --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+      --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+      --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+      --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+      --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+      --demo-bg: #141413; --quote-bar: #46453f;
+      --ui-bg: #1c1c1e; --ui-card: #2a2a2d; --ui-line: #3a3a3f; --ui-ink: #f2f2f5; --ui-ink2: #9a9aa2;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0d0d0d; --surface: #1a1a19; --raised: #232321;
+    --ink: #ffffff; --ink-2: #c3c2b7; --muted: #898781;
+    --hairline: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --accent: #3987e5; --accent-deep: #6da7ec; --chip: #1f2733;
+    --bad: #e66767; --bad-soft: rgba(230,103,103,.14);
+    --good: #0ca30c; --good-soft: rgba(12,163,12,.14);
+    --warn: #e0b44a; --warn-soft: rgba(250,178,25,.14);
+    --demo-bg: #141413; --quote-bar: #46453f;
+    --ui-bg: #1c1c1e; --ui-card: #2a2a2d; --ui-line: #3a3a3f; --ui-ink: #f2f2f5; --ui-ink2: #9a9aa2;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .wrap { max-width: 830px; margin: 0 auto; padding: 0 20px 90px; }
+
+  .topbar { position: sticky; top: 0; z-index: 30; background: var(--page); border-bottom: 1px solid var(--hairline); }
+  .topbar-inner { max-width: 830px; margin: 0 auto; padding: 9px 20px; display: flex; align-items: center; gap: 10px; }
+  .topbar-title { font-size: 13px; color: var(--ink-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .theme-btn { border: 1px solid var(--border); background: var(--surface); color: var(--ink-2); border-radius: 8px; padding: 4px 10px; font: 13px system-ui, sans-serif; cursor: pointer; }
+  .theme-btn:hover { color: var(--ink); }
+  button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  header.hero { padding: 44px 0 6px; }
+  .kicker { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+  .levels { display: flex; gap: 6px; margin: 0 0 14px; }
+  .lv { font: 600 11.5px system-ui, sans-serif; letter-spacing: .05em; text-transform: uppercase;
+        border: 1px solid var(--border); border-radius: 999px; padding: 3px 11px; color: var(--muted); }
+  .lv.on { background: var(--ink); color: var(--page); border-color: transparent; }
+  .lv.done { color: var(--ink-2); }
+  .lv.done::before { content: "✓ "; }
+  h1 { font-size: 33px; line-height: 1.16; letter-spacing: -0.018em; margin: 0 0 12px; text-wrap: balance; }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--ink-2); margin: 0; max-width: 63ch; }
+
+  .goals { margin: 24px 0 8px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .goals b { display: block; font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin-bottom: 10px; }
+  .goals ol { margin: 0; padding-left: 20px; font-size: 15px; }
+  .goals li { margin: 6px 0; }
+  .goals a { color: var(--accent-deep); text-decoration: none; }
+  .goals a:hover { text-decoration: underline; }
+  .drillmark { display: inline-block; font: 700 10px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; background: var(--chip); color: var(--accent-deep); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+
+  section { margin-top: 54px; }
+  .sec-head { border-bottom: 2px solid var(--ink); padding-bottom: 8px; }
+  h2 { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; margin: 0; text-wrap: balance; }
+  .h2-num { color: var(--muted); font-weight: 600; margin-right: 8px; }
+  .sec-sub { color: var(--muted); font-size: 14px; margin: 9px 0 20px; }
+  h3 { font-size: 17.5px; margin: 28px 0 8px; }
+  h4 { font-size: 15px; margin: 20px 0 6px; }
+  p { margin: 12px 0; max-width: 66ch; }
+  ul, ol { margin: 12px 0; padding-left: 22px; max-width: 66ch; }
+  li { margin: 6px 0; }
+  strong { font-weight: 600; }
+  .dim { color: var(--ink-2); }
+  code { font: 13.5px ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 5px; padding: 1px 6px; }
+
+  .rule { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; max-width: none; }
+  .rule b { color: var(--ink); }
+  .rule p { max-width: none; }
+  .warnbox { background: var(--warn-soft); border: 1px solid var(--border); border-left: 3px solid var(--warn); border-radius: 10px; padding: 13px 16px; margin: 18px 0; font-size: 15px; }
+  .warnbox b { color: var(--ink); }
+
+  .tbl-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 520px; }
+  th, td { text-align: left; padding: 10px 14px; border-top: 1px solid var(--hairline); vertical-align: top; }
+  thead th { border-top: none; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; white-space: nowrap; }
+  td { color: var(--ink-2); }
+  td b, td strong { color: var(--ink); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  .box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin: 18px 0; overflow: hidden; }
+  .box-head { font-size: 12.5px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); padding: 11px 18px; border-bottom: 1px solid var(--hairline); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .box-head .spacer { flex: 1; }
+  .box-body { padding: 18px; }
+  .box-foot { font-size: 13.5px; color: var(--muted); padding: 11px 18px; border-top: 1px solid var(--hairline); }
+  .box-body > :first-child { margin-top: 0; }
+  .box-body > :last-child { margin-bottom: 0; }
+
+  .btn { border: 1px solid var(--border); background: var(--chip); color: var(--accent-deep); border-radius: 8px; padding: 6px 13px; font: 600 13px system-ui, sans-serif; cursor: pointer; }
+  .btn:hover { filter: brightness(.97); }
+  .btn[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: transparent; }
+  .btn[disabled] { opacity: .5; cursor: default; }
+  .btn.solid { background: var(--accent); color: #fff; border-color: transparent; padding: 9px 16px; font-size: 14px; }
+
+  /* drill */
+  .drill .stem { font-size: 16.5px; line-height: 1.45; margin: 0 0 16px; min-height: 60px; }
+  .drill .stem q { quotes: "«" "»"; font-style: normal; }
+  .drill .stem .sub { display: block; font-size: 14px; color: var(--muted); margin-top: 7px; }
+  .drill .opts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .drill .opt { flex: 1 1 180px; border: 1px solid var(--border); background: var(--raised); color: var(--ink); border-radius: 10px; padding: 11px 13px; font: 600 14px system-ui, sans-serif; cursor: pointer; text-align: left; }
+  .drill .opt:hover:not([disabled]) { border-color: var(--accent); }
+  .drill .opt[disabled] { cursor: default; opacity: .5; }
+  .drill .opt.right { border-color: var(--good); background: var(--good-soft); opacity: 1; }
+  .drill .opt.wrong { border-color: var(--bad); background: var(--bad-soft); opacity: 1; }
+  .drill .fb { margin-top: 14px; font-size: 14.5px; line-height: 1.5; padding: 12px 14px; border-radius: 10px; background: var(--demo-bg); border: 1px solid var(--hairline); display: none; }
+  .drill .fb.on { display: block; }
+  .drill .fb b { display: block; margin-bottom: 4px; }
+  .drill .bar { display: flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 13px; color: var(--muted); }
+  .drill .prog { flex: 1; height: 5px; border-radius: 3px; background: var(--hairline); overflow: hidden; }
+  .drill .prog i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+
+  /* dig ladder */
+  .dig { display: flex; flex-direction: column; gap: 0; }
+  .dig-step { border-top: 1px solid var(--hairline); padding: 15px 18px; opacity: .35; transition: opacity .3s ease; }
+  .dig-step:first-child { border-top: none; }
+  .dig-step.on { opacity: 1; }
+  .dig-step .lvl { font: 700 10.5px system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+  .dig-step h5 { margin: 5px 0 6px; font-size: 16px; }
+  .dig-step p { margin: 0; font-size: 14.5px; max-width: none; color: var(--ink-2); }
+  .dig-step p b { color: var(--ink); }
+  .dig-step .q { margin-top: 9px; font-size: 14px; color: var(--accent-deep); }
+  .dig-actions { padding: 14px 18px; border-top: 1px solid var(--hairline); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .dig-final { display: none; padding: 15px 18px; border-top: 1px solid var(--hairline); background: var(--good-soft); font-size: 15px; }
+  .dig-final.on { display: block; }
+  .dig-final b { color: var(--ink); }
+
+  /* refusal builder */
+  .rb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 680px) { .rb-grid { grid-template-columns: 1fr; } }
+  .fld { display: flex; flex-direction: column; gap: 5px; }
+  .fld.full { grid-column: 1 / -1; }
+  .fld label { font-size: 13px; color: var(--ink-2); }
+  .fld input, .fld textarea { border: 1px solid var(--border); background: var(--page); color: var(--ink); border-radius: 8px; padding: 9px 11px; font: 14px system-ui, sans-serif; width: 100%; }
+  .fld textarea { min-height: 62px; resize: vertical; }
+  .rb-out { margin-top: 16px; border-top: 1px solid var(--hairline); padding-top: 14px; }
+  .rb-text { background: var(--demo-bg); border: 1px solid var(--hairline); border-radius: 9px; padding: 14px 16px; font-size: 15px; line-height: 1.6; }
+  .rb-text b { color: var(--ink); }
+  .rb-note { font-size: 13.5px; color: var(--muted); margin-top: 10px; }
+  .rb-miss { color: var(--bad); }
+
+  /* ui compare */
+  .uicmp { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 680px) { .uicmp { grid-template-columns: 1fr; } }
+  .uip { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--ui-bg); }
+  .uip .cap { font: 700 11px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; padding: 9px 12px; background: var(--surface); border-bottom: 1px solid var(--hairline); color: var(--muted); }
+  .uip .cap.a { color: var(--ink-2); }
+  .uip .cap.b { color: var(--good); }
+  .ui { padding: 14px; font-family: system-ui, -apple-system, sans-serif; min-height: 176px; display: flex; flex-direction: column; justify-content: center; }
+  .dlg { background: var(--ui-card); border: 1px solid var(--ui-line); border-radius: 16px; padding: 16px; text-align: center; }
+  .dlg h6 { margin: 0 0 5px; font-size: 15px; font-weight: 600; color: var(--ui-ink); }
+  .dlg p { margin: 0; font-size: 12.5px; color: var(--ui-ink2); max-width: none; }
+  .dlg .acts { display: flex; gap: 8px; margin-top: 14px; }
+  .dlg .acts span { flex: 1; border-radius: 9px; padding: 9px; font-size: 13px; font-weight: 600; }
+  .dlg .acts .no { border: 1px solid var(--ui-line); color: var(--ui-ink); }
+  .dlg .acts .yes { background: #d03b3b; color: #fff; }
+  .toast { background: var(--ui-card); border: 1px solid var(--ui-line); border-radius: 12px; padding: 13px 15px; display: flex; align-items: center; gap: 12px; }
+  .toast .txt { flex: 1; font-size: 13.5px; color: var(--ui-ink); }
+  .toast .txt small { display: block; color: var(--ui-ink2); font-size: 12px; margin-top: 2px; }
+  .toast .undo { color: #2a78d6; font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+  .restore { margin-top: 10px; background: var(--ui-card); border: 1px dashed var(--ui-line); border-radius: 10px; padding: 10px 12px; font-size: 12.5px; color: var(--ui-ink2); }
+  .restore b { color: var(--ui-ink); font-weight: 500; }
+
+  .trace-row { border-top: 1px solid var(--hairline); padding: 14px 18px; }
+  .trace-row:first-child { border-top: none; }
+  .step { display: grid; grid-template-columns: 104px 1fr; gap: 12px; font-size: 14.5px; padding: 5px 0; align-items: start; }
+  .step .k { font: 700 10.5px system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+  .step .v { color: var(--ink-2); }
+  .step .v b { color: var(--ink); }
+  @media (max-width: 560px) { .step { grid-template-columns: 1fr; gap: 2px; } }
+
+  .err-list li b { color: var(--bad); font-weight: 600; }
+  footer { margin-top: 62px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-title">Разбор аналогов · Middle · как объяснить отказ от чужого приёма</span>
+    <button class="theme-btn" id="themeBtn" type="button">Тема</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">Исследования · разбор аналогов</p>
+  <div class="levels" aria-label="Уровень темы: Middle, второй из трёх">
+    <span class="lv done">Junior</span>
+    <span class="lv on">Middle</span>
+    <span class="lv">Senior</span>
+  </div>
+  <h1>Как отказаться от приёма, который есть у всех, и объяснить это по делу</h1>
+  <p class="lede">Если решение есть у всех пятерых аналогов, кажется, что спорить не с чем: бери и делай. Но за приёмом обычно стоит причина: ограничение, привычка аудитории или чужая бизнес-модель, — и этой причины у вас может не быть. Сложность в том, что отказ без названной причины звучит как «мне не нравится» и быстро рассыпается на первом обсуждении. Здесь разберёмся, как выводить критерии сравнения из своей задачи, как докапываться до причины чужого решения, как формулировать отказ вместе с заменой и как доводить всё это до правки в макете.</p>
+</header>
+
+<div class="goals">
+  <b>Чему научишься</b>
+  <ol>
+    <li><a href="#criteria">Выводить критерии сравнения из задачи</a>, а не брать из чужого шаблона<span class="drillmark">тренажёр</span></li>
+    <li><a href="#dig">Отличать приём от причины</a> — почему у них так и есть ли это у вас<span class="drillmark">раскопка</span></li>
+    <li><a href="#refuse">Формулировать отказ</a> вместе с заменой<span class="drillmark">конструктор</span></li>
+    <li><a href="#arguable">Проверять, можно ли оспорить</a> вашу причину по существу<span class="drillmark">тренажёр</span></li>
+    <li><a href="#fix">Доводить разбор до правки в макете</a></li>
+  </ol>
+</div>
+
+<div class="rule"><b>Сквозной пример урока.</b> Задача та же, что на прошлом уровне: <b>человек сам отменяет заказ</b>. Приём, который есть у всех пятерых аналогов, — <b>диалог «Вы уверены?»</b> перед отменой. В разделе 3 мы раскопаем, зачем он им, в разделе 4 сформулируем отказ, а в разделе 6 доведём до правки в макете.</div>
+
+<section id="shift">
+  <div class="sec-head"><h2><span class="h2-num">1</span>Что меняется по сравнению с прошлым уровнем</h2></div>
+  <p class="sec-sub">Собирать таблицу вы уже умеете. Теперь нужно решить, что в неё класть и что делать с находками дальше.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>&nbsp;</th><th>Junior</th><th>Middle</th></tr></thead>
+      <tbody>
+        <tr><td><b>Критерии</b></td><td>готовые колонки</td><td>выводите из своей задачи</td></tr>
+        <tr><td><b>Что смотрите</b></td><td>как решено</td><td>почему решено именно так</td></tr>
+        <tr><td><b>Отношение к общему</b></td><td>замечаете, что у всех одинаково</td><td>решаете, берёте вы это или нет</td></tr>
+        <tr><td><b>Отказ</b></td><td>не ваша задача</td><td>формулируете так, чтобы причину можно было проверить</td></tr>
+        <tr><td><b>Результат</b></td><td>таблица и три строки</td><td>правка в макете и объяснение, почему так</td></tr>
+        <tr><td><b>Провал выглядит как</b></td><td>папка со скриншотами</td><td>красивый разбор, который лежит отдельным файлом</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Главная ловушка уровня — отказ без причины.</b> «Мне кажется, диалог подтверждения устарел» — это вкус против пяти живых продуктов. Такая позиция слабая на обсуждении. Отказ работает, когда в нём названа причина, которую можно проверить: «у них это из-за необратимости отмены, а у нас заказ восстанавливается в один клик». Тогда разговор идёт не о вкусе, а о факте.</div>
+</section>
+
+<section id="criteria">
+  <div class="sec-head"><h2><span class="h2-num">2</span>Критерии — из задачи, а не из шаблона</h2></div>
+  <p class="sec-sub">Первый навык. Готовые колонки предыдущего уровня были учебными; в реальной задаче критерии выводятся заново.</p>
+
+  <p>Критерий сравнения — это <strong>то, в чём аналоги могут разойтись и что для вашей задачи важно</strong>. Оба условия обязательны. Если все пятеро одинаковы по какому-то признаку, сравнивать нечего, и признак обычно не нужен в таблице. Если различие есть, но на вашу задачу оно не влияет, — это просто любопытный факт.</p>
+
+  <h3>Как вывести критерии за пятнадцать минут</h3>
+  <ol>
+    <li><strong>Напишите задачу одной фразой</strong> словами человека: «человек передумал и хочет отменить заказ».</li>
+    <li><strong>Выпишите, из-за чего эта задача трудная.</strong> Здесь: действие необратимое, есть срок, деньги уже списаны, за отменой могут стоять последствия для склада.</li>
+    <li><strong>Каждая трудность превращается в вопрос к аналогам.</strong> «Как они справляются с необратимостью?», «Как показывают срок?», «Что происходит с деньгами?»</li>
+    <li><strong>Вопрос превращается в колонку.</strong> «Как защищаются от случайной отмены», «Как показан срок отмены», «Что с деньгами и когда».</li>
+    <li><strong>Уберите те, где ответ будет у всех одинаковым.</strong> Проверяется быстро: загляните в два продукта. Одинаково — колонка не нужна.</li>
+  </ol>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Трудность задачи</th><th>Вопрос к аналогам</th><th>Колонка</th></tr></thead>
+      <tbody>
+        <tr><td>Действие необратимое</td><td>Как они защищаются от случайной отмены?</td><td>Защита от случайного нажатия</td></tr>
+        <tr><td>Отмена возможна не всегда</td><td>Как и когда человек узнаёт про срок?</td><td>Где и когда показан срок</td></tr>
+        <tr><td>Деньги уже списаны</td><td>Что говорят про возврат и когда он придёт?</td><td>Что обещают про деньги</td></tr>
+        <tr><td>Человек боится сделать хуже</td><td>Что показывают про последствия отмены?</td><td>Что сказано о последствиях</td></tr>
+        <tr><td class="dim">Продукт должен красиво выглядеть</td><td class="dim">—</td><td class="dim">Не критерий: это не трудность задачи, а ваше пожелание</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rule"><b>Проверка критерия двумя вопросами.</b> Первый: «могут ли аналоги разойтись по этому признаку?» Второй: «если разойдутся, изменит ли это моё решение?» Два «да» — критерий рабочий. Если есть «нет», колонка может заполниться, но в выводах почти не поможет.</div>
+
+  <div class="box drill" id="d1">
+    <div class="box-head">Тренажёр 1 · это рабочий критерий?<span class="spacer"></span><span class="sc num">0 / 7</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Рабочий ориентир — шесть-восемь критериев. Если получилось больше десяти, проверьте, не взяли ли вы всё подряд: на заполнение уйдёт больше времени, чем на выводы.</div>
+  </div>
+</section>
+
+<section id="dig">
+  <div class="sec-head"><h2><span class="h2-num">3</span>Приём и причина</h2></div>
+  <p class="sec-sub">Второй навык и сердце уровня: на экране виден приём, но решение держится на причине.</p>
+
+  <p>Приём — это то, что вы видите на экране: диалог, кнопка, шаг. Причина — то, из-за чего его сделали: ограничение бизнеса, привычка аудитории, техническое ограничение, чужая экономика. <strong>Приём можно перенести в макет за пять минут, а причина может не перенестись вообще.</strong> Поэтому и нужно докопаться: если причины у вас нет, приём может оказаться лишним шагом или даже мешать.</p>
+
+  <p>Копать стоит до уровня, где появляется <strong>проверяемое ограничение</strong> — то, про которое можно спросить у своей команды «а у нас так?» и получить ответ «да» или «нет». Ниже — раскопка сквозного примера.</p>
+
+  <div class="box">
+    <div class="box-head">Раскопка · зачем всем диалог «Вы уверены?»<span class="spacer"></span><button class="btn" id="digReset" type="button" style="display:none">Сначала</button></div>
+    <div class="dig" id="digList"></div>
+    <div class="dig-actions">
+      <button class="btn solid" id="digNext" type="button">Копать дальше</button>
+      <span class="dim" id="digHint" style="font-size:13.5px">Нажимай, пока не дойдём до ограничения, которое можно проверить у себя.</span>
+    </div>
+    <div class="dig-final" id="digFinal"></div>
+  </div>
+
+  <h3>Четыре типа причин и что с ними делать</h3>
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Причина</th><th>Как проверить, есть ли она у вас</th><th>Вывод</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ограничение бизнеса или процесса</b><br><span class="dim">Отмену нельзя откатить, склад уже собрал заказ</span></td><td>Спросить операционную команду: «что происходит у нас после отмены?»</td><td>Есть — берём приём. Нет — это ваше преимущество</td></tr>
+        <tr><td><b>Привычка аудитории</b><br><span class="dim">Люди ищут отмену в карточке заказа</span></td><td>Проверяется юзабилити-тестом: сделать иначе и посмотреть, растеряются ли</td><td>Ломать дорого, отступать только осознанно</td></tr>
+        <tr><td><b>Техническое ограничение</b><br><span class="dim">Платёжный провайдер не умеет мгновенный возврат</span></td><td>Спросить разработку: «а у нас это как устроено?»</td><td>Часто у вас другой стек — и решение может быть другим</td></tr>
+        <tr><td><b>Похоже, повторили за лидером</b><br><span class="dim">Все скопировали друг у друга, никто не проверял</span></td><td>Признак: причина не находится. Копаете — и упираетесь в «ну так принято»</td><td>Здесь и есть место сделать лучше</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warnbox"><b>Честная оговорка: причину вы чаще предполагаете, чем знаете.</b> У вас нет доступа к их совещаниям. Поэтому пишите не «они сделали так, потому что», а «похоже, это из-за того, что» — и указывайте, чем проверили догадку. Одно слово меняет тон: это уже не фантазия, а рабочая гипотеза с основанием.</div>
+</section>
+
+<section id="refuse">
+  <div class="sec-head"><h2><span class="h2-num">4</span>Формулировка отказа</h2></div>
+  <p class="sec-sub">Третий и четвёртый навыки вместе: отказ без замены оставляет команду без решения.</p>
+
+  <p>Рабочий отказ состоит из пяти частей. Если пропустить важную часть, формулировка станет слабее. <strong>Что за приём</strong> и <strong>у кого он есть</strong> — чтобы было видно, что вы не спорите с реальностью. <strong>Их причина</strong> — чтобы показать, что вы разобрались, а не отмахнулись. <strong>Почему у нас иначе</strong> — само основание отказа, оно должно быть проверяемым фактом. И <strong>замена</strong> — потому что без неё команда остаётся без готового решения.</p>
+
+  <div class="box">
+    <div class="box-head">Конструктор отказа · заполни и получи готовую формулировку<span class="spacer"></span><button class="btn" data-copy="#rbText" type="button">Скопировать</button></div>
+    <div class="box-body">
+      <div class="rb-grid">
+        <div class="fld"><label for="rbTrick">Приём</label><input type="text" id="rbTrick" value="диалог «Вы уверены?» перед отменой"></div>
+        <div class="fld"><label for="rbWho">У кого он есть</label><input type="text" id="rbWho" value="у всех пяти аналогов"></div>
+        <div class="fld full"><label for="rbWhy">Похоже, у них это из-за того, что…</label><textarea id="rbWhy">отмена у них необратима: заказ уходит со склада, вернуть его в работу нельзя, и случайная отмена стоит им обращения в поддержку</textarea></div>
+        <div class="fld full"><label for="rbUs">У нас иначе, потому что… <span class="dim">— проверяемый факт, а не ощущение</span></label><textarea id="rbUs">у нас заказ восстанавливается из архива в один клик в течение суток — это подтвердила команда логистики</textarea></div>
+        <div class="fld full"><label for="rbAlt">Вместо этого предлагаю</label><textarea id="rbAlt">отменять сразу по нажатию и показывать полоску «отменяем… вернуть» на 10 секунд, а в списке заказов держать «восстановить» сутки</textarea></div>
+        <div class="fld full"><label for="rbBetter">Это лучше для нашей задачи, потому что…</label><textarea id="rbBetter">человек отменяет в среднем один раз на двадцать заказов, а диалог видят все сто процентов — мы тормозим большинство ради защиты от редкой ошибки, которая у нас к тому же обратима</textarea></div>
+      </div>
+      <div class="rb-out">
+        <div class="rb-text" id="rbText"></div>
+        <p class="rb-note" id="rbNote"></p>
+      </div>
+    </div>
+    <div class="box-foot">Попробуй стереть поле «у нас иначе, потому что» — конструктор сразу скажет, что осталось от отказа. Без проверяемого факта текст легко превращается в развёрнутое «мне не нравится».</div>
+  </div>
+
+  <h3>Что делает причину проверяемой</h3>
+  <ul>
+    <li><strong>Её можно подтвердить или опровергнуть,</strong> спросив у конкретного человека или посмотрев в конкретное место. «Логистика подтвердила, что заказ восстанавливается» — проверяемо. «У нас другая аудитория» — слабое основание, пока не сказано, чем именно другая и откуда вы это знаете.</li>
+    <li><strong>В ней есть число или факт,</strong> а не оценка. «Отменяют один заказ из двадцати» лучше, чем «отменяют редко».</li>
+    <li><strong>Названо, откуда вы это взяли.</strong> Аналитика, разговор с командой, интервью, тест. Причина без источника остаётся догадкой, и её лучше так и помечать.</li>
+    <li><strong>Она про вашу ситуацию, а не про их ошибку.</strong> «У них плохо сделано» — это оценка чужой работы и повод для спора. «У нас нет их ограничения» — это про вашу ситуацию, и это можно проверить.</li>
+  </ul>
+</section>
+
+<section id="arguable">
+  <div class="sec-head"><h2><span class="h2-num">5</span>Проверка: можно ли это оспорить по существу</h2></div>
+  <p class="sec-sub">Критерий, по которому проверяется задание.</p>
+
+  <p>На первый взгляд странная проверка: хороший отказ должен быть <strong>оспоримым</strong>. Это не слабость, а признак того, что вы опираетесь на факт, а не на вкус. Если собеседник может сказать «нет, логистика говорит другое», значит, вы дали точку, которую можно проверить. А если возразить нечем, кроме «а мне кажется иначе», разговор снова уходит во вкусы.</p>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Формулировка</th><th>Чем можно возразить</th></tr></thead>
+      <tbody>
+        <tr><td class="dim">«Диалоги подтверждения — устаревший приём»</td><td class="dim">Нечем по существу. Можно только не согласиться</td></tr>
+        <tr><td class="dim">«Мне кажется, это лишний шаг»</td><td class="dim">Ничем. Это про ваши ощущения</td></tr>
+        <tr><td><b>«У нас заказ восстанавливается за сутки, поэтому случайная отмена дёшева»</b></td><td>«Логистика говорит, что восстановить можно только до сборки» — проверяемо, разговор двигается</td></tr>
+        <tr><td><b>«Отменяют один заказ из двадцати, а диалог видят все»</b></td><td>«В аналитике другая цифра» — проверяемо</td></tr>
+        <tr><td><b>«У них платёжный провайдер не умеет мгновенный возврат, у нас умеет»</b></td><td>«У нас тоже не умеет для рассрочки» — проверяемо и уточняет решение</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box drill" id="d2">
+    <div class="box-head">Тренажёр 2 · этот отказ можно оспорить по существу?<span class="spacer"></span><span class="sc num">0 / 7</span></div>
+    <div class="box-body">
+      <p class="stem"></p>
+      <div class="opts"></div>
+      <div class="fb"></div>
+      <div class="bar"><span class="prog"><i></i></span><button class="btn next" type="button" style="display:none">Дальше</button></div>
+    </div>
+    <div class="box-foot">Быстрая самопроверка: прочитайте свой отказ и придумайте фразу, которой вас можно опровергнуть. Придумали — формулировка рабочая. Если получается только «я не согласен», добавьте проверяемый факт.</div>
+  </div>
+</section>
+
+<section id="fix">
+  <div class="sec-head"><h2><span class="h2-num">6</span>Доводим до правки в макете</h2></div>
+  <p class="sec-sub">Пятый навык. Разбор, оставшийся отдельным файлом, легко забывается.</p>
+
+  <p>Замена должна быть нарисована, а не описана словами. Пока её нет в макете, это остаётся предложением, которое легко отложить: «интересно, вернёмся». Нарисованная замена превращает разговор в сравнение двух конкретных вариантов — и такой разговор чаще заканчивается решением.</p>
+
+  <div class="box">
+    <div class="box-head">Приём и замена · как это выглядит на экране</div>
+    <div class="box-body">
+      <div class="uicmp">
+        <div class="uip">
+          <div class="cap a">Как у всех · диалог подтверждения</div>
+          <div class="ui">
+            <div class="dlg">
+              <h6>Отменить заказ № 1042?</h6>
+              <p>Это действие нельзя отменить.</p>
+              <div class="acts"><span class="no">Нет</span><span class="yes">Да, отменить</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="uip">
+          <div class="cap b">Наша замена · окно отката</div>
+          <div class="ui">
+            <div class="toast">
+              <span class="txt">Заказ № 1042 отменён<small>Вернуть можно ещё 8 секунд</small></span>
+              <span class="undo">Вернуть</span>
+            </div>
+            <div class="restore">В списке заказов: <b>Восстановить</b> — доступно сутки</div>
+          </div>
+        </div>
+      </div>
+      <p class="dim" style="font-size:13.5px;margin:14px 0 0">Слева: дополнительный шаг для всех, включая девятнадцать из двадцати, которые в диалог попали по пути к нужному действию. Справа: действие происходит сразу, а защита нужна тем, кто ошибся, — и работает сутки вместо одной секунды внимания.</p>
+    </div>
+  </div>
+
+  <h3>Трассировка: от приёма до правки</h3>
+  <p>Та же таблица, что в задании. Одна строка на каждый разобранный приём — и видно, как решение связано с разбором.</p>
+
+  <div class="box">
+    <div class="trace-row">
+      <div class="step"><span class="k">Приём</span><span class="v"><b>Диалог «Вы уверены?» перед отменой.</b> Есть у всех пяти аналогов</span></div>
+      <div class="step"><span class="k">Их причина</span><span class="v">Похоже, отмена необратима: заказ уходит со склада и вернуть его нельзя. Проверял по текстам в их интерфейсах — у троих прямо написано «отменить это действие нельзя»</span></div>
+      <div class="step"><span class="k">Есть ли у нас</span><span class="v"><b>Нет.</b> Логистика подтвердила: заказ восстанавливается из архива в один клик в течение суток</span></div>
+      <div class="step"><span class="k">Решение</span><span class="v"><b>Отказываемся от диалога.</b> Отменяем сразу, даём откат 10 секунд и «восстановить» в списке сутки</span></div>
+      <div class="step"><span class="k">Чем лучше</span><span class="v">Отменяют примерно один заказ из двадцати, а диалог видят все. Убираем шаг у большинства ради защиты, которая нужна немногим</span></div>
+      <div class="step"><span class="k">Правка</span><span class="v"><b>Было:</b> модальное окно подтверждения. <b>Стало:</b> мгновенная отмена + полоска отката + пункт «Восстановить» в списке заказов</span></div>
+      <div class="step"><span class="k">Чем опровергнуть</span><span class="v">Если окажется, что восстановить можно только до сборки — приём возвращается. Это вопрос к логистике, и он открыт для проверки</span></div>
+    </div>
+  </div>
+
+  <div class="rule"><b>Последняя строка — «чем опровергнуть» — очень полезная.</b> Вы сами называете условие, при котором решение стоит пересмотреть. Это показывает, что вы не подгоняли аргументы под желаемое, а понимаете границы вывода. На собеседовании такая строка тоже помогает: по ней видно, что вы умеете работать с неопределённостью.</div>
+
+  <h3>Куда положить разбор, чтобы им пользовались</h3>
+  <ul>
+    <li><strong>Трассировку — в описание задачи</strong> в трекере, рядом с макетом. Там её увидит разработчик и продукт.</li>
+    <li><strong>Сравнение «приём и замена» — в сам макет,</strong> отдельным фреймом рядом с экраном. Так вопрос «а почему не как у всех» появится в нужном контексте.</li>
+    <li><strong>Таблицу с критериями — ссылкой,</strong> а не вложением: её открывают редко, но когда открывают, нужна свежая версия.</li>
+    <li><strong>Дату — везде,</strong> как и на прошлом уровне. Через полгода ваш отказ может устареть вместе с чужими интерфейсами.</li>
+  </ul>
+</section>
+
+<section id="task">
+  <div class="sec-head"><h2><span class="h2-num">7</span>Задание</h2></div>
+  <p class="sec-sub">Взять приём, который есть у многих аналогов, раскопать причину и решить, берёте вы его или нет.</p>
+
+  <h3>По шагам</h3>
+  <ol>
+    <li><strong>Выведи критерии из своей задачи</strong> (30 мин) по схеме раздела 2. Ориентир — шесть-восемь, каждый проходит проверку двумя вопросами.</li>
+    <li><strong>Пройди аналоги по этим критериям</strong> и найди приём, который есть у всех или почти у всех.</li>
+    <li><strong>Раскопай причину</strong> (40 мин). Копайте, пока не дойдёте до проверяемого ограничения. Записывайте, чем проверяли догадку — текстами в их интерфейсе, статьями, разговором с теми, кто там работал.</li>
+    <li><strong>Проверь, есть ли эта причина у вас</strong> (30 мин). Часто это вопрос к другой команде: логистика, поддержка, разработка, финансы. Сходите и спросите — это важный шаг задания.</li>
+    <li><strong>Прими решение</strong> и сформулируй его по конструктору из раздела 4.</li>
+    <li><strong>Проверь на оспоримость:</strong> придумайте фразу, которой вас можно опровергнуть. Не придумали — добавьте проверяемый факт.</li>
+    <li><strong>Нарисуй замену</strong> и внеси в макет.</li>
+    <li><strong>Заполни трассировку</strong> по образцу из раздела 6, включая строку «чем опровергнуть».</li>
+  </ol>
+  <p class="dim">Ориентир: 5–7 часов. Большая часть может уйти на шаг 4 — это нормально: там часто находится ответ.</p>
+
+  <h3>Что сдаём</h3>
+  <ul>
+    <li><strong>Критерии сравнения</strong> с пометкой, из какой трудности задачи каждый выведен.</li>
+    <li><strong>Разбор приёма:</strong> что за приём, у кого есть, какая у них причина и чем вы её проверяли.</li>
+    <li><strong>Решение</strong> по конструктору — берёте или нет, с проверяемой причиной.</li>
+    <li><strong>Замена</strong> в виде макета, а не описания словами.</li>
+    <li><strong>Трассировка</strong> со строкой «чем опровергнуть».</li>
+  </ul>
+
+  <div class="rule"><b>Как понять, что сделано.</b> Покажите свой отказ человеку из команды и попросите возразить. Если он может сказать что-то конкретное — «а логистика говорит другое», «в аналитике другая цифра», — работа сделана: вы дали проверяемое основание. Если он может ответить только «ну не знаю, у всех же так», причина ещё слабая, и разговор пока держится на вкусе.</div>
+
+  <h3>Если решение оказалось «берём»</h3>
+  <p>Это нормальный и частый исход — раскопали, нашли ту же причину у себя, приём берём. Задание при этом не провалено, но для тренировки всё равно нужен один осознанный отказ. Возьмите второй приём — обычно среди шести-восьми критериев находится хотя бы один, где ваша ситуация отличается. Если не нашлось вообще ни одного, проверьте, не собрали ли вы только прямых конкурентов с той же экономикой, что у вас.</p>
+</section>
+
+<section id="check">
+  <div class="sec-head"><h2><span class="h2-num">8</span>Чек-лист и ошибки уровня</h2></div>
+
+  <h3>Разбор готов, если</h3>
+  <ul>
+    <li>Каждый критерий выведен из конкретной трудности задачи</li>
+    <li>Критериев около шести-восьми, и каждый прошёл проверку двумя вопросами</li>
+    <li>По разбираемому приёму раскопана причина, а не только описан сам приём</li>
+    <li>Указано, чем вы проверяли догадку о причине</li>
+    <li>Причина сформулирована как «похоже, это из-за…», а не как знание</li>
+    <li>Проверено у своей команды, есть ли это ограничение у вас</li>
+    <li>Отказ содержит все пять частей, включая замену</li>
+    <li>Причина отказа проверяемая: есть факт, число или источник</li>
+    <li>Придумана фраза, которой вас можно опровергнуть</li>
+    <li>Замена нарисована в макете, а не описана</li>
+    <li>Трассировка заполнена, строка «чем опровергнуть» есть</li>
+  </ul>
+
+  <h3>Ошибки, характерные для этого уровня</h3>
+  <ul class="err-list">
+    <li><b>Критерии из чужого шаблона.</b> Взяли колонки из статьи в интернете и заполнили их — получилось сравнение по признакам, которые не влияют на ваше решение.</li>
+    <li><b>Скопировали приём, не спросив зачем.</b> Дорогая ошибка: приём переносится за пять минут, а причина у вас другая, и он начинает мешать.</li>
+    <li><b>Отказ без причины.</b> «Устаревший приём», «выглядит тяжеловесно» — вкус против пяти живых продуктов.</li>
+    <li><b>Отказ без замены.</b> Отняли у команды готовое решение и не дали ничего взамен. Такой отказ трудно принять даже при верной причине.</li>
+    <li><b>Причина, которую нельзя проверить.</b> «У нас другая аудитория» без указания, чем она другая и откуда это известно.</li>
+    <li><b>Причина через оценку чужой работы.</b> «У них плохо сделано» переводит разговор в спор о вкусах, хотя у вас был факт.</li>
+    <li><b>Не сходил в другую команду.</b> Решили за логистику, разработку и финансы, не спросив их, — и ошиблись в основании.</li>
+    <li><b>Догадка подана как знание.</b> «Они сделали так, потому что…» — без единого источника. На вопрос «откуда вы знаете» ответить нечем.</li>
+    <li><b>Разбор остался отдельным файлом.</b> Красиво оформлен, лежит в папке, в макете ничего не изменилось.</li>
+    <li><b>Нет строки «чем опровергнуть».</b> Отказ выглядит как позиция, а не как вывод, и его легче оспаривать эмоционально.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="sec-head"><h2><span class="h2-num">9</span>Где проходит граница уровней</h2></div>
+
+  <div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Уровень</th><th>Зона ответственности</th><th>Признак, что уровень взят</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="dim"><b>Junior</b></td>
+          <td class="dim">Отобрать продукты, решающие ту же задачу; заполнить таблицу по готовым колонкам; снять и подписать экраны; поставить дату</td>
+          <td class="dim">По таблице за минуту видно, как эту задачу решают другие</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Выводить критерии из задачи; раскапывать причину за чужим приёмом и проверять, есть ли она у вас; формулировать отказ вместе с заменой; доводить разбор до правки в макете</td>
+          <td>Есть приём, от которого осознанно отказались, и причина написана так, что её можно оспорить по существу</td>
+        </tr>
+        <tr>
+          <td>Senior</td>
+          <td>Встраивать разбор в решения о продукте, а не в презентации; отличать привычку рынка от общей ошибки рынка; видеть, где все ошибаются одинаково, и делать на этом преимущество; поддерживать разбор живым и учить команду им пользоваться</td>
+          <td>Команда сама приходит с вопросом «а как это решают другие» — и получает ответ из общего разбора</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  Урок по теме «Разбор аналогов», уровень Middle. Сквозной пример — отказ от диалога подтверждения в сценарии отмены заказа. Конструктор отказа из раздела 4 копируется кнопкой. Что почитать дальше: материалы Nielsen Norman Group про подтверждения и про отмену действий; Алан Купер, «Об интерфейсе» — главы про необратимые действия и про цену защиты от ошибок.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var explicit = root.getAttribute('data-theme');
+    var osDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var isDark = explicit ? explicit === 'dark' : osDark;
+    root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  });
+
+  /* ── drill engine ── */
+  function makeDrill(sel, options, items, summary) {
+    var el = document.querySelector(sel); if (!el) return;
+    var stem = el.querySelector('.stem'), optsBox = el.querySelector('.opts');
+    var fb = el.querySelector('.fb'), prog = el.querySelector('.prog i');
+    var next = el.querySelector('.next'), sc = el.querySelector('.sc');
+    var i = 0, score = 0, locked = false, finished = false;
+    function labelOf(k) { for (var j = 0; j < options.length; j++) if (options[j].key === k) return options[j].label; return k; }
+    function paint() {
+      locked = false;
+      stem.innerHTML = items[i].t;
+      optsBox.innerHTML = '';
+      options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'opt'; b.textContent = o.label;
+        b.addEventListener('click', function () { answer(o.key, b); });
+        optsBox.appendChild(b);
+      });
+      fb.className = 'fb'; fb.innerHTML = '';
+      next.style.display = 'none';
+      prog.style.width = (i / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+    }
+    function answer(key, btn) {
+      if (locked) return; locked = true;
+      var right = key === items[i].a;
+      if (right) score++;
+      btn.className = 'opt ' + (right ? 'right' : 'wrong');
+      Array.prototype.forEach.call(optsBox.children, function (b) {
+        b.disabled = true;
+        if (!right && b.textContent === labelOf(items[i].a)) b.className = 'opt right';
+      });
+      fb.className = 'fb on';
+      fb.innerHTML = '<b>' + (right ? 'Верно' : 'Не то — правильно «' + labelOf(items[i].a) + '»') + '</b>' + items[i].fb;
+      prog.style.width = ((i + 1) / items.length * 100) + '%';
+      sc.textContent = score + ' / ' + items.length;
+      next.style.display = '';
+      next.textContent = (i === items.length - 1) ? 'Итог' : 'Дальше';
+    }
+    next.addEventListener('click', function () {
+      if (finished) { i = 0; score = 0; finished = false; next.textContent = 'Дальше'; paint(); return; }
+      if (i === items.length - 1) {
+        finished = true;
+        stem.innerHTML = 'Итог: <strong>' + score + ' из ' + items.length + '</strong>';
+        optsBox.innerHTML = '';
+        fb.className = 'fb on';
+        fb.innerHTML = '<b>Что это значит</b>' + summary(score, items.length);
+        next.textContent = 'Пройти заново';
+        return;
+      }
+      i++; paint();
+    });
+    paint();
+  }
+
+  makeDrill('#d1',
+    [{ key: 'ok', label: 'Рабочий критерий' }, { key: 'same', label: 'У всех одинаково' }, { key: 'no', label: 'На решение не влияет' }],
+    [
+      { t: '<q>Как защищаются от случайного нажатия на отмену</q><span class="sub">Задача: человек сам отменяет заказ.</span>', a: 'ok',
+        fb: 'Продукты расходятся — у кого диалог, у кого откат, у кого ничего. И от этого зависит, что вы нарисуете. Оба условия выполнены.' },
+      { t: '<q>Есть ли у продукта кнопка отмены</q>', a: 'same',
+        fb: 'Вы отбирали аналоги как раз по тому, что у них есть отмена. Колонка будет заполнена «да» пять раз и не покажет ничего.' },
+      { t: '<q>Какой шрифт используется в интерфейсе</q>', a: 'no',
+        fb: 'Различие есть, но на решение о сценарии отмены оно не влияет. Любопытный факт, не критерий.' },
+      { t: '<q>Где и когда человек узнаёт про срок отмены</q>', a: 'ok',
+        fb: 'Расхождение большое: кто-то пишет под кнопкой, кто-то прячет в условия, кто-то не говорит вообще. И это прямо меняет ваш макет.' },
+      { t: '<q>Сколько лет компании и какая у неё выручка</q>', a: 'no',
+        fb: 'Это бизнес-справка, а не сравнение решений. В разбор аналогов для дизайна не идёт — вы не сможете ничего из этого вывести.' },
+      { t: '<q>Что происходит с деньгами после отмены и когда</q>', a: 'ok',
+        fb: 'Расходятся сильно: мгновенный возврат, до пяти дней, на внутренний счёт. И это меняет то, что вы пишете человеку на экране.' },
+      { t: '<q>Использует ли продукт мобильное приложение</q>', a: 'same',
+        fb: 'Почти у всех крупных продуктов есть приложение — колонка будет одинаковой. Другое дело, если сравнивать, как задача решена в вебе и в приложении: это уже расхождение.' }
+    ],
+    function (s, n) {
+      return s >= 6 ? 'Ты отбираешь критерии по двум условиям сразу — расхождение и влияние на решение. Это экономит полдня на заполнении таблицы.'
+        : s >= 4 ? 'Хорошо. Держи в голове обе проверки: «могут ли разойтись» и «изменит ли это моё решение». Нужны оба «да».'
+        : 'Вернись к разделу 2. Критерий выводится из трудности задачи, а не из желания описать продукт целиком.';
+    }
+  );
+
+  makeDrill('#d2',
+    [{ key: 'ok', label: 'Можно оспорить по существу' }, { key: 'no', label: 'Это спор о вкусах' }],
+    [
+      { t: '<q>Диалоги подтверждения давно устарели, сейчас так не делают.</q>', a: 'no',
+        fb: 'Возразить можно только «а я думаю, не устарели». Никакого факта, который можно проверить, в этой фразе нет.' },
+      { t: '<q>У нас заказ восстанавливается из архива в течение суток — логистика подтвердила. Значит, случайная отмена дешева.</q>', a: 'ok',
+        fb: 'Есть конкретное утверждение и конкретный источник. Возразить можно: «логистика говорит только до сборки» — и разговор двинется дальше.' },
+      { t: '<q>Такой диалог утяжеляет интерфейс.</q>', a: 'no',
+        fb: '«Утяжеляет» — оценка. Чтобы стало проверяемо, нужно число: сколько людей проходит через этот шаг и ради скольких он существует.' },
+      { t: '<q>Отменяют один заказ из двадцати, а диалог видят все сто процентов — по данным аналитики за квартал.</q>', a: 'ok',
+        fb: 'Число плюс источник. Возразить можно цифрой из той же аналитики — это и есть разговор по существу.' },
+      { t: '<q>У них это из-за того, что платёжный провайдер не умеет мгновенный возврат. У нас провайдер другой, разработка подтвердила.</q>', a: 'ok',
+        fb: 'Техническое ограничение, названное прямо, с проверкой у своей команды. Возразить можно: «для рассрочки у нас тоже не умеет».' },
+      { t: '<q>У нас другая аудитория, ей это не нужно.</q>', a: 'no',
+        fb: 'Звучит как факт, но проверить нечего: не сказано, чем аудитория другая и откуда это известно. Добавьте, чем именно и по каким данным, — станет оспоримо.' },
+      { t: '<q>Мы вообще стараемся не использовать модальные окна.</q>', a: 'no',
+        fb: 'Это ссылка на внутреннее правило, а не причина для этой задачи. Если правило есть — надо объяснить, из чего оно выведено, иначе разговор упирается в «так принято у нас» вместо «так принято у них».' }
+    ],
+    function (s, n) {
+      return s >= 6 ? 'Ты чувствуешь разницу между фактом и оценкой. Именно она решает, переживёт ли ваш отказ совещание.'
+        : s >= 4 ? 'Неплохо. Самые коварные — фразы, которые звучат как факт: «у нас другая аудитория», «мы не используем модалки».'
+        : 'Перечитай раздел 5. Проверка одна: можно ли возразить чем-то, кроме «я не согласен»?';
+    }
+  );
+
+  /* ── dig ladder ── */
+  (function () {
+    var list = document.getElementById('digList'); if (!list) return;
+    var nextB = document.getElementById('digNext'), resetB = document.getElementById('digReset');
+    var hint = document.getElementById('digHint'), final = document.getElementById('digFinal');
+    var STEPS = [
+      { l: 'Уровень 1 · приём', h: 'Что мы видим', p: 'Перед отменой заказа показывают модальное окно: <b>«Отменить заказ? Это действие нельзя отменить»</b> с кнопками «Нет» и «Да, отменить». Так у всех пяти аналогов.', q: 'Это пока только описание. Зачем им этот шаг?' },
+      { l: 'Уровень 2 · назначение', h: 'Что он делает', p: 'Останавливает человека и заставляет подтвердить намерение. То есть <b>защищает от случайного нажатия</b>.', q: 'Хорошо, а почему случайное нажатие для них проблема?' },
+      { l: 'Уровень 3 · последствие', h: 'Чем плоха ошибка', p: 'Если человек отменил случайно, <b>вернуть заказ он сам не может</b> — во всех пяти интерфейсах написано, что действие необратимо. Остаётся писать в поддержку и оформлять заново.', q: 'А почему у них нельзя просто вернуть заказ обратно?' },
+      { l: 'Уровень 4 · ограничение', h: 'Вот оно, проверяемое', p: 'Похоже, дело в процессе на складе: <b>после отмены заказ снимается со сборки, товар возвращается в остатки и может быть сразу продан другому.</b> Вернуть его в работу нельзя технически, а не из-за дизайна. Проверял по текстам в их интерфейсах: у троих прямо написано «товар вернётся в продажу».', q: 'Теперь главный вопрос: а у нас это ограничение есть?' }
+    ];
+    var i = 0;
+    function render() {
+      list.innerHTML = '';
+      STEPS.forEach(function (s, k) {
+        var d = document.createElement('div');
+        d.className = 'dig-step' + (k <= i ? ' on' : '');
+        d.innerHTML = '<span class="lvl">' + s.l + '</span><h5>' + s.h + '</h5>' +
+          '<p>' + (k <= i ? s.p : 'Копайте дальше, чтобы увидеть.') + '</p>' +
+          (k === i && k < STEPS.length - 1 ? '<p class="q">' + s.q + '</p>' : '') +
+          (k === i && k === STEPS.length - 1 ? '<p class="q">' + s.q + '</p>' : '');
+        list.appendChild(d);
+      });
+      if (i >= STEPS.length - 1) {
+        nextB.style.display = 'none';
+        resetB.style.display = '';
+        hint.textContent = 'Дошли до ограничения, которое можно проверить у своей команды.';
+        final.className = 'dig-final on';
+        final.innerHTML = '<b>Проверяем у себя.</b> Сходили в логистику и спросили: что происходит после отмены у нас? Ответ: <b>заказ уходит в архив и восстанавливается в один клик в течение суток</b>, товар в остатки не возвращается до конца дня.<br><br>' +
+          'Значит, ограничения, ради которого существует диалог, у нас <b>нет</b>. Приём защищает от ошибки, которая у нас обратима и стоит один клик. Отсюда и вырастает отказ — не из вкуса, а из отсутствия причины.';
+      } else {
+        resetB.style.display = 'none';
+        final.className = 'dig-final';
+      }
+    }
+    nextB.addEventListener('click', function () { if (i < STEPS.length - 1) { i++; render(); } });
+    resetB.addEventListener('click', function () { i = 0; nextB.style.display = ''; hint.textContent = 'Нажимай, пока не дойдём до ограничения, которое можно проверить у себя.'; render(); });
+    render();
+  })();
+
+  /* ── refusal builder ── */
+  (function () {
+    var out = document.getElementById('rbText'); if (!out) return;
+    var note = document.getElementById('rbNote');
+    var f = {
+      trick: document.getElementById('rbTrick'), who: document.getElementById('rbWho'),
+      why: document.getElementById('rbWhy'), us: document.getElementById('rbUs'),
+      alt: document.getElementById('rbAlt'), better: document.getElementById('rbBetter')
+    };
+    function v(el) { return (el.value || '').trim(); }
+    function upd() {
+      var parts = [];
+      parts.push('<b>' + (v(f.trick) || '[приём]') + '</b> есть ' + (v(f.who) || '[у кого]') + '.');
+      if (v(f.why)) parts.push('Похоже, у них это из-за того, что ' + v(f.why) + '.');
+      if (v(f.us)) parts.push('<b>У нас иначе:</b> ' + v(f.us) + '.');
+      if (v(f.alt)) parts.push('Поэтому предлагаю ' + v(f.alt) + '.');
+      if (v(f.better)) parts.push('Для нашей задачи это лучше, потому что ' + v(f.better) + '.');
+      out.innerHTML = parts.join(' ');
+
+      var miss = [];
+      if (!v(f.why)) miss.push('их причина');
+      if (!v(f.us)) miss.push('чем у нас иначе');
+      if (!v(f.alt)) miss.push('замена');
+      if (!v(f.better)) miss.push('чем замена лучше');
+
+      if (!v(f.us) && !v(f.alt)) {
+        note.innerHTML = '<span class="rb-miss">Без причины и без замены это просто «мне не нравится».</span> Такой отказ не переживёт совещания: возразить вам смогут только несогласием, и на этом разговор закончится.';
+      } else if (!v(f.us)) {
+        note.innerHTML = '<span class="rb-miss">Нет главного — проверяемого факта о вашей ситуации.</span> Пока не сказано, чем ваш случай отличается, весь остальной текст остаётся вежливым способом сказать «не хочу».';
+      } else if (!v(f.alt)) {
+        note.innerHTML = '<span class="rb-miss">Нет замены.</span> Команда остаётся без готового решения — даже верную причину в таком виде принимают неохотно.';
+      } else if (miss.length) {
+        note.innerHTML = '<span class="rb-miss">Не хватает: ' + miss.join(', ') + '.</span> Отказ читается, но в нём есть слабые места, по которым будут задавать вопросы.';
+      } else {
+        note.innerHTML = 'Все пять частей на месте. Теперь проверьте на оспоримость: придумайте фразу, которой вас можно опровергнуть. Если получилось, формулировка рабочая.';
+      }
+    }
+    Object.keys(f).forEach(function (k) { f[k].addEventListener('input', upd); });
+    upd();
+  })();
+
+  /* ── copy ── */
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var src = document.querySelector(btn.getAttribute('data-copy'));
+      if (!src) return;
+      var text = src.innerText.replace(/\n{3,}/g, '\n\n').trim();
+      var done = function () {
+        var old = btn.textContent;
+        btn.textContent = 'Скопировано';
+        setTimeout(function () { btn.textContent = old; }, 1800);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done, function () { fb(text, done); });
+      } else { fb(text, done); }
+    });
+  });
+  function fb(text, done) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>
