@@ -1,8 +1,9 @@
 /**
  * Живые куски уроков: чек-лист, секундомер молчания, разметка задания, подбор
- * формата, учебная матрица, разбор заявок и прикидка объёма.
+ * формата, учебная матрица, разбор заявок, прикидка объёма, конструктор текста
+ * и лесенка причин.
  *
- * Общее правило одно и то же во всех семи: сервер отдаёт страницу, которую можно
+ * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
  * события сценария, разборы, примеры, тексты исходов — лежит в разметке урока,
  * а здесь только поведение. Ни одной фразы урока в этом файле нет намеренно:
@@ -455,7 +456,7 @@
 				var side = document.createElement( 'div' );
 
 				side.className = 'ds-lesson__pick-side' + ( ! tie && out === best ? ' is-win' : '' );
-				side.innerHTML = '<h5>' + ( out.getAttribute( 'data-pick-name' ) || key ) + '</h5>' +
+				side.innerHTML = '<p class="ds-lesson__pick-name">' + ( out.getAttribute( 'data-pick-name' ) || key ) + '</p>' +
 					'<span class="ds-lesson__pick-pts">' + ( score[ key ] || 0 ) + '</span> ' +
 					'<span class="ds-lesson__pick-lbl">из ' + steps.length + ' ответов</span>';
 				table.appendChild( side );
@@ -776,5 +777,255 @@
 		}
 
 		count();
+	}() );
+
+	/* ── конструктор текста ────────────────────────────────────────────────
+	   Поля слева, готовая формулировка справа. Шаблон и подсказки лежат в разметке
+	   урока, здесь только сборка. Синтаксис шаблона тот же, что в конвертере:
+	   {поле}, {поле|запасное}, {поле:фильтр}, а кусок {? … ?} выводится, только
+	   если все поля внутри него заполнены. Без скрипта в разметке стоит текст,
+	   собранный по значениям по умолчанию. */
+	( function () {
+		var roots = document.querySelectorAll( '[data-build]' );
+
+		if ( ! roots.length ) {
+			return;
+		}
+
+		function escape( text ) {
+			return text.replace( /&/g, '&amp;' ).replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
+		}
+
+		var filters = {
+			slug: function ( value ) {
+				return value.trim().toLowerCase().replace( /\s+/g, '-' ).replace( /[^a-zа-яё0-9-]/gi, '' );
+			},
+			num: function ( value ) {
+				var found = ( value || '' ).match( /(\d+)/ );
+
+				return found ? ( found[ 1 ].length < 2 ? '0' + found[ 1 ] : found[ 1 ] ) : '01';
+			},
+			ru: function ( value ) {
+				var parts = value.split( '-' );
+
+				return 3 === parts.length ? parts.reverse().join( '.' ) : value;
+			},
+		};
+
+		Array.prototype.forEach.call( roots, function ( root ) {
+			var fields = {};
+			var outs = Array.prototype.slice.call( root.querySelectorAll( '[data-build-out]' ) );
+			var notes = Array.prototype.slice.call( root.querySelectorAll( '[data-build-note]' ) );
+
+			Array.prototype.forEach.call( root.querySelectorAll( '[data-build-field]' ), function ( el ) {
+				fields[ el.getAttribute( 'data-build-field' ) ] = el;
+
+				// Дата просмотра — сегодняшняя: это поле человек почти никогда не меняет.
+				if ( el.hasAttribute( 'data-build-today' ) && ! el.value ) {
+					var now = new Date();
+
+					el.value = now.getFullYear() + '-' + ( '0' + ( now.getMonth() + 1 ) ).slice( -2 ) +
+						'-' + ( '0' + now.getDate() ).slice( -2 );
+				}
+			} );
+
+			if ( ! outs.length ) {
+				return;
+			}
+
+			function valueOf( name ) {
+				return fields[ name ] ? ( fields[ name ].value || '' ).trim() : '';
+			}
+
+			function render( template, html ) {
+				function field( whole, inner ) {
+					var cut = inner.split( '|' );
+					var head = cut[ 0 ].split( ':' );
+					var value = valueOf( head[ 0 ] );
+
+					if ( 'num' === head[ 1 ] ) {
+						return filters.num( value );
+					}
+
+					if ( head[ 1 ] && value && filters[ head[ 1 ] ] ) {
+						value = filters[ head[ 1 ] ]( value );
+					}
+
+					value = value || cut.slice( 1 ).join( '|' );
+
+					return html ? escape( value ) : value;
+				}
+
+				var text = template.replace( /\{\?([\s\S]*?)\?\}/g, function ( whole, inner ) {
+					var empty = false;
+
+					inner.replace( /\{([^{}?]+)\}/g, function ( match, name ) {
+						if ( ! valueOf( name.split( '|' )[ 0 ].split( ':' )[ 0 ] ) ) {
+							empty = true;
+						}
+
+						return match;
+					} );
+
+					return empty ? '' : inner.replace( /\{([^{}?]+)\}/g, field );
+				} );
+
+				return text.replace( /\{([^{}?]+)\}/g, field );
+			}
+
+			function update() {
+				outs.forEach( function ( out ) {
+					var html = 'html' === out.getAttribute( 'data-build-mode' );
+					var text = render( out.getAttribute( 'data-template' ) || '', html );
+
+					if ( html ) {
+						out.innerHTML = text;
+					} else {
+						out.textContent = text;
+					}
+				} );
+
+				// Подсказка: первая по порядку, чьё условие выполнено.
+				var missing = [];
+				var name;
+
+				for ( name in fields ) {
+					if ( fields[ name ].hasAttribute( 'data-build-need' ) && ! valueOf( name ) ) {
+						missing.push( fields[ name ].getAttribute( 'data-build-need' ) );
+					}
+				}
+
+				var chosen = null;
+
+				notes.forEach( function ( note ) {
+					var when = note.getAttribute( 'data-when' ) || 'ok';
+					var holds;
+
+					if ( 'ok' === when ) {
+						holds = true;
+					} else if ( 'miss' === when ) {
+						holds = missing.length > 0;
+					} else {
+						holds = when.split( /\s+/ ).every( function ( token ) {
+							return ! valueOf( token.replace( /^!/, '' ) );
+						} );
+					}
+
+					if ( holds && ! chosen ) {
+						chosen = note;
+					}
+				} );
+
+				notes.forEach( function ( note ) {
+					note.hidden = note !== chosen;
+
+					var list = note.querySelector( '[data-build-miss]' );
+
+					if ( list ) {
+						list.textContent = missing.join( ', ' );
+					}
+				} );
+			}
+
+			for ( var key in fields ) {
+				fields[ key ].addEventListener( 'input', update );
+			}
+
+			update();
+		} );
+	}() );
+
+	/* ── лесенка причин ────────────────────────────────────────────────────
+	   Без скрипта видны все ступени и вывод — это разбор примера. Со скриптом
+	   ступени открываются по одной: сначала вопрос «зачем им это», потом ответ. */
+	( function () {
+		var root = document.querySelector( '[data-dig]' );
+
+		if ( ! root ) {
+			return;
+		}
+
+		var steps = Array.prototype.slice.call( root.querySelectorAll( '[data-dig-step]' ) );
+		var place = document.querySelector( '[data-dig-actions]' );
+		var resetPlace = document.querySelector( '[data-dig-reset-place]' );
+		var hint = document.querySelector( '[data-dig-hint]' );
+		var final = document.querySelector( '[data-dig-final]' );
+
+		if ( steps.length < 2 || ! place ) {
+			return;
+		}
+
+		var locked = root.getAttribute( 'data-dig-locked' ) || '';
+		var next = button( root.getAttribute( 'data-dig-next' ) || 'Дальше', 'primary' );
+		var reset = button( root.getAttribute( 'data-dig-reset' ) || 'Сначала' );
+		var hintStart = hint ? hint.textContent : '';
+		var at = 0;
+
+		// Заглушка у закрытой ступени: текст берётся из урока, место создаёт скрипт.
+		steps.forEach( function ( step ) {
+			var stub = document.createElement( 'p' );
+
+			stub.setAttribute( 'data-dig-stub', '' );
+			stub.textContent = locked;
+			stub.hidden = true;
+
+			var body = step.querySelector( '[data-dig-body]' );
+
+			if ( body ) {
+				body.parentNode.insertBefore( stub, body.nextSibling );
+			}
+		} );
+
+		function show() {
+			var last = at >= steps.length - 1;
+
+			steps.forEach( function ( step, i ) {
+				var body = step.querySelector( '[data-dig-body]' );
+				var ask = step.querySelector( '[data-dig-ask]' );
+				var stub = step.querySelector( '[data-dig-stub]' );
+
+				step.classList.toggle( 'is-locked', i > at );
+
+				if ( body ) {
+					body.hidden = i > at;
+				}
+
+				if ( stub ) {
+					stub.hidden = i <= at || ! locked;
+				}
+
+				if ( ask ) {
+					ask.hidden = i !== at;
+				}
+			} );
+
+			next.hidden = last;
+			reset.hidden = ! last;
+
+			if ( final ) {
+				final.hidden = ! last;
+			}
+
+			if ( hint ) {
+				hint.hidden = false;
+				hint.textContent = last ? ( hint.getAttribute( 'data-dig-hint-end' ) || hintStart ) : hintStart;
+			}
+		}
+
+		next.addEventListener( 'click', function () {
+			if ( at < steps.length - 1 ) {
+				at++;
+				show();
+			}
+		} );
+
+		reset.addEventListener( 'click', function () {
+			at = 0;
+			show();
+		} );
+
+		place.appendChild( next );
+		( resetPlace || place ).appendChild( reset );
+		show();
 	}() );
 }() );

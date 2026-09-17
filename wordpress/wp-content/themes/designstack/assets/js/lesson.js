@@ -27,8 +27,34 @@
 		button.className = 'ds-button ds-button--secondary ds-button--sm';
 		button.textContent = 'Скопировать';
 
+		// Закрытые details в innerText не попадают: копировалась бы только раскрытая карточка.
+		// На время чтения раскрываем все; атрибут name снимаем, иначе браузер держит
+		// открытой одну и сам закрывает остальные.
+		function textOf() {
+			var state = Array.prototype.map.call( target.querySelectorAll( 'details' ), function ( one ) {
+				return { node: one, open: one.open, name: one.getAttribute( 'name' ) };
+			} );
+
+			state.forEach( function ( one ) {
+				one.node.removeAttribute( 'name' );
+				one.node.open = true;
+			} );
+
+			var text = target.innerText.replace( /\n{3,}/g, '\n\n' ).trim();
+
+			state.forEach( function ( one ) {
+				one.node.open = one.open;
+
+				if ( one.name ) {
+					one.node.setAttribute( 'name', one.name );
+				}
+			} );
+
+			return text;
+		}
+
 		button.addEventListener( 'click', function () {
-			navigator.clipboard.writeText( target.innerText.replace( /\n{3,}/g, '\n\n' ).trim() ).then(
+			navigator.clipboard.writeText( textOf() ).then(
 				function () {
 					button.textContent = 'Скопировано';
 

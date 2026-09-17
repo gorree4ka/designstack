@@ -4141,11 +4141,6 @@ button.ds-lesson__word:hover {
 	background: var(--wp--preset--color--surface-selected);
 }
 
-.ds-lesson__pick-side h5 {
-	margin: 0 0 var(--wp--preset--spacing--1);
-	font-size: var(--wp--preset--font-size--sm);
-}
-
 .ds-lesson__pick-pts {
 	font-size: var(--wp--preset--font-size--2-xl);
 	font-weight: 600;
@@ -4483,4 +4478,485 @@ button.ds-lesson__word:hover {
    что над чек-листом, только стоит снизу. */
 .ds-lesson__pick-list + .ds-lesson__checkbar {
 	margin: var(--wp--preset--spacing--4) 0 0;
+}
+
+/* ---------- урок «Анализ конкурентов» ---------- */
+
+/* Широкая таблица разбора: девять колонок на экран не помещаются и листаются вбок
+   внутри своей рамки, страница при этом не едет. */
+.ds-lesson__table--wide table {
+	min-width: 60rem;
+}
+
+.ds-lesson__table--wide td:first-child {
+	font-weight: 500;
+	white-space: nowrap;
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__table tr.is-hint td {
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__table-sub {
+	display: block;
+	margin-top: var(--wp--preset--spacing--1);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 400;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Заголовок блока сценария и строки трассировки не привязан к тегу: уровень
+   заголовка задаёт место в структуре страницы, а не вид. Пока правило знало только
+   h3, блоки с другим уровнем шли без своей раскладки. */
+.ds-lesson__block :is(h3, h4, h5) {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	align-items: baseline;
+	margin: 0 0 var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__trace-row :is(h3, h4, h5) {
+	margin: 0 0 var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--lg);
+}
+
+/* Два скриншота: как подписывать нельзя и как надо. Рамка и подпись — те же,
+   что у экранов «было и стало». */
+.ds-lesson__shot-ph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 6rem;
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__shot-file {
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--3) var(--wp--preset--spacing--1);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	word-break: break-all;
+}
+
+.ds-lesson__shot-desc {
+	padding: 0 var(--wp--preset--spacing--3) var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__shot-desc b {
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Список «на что подпись отвечает»: смысл несёт знак в начале строки, не цвет. */
+.ds-lesson__checks {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	padding: 0 var(--wp--preset--spacing--3) var(--wp--preset--spacing--3);
+	list-style: none;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__checks li {
+	display: grid;
+	grid-template-columns: 1.25em minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--2);
+	margin: var(--wp--preset--spacing--1) 0;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__checks-mark {
+	font-weight: 700;
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Конструктор текста: поля, готовая формулировка и подсказка, чего не хватает. */
+.ds-lesson__build-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--3);
+}
+
+@media (min-width: 600px) {
+	.ds-lesson__build-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__field--full {
+	grid-column: 1 / -1;
+}
+
+.ds-lesson__field textarea {
+	width: 100%;
+	min-height: 5rem;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font-family: inherit;
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--base);
+	resize: vertical;
+}
+
+.ds-lesson__field :is(input, select, textarea):focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__build-out {
+	margin-top: var(--wp--preset--spacing--4);
+	padding-top: var(--wp--preset--spacing--4);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__build-text {
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+	line-height: var(--wp--custom--line-height--base);
+}
+
+.ds-lesson__build-text--mono {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.ds-lesson__build-note {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* «Не хватает …» выделено начертанием и цветом основного текста, а не красным:
+   цветной текст мелким кеглем — первый кандидат не добрать контраст. */
+.ds-lesson__build-miss {
+	font-weight: 600;
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Три строки итога. */
+.ds-lesson__three {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--3);
+}
+
+@media (min-width: 700px) {
+	.ds-lesson__three {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__three-item {
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__three-item :is(h3, h4, h5) {
+	margin: 0 0 var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--base);
+}
+
+.ds-lesson__three-item p {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Лесенка причин: от приёма до ограничения, которое можно проверить у себя. */
+.ds-lesson__dig {
+	display: flex;
+	flex-direction: column;
+}
+
+.ds-lesson__dig-step {
+	padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--6);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__dig-step:first-child {
+	border-top: none;
+}
+
+.ds-lesson__dig-step :is(h3, h4, h5) {
+	margin: var(--wp--preset--spacing--1) 0 var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--base);
+}
+
+.ds-lesson__dig-step p {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__dig-step p b {
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__dig-step .ds-lesson__dig-ask {
+	margin-top: var(--wp--preset--spacing--2);
+	font-weight: 500;
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Ступень, до которой ещё не докопались: гасим токенами, а не прозрачностью —
+   прозрачность роняет контраст ниже 4,5:1 (правило раздела 10). */
+.ds-lesson__dig-step.is-locked :is(h3, h4, h5) {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__dig-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--6);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__dig-final {
+	padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--6);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-selected);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* Приём и замена на экране: диалог подтверждения против полоски отката. */
+.ds-lesson__dlg {
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	text-align: center;
+}
+
+.ds-lesson__dlg :is(h3, h4, h5, h6) {
+	margin: 0 0 var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+}
+
+.ds-lesson__dlg p {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__dlg .ds-lesson__acts {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__dlg .ds-lesson__acts span {
+	flex: 1;
+	padding: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+.ds-lesson__dlg .ds-lesson__acts .is-no {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__dlg .ds-lesson__acts .is-yes {
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-lesson__toast {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__toast-text {
+	flex: 1;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__toast-text small {
+	display: block;
+	margin-top: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__toast-undo {
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+	white-space: nowrap;
+	color: var(--wp--preset--color--text-action);
+}
+
+.ds-lesson__restore {
+	margin-top: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__restore b {
+	font-weight: 500;
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Вопрос тренажёра из двух частей: принцип, по которому судим, и сам спор с условием. */
+.ds-quiz__lead {
+	display: block;
+	margin-bottom: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-selected);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 400;
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-quiz__sub {
+	display: block;
+	margin-top: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 400;
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Карточки принципов. Это details: раскрываются без скрипта, а «открыта одна»
+   обеспечивает атрибут name. */
+.ds-lesson__pcards {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__pcard {
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__pcard > summary {
+	padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--6);
+	cursor: pointer;
+}
+
+.ds-lesson__pcard > summary:hover {
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__pcard > summary:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: calc(var(--wp--custom--border-width--focus) * -1);
+}
+
+.ds-lesson__pcard-idx {
+	margin-right: var(--wp--preset--spacing--2);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__pcard-title {
+	margin-right: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 600;
+}
+
+.ds-lesson__pcard-hint {
+	display: block;
+	margin-top: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__pcard[open] .ds-lesson__pcard-hint {
+	display: none;
+}
+
+.ds-lesson__pcard-body {
+	padding: 0 var(--wp--preset--spacing--6) var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__pcard-body .ds-lesson__kv {
+	padding: var(--wp--preset--spacing--2) 0;
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__pcard-body .ds-lesson__kv:first-child {
+	border-top: none;
+}
+
+.ds-lesson__tag.is-ok {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__tag.is-no {
+	background: var(--wp--preset--color--bg-error);
+}
+
+/* «Так» и «не так» в карточке принципа: плашка плюс слово, текст основным цветом. */
+.ds-lesson__yn {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--2);
+	margin-top: var(--wp--preset--spacing--1);
+}
+
+@media (min-width: 600px) {
+	.ds-lesson__yn {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.ds-lesson__yn > div {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__yn-yes {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__yn-no {
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__yn .ds-lesson__tier-label {
+	margin-bottom: var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Название формата в итоге подбора: было заголовком h5 и рвало структуру страницы. */
+.ds-lesson__pick-name {
+	margin: 0 0 var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+/* Таблица листается вбок и берёт фокус с клавиатуры — фокус должен быть виден. */
+.ds-lesson__table:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
 }

@@ -41,7 +41,7 @@ report = []
 # Кроме нарушений собираем `incomplete` — то, что axe проверить не смог. Контраст поверх
 # картинки или слоя с `z-index: -1` попадает именно сюда, и проверка «ноль нарушений» молчала
 # при контрасте 1,12:1 на всех 140 карточках каталога (16.09.2026).
-RUN = """() => axe.run(document, {
+RUN = """() => { return axe.run(document, {
     runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']}
 }).then(r => ({
     violations: r.violations.map(v => ({
@@ -51,8 +51,42 @@ RUN = """() => axe.run(document, {
     incomplete: r.incomplete.map(v => ({
         id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length,
         target: v.nodes.slice(0, 2).map(n => n.target.join(' ')),
+        measured: v.id === 'color-contrast' ? v.nodes.map(n => measure(n.target.join(' '))) : [],
     })),
-}))"""
+}))
+
+// Контраст узла, который axe оставил без ответа: цвет текста против первого непрозрачного
+// фона вверх по дереву. Картинка или полупрозрачный слой под текстом — честное «не измерить».
+function measure(selector) {
+    let el = null;
+    try { el = document.querySelector(selector); } catch (e) { el = null; }
+    if (!el) { return {selector, skip: 'узел не найден'}; }
+    const parse = c => { const m = c.match(/rgba?\\(([^)]+)\\)/); return m ? m[1].split(',').map(parseFloat) : null; };
+    const lum = p => { const f = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+        return 0.2126 * f(p[0]) + 0.7152 * f(p[1]) + 0.0722 * f(p[2]); };
+    const style = getComputedStyle(el);
+    const fg = parse(style.color);
+    let node = el, bg = null;
+    while (node && node.nodeType === 1) {
+        const s = getComputedStyle(node);
+        if (s.backgroundImage && s.backgroundImage !== 'none') { return {selector, skip: 'под текстом картинка'}; }
+        const c = parse(s.backgroundColor);
+        if (c) {
+            const alpha = c.length > 3 ? c[3] : 1;
+            if (alpha >= 1) { bg = c; break; }
+            if (alpha > 0) { return {selector, skip: 'полупрозрачный слой'}; }
+        }
+        node = node.parentElement;
+    }
+    if (!fg || !bg) { bg = bg || [255, 255, 255]; }
+    if (!fg) { return {selector, skip: 'цвет текста не разобран'}; }
+    const hi = Math.max(lum(fg), lum(bg)), lo = Math.min(lum(fg), lum(bg));
+    const size = parseFloat(style.fontSize), bold = parseInt(style.fontWeight, 10) >= 700;
+    const need = size >= 24 || (size >= 18.66 && bold) ? 3 : 4.5;
+    return {selector, ratio: Math.round(((hi + 0.05) / (lo + 0.05)) * 100) / 100, need,
+            text: (el.textContent || '').trim().slice(0, 30)};
+}
+}"""
 
 with sync_playwright() as pw:
     browser = pw.chromium.launch()
@@ -99,7 +133,19 @@ total = sum(len(r["violations"]) for r in report)
 unknown = sum(len(r.get("incomplete", [])) for r in report)
 print(f"страниц проверено: {len(paths)} × 2 темы")
 print(f"страниц с замечаниями: {len(report)}; нарушений axe всего: {total}")
-print(f"axe не смог проверить (меряем руками): {unknown}")
+# Что из «не смог проверить» удалось измерить самим, и что осталось глазам.
+measured = [m for r in report for one in r.get("incomplete", []) for m in one.get("measured", [])]
+ratios = [m for m in measured if "ratio" in m]
+low = [m for m in ratios if m["ratio"] < m["need"]]
+blind = [m for m in measured if "skip" in m]
+print(f"axe не смог проверить: {unknown}; из них контраст измерен самим аудитом: {len(ratios)} узлов"
+      + (f", худший {min(m['ratio'] for m in ratios)}:1" if ratios else ""))
+
+for m in low:
+    print(f"  НЕ ДОБИРАЕТ {m['ratio']}:1 при норме {m['need']}: {m['selector']} «{m['text']}»")
+
+if blind:
+    print(f"  остаётся глазам: {len(blind)} — " + "; ".join(sorted({m['skip'] for m in blind})))
 
 seen = {}
 

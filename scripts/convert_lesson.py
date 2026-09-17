@@ -50,6 +50,54 @@ CLASS_MAP = {
     "probe": "ds-lesson__probe",
     "aim": "ds-lesson__aim",
     "say": "ds-lesson__say",
+    # компоненты темы «Анализ конкурентов»
+    "atbl": "ds-lesson__table ds-lesson__table--wide",
+    "hintrow": "is-hint",
+    "dt": "ds-lesson__table-sub",
+    "shots": "ds-lesson__screens",
+    "shot": "ds-lesson__screen",
+    "ph": "ds-lesson__shot-ph",
+    "fn": "ds-lesson__shot-file",
+    "desc": "ds-lesson__shot-desc",
+    "qs": "ds-lesson__checks",
+    "m": "ds-lesson__checks-mark",
+    "yes": "is-yes",
+    "cb-grid": "ds-lesson__build-grid",
+    "rb-grid": "ds-lesson__build-grid",
+    "cb-out": "ds-lesson__build-out",
+    "rb-out": "ds-lesson__build-out",
+    "cb-line": "ds-lesson__build-text ds-lesson__build-text--mono",
+    "rb-text": "ds-lesson__build-text",
+    "cb-note": "ds-lesson__build-note",
+    "rb-note": "ds-lesson__build-note",
+    "cb-miss": "ds-lesson__build-miss",
+    "rb-miss": "ds-lesson__build-miss",
+    "full": "ds-lesson__field--full",
+    "three": "ds-lesson__three",
+    "c": "ds-lesson__three-item",
+    "tt": "",
+    "dig": "ds-lesson__dig",
+    "dig-step": "ds-lesson__dig-step",
+    "lvl": "ds-lesson__tier-label",
+    "dig-ask": "ds-lesson__dig-ask",
+    "dig-actions": "ds-lesson__dig-actions",
+    "dig-final": "ds-lesson__dig-final",
+    "uicmp": "ds-lesson__screens",
+    "uip": "ds-lesson__screen",
+    "dlg": "ds-lesson__dlg",
+    "toast": "ds-lesson__toast",
+    "txt": "ds-lesson__toast-text",
+    "undo": "ds-lesson__toast-undo",
+    "restore": "ds-lesson__restore",
+    "sub": "ds-quiz__sub",
+    "pr": "ds-quiz__lead",
+    "pcards": "ds-lesson__pcards",
+    "pcard": "ds-lesson__pcard",
+    "idx": "ds-lesson__pcard-idx",
+    "hintline": "ds-lesson__pcard-hint",
+    "body": "ds-lesson__pcard-body",
+    "row": "ds-lesson__kv",
+    "yn": "ds-lesson__yn",
     "said": "ds-lesson__said",
     "sheet": "ds-lesson__sheet",
     "spacer": "ds-lesson__spacer",
@@ -215,6 +263,22 @@ LESSON_MAP = {
         "st": "ds-lesson__checkbar-state",
         "btn": "ds-button ds-button--secondary ds-button--sm",
     },
+    "competitor-analysis-junior": {
+        "cap": "ds-lesson__screen-cap",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "competitor-analysis-middle": {
+        "cap": "ds-lesson__screen-cap",
+        "a": "",
+        "b": "is-good",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
+    "competitor-analysis-senior": {
+        "ttl": "ds-lesson__pcard-title",
+        "y": "ds-lesson__yn-yes",
+        "n": "ds-lesson__yn-no",
+        "btn": "ds-button ds-button--secondary ds-button--sm",
+    },
     "usability-testing-middle": {
         "b": "ds-lesson__pin-num",
         "sec": "ds-lesson__ui-btn--sec",
@@ -328,6 +392,9 @@ WORDS = {
     "скорректируй": "скорректируйте", "соблюдай": "соблюдайте", "создай": "создайте",
     "уложись": "уложитесь", "пытайся": "пытайтесь", "измени": "измените", "наполни": "наполните",
     "пометь": "пометьте", "выдели": "выделите",
+    # тема «Анализ конкурентов»
+    "выведи": "выведите", "нарисуй": "нарисуйте", "подписывай": "подписывайте",
+    "полистай": "полистайте", "раскопай": "раскопайте", "снимай": "снимайте",
     "уточни": "уточните", "объясни": "объясните", "покажи": "покажите",
     "попроси": "попросите", "укажи": "укажите", "обсуди": "обсудите",
     "добавь": "добавьте", "опиши": "опишите", "сохрани": "сохраните",
@@ -373,6 +440,21 @@ def tidy_markup(text: str, notes: list) -> str:
     if n:
         notes.append("scope у заголовков таблиц: " + str(n))
 
+    # Обёртка таблицы листается вбок (`overflow-x: auto`), а значит обязана брать фокус
+    # с клавиатуры: иначе колонки справа недоступны тому, кто работает без мыши.
+    # Правило axe `scrollable-region-focusable`; на телефоне листается любая таблица,
+    # поэтому атрибуты получают все обёртки, а не только заведомо широкая. Роль — `group`,
+    # а не `region`: region — это ориентир страницы, и семь одинаково подписанных ориентиров
+    # на один урок валидатор справедливо считает ошибкой (`unique-landmark`).
+    text, n = re.subn(
+        r'<div class="(ds-lesson__table[^"]*)"(?![^>]*tabindex)',
+        r'<div class="\1" tabindex="0" role="group" aria-label="Таблица, листается вбок"',
+        text,
+    )
+
+    if n:
+        notes.append("таблиц с фокусом для прокрутки: " + str(n))
+
     # Подпись `aria-label` на обычном `div` запрещена: у него нет роли, и чтец
     # атрибут игнорирует, а валидатор считает ошибкой. Роль `group` подпись принимает.
     text, n = re.subn(
@@ -403,8 +485,13 @@ def fix_headings(text: str, fixed: list) -> str:
     Пропуск рвёт структуру страницы для экранного чтеца и поисковика — правило
     этапа 15. В присланных файлах внутри образцов документов встречаются h4 и h5
     прямо под h2: относительная вложенность сохраняется, абсолютный уровень падает.
+
+    Уровень считается от родителя, а не от предыдущего заголовка. Первая версия
+    брала «предыдущий плюс один», и три соседние карточки с h5 получали h3, h4 и h5:
+    формально без пропусков, по смыслу — три уровня вложенности у равных соседей.
+    Найдено на уроке «Анализ конкурентов» 17.09.2026.
     """
-    previous = 2
+    stack = []  # пары (уровень в присланном файле, уровень на сайте)
     out = []
     last = 0
 
@@ -414,7 +501,11 @@ def fix_headings(text: str, fixed: list) -> str:
         if closing:
             continue
 
-        want = min(level, previous + 1)
+        while stack and stack[-1][0] >= level:
+            stack.pop()
+
+        want = min(level, (stack[-1][1] if stack else 1) + 1)
+        stack.append((level, want))
 
         if want != level:
             fixed.append("h{0} → h{1}".format(level, want))
@@ -423,7 +514,6 @@ def fix_headings(text: str, fixed: list) -> str:
             out.append(text[last:found.start()] + "<h{0}".format(want))
             out.append(text[found.end():close] + "</h{0}>".format(want))
             last = close + 5
-        previous = want
 
     out.append(text[last:])
 
@@ -882,6 +972,22 @@ def drills_of(source: str) -> list:
     def unquote(value: str) -> str:
         return value.replace("\\'", "'").replace('\\"', '"')
 
+    # Текст вопроса бывает собран сложением: `t: P1 + '<b>Спор:</b> …'`, где P1 — строковая
+    # константа выше по скрипту. Пока разбор ждал только литерал, такой тренажёр
+    # молча оставался пустой коробкой (урок «Анализ конкурентов», Senior).
+    consts = dict(re.findall(r"var\s+([A-Z][A-Z0-9_]*)\s*=\s*'((?:[^'\\]|\\.)*)';", js))
+    whole_re = re.compile(r"t:\s*(.*?),\s*a:\s*'", re.S)
+
+    def text_of(chunk: str):
+        found = whole_re.search(chunk)
+
+        if not found:
+            return None
+
+        parts = re.findall(r"'((?:[^'\\]|\\.)*)'|\b([A-Z][A-Z0-9_]*)\b", found.group(1))
+
+        return "".join(unquote(lit) if lit or not name else unquote(consts.get(name, "")) for lit, name in parts)
+
     for call in re.finditer(r"makeDrill\(\s*'#(\w+)'\s*,", js):
         arrays = js_arrays(js, call.end())
 
@@ -895,7 +1001,7 @@ def drills_of(source: str) -> list:
 
         for one in re.finditer(r"\{(.*?)\}", arrays[1], re.S):
             chunk = one.group(1)
-            text = text_re.search(chunk)
+            text = text_of(chunk)
             answer = answer_re.search(chunk)
             back = back_re.search(chunk)
 
@@ -904,7 +1010,7 @@ def drills_of(source: str) -> list:
 
             items.append(
                 {
-                    "text": unquote(text.group(1)),
+                    "text": text,
                     "answer": answer.group(1),
                     "feedback": unquote(back.group(1)) if back else "",
                 }
@@ -1438,6 +1544,457 @@ def cadence_markup(js: str, body: str, notes: list) -> str:
     return body
 
 
+# ---------------------------------------------------------------------------
+# Живые куски темы «Анализ конкурентов»: таблица аналогов в двух видах, два
+# конструктора текста (подпись к скриншоту и отказ от приёма), лесенка причин
+# и карточки принципов.
+# ---------------------------------------------------------------------------
+
+
+def js_strings(chunk: str) -> list:
+    """Строковые литералы подряд: `'a', 'b', 'c'` → ['a', 'b', 'c']."""
+    return [
+        one.replace("\\'", "'").replace('\\"', '"')
+        for one in re.findall(r"'((?:[^'\\]|\\.)*)'", chunk, re.S)
+    ]
+
+
+def element_end(text: str, start: int, tag: str = "div") -> int:
+    """Конец элемента, который начинается в `start`: считает вложенные теги того же имени."""
+    depth = 0
+
+    for step in re.finditer(r"</?" + tag + r"\b[^>]*>", text[start:], re.I):
+        depth += -1 if step.group(0).startswith("</") else 1
+
+        if depth == 0:
+            return start + step.end()
+
+    return -1
+
+
+def switch_box(body: str, head_starts: str, buttons: str) -> str:
+    """Делает коробку корнем переключателя: кнопки в шапке, панели в теле.
+
+    Общий предок у кнопок и панелей — только сама коробка, поэтому `data-switch`
+    вешается на неё, а кнопки встают в шапку сразу за распоркой.
+    """
+    return re.sub(
+        r'<div class="box">(\s*<div class="box-head">' + re.escape(head_starts) + r'.*?<span class="spacer"></span>)',
+        lambda m: '<div class="box ds-switch" data-switch>' + m.group(1) + buttons,
+        body,
+        count=1,
+        flags=re.S,
+    )
+
+
+def analog_table_markup(js: str, body: str, notes: list) -> str:
+    """Таблица разбора аналогов: заполненный пример и пустой шаблон с подсказками."""
+    cols = re.search(r"var COLS = \[(.*?)\];", js, re.S)
+    hints = re.search(r"var HINTS = \[(.*?)\];", js, re.S)
+    rows = re.search(r"var ROWS = \[(.*?)\n    \];", js, re.S)
+
+    if not (cols and hints and rows) or 'id="atblWrap"' not in body:
+        return body
+
+    heads = js_strings(cols.group(1))
+    tips = js_strings(hints.group(1))
+    lines = [js_strings(one) for one in re.findall(r"\[(.*?)\](?=,\s*\n|\s*$)", rows.group(1), re.S)]
+    lines = [one for one in lines if len(one) == len(heads)]
+
+    if not heads or not lines:
+        return body
+
+    head = "<thead><tr>" + "".join("<th>" + one + "</th>" for one in heads) + "</tr></thead>"
+    full = "".join("<tr>" + "".join("<td>" + cell + "</td>" for cell in one) + "</tr>" for one in lines)
+    blank = '<tr class="hintrow">' + "".join("<td>" + one + "</td>" for one in tips) + "</tr>"
+
+    for number in range(1, len(lines) + 1):
+        blank += "<tr><td>Аналог " + str(number) + "</td>" + "<td></td>" * (len(heads) - 1) + "</tr>"
+
+    labels = dict(re.findall(r'id="tt(Ex|Tpl)"[^>]*>([^<]+)</button>', body))
+    names = {"ex": labels.get("Ex", "Пример"), "tpl": labels.get("Tpl", "Шаблон")}
+    panes = "".join(
+        '<div data-switch-pane="{key}"><p class="ds-switch__title">{name}</p>'
+        '<div class="atbl"><table>{head}<tbody>{rows}</tbody></table></div></div>'.format(
+            key=key, name=names[key], head=head, rows=inner
+        )
+        for key, inner in (("ex", full), ("tpl", blank))
+    )
+    buttons = "".join(
+        '<button class="ds-switch__button" type="button" data-switch-btn="{key}" hidden>{name}</button>'.format(
+            key=key, name=names[key]
+        )
+        for key in ("ex", "tpl")
+    )
+    body = re.sub(r'<button class="btn tt"[^>]*>[^<]*</button>\s*', "", body)
+    body = body.replace('<div class="atbl" id="atblWrap"></div>', '<div id="atblWrap">' + panes + "</div>", 1)
+    body = switch_box(body, "Таблица разбора аналогов", buttons)
+    notes.append("таблица аналогов: колонок {}, строк примера {}".format(len(heads), len(lines)))
+
+    return body
+
+
+# Шаблоны конструкторов. Синтаксис один на конвертер и на скрипт сайта:
+#   {поле}, {поле|запасное слово}, {поле:фильтр}; {? … ?} — кусок выводится,
+#   только если все поля внутри него заполнены. Фильтры: slug, num, ru.
+# Шаблон записан здесь, а не вытащен из её скрипта: там он собран сложением строк
+# с условиями. Чтобы шаблон не разошёлся с присланным уроком, каждая его фраза
+# сверяется со скриптом — не нашлась, значит текст урока поменяли, и конструктор
+# остаётся нетронутым с пометкой в отчёте.
+BUILDERS = {
+    "cb": {
+        "out": "cbOut",
+        "note": "cbNote",
+        "today": ["date"],
+        "templates": [
+            ("text", "{prod:slug|продукт}_{step:num}_{screen:slug|экран}_{date}.png"),
+            (
+                "text",
+                "Шаг {step|—}. {screen|экран}{? после того, как {before}?}. "
+                "{?Снял ради: {why}.?}{? Просмотрено {date:ru}.?}",
+            ),
+        ],
+        "joint": "\n\n",
+        "phrases": ["'Шаг '", "' после того, как '", "'Снял ради: '", "' Просмотрено '", "'продукт'", "'экран'"],
+    },
+    "rb": {
+        "out": "rbText",
+        "note": "rbNote",
+        "today": [],
+        "templates": [
+            (
+                "html",
+                "<b>{trick|[приём]}</b> есть {who|[у кого]}."
+                "{? Похоже, у них это из-за того, что {why}.?}"
+                "{? <b>У нас иначе:</b> {us}.?}"
+                "{? Поэтому предлагаю {alt}.?}"
+                "{? Для нашей задачи это лучше, потому что {better}.?}",
+            ),
+        ],
+        "joint": "",
+        "phrases": [
+            "'</b> есть '", "'Похоже, у них это из-за того, что '", "'<b>У нас иначе:</b> '",
+            "'Поэтому предлагаю '", "'Для нашей задачи это лучше, потому что '", "'[приём]'", "'[у кого]'",
+        ],
+    },
+}
+
+
+def build_filter(value: str, name: str) -> str:
+    if name == "slug":
+        value = re.sub(r"\s+", "-", value.strip().lower())
+
+        return re.sub(r"[^a-zа-яё0-9-]", "", value)
+
+    if name == "num":
+        found = re.search(r"(\d+)", value or "")
+
+        return found.group(1).zfill(2) if found else "01"
+
+    if name == "ru":
+        parts = value.split("-")
+
+        return ".".join(reversed(parts)) if len(parts) == 3 else value
+
+    return value
+
+
+def build_render(template: str, values: dict, mode: str) -> str:
+    """Собирает текст по шаблону — тем же способом, что и скрипт сайта."""
+
+    def field(found):
+        name, _, rest = found.group(1).partition("|")
+        name, _, how = name.partition(":")
+        value = (values.get(name) or "").strip()
+
+        if how == "num":
+            return build_filter(value, how)
+
+        value = build_filter(value, how) if how and value else value
+        value = value or rest
+
+        return html.escape(value, quote=False) if mode == "html" else value
+
+    def group(found):
+        inner = found.group(1)
+        names = [one.partition("|")[0].partition(":")[0] for one in re.findall(r"\{([^{}?]+)\}", inner)]
+
+        if any(not (values.get(name) or "").strip() for name in names):
+            return ""
+
+        return re.sub(r"\{([^{}?]+)\}", field, inner)
+
+    out = re.sub(r"\{\?(.*?)\?\}", group, template, flags=re.S)
+
+    return re.sub(r"\{([^{}?]+)\}", field, out)
+
+
+def builder_markup(js: str, body: str, notes: list) -> str:
+    """Конструкторы текста: поля, шаблон, подсказка о том, чего не хватает."""
+    for prefix, setup in BUILDERS.items():
+        if 'id="' + setup["out"] + '"' not in body:
+            continue
+
+        lost = [one for one in setup["phrases"] if one not in js]
+
+        if lost:
+            notes.append("конструктор {}: фраз нет в присланном скрипте — {}".format(prefix, ", ".join(lost)))
+            continue
+
+        # Поля и их значения по умолчанию — из разметки.
+        values = {}
+
+        # Два прохода, а не один с необязательным хвостом: у `<input>` необязательная группа
+        # «…</textarea>» дотягивалась до чужого закрывающего тега и съедала соседнее поле.
+        for found in re.finditer(r'<input\b[^>]*\bid="' + prefix + r'([A-Z]\w*)"[^>]*>', body):
+            name = found.group(1)[0].lower() + found.group(1)[1:]
+            value = re.search(r'\bvalue="([^"]*)"', found.group(0))
+            values[name] = html.unescape(value.group(1) if value else "")
+
+        for found in re.finditer(
+            r'<textarea\b[^>]*\bid="' + prefix + r'([A-Z]\w*)"[^>]*>(.*?)</textarea>', body, re.S
+        ):
+            name = found.group(1)[0].lower() + found.group(1)[1:]
+            values[name] = html.unescape(found.group(2))
+
+        # Чего не хватает: условия из её скрипта, имена — оттуда же.
+        needs = {}
+
+        for found in re.finditer(
+            r"if \(!(?:f\.(\w+)\.value(?:\.trim\(\))?|v\(f\.(\w+)\))\) miss\.push\('([^']*)'\)", js
+        ):
+            name = found.group(1) or found.group(2)
+
+            if name in values:
+                needs[name] = found.group(3)
+
+        def when_of(condition: str) -> str:
+            names = re.findall(r"!\s*(?:v\(f\.(\w+)\)|f\.(\w+)\.value)", condition)
+
+            if names:
+                return " ".join("!" + (a or b) for a, b in names)
+
+            return "miss" if "miss.length" in condition else "ok"
+
+        def note_text(expr: str) -> str:
+            expr = re.sub(r"'\s*\+\s*miss\.join\([^)]*\)\s*\+\s*'", "@@miss@@", expr)
+
+            return js_string(expr).replace("@@miss@@", "<span data-build-miss></span>")
+
+        place = js.find("getElementById('" + setup["note"] + "')")
+        scope = js[place:js.find("})();", place)] if place >= 0 else ""
+        rules = []
+        ternary = re.search(r"note\.innerHTML = miss\.length\s*\?\s*(.*?)\s*:\s*('(?:[^'\\]|\\.)*');", scope, re.S)
+
+        if ternary:
+            rules = [("miss", note_text(ternary.group(1))), ("ok", note_text(ternary.group(2)))]
+        else:
+            chain = re.findall(
+                r"(?:if \(([^;{}\n]*)\)|else)\s*\{\s*note\.innerHTML = (.*?);\s*\}", scope, re.S
+            )
+            rules = [(when_of(cond) if cond else "ok", note_text(expr)) for cond, expr in chain]
+
+        if not rules:
+            notes.append("конструктор {}: подсказки не разобраны".format(prefix))
+            continue
+
+        def holds(when: str) -> bool:
+            if when == "ok":
+                return True
+
+            if when == "miss":
+                return any(not (values.get(name) or "").strip() for name in needs)
+
+            return all(not (values.get(one[1:]) or "").strip() for one in when.split())
+
+        first = next((n for n, (when, _) in enumerate(rules) if holds(when)), len(rules) - 1)
+        missing = ", ".join(label for name, label in needs.items() if not (values.get(name) or "").strip())
+        note_html = "".join(
+            '<p class="{p}-note" data-build-note data-when="{when}"{hide}>{text}</p>'.format(
+                p=prefix,
+                when=when,
+                hide="" if n == first else " hidden",
+                text=text.replace("<span data-build-miss></span>", "<span data-build-miss>" + missing + "</span>")
+                if n == first
+                else text,
+            )
+            for n, (when, text) in enumerate(rules)
+        )
+        outs = setup["joint"].join(
+            '<span data-build-out data-build-mode="{mode}" data-template="{tpl}">{now}</span>'.format(
+                mode=mode,
+                tpl=html.escape(template, quote=True),
+                now=build_render(template, values, mode)
+                if mode == "html"
+                else html.escape(build_render(template, values, mode), quote=False),
+            )
+            for mode, template in setup["templates"]
+        )
+
+        # Разметка: поля получают имя, выход — шаблон и готовый текст по умолчанию.
+        def name_field(found):
+            name = found.group(2)[0].lower() + found.group(2)[1:]
+            extra = ' data-build-field="' + name + '"'
+
+            if name in needs:
+                extra += ' data-build-need="' + html.escape(needs[name], quote=True) + '"'
+
+            if name in setup["today"]:
+                extra += " data-build-today"
+
+            return found.group(1) + extra
+
+        body = re.sub(r'(<(?:input|textarea)\b[^>]*\bid="' + prefix + r'([A-Z]\w*)")', name_field, body)
+        body = re.sub(
+            r'(<div class="' + prefix + r'-(?:line|text)" id="' + setup["out"] + r'")></div>',
+            lambda m: m.group(1) + ">" + outs + "</div>",
+            body,
+            count=1,
+        )
+        body = re.sub(r'<p class="' + prefix + r'-note" id="' + setup["note"] + r'"></p>', lambda m: note_html, body, count=1)
+        body = re.sub(
+            r'<div class="' + prefix + r'-grid">', '<div class="' + prefix + '-grid" data-build-fields>', body, count=1
+        )
+        body = re.sub(
+            r'(<div class="box-body")(>\s*<div class="' + prefix + r'-grid")', r"\1 data-build\2", body, count=1
+        )
+        notes.append(
+            "конструктор {}: полей {}, подсказок {}, по умолчанию «{}»".format(
+                prefix, len(values), len(rules), rules[first][0]
+            )
+        )
+
+    return body
+
+
+def dig_markup(js: str, body: str, notes: list) -> str:
+    """Лесенка причин: от приёма до ограничения, которое можно проверить у себя."""
+    block = re.search(r"var STEPS = \[(.*?)\n    \];", js, re.S)
+
+    if not block or 'id="digList"' not in body:
+        return body
+
+    steps = re.findall(
+        r"\{\s*l:\s*'((?:[^'\\]|\\.)*)',\s*h:\s*'((?:[^'\\]|\\.)*)',\s*p:\s*'((?:[^'\\]|\\.)*)',\s*q:\s*'((?:[^'\\]|\\.)*)'\s*\}",
+        block.group(1),
+        re.S,
+    )
+    final = re.search(r"final\.innerHTML = (.*?);\n", js, re.S)
+    ending = re.search(r"hint\.textContent = '((?:[^'\\]|\\.)*)';\s*\n\s*final\.className = 'dig-final on'", js, re.S)
+    locked = re.search(r"\? s\.p : '((?:[^'\\]|\\.)*)'", js)
+
+    if not steps or not final:
+        return body
+
+    rows = "".join(
+        '<div class="dig-step" data-dig-step><span class="lvl">{level}</span><h5>{title}</h5>'
+        '<p data-dig-body>{text}</p><p class="dig-ask" data-dig-ask>{ask}</p></div>'.format(
+            level=level.replace("\\'", "'"),
+            title=title.replace("\\'", "'"),
+            text=text.replace("\\'", "'"),
+            ask=ask.replace("\\'", "'"),
+        )
+        for level, title, text, ask in steps
+    )
+    next_label = re.search(r'id="digNext"[^>]*>([^<]+)</button>', body)
+    reset_label = re.search(r'id="digReset"[^>]*>([^<]+)</button>', body)
+    body = body.replace(
+        '<div class="dig" id="digList"></div>',
+        '<div class="dig" data-dig data-dig-locked="{locked}" data-dig-next="{go}" data-dig-reset="{back}">{rows}</div>'.format(
+            locked=html.escape(locked.group(1) if locked else "", quote=True),
+            go=html.escape(next_label.group(1).strip() if next_label else "Дальше", quote=True),
+            back=html.escape(reset_label.group(1).strip() if reset_label else "Сначала", quote=True),
+            rows=rows,
+        ),
+        1,
+    )
+    body = re.sub(r'<button[^>]*id="digReset"[^>]*>.*?</button>', "<span data-dig-reset-place></span>", body, flags=re.S)
+    body = re.sub(r'<button[^>]*id="digNext"[^>]*>.*?</button>', "<span data-dig-actions></span>", body, flags=re.S)
+    # Подсказка «нажимайте…» без кнопки бессмысленна: в разметке она скрыта, показывает её скрипт.
+    body = re.sub(
+        r'<span class="dim" id="digHint"[^>]*>',
+        '<span class="dim" data-dig-hint data-dig-hint-end="{}" hidden>'.format(
+            html.escape(ending.group(1) if ending else "", quote=True)
+        ),
+        body,
+        count=1,
+    )
+    body = body.replace(
+        '<div class="dig-final" id="digFinal"></div>',
+        '<div class="dig-final" data-dig-final>' + js_string(final.group(1)) + "</div>",
+        1,
+    )
+    notes.append("лесенка причин: ступеней " + str(len(steps)))
+
+    return body
+
+
+def pcards_to_details(text: str, notes: list) -> str:
+    """Карточки принципов: кнопка со скриптом → details.
+
+    Раскрытие работает без JS, а атрибут `name` даёт «открыта только одна» средствами
+    браузера. Заодно чинится вложенность: у неё блок «так / не так» (`div`) лежит
+    внутри `span`, а это невалидно — ключ и значение строки становятся `div`.
+    """
+    count = 0
+    at = 0
+
+    while True:
+        found = re.search(r'<div class="pcard"[^>]*>', text[at:])
+
+        if not found:
+            break
+
+        start = at + found.start()
+        stop = element_end(text, start)
+
+        if stop < 0:
+            break
+
+        card = text[start:stop]
+        head = re.search(r"<button[^>]*>(.*?)</button>", card, re.S)
+        hint = re.search(r'<p class="hintline">(.*?)</p>', card, re.S)
+        inner = re.search(r'<div class="body">', card)
+
+        if not head or not inner:
+            at = stop
+            continue
+
+        content_start = inner.start()
+        content_stop = element_end(card, content_start)
+        content = card[content_start:content_stop]
+
+        # span.k / span.v → div: внутри значения бывает блочная разметка.
+        content = content.replace('<span class="k">', '<div class="k">')
+        content = re.sub(r'(<div class="k">[^<]*)</span>', r"\1</div>", content)
+        out = []
+        pos = 0
+
+        while True:
+            v = content.find('<span class="v">', pos)
+
+            if v < 0:
+                out.append(content[pos:])
+                break
+
+            end = element_end(content, v, "span")
+            out.append(content[pos:v])
+            out.append('<div class="v">' + content[v + len('<span class="v">'):end - len("</span>")] + "</div>")
+            pos = end
+
+        content = "".join(out)
+        summary = head.group(1) + ('<span class="hintline">' + hint.group(1) + "</span>" if hint else "")
+        fresh = '<details class="pcard" name="pcards"><summary>' + summary + "</summary>" + content + "</details>"
+        text = text[:start] + fresh + text[stop:]
+        at = start + len(fresh)
+        count += 1
+
+    if count:
+        notes.append("карточек принципов переведено в details: " + str(count))
+
+    return text
+
+
 def copy_holder(text: str, notes: list) -> str:
     """Кнопка копирования → пустое место: кнопку рисует скрипт, и она работает.
 
@@ -1570,6 +2127,10 @@ body = matrix_markup(script, body, widget_notes)
 body = panel_markup(script, body, widget_notes)
 body = calc_markup(script, body, widget_notes)
 body = cadence_markup(script, body, widget_notes)
+body = analog_table_markup(script, body, widget_notes)
+body = builder_markup(script, body, widget_notes)
+body = dig_markup(script, body, widget_notes)
+body = pcards_to_details(body, widget_notes)
 body = re.sub(r'<button[^>]*id="calcReset"[^>]*>.*?</button>', '<span data-calc-actions></span>', body, flags=re.S)
 body = copy_holder(body, widget_notes)
 body = cards_to_details(body, widget_notes)
