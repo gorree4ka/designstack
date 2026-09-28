@@ -36,7 +36,7 @@ foreach ( $rows as $row ) {
 		array(
 			'name'        => $row['slug'],
 			'post_type'   => 'resource',
-			'post_status' => 'any',
+			'post_status' => array( 'publish', 'future', 'draft', 'pending', 'private' ),
 			'numberposts' => 1,
 		)
 	);

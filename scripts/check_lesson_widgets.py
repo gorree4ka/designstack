@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы» и «Вайрфреймы и прототипы».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -47,6 +47,7 @@ with sync_playwright() as play:
         ("usability-testing-junior", ["Нажал «⋯» → «Отменить заказ»", "Показать ответ" ]),
         ("usability-testing-middle", ["личный кабинет", "Модерируемый"]),
         ("usability-testing-senior", ["П-018"]),
+        ("layout-grid-junior", ["Как исправить. 14 нет в наборе", "Здесь всё верно", "Слева восемь разных отступов"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -65,10 +66,84 @@ with sync_playwright() as play:
         fails += 0 if say(not buttons, "мёртвых кнопок нет" + (": " + str(buttons) if buttons else "")) else 1
         page.close()
 
+    # Слои экрана без скрипта: что включено классом на коробке, то и видно. Числа
+    # отступов — содержимое урока, их должно быть видно все до одного.
+    page = plain.new_page()
+    page.goto(BASE + "layout-grid-junior/")
+    head("layout-grid-junior · слои без скрипта")
+    marks = page.evaluate("""() => {
+        const all = [...document.querySelectorAll('.is-marks .ds-lesson__gap-n')];
+        return [all.length, all.filter(el => el.offsetParent !== null).length]; }""")
+    fails += 0 if say(marks[0] > 0 and marks[0] == marks[1], "числа отступов видны: %d из %d" % (marks[1], marks[0])) else 1
+    cols = page.evaluate("[...document.querySelectorAll('.is-cols .ds-lesson__spec-cols')].map(el => getComputedStyle(el).display)")
+    fails += 0 if say(cols and all(d == "grid" for d in cols), "сетка в разделе 5 видна: " + str(cols)) else 1
+    edges = page.evaluate("[...document.querySelectorAll('.is-edges .ds-lesson__spec-el')].filter(el => getComputedStyle(el, '::before').content !== 'none').length")
+    fails += 0 if say(edges > 0, "линии краёв в разделе 4 видны: " + str(edges)) else 1
+    page.close()
+
     plain.close()
 
     # --- со скриптом ---
     ctx = browser.new_context()
+
+    page = ctx.new_page()
+    page.goto(BASE + "layout-grid-junior/")
+    page.wait_for_timeout(400)
+    head("layout-grid-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+
+    # Слои: кнопки по числу объявленных слоёв, нажатое состояние совпадает с классом коробки.
+    state = """() => [...document.querySelectorAll('[data-layer-actions]')].map(place => {
+        const box = place.closest('.ds-lesson__box');
+        return [...place.querySelectorAll('[data-layer]')].map(h =>
+            h.getAttribute('data-layer') + ':' + (h.querySelector('button')?.getAttribute('aria-pressed')) + '/' +
+            box.classList.contains('is-' + h.getAttribute('data-layer'))); }).flat()"""
+    before = page.evaluate(state)
+    fails += 0 if say(
+        len(before) == 7 and all(s.split(":")[1].split("/")[0] == s.split("/")[1] for s in before),
+        "кнопки слоёв созданы, нажатие совпадает с классом: " + str(before),
+    ) else 1
+    page.click("#edge [data-layer='edges'] button")
+    fails += 0 if say(
+        page.evaluate("getComputedStyle(document.querySelector('#edge .ds-lesson__spec-el'), '::before').content") == "none",
+        "«Края» выключает линии",
+    ) else 1
+    page.click("#grid [data-layer='cols'] button")
+    fails += 0 if say(
+        page.evaluate("getComputedStyle(document.querySelector('#grid .ds-lesson__spec-cols')).display") == "none",
+        "«Сетка» прячет колонки",
+    ) else 1
+    page.click("#near [data-layer='blur'] button")
+    blur = page.evaluate("""() => { const b = document.querySelector('#near .ds-lesson__spec-body');
+        const n = document.querySelector('#near .ds-lesson__gap-n');
+        return [getComputedStyle(b).filter, getComputedStyle(n).display]; }""")
+    fails += 0 if say(blur[0].startswith("blur") and blur[1] == "none", "«Прищур» размывает и снимает числа: " + str(blur)) else 1
+
+    # Поиск разнобоя: ловушка не идёт в счёт, четыре находки — «4 из 4» и итог.
+    pins = page.query_selector_all("[data-hunt] button")
+    fails += 0 if say(len(pins) == 8, "чисел-кнопок на экране: " + str(len(pins))) else 1
+    miss = page.evaluate("[...document.querySelectorAll('[data-hunt-item]')].map(el => el.hasAttribute('data-hunt-miss'))")
+    pins[miss.index(True)].click()
+    page.wait_for_timeout(50)
+    fails += 0 if say(
+        "0 из 4" in page.inner_text("[data-hunt-count-out]").lower() and "всё верно" in page.inner_text("[data-hunt-fb]"),
+        "ловушка разобрана, но не засчитана: " + page.inner_text("[data-hunt-count-out]"),
+    ) else 1
+    fails += 0 if say("is-miss" in (pins[miss.index(True)].get_attribute("class") or ""), "ловушка отмечена пунктиром") else 1
+
+    for pin, is_miss in zip(pins, miss):
+        if not is_miss:
+            pin.click()
+            page.wait_for_timeout(50)
+
+    fails += 0 if say("4 из 4" in page.inner_text("[data-hunt-count-out]").lower(), "все четыре найдены: " + page.inner_text("[data-hunt-count-out]")) else 1
+    fails += 0 if say(page.is_visible("[data-hunt-all]"), "итог поиска показан") else 1
+    inside = page.evaluate("""() => [...document.querySelectorAll('[data-hunt] button')].every(b => {
+        const r = b.getBoundingClientRect(), s = b.closest('.ds-lesson__spec').getBoundingClientRect();
+        return r.left >= s.left && r.right <= s.right; })""")
+    fails += 0 if say(inside, "числа стоят внутри экрана") else 1
+    page.close()
 
     page = ctx.new_page()
     page.goto(BASE + "usability-testing-junior/")

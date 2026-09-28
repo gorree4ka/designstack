@@ -45,7 +45,7 @@ foreach ( $files as $file ) {
 	$posts = get_posts( array(
 		'name'        => $slug,
 		'post_type'   => $type,
-		'post_status' => 'any',
+		'post_status' => array( 'publish', 'future', 'draft', 'pending', 'private' ),
 		'numberposts' => 1,
 	) );
 

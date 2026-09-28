@@ -6445,6 +6445,291 @@ button.ds-lesson__wf-btn[disabled] {
 	color: var(--wp--preset--color--text-default);
 }
 
+/* ---------- «Что почитать дальше» в конце урока ---------- */
+
+/* Список, а не абзац через точку с запятой: у каждой рекомендации своя строка —
+   что это, откуда и на каком языке, какое место читать и зачем. Замечание заказчицы
+   27.09.2026: подвал одним абзацем не читался как рекомендация. */
+.ds-lesson__reads {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-lesson__reads li {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	max-width: var(--wp--custom--size--measure);
+	padding: var(--wp--preset--spacing--4) 0;
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__reads-title {
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 600;
+}
+
+.ds-lesson__reads-meta {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* ---------- урок «Композиция и сетка» ---------- */
+
+/* Экран в натуральную величину. Отступы в нём — содержимое урока: «14 рядом с 16»
+   видно только тогда, когда зазор действительно 14. Поэтому каждый зазор и сдвиг
+   приходит числом из разметки (`--g`, `--x`, `--r`) и переводится в rem, а поля экрана,
+   колонки и промежутки сетки — токены: поля 16, четыре колонки, промежуток 16. */
+.ds-lesson__spec {
+	position: relative;
+	width: 100%;
+	max-width: var(--wp--custom--size--screen);
+	margin: 0 auto;
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__spec-top {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-weight: 600;
+}
+
+/* Тело экрана — та же сетка, что рисует слой «Сетка». Блок по умолчанию занимает
+   все четыре колонки; `--c` в разметке сужает его, `--x` и `--r` сдвигают края. */
+.ds-lesson__spec-body {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	column-gap: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--4);
+	overflow: hidden;
+}
+
+.ds-lesson__spec-el {
+	position: relative;
+	grid-column: var(--c, 1 / -1);
+	min-width: 0;
+	margin-left: calc(var(--x, 0) * 1rem / 16);
+	margin-right: calc(var(--r, 0) * 1rem / 16);
+}
+
+.ds-lesson__spec-label {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+.ds-lesson__spec-link {
+	color: var(--wp--preset--color--text-action);
+	text-decoration: underline;
+}
+
+.ds-lesson__spec-field {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+/* Ряд вариантов: промежуток между ними — тоже данные урока. */
+.ds-lesson__spec-row {
+	display: flex;
+	gap: calc(var(--g, 8) * 1rem / 16);
+}
+
+/* Время «10:00–14:00» не рвётся на две строки: на 375 для этого не хватало четырёх
+   пикселей боковых полей, поэтому полей у варианта нет — текст стоит по центру. */
+.ds-lesson__spec-chip {
+	flex: 1;
+	min-width: 0;
+	padding: var(--wp--preset--spacing--2) 0;
+	white-space: nowrap;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+}
+
+.ds-lesson__spec-chip.is-on {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-subtle);
+	font-weight: 600;
+}
+
+.ds-lesson__spec-sum {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--3);
+	font-weight: 600;
+}
+
+/* Главное действие — как в черновых экранах прошлой темы: весом и размером, без цвета. */
+.ds-lesson__spec-btn {
+	padding: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+	text-align: center;
+}
+
+/* Карточка товара в каталоге: картинка, название, цена. */
+.ds-lesson__spec-card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	min-width: 0;
+}
+
+.ds-lesson__spec-ph {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	aspect-ratio: 1;
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__spec-price {
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
+
+/* Зазор между блоками. Высота — число из разметки. */
+.ds-lesson__gap {
+	position: relative;
+	grid-column: 1 / -1;
+	height: calc(var(--g, 0) * 1rem / 16);
+}
+
+/* Слой «Отступы»: зазор подкрашен и подписан числом, как в режиме измерения макета. */
+.ds-lesson__gap-n {
+	display: none;
+}
+
+.is-marks .ds-lesson__gap {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.is-marks .ds-lesson__gap-n {
+	display: inline-flex;
+	position: absolute;
+	top: 50%;
+	right: var(--wp--preset--spacing--2);
+	z-index: 2;
+	align-items: center;
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: var(--wp--custom--line-height--snug);
+	transform: translateY(-50%);
+}
+
+/* В поиске разнобоя число зазора — точка, на которую нажимают. Форму берём у числа,
+   заливку и состояния — у поиска. Правило числа выше по специфичности равно правилам
+   точки и стоит в файле ниже, поэтому состояния точки здесь повторены связкой классов:
+   иначе найденное число не отличалось бы от ненайденного. */
+.is-marks .ds-lesson__gap-n.ds-lesson__hunt-pin {
+	left: auto;
+	width: auto;
+	height: auto;
+	min-width: 2.2em;
+	justify-content: center;
+	padding: 0 var(--wp--preset--spacing--1);
+	border-color: transparent;
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+	transform: translateY(-50%);
+}
+
+.is-marks button.ds-lesson__gap-n.ds-lesson__hunt-pin:hover {
+	background: var(--wp--preset--color--surface-action-primary-hover);
+}
+
+.is-marks .ds-lesson__gap-n.ds-lesson__hunt-pin.is-found {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Место, где всё в порядке: нажали — разбор есть, в счёт не идёт. Отличается
+   пунктирной рамкой, а не только цветом. */
+.ds-lesson__hunt-pin.is-miss,
+.is-marks .ds-lesson__gap-n.ds-lesson__hunt-pin.is-miss {
+	border-style: dashed;
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Слой «Сетка»: те же четыре колонки поверх экрана — так сетку показывает и макет,
+   и сразу видно, какой край блока с ней не совпал. */
+.ds-lesson__spec-cols {
+	display: none;
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	column-gap: var(--wp--preset--spacing--4);
+	padding: 0 var(--wp--preset--spacing--4);
+	pointer-events: none;
+}
+
+.ds-lesson__spec-cols i {
+	background: var(--wp--preset--color--surface-selected);
+	opacity: 0.45;
+}
+
+.is-cols .ds-lesson__spec-cols {
+	display: grid;
+}
+
+/* Слой «Края»: от левого края каждого блока линия на всю высоту экрана. Где края
+   совпали, линия одна; где разошлись, линий столько, сколько краёв. */
+.is-edges .ds-lesson__spec-el::before {
+	content: "";
+	position: absolute;
+	top: calc(-1 * var(--wp--custom--size--screen-fold));
+	bottom: calc(-1 * var(--wp--custom--size--screen-fold));
+	left: 0;
+	z-index: 2;
+	border-left: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-error);
+	pointer-events: none;
+}
+
+/* Слой «Прищур»: без букв остаются только пятна и расстояния между ними — группы.
+   Подкраска зазоров на время прищура снимается: иначе группы подсказывает она, а не расстояние. */
+.is-blur .ds-lesson__spec-body {
+	filter: blur(0.2rem);
+}
+
+.is-blur .ds-lesson__gap {
+	background: none;
+}
+
+.is-blur .ds-lesson__gap-n {
+	display: none;
+}
+
 /* ---------- ритм урока ---------- */
 
 /* Разметка урока приходит из конвертера: внутри `.ds-lesson` одна обёртка без класса,

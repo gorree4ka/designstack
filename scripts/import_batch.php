@@ -45,7 +45,7 @@ foreach ( $ds_data['resources'] as $ds_row ) {
 		array(
 			'post_type'      => 'resource',
 			'name'           => $ds_row['slug'],
-			'post_status'    => 'any',
+			'post_status'    => array( 'publish', 'future', 'draft', 'pending', 'private' ),
 			'posts_per_page' => 1,
 			'fields'         => 'ids',
 		)
@@ -120,7 +120,7 @@ foreach ( $ds_data['resources'] as $ds_row ) {
 			array(
 				'post_type'      => 'resource',
 				'name'           => $ds_slug,
-				'post_status'    => 'any',
+				'post_status'    => array( 'publish', 'future', 'draft', 'pending', 'private' ),
 				'posts_per_page' => 1,
 				'fields'         => 'ids',
 			)

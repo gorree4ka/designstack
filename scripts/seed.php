@@ -46,7 +46,7 @@ function designstack_seed_find( string $slug, string $type ): int {
 		array(
 			'post_type'      => $type,
 			'name'           => $slug,
-			'post_status'    => 'any',
+			'post_status'    => array( 'publish', 'future', 'draft', 'pending', 'private' ),
 			'posts_per_page' => 1,
 			'fields'         => 'ids',
 		)
@@ -63,7 +63,7 @@ if ( 'reset' === $ds_mode ) {
 		$ds_own = get_posts(
 			array(
 				'post_type'      => $ds_type,
-				'post_status'    => 'any',
+				'post_status'    => array( 'publish', 'future', 'draft', 'pending', 'private' ),
 				'posts_per_page' => -1,
 				'fields'         => 'ids',
 				'meta_query'     => array(

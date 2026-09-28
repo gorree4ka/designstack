@@ -1,0 +1,614 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#eye">Почему экран выглядит собранным на глаз</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#scale">Как выбрать набор отступов</a> и держаться его</li>
+    <li><a href="#near">Как группировать расстоянием</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#edge">Как поставить блоки на одну линию</a><span class="ds-lesson__tag">края</span></li>
+    <li><a href="#grid">Как положить блоки в колонки</a><span class="ds-lesson__tag">сетка</span></li>
+    <li><a href="#hunt">Как найти разнобой</a><span class="ds-lesson__tag">поиск</span></li>
+    <li><a href="#figma">Как настроить сетку и шаг в Figma</a></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Возьмём экран «Доставка» из <a href="/lessons/wireframes-prototype-junior/">темы про вайрфреймы</a> — второй шаг оформления заказа в интернет-магазине. Состав экрана уже решён: адрес, время доставки, комментарий курьеру и кнопка «К оплате». Но собран он на глаз: блоки двигали, пока не стало «вроде ровно». Пересоберём его на сетке с одним набором отступов и посмотрим, что изменится.</div>
+
+<section id="eye">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Экран на глаз и экран по набору</h2></div>
+  <p class="ds-lesson__lead">Разницу видно сразу, даже если сложно объяснить, в чём она.</p>
+
+  <p>Слева — экран, собранный на глаз. Справа — тот же состав, но каждый отступ взят из короткого набора чисел, а все блоки начинаются от одной линии. Числа на экранах — расстояния между блоками в пикселях. Нажмите «Края», чтобы увидеть, от какой линии начинается каждый блок.</p>
+
+  <div class="ds-lesson__box is-marks">
+    <div class="ds-lesson__box-head">Экран «Доставка» · на глаз и по набору<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="marks" data-layer-label="Отступы"></span> <span data-layer="edges" data-layer-label="Края"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">На глаз</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Адрес</div>
+              <div class="ds-lesson__gap" style="--g:6"><span class="ds-lesson__gap-n">6</span></div>
+              <div class="ds-lesson__spec-el">ул. Лесная, 8, кв. 14</div>
+              <div class="ds-lesson__gap" style="--g:14"><span class="ds-lesson__gap-n">14</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-link">Изменить адрес</div>
+              <div class="ds-lesson__gap" style="--g:13"><span class="ds-lesson__gap-n">13</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label" style="--x:4">Когда привезти</div>
+              <div class="ds-lesson__gap" style="--g:10"><span class="ds-lesson__gap-n">10</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-row" style="--x:-4; --g:6"><span class="ds-lesson__spec-chip is-on">завтра<br>10:00–14:00</span><span class="ds-lesson__spec-chip">завтра<br>16:00–20:00</span><span class="ds-lesson__spec-chip">12 марта<br>10:00–14:00</span></div>
+              <div class="ds-lesson__gap" style="--g:22"><span class="ds-lesson__gap-n">22</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Комментарий курьеру</div>
+              <div class="ds-lesson__gap" style="--g:5"><span class="ds-lesson__gap-n">5</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field" style="--x:-4">домофон не работает, позвоните</div>
+              <div class="ds-lesson__gap" style="--g:18"><span class="ds-lesson__gap-n">18</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Доставка</span><span>бесплатно</span></div>
+              <div class="ds-lesson__gap" style="--g:12"><span class="ds-lesson__gap-n">12</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-btn" style="--r:6">К оплате</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">По набору</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Адрес</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el">ул. Лесная, 8, кв. 14</div>
+              <div class="ds-lesson__gap" style="--g:8"><span class="ds-lesson__gap-n">8</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-link">Изменить адрес</div>
+              <div class="ds-lesson__gap" style="--g:24"><span class="ds-lesson__gap-n">24</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Когда привезти</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-row" style="--g:8"><span class="ds-lesson__spec-chip is-on">завтра<br>10:00–14:00</span><span class="ds-lesson__spec-chip">завтра<br>16:00–20:00</span><span class="ds-lesson__spec-chip">12 марта<br>10:00–14:00</span></div>
+              <div class="ds-lesson__gap" style="--g:24"><span class="ds-lesson__gap-n">24</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Комментарий курьеру</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field">домофон не работает, позвоните</div>
+              <div class="ds-lesson__gap" style="--g:32"><span class="ds-lesson__gap-n">32</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Доставка</span><span>бесплатно</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-btn">К оплате</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева восемь разных отступов и три левых края: 12, 16 и 20 пикселей от края экрана. Кнопка к тому же короче остальных блоков. Справа пять чисел из набора и один край: каждый блок начинается от поля экрана.</div>
+  </div>
+
+  <h3>Что выдаёт экран, собранный на глаз</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Похожие, но разные отступы.</b> 13 и 14, 5 и 6. По отдельности разницу не видно, но вместе они делают экран неаккуратным, хотя трудно сказать почему.</li>
+    <li><b>Несколько левых краёв.</b> Блоки начинаются на 12, 16 и 20 пикселях от края экрана. Взгляд идёт вниз и на каждом блоке ищет новую опору.</li>
+    <li><b>Связанное стоит не ближе, чем чужое.</b> Ссылка «Изменить адрес» отстоит от адреса на 14, а от следующего блока — на 13. Непонятно, к чему она относится.</li>
+    <li><b>Каждый отступ решается заново.</b> Под новым блоком расстояние выбирает глаз, и каждый раз немного по-другому.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>У каждого отступа должна быть причина, которую можно назвать.</b> «Подпись и её значение — 4», «между группами — 24». Если на вопрос «почему здесь столько» отвечаете «так смотрелось лучше», это отступ на глаз.</div>
+</section>
+
+<section id="scale">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Набор отступов</h2></div>
+  <p class="ds-lesson__lead">Чтобы не подбирать каждый отступ заново, выберите заранее несколько чисел и берите только их.</p>
+
+  <p>Набор — короткий список расстояний, из которых собирается экран. В этом уроке возьмём пять чисел: <strong>4, 8, 16, 24 и 32</strong>. Все они делятся на 4, а все, кроме 4, — на 8. Про такой набор говорят «шаг 8»: основные отступы кратны восьми, а 4 оставлено для самых тесных мест.</p>
+
+  <p>Каждому числу нужна роль — место, где его ставят. Тогда выбор отступа сводится к вопросу, как связаны два блока.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Отступ</th><th scope="col">Где ставим</th><th scope="col">Пример на экране «Доставка»</th></tr></thead>
+      <tbody>
+        <tr><td><b>4</b></td><td>Внутри одного элемента: подпись и значение, название и уточнение</td><td>«Адрес» и «ул. Лесная, 8, кв. 14»</td></tr>
+        <tr><td><b>8</b></td><td>Между соседями в одной группе</td><td>Адрес и ссылка «Изменить адрес»; варианты времени между собой</td></tr>
+        <tr><td><b>16</b></td><td>Между связанными блоками одной части экрана; поля экрана слева и справа</td><td>Итог «Доставка — бесплатно» и кнопка «К оплате»; от края экрана до любого блока</td></tr>
+        <tr><td><b>24</b></td><td>Между группами</td><td>Блок «Адрес» и блок «Когда привезти»</td></tr>
+        <tr><td><b>32</b></td><td>Между крупными частями экрана</td><td>Форма и итог с кнопкой</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Чем теснее связь, тем меньше отступ.</b> Этого правила хватает почти для любого места на экране: сначала решите, как связаны два блока, потом возьмите число из набора.</div>
+
+  <h3>Почему шаг 8</h3>
+  <ul>
+    <li><strong>Числа легко складывать и делить.</strong> 8 + 16 = 24, половина от 16 — это 8, половина от 8 — это 4. Короткий ряд помнится без таблицы.</li>
+    <li><strong>Числа остаются целыми на разных экранах.</strong> У телефонов разная плотность пикселей: на экране с масштабом 1,5 отступ 8 занимает ровно 12 физических пикселей, а отступ 5 — семь с половиной. Половину пикселя экран показать не может, и край блока может размыться.</li>
+    <li><strong>Так рекомендует Material Design.</strong> Компоненты там выравнивают по сетке с шагом 8, текст — по сетке с шагом 4. В Material 3 отступы тоже считают шагом 8, а кроме кратных восьми есть 2, 4, 6 и 10 для мелких расстояний.</li>
+  </ul>
+
+  <p>За пределами Material шаг 8 — договорённость команды. В гайдлайнах Apple он нигде не закреплён: там речь о безопасных зонах и системных полях. Главное, чтобы набор был один на весь продукт и его знала вся команда. Если в вашем продукте уже есть свой набор, берите его.</p>
+
+  <div class="ds-lesson__warn"><b>Не расширяйте набор ради одного места.</b> Если с 24 блок не помещается, а с 16 тесно, 20 кажется удобным компромиссом. Но через месяц на экранах окажутся и 20, и 22, и набор перестанет работать. Сначала попробуйте изменить сам блок: сократить текст, переставить элементы. Если новое число и правда нужно, добавьте его в набор и запишите, где его ставить.</div>
+</section>
+
+<section id="near">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Связанное — ближе</h2></div>
+  <p class="ds-lesson__lead">Расстояние показывает, что с чем связано, раньше, чем человек прочитает подписи.</p>
+
+  <p>Близко стоящие элементы воспринимаются как группа. Это называют принципом близости, в <a href="/resource/kovodstvo/">«Ководстве»</a> Артемия Лебедева — теорией близости: если подпись стоит ближе к полю, чем к соседнему блоку, её относят к полю, не задумываясь. Если расстояния одинаковые, подсказки нет, и связи приходится восстанавливать по смыслу подписей.</p>
+
+  <p>Сравните два экрана. Слева все отступы по 16 — аккуратно и ровно. Справа отступы разные: внутри групп меньше, между группами больше. Нажмите «Прищур»: размытие убирает буквы и оставляет пятна и расстояния между ними.</p>
+
+  <div class="ds-lesson__box is-marks">
+    <div class="ds-lesson__box-head">Одинаковые отступы и группы<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="marks" data-layer-label="Отступы"></span> <span data-layer="blur" data-layer-label="Прищур"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Везде 16</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Адрес</div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el">ул. Лесная, 8, кв. 14</div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-link">Изменить адрес</div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Когда привезти</div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-row" style="--g:16"><span class="ds-lesson__spec-chip is-on">завтра<br>10:00–14:00</span><span class="ds-lesson__spec-chip">завтра<br>16:00–20:00</span><span class="ds-lesson__spec-chip">12 марта<br>10:00–14:00</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Комментарий курьеру</div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field">домофон не работает, позвоните</div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Доставка</span><span>бесплатно</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-btn">К оплате</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Связанное ближе</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Адрес</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el">ул. Лесная, 8, кв. 14</div>
+              <div class="ds-lesson__gap" style="--g:8"><span class="ds-lesson__gap-n">8</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-link">Изменить адрес</div>
+              <div class="ds-lesson__gap" style="--g:24"><span class="ds-lesson__gap-n">24</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Когда привезти</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-row" style="--g:8"><span class="ds-lesson__spec-chip is-on">завтра<br>10:00–14:00</span><span class="ds-lesson__spec-chip">завтра<br>16:00–20:00</span><span class="ds-lesson__spec-chip">12 марта<br>10:00–14:00</span></div>
+              <div class="ds-lesson__gap" style="--g:24"><span class="ds-lesson__gap-n">24</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Комментарий курьеру</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field">домофон не работает, позвоните</div>
+              <div class="ds-lesson__gap" style="--g:32"><span class="ds-lesson__gap-n">32</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Доставка</span><span>бесплатно</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-btn">К оплате</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева девять полос на равном расстоянии друг от друга: подпись «Когда привезти» так же близко к ссылке над ней, как к вариантам под ней. Справа четыре группы — адрес, время, комментарий и итог с кнопкой, — и их видно даже размытыми.</div>
+  </div>
+
+  <h3>Внутри меньше, чем снаружи</h3>
+  <p>Отступ внутри группы должен быть меньше отступа между группами. У <a href="/resource/bureau-soviet/">Бюро Горбунова</a> это называется правилом внутреннего и внешнего. Чем больше разница, тем яснее граница: 8 и 24 читаются как разные расстояния, 13 и 14 — как одинаковые. Поэтому в наборе нет чисел, которые отличаются на пару пикселей: соседние числа набора должны заметно различаться.</p>
+
+  <h3>Где связи ломаются чаще всего</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Подпись посередине.</b> Между подписью и её полем столько же, сколько между подписью и предыдущим полем. Непонятно, какое поле она подписывает.</li>
+    <li><b>Ничья ссылка.</b> «Изменить адрес» одинаково далеко от адреса и от следующего блока.</li>
+    <li><b>Кнопка далеко от того, к чему относится.</b> «Применить» под фильтрами отделена таким же отступом, как следующий раздел, и кажется его частью.</li>
+    <li><b>Одинаковые отступы по всему экрану.</b> Выглядит ровно, но групп не видно, и человек читает экран строка за строкой.</li>
+  </ul>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какой отступ поставить<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 9 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="4"><p class="ds-quiz__question">Подпись «Телефон получателя» и поле с номером под ней.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>4</b>Подпись и то, что она подписывает, — одно целое. Самый маленький отступ показывает, что это пара.</p></li>
+<li data-quiz-q data-answer="8"><p class="ds-quiz__question">Три варианта времени доставки в одном ряду.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>8</b>Это соседи в одной группе: варианты стоят рядом и читаются как один выбор. С отступом 4 кнопки почти слипнутся, и в нужную будет сложнее попасть пальцем.</p></li>
+<li data-quiz-q data-answer="24"><p class="ds-quiz__question">Блок «Адрес» и блок «Когда привезти» под ним.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>24</b>Это граница групп. Отступ втрое больше, чем между соседями внутри группы, поэтому граница видна сразу.</p></li>
+<li data-quiz-q data-answer="16"><p class="ds-quiz__question">Поле «Имя получателя» и поле «Телефон» под ним в одной форме.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>16</b>Соседние поля формы связаны, но у каждого своя подпись. С отступом 8 граница между полями едва заметна: подпись второго поля отстоит от своего поля на 4, а от чужого — всего на 8.</p></li>
+<li data-quiz-q data-answer="32"><p class="ds-quiz__question">Форма доставки и блок итога с кнопкой «К оплате».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>32</b>Итог с кнопкой — отдельная часть экрана: человек сначала заполняет форму, потом проверяет сумму и переходит к оплате.</p></li>
+<li data-quiz-q data-answer="8"><p class="ds-quiz__question">Адрес «ул. Лесная, 8, кв. 14» и ссылка «Изменить адрес» под ним.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>8</b>Ссылка относится к адресу, но это отдельный элемент со своим действием. Важно, чтобы до следующего блока было заметно больше: 24.</p></li>
+<li data-quiz-q data-answer="16"><p class="ds-quiz__question">Левый край экрана и поле «Комментарий курьеру».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>16</b>Это поле экрана. Оно одинаковое для всех блоков, поэтому блоки встают на одну линию.</p></li>
+<li data-quiz-q data-answer="4"><p class="ds-quiz__question">Название товара в корзине и строка «2 шт.» под ним.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>4</b>Название и уточнение — строки одного элемента, карточки товара.</p></li>
+<li data-quiz-q data-answer="16"><p class="ds-quiz__question">Строка «Доставка — бесплатно» и кнопка «К оплате» под ней.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>16</b>Итог и кнопка — связанные блоки одной части: кнопка подтверждает то, что написано над ней. Но это уже не подпись со значением, поэтому не 4.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="4">4</button><button class="ds-quiz__option" type="button" data-quiz-answer="8">8</button><button class="ds-quiz__option" type="button" data-quiz-answer="16">16</button><button class="ds-quiz__option" type="button" data-quiz-answer="24">24</button><button class="ds-quiz__option" type="button" data-quiz-answer="32">32</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Выберите отступ из набора урока для каждого места. Опирайтесь на таблицу из раздела 2: сначала решите, как связаны блоки, потом возьмите число.</div>
+</div>
+</section>
+
+<section id="edge">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Одна левая линия</h2></div>
+  <p class="ds-lesson__lead">Чем меньше на экране разных краёв, тем спокойнее он читается.</p>
+
+  <p>Взгляд идёт по экрану сверху вниз и опирается на левые края блоков. Если все блоки начинаются от одной линии, её видно даже без сетки. Если края разные, каждый сдвиг выглядит как отдельный смысл: будто блок вложен в предыдущий или относится к чему-то другому.</p>
+
+  <p>На экране корзины все отступы уже из набора. Дело только в краях: линии показывают, от какой вертикали начинается каждый блок.</p>
+
+  <div class="ds-lesson__box is-edges">
+    <div class="ds-lesson__box-head">Экран «Корзина» · левые края<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="edges" data-layer-label="Края"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Четыре края</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Корзина</span><span class="ds-lesson__wf-back">2 товара</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кофе в зёрнах Lavazza Crema e Aroma, 1 кг<span>2 шт.</span></span><span class="ds-lesson__wf-price">2 380 ₽</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__wf-item" style="--x:4"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Фильтры бумажные для кофеварки, 100 шт.<span>1 шт.</span></span><span class="ds-lesson__wf-price">1 100 ₽</span></div>
+              <div class="ds-lesson__gap" style="--g:24"><span class="ds-lesson__gap-n">24</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Промокод</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field" style="--x:-12">не применён</div>
+              <div class="ds-lesson__gap" style="--g:32"><span class="ds-lesson__gap-n">32</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Итого</span><span>3 480 ₽</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-btn" style="--x:8; --r:8">Оформить заказ</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Одна линия</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Корзина</span><span class="ds-lesson__wf-back">2 товара</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кофе в зёрнах Lavazza Crema e Aroma, 1 кг<span>2 шт.</span></span><span class="ds-lesson__wf-price">2 380 ₽</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Фильтры бумажные для кофеварки, 100 шт.<span>1 шт.</span></span><span class="ds-lesson__wf-price">1 100 ₽</span></div>
+              <div class="ds-lesson__gap" style="--g:24"><span class="ds-lesson__gap-n">24</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Промокод</div>
+              <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n">4</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field">не применён</div>
+              <div class="ds-lesson__gap" style="--g:32"><span class="ds-lesson__gap-n">32</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Итого</span><span>3 480 ₽</span></div>
+              <div class="ds-lesson__gap" style="--g:16"><span class="ds-lesson__gap-n">16</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-btn">Оформить заказ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева четыре левых края: второй товар сдвинут на 4 пикселя вправо, поле промокода — на 12 влево, а кнопка уже остальных блоков и стоит по центру. Справа край один — поле экрана.</div>
+  </div>
+
+  <h3>Откуда берутся лишние края</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Блок сдвинули, чтобы он не сливался с соседом.</b> Сдвиг читается как вложенность: второй товар выглядит частью первого. Чтобы отделить блоки, увеличьте отступ между ними.</li>
+    <li><b>Текст в поле выровняли по подписи над ним.</b> Тогда рамка поля уходит за линию на свой внутренний отступ — в корзине на 12. На линию ставится рамка, а текст внутри неё отступает сам.</li>
+    <li><b>Кнопку сделали уже и поставили по центру.</b> Среди блоков, выровненных влево, это ещё одна ось. Выберите одно: кнопка на всю ширину или по левому краю вместе с остальными.</li>
+    <li><b>У соседних экранов разные поля.</b> На одном 16, на другом 20. При переходе между экранами блоки прыгают.</li>
+  </ul>
+
+  <div class="ds-lesson__warn"><b>Ровно по линейке не всегда выглядит ровно.</b> Круглая иконка или кавычка в начале цитаты рядом с прямым краем кажутся сдвинутыми внутрь, и их иногда чуть выносят за линию. Это оптическая поправка, её делают осознанно, когда основа уже ровная. Сначала добейтесь, чтобы всё стояло по линии.</div>
+</section>
+
+<section id="grid">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Сетка колонок</h2></div>
+  <p class="ds-lesson__lead">Набор отвечает за расстояния сверху вниз, сетка — за то, где блок начинается и заканчивается по горизонтали.</p>
+
+  <p>Сетка колонок — несколько вертикальных полос одинаковой ширины с одинаковыми промежутками между ними и полями по краям экрана. Блоки кладут в колонки: широкий блок занимает несколько колонок подряд, узкий — одну или две.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Часть сетки</th><th scope="col">Что это</th><th scope="col">В примере урока</th></tr></thead>
+      <tbody>
+        <tr><td><b>Колонки</b></td><td>Полосы, в которые кладут блоки. Их ширина меняется вместе с шириной экрана</td><td>4 колонки</td></tr>
+        <tr><td><b>Промежутки</b></td><td>Пустые полосы между колонками. Блоки в них не заходят</td><td>16</td></tr>
+        <tr><td><b>Поля</b></td><td>Расстояние от края экрана до первой и от последней колонки до края</td><td>16 слева и справа</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Блок начинается у левого края колонки и заканчивается у правого края колонки — той же или другой.</b> Край блока не попадает в промежуток и не встаёт посередине колонки.</div>
+
+  <p>Сравните два экрана каталога. Сетка уже включена: четыре закрашенные полосы — колонки, светлые просветы между ними — промежутки.</p>
+
+  <div class="ds-lesson__box is-cols">
+    <div class="ds-lesson__box-head">Каталог · блоки и колонки<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="cols" data-layer-label="Сетка"></span> <span data-layer="edges" data-layer-label="Края"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Мимо колонок</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Кофе в зёрнах</span><span class="ds-lesson__wf-back">48 товаров</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-cols" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field" style="--x:-8; --r:-8">Второй пакет со скидкой 15%</div>
+              <div class="ds-lesson__gap" style="--g:24"></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-row" style="--g:10">
+                <div class="ds-lesson__spec-card"><div class="ds-lesson__spec-ph">фото 1:1</div><span>Lavazza Crema e Aroma, 1 кг</span><span class="ds-lesson__spec-price">1 190 ₽</span></div>
+                <div class="ds-lesson__spec-card"><div class="ds-lesson__spec-ph">фото 1:1</div><span>Jardin Espresso Gusto, 1 кг</span><span class="ds-lesson__spec-price">1 040 ₽</span></div>
+                <div class="ds-lesson__spec-card"><div class="ds-lesson__spec-ph">фото 1:1</div><span>Paulig Espresso Originale, 1 кг</span><span class="ds-lesson__spec-price">1 320 ₽</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">По колонкам</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Кофе в зёрнах</span><span class="ds-lesson__wf-back">48 товаров</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-cols" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field">Второй пакет со скидкой 15%</div>
+              <div class="ds-lesson__gap" style="--g:24"></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:span 2"><div class="ds-lesson__spec-ph">фото 1:1</div><span>Lavazza Crema e Aroma, 1 кг</span><span class="ds-lesson__spec-price">1 190 ₽</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:span 2"><div class="ds-lesson__spec-ph">фото 1:1</div><span>Jardin Espresso Gusto, 1 кг</span><span class="ds-lesson__spec-price">1 040 ₽</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева баннер заходит в поля экрана, а три карточки в ряд не совпадают с четырьмя колонками: края попадают то в промежуток, то в середину колонки. Справа баннер занимает все четыре колонки, каждая карточка — две.</div>
+  </div>
+
+  <h3>Сколько колонок брать</h3>
+  <p>Число колонок зависит от ширины экрана. Для телефона в этом уроке берём четыре: этого хватает, чтобы положить блок на всю ширину, две карточки в ряд или подпись и значение в две колонки.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ширина окна</th><th scope="col">Колонок</th><th scope="col">Поля</th></tr></thead>
+      <tbody>
+        <tr><td>До 599</td><td>4</td><td>16</td></tr>
+        <tr><td>600–904</td><td>8</td><td>32</td></tr>
+        <tr><td>905–1239</td><td>12</td><td>растут вместе с окном, содержимое шириной 840</td></tr>
+        <tr><td>1240–1439</td><td>12</td><td>200</td></tr>
+        <tr><td>От 1440</td><td>12</td><td>растут вместе с окном, содержимое шириной 1040</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="ds-lesson__dim">Значения — из адаптивной сетки Material Design 2, в dp: так Material называет пиксели, которые не зависят от плотности экрана. Промежутков в этой таблице нет, их задают отдельно. Другие системы берут свои числа; главное, чтобы на одной ширине экрана сетка была одна.</p>
+
+  <div class="ds-lesson__warn"><b>По колонкам растягивают не всё.</b> Иконка 24 × 24, аватар 40 × 40 и переключатель сохраняют свой размер и по колонкам не растягиваются. По сетке выравнивают крупные блоки: карточки, поля, картинки, колонки текста. Внутри карточки своя раскладка: текст отступает от её края на внутренний отступ из набора.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Как найти разнобой</h2></div>
+  <p class="ds-lesson__lead">Разницу в два пикселя глаз не замечает, поэтому отступы проверяют числами.</p>
+
+  <p>Экран «Доставка» пересобрали по набору, но пропустили четыре места. Найдите их: нажимайте на числа отступов. Ошибкой может быть не только число не из набора, но и число из набора, которое стоит не на своём месте.</p>
+
+  <div class="ds-lesson__box is-marks">
+    <div class="ds-lesson__box-head">Поиск разнобоя · нажимайте на числа<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__spec">
+          <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Доставка</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+          <div class="ds-lesson__spec-body">
+            <div class="ds-lesson__spec-el ds-lesson__spec-label">Адрес</div>
+            <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Отступ 4 под подписью «Адрес»">4</span></div>
+            <div class="ds-lesson__spec-el">ул. Лесная, 8, кв. 14</div>
+            <div class="ds-lesson__gap" style="--g:8"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Отступ 8 под адресом">8</span></div>
+            <div class="ds-lesson__spec-el ds-lesson__spec-link">Изменить адрес</div>
+            <div class="ds-lesson__gap" style="--g:8"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Отступ 8 под ссылкой «Изменить адрес»">8</span></div>
+            <div class="ds-lesson__spec-el ds-lesson__spec-label">Когда привезти</div>
+            <div class="ds-lesson__gap" style="--g:4"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Отступ 4 под подписью «Когда привезти»">4</span></div>
+            <div class="ds-lesson__spec-el ds-lesson__spec-row" style="--g:8"><span class="ds-lesson__spec-chip is-on">завтра<br>10:00–14:00</span><span class="ds-lesson__spec-chip">завтра<br>16:00–20:00</span><span class="ds-lesson__spec-chip">12 марта<br>10:00–14:00</span></div>
+            <div class="ds-lesson__gap" style="--g:22"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Отступ 22 под вариантами времени">22</span></div>
+            <div class="ds-lesson__spec-el ds-lesson__spec-label">Комментарий курьеру</div>
+            <div class="ds-lesson__gap" style="--g:6"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Отступ 6 под подписью «Комментарий курьеру»">6</span></div>
+            <div class="ds-lesson__spec-el ds-lesson__spec-field">домофон не работает, позвоните</div>
+            <div class="ds-lesson__gap" style="--g:32"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Отступ 32 под полем комментария">32</span></div>
+            <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Доставка</span><span>бесплатно</span></div>
+            <div class="ds-lesson__gap" style="--g:14"><span class="ds-lesson__gap-n ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Отступ 14 над кнопкой «К оплате»">14</span></div>
+            <div class="ds-lesson__spec-el ds-lesson__spec-btn">К оплате</div>
+          </div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">4 — между подписью «Адрес» и адресом.</span><span class="ds-lesson__hunt-fix"><b>Здесь всё верно. </b>Подпись и значение — одно целое, поэтому 4.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">8 — между адресом и ссылкой «Изменить адрес».</span><span class="ds-lesson__hunt-fix"><b>Здесь всё верно. </b>Ссылка относится к адресу и стоит рядом с ним как соседка по группе.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">8 — между ссылкой «Изменить адрес» и подписью «Когда привезти».</span><span class="ds-lesson__hunt-fix"><b>Как исправить. </b>Число из набора, но стоит не на своём месте. Ссылка теперь одинаково близко к адресу и к следующему блоку, и непонятно, к чему она относится. Между группами — 24.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">4 — между подписью «Когда привезти» и вариантами времени.</span><span class="ds-lesson__hunt-fix"><b>Здесь всё верно. </b>Подпись и то, что она подписывает, — 4.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">22 — между вариантами времени и подписью «Комментарий курьеру».</span><span class="ds-lesson__hunt-fix"><b>Как исправить. </b>22 нет в наборе. Это граница групп, как между адресом и временем выше, — значит, 24. Разницу в два пикселя не видно, но из-за неё границы групп на экране разные.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">6 — между подписью «Комментарий курьеру» и полем.</span><span class="ds-lesson__hunt-fix"><b>Как исправить. </b>У двух других подписей на экране 4. Подпись и поле — одно целое: 4.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">32 — между полем комментария и итогом.</span><span class="ds-lesson__hunt-fix"><b>Здесь всё верно. </b>Итог с кнопкой — отдельная часть экрана, поэтому самый большой отступ из набора.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">14 — между итогом и кнопкой «К оплате».</span><span class="ds-lesson__hunt-fix"><b>Как исправить. </b>14 нет в наборе. Итог и кнопка — связанные блоки одной части экрана: 16.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любое число</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все четыре найдены. </b>Три из них — числа не из набора: их находит простая сверка со списком. Четвёртое, 8 под ссылкой, из набора, но нарушает близость. Его находит только вопрос «как связаны эти два блока».</p>
+    </div>
+    <div class="ds-lesson__box-foot">Четыре числа на экране стоят верно, четыре — нет. Верные тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <h3>Как проверять свой экран</h3>
+  <ol>
+    <li><strong>Включите сетку</strong> и посмотрите на левые края блоков. Сколько разных линий?</li>
+    <li><strong>Пройдите экран сверху вниз</strong> и выпишите столбиком каждый отступ между блоками.</li>
+    <li><strong>Отметьте числа не из набора.</strong> Их исправить проще всего.</li>
+    <li><strong>Для каждого оставшегося назовите роль:</strong> «подпись и поле — 4», «между группами — 24». Если роль не называется или одно число стоит на месте двух разных связей, как 8 под ссылкой, это тоже находка.</li>
+    <li><strong>Прищурьтесь</strong> или отойдите от экрана. Видно ли группы, не читая подписей?</li>
+  </ol>
+</section>
+
+<section id="figma">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Сетка и шаг в Figma</h2></div>
+  <p class="ds-lesson__lead">Четыре настройки, с которыми держаться набора проще.</p>
+
+  <h3>Сетка на фрейме</h3>
+  <ol>
+    <li><strong>Выделите фрейм экрана</strong> и в правой панели найдите раздел Layout guide. Нажмите «+».</li>
+    <li><strong>Выберите тип Columns</strong> и задайте: Count — 4, Type — Stretch, Margin — 16, Gutter — 16.</li>
+    <li><strong>Показывайте и прячьте сетку</strong> в меню масштаба справа вверху: пункт Layout guides. Там же видно сочетание клавиш для вашей раскладки. Проверяйте экран с сеткой, а показывайте — без неё.</li>
+  </ol>
+
+  <h3>Шаг сдвига</h3>
+  <p>Стрелка на клавиатуре сдвигает выделенный блок на 1, Shift + стрелка — на 10. Замените 10 на 8: главное меню → Preferences → Nudge amount. Тогда крупный сдвиг сразу даёт шаг набора, и блоки не уходят на 10, 20, 30.</p>
+
+  <h3>Измерить расстояние</h3>
+  <p>Выделите блок, зажмите Alt (на Mac — Option) и наведите курсор на соседний блок. Figma покажет расстояние между ними. Так проверяется каждый отступ из замеров «до» и «после» в задании.</p>
+
+  <h3>Отступы в auto layout</h3>
+  <p>В auto layout расстояние между элементами и внутренние поля задаются числами. Вписывайте туда только числа из набора. Тогда при правках отступы не разъедутся: их держит сама раскладка.</p>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите экран, собранный на глаз, и пересоберите его на сетке с одним набором отступов. Приложите сравнение «до и после».</p>
+
+  <h3>Часть 1 · Выбрать экран и набор, 10 минут</h3>
+  <ol>
+    <li><strong>Выберите экран, собранный на глаз:</strong> свой из прошлого проекта, черновой экран из прошлой темы или экран продукта, которым пользуетесь. Для упражнения подойдёт экран на 8–12 блоков.</li>
+    <li><strong>Запишите набор отступов.</strong> Возьмите 4, 8, 16, 24, 32 или набор своего продукта, если он есть.</li>
+    <li><strong>Рядом с каждым числом напишите его роль,</strong> как в таблице раздела 2.</li>
+  </ol>
+
+  <h3>Часть 2 · Замерить «до», 15 минут</h3>
+  <ol>
+    <li><strong>Сделайте копию экрана</strong> и подпишите её «до».</li>
+    <li><strong>Выпишите все отступы между блоками</strong> сверху вниз. Каждый меряйте инструментом, даже если кажется, что он очевиден.</li>
+    <li><strong>Посчитайте разные левые края.</strong></li>
+    <li><strong>Отметьте места,</strong> где связанное стоит не ближе, чем чужое.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Замеры · заполните до и после<span class="ds-lesson__spacer"></span><span data-copy="gridTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="gridTmpl">ЭКРАН: ______________________        Дата: __.__.____
+
+НАБОР И РОЛИ
+4  — ____________________________________
+8  — ____________________________________
+16 — ____________________________________
+24 — ____________________________________
+32 — ____________________________________
+
+«ДО» · отступы сверху вниз
+между ______________ и ______________ : ____
+между ______________ и ______________ : ____
+между ______________ и ______________ : ____
+между ______________ и ______________ : ____
+между ______________ и ______________ : ____
+между ______________ и ______________ : ____
+разных чисел: ____   из них не из набора: ____
+левых краёв: ____
+связанное дальше, чем чужое: ______________________
+
+«ПОСЛЕ»
+разных чисел: ____   все из набора: да / нет
+левых краёв: ____
+каждый отступ могу объяснить: да / нет
+что изменилось, кроме чисел: ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Заполните часть «до» перед тем, как двигать блоки. Потом будет с чем сравнить.</div>
+  </div>
+
+  <h3>Часть 3 · Пересобрать, 40 минут</h3>
+  <ol>
+    <li><strong>Добавьте на фрейм сетку:</strong> 4 колонки, поля 16, промежутки 16.</li>
+    <li><strong>Поставьте все блоки от левого поля.</strong> Широкие блоки — на целое число колонок.</li>
+    <li><strong>Для каждого отступа сначала решите, как связаны блоки,</strong> потом возьмите число из набора.</li>
+    <li><strong>Если блок не помещается, меняйте блок, а не набор.</strong></li>
+    <li><strong>Не меняйте состав экрана.</strong> В этом упражнении работаем с раскладкой: новые блоки и новые решения оставьте на потом.</li>
+  </ol>
+
+  <h3>Часть 4 · Сравнить, 10 минут</h3>
+  <ol>
+    <li><strong>Положите «до» и «после» рядом</strong> с включённой сеткой и сделайте снимок.</li>
+    <li><strong>Заполните в шаблоне часть «после».</strong></li>
+    <li><strong>Прищурьтесь на оба экрана:</strong> на каком видны группы?</li>
+    <li><strong>Покажите сравнение коллеге</strong> и спросите, какой экран выглядит аккуратнее и почему.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Все отступы на экране — из вашего набора, и про каждый вы можете сказать, почему он такой. Ни одного отступа на глаз не осталось, у всех блоков один левый край.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Экраны «до» и «после» рядом,</strong> с включённой сеткой.</li>
+    <li><strong>Заполненный шаблон замеров.</strong></li>
+    <li><strong>Набор отступов с ролями</strong> — его можно брать для следующих экранов.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 10 минут на выбор экрана, 15 на замеры, 40 на пересборку и 10 на сравнение. Всего — около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Не понимаю, 8 здесь или 16».</strong> Сформулируйте связь словами. «Ссылка меняет этот адрес» — соседи в группе, 8. «Это следующее поле формы со своей подписью» — 16.</li>
+    <li><strong>«Все отступы из набора, а экран всё равно выглядит неровно».</strong> Прищурьтесь и проверьте близость: возможно, одинаковые числа стоят там, где связи разные. Потом включите сетку и посчитайте края.</li>
+    <li><strong>«После пересборки экран стал длиннее».</strong> Проверьте, не поставили ли 32 там, где хватает 24. Если все отступы на своих местах, а экран длинный, вопрос в составе экрана. Запишите его и обсудите отдельно.</li>
+    <li><strong>«В продукте уже есть свои отступы».</strong> Берите их. Урок учит держаться одного набора, числа в нём могут быть другими.</li>
+    <li><strong>«Текст в поле не стоит на линии».</strong> Так и должно быть: на линии стоит рамка поля, текст внутри отступает на внутренний отступ.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Экран собран по набору, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Все отступы между блоками — из набора</li>
+    <li>Про каждый отступ можно сказать, почему он такой</li>
+    <li>Внутри групп отступы меньше, чем между группами</li>
+    <li>Подпись ближе к своему полю, чем к соседнему блоку</li>
+    <li>Все блоки начинаются от одной левой линии</li>
+    <li>Поля экрана слева и справа одинаковые</li>
+    <li>Широкие блоки занимают целое число колонок</li>
+    <li>Ни один край блока не попадает в промежуток сетки</li>
+    <li>На размытом экране видны группы и главное действие</li>
+  </ul>
+
+  <h3>Что мешает собрать экран по сетке</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Отступы на глаз.</b> 13, 14 и 16 рядом: по отдельности разницу не видно, вместе экран выглядит неаккуратно.</li>
+    <li><b>Набор растёт ради одного места.</b> 20, «потому что 24 не влезло», — и через месяц на экранах появятся 18 и 22.</li>
+    <li><b>Одинаковые отступы везде.</b> Экран ровный, но групп не видно.</li>
+    <li><b>Ничьи элементы.</b> Ссылка или подпись одинаково далеко от двух соседей.</li>
+    <li><b>Несколько левых краёв.</b> Каждый сдвиг выглядит как вложенность.</li>
+    <li><b>Блок мимо колонок.</b> Край попадает в промежуток или в середину колонки.</li>
+    <li><b>Сетка важнее смысла.</b> Иконку или аватар растянули на колонку, чтобы совпасть с сеткой.</li>
+    <li><b>Проверка на глаз.</b> Разницу в два пикселя глаз не видит: включайте сетку и мерьте.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся держаться набора отступов и сетки. На следующих ступенях — строить иерархию без цвета и записывать правила раскладки для команды.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Выбрать набор отступов и держаться его; группировать связанное расстоянием; класть блоки в колонки; проверять выравнивание сеткой, а не глазом</td>
+          <td>Все отступы на экране из набора, и про каждый можно сказать, почему он такой</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Строить иерархию размером, весом и расстоянием, а цвет добавлять последним; подбирать плотность под задачу — плотный рабочий экран и свободный промо</td>
+          <td class="ds-lesson__dim">На чёрно-белом снимке экрана человек за три секунды показывает, что здесь главное</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Записывать шкалу отступов и типовые раскладки продукта; проверять чужие экраны по правилам без придирок; объяснять разработке, как правила ложатся на сетку в коде</td>
+          <td class="ds-lesson__dim">Экран, собранный другим дизайнером по вашим правилам, встаёт в продукт без переделки раскладки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> вы собираете экран на сетке с одним набором отступов и можете объяснить каждое расстояние на нём.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Три главы по теме урока: «Establish a spacing and sizing system», «Grids are overrated» и «Avoid ambiguous spacing» — завести систему отступов и размеров, не переоценивать сетку, не оставлять неоднозначных расстояний.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20140818/">Что такое «правило внутреннего и внешнего»?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a> · на русском · бесплатно</span><span>Короткий совет о правиле из раздела 3: внутренние расстояния блока должны быть меньше внешних.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.artlebedev.ru/kovodstvo/sections/136/">§ 136. Теория близости</a></span><span class="ds-lesson__reads-meta"><a href="/resource/kovodstvo/">«Ководство» Артемия Лебедева</a> · на русском · бесплатно</span><span>О том, что объекты, расположенные близко друг к другу, воспринимаются связанно, и почему заголовок должен быть привязан к своему абзацу.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/styles/spacing">Spacing</a> и <a href="https://m2.material.io/design/layout/responsive-layout-grid.html">Responsive layout grid</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a> · на английском · бесплатно</span><span>Шаг 8 в Material 3 и адаптивная сетка Material 2, из которой таблица колонок в разделе 5.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

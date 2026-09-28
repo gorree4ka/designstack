@@ -1,0 +1,389 @@
+{
+ "_about": "Что почитать дальше в конце каждого урока. Разметку раздела #read собирает scripts/lesson_reads.py. resources — одна запись на источник: заголовок и строка «кто · язык · цена» (цена и язык — по каталогу). lessons — порядок и пояснения из урока. Книга без страницы в каталоге стоит без ссылки, пока её не заведут (D156).",
+ "resources": {
+  "nng": {
+   "title": "<a href=\"/resource/nngroup-articles/\">Материалы Nielsen Norman Group</a>",
+   "meta": "статьи на английском · бесплатно"
+  },
+  "mobbin": {
+   "title": "Библиотеки интерфейсов вроде <a href=\"/resource/mobbin/\">Mobbin</a>",
+   "meta": "сервис на английском · платный"
+  },
+  "principles": {
+   "title": "Открытые наборы принципов известных продуктов",
+   "meta": ""
+  },
+  "flows-docs": {
+   "title": "Дизайн-документация открытых продуктов",
+   "meta": ""
+  },
+  "decision-records": {
+   "title": "Decision records",
+   "meta": ""
+  },
+  "figma-proto": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/sections/4403936156695-Create-prototypes\">Документация Figma по прототипированию</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+  },
+  "sprosi-mamu": {
+   "title": "<a href=\"/resource/sprosi-mamu/\">Спроси маму</a>",
+   "meta": "Роб Фитцпатрик · книга на русском · платная"
+  },
+  "interviewing-users": {
+   "title": "<a href=\"/resource/interviewing-users/\">Interviewing Users</a>",
+   "meta": "Стив Портигал · книга на английском · платная"
+  },
+  "practical-empathy": {
+   "title": "<a href=\"/resource/practical-empathy/\">Practical Empathy</a>",
+   "meta": "Инди Янг · книга на английском · платная"
+  },
+  "lean-customer-development": {
+   "title": "<a href=\"/resource/lean-customer-development/\">Как создать продукт, который купят</a>",
+   "meta": "Синди Альварес · книга на русском · платная"
+  },
+  "just-enough-research": {
+   "title": "<a href=\"/resource/just-enough-research/\">Just Enough Research</a>",
+   "meta": "Эрика Холл · книга на английском · платная"
+  },
+  "continuous-discovery-habits": {
+   "title": "<a href=\"/resource/continuous-discovery-habits/\">Continuous Discovery Habits</a>",
+   "meta": "Тереза Торрес · книга на английском · платная"
+  },
+  "refactoring-ui": {
+   "title": "<a href=\"/resource/refactoring-ui/\">Refactoring UI</a>",
+   "meta": "Адам Уотан и Стив Шогер · книга на английском · платная"
+  },
+  "bureau-inner-outer": {
+   "title": "<a href=\"https://bureau.ru/soviet/20140818/\">Что такое «правило внутреннего и внешнего»?</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a> · на русском · бесплатно"
+  },
+  "kovodstvo-136": {
+   "title": "<a href=\"https://www.artlebedev.ru/kovodstvo/sections/136/\">§ 136. Теория близости</a>",
+   "meta": "<a href=\"/resource/kovodstvo/\">«Ководство» Артемия Лебедева</a> · на русском · бесплатно"
+  },
+  "material-grid": {
+   "title": "<a href=\"https://m3.material.io/styles/spacing\">Spacing</a> и <a href=\"https://m2.material.io/design/layout/responsive-layout-grid.html\">Responsive layout grid</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a> · на английском · бесплатно"
+  },
+  "dont-make-me-think": {
+   "title": "<a href=\"/resource/ne-zastavlyayte-menya-dumat/\">Не заставляйте меня думать</a>",
+   "meta": "Стив Круг · книга на русском · платная"
+  },
+  "rocket-surgery-made-easy": {
+   "title": "<a href=\"/resource/rocket-surgery-made-easy/\">Rocket Surgery Made Easy</a>",
+   "meta": "Стив Круг · книга на английском · платная"
+  },
+  "surveys-that-work": {
+   "title": "<a href=\"/resource/surveys-that-work/\">Surveys That Work</a>",
+   "meta": "Кэролайн Джарретт · книга на английском · платная"
+  },
+  "about-face": {
+   "title": "<a href=\"/resource/interfeys-osnovy-proektirovaniya/\">Интерфейс. Основы проектирования взаимодействия</a>",
+   "meta": "Алан Купер и соавторы · книга на русском · платная"
+  },
+  "elements-of-ux": {
+   "title": "<a href=\"/resource/veb-dizayn-elementy-opyta/\">Веб-дизайн. Элементы опыта взаимодействия</a>",
+   "meta": "Джесс Джеймс Гарретт · книга на русском · платная"
+  },
+  "card-sorting": {
+   "title": "<a href=\"/resource/card-sorting/\">Card Sorting: Designing Usable Categories</a>",
+   "meta": "Донна Спенсер · книга на английском · платная"
+  },
+  "information-architecture": {
+   "title": "<a href=\"/resource/informatsionnaya-arkhitektura/\">Информационная архитектура в Интернете</a>",
+   "meta": "Луис Розенфельд и Питер Морвиль · книга на русском · платная"
+  },
+  "how-to-make-sense": {
+   "title": "<a href=\"/resource/how-to-make-sense-of-any-mess/\">How to Make Sense of Any Mess</a>",
+   "meta": "Эбби Коверт · книга на английском · бесплатно"
+  },
+  "functional-art": {
+   "title": "<a href=\"/resource/the-functional-art/\">The Functional Art</a>",
+   "meta": "Альберто Кайро · книга на английском · платная"
+  },
+  "how-to-lie-with-statistics": {
+   "title": "<a href=\"/resource/kak-lgat-pri-pomoshchi-statistiki/\">Как лгать при помощи статистики</a>",
+   "meta": "Дарелл Хафф · книга на русском · платная"
+  },
+  "how-charts-lie": {
+   "title": "<a href=\"/resource/grafiki-lgut/\">Графики лгут</a>",
+   "meta": "Альберто Кайро · книга на русском · платная"
+  },
+  "measuring-ux": {
+   "title": "<a href=\"/resource/measuring-the-user-experience/\">Measuring the User Experience</a>",
+   "meta": "Билл Альберт и Том Туллис · книга на английском · платная"
+  },
+  "sketching-ux": {
+   "title": "<a href=\"/resource/sketching-user-experiences/\">Sketching User Experiences</a>",
+   "meta": "Билл Бакстон · книга на английском · платная"
+  },
+  "sprint": {
+   "title": "<a href=\"/resource/sprint/\">Спринт</a>",
+   "meta": "Джейк Кнапп, Брейден Ковитц и Джон Зерацки · книга на русском · платная"
+  }
+ },
+ "lessons": {
+  "competitor-analysis-junior": [
+   {
+    "res": "nng",
+    "why": "Про конкурентный анализ в дизайне."
+   },
+   {
+    "res": "mobbin",
+    "why": "Для быстрого поиска непрямых аналогов по сценарию."
+   }
+  ],
+  "competitor-analysis-middle": [
+   {
+    "res": "nng",
+    "why": "Про подтверждения и про отмену действий."
+   },
+   {
+    "res": "about-face",
+    "why": "Главы про необратимые действия и про цену защиты от ошибок."
+   }
+  ],
+  "competitor-analysis-senior": [
+   {
+    "res": "about-face",
+    "why": "Про обратимые и необратимые действия."
+   },
+   {
+    "res": "nng",
+    "why": "Про принципы дизайна в продуктовых командах."
+   },
+   {
+    "res": "principles",
+    "why": "Полезно смотреть не на формулировки, а на то, есть ли в них примеры «не так»."
+   }
+  ],
+  "flows-structure-junior": [
+   {
+    "res": "elements-of-ux",
+    "why": "Про уровни структуры продукта."
+   },
+   {
+    "res": "nng",
+    "why": "Про flowcharts и user flows."
+   },
+   {
+    "res": "flows-docs",
+    "why": "Из практики полезнее всего посмотреть, как в ней устроены схемы сценариев. Обращайте внимание не на красоту, а на то, подписаны ли стрелки."
+   }
+  ],
+  "flows-structure-middle": [
+   {
+    "res": "card-sorting",
+    "why": "Про подготовку карточек и чтение результатов."
+   },
+   {
+    "res": "nng",
+    "why": "Про tree testing и про empty states."
+   },
+   {
+    "res": "dont-make-me-think",
+    "why": "Про то, почему названия разделов читаются не так, как задумано."
+   }
+  ],
+  "flows-structure-senior": [
+   {
+    "res": "information-architecture",
+    "why": "Про структуру, которая переживает рост."
+   },
+   {
+    "res": "how-to-make-sense",
+    "why": "Про общий язык внутри команды."
+   },
+   {
+    "res": "nng",
+    "why": "Про навигацию и закон Конвея в интерфейсах."
+   }
+  ],
+  "surveys-data-junior": [
+   {
+    "res": "nng",
+    "why": "Про опросы и про то, почему нельзя спрашивать людей о будущем поведении."
+   },
+   {
+    "res": "surveys-that-work",
+    "why": "О подготовке анкет."
+   },
+   {
+    "res": "functional-art",
+    "why": "Главы про графики — о том, как ясно показывать данные."
+   }
+  ],
+  "surveys-data-middle": [
+   {
+    "res": "surveys-that-work",
+    "why": "Про то, как люди на самом деле читают вопросы анкеты."
+   },
+   {
+    "res": "nng",
+    "why": "Про формулировки вопросов и про сочетание качественных и количественных методов."
+   }
+  ],
+  "surveys-data-senior": [
+   {
+    "res": "surveys-that-work",
+    "why": "Главы про выборку и про то, что люди на самом деле отвечают."
+   },
+   {
+    "res": "how-to-lie-with-statistics",
+    "why": "Короткая старая книга, которая до сих пор объясняет почти все трюки с цифрами."
+   },
+   {
+    "res": "how-charts-lie",
+    "why": "Про то же самое, но в картинках."
+   },
+   {
+    "res": "nng",
+    "why": "Про смещение выборки и про сочетание методов."
+   }
+  ],
+  "usability-testing-junior": [
+   {
+    "res": "dont-make-me-think",
+    "why": ""
+   },
+   {
+    "res": "rocket-surgery-made-easy",
+    "why": ""
+   },
+   {
+    "res": "nng",
+    "why": "О модерировании и планировании числа участников."
+   }
+  ],
+  "usability-testing-middle": [
+   {
+    "res": "rocket-surgery-made-easy",
+    "why": ""
+   },
+   {
+    "res": "measuring-ux",
+    "why": ""
+   },
+   {
+    "res": "nng",
+    "why": "Об <a href=\"https://www.nngroup.com/articles/how-to-rate-the-severity-of-usability-problems/\">оценке серьёзности проблем</a> и <a href=\"https://www.nngroup.com/articles/5-test-users-qual-quant/\">границах выводов по пяти участникам</a>."
+   }
+  ],
+  "usability-testing-senior": [
+   {
+    "res": "rocket-surgery-made-easy",
+    "why": ""
+   },
+   {
+    "res": "just-enough-research",
+    "why": ""
+   },
+   {
+    "res": "continuous-discovery-habits",
+    "why": ""
+   },
+   {
+    "res": "nng",
+    "why": "Об организации исследовательской практики и сочетании методов."
+   }
+  ],
+  "user-interviews-junior": [
+   {
+    "res": "sprosi-mamu",
+    "why": "О вопросах, которые помогают узнать об опыте человека."
+   },
+   {
+    "res": "interviewing-users",
+    "why": "О ведении интервью."
+   },
+   {
+    "res": "practical-empathy",
+    "why": "О слушании и разборе услышанного."
+   }
+  ],
+  "user-interviews-middle": [
+   {
+    "res": "lean-customer-development",
+    "why": "Про формулировку гипотез и выборку."
+   },
+   {
+    "res": "just-enough-research",
+    "why": "Про то, сколько исследования достаточно и как связать его с решениями."
+   },
+   {
+    "res": "interviewing-users",
+    "why": "Раздел про анализ и работу с командой."
+   }
+  ],
+  "user-interviews-senior": [
+   {
+    "res": "just-enough-research",
+    "why": "Про то, как встроить исследования в работу команды."
+   },
+   {
+    "res": "nng",
+    "why": "Про ResearchOps и демократизацию исследований, в том числе статьи Кейт Каплан."
+   },
+   {
+    "res": "continuous-discovery-habits",
+    "why": "Про постоянный поток общения с пользователями вместо разовых заходов."
+   }
+  ],
+  "wireframes-prototype-junior": [
+   {
+    "res": "sketching-ux",
+    "why": "О работе с набросками."
+   },
+   {
+    "res": "dont-make-me-think",
+    "why": "О понятности интерфейсов и проверке с пользователями."
+   },
+   {
+    "res": "figma-proto",
+    "why": "О настройке экранов и переходов."
+   }
+  ],
+  "wireframes-prototype-middle": [
+   {
+    "res": "dont-make-me-think",
+    "why": ""
+   },
+   {
+    "res": "nng",
+    "why": "О детализации прототипов и пустых состояниях."
+   }
+  ],
+  "wireframes-prototype-senior": [
+   {
+    "res": "sprint",
+    "why": ""
+   },
+   {
+    "res": "just-enough-research",
+    "why": ""
+   },
+   {
+    "res": "decision-records",
+    "why": "Материалы о записях решений в командах разработки."
+   }
+  ],
+  "layout-grid-junior": [
+   {
+    "res": "refactoring-ui",
+    "why": "Три главы по теме урока: «Establish a spacing and sizing system», «Grids are overrated» и «Avoid ambiguous spacing» — завести систему отступов и размеров, не переоценивать сетку, не оставлять неоднозначных расстояний."
+   },
+   {
+    "res": "bureau-inner-outer",
+    "why": "Короткий совет о правиле из раздела 3: внутренние расстояния блока должны быть меньше внешних."
+   },
+   {
+    "res": "kovodstvo-136",
+    "why": "О том, что объекты, расположенные близко друг к другу, воспринимаются связанно, и почему заголовок должен быть привязан к своему абзацу."
+   },
+   {
+    "res": "material-grid",
+    "why": "Шаг 8 в Material 3 и адаптивная сетка Material 2, из которой таблица колонок в разделе 5."
+   }
+  ]
+ }
+}

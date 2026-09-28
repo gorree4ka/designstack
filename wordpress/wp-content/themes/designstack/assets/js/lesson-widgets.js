@@ -3,8 +3,8 @@
  * формата, учебная матрица, разбор заявок, прикидка объёма, конструктор текста,
  * лесенка причин, сборка сценария, поиск дыр на схеме, сортировка карточек,
  * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
- * разметка вариантов ответа, калькулятор «вилки», прищур-тест и проход
- * по прототипу с поиском тупиков.
+ * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
+ * по прототипу с поиском тупиков и слои экрана — сетка, отступы, края.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -1206,7 +1206,12 @@
 		}
 
 		var found = {};
-		var total = items.length;
+
+		// Пункт с `data-hunt-miss` — ловушка: место, где всё в порядке. Его разбор
+		// показываем, но в счёт находок он не идёт.
+		var total = items.filter( function ( item ) {
+			return ! item.hasAttribute( 'data-hunt-miss' );
+		} ).length;
 
 		function count() {
 			var n = Object.keys( found ).length;
@@ -1237,8 +1242,13 @@
 					return;
 				}
 
-				found[ index ] = 1;
-				el.classList.add( 'is-found' );
+				if ( items[ index ].hasAttribute( 'data-hunt-miss' ) ) {
+					el.classList.add( 'is-miss' );
+				} else {
+					found[ index ] = 1;
+					el.classList.add( 'is-found' );
+				}
+
 				back.innerHTML = items[ index ].innerHTML;
 				back.hidden = false;
 				count();
@@ -2228,6 +2238,35 @@
 			btn.textContent = live ? on : off;
 		} );
 		place.appendChild( btn );
+	} );
+
+	/* ── слои экрана: сетка, отступы, края, прищур ─────────────────────────
+	   Какие слои видны сразу, решает разметка урока классами `is-cols`,
+	   `is-marks`, `is-edges`, `is-blur` на коробке: без скрипта так и остаётся.
+	   Скрипт только ставит кнопки — по одной на слой, подпись из урока, нажатое
+	   состояние в `aria-pressed`. Коробок со слоями в уроке может быть несколько. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-layer-actions]' ), function ( place ) {
+		var box = place.closest( '.ds-lesson__box' );
+
+		if ( ! box ) {
+			return;
+		}
+
+		Array.prototype.forEach.call( place.querySelectorAll( '[data-layer]' ), function ( holder ) {
+			var name = 'is-' + holder.getAttribute( 'data-layer' );
+			var btn = button( holder.getAttribute( 'data-layer-label' ) || '' );
+
+			function show() {
+				btn.setAttribute( 'aria-pressed', String( box.classList.contains( name ) ) );
+			}
+
+			btn.addEventListener( 'click', function () {
+				box.classList.toggle( name );
+				show();
+			} );
+			show();
+			holder.appendChild( btn );
+		} );
 	} );
 
 	/* ── проход по прототипу ───────────────────────────────────────────────

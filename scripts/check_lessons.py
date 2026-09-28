@@ -1,4 +1,4 @@
-"""Тренажёр, копирование, атрибут hidden и ритм отступов во всех уроках — в браузере.
+"""Тренажёр, копирование, атрибут hidden, ритм отступов, якоря и «Что почитать дальше» во всех уроках — в браузере.
 
     python scripts/check_lessons.py                               # локальный сайт
     python scripts/check_lessons.py --base https://designstack.ru  # живой
@@ -72,6 +72,20 @@ with sync_playwright() as play:
         print(("  ок  " if not tight else "  ПЛОХО ") + "ритм: соседние блоки не слипаются"
               + ("" if not tight else " — " + "; ".join(tight[:4]) + more))
         fails += 1 if tight else 0
+
+        # Якорь на странице один: второй `id="read"` увёл бы ссылку оглавления в чужой раздел.
+        twins = page.evaluate("""() => { const seen = {}, twice = new Set();
+            document.querySelectorAll('[id]').forEach(el => { if (seen[el.id]) twice.add(el.id); seen[el.id] = 1; });
+            return [...twice]; }""")
+        print(("  ок  " if not twins else "  ПЛОХО ") + "якоря не повторяются" + (": " + str(twins) if twins else ""))
+        fails += 1 if twins else 0
+
+        # «Что почитать дальше» — список, а не подвал одним абзацем (замечание заказчицы 27.09.2026).
+        reads = page.evaluate("""() => [document.querySelectorAll('#further-reading .ds-lesson__reads li').length,
+            document.querySelectorAll('.ds-lesson footer').length]""")
+        ok = reads[0] > 0 and reads[1] == 0
+        print(("  ок  " if ok else "  ПЛОХО ") + "«Что почитать дальше»: пунктов %d, подвалов %d" % tuple(reads))
+        fails += 0 if ok else 1
 
         # тренажёр: отвечаем верно на первый вопрос каждого тренажёра
         boxes = page.query_selector_all("[data-quiz]")

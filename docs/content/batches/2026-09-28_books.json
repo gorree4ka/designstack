@@ -1,0 +1,406 @@
+{
+ "_comment": "Книги из «Что почитать дальше» в уроках (D156, D179), 28.09.2026. Цены и доступ — с сервера в РФ и кадрами через туннель; черновики до утверждения куратора.",
+ "resources": [
+  {
+   "slug": "ne-zastavlyayte-menya-dumat",
+   "title": "Не заставляйте меня думать",
+   "type": "learning",
+   "topics": [
+    "ux-research",
+    "web-landings"
+   ],
+   "levels": [
+    "junior",
+    "middle"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://eksmo.ru/book/ne-zastavlyayte-menya-dumat-3-e-izdanie-ITD826441/",
+    "verdict": "Почему люди не читают интерфейс, а сканируют его, и как проектировать с этим в голове",
+    "review_for": "Тем, кто собирает первые экраны и хочет понять, как их на самом деле читают.",
+    "review_why": "Третье издание разбирает навигацию, главную страницу и подписи на примерах сайтов, а отдельные главы посвящены мобильным интерфейсам, доступности и юзабилити-тестам своими силами.",
+    "review_not": "Когда нужны свежие примеры: иллюстрации в книге сняты в 2013 году.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "1349 ₽ бумажная, мягкая обложка",
+    "ru_open": "open",
+    "language": "ru",
+    "status": "active",
+    "ru_payment": "ru_native",
+    "duration": "256 страниц"
+   }
+  },
+  {
+   "slug": "rocket-surgery-made-easy",
+   "title": "Rocket Surgery Made Easy",
+   "type": "learning",
+   "topics": [
+    "ux-research"
+   ],
+   "levels": [
+    "junior",
+    "middle",
+    "senior"
+   ],
+   "analogs": [
+    "ne-zastavlyayte-menya-dumat"
+   ],
+   "fields": {
+    "url": "https://www.informit.com/store/rocket-surgery-made-easy-the-do-it-yourself-guide-to-9780321657299",
+    "verdict": "Юзабилити-тесты своими силами: трое участников, одно утро в месяц, разбор сразу после",
+    "review_for": "Тем, кто хочет начать тестировать без исследователя в штате и отдельного бюджета.",
+    "review_why": "Тест расписан по шагам: как набрать участников, что говорить во время сессии, как выбрать немногие самые серьёзные проблемы и чинить их. Сценарии теста, согласие на запись и чек-листы подготовки автор выложил на своём сайте.",
+    "review_not": "Когда нужен русский текст: перевод «Как сделать сайт удобным. Юзабилити по методу Стива Круга» вышел в «Питере» в 2010 году и распродан.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "$45 бумажная, $37.99 электронная — цены издателя без скидки",
+    "ru_open": "blocked",
+    "language": "en",
+    "status": "active",
+    "ru_payment": "no_payment",
+    "duration": "168 страниц"
+   }
+  },
+  {
+   "slug": "surveys-that-work",
+   "title": "Surveys That Work",
+   "type": "learning",
+   "topics": [
+    "ux-research",
+    "analytics-metrics"
+   ],
+   "levels": [
+    "junior",
+    "middle",
+    "senior"
+   ],
+   "analogs": [
+    "nngroup-articles"
+   ],
+   "fields": {
+    "url": "https://rosenfeldmedia.com/books/surveys-that-work/",
+    "verdict": "Как составить анкету, найти тех, кто ответит, и не выдать погрешность за результат",
+    "review_for": "Тем, кто собирается запустить опрос и хочет получить ответы, на которые можно опереться.",
+    "review_why": "Опрос разобран по шагам — цель, выборка, вопросы, анкета, сбор, обработка ответов, отчёт — и у каждого шага названы свои ошибки. Главы про выборку и формулировку вопросов полезны и тем, кто опросы только читает.",
+    "review_not": "Когда нужен русский текст: перевода нет.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "US$54.99 бумажная с электронной, US$45.99 только электронная",
+    "ru_open": "blocked",
+    "language": "en",
+    "status": "active",
+    "ru_payment": "no_payment",
+    "duration": "368 страниц"
+   }
+  },
+  {
+   "slug": "interfeys-osnovy-proektirovaniya",
+   "title": "Интерфейс. Основы проектирования взаимодействия",
+   "type": "learning",
+   "topics": [
+    "prototyping",
+    "ux-research"
+   ],
+   "levels": [
+    "middle",
+    "senior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://www.piter.com/product/interfeys-osnovy-proektirovaniya-vzaimodeystviya-4-e-izd-2",
+    "verdict": "Справочник по проектированию взаимодействия: цели пользователей, сценарии, ошибки и отмена действий",
+    "review_for": "Тем, кто проектирует сложные продукты и хочет объяснять решения принципами, а не вкусом.",
+    "review_why": "Перевод четвёртого издания About Face Алана Купера и соавторов; предыдущий перевод, третьего издания, выходил в 2009 году как «Алан Купер об интерфейсе». Отдельные главы — про предотвращение ошибок, отмену действий и про то, когда подтверждение не нужно.",
+    "review_not": "Когда нужна короткая книга: это справочник на 720 страниц, его читают главами.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "699 ₽ электронная (pdf и epub); новой бумажной книги в продаже нет",
+    "ru_open": "open",
+    "language": "ru",
+    "status": "active",
+    "ru_payment": "ru_native",
+    "duration": "720 страниц"
+   }
+  },
+  {
+   "slug": "veb-dizayn-elementy-opyta",
+   "title": "Веб-дизайн. Элементы опыта взаимодействия",
+   "type": "learning",
+   "topics": [
+    "prototyping",
+    "ux-research"
+   ],
+   "levels": [
+    "junior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://www.symbol.ru/alphabet/559581.html",
+    "verdict": "Пять уровней продукта — от стратегии до внешнего вида — и почему каждый зависит от уровня ниже",
+    "review_for": "Тем, кто хочет увидеть, из чего состоит продукт, прежде чем рисовать экраны.",
+    "review_why": "Короткая книга, 192 страницы, построена вокруг одной схемы, которую автор выложил бесплатно. По ней удобно объяснять команде, на каком уровне идёт спор.",
+    "review_not": "Когда нужно свежее издание: перевод сделан с первого издания 2003 года, второе издание 2010 года есть только на английском.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "190 ₽ PDF в магазине издательства books.ru; бумажная 1822 ₽ под заказ, без даты отгрузки",
+    "ru_open": "open",
+    "language": "ru",
+    "status": "active",
+    "duration": "192 страницы"
+   }
+  },
+  {
+   "slug": "card-sorting",
+   "title": "Card Sorting: Designing Usable Categories",
+   "type": "learning",
+   "topics": [
+    "ux-research",
+    "prototyping"
+   ],
+   "levels": [
+    "middle"
+   ],
+   "analogs": [
+    "nngroup-articles"
+   ],
+   "fields": {
+    "url": "https://rosenfeldmedia.com/books/card-sorting/",
+    "verdict": "Карточная сортировка от начала до конца: подготовка, проведение, чтение результатов",
+    "review_for": "Тем, кто придумывает разделы и меню и хочет проверить их на людях, а не угадывать.",
+    "review_why": "Книга целиком про один метод: когда брать открытую сортировку, а когда закрытую, как подготовить карточки и как превратить результаты в структуру.",
+    "review_not": "Когда нужен русский текст: перевода нет.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "US$54.99 бумажная с электронной, US$44.99 только электронная",
+    "ru_open": "blocked",
+    "language": "en",
+    "status": "active",
+    "ru_payment": "no_payment",
+    "duration": "162 страницы"
+   }
+  },
+  {
+   "slug": "informatsionnaya-arkhitektura",
+   "title": "Информационная архитектура в Интернете",
+   "type": "learning",
+   "topics": [
+    "prototyping",
+    "web-landings"
+   ],
+   "levels": [
+    "senior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://www.symbol.ru/alphabet/768593.html",
+    "verdict": "Классика об устройстве сайтов: как организовать и назвать разделы, устроить навигацию и поиск",
+    "review_for": "Тем, кто отвечает за структуру большого сайта или продукта, которая должна пережить рост.",
+    "review_why": "Третье издание книги, которую по обложке оригинала называют «книгой с белым медведем», 608 страниц: системы организации, подписи, навигация, поиск и исследования для структуры.",
+    "review_not": "Когда нужно про мобильные интерфейсы: перевод сделан с оригинала 2006 года, эти темы появились в четвёртом издании, которое есть только на английском.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "190 ₽ PDF в магазине издательства books.ru; бумажный тираж распродан",
+    "ru_open": "open",
+    "language": "ru",
+    "status": "active",
+    "duration": "608 страниц"
+   }
+  },
+  {
+   "slug": "how-to-make-sense-of-any-mess",
+   "title": "How to Make Sense of Any Mess",
+   "type": "learning",
+   "topics": [
+    "prototyping",
+    "ux-research"
+   ],
+   "levels": [
+    "senior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://www.howtomakesenseofanymess.com/",
+    "verdict": "Информационная архитектура для всех: как договориться о словах, понятиях и структуре",
+    "review_for": "Тем, кто спорит в команде о названиях и структуре и хочет сначала договориться о словах.",
+    "review_why": "Короткие главы с упражнениями; одна из них — про словарь: какие слова команда говорит, а какие нет. Полный текст автор выложила бесплатно на сайте книги.",
+    "review_not": "Когда нужен русский текст: перевода нет.",
+    "format": "book",
+    "pricing": "free",
+    "price_note": "Полный текст бесплатно на сайте книги; бумажная $25 и электронная $9.99 — в магазине автора",
+    "ru_open": "open",
+    "language": "en",
+    "status": "active"
+   }
+  },
+  {
+   "slug": "the-functional-art",
+   "title": "The Functional Art",
+   "type": "learning",
+   "topics": [
+    "ui-visual",
+    "analytics-metrics"
+   ],
+   "levels": [
+    "junior"
+   ],
+   "analogs": [
+    "grafiki-lgut"
+   ],
+   "fields": {
+    "url": "https://www.peachpit.com/store/functional-art-an-introduction-to-information-graphics-9780321834737",
+    "verdict": "Введение в инфографику и визуализацию: как показывать данные ясно и честно",
+    "review_for": "Тем, кто рисует графики для отчётов и дашбордов и хочет понимать, почему одна диаграмма читается, а другая нет.",
+    "review_why": "Книга объясняет, как глаз читает графики, и разбирает работы практиков с их комментариями, 384 страницы.",
+    "review_not": "Когда нужен русский текст: перевода нет. Бумажное издание идёт с DVD с видеоуроками, привод нужен отдельно.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "$59.99 бумажная с DVD, $47.99 электронная — цены издателя без скидки",
+    "ru_open": "blocked",
+    "language": "en",
+    "status": "active",
+    "ru_payment": "no_payment",
+    "duration": "384 страницы"
+   }
+  },
+  {
+   "slug": "kak-lgat-pri-pomoshchi-statistiki",
+   "title": "Как лгать при помощи статистики",
+   "type": "learning",
+   "topics": [
+    "analytics-metrics"
+   ],
+   "levels": [
+    "senior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://alpinabook.ru/catalog/book-kak-lgat-pri-pomoshchi-statistiki/",
+    "verdict": "Классика 1954 года о том, как выборка, средние и графики вводят в заблуждение",
+    "review_for": "Тем, кто читает отчёты с цифрами и хочет видеть, где выборка или график подогнаны под вывод.",
+    "review_why": "164 страницы коротких глав с примерами: смещённая выборка, «удобное» среднее, обрезанная ось графика, вывод о причине из совпадения.",
+    "review_not": "Когда нужны современные примеры: книга написана в 1954 году, примеры в ней американские и старые.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "399 ₽ мягкая обложка со скидкой, без скидки 760 ₽; 399 ₽ электронная, 499 ₽ аудио",
+    "ru_open": "open",
+    "language": "ru",
+    "status": "active",
+    "ru_payment": "ru_native",
+    "duration": "164 страницы"
+   }
+  },
+  {
+   "slug": "grafiki-lgut",
+   "title": "Графики лгут",
+   "type": "learning",
+   "topics": [
+    "analytics-metrics",
+    "ui-visual"
+   ],
+   "levels": [
+    "senior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://eksmo.ru/book/lzhivye-grafiki-kak-vas-obmanyvaet-vizualnaya-informatsiya-ITD1143025/",
+    "verdict": "Как графики вводят в заблуждение и как их читать, чтобы не попасться",
+    "review_for": "Тем, кто строит графики по результатам опросов и метрик или читает чужие.",
+    "review_why": "Альберто Кайро разбирает пять способов обмана: неудачное оформление, сомнительные данные, недостаток данных, скрытая неопределённость и ложные закономерности, 264 страницы.",
+    "review_not": "Когда нужно научиться рисовать графики: книга о том, как их читать.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "1349 ₽ бумажная, твёрдый переплёт",
+    "ru_open": "open",
+    "language": "ru",
+    "status": "active",
+    "ru_payment": "ru_native",
+    "duration": "264 страницы"
+   }
+  },
+  {
+   "slug": "sprint",
+   "title": "Спринт",
+   "type": "learning",
+   "topics": [
+    "prototyping",
+    "ux-research"
+   ],
+   "levels": [
+    "senior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://alpinabook.ru/catalog/book-sprint/",
+    "verdict": "Пятидневный дизайн-спринт: от задачи до прототипа, проверенного на пяти людях",
+    "review_for": "Тем, кто хочет за неделю проверить крупное решение на прототипе, а не спорить о нём месяцами.",
+    "review_why": "Процесс расписан по дням: карта задачи, наброски решений, выбор без группового мышления, прототип-фасад и интервью с пятью людьми в пятницу. Авторы — Джейк Кнапп, Брейден Ковитц и Джон Зерацки.",
+    "review_not": "Когда нужна бумажная книга: у издательства в продаже только электронная и аудио.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "499 ₽ электронная, 599 ₽ аудио; бумажной нет в наличии",
+    "ru_open": "open",
+    "language": "ru",
+    "status": "active",
+    "ru_payment": "ru_native",
+    "duration": "368 страниц"
+   }
+  },
+  {
+   "slug": "measuring-the-user-experience",
+   "title": "Measuring the User Experience",
+   "type": "learning",
+   "topics": [
+    "ux-research",
+    "analytics-metrics"
+   ],
+   "levels": [
+    "middle"
+   ],
+   "analogs": [
+    "nngroup-articles"
+   ],
+   "fields": {
+    "url": "https://shop.elsevier.com/books/measuring-the-user-experience/albert/978-0-12-818080-8",
+    "verdict": "Как измерять UX числами: успешность задач, самооценка, найденные проблемы и их сравнение",
+    "review_for": "Тем, кто хочет подкрепить юзабилити-тесты цифрами и объяснить команде, что они значат.",
+    "review_why": "Третье издание 2022 года, авторы Билл Альберт и Том Туллис: отдельные главы про метрики выполнения задач, опросники участников, метрики по найденным проблемам, eye-tracking и измерение эмоций, с кейсами компаний.",
+    "review_not": "Когда нужен русский текст: перевода нет. Четвёртое издание издатель обещает в марте 2027 года.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "US$54.99 бумажная, US$43.99 электронная",
+    "ru_open": "open",
+    "language": "en",
+    "status": "active",
+    "ru_payment": "no_payment",
+    "duration": "384 страницы"
+   }
+  },
+  {
+   "slug": "sketching-user-experiences",
+   "title": "Sketching User Experiences",
+   "type": "learning",
+   "topics": [
+    "prototyping"
+   ],
+   "levels": [
+    "junior"
+   ],
+   "analogs": [],
+   "fields": {
+    "url": "https://shop.elsevier.com/books/sketching-user-experiences-getting-the-design-right-and-the-right-design/unknown/978-0-12-374037-3",
+    "verdict": "Эскиз как способ найти правильное решение до того, как доводить его до ума",
+    "review_for": "Тем, кто перескакивает от идеи сразу к чистовому макету и хочет сначала сравнивать варианты.",
+    "review_why": "Первая половина книги — о роли эскиза в проектировании, вторая разбирает приёмы раннего прототипирования: «волшебника страны Оз», бумажные макеты, раскадровки, простую анимацию и видео, 448 страниц.",
+    "review_not": "Когда нужен практикум: это книга о подходе, упражнения вышли отдельно в Sketching User Experiences: The Workbook. Перевода нет.",
+    "format": "book",
+    "pricing": "paid",
+    "price_note": "US$49.95 бумажная",
+    "ru_open": "open",
+    "language": "en",
+    "status": "active",
+    "ru_payment": "no_payment",
+    "duration": "448 страниц"
+   }
+  }
+ ]
+}

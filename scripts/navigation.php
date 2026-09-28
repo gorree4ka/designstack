@@ -23,7 +23,7 @@ $existing = get_posts(
 	array(
 		'post_type'      => 'wp_navigation',
 		'name'           => 'razdely-kataloga',
-		'post_status'    => 'any',
+		'post_status'    => array( 'publish', 'future', 'draft', 'pending', 'private' ),
 		'posts_per_page' => 1,
 	)
 );

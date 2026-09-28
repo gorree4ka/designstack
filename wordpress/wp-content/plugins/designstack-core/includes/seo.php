@@ -35,7 +35,10 @@ function designstack_core_trim( string $text, int $limit = DESIGNSTACK_CORE_DESC
 	$cut = mb_substr( $text, 0, $limit - 1 );
 	$at  = mb_strrpos( $cut, ' ' );
 
-	return rtrim( false === $at ? $cut : mb_substr( $cut, 0, $at ), " ,.;:—-" ) . '…';
+	// Хвостовые знаки снимает регулярка с флагом u, а не rtrim: rtrim работает по байтам, и «—» (E2 80 94)
+	// в его списке срезал последний байт у «р» (D1 80) и «Д» (D0 94). Строка переставала быть UTF-8,
+	// esc_attr() отдавал пустоту, и описание страницы пропадало целиком (вычитка живого сайта 28.09.2026).
+	return preg_replace( '/[\s,.;:—-]+$/u', '', false === $at ? $cut : mb_substr( $cut, 0, $at ) ) . '…';
 }
 
 /**
