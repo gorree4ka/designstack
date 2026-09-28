@@ -244,6 +244,50 @@
   "dtcg-format": {
    "title": "<a href=\"https://www.designtokens.org/tr/2025.10/format/\">Design Tokens Format Module 2025.10</a>",
    "meta": "W3C Design Tokens Community Group · на английском · бесплатно"
+  },
+  "nng-anim-duration": {
+   "title": "<a href=\"https://www.nngroup.com/articles/animation-duration/\">Executing UX Animations: Duration and Motion Characteristics</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно"
+  },
+  "nng-anim-purpose": {
+   "title": "<a href=\"https://www.nngroup.com/articles/animation-purpose-ux/\">The Role of Animation and Motion in UX</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно"
+  },
+  "m2-speed": {
+   "title": "<a href=\"https://m2.material.io/design/motion/speed.html\">Speed</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно"
+  },
+  "figma-easing": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360051748654-Prototype-easing-and-spring-animations\">Prototype easing and spring animations</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+  },
+  "jitter": {
+   "title": "<a href=\"/resource/jitter/\">Jitter</a>",
+   "meta": "инструмент · на английском · есть бесплатный тариф"
+  },
+  "wcag-animation": {
+   "title": "<a href=\"https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html\">Understanding Success Criterion 2.3.3: Animation from Interactions</a>",
+   "meta": "W3C WAI · на английском · бесплатно"
+  },
+  "apple-motion": {
+   "title": "<a href=\"https://developer.apple.com/design/human-interface-guidelines/motion\">Motion</a> и <a href=\"https://developer.apple.com/design/human-interface-guidelines/accessibility\">Accessibility</a>",
+   "meta": "<a href=\"/resource/apple-hig/\">Apple Human Interface Guidelines</a> · на английском · бесплатно"
+  },
+  "webdev-reduced-motion": {
+   "title": "<a href=\"https://web.dev/articles/prefers-reduced-motion\">prefers-reduced-motion: Sometimes less movement is more</a>",
+   "meta": "web.dev · на английском · бесплатно"
+  },
+  "webdev-anim-perf": {
+   "title": "<a href=\"https://web.dev/articles/animations-guide\">How to create high-performance CSS animations</a>",
+   "meta": "web.dev · на английском · бесплатно"
+  },
+  "m3-motion": {
+   "title": "<a href=\"https://m3.material.io/styles/motion/easing-and-duration/tokens-specs\">Easing and duration: tokens and specs</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+  },
+  "carbon-motion": {
+   "title": "<a href=\"https://carbondesignsystem.com/elements/motion/overview/\">Motion</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно"
   }
  },
  "lessons": {
@@ -667,6 +711,72 @@
    {
     "res": "dtcg-format",
     "why": "Стабильный формат дизайн-токенов: тип color, ссылки на другие токены, обмен между Figma и кодом."
+   }
+  ],
+  "motion-junior": [
+   {
+    "res": "nng-anim-duration",
+    "why": "Сколько миллисекунд давать переключателю и модальному окну, почему уход короче появления и какую кривую брать на вход и на выход."
+   },
+   {
+    "res": "nng-anim-purpose",
+    "why": "Зачем движение в интерфейсе: какие задачи оно решает и когда только мешает."
+   },
+   {
+    "res": "m2-speed",
+    "why": "Длительности на примерах компонентов: переключатель, боковая панель, карточка — и отдельные кривые для появления и ухода."
+   },
+   {
+    "res": "figma-easing",
+    "why": "Все кривые и пружины прототипа Figma и что меняет каждая настройка."
+   },
+   {
+    "res": "jitter",
+    "why": "Собрать переходы из задания с точными длительностями и кривыми, если прототипа Figma не хватает."
+   }
+  ],
+  "motion-middle": [
+   {
+    "res": "wcag-animation",
+    "why": "Кому мешает движение, чем оно опасно и какую анимацию считать необходимой."
+   },
+   {
+    "res": "apple-motion",
+    "why": "Что Apple советует делать при «уменьшить движение»: меньше масштаба и автоматического движения, растворение вместо сдвига."
+   },
+   {
+    "res": "webdev-reduced-motion",
+    "why": "Медиазапрос prefers-reduced-motion на примерах: что убрать, что оставить."
+   },
+   {
+    "res": "webdev-anim-perf",
+    "why": "Почему сдвиг и прозрачность дешёвые, а ширина и положение от края — дорогие, и как это проверить."
+   },
+   {
+    "res": "m3-motion",
+    "why": "Шестнадцать длительностей и кривые появления, ухода и перемещения с именами токенов."
+   }
+  ],
+  "motion-senior": [
+   {
+    "res": "carbon-motion",
+    "why": "Два вида движения — рабочее и выразительное — и шесть токенов длительности с назначением каждого."
+   },
+   {
+    "res": "m3-motion",
+    "why": "Как устроены токены движения в большой системе и почему её перевели на пружины."
+   },
+   {
+    "res": "dtcg-format",
+    "why": "Типы duration и cubicBezier: как записать токены движения для обмена между макетом и кодом."
+   },
+   {
+    "res": "webdev-anim-perf",
+    "why": "Что проверять в анимации перед выпуском и какие свойства не трогать."
+   },
+   {
+    "res": "wcag-animation",
+    "why": "На что опереться, когда правило про «уменьшить движение» оспаривают."
    }
   ]
  }

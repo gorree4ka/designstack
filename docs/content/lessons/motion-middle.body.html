@@ -1,0 +1,531 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#origin">Движение показывает, откуда и куда</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#set">Общий набор длительностей и кривых</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#reduce">Настройка «уменьшить движение»</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#network">Медленная сеть: анимация не ждёт</a></li>
+    <li><a href="#device">Слабый телефон: проверка не в редакторе</a></li>
+    <li><a href="#replace">Чем заменить движение</a><span class="ds-lesson__tag">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> То же приложение магазина кофе, что и в <a href="/lessons/motion-junior/">уроке Junior</a>. Переходы в нём уже есть, но каждый собран отдельно: у шторки своя длительность, у диалога своя, у меню третья. Приведём их к одному набору, свяжем движением состояния и проверим, как приложение ведёт себя, когда движение выключено.</div>
+
+<div class="ds-lesson__warn ds-lesson__mo-note"><b>У вас включена настройка «уменьшить движение».</b> Образцы в этом уроке всё равно двигаются, когда вы нажимаете «Проиграть»: без этого урок про движение не показать. Сами они не стартуют, и самый длинный идёт меньше секунды. В разделе 3 есть переключатель, который показывает те же образцы без движения.</div>
+
+<section id="origin">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Движение показывает, откуда и куда</h2></div>
+  <p class="ds-lesson__lead">Когда новое состояние вырастает из старого, человек не теряет нить: видно, что откуда взялось и куда делось.</p>
+
+  <p>В корзине три товара, кофе из Кении удаляют. Слева строка просто пропадает, и список прыгает вверх. Справа строка уезжает, а список смыкается следом. Нажмите «Проиграть» под каждым экраном.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Удаление из корзины · прыжок и смыкание</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Строка пропадает</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:252; --mo-dur:0">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Корзина</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el">
+                <div class="ds-lesson__mo-li"><span>Эфиопия, 250 г</span><span class="ds-lesson__spec-price">890 ₽</span></div>
+                <div class="ds-lesson__mo-li ds-lesson__mo-el ds-lesson__mo-el--out" style="--mo-o:0"><span>Кения, 250 г</span><span class="ds-lesson__spec-price">960 ₽</span></div>
+                <div class="ds-lesson__mo-li ds-lesson__mo-el ds-lesson__mo-el--out ds-lesson__mo-shift"><span>Колумбия, 250 г</span><span class="ds-lesson__spec-price">820 ₽</span></div>
+                <div class="ds-lesson__mo-li ds-lesson__mo-el ds-lesson__mo-el--out ds-lesson__mo-shift"><b>Итого</b><b class="ds-lesson__spec-price">1 710 ₽</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Строка уезжает, список смыкается</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:252">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Корзина</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el">
+                <div class="ds-lesson__mo-li"><span>Эфиопия, 250 г</span><span class="ds-lesson__spec-price">890 ₽</span></div>
+                <div class="ds-lesson__mo-li ds-lesson__mo-el ds-lesson__mo-el--out" style="--mo-x:-100%; --mo-o:0; --mo-dur:200; --mo-exit-dur:200; --mo-ease:cubic-bezier(0, 0, 0, 1); --mo-exit-ease:cubic-bezier(0.3, 0, 1, 1)"><span>Кения, 250 г</span><span class="ds-lesson__spec-price">960 ₽</span></div>
+                <div class="ds-lesson__mo-li ds-lesson__mo-el ds-lesson__mo-el--out ds-lesson__mo-shift" style="--mo-dur:200; --mo-exit-dur:200; --mo-delay:150; --mo-ease:cubic-bezier(0.2, 0, 0, 1); --mo-exit-ease:cubic-bezier(0.2, 0, 0, 1)"><span>Колумбия, 250 г</span><span class="ds-lesson__spec-price">820 ₽</span></div>
+                <div class="ds-lesson__mo-li ds-lesson__mo-el ds-lesson__mo-el--out ds-lesson__mo-shift" style="--mo-dur:200; --mo-exit-dur:200; --mo-delay:150; --mo-ease:cubic-bezier(0.2, 0, 0, 1); --mo-exit-ease:cubic-bezier(0.2, 0, 0, 1)"><b>Итого</b><b class="ds-lesson__spec-price">1 710 ₽</b></div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева сумма и строка «Колумбия» оказываются на новом месте, и надо перечитать список, чтобы понять, что пропало. Справа видно, какая строка ушла и что остальные просто сдвинулись.</div>
+  </div>
+
+  <p>То же со сменой экрана. Когда подробности заказа раскрываются из его карточки, понятно, куда вернёт кнопка «Назад». Когда экран просто подменяется, связь между карточкой и подробностями человек восстанавливает сам.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Подробности заказа · подмена и раскрытие из карточки</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Экран подменяется</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:252; --mo-dur:0">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-field"><div class="ds-lesson__spec-sum"><span>№ 1047</span><span>2 290 ₽</span></div>В пути</div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field"><div class="ds-lesson__spec-sum"><span>№ 1042</span><span>3 480 ₽</span></div>Доставлен</div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field"><div class="ds-lesson__spec-sum"><span>№ 1038</span><span>1 190 ₽</span></div>Отменён</div>
+            </div>
+            <div class="ds-lesson__mo-page ds-lesson__mo-el" style="--mo-o:0">
+              <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Заказ № 1042</span></div>
+              <div class="ds-lesson__spec-body">
+                <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Доставлен 14 сентября</span><span>3 480 ₽</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__spec-el">Lavazza Crema e Aroma, 1 кг</div>
+                <div class="ds-lesson__spec-el">Кения АА, 250 г</div>
+                <div class="ds-lesson__spec-el">Френч-пресс</div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__spec-el ds-lesson__spec-btn">Повторить заказ</div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Открыть заказ" data-motion-back="Назад"></div>
+        </div>
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Экран раскрывается из карточки</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:252">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-field"><div class="ds-lesson__spec-sum"><span>№ 1047</span><span>2 290 ₽</span></div>В пути</div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field"><div class="ds-lesson__spec-sum"><span>№ 1042</span><span>3 480 ₽</span></div>Доставлен</div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-field"><div class="ds-lesson__spec-sum"><span>№ 1038</span><span>1 190 ₽</span></div>Отменён</div>
+            </div>
+            <div class="ds-lesson__mo-page ds-lesson__mo-el" style="--mo-o:0; --mo-s:0.3; --mo-origin:50% 45%; --mo-dur:300; --mo-ease:cubic-bezier(0, 0, 0, 1); --mo-exit-dur:200; --mo-exit-ease:cubic-bezier(0.3, 0, 1, 1)">
+              <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Заказ № 1042</span></div>
+              <div class="ds-lesson__spec-body">
+                <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Доставлен 14 сентября</span><span>3 480 ₽</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__spec-el">Lavazza Crema e Aroma, 1 кг</div>
+                <div class="ds-lesson__spec-el">Кения АА, 250 г</div>
+                <div class="ds-lesson__spec-el">Френч-пресс</div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__spec-el ds-lesson__spec-btn">Повторить заказ</div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Открыть заказ" data-motion-back="Назад"></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Справа экран растёт из второй карточки и в неё же возвращается по «Назад». Уход короче появления: 200 мс против 300.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Движение идёт от причины к следствию.</b> Новое появляется из того места, где нажали, а уходит туда, где его можно найти снова. Если элемент исчез, соседи показывают это, занимая его место.</div>
+</section>
+
+<section id="set">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Общий набор длительностей и кривых</h2></div>
+  <p class="ds-lesson__lead">Когда длительность подбирают для каждого перехода заново, приложение двигается вразнобой: шторка вяло, диалог резко, меню как-то ещё.</p>
+
+  <p>Так сейчас выглядят переходы магазина. Каждый по отдельности выбран разумно, вместе они дают пять длительностей и пять кривых, и ни одну нельзя повторить, не открыв исходник.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Переход</th><th scope="col">Было</th><th scope="col">Стало по набору</th></tr></thead>
+      <tbody>
+        <tr><td>Шторка фильтров появляется</td><td>270 мс, cubic-bezier(0.3, 0.1, 0.4, 0.9)</td><td>средне, появление</td></tr>
+        <tr><td>Диалог «Удалить товар?» появляется</td><td>180 мс, ease</td><td>средне, появление</td></tr>
+        <tr><td>Меню профиля появляется</td><td>350 мс, linear</td><td>коротко, появление</td></tr>
+        <tr><td>Плашка «Добавлено» уходит</td><td>400 мс, ease-out</td><td>коротко, уход</td></tr>
+        <tr><td>Строки корзины смыкаются</td><td>220 мс, ease-in-out</td><td>коротко, перемещение</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Набор — несколько длительностей и несколько кривых с именами по роли. Для приложения магазина хватает такого:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Имя</th><th scope="col">Значение</th><th scope="col">Для чего</th></tr></thead>
+      <tbody>
+        <tr><td><b>быстро</b></td><td>100 мс</td><td>Переключатель, флажок, число в счётчике</td></tr>
+        <tr><td><b>коротко</b></td><td>200 мс</td><td>Меню, подсказка, плашка; уход крупных элементов</td></tr>
+        <tr><td><b>средне</b></td><td>300 мс</td><td>Появление шторки и диалога, раскрытие карточки</td></tr>
+        <tr><td><b>долго</b></td><td>400 мс</td><td>Смена экрана целиком</td></tr>
+        <tr><td><b>появление</b></td><td>cubic-bezier(0, 0, 0, 1)</td><td>Элемент приходит: быстрый старт, долгое торможение</td></tr>
+        <tr><td><b>уход</b></td><td>cubic-bezier(0.3, 0, 1, 1)</td><td>Элемент уходит насовсем: разгон к концу</td></tr>
+        <tr><td><b>перемещение</b></td><td>cubic-bezier(0.2, 0, 0, 1)</td><td>Элемент меняет место на экране</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Кривые взяты из Material Design 3, там они называются standard decelerate, standard accelerate и standard. Готовый набор удобнее самодельного: он описан, и разработчикам он знаком. В обновлении Material 3 Expressive компоненты Google перешли на пружинную анимацию и эту таблицу больше не развивают, но как точка отсчёта для своего набора она по-прежнему годится.</p>
+
+  <p>Ниже три перехода магазина — шторка, меню и плашка — слева с прежними числами, справа по набору. Нажмите «Проиграть» под каждым экраном.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Три перехода · вразнобой и по набору</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Вразнобой</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:288">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Каталог</span>Фильтры</div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span></div>
+            </div>
+            <div class="ds-lesson__mo-toast ds-lesson__mo-el" style="--mo-y:160%; --mo-o:0; --mo-dur:400; --mo-ease:ease-out; --mo-delay:0">Добавлено в корзину</div>
+            <div class="ds-lesson__mo-sheet ds-lesson__mo-el" style="--mo-y:100%; --mo-dur:270; --mo-ease:cubic-bezier(0.3, 0.1, 0.4, 0.9); --mo-delay:500"><b>Фильтры</b><div class="ds-lesson__spec-btn">Показать 24 товара</div></div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">По набору</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:288">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Каталог</span>Фильтры</div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span></div>
+            </div>
+            <div class="ds-lesson__mo-toast ds-lesson__mo-el" style="--mo-y:160%; --mo-o:0; --mo-dur:200; --mo-ease:cubic-bezier(0, 0, 0, 1); --mo-exit-dur:200; --mo-exit-ease:cubic-bezier(0.3, 0, 1, 1)">Добавлено в корзину</div>
+            <div class="ds-lesson__mo-sheet ds-lesson__mo-el" style="--mo-y:100%; --mo-dur:300; --mo-ease:cubic-bezier(0, 0, 0, 1); --mo-exit-dur:200; --mo-exit-ease:cubic-bezier(0.3, 0, 1, 1); --mo-delay:500"><b>Фильтры</b><div class="ds-lesson__spec-btn">Показать 24 товара</div></div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Сначала появляется плашка, через полсекунды — шторка. Слева плашка тянется, а шторка приходит с другим характером движения. Справа оба перехода двигаются одинаково, хотя длительности у них разные: так ощущается одно приложение.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Длительность и кривую не подбирают, а выбирают из набора.</b> Если ни одно значение не подходит, это вопрос к набору, а не повод завести новое число.</div>
+</section>
+
+<section id="reduce">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Настройка «уменьшить движение»</h2></div>
+  <p class="ds-lesson__lead">У части людей движение на экране вызывает головокружение и тошноту. Для них в системе есть настройка, и интерфейс должен её слушать.</p>
+
+  <p>В первую очередь она нужна людям с вестибулярными нарушениями. Крупный сдвиг, приближение и параллакс вызывают у них головокружение, тошноту и головную боль — так эти реакции описывает WCAG. Таких людей немало: по данным американской ассоциации вестибулярных расстройств VeDA, с нарушениями вестибулярной системы сталкивались до 35 % взрослых старше 40 лет. Бывает и так, что движение просто отвлекает и мешает читать. Настройка есть во всех основных системах:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Система</th><th scope="col">Где включается</th></tr></thead>
+      <tbody>
+        <tr><td>iOS и iPadOS</td><td>Настройки → Универсальный доступ → Движение → Уменьшение движения</td></tr>
+        <tr><td>Android</td><td>Настройки → Спец. возможности → Цвет и движение → Убрать анимации</td></tr>
+        <tr><td>macOS</td><td>Системные настройки → Универсальный доступ → Движение → Уменьшить движение. В macOS 15 и раньше — в разделе «Дисплей»</td></tr>
+        <tr><td>Windows 11</td><td>Параметры → Специальные возможности → Визуальные эффекты → Эффекты анимации</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Сайт узнаёт о настройке через медиазапрос prefers-reduced-motion, приложение — через системный флаг. Решение, что показать вместо движения, принимает дизайнер. Включите «Уменьшить движение» в коробке ниже и проиграйте те же переходы.</p>
+
+  <div class="ds-lesson__box" data-motion style="--mo-dur:300">
+    <div class="ds-lesson__box-head">Шторка, плашка и счётчик · обычно и без движения</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:300">
+        <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Каталог</span>Корзина <span class="ds-lesson__mo-count"><span class="ds-lesson__mo-el ds-lesson__mo-el--out" style="--mo-y:-100%; --mo-o:0; --mo-dur:100">2</span><span class="ds-lesson__mo-el" style="--mo-y:100%; --mo-o:0; --mo-dur:100">3</span></span></div>
+        <div class="ds-lesson__spec-body">
+          <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span></div>
+        </div>
+        <div class="ds-lesson__mo-scrim ds-lesson__mo-el" style="--mo-o:0; --mo-ease:linear; --mo-delay:400"></div>
+        <div class="ds-lesson__mo-sheet ds-lesson__mo-el" style="--mo-y:100%; --mo-ro:0; --mo-ease:cubic-bezier(0, 0, 0, 1); --mo-exit-dur:200; --mo-exit-ease:cubic-bezier(0.3, 0, 1, 1); --mo-delay:400"><b>Фильтры</b><div class="ds-lesson__spec-row"><span class="ds-lesson__spec-chip is-on">Зёрна</span><span class="ds-lesson__spec-chip">Молотый</span><span class="ds-lesson__spec-chip">Капсулы</span></div><div class="ds-lesson__spec-btn">Показать 24 товара</div></div>
+        <div class="ds-lesson__mo-toast ds-lesson__mo-toast--top ds-lesson__mo-el" style="--mo-y:-40%; --mo-o:0; --mo-dur:200; --mo-ease:cubic-bezier(0, 0, 0, 1); --mo-exit-ease:cubic-bezier(0.3, 0, 1, 1)">Добавлено в корзину</div>
+      </div>
+      <div class="ds-lesson__mo-actions"><span data-layer-actions><span data-layer="reduce" data-layer-label="Уменьшить движение"></span></span><span data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></span></div>
+    </div>
+    <div class="ds-lesson__box-foot">Без движения шторка и плашка проявляются на месте, а число в счётчике просто сменяется. Всё, что было понятно с движением, понятно и без него: шторка открылась, товар в корзине, число новое.</div>
+  </div>
+
+  <p>Что обычно делают с разными видами движения, когда настройка включена:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Движение</th><th scope="col">При «уменьшить движение»</th></tr></thead>
+      <tbody>
+        <tr><td>Шторка, диалог, меню выезжают или вырастают</td><td>Проявляются на месте, без сдвига и масштаба</td></tr>
+        <tr><td>Экран раскрывается из карточки</td><td>Старый экран гаснет, новый проявляется</td></tr>
+        <tr><td>Фон едет медленнее текста при прокрутке</td><td>Фон стоит на месте</td></tr>
+        <tr><td>Баннеры листаются сами, видео крутится по кругу</td><td>Только по нажатию</td></tr>
+        <tr><td>Индикатор загрузки крутится</td><td>Остаётся: он говорит, что работа идёт</td></tr>
+        <tr><td>Кнопка меняет цвет при нажатии</td><td>Остаётся: смена цвета — не движение</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Для разработки это одно условие в стилях. Вот как оно выглядит для шторки:</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Шторка · с движением и без<span class="ds-lesson__spacer"></span><span data-copy="reduceCss"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="reduceCss">/* Обычно: шторка выезжает снизу */
+.sheet {
+  transition: transform 300ms cubic-bezier(0, 0, 0, 1);
+}
+.sheet.is-closed {
+  transform: translateY(100%);
+}
+
+/* Уменьшить движение: без сдвига, только проявление */
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    transition: opacity 200ms linear;
+  }
+  .sheet.is-closed {
+    transform: none;
+    opacity: 0;
+  }
+}</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Дизайнеру не нужно писать этот код. Нужно решить, что будет вместо движения, и записать это рядом с анимацией.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>«Уменьшить» не значит «убрать всё».</b> Смысл перехода остаётся: шторка всё так же открывается, строка всё так же пропадает. Уходят сдвиг, масштаб и всё, что двигается само.</div>
+
+  <p class="ds-lesson__dim">В WCAG 2.2 этому посвящён критерий 2.3.3 «Анимация от взаимодействия» уровня AAA. А критерий 2.2.2 уровня A требует, чтобы то, что начинает двигаться само, идёт дольше пяти секунд и стоит рядом с другим содержимым, можно было остановить.</p>
+</section>
+
+<section id="network">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Медленная сеть: анимация не ждёт</h2></div>
+  <p class="ds-lesson__lead">Переход, который прекрасно выглядит на быстрой сети, на медленной прибавляет своё время к ожиданию.</p>
+
+  <p>Экран заказа в магазине открывается так: сначала проигрывается переход 400 мс, и только потом приложение просит данные у сервера. На хорошей сети ответ приходит быстро, и этого никто не замечает. В метро ответ идёт секунду с лишним, и к ней прибавляются те же 400 мс анимации.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Открытие заказа на медленной сети · шкала в миллисекундах</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__mo-time" style="--mo-max:2000">
+        <div class="ds-lesson__mo-trow"><span><b>Сначала переход, потом запрос</b> · данные через 1600 мс</span><div class="ds-lesson__mo-tbar"><span class="ds-lesson__mo-seg ds-lesson__mo-seg--anim" style="--mo-at:0; --mo-len:400">переход</span><span class="ds-lesson__mo-seg ds-lesson__mo-seg--net" style="--mo-at:400; --mo-len:1200">запрос</span><span class="ds-lesson__mo-seg ds-lesson__mo-seg--done" style="--mo-at:1600; --mo-len:400">данные</span></div></div>
+        <div class="ds-lesson__mo-trow"><span><b>Запрос вместе с переходом</b> · данные через 1200 мс</span><div class="ds-lesson__mo-tbar"><span class="ds-lesson__mo-seg ds-lesson__mo-seg--net" style="--mo-at:0; --mo-len:1200">запрос</span><span class="ds-lesson__mo-seg ds-lesson__mo-seg--done" style="--mo-at:1200; --mo-len:800">данные</span></div><div class="ds-lesson__mo-tbar"><span class="ds-lesson__mo-seg ds-lesson__mo-seg--anim" style="--mo-at:0; --mo-len:400">переход</span><span class="ds-lesson__mo-seg ds-lesson__mo-seg--wait" style="--mo-at:400; --mo-len:800">каркас экрана</span></div></div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Во втором варианте запрос уходит в момент нажатия, и тот же переход идёт одновременно с ним. Пока данных нет, на экране каркас: заголовок, серые строки, кнопка. Данные приходят на 400 мс раньше, хотя ни сеть, ни переход не стали быстрее.</div>
+  </div>
+
+  <ul>
+    <li><strong>Запрос уходит в момент нажатия,</strong> а не после анимации.</li>
+    <li><strong>Анимация не блокирует ввод.</strong> Пока шторка едет, по ней уже можно нажимать.</li>
+    <li><strong>Анимация не прячет загрузку.</strong> Растянуть переход, «чтобы не было видно ожидания», значит заставить ждать и тех, у кого сеть быстрая.</li>
+    <li><strong>Долгое ожидание — каркасом экрана,</strong> а не длинной анимацией: каркас сразу показывает, что будет на экране.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>Анимация идёт вместе с работой, а не перед ней.</b> Проверяйте переходы на медленной сети: в браузере для этого есть замедление сети в инструментах разработчика.</div>
+</section>
+
+<section id="device">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Слабый телефон: проверка не в редакторе</h2></div>
+  <p class="ds-lesson__lead">В Figma и на ноутбуке любая анимация плавная. На недорогом телефоне та же анимация может дёргаться.</p>
+
+  <p>Плавным движение выглядит, когда экран обновляется 60 раз в секунду. На каждый кадр у браузера остаётся около 16 мс, и за это время он должен успеть всё: посчитать, нарисовать, ответить на нажатие. Не успел — кадр пропадает, и глаз видит рывок.</p>
+
+  <p>Одни свойства браузер меняет почти бесплатно, другие заставляют его пересчитывать страницу на каждом кадре:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что меняется</th><th scope="col">Цена для телефона</th><th scope="col">Как быть</th></tr></thead>
+      <tbody>
+        <tr><td>Сдвиг, масштаб, поворот</td><td>Дёшево: браузер двигает уже нарисованную картинку</td><td>Основной способ двигать</td></tr>
+        <tr><td>Прозрачность</td><td>Дёшево</td><td>Появление и растворение</td></tr>
+        <tr><td>Ширина, высота, положение от края</td><td>Дорого: пересчитывается раскладка страницы</td><td>Заменить сдвигом и масштабом</td></tr>
+        <tr><td>Тень, размытие, цвет фона</td><td>Дорого: элемент перерисовывается на каждом кадре</td><td>Не анимировать или проверять на слабом телефоне</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Все образцы в этом уроке двигаются только сдвигом, масштабом и прозрачностью. Строки корзины из раздела 1 смыкаются не потому, что пересчитывается высота списка, а потому, что нижние строки сдвигаются вверх ровно на одну строку.</p>
+
+  <h3>Как проверить</h3>
+  <ol>
+    <li><strong>Откройте прототип на самом дешёвом телефоне,</strong> до которого можно дотянуться: свой старый, у разработки, в тестовом парке.</li>
+    <li><strong>В браузере Chrome</strong> включите замедление процессора: инструменты разработчика → Performance → настройки записи → CPU: 4x slowdown.</li>
+    <li><strong>Смотрите на две вещи:</strong> дёргается ли движение и успевает ли интерфейс ответить на нажатие, пока анимация идёт.</li>
+    <li><strong>Если дёргается,</strong> спросите разработку, какие свойства меняются. Чаще всего помогает заменить высоту или положение сдвигом.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Двигайте сдвигом, масштабом и прозрачностью.</b> Остальное — только после проверки на слабом телефоне.</div>
+</section>
+
+<section id="replace">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Чем заменить движение</h2></div>
+  <p class="ds-lesson__lead">Для каждого движения в продукте нужен ответ на вопрос: что будет, если настройка «уменьшить движение» включена.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · что при «уменьшить движение»<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="fade"><p class="ds-quiz__question">Шторка фильтров выезжает снизу за 300 мс.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Проявление</b>Сдвиг уходит, а открытие шторки остаётся заметным: она проявляется на месте.</p></li>
+<li data-quiz-q data-answer="tap"><p class="ds-quiz__question">Баннеры на главной листаются сами каждые пять секунд.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Только по нажатию</b>Движение без участия человека. Листать баннеры он будет сам, когда захочет.</p></li>
+<li data-quiz-q data-answer="keep"><p class="ds-quiz__question">Фон кнопки «Оформить» темнеет при нажатии за 100 мс.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить</b>Смена цвета — не движение: ничего не едет и не растёт.</p></li>
+<li data-quiz-q data-answer="still"><p class="ds-quiz__question">Фон главного экрана едет медленнее текста при прокрутке.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Убрать движение</b>WCAG приводит параллакс как пример движения, без которого обычно можно обойтись, а людям с вестибулярными нарушениями от него бывает плохо. Фон просто стоит.</p></li>
+<li data-quiz-q data-answer="fade"><p class="ds-quiz__question">Экран заказа вырастает из карточки в списке за 300 мс.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Проявление</b>Масштаб уходит, остаётся смена экранов растворением: понятно, что открылось новое.</p></li>
+<li data-quiz-q data-answer="still"><p class="ds-quiz__question">Число в счётчике корзины подпрыгивает, когда добавили товар.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Убрать движение</b>Число сменяется сразу. Что товар добавлен, говорит ещё и плашка.</p></li>
+<li data-quiz-q data-answer="keep"><p class="ds-quiz__question">Индикатор загрузки крутится, пока приходит список заказов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить</b>Индикатор маленький и сообщает, что работа идёт. Без него человек решит, что приложение зависло.</p></li>
+<li data-quiz-q data-answer="tap"><p class="ds-quiz__question">Видео на обложке кофе проигрывается само по кругу.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Только по нажатию</b>Вместо видео — кадр из него и кнопка «Смотреть».</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="keep">Оставить</button><button class="ds-quiz__option" type="button" data-quiz-answer="fade">Проявление</button><button class="ds-quiz__option" type="button" data-quiz-answer="still">Убрать движение</button><button class="ds-quiz__option" type="button" data-quiz-answer="tap">Только по нажатию</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">«Проявление» — появление на месте за счёт прозрачности. «Убрать движение» — изменение происходит сразу. «Только по нажатию» — то, что двигалось само, ждёт человека.</div>
+</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Заведите набор длительностей и кривых для продукта, пересоберите на нём три анимации и опишите поведение при «уменьшить движение».</p>
+
+  <h3>Часть 1 · Собрать набор, 20 минут</h3>
+  <ol>
+    <li><strong>Выпишите все длительности и кривые,</strong> которые есть в продукте: из прототипов, из кода, у разработки.</li>
+    <li><strong>Сгруппируйте по размеру изменения:</strong> мелкое на месте, небольшой элемент, крупный элемент, смена экрана.</li>
+    <li><strong>Сведите к трём-пяти длительностям и трём кривым:</strong> появление, уход, перемещение. Можно взять кривые Material Design 3.</li>
+    <li><strong>Дайте имена по роли:</strong> «коротко», «появление», а не «200» и «кривая 2».</li>
+  </ol>
+
+  <h3>Часть 2 · Пересобрать три анимации, 40 минут</h3>
+  <ol>
+    <li><strong>Выберите три:</strong> одно появление, один уход и одно перемещение.</li>
+    <li><strong>Замените числа именами из набора.</strong> Если ничего не подходит, сначала решите, не лишний ли это переход.</li>
+    <li><strong>Проверьте направление:</strong> новое появляется оттуда, где нажали, и уходит туда, где его можно найти снова.</li>
+  </ol>
+
+  <h3>Часть 3 · Описать «уменьшить движение» и проверить, 30 минут</h3>
+  <ol>
+    <li><strong>Для каждой анимации решите,</strong> что будет вместо движения: оставить, проявление, убрать движение или только по нажатию.</li>
+    <li><strong>Включите настройку на своём телефоне</strong> и пройдите сценарий в прототипе или в продукте.</li>
+    <li><strong>Проверьте на медленной сети и на слабом телефоне:</strong> запрос не ждёт анимацию, рывков нет.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Набор и три анимации · заполните<span class="ds-lesson__spacer"></span><span data-copy="motionSet"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="motionSet">ПРОДУКТ: ______________________        Дата: __.__.____
+
+НАБОР
+длительности: быстро ___ мс · коротко ___ мс · средне ___ мс · долго ___ мс
+кривые: появление    cubic-bezier(__, __, __, __)
+        уход         cubic-bezier(__, __, __, __)
+        перемещение  cubic-bezier(__, __, __, __)
+
+АНИМАЦИЯ 1: ______________________
+было: ___ мс, кривая ______________   стало: ________ / ________
+откуда → куда: ______________________
+при «уменьшить движение»: оставить / проявление / убрать движение / только по нажатию
+как выглядит без движения: ______________________
+
+АНИМАЦИЯ 2: ______________________
+было: ___ мс, кривая ______________   стало: ________ / ________
+откуда → куда: ______________________
+при «уменьшить движение»: ______________________
+как выглядит без движения: ______________________
+
+АНИМАЦИЯ 3: ______________________
+было: ___ мс, кривая ______________   стало: ________ / ________
+откуда → куда: ______________________
+при «уменьшить движение»: ______________________
+как выглядит без движения: ______________________
+
+ПРОВЕРКА
+настройка включена на телефоне, сценарий пройден: да / нет
+медленная сеть: запрос уходит сразу, ввод не блокируется: да / нет
+слабый телефон: рывков нет: да / нет</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Имена в наборе — по роли. Число может поменяться, имя останется.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> При включённой системной настройке интерфейс остаётся полностью работающим и понятным без движения.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Набор</strong> длительностей и кривых с именами.</li>
+    <li><strong>Три анимации</strong> на этом наборе: было и стало.</li>
+    <li><strong>Описание поведения</strong> при «уменьшить движение» для каждой.</li>
+    <li><strong>Результат проверки</strong> на телефоне с включённой настройкой, медленной сети и слабом устройстве.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 20 минут на набор, 40 на пересборку, 30 на «уменьшить движение» и проверку. Всего — около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«У нас сложный продукт, четырёх длительностей мало».</strong> Проверьте, что делают лишние. Чаще всего это два почти одинаковых числа, между которыми разницу никто не видит.</li>
+    <li><strong>«Разработка говорит, что учесть настройку сложно».</strong> На сайте это одно условие в стилях, в приложениях — системный флаг. Сложно становится, когда решение «что вместо движения» не принято, и его приходится придумывать в коде.</li>
+    <li><strong>«Без движения непонятно, откуда взялась шторка».</strong> Проявление на месте и затемнение фона сохраняют связь. Если и так непонятно, дело не в движении, а в том, где шторка стоит.</li>
+    <li><strong>«Нет слабого телефона».</strong> Замедление процессора в Chrome — не замена, но первые рывки покажет. Попросите у разработки или у тестировщиков самый старый телефон из тех, что поддерживает продукт.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Движение в продукте связно, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Новое появляется оттуда, где нажали, и уходит туда, где его можно найти снова</li>
+    <li>Длительности и кривые взяты из набора с именами по роли</li>
+    <li>Для каждой анимации решено, что будет при «уменьшить движение»</li>
+    <li>С включённой настройкой сценарий проходится и понятен</li>
+    <li>То, что двигается само дольше пяти секунд, можно остановить</li>
+    <li>Запрос не ждёт окончания анимации, ввод не блокируется</li>
+    <li>Движение сделано сдвигом, масштабом и прозрачностью</li>
+    <li>Анимация проверена на слабом телефоне</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Число на каждый случай.</b> Пять переходов — пять длительностей, и приложение двигается вразнобой.</li>
+    <li><b>Появление из ниоткуда.</b> Экран подменяется, и связь с тем, что нажали, теряется.</li>
+    <li><b>«Уменьшить» значит «убрать всё».</b> Шторка открывается без следа, и человек не понимает, что произошло.</li>
+    <li><b>Анимация перед запросом.</b> На медленной сети к ожиданию прибавляется переход.</li>
+    <li><b>Проверка только в редакторе.</b> На слабом телефоне анимация дёргается, а увидят это пользователи.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся связывать движением состояния, работать с общим набором и с настройкой «уменьшить движение». На следующей ступени — описывать правила движения для всей команды.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Отличать переход, который объясняет, от украшения; подбирать длительность под размер; выбирать кривую; не анимировать частое; описывать анимацию для разработки</td>
+          <td class="ds-lesson__dim">Для каждого перехода можно назвать, что он помогает понять, переходов «для красоты» не осталось</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Показывать движением, откуда появилось и куда исчезло; брать длительности и кривые из общего набора; учитывать «уменьшить движение»; помнить про медленную сеть и слабые телефоны</td>
+          <td>При включённой системной настройке интерфейс остаётся полностью работающим и понятным без движения</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описать правила движения продукта: что анимируем и зачем, токены длительностей и кривых, что при «уменьшить движение», как проверяем производительность</td>
+          <td class="ds-lesson__dim">Спор об анимации в команде закрыт ссылкой на правило</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> с выключенным движением ваш интерфейс так же понятен, а с включённым — двигается как одно приложение, а не как пять разных.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html">Understanding Success Criterion 2.3.3: Animation from Interactions</a></span><span class="ds-lesson__reads-meta">W3C WAI · на английском · бесплатно</span><span>Кому мешает движение, чем оно опасно и какую анимацию считать необходимой.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://developer.apple.com/design/human-interface-guidelines/motion">Motion</a> и <a href="https://developer.apple.com/design/human-interface-guidelines/accessibility">Accessibility</a></span><span class="ds-lesson__reads-meta"><a href="/resource/apple-hig/">Apple Human Interface Guidelines</a> · на английском · бесплатно</span><span>Что Apple советует делать при «уменьшить движение»: меньше масштаба и автоматического движения, растворение вместо сдвига.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://web.dev/articles/prefers-reduced-motion">prefers-reduced-motion: Sometimes less movement is more</a></span><span class="ds-lesson__reads-meta">web.dev · на английском · бесплатно</span><span>Медиазапрос prefers-reduced-motion на примерах: что убрать, что оставить.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://web.dev/articles/animations-guide">How to create high-performance CSS animations</a></span><span class="ds-lesson__reads-meta">web.dev · на английском · бесплатно</span><span>Почему сдвиг и прозрачность дешёвые, а ширина и положение от края — дорогие, и как это проверить.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/styles/motion/easing-and-duration/tokens-specs">Easing and duration: tokens and specs</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Шестнадцать длительностей и кривые появления, ухода и перемещения с именами токенов.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

@@ -4,8 +4,8 @@
  * лесенка причин, сборка сценария, поиск дыр на схеме, сортировка карточек,
  * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
  * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
- * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия —
- * и «три секунды».
+ * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия, —
+ * «три секунды» и проигрыватель движения.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -2563,4 +2563,103 @@
 		root.setAttribute( 'data-proto-live', '' );
 		goTo( first );
 	}() );
+
+	/* ── проигрыватель движения ────────────────────────────────────────────
+	   Всё, что двигается, — `.ds-lesson__mo-el` с числами в разметке урока:
+	   длительность, кривая, сдвиг. Без скрипта виден конечный кадр. Скрипт
+	   ставит `data-motion-live` — элементы встают в начальный кадр, — кнопку
+	   «Проиграть» и, если урок просит, выбор значения (`data-motion-pick`):
+	   нажатие на значение сразу проигрывает образец с ним. Подписи — из урока.
+	   Сам образец никогда не стартует без нажатия. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-motion]' ), function ( box ) {
+		var place = box.querySelector( '[data-motion-actions]' );
+
+		if ( ! place ) {
+			return;
+		}
+
+		var play = place.getAttribute( 'data-motion-play' ) || '';
+		var back = place.getAttribute( 'data-motion-back' ) || play;
+		var btn = button( play );
+
+		function set( on ) {
+			box.classList.toggle( 'is-on', on );
+			btn.textContent = on ? back : play;
+		}
+
+		// Начальный кадр без перехода, потом конечный — с переходом.
+		function replay() {
+			box.classList.add( 'is-snap' );
+			set( false );
+			void box.offsetWidth;
+			box.classList.remove( 'is-snap' );
+			set( true );
+		}
+
+		btn.addEventListener( 'click', function () {
+			set( ! box.classList.contains( 'is-on' ) );
+		} );
+
+		Array.prototype.forEach.call( box.querySelectorAll( '[data-motion-pick]' ), function ( pick ) {
+			var prop = pick.getAttribute( 'data-motion-pick' );
+			var values = ( pick.getAttribute( 'data-motion-values' ) || '' ).split( '|' );
+			var labels = ( pick.getAttribute( 'data-motion-labels' ) || '' ).split( '|' );
+			var title = pick.getAttribute( 'data-motion-title' );
+			var target = pick.closest( '[data-motion-scope]' ) || box;
+			var buttons = [];
+
+			function mark( value ) {
+				buttons.forEach( function ( one, i ) {
+					one.setAttribute( 'aria-pressed', String( values[ i ] === value ) );
+				} );
+			}
+
+			if ( title ) {
+				var head = document.createElement( 'span' );
+
+				head.className = 'ds-lesson__mo-pick-title';
+				head.textContent = title;
+				pick.appendChild( head );
+			}
+
+			values.forEach( function ( value, i ) {
+				var one = button( labels[ i ] || value );
+
+				one.addEventListener( 'click', function () {
+					target.style.setProperty( prop, value );
+					mark( value );
+					replay();
+				} );
+				buttons.push( one );
+				pick.appendChild( one );
+			} );
+
+			mark( target.style.getPropertyValue( prop ).trim() );
+		} );
+
+		// Слой «Уменьшить движение» (`is-reduce` на коробке) меняет начальный кадр.
+		// Смена режима — не событие образца: кадр встаёт на место без перехода.
+		var host = box.closest( '.ds-lesson__box' ) || box;
+		var reduced = host.classList.contains( 'is-reduce' );
+
+		new MutationObserver( function () {
+			if ( host.classList.contains( 'is-reduce' ) === reduced ) {
+				return;
+			}
+
+			reduced = ! reduced;
+			box.classList.add( 'is-snap' );
+			void box.offsetWidth;
+			box.classList.remove( 'is-snap' );
+		} ).observe( host, { attributes: true, attributeFilter: [ 'class' ] } );
+
+		// Страница пришла с конечным кадром. В начальный образец встаёт мгновенно:
+		// сам по себе, без нажатия, он не двигается никогда.
+		box.classList.add( 'is-snap' );
+		box.setAttribute( 'data-motion-live', '' );
+		set( false );
+		void box.offsetWidth;
+		box.classList.remove( 'is-snap' );
+		place.appendChild( btn );
+	} );
 }() );

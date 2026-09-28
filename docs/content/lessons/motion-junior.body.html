@@ -1,0 +1,457 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#explain">Переход объясняет, что изменилось</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#duration">Длительность: мелкое быстрее, крупное дольше</a><span class="ds-lesson__tag">проигрыватель</span></li>
+    <li><a href="#easing">Плавное начало и плавный конец</a><span class="ds-lesson__tag">проигрыватель</span></li>
+    <li><a href="#often">Что не анимировать</a><span class="ds-lesson__tag">поиск</span></li>
+    <li><a href="#handoff">Как описать анимацию для разработки</a></li>
+    <li><a href="#curve">Какую кривую взять</a><span class="ds-lesson__tag">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Приложение того же магазина кофе, что и в темах про <a href="/lessons/typography-junior/">типографику</a> и <a href="/lessons/color-contrast-junior/">цвет</a>. В нём три изменения, с которыми вы будете работать весь урок: товар попадает в корзину, снизу выезжает шторка фильтров, в настройках включается автоповтор заказа. Образцы двигаются, только когда вы нажимаете «Проиграть».</div>
+
+<div class="ds-lesson__warn ds-lesson__mo-note"><b>У вас включена настройка «уменьшить движение».</b> Образцы в этом уроке всё равно двигаются, когда вы нажимаете «Проиграть»: без этого урок про движение не показать. Сами они не стартуют, и самый длинный идёт секунду.</div>
+
+<section id="explain">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Переход объясняет, что изменилось</h2></div>
+  <p class="ds-lesson__lead">Изменение без перехода легко пропустить: число в углу стало другим, а взгляд был на кнопке.</p>
+
+  <p>Человек нажимает «В корзину» и смотрит на кнопку. Счётчик корзины — в шапке, в другом конце экрана. Без перехода число меняется молча. С переходом старое число уходит вверх, новое приходит снизу, а внизу появляется плашка «Добавлено в корзину». Нажмите «Проиграть» под каждым экраном и сравните.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Товар в корзину · без перехода и с переходом</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Без перехода</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-dur:0; --mo-h:372">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Каталог</span>Корзина <span class="ds-lesson__mo-count"><span class="ds-lesson__mo-el ds-lesson__mo-el--out" style="--mo-y:-100%; --mo-o:0">2</span><span class="ds-lesson__mo-el" style="--mo-y:100%; --mo-o:0">3</span></span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span>Эфиопия, 250 г<span class="ds-lesson__spec-price">890 ₽</span><span class="ds-lesson__spec-chip">В корзину</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span>Кения, 250 г<span class="ds-lesson__spec-price">960 ₽</span><span class="ds-lesson__spec-chip">В корзину</span></div>
+            </div>
+            <div class="ds-lesson__mo-toast ds-lesson__mo-el" style="--mo-y:160%; --mo-o:0">Добавлено в корзину</div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">С переходом</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-dur:200; --mo-h:372">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Каталог</span>Корзина <span class="ds-lesson__mo-count"><span class="ds-lesson__mo-el ds-lesson__mo-el--out" style="--mo-y:-100%; --mo-o:0; --mo-ease:ease-in">2</span><span class="ds-lesson__mo-el" style="--mo-y:100%; --mo-o:0; --mo-ease:ease-out">3</span></span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span>Эфиопия, 250 г<span class="ds-lesson__spec-price">890 ₽</span><span class="ds-lesson__spec-chip">В корзину</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span>Кения, 250 г<span class="ds-lesson__spec-price">960 ₽</span><span class="ds-lesson__spec-chip">В корзину</span></div>
+            </div>
+            <div class="ds-lesson__mo-toast ds-lesson__mo-el" style="--mo-y:160%; --mo-o:0; --mo-dur:250; --mo-ease:ease-out; --mo-exit-dur:200; --mo-exit-ease:ease-in">Добавлено в корзину</div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Движение притягивает взгляд туда, где что-то изменилось. Слева счётчик сменился незаметно, справа видно, что в корзине стало на один товар больше.</div>
+  </div>
+
+  <p>Переход — это не украшение экрана, а подсказка: что изменилось, откуда появился элемент, куда он делся. Украшение ничего не объясняет, оно просто двигается.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Переход объясняет</th><th scope="col">Украшение</th></tr></thead>
+      <tbody>
+        <tr><td>Шторка выезжает снизу: видно, откуда она взялась и куда её убрать</td><td>Логотип крутится при каждом открытии приложения</td></tr>
+        <tr><td>Удалённый товар уезжает, список смыкается: видно, что пропало</td><td>Карточки товаров подпрыгивают при прокрутке</td></tr>
+        <tr><td>Число в счётчике сменяется с движением: видно, что оно новое</td><td>Кнопка «Оформить» переливается, чтобы на неё нажали</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Про каждый переход можно закончить фразу «он показывает, что …».</b> Если фраза не складывается, это украшение. Его место — заставка или пустой экран, а не там, где человек работает.</div>
+</section>
+
+<section id="duration">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Длительность: мелкое быстрее, крупное дольше</h2></div>
+  <p class="ds-lesson__lead">Чем больше элемент и чем дальше он едет, тем больше времени нужно глазу, чтобы проследить путь.</p>
+
+  <p>Ручка переключателя проезжает пару сантиметров, и ей хватает десятой доли секунды. Шторка фильтров выезжает на полэкрана — за то же время она просто мелькнёт. Выберите длительность и сравните оба элемента.</p>
+
+  <div class="ds-lesson__box" data-motion style="--mo-dur:200">
+    <div class="ds-lesson__box-head">Переключатель и шторка · одна длительность на двоих<span class="ds-lesson__spacer"></span><span data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__mo-pick" data-motion-pick="--mo-dur" data-motion-values="100|200|300|500|1000" data-motion-labels="100 мс|200 мс|300 мс|500 мс|1000 мс" data-motion-title="Длительность"></div>
+      <div class="ds-lesson__gap" style="--g:16"></div>
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Переключатель: едет на ширину ручки</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:200">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Настройки</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Автоповтор заказа</span><span class="ds-lesson__mo-switch"><span class="ds-lesson__mo-switch-on ds-lesson__mo-el" style="--mo-o:0; --mo-ease:ease-in-out"></span><span class="ds-lesson__mo-knob ds-lesson__mo-el" style="--mo-x:-100%; --mo-ease:ease-in-out"></span></span></div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-label">Раз в месяц тот же кофе</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Шторка: выезжает на полэкрана</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:200">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Кофе в зёрнах</span>Фильтры</div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span></div>
+            </div>
+            <div class="ds-lesson__mo-scrim ds-lesson__mo-el" style="--mo-o:0; --mo-ease:linear"></div>
+            <div class="ds-lesson__mo-sheet ds-lesson__mo-el" style="--mo-y:100%; --mo-ease:ease-out; --mo-exit-ease:ease-in">
+              <b>Фильтры</b>
+              <div class="ds-lesson__spec-row"><span class="ds-lesson__spec-chip is-on">Зёрна</span><span class="ds-lesson__spec-chip">Молотый</span><span class="ds-lesson__spec-chip">Капсулы</span></div>
+              <div class="ds-lesson__spec-btn">Показать 24 товара</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">На 100 мс переключатель щёлкает как надо, а шторка мелькает. На 500 мс шторка ещё терпима, а переключатель уже тянется. На секунде ждать приходится обоим.</div>
+  </div>
+
+  <p>Точной формулы нет, но есть ориентиры. Их дают Nielsen Norman Group и руководство Material Design:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что меняется</th><th scope="col">Пример</th><th scope="col">Длительность</th></tr></thead>
+      <tbody>
+        <tr><td>Мелкое изменение на месте</td><td>Переключатель, флажок, число в счётчике</td><td>около 100 мс</td></tr>
+        <tr><td>Небольшой элемент появляется или уходит</td><td>Подсказка, меню, плашка «Добавлено»</td><td>150–250 мс</td></tr>
+        <tr><td>Крупный элемент</td><td>Шторка, диалог</td><td>200–300 мс</td></tr>
+        <tr><td>Смена всего экрана</td><td>Переход к оформлению заказа</td><td>300–400 мс</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Больше полусекунды — почти всегда слишком долго.</b> По наблюдениям NN/g, на 500 мс анимация уже ощущается как помеха, а в большинстве случаев хватает 100–400 мс. Человек ждёт, пока доиграет анимация, вместо того чтобы продолжать работу.</div>
+
+  <p>И ещё одно правило: уход обычно короче появления. Появившийся элемент человек рассматривает, а на уходящий уже не смотрит. Плашка из примера выше появляется за 250 мс, а уходит за 200.</p>
+</section>
+
+<section id="easing">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Плавное начало и плавный конец</h2></div>
+  <p class="ds-lesson__lead">Кривая говорит, как меняется скорость по дороге. В жизни ничто не трогается и не останавливается мгновенно.</p>
+
+  <p>Длительность отвечает на вопрос «сколько», кривая — «как». Вот четыре основные кривые. Точки проходят дорожку за одно и то же время.</p>
+
+  <div class="ds-lesson__box" data-motion style="--mo-dur:1000">
+    <div class="ds-lesson__box-head">Четыре кривые · одна длительность, 1000 мс<span class="ds-lesson__spacer"></span><span data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__mo-lanes">
+        <div class="ds-lesson__mo-lane"><svg class="ds-lesson__mo-curve" viewBox="0 0 40 40" aria-hidden="true"><path d="M2 38 C2 38 38 2 38 2"/></svg><div class="ds-lesson__mo-lane-body"><span><b>Равномерно</b> · linear</span><div class="ds-lesson__mo-track"><div class="ds-lesson__mo-run ds-lesson__mo-el" style="--mo-ease:linear"><span class="ds-lesson__mo-dot"></span></div></div></div></div>
+        <div class="ds-lesson__mo-lane"><svg class="ds-lesson__mo-curve" viewBox="0 0 40 40" aria-hidden="true"><path d="M2 38 C17.12 38 38 2 38 2"/></svg><div class="ds-lesson__mo-lane-body"><span><b>Плавное начало</b> · ease-in</span><div class="ds-lesson__mo-track"><div class="ds-lesson__mo-run ds-lesson__mo-el" style="--mo-ease:ease-in"><span class="ds-lesson__mo-dot"></span></div></div></div></div>
+        <div class="ds-lesson__mo-lane"><svg class="ds-lesson__mo-curve" viewBox="0 0 40 40" aria-hidden="true"><path d="M2 38 C2 38 22.88 2 38 2"/></svg><div class="ds-lesson__mo-lane-body"><span><b>Плавный конец</b> · ease-out</span><div class="ds-lesson__mo-track"><div class="ds-lesson__mo-run ds-lesson__mo-el" style="--mo-ease:ease-out"><span class="ds-lesson__mo-dot"></span></div></div></div></div>
+        <div class="ds-lesson__mo-lane"><svg class="ds-lesson__mo-curve" viewBox="0 0 40 40" aria-hidden="true"><path d="M2 38 C17.12 38 22.88 2 38 2"/></svg><div class="ds-lesson__mo-lane-body"><span><b>Разгон и торможение</b> · ease-in-out</span><div class="ds-lesson__mo-track"><div class="ds-lesson__mo-run ds-lesson__mo-el" style="--mo-ease:ease-in-out"><span class="ds-lesson__mo-dot"></span></div></div></div></div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Все четыре точки выезжают и приезжают одновременно. Разница в том, где они быстрее: в начале пути, в конце или посередине. Секунда здесь нужна, чтобы разницу было видно. В интерфейсе столько обычно не нужно.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Кривая</th><th scope="col">Как движется</th><th scope="col">Для чего</th></tr></thead>
+      <tbody>
+        <tr><td><b>Плавный конец</b><br>ease-out</td><td>Сразу срывается с места и мягко тормозит</td><td>Появление: элемент сразу откликается и аккуратно встаёт на место</td></tr>
+        <tr><td><b>Плавное начало</b><br>ease-in</td><td>Медленно трогается и разгоняется к концу</td><td>Уход с экрана: резкого конца не видно, элемент уже за краем</td></tr>
+        <tr><td><b>Разгон и торможение</b><br>ease-in-out</td><td>Трогается, разгоняется, тормозит</td><td>Перемещение внутри экрана, когда видны и старт, и финиш</td></tr>
+        <tr><td><b>Равномерно</b><br>linear</td><td>Одна скорость от начала до конца</td><td>То, что движется без остановки: вращение индикатора загрузки, полоса прогресса</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Почему не наоборот — видно на шторке. Слева она появляется с плавным концом, справа с плавным началом. Длительность одна, 300 мс.</p>
+
+  <div class="ds-lesson__box" style="--mo-dur:300">
+    <div class="ds-lesson__box-head">Шторка · плавный конец и плавное начало</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Плавный конец, ease-out</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:200">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Кофе в зёрнах</span>Фильтры</div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span></div>
+            </div>
+            <div class="ds-lesson__mo-sheet ds-lesson__mo-el" style="--mo-y:100%; --mo-ease:ease-out">
+              <b>Фильтры</b>
+              <div class="ds-lesson__spec-btn">Показать 24 товара</div>
+            </div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+        <div class="ds-lesson__wf-col" data-motion>
+          <p class="ds-lesson__wf-caption">Плавное начало, ease-in</p>
+          <div class="ds-lesson__spec ds-lesson__mo-screen" style="--mo-h:200">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-title">Кофе в зёрнах</span>Фильтры</div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:1 / 3"><span class="ds-lesson__spec-ph">фото</span></div>
+              <div class="ds-lesson__spec-el ds-lesson__spec-card" style="--c:3 / 5"><span class="ds-lesson__spec-ph">фото</span></div>
+            </div>
+            <div class="ds-lesson__mo-sheet ds-lesson__mo-el" style="--mo-y:100%; --mo-ease:ease-in">
+              <b>Фильтры</b>
+              <div class="ds-lesson__spec-btn">Показать 24 товара</div>
+            </div>
+          </div>
+          <div class="ds-lesson__mo-actions" data-motion-actions data-motion-play="Проиграть" data-motion-back="Вернуть"></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева шторка откликается сразу и спокойно встаёт на место. Справа она сначала медлит, будто нажатие не сработало, а потом с разгона резко встаёт на место.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Появляется — плавный конец. Уходит — плавное начало. Двигается по экрану — разгон и торможение.</b> Равномерное движение оставьте тому, что крутится или ползёт без остановки.</div>
+
+  <p class="ds-lesson__dim">В CSS эти кривые так и называются: ease-out, ease-in, ease-in-out, linear. В прототипе Figma — Ease out, Ease in, Ease in and out, Linear. Кривая по умолчанию в CSS — ease: быстрый старт и долгое торможение.</p>
+</section>
+
+<section id="often">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Что не анимировать</h2></div>
+  <p class="ds-lesson__lead">То, что человек делает по сто раз в день, должно происходить сразу.</p>
+
+  <p>Переход в 300 мс незаметен, когда видишь его один раз. Когда переключаешь вкладки сорок раз за вечер, это уже двенадцать секунд ожидания и ощущение, что приложение тормозит. Второе, что не нужно анимировать, — движение без изменения: оно ничего не объясняет и отвлекает от дела.</p>
+
+  <p>Ниже анимации, которые команда магазина собрала в одном списке. Пять из них мешают. Нажимайте на строки, которые убрали бы или переделали: в разборе будет, что с ними не так.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Анимации приложения · найдите лишние<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <ul class="ds-lesson__mo-spec">
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Заставка с логотипом при каждом запуске, 2000 мс"><b>Заставка с логотипом</b><span class="ds-lesson__mo-item-meta">при каждом запуске · 2000 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Шторка фильтров выезжает снизу, 250 мс"><b>Шторка фильтров выезжает снизу</b><span class="ds-lesson__mo-item-meta">по нажатию «Фильтры» · 250 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Вкладки «Кофе, Чай, Посуда» перелистываются, 400 мс"><b>Вкладки «Кофе / Чай / Посуда» перелистываются вбок</b><span class="ds-lesson__mo-item-meta">при каждом переключении · 400 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Удалённый товар уезжает, список смыкается, 250 мс"><b>Удалённый товар уезжает влево, список смыкается</b><span class="ds-lesson__mo-item-meta">по нажатию «Удалить» · 250 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Карточки каталога въезжают по одной при каждом открытии раздела"><b>Карточки каталога въезжают по одной</b><span class="ds-lesson__mo-item-meta">при каждом открытии раздела · 12 карточек по 100 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Отметка «Оплачен» проявляется, 150 мс"><b>Отметка «✓ Оплачен» проявляется</b><span class="ds-lesson__mo-item-meta">когда пришла оплата · 150 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Кнопка «Оформить» пульсирует, пока корзина не пуста"><b>Кнопка «Оформить» мягко пульсирует</b><span class="ds-lesson__mo-item-meta">всё время, пока в корзине есть товар</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Ручка переключателя «Автоповтор», 100 мс"><b>Ручка переключателя «Автоповтор»</b><span class="ds-lesson__mo-item-meta">по нажатию · 100 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Число в счётчике корзины сменяется, 200 мс"><b>Число в счётчике корзины сменяется</b><span class="ds-lesson__mo-item-meta">когда товар добавлен · 200 мс</span></span></li>
+          <li><span class="ds-lesson__mo-item ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Меню профиля раскрывается, 600 мс"><b>Меню профиля раскрывается</b><span class="ds-lesson__mo-item-meta">по нажатию на аватар · 600 мс</span></span></li>
+        </ul>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Заставка с логотипом, 2 секунды при каждом запуске.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Каждое открытие начинается с ожидания, хотя человек пришёл за кофе. Если приложению нужно время на загрузку, заставка держится ровно столько, сколько идёт загрузка, а не лишние секунды.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Шторка фильтров выезжает снизу, 250 мс.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Шторку открывают не каждую минуту, а движение показывает, откуда она взялась и куда её убрать. Длительность подходит крупному элементу.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Вкладки перелистываются вбок, 400 мс.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Вкладки переключают постоянно, и каждый раз приходится ждать. Содержимое вкладки показывайте сразу, в крайнем случае с короткой сменой прозрачности. Двигаться может только полоска под выбранной вкладкой.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Удалённый товар уезжает влево, список смыкается, 250 мс.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Без движения строка просто пропадёт, и человек не сразу поймёт, что именно удалилось. Движение это показывает.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Карточки каталога въезжают по одной.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Двенадцать карточек по очереди — больше секунды до того, как видна вся витрина, и так при каждом открытии раздела. Это украшение в самом частом месте приложения.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Отметка «Оплачен» проявляется, 150 мс.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Статус сменился не по нажатию, а сам, и короткое проявление помогает это заметить.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «Оформить» всё время пульсирует.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Ничего не изменилось, а кнопка двигается: это отвлекает от чтения и ничего не объясняет. Бесконечное движение к тому же мешает людям, которым трудно сосредоточиться.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Ручка переключателя, 100 мс.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Переключают часто, но 100 мс не заставляют ждать, а движение ручки показывает новое положение.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Число в счётчике корзины сменяется, 200 мс.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Это тот самый переход из начала урока: без него добавление в корзину легко пропустить.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Меню профиля раскрывается, 600 мс.</span><span class="ds-lesson__hunt-fix"><b>Сократить. </b>Меню — небольшой элемент, ему хватает 150–200 мс. 600 мс — втрое дольше, и меню открывают часто.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую строку</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Лишними оказались украшения и медленные переходы там, где человек бывает чаще всего. Полезные переходы остались, и все они короче трети секунды.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нужные анимации тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Чем чаще действие, тем короче переход.</b> Для самого частого — ноль: изменение происходит сразу.</div>
+</section>
+
+<section id="handoff">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Как описать анимацию для разработки</h2></div>
+  <p class="ds-lesson__lead">Разработке нужна не гифка, а ответы на пять вопросов: что, откуда, куда, сколько и по какой кривой.</p>
+
+  <p>Прототип показывает, как это выглядит, но числа из него приходится угадывать. Опишите каждую анимацию таблицей. Вот плашка «Добавлено в корзину» из начала урока:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Вопрос</th><th scope="col">Плашка «Добавлено в корзину»</th></tr></thead>
+      <tbody>
+        <tr><td>Когда</td><td>Товар добавлен в корзину после нажатия «В корзину»</td></tr>
+        <tr><td>Что</td><td>Плашка с текстом «Добавлено в корзину»</td></tr>
+        <tr><td>Откуда</td><td>Из-за нижнего края экрана, прозрачная</td></tr>
+        <tr><td>Куда</td><td>На 16 px выше нижнего края, непрозрачная</td></tr>
+        <tr><td>Сколько</td><td>250 мс</td></tr>
+        <tr><td>Кривая</td><td>Плавный конец, ease-out</td></tr>
+        <tr><td>Уход</td><td>Через 3 секунды: вниз за край, 200 мс, плавное начало, ease-in</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>В Figma длительность и кривая задаются в панели прототипа у каждого перехода, длительность — в миллисекундах. Перенесите эти числа в описание, а не отправляйте ссылку со словами «как в прототипе».</p>
+
+  <div class="ds-lesson__rule"><b>Описание готово, если по нему можно повторить анимацию, не открывая прототип.</b></div>
+</section>
+
+<section id="curve">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Какую кривую взять</h2></div>
+  <p class="ds-lesson__lead">Сначала решите, что делает элемент: появляется, уходит, едет по экрану или крутится. Кривая следует из ответа.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какую кривую взять<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="out"><p class="ds-quiz__question">Шторка фильтров выезжает снизу.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Плавный конец</b>Шторка появляется: пусть сразу откликнется на нажатие и мягко встанет на место.</p></li>
+<li data-quiz-q data-answer="in"><p class="ds-quiz__question">Плашка «Добавлено в корзину» уезжает вниз и исчезает.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Плавное начало</b>Плашка уходит насовсем. Разгон к концу выглядит естественно, а резкую остановку за краем никто не увидит.</p></li>
+<li data-quiz-q data-answer="inout"><p class="ds-quiz__question">Полоска под выбранной вкладкой переезжает с «Кофе» на «Чай».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Разгон и торможение</b>Полоска едет внутри экрана, и видны оба конца пути: и где она тронулась, и где встала.</p></li>
+<li data-quiz-q data-answer="linear"><p class="ds-quiz__question">Индикатор загрузки крутится, пока приходит список заказов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Равномерно</b>Вращение без остановки. Разгон и торможение на каждом обороте выглядели бы как рывки.</p></li>
+<li data-quiz-q data-answer="none"><p class="ds-quiz__question">Содержимое вкладок «Кофе» и «Чай», которые переключают десятки раз за визит.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Без анимации</b>Частое действие должно происходить сразу. Движение здесь — только ожидание.</p></li>
+<li data-quiz-q data-answer="out"><p class="ds-quiz__question">Подсказка «Можно оплатить частями» появляется над кнопкой.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Плавный конец</b>Появление. Короткое, около 150 мс: подсказка маленькая.</p></li>
+<li data-quiz-q data-answer="in"><p class="ds-quiz__question">Диалог «Удалить товар?» закрывается после нажатия «Отмена».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Плавное начало</b>Диалог уходит. И уход короче появления: человек уже решил и ждать не хочет.</p></li>
+<li data-quiz-q data-answer="linear"><p class="ds-quiz__question">Полоса отправки фотографии для отзыва заполняется слева направо.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Равномерно</b>Полоса показывает, сколько уже сделано. Разгон и торможение исказили бы эту долю.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="out">Плавный конец</button><button class="ds-quiz__option" type="button" data-quiz-answer="in">Плавное начало</button><button class="ds-quiz__option" type="button" data-quiz-answer="inout">Разгон и торможение</button><button class="ds-quiz__option" type="button" data-quiz-answer="linear">Равномерно</button><button class="ds-quiz__option" type="button" data-quiz-answer="none">Без анимации</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Сначала ответьте себе, что делает элемент: появляется, уходит, едет по экрану или движется без остановки. И не забывайте про вариант «без анимации».</div>
+</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите три перехода своего экрана и соберите их с осмысленными длительностями. Напишите по строке на каждый: что он объясняет.</p>
+
+  <h3>Часть 1 · Найти переходы, 15 минут</h3>
+  <ol>
+    <li><strong>Выберите экран или короткий сценарий,</strong> где что-то появляется, уходит или меняется: корзина, фильтры, форма.</li>
+    <li><strong>Выпишите все изменения</strong> на этом экране, даже те, что сейчас происходят без движения.</li>
+    <li><strong>Про каждое спросите,</strong> что человек должен понять. Отметьте, как часто это изменение случается.</li>
+    <li><strong>Выберите три</strong>, где движение объясняет больше всего.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Три перехода · заполните по каждому<span class="ds-lesson__spacer"></span><span data-copy="motionTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="motionTmpl">ЭКРАН: ______________________        Дата: __.__.____
+
+ПЕРЕХОД 1: ______________________
+он показывает, что ______________________________
+когда: ______________   как часто: редко / часто / постоянно
+откуда: ______________   куда: ______________
+длительность: ___ мс   кривая: плавный конец / плавное начало / разгон и торможение / равномерно
+уход: ___ мс, кривая: ______________
+
+ПЕРЕХОД 2: ______________________
+он показывает, что ______________________________
+когда: ______________   как часто: редко / часто / постоянно
+откуда: ______________   куда: ______________
+длительность: ___ мс   кривая: ______________
+уход: ___ мс, кривая: ______________
+
+ПЕРЕХОД 3: ______________________
+он показывает, что ______________________________
+когда: ______________   как часто: редко / часто / постоянно
+откуда: ______________   куда: ______________
+длительность: ___ мс   кривая: ______________
+уход: ___ мс, кривая: ______________
+
+УБРАЛ (украшения и частые действия): ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строку «он показывает, что …» заполняйте первой. Если она не складывается, переход не нужен.</div>
+  </div>
+
+  <h3>Часть 2 · Собрать в прототипе, 40 минут</h3>
+  <ol>
+    <li><strong>Соберите три перехода</strong> в прототипе: в Figma через Smart animate или в <a href="/resource/jitter/">Jitter</a>.</li>
+    <li><strong>Подберите длительность</strong> по таблице из урока: мелкое — около 100 мс, крупное — до 300 мс.</li>
+    <li><strong>Проверьте кривые:</strong> появление — плавный конец, уход — плавное начало, перемещение — разгон и торможение.</li>
+    <li><strong>Посмотрите на телефоне,</strong> а не только в редакторе. Если ждёте конца анимации — сократите. Если не успели понять, что произошло, — удлините.</li>
+  </ol>
+
+  <h3>Часть 3 · Описать, 15 минут</h3>
+  <ol>
+    <li><strong>Заполните шаблон</strong> по каждому переходу.</li>
+    <li><strong>Перечитайте строки «он показывает, что …».</strong> Если какая-то звучит как «чтобы было красиво», уберите этот переход.</li>
+    <li><strong>Отдайте описание разработчику</strong> и спросите, всё ли понятно без прототипа.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Для каждого перехода можно назвать, что именно он помогает понять. Переходов «для красоты» не осталось.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Прототип</strong> с тремя переходами.</li>
+    <li><strong>Заполненный шаблон</strong> по каждому.</li>
+    <li><strong>Список убранного:</strong> украшения и переходы в частых действиях.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут на поиск переходов, 40 на прототип, 15 на описание. Всего — чуть больше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«В редакторе уже стоит длительность по умолчанию».</strong> Число по умолчанию — не решение. Проверьте его по размеру изменения: переключателю и шторке оно не может подойти одновременно.</li>
+    <li><strong>«Без анимации экран выглядит мёртвым».</strong> Живым его делает отклик на действие: нажал — что-то ответило. Движение ради движения этого не даёт.</li>
+    <li><strong>«Разработка скажет, что это долго делать».</strong> Переход по прозрачности или сдвигу с длительностью и кривой — одна строка кода. Долго делать то, что описано словами «как в прототипе».</li>
+    <li><strong>«Не знаю, какая длительность правильная».</strong> Начните с таблицы из урока и смотрите на телефоне. Правильная та, при которой успеваешь понять, что произошло, и не успеваешь заскучать.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Переход готов, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Про него можно закончить фразу «он показывает, что …»</li>
+    <li>Длительность соответствует размеру: мелкое быстрее, крупное дольше</li>
+    <li>Переход длиннее полусекунды — только с причиной</li>
+    <li>Появление с плавным концом, уход с плавным началом</li>
+    <li>Уход короче появления</li>
+    <li>Частые действия происходят сразу</li>
+    <li>Записаны когда, что, откуда, куда, сколько и кривая</li>
+    <li>Переход посмотрен на телефоне, а не только в редакторе</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Движение ради живости.</b> Кнопка пульсирует, логотип крутится, а объяснять нечего.</li>
+    <li><b>Одна длительность на всё.</b> Переключатель тянется, шторка мелькает.</li>
+    <li><b>Равномерное появление.</b> Элемент едет как по рельсам и встаёт с ударом.</li>
+    <li><b>Долгий переход в частом действии.</b> Человек ждёт анимацию каждый раз.</li>
+    <li><b>«Смотрите в прототипе».</b> Разработка угадывает числа и угадывает не те.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся добавлять переходы и подбирать им длительность. На следующих ступенях — связывать движением состояния, работать с общим набором параметров и настройкой «уменьшить движение», а потом описывать правила движения для всей команды.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Отличать переход, который объясняет, от украшения; подбирать длительность под размер; выбирать кривую; не анимировать частое; описывать анимацию для разработки</td>
+          <td>Для каждого перехода можно назвать, что он помогает понять, переходов «для красоты» не осталось</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Показывать движением, откуда появилось и куда исчезло; брать длительности и кривые из общего набора; учитывать «уменьшить движение»; помнить про медленную сеть и слабые телефоны</td>
+          <td class="ds-lesson__dim">При включённой системной настройке интерфейс остаётся полностью работающим и понятным без движения</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описать правила движения продукта: что анимируем и зачем, токены длительностей и кривых, что при «уменьшить движение», как проверяем производительность</td>
+          <td class="ds-lesson__dim">Спор об анимации в команде закрыт ссылкой на правило</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любое движение на экране вы можете сказать, что оно объясняет и почему оно такой длины.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/animation-duration/">Executing UX Animations: Duration and Motion Characteristics</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно</span><span>Сколько миллисекунд давать переключателю и модальному окну, почему уход короче появления и какую кривую брать на вход и на выход.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/animation-purpose-ux/">The Role of Animation and Motion in UX</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно</span><span>Зачем движение в интерфейсе: какие задачи оно решает и когда только мешает.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m2.material.io/design/motion/speed.html">Speed</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a>, вторая версия · на английском · бесплатно</span><span>Длительности на примерах компонентов: переключатель, боковая панель, карточка — и отдельные кривые для появления и ухода.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/360051748654-Prototype-easing-and-spring-animations">Prototype easing and spring animations</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Все кривые и пружины прототипа Figma и что меняет каждая настройка.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/jitter/">Jitter</a></span><span class="ds-lesson__reads-meta">инструмент · на английском · есть бесплатный тариф</span><span>Собрать переходы из задания с точными длительностями и кривыми, если прототипа Figma не хватает.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

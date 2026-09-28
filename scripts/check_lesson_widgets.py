@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка», «Типографика» и «Цвет и контраст».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка», «Типографика», «Цвет и контраст» и «Анимация и микровзаимодействия».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -59,6 +59,9 @@ with sync_playwright() as play:
         ("color-contrast-junior", ["Убрать. Дубль #DCE1E6", "Остаётся, но меняет роль", "Справа шесть нейтральных"]),
         ("color-contrast-middle", ["Тёмная, те же акценты", "Акценты тонут", "Справа у неактивного своя пара цветов"]),
         ("color-contrast-senior", ["Текст справа вписан значениями", "--color-on-action: var(--blue-950);", "Система не покрывает"]),
+        ("motion-junior", ["Убрать. Каждое открытие начинается с ожидания", "Добавлено в корзину", "Все пять найдены"]),
+        ("motion-middle", ["Слева сумма и строка «Колумбия»", "Проявляются на месте, без сдвига и масштаба", "prefers-reduced-motion: reduce"]),
+        ("motion-senior", ["Нарушение. Выбор — это отклик на нажатие", '"$type": "cubicBezier"', "Изменения нет в таблице"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -989,6 +992,115 @@ with sync_playwright() as play:
         page.inner_text("[data-diff-actions] button") == "Убрать подсветку",
         "подпись кнопки: " + page.inner_text("[data-diff-actions] button"),
     ) else 1
+    page.close()
+
+    # «Анимация и микровзаимодействия»: без скрипта виден конечный кадр — уходящее спрятано,
+    # пришедшее на месте. Иначе страница без JS показала бы старое число и плашку за краем.
+    plain = browser.new_context(java_script_enabled=False)
+    page = plain.new_page()
+    page.goto(BASE + "motion-junior/")
+    head("motion-junior · конечный кадр без скрипта")
+    frame = page.evaluate("""() => { const box = document.querySelector('#explain .ds-lesson__box');
+        const out = [...box.querySelectorAll('.ds-lesson__mo-el--out')].map(el => getComputedStyle(el).opacity);
+        const inn = [...box.querySelectorAll('.ds-lesson__mo-el:not(.ds-lesson__mo-el--out)')].map(el => getComputedStyle(el).transform + ' ' + getComputedStyle(el).opacity);
+        return [out, inn]; }""")
+    fails += 0 if say(set(frame[0]) == {"0"} and set(frame[1]) == {"none 1"}, "старое число спрятано, новое и плашка на месте: " + str(frame)) else 1
+    plain.close()
+
+    # Со скриптом: кнопка на каждый образец, выбор длительности, кривые, поиск.
+    page = ctx.new_page()
+    page.goto(BASE + "motion-junior/")
+    page.wait_for_timeout(400)
+    head("motion-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    made = page.evaluate("() => [document.querySelectorAll('[data-motion]').length, document.querySelectorAll('[data-motion-actions] button').length]")
+    fails += 0 if say(made[0] == made[1] == 6, "кнопок «Проиграть» по образцу: %d на %d" % (made[1], made[0])) else 1
+    start = page.evaluate("() => getComputedStyle(document.querySelector('#explain [data-motion]:last-child .ds-lesson__mo-toast')).opacity")
+    fails += 0 if say(start == "0", "до нажатия образец стоит в начальном кадре: плашка прозрачна") else 1
+    # Начальный кадр встаёт мгновенно: образец не двигается сам при загрузке страницы.
+    # 28.09.2026 дорожки кривых секунду ехали назад сразу после открытия урока.
+    still = page.evaluate("""() => [...document.querySelectorAll('#easing .ds-lesson__mo-run')].map(el =>
+        Math.round(new DOMMatrix(getComputedStyle(el).transform).m41))""")
+    fails += 0 if say(len(set(still)) == 1 and still[0] < 0, "при загрузке все точки стоят в начале дорожки: " + str(still)) else 1
+    picks = "() => [...document.querySelectorAll('#duration [data-motion-pick] button')].map(b => b.getAttribute('aria-pressed'))"
+    fails += 0 if say(page.evaluate(picks).count("true") == 1, "выбрана одна длительность: " + str(page.evaluate(picks))) else 1
+    page.click("#duration [data-motion-pick] button:nth-of-type(4)")
+    dur = page.evaluate("() => getComputedStyle(document.querySelector('#duration .ds-lesson__mo-sheet')).transitionDuration")
+    fails += 0 if say(dur.startswith("0.5s") and page.evaluate(picks)[3] == "true", "«500 мс» даёт шторке 0,5 с: " + dur) else 1
+    page.click("#easing .ds-lesson__box[data-motion] [data-motion-actions] button")
+    page.wait_for_timeout(300)
+    lanes = page.evaluate("""() => [...document.querySelectorAll('#easing .ds-lesson__mo-run')].map(el =>
+        Math.round(new DOMMatrix(getComputedStyle(el).transform).m41))""")
+    fails += 0 if say(len(lanes) == 4 and lanes[2] > lanes[0] > lanes[1], "на трети пути кривые расходятся — конец > равномерно > начало: " + str(lanes)) else 1
+    pins = page.query_selector_all("[data-hunt] button")
+    miss = page.evaluate("[...document.querySelectorAll('[data-hunt-item]')].map(el => el.hasAttribute('data-hunt-miss'))")
+
+    for pin, is_miss in zip(pins, miss):
+        if not is_miss:
+            pin.click()
+            page.wait_for_timeout(30)
+
+    fails += 0 if say(len(pins) == 10 and "5 из 5" in page.inner_text("[data-hunt-count-out]").lower(), "поиск лишних: 10 строк, найдено 5 из 5") else 1
+    page.close()
+
+    # «Уменьшить движение» в коробке: начальный кадр без сдвига, но прозрачный,
+    # и смена режима не запускает переход сама.
+    page = ctx.new_page()
+    page.goto(BASE + "motion-middle/")
+    page.wait_for_timeout(400)
+    head("motion-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    sheet = "() => { const s = getComputedStyle(document.querySelector('#reduce .ds-lesson__mo-sheet')); return [new DOMMatrix(s.transform).m42, +s.opacity]; }"
+    before = page.evaluate(sheet)
+    page.click("#reduce [data-layer='reduce'] button")
+    page.wait_for_timeout(30)
+    after = page.evaluate(sheet)
+    fails += 0 if say(before[0] > 0 and before[1] == 1 and after == [0, 0], "«Уменьшить движение»: шторка не сдвинута, а прозрачна — %s → %s" % (before, after)) else 1
+    page.close()
+
+    # Подпись внутри отрезка шкалы времени не обрезается на телефоне: длина отрезка —
+    # доля шкалы, и на 375 «данные» за 200 мс превращались в «данн».
+    phone = browser.new_context(viewport={"width": 375, "height": 800})
+    page = phone.new_page()
+    page.goto(BASE + "motion-middle/")
+    cut = page.evaluate("() => [...document.querySelectorAll('.ds-lesson__mo-seg')].filter(s => s.scrollWidth > s.clientWidth).map(s => s.textContent)")
+    fails += 0 if say(not cut, "подписи шкалы не обрезаны на 375" + (": " + str(cut) if cut else "")) else 1
+    phone.close()
+
+    # Образцы урока — его содержимое: при системной настройке они играют по нажатию,
+    # а над ними видно пояснение. Общее правило темы их не глушит.
+    calm = browser.new_context(reduced_motion="reduce")
+    page = calm.new_page()
+    page.goto(BASE + "motion-middle/")
+    page.wait_for_timeout(400)
+    head("motion-middle · при «уменьшить движение»")
+    note = page.evaluate("() => getComputedStyle(document.querySelector('.ds-lesson__mo-note')).display")
+    dur = page.evaluate("() => getComputedStyle(document.querySelector('#reduce .ds-lesson__mo-sheet')).transitionDuration")
+    # До нажатия у шторки длительность ухода, 0,2 с: главное, что не 0,01 мс общего правила темы.
+    fails += 0 if say(note == "block" and dur == "0.2s", "пояснение видно, переход шторки не заглушен: %s, %s" % (note, dur)) else 1
+    calm.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "motion-senior/")
+    page.wait_for_timeout(400)
+    head("motion-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    pins = page.query_selector_all("[data-hunt] button")
+    miss = page.evaluate("[...document.querySelectorAll('[data-hunt-item]')].map(el => el.hasAttribute('data-hunt-miss'))")
+    pins[miss.index(True)].click()
+    page.wait_for_timeout(30)
+    fails += 0 if say("0 из 5" in page.inner_text("[data-hunt-count-out]").lower(), "строка без нарушения разобрана, но не засчитана") else 1
+
+    for pin, is_miss in zip(pins, miss):
+        if not is_miss:
+            pin.click()
+            page.wait_for_timeout(30)
+
+    fails += 0 if say(len(pins) == 8 and "5 из 5" in page.inner_text("[data-hunt-count-out]").lower() and page.is_visible("[data-hunt-all]"),
+                      "прогон спецификации: 8 строк, найдено 5 из 5, итог показан") else 1
     page.close()
     browser.close()
 

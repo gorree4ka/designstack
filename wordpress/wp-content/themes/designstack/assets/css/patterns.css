@@ -7364,3 +7364,362 @@ button.ds-lesson__sw.ds-lesson__hunt-pin:hover {
 .ds-lesson section > :is(div, details, figure, table) + .ds-lesson__dim {
 	margin-top: var(--wp--preset--spacing--2);
 }
+
+/* ---------- урок: движение ----------
+   Образец анимации. Всё, что двигается, — `.ds-lesson__mo-el`, а числа лежат в разметке урока:
+   `--mo-dur` и `--mo-delay` — миллисекунды, `--mo-ease` — кривая, `--mo-x` и `--mo-y` — сдвиг
+   в процентах от размера самого элемента, `--mo-s` — масштаб, `--mo-o` — прозрачность.
+   У ухода свои `--mo-exit-dur` и `--mo-exit-ease`; не заданы — те же, что у появления.
+   Без скрипта виден конечный кадр. Скрипт ставит коробке `data-motion-live` — элементы встают
+   в начальный кадр, — а кнопка «Проиграть» ставит `is-on`. Элемент `--out` наоборот: он виден
+   в начале и уходит в конце. Переход только по transform и opacity — как урок и советует. */
+.ds-lesson__mo-el {
+	--mo-t: var(--mo-dur, 200);
+	transition-property: transform, opacity;
+	transition-duration: calc(var(--mo-t) * 1ms);
+	transition-timing-function: var(--mo-ease, ease);
+	transition-delay: calc(var(--mo-delay, 0) * 1ms);
+	transform-origin: var(--mo-origin, 50% 50%);
+}
+
+/* Сдвинутый кадр. `--mo-k` — доля движения: в режиме «Уменьшить движение» она ноль,
+   и от перехода остаётся только прозрачность — своя, `--mo-ro`, если урок её задал:
+   шторка, которая выезжала непрозрачной, в этом режиме проявляется. */
+[data-motion-live]:not(.is-on) .ds-lesson__mo-el:not(.ds-lesson__mo-el--out),
+[data-motion]:not([data-motion-live]) .ds-lesson__mo-el--out,
+[data-motion-live].is-on .ds-lesson__mo-el--out {
+	transform:
+		translate(calc(var(--mo-x, 0%) * var(--mo-k, 1)), calc(var(--mo-y, 0%) * var(--mo-k, 1)))
+		scale(calc(1 + (var(--mo-s, 1) - 1) * var(--mo-k, 1)));
+	opacity: calc(var(--mo-o, 1) + (var(--mo-ro, var(--mo-o, 1)) - var(--mo-o, 1)) * (1 - var(--mo-k, 1)));
+}
+
+/* Уход берёт свои числа: у появления и ухода они обычно разные. */
+[data-motion-live]:not(.is-on) .ds-lesson__mo-el:not(.ds-lesson__mo-el--out),
+[data-motion-live].is-on .ds-lesson__mo-el--out {
+	--mo-t: var(--mo-exit-dur, var(--mo-dur, 200));
+	transition-timing-function: var(--mo-exit-ease, var(--mo-ease, ease));
+}
+
+.ds-lesson__box.is-reduce {
+	--mo-k: 0;
+}
+
+/* Общее правило «уменьшить движение» в начале файла глушит все переходы сайта. Образцы
+   урока — его содержимое: они играют только по нажатию, и это нажатие их не глушит.
+   Пояснение `ds-lesson__mo-note` видно только тем, у кого настройка включена. */
+.ds-lesson__mo-note {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ds-lesson [data-motion-live] .ds-lesson__mo-el {
+		transition-duration: calc(var(--mo-t) * 1ms) !important;
+	}
+
+	.ds-lesson__mo-note {
+		display: block;
+	}
+}
+
+/* Возврат в начальный кадр перед повтором — без перехода. */
+.ds-lesson [data-motion-live].is-snap .ds-lesson__mo-el {
+	transition: none !important;
+}
+
+/* Кнопка под экраном, когда образцов два: на телефоне колонки встают друг под другом,
+   и у каждого экрана своя кнопка — иначе нижний отыграет, пока до него листают. */
+.ds-lesson__mo-actions {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--2);
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__mo-actions:empty {
+	display: none;
+}
+
+/* Выбор значения: подпись и кнопки, их рисует скрипт. */
+.ds-lesson__mo-pick {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__mo-pick:empty {
+	display: none;
+}
+
+.ds-lesson__mo-pick-title {
+	margin-right: var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+/* Экран-сцена: высота — число из разметки, чтобы шторке и плашке было куда выехать. */
+.ds-lesson__mo-screen {
+	min-height: calc(var(--mo-h, 240) * 1rem / 16);
+}
+
+/* Затемнение под шторкой: цвет — токен подложки под текст на фото, глубину даёт прозрачность. */
+.ds-lesson__mo-scrim {
+	position: absolute;
+	inset: 0;
+	background: var(--wp--preset--color--surface-scrim);
+	opacity: 0.4;
+}
+
+.ds-lesson__mo-sheet {
+	position: absolute;
+	inset: auto 0 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--4);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md) var(--wp--custom--radius--md) 0 0;
+	background: var(--wp--preset--color--surface-raised);
+	box-shadow: var(--wp--preset--shadow--md);
+}
+
+.ds-lesson__mo-toast {
+	position: absolute;
+	inset: auto var(--wp--preset--spacing--4) var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+	font-weight: 600;
+}
+
+/* Экран, который раскрывается поверх списка: точка роста — `--mo-origin` в разметке. */
+.ds-lesson__mo-page {
+	position: absolute;
+	inset: 0;
+	background: var(--wp--preset--color--surface-default);
+}
+
+/* Строка списка одной высоты: соседи смыкаются сдвигом ровно на строку, а не пересчётом
+   раскладки. `ds-lesson__mo-shift` — сдвиг вверх на одну строку. */
+.ds-lesson__mo-li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--3);
+	height: var(--wp--custom--size--control-lg);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__mo-shift {
+	--mo-y: calc(-1 * var(--wp--custom--size--control-lg));
+}
+
+/* Плашка у верхнего края — когда низ экрана занят шторкой. */
+.ds-lesson__mo-toast--top {
+	inset: calc(var(--wp--custom--size--control-lg) + var(--wp--preset--spacing--2)) var(--wp--preset--spacing--4) auto;
+}
+
+/* Переключатель: серая дорожка, поверх неё акцент, который проявляется, и ручка. */
+.ds-lesson__mo-switch {
+	position: relative;
+	display: inline-flex;
+	flex: none;
+	width: calc(var(--wp--custom--size--icon-md) * 2 + var(--wp--custom--border-width--focus) * 2);
+	padding: var(--wp--custom--border-width--focus);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__mo-switch-on {
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__mo-knob {
+	position: relative;
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+	margin-left: auto;
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+/* Счётчик в кружке: старое число уходит, новое приходит на его место. */
+.ds-lesson__mo-count {
+	display: inline-grid;
+	flex: none;
+	min-width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+	overflow: hidden;
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	line-height: var(--wp--custom--size--icon-md);
+	text-align: center;
+}
+
+.ds-lesson__mo-count > * {
+	grid-area: 1 / 1;
+}
+
+/* Дорожки кривых: точка проходит дорожку за одно и то же время, разница — только в кривой. */
+.ds-lesson__mo-lanes {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__mo-lane {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__mo-curve {
+	flex: none;
+	width: var(--wp--custom--size--tile-sm);
+	height: var(--wp--custom--size--tile-sm);
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+}
+
+.ds-lesson__mo-lane-body {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	min-width: 0;
+}
+
+.ds-lesson__mo-track {
+	overflow: hidden;
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__mo-run {
+	--mo-x: calc(var(--wp--custom--size--icon-md) - 100%);
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ds-lesson__mo-dot {
+	width: var(--wp--custom--size--icon-md);
+	height: var(--wp--custom--size--icon-md);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+/* Шкала времени: отрезки стоят по миллисекундам из разметки, `--mo-max` — вся шкала. */
+.ds-lesson__mo-time {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__mo-trow {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__mo-tbar {
+	position: relative;
+	height: var(--wp--custom--size--control-sm);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__mo-seg {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(var(--mo-at, 0) / var(--mo-max, 1000) * 100%);
+	display: flex;
+	align-items: center;
+	width: calc(var(--mo-len, 0) / var(--mo-max, 1000) * 100%);
+	padding-inline: var(--wp--preset--spacing--1);
+	overflow: hidden;
+	border-radius: var(--wp--custom--radius--sm);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	white-space: nowrap;
+}
+
+.ds-lesson__mo-seg--anim {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+/* Запрос отличается от фона шкалы рамкой, а не только оттенком: подложки близки по тону. */
+.ds-lesson__mo-seg--net {
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--icon-info);
+	background: var(--wp--preset--color--bg-info);
+}
+
+.ds-lesson__mo-seg--wait {
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__mo-seg--done {
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+	font-weight: 600;
+}
+
+/* Список анимаций продукта для поиска: место, на которое нажимают, — строка целиком. */
+.ds-lesson__mo-spec {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+button.ds-lesson__mo-item.ds-lesson__hunt-pin,
+.ds-lesson__mo-item.ds-lesson__hunt-pin {
+	position: static;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--wp--preset--spacing--1);
+	width: 100%;
+	height: auto;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-weight: inherit;
+	line-height: var(--wp--custom--line-height--snug);
+	text-align: left;
+	transform: none;
+}
+
+.ds-lesson__mo-item.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__mo-item.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__mo-item-meta {
+	font-size: var(--wp--preset--font-size--sm);
+	font-variant-numeric: tabular-nums;
+}
