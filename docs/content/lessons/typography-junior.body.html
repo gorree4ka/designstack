@@ -1,0 +1,388 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#seven">Почему текст выглядит несобранным</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#scale">Как собрать шкалу кеглей</a></li>
+    <li><a href="#roles">Какой кегль какому тексту</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#leading">Как подобрать межстрочный интервал</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#headings">Как различать заголовки</a></li>
+    <li><a href="#small">Насколько мелким может быть текст</a></li>
+    <li><a href="#fit">Что делать, если текст не влезает</a></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Страница товара в том же магазине кофе, что и в <a href="/lessons/layout-grid-middle/">теме про сетку</a>. Её собирали постепенно: название сделали побольше, цену — ещё больше, описание — «чтобы читалось», раздел «Характеристики» — «чтобы выделялся». Получилось семь разных кеглей на одном экране. Сведём их к шкале из пяти ступеней.</div>
+
+<section id="seven">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Семь кеглей там, где хватает пяти</h2></div>
+  <p class="ds-lesson__lead">Каждый размер по отдельности выбран разумно. Вместе они делают экран неаккуратным.</p>
+
+  <p>Слева — страница, где кегль подбирали для каждой строки отдельно. Справа — тот же текст, но каждый размер взят из шкалы. Числа на экранах — кегли в пикселях. Нажмите «Кегли», чтобы спрятать или показать их.</p>
+
+  <div class="ds-lesson__box is-sizes">
+    <div class="ds-lesson__box-head">Страница товара · на глаз и по шкале<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="sizes" data-layer-label="Кегли"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">На глаз</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Кофе в зёрнах</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:22; --lh:1.1"><b>Lavazza Crema e Aroma, 1 кг</b><span class="ds-lesson__fs-n">22</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:13">4,8 из 5 · 2 314 отзывов<span class="ds-lesson__fs-n">13</span></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:24; --lh:1.1"><b>1 190 ₽</b><span class="ds-lesson__fs-n">24</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:15">без скидки 1 390 ₽<span class="ds-lesson__fs-n">15</span></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:17; --lh:1.2">Плотный вкус с нотами шоколада и сухофруктов. Подходит для эспрессо и турки.<span class="ds-lesson__fs-n">17</span></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:18"><b>Характеристики</b><span class="ds-lesson__fs-n">18</span></div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:14">Обжарка: средняя · Арабика 60 %<span class="ds-lesson__fs-n">14</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">По шкале</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Кофе в зёрнах</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:24; --lh:1.333"><b>Lavazza Crema e Aroma, 1 кг</b><span class="ds-lesson__fs-n">24</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:14; --lh:1.43">4,8 из 5 · 2 314 отзывов<span class="ds-lesson__fs-n">14</span></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:20; --lh:1.4"><b>1 190 ₽</b><span class="ds-lesson__fs-n">20</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:12; --lh:1.333">без скидки 1 390 ₽<span class="ds-lesson__fs-n">12</span></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:16; --lh:1.5">Плотный вкус с нотами шоколада и сухофруктов. Подходит для эспрессо и турки.<span class="ds-lesson__fs-n">16</span></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:20; --lh:1.4"><b>Характеристики</b><span class="ds-lesson__fs-n">20</span></div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:14; --lh:1.43">Обжарка: средняя · Арабика 60 %<span class="ds-lesson__fs-n">14</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева семь кеглей: 13, 14, 15, 17, 18, 22 и 24. Справа пять: 12, 14, 16, 20 и 24, и у каждого своя роль. Цена и заголовок раздела получили одну ступень, 20: в шкале это роль «заголовок раздела и крупные числа».</div>
+  </div>
+
+  <h3>Что выдаёт текст, набранный на глаз</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Соседние размеры почти не отличаются.</b> 13 и 14, 17 и 18 глаз читает как «примерно одинаковые», и непонятно, случайность это или разные роли.</li>
+    <li><b>Одна роль — разные размеры.</b> Рейтинг набран 13, характеристики — 14. Оба вторичный текст, а выглядят по-разному.</li>
+    <li><b>Каждый новый текст — новое решение.</b> Под следующую строку снова подбирают кегль «чтобы выглядело», и размеров становится всё больше.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>У каждого кегля на экране должна быть роль, которую можно назвать.</b> «Основной текст — 16», «вторичный — 14». Если ответ «так лучше смотрелось», это кегль на глаз.</div>
+</section>
+
+<section id="scale">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Шкала кеглей</h2></div>
+  <p class="ds-lesson__lead">Шкала — короткий список размеров текста, из которых собирается весь интерфейс.</p>
+
+  <p>Так устроены шкалы больших систем. В Material Design 3 пять ролей текста — Display, Headline, Title, Body, Label, — и у каждой три размера: Large, Medium, Small. Основной текст там Body Large — 16 с межстрочным 24. У Apple основной текст на iPhone по умолчанию 17 pt, а самый мелкий рекомендуемый — 11 pt.</p>
+
+  <p>Для экрана телефона в этом уроке хватит пяти ступеней:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Кегль / межстрочный</th><th scope="col">Роль</th><th scope="col">Пример на странице товара</th></tr></thead>
+      <tbody>
+        <tr><td><b>24 / 32</b></td><td>Заголовок экрана, один на экран</td><td>Название товара</td></tr>
+        <tr><td><b>20 / 28</b></td><td>Заголовок раздела и крупные числа</td><td>«Характеристики», цена</td></tr>
+        <tr><td><b>16 / 24</b></td><td>Основной текст</td><td>Описание вкуса, отзывы</td></tr>
+        <tr><td><b>14 / 20</b></td><td>Вторичный текст и подписи полей</td><td>Рейтинг, характеристики, «Телефон» над полем</td></tr>
+        <tr><td><b>12 / 16</b></td><td>Сноски и служебные подписи</td><td>«Без скидки 1 390 ₽», дата под отзывом</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Откуда берутся числа</h3>
+  <p>Шкалу можно построить через соотношение: каждая ступень больше предыдущей в одно и то же число раз. Такие шкалы для веба описал Тим Браун в статье «More Meaningful Typography» в 2011 году, а на сайте modularscale.com соотношения названы по музыкальным интервалам: малая терция — 1,2, большая терция — 1,25, чистая кварта — 1,333, золотое сечение — 1,618.</p>
+
+  <p>Точная прогрессия даёт дробные кегли вроде 15,6 или 19,5, поэтому числа округляют, а часто подбирают руками. Шкала урока — 12, 14, 16, 20, 24 — такая: мелкие ступени идут через 2, крупные через 4. Шкала Material тоже не точная прогрессия: основной текст там 16, 14 и 12, заголовки — 32, 28 и 24. Важно не соотношение само по себе, а то, что соседние ступени заметно отличаются и у каждой есть роль.</p>
+
+  <div class="ds-lesson__warn"><b>Не добавляйте ступень ради одной строки.</b> Если 16 кажется мелковато, а 20 — крупно, у текста, скорее всего, нет понятной роли. Сначала решите, основной это текст или заголовок, и возьмите его ступень.</div>
+</section>
+
+<section id="roles">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Какой кегль какому тексту</h2></div>
+  <p class="ds-lesson__lead">Кегль выбирают по роли текста: сначала роль, потом размер.</p>
+
+  <p>Правило простое: сначала решите, что это за текст на экране, потом возьмите его ступень из таблицы. Потренируйтесь на тексте из магазина кофе.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какая ступень шкалы<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="24"><p class="ds-quiz__question">«Кофе в зёрнах» — заголовок экрана каталога.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>24</b>Заголовок экрана один и самый крупный: по нему человек понимает, где находится.</p></li>
+<li data-quiz-q data-answer="20"><p class="ds-quiz__question">«Характеристики» — заголовок раздела на странице товара.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>20</b>Раздел открывает свой блок. Он крупнее основного текста, но уступает заголовку экрана.</p></li>
+<li data-quiz-q data-answer="16"><p class="ds-quiz__question">Описание вкуса в два абзаца.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>16</b>Это основной текст, его читают целиком. Ему нужен удобный для чтения размер.</p></li>
+<li data-quiz-q data-answer="14"><p class="ds-quiz__question">«4,8 из 5 · 2 314 отзывов» под названием товара.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>14</b>Рейтинг помогает решить, но не главный: это вторичный текст.</p></li>
+<li data-quiz-q data-answer="14"><p class="ds-quiz__question">Подпись «Телефон» над полем формы.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>14</b>Подпись поля мельче того, что в него вводят. Сам номер в поле — основной текст, 16.</p></li>
+<li data-quiz-q data-answer="12"><p class="ds-quiz__question">«Цены указаны с учётом НДС» внизу экрана.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>12</b>Служебная сноска. Её читают, только если ищут, поэтому самая мелкая ступень.</p></li>
+<li data-quiz-q data-answer="16"><p class="ds-quiz__question">Текст отзыва покупателя.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>16</b>Отзыв читают целиком, как описание. Основной текст.</p></li>
+<li data-quiz-q data-answer="12"><p class="ds-quiz__question">Дата под отзывом «12 сентября».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>12</b>Служебная подпись к отзыву. Она нужна, но не должна спорить с самим текстом.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="12">12</button><button class="ds-quiz__option" type="button" data-quiz-answer="14">14</button><button class="ds-quiz__option" type="button" data-quiz-answer="16">16</button><button class="ds-quiz__option" type="button" data-quiz-answer="20">20</button><button class="ds-quiz__option" type="button" data-quiz-answer="24">24</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Выберите ступень из шкалы урока для каждого текста. Опирайтесь на роли из таблицы в разделе 2.</div>
+</div>
+</section>
+
+<section id="leading">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Межстрочный интервал</h2></div>
+  <p class="ds-lesson__lead">У каждого кегля свой межстрочный. Один интервал на все размеры не подходит.</p>
+
+  <p>Мэтью Баттерик в книге Practical Typography советует для основного текста межстрочный от 120 до 145 % кегля. В шкале Material то же видно по числам: у основного текста 16/24, то есть полтора кегля, а у крупных заголовков в долях меньше — Display Large набран 57/64. Чем крупнее текст, тем меньше ему нужно воздуха между строк.</p>
+
+  <p>Переключите интервал у одного и того же абзаца основного текста, 16 пикселей:</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Один абзац · четыре интервала</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="lh1" hidden>1,0</button><button class="ds-switch__button" type="button" data-switch-btn="lh2" hidden>1,2</button><button class="ds-switch__button" type="button" data-switch-btn="lh3" hidden>1,5</button><button class="ds-switch__button" type="button" data-switch-btn="lh4" hidden>2,0</button></div>
+      <div data-switch-pane="lh1"><p class="ds-switch__title">Межстрочный 1,0 — 16/16</p>
+        <p class="ds-lesson__measure ds-lesson__ts" style="--fs:16; --lh:1; --w:42">Плотный вкус с нотами шоколада и сухофруктов. Зёрна обжарены до средней степени, поэтому кислинки почти нет. Подходит для эспрессо, турки и капельной кофеварки.</p>
+        <div class="ds-lesson__result"><b>Тесно</b>Строки почти касаются друг друга, у высоких букв и хвостов «у» и «д» нет воздуха. Глазу трудно перейти в начало следующей строки.</div>
+      </div>
+      <div data-switch-pane="lh2"><p class="ds-switch__title">Межстрочный 1,2 — 16/19</p>
+        <p class="ds-lesson__measure ds-lesson__ts" style="--fs:16; --lh:1.2; --w:42">Плотный вкус с нотами шоколада и сухофруктов. Зёрна обжарены до средней степени, поэтому кислинки почти нет. Подходит для эспрессо, турки и капельной кофеварки.</p>
+        <div class="ds-lesson__result"><b>Нижняя граница</b>Так набирают короткие строки и заголовки. Для абзаца из нескольких строк ещё тесновато.</div>
+      </div>
+      <div data-switch-pane="lh3"><p class="ds-switch__title">Межстрочный 1,5 — 16/24</p>
+        <p class="ds-lesson__measure ds-lesson__ts" style="--fs:16; --lh:1.5; --w:42">Плотный вкус с нотами шоколада и сухофруктов. Зёрна обжарены до средней степени, поэтому кислинки почти нет. Подходит для эспрессо, турки и капельной кофеварки.</p>
+        <div class="ds-lesson__result"><b>Для основного текста</b>Строки разведены, но абзац ещё читается как одно целое. Это интервал из шкалы урока и из Material.</div>
+      </div>
+      <div data-switch-pane="lh4"><p class="ds-switch__title">Межстрочный 2,0 — 16/32</p>
+        <p class="ds-lesson__measure ds-lesson__ts" style="--fs:16; --lh:2; --w:42">Плотный вкус с нотами шоколада и сухофруктов. Зёрна обжарены до средней степени, поэтому кислинки почти нет. Подходит для эспрессо, турки и капельной кофеварки.</p>
+        <div class="ds-lesson__result"><b>Слишком свободно</b>Строки распадаются, абзац перестаёт быть абзацем. Интервал между строками сравнялся с расстоянием между блоками.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Межстрочный — часть ступени шкалы. Записывайте его вместе с кеглем: «16/24».</div>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Текст должен выдерживать чужие настройки.</b> По WCAG 2.2 содержимое не должно пропадать, если человек сам увеличит межстрочный до 1,5 кегля, отступы между абзацами до двух кеглей, трекинг и расстояние между словами. Поэтому блоку с текстом не задают жёсткую высоту: пусть растёт вместе с текстом.</div>
+</section>
+
+<section id="headings">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Уровни заголовков</h2></div>
+  <p class="ds-lesson__lead">Заголовки разного уровня различают размером и весом вместе. Одной жирности мало.</p>
+
+  <p>Если заголовок раздела отличается от текста только жирностью, а заголовок экрана — ещё чуть большей жирностью, уровни легко перепутать: полужирный и жирный на одном кегле почти не отличаются. Поэтому в шкале урока у каждого уровня заголовка своя ступень, а жирность только помогает.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Три уровня текста · жирностью и размером</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Только жирностью, всё 16</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:16; --lh:1.5"><b>Кофе в зёрнах</b></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts ds-lesson__ts--semi" style="--fs:16; --lh:1.5">Характеристики</div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:16; --lh:1.5">Обжарка средняя, в составе 60 % арабики и 40 % робусты.</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Размером и весом: 24, 20, 16</p>
+          <div class="ds-lesson__spec">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:24; --lh:1.333"><b>Кофе в зёрнах</b></div>
+              <div class="ds-lesson__gap" style="--g:16"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:20; --lh:1.4"><b>Характеристики</b></div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__ts" style="--fs:16; --lh:1.5">Обжарка средняя, в составе 60 % арабики и 40 % робусты.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева заголовок экрана жирный, раздела — полужирный, текст обычный: все три строки одного размера. Справа уровни видны сразу, даже если прищуриться.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Двух-трёх уровней заголовков хватает почти любому экрану.</b> Если нужен четвёртый, сначала проверьте, не лучше ли разбить экран или отделить блоки расстоянием.</div>
+</section>
+
+<section id="small">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Насколько мелким может быть текст</h2></div>
+  <p class="ds-lesson__lead">Подпись должна быть мельче основного текста, но оставаться читаемой.</p>
+
+  <ul>
+    <li><strong>Apple:</strong> самый мелкий рекомендуемый кегль на iPhone — 11 pt, основной — 17 pt.</li>
+    <li><strong>Material Design 3:</strong> самая мелкая ступень шкалы, Label Small, — 11 с межстрочным 16.</li>
+    <li><strong>Баттерик</strong> для основного текста на сайтах советует 15–25 пикселей.</li>
+  </ul>
+
+  <p>В шкале урока самая мелкая ступень — 12. Мельче неё текста на экране нет: служебные подписи, сноски и даты набираются 12, а если строка не влезает, её сокращают по правилам из раздела 7.</p>
+
+  <div class="ds-lesson__warn"><b>Мелкий и бледный — двойной удар.</b> Сноску часто делают не только мелкой, но и светло-серой. Каждое по отдельности допустимо, вместе текст перестаёт читаться. Контрасту посвящён отдельный навык карты — «Цвет и контраст».</div>
+</section>
+
+<section id="fit">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Если текст не влезает</h2></div>
+  <p class="ds-lesson__lead">Уменьшить кегль, чтобы строка поместилась, — самый быстрый способ сломать шкалу.</p>
+
+  <p>Длинное название товара не влезло в карточку — и его набрали 13 вместо 14. На следующей карточке название короче, там 14. Через неделю в каталоге три размера для одной роли. Что делать вместо этого:</p>
+  <ol>
+    <li><strong>Сократить текст.</strong> «Кофе в зёрнах Lavazza Crema e Aroma, 1 кг» в карточке каталога можно показать как «Lavazza Crema e Aroma, 1 кг»: раздел и так про кофе в зёрнах.</li>
+    <li><strong>Разрешить перенос.</strong> Название в две строки нормально, если под него заложено место.</li>
+    <li><strong>Дать блоку место.</strong> Иногда проблема не в тексте, а в том, что колонка слишком узкая.</li>
+    <li><strong>Обрезать с многоточием</strong> — последним ходом, если полный текст виден в другом месте, например на странице товара.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Шкала важнее одной строки.</b> Если текст не влезает, меняют текст, перенос или место — ступень остаётся.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите свой экран, выпишите все использованные кегли и сведите их к шкале из четырёх-пяти ступеней. Приложите сравнение «до и после».</p>
+
+  <h3>Часть 1 · Выписать кегли, 15 минут</h3>
+  <ol>
+    <li><strong>Выберите экран</strong> с разным текстом: заголовки, основной текст, подписи, числа.</li>
+    <li><strong>Сделайте копию</strong> и подпишите её «до».</li>
+    <li><strong>Выпишите каждый размер текста</strong> и где он встречается. В Figma его видно в правой панели при выделении текстового слоя.</li>
+    <li><strong>Посчитайте, сколько разных кеглей</strong> и сколько разных межстрочных.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Шкала и замеры · заполните до и после<span class="ds-lesson__spacer"></span><span data-copy="typeTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="typeTmpl">ЭКРАН: ______________________        Дата: __.__.____
+
+ШКАЛА (кегль / межстрочный — роль)
+__ / __ — заголовок экрана
+__ / __ — заголовок раздела, крупные числа
+__ / __ — основной текст
+__ / __ — вторичный текст, подписи полей
+__ / __ — сноски, служебные подписи
+
+«ДО»
+кегли на экране: ________________________   всего: __
+межстрочные: ____________________________
+одна роль — разные размеры: _____________
+
+«ПОСЛЕ»
+все кегли из шкалы: да / нет
+у каждого размера есть роль: да / нет
+что пришлось сократить или перенести: _____________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Заполните часть «до» перед тем, как менять размеры.</div>
+  </div>
+
+  <h3>Часть 2 · Собрать шкалу, 20 минут</h3>
+  <ol>
+    <li><strong>Разложите выписанные кегли по ролям:</strong> заголовок экрана, заголовок раздела, основной, вторичный, сноски.</li>
+    <li><strong>Для каждой роли оставьте один размер.</strong> Соседние ступени должны заметно отличаться.</li>
+    <li><strong>Подберите межстрочный для каждой ступени:</strong> для основного текста около полутора кеглей, для крупных заголовков меньше.</li>
+  </ol>
+
+  <h3>Часть 3 · Пересобрать экран, 40 минут</h3>
+  <ol>
+    <li><strong>Заведите ступени шкалы текстовыми стилями</strong> и привяжите к ним весь текст.</li>
+    <li><strong>Если текст не влезает,</strong> сократите его, разрешите перенос или дайте место — кегль не уменьшайте.</li>
+    <li><strong>Положите «до» и «после» рядом</strong> и заполните часть «после» в шаблоне.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Все размеры текста на экране — из вашей шкалы, случайных значений нет. У каждой ступени есть роль, и вы можете её назвать.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Экраны «до» и «после»</strong> рядом.</li>
+    <li><strong>Шкала из четырёх-пяти ступеней</strong> с ролями и межстрочными.</li>
+    <li><strong>Заполненный шаблон замеров.</strong></li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут на замеры, 20 на шкалу, 40 на пересборку. Всего — около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Пяти ступеней не хватает, нужна шестая».</strong> Проверьте, не одна ли это роль с разными названиями. Если нет — добавьте ступень и запишите её роль.</li>
+    <li><strong>«Цена должна быть крупнее заголовка раздела».</strong> Можно, но тогда это отдельная роль «крупные числа» со своей ступенью в шкале.</li>
+    <li><strong>«В продукте уже есть шкала».</strong> Берите её. Урок учит держаться одной шкалы, числа в ней могут быть другими.</li>
+    <li><strong>«После пересборки строки стали переноситься».</strong> Так бывает, когда раньше кегль уменьшали ради места. Решите по разделу 7: сократить, перенести или дать место.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Текст собран по шкале, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Все кегли на экране из шкалы</li>
+    <li>В шкале четыре-пять ступеней, и у каждой есть роль</li>
+    <li>Одна роль — один размер на всём экране</li>
+    <li>У каждой ступени свой межстрочный, записан вместе с кеглем</li>
+    <li>Уровни заголовков различаются размером, жирность только помогает</li>
+    <li>Самый мелкий текст не меньше нижней ступени</li>
+    <li>Блоки с текстом не имеют жёсткой высоты</li>
+    <li>Ни один кегль не уменьшен ради того, чтобы строка влезла</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Кегли на глаз.</b> 13, 14, 15 рядом: разница не видна, а экран выглядит неаккуратно.</li>
+    <li><b>Одна роль — разные размеры.</b> Вторичный текст то 13, то 14.</li>
+    <li><b>Один межстрочный на всё.</b> Заголовки разъезжаются, а основной текст слипается.</li>
+    <li><b>Заголовки только жирностью.</b> Уровни сливаются.</li>
+    <li><b>Кегль ради места.</b> Строка поместилась, шкала сломалась.</li>
+    <li><b>Мелко и бледно одновременно.</b> Сноску уже не прочитать.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся держаться шкалы кеглей и интервалов. На следующих ступенях — набирать текст по правилам и строить типографическую систему для команды.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Собрать шкалу кеглей и держаться её; подобрать межстрочный под кегль; различать заголовки размером и весом; не менять кегль ради места</td>
+          <td>Все размеры текста на экране — из вашей шкалы, случайных значений нет</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Набирать по правилам: кавычки, тире, неразрывные пробелы; держать длину строки; подбирать пару шрифтов и проверять кириллицу</td>
+          <td class="ds-lesson__dim">В тексте нет прямых кавычек, дефисов вместо тире и строк длиннее читаемой меры ни на одной ширине</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описать типографическую систему для кода и команды; решить вопрос лицензий; задать правила для чисел, длинных названий и второго языка</td>
+          <td class="ds-lesson__dim">Нарушение в чужом макете видно и на него можно сослаться строкой из системы, а не мнением</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любой текст на экране вы можете сказать, какая у него роль и почему у него такой кегль и интервал.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://practicaltypography.com/typography-in-ten-minutes.html">Typography in ten minutes</a></span><span class="ds-lesson__reads-meta"><a href="/resource/practical-typography/">Practical Typography</a> Мэтью Баттерика · на английском · бесплатно</span><span>Короткий свод правил с числами, на которые опирается урок: кегль основного текста, межстрочный, длина строки.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Главы «Establish a type scale» и «Line-height is proportional» — шкала кеглей вместо размеров на глаз и межстрочный, который зависит от кегля.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://alistapart.com/article/more-meaningful-typography/">More Meaningful Typography</a></span><span class="ds-lesson__reads-meta">A List Apart, Тим Браун, 2011 · на английском · бесплатно</span><span>Статья о модульных шкалах для веба: как строить кегли через одно соотношение.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/styles/typography/type-scale-tokens">Type scale tokens</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Пятнадцать базовых стилей Material 3 с кеглями и межстрочными — шкала большой системы целиком.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://developer.apple.com/design/human-interface-guidelines/typography">Typography</a></span><span class="ds-lesson__reads-meta"><a href="/resource/apple-hig/">Apple Human Interface Guidelines</a> · на английском · бесплатно</span><span>Размеры текста в iOS: основной 17 pt, самый мелкий рекомендуемый — 11 pt, и таблица стилей Dynamic Type.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

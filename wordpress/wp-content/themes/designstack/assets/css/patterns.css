@@ -6924,6 +6924,140 @@ button.ds-lesson__wf-btn[disabled] {
 	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
 }
 
+/* ---------- уроки «Типографика» ---------- */
+
+/* Строка текста с кеглем из разметки урока: «15 рядом с 16» — содержимое урока, как отступы
+   в уроках про сетку (D182). Число переводится в rem, межстрочный — множитель из разметки. */
+.ds-lesson__ts {
+	position: relative;
+	font-size: calc(var(--fs, 16) * 1rem / 16);
+	line-height: var(--lh, 1.3);
+}
+
+.ds-lesson__ts b {
+	font-weight: 700;
+}
+
+.ds-lesson__ts--semi {
+	font-weight: 600;
+}
+
+/* Слой «Кегли»: у строки появляется табличка с её размером. Место под табличку оставлено
+   всегда, а не только при включённом слое: иначе строки переносятся заново на каждое нажатие. */
+.ds-lesson__ts:has(> .ds-lesson__fs-n, > .ds-lesson__spec-mark) {
+	padding-right: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__fs-n {
+	display: none;
+}
+
+.is-sizes .ds-lesson__fs-n {
+	display: inline-flex;
+	position: absolute;
+	top: 50%;
+	right: calc(-1 * var(--wp--preset--spacing--3));
+	z-index: 2;
+	align-items: center;
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: var(--wp--custom--line-height--snug);
+	transform: translateY(-50%);
+}
+
+/* Образец абзаца: ширина строки в знаках, как в правилах длины строки. */
+.ds-lesson__measure {
+	max-width: calc(var(--w, 65) * 1ch + 2 * var(--wp--preset--spacing--4) + var(--wp--custom--border-width--focus));
+	margin: 0;
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border-left: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-default);
+}
+
+/* Абзац в 100 знаков в колонку урока не помещается, поэтому образец выходит за её края —
+   до ширины окна за вычетом полей, но не уже колонки. Коробка урока обрезает всё, что шире
+   неё, поэтому образец стоит в своей фигуре, вне коробки. */
+.ds-lesson__bleed {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.ds-lesson__measure.ds-lesson__measure--bleed {
+	--bleed: max(100%, min(calc(var(--w, 100) * 1ch + 2 * var(--wp--preset--spacing--4) + var(--wp--custom--border-width--focus)), calc(100vw - 2 * var(--wp--preset--spacing--8))));
+	width: var(--bleed);
+	max-width: none;
+	margin-left: calc((100% - var(--bleed)) / 2);
+}
+
+/* Заголовок на узком экране: браузер выравнивает строки по длине. */
+.ds-lesson__balance {
+	text-wrap: balance;
+}
+
+/* Корректура: место в тексте, на которое нажимают. Без скрипта — подчёркнутое слово,
+   со скриптом — кнопка внутри строки; форма точки поиска здесь не нужна. */
+.ds-lesson__typo {
+	text-decoration: underline dotted;
+	text-underline-offset: 0.2em;
+}
+
+button.ds-lesson__typo.ds-lesson__hunt-pin,
+.ds-lesson__typo.ds-lesson__hunt-pin {
+	position: static;
+	display: inline;
+	width: auto;
+	height: auto;
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	text-decoration: none;
+	transform: none;
+}
+
+.ds-lesson__typo.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__typo.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+/* Цифры в столбце: пропорциональные прыгают, моноширинные стоят разряд под разрядом. */
+.ds-lesson__nums.ds-lesson__nums--prop {
+	font-variant-numeric: proportional-nums;
+}
+
+.ds-lesson__nums.ds-lesson__nums--tab {
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-lesson__nums :is(td, th):not(:first-child) {
+	text-align: right;
+}
+
+/* В образце таблицы цифры — главное: основной кегль и основной цвет, а не приглушённый. */
+.ds-lesson__table table.ds-lesson__nums {
+	font-size: var(--wp--preset--font-size--base);
+}
+
+.ds-lesson__table .ds-lesson__nums td {
+	color: var(--wp--preset--color--text-default);
+}
+
 /* «Три секунды»: пока экран спрятан, на его месте подсказка той же высоты — страница не прыгает. */
 .ds-lesson__flash-idle {
 	display: flex;

@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка» и «Типографика».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -50,6 +50,12 @@ with sync_playwright() as play:
         ("layout-grid-junior", ["Как исправить. 14 нет в наборе", "Здесь всё верно", "Слева восемь разных отступов"]),
         ("layout-grid-middle", ["Ячейка A-14", "Что должно было запомниться", "Эфиопия Иргачеффе"]),
         ("layout-grid-senior", ["Сообщение · 8, отступ по 2 колонки", "По пункту такому-то", "--space-6: 24px"]),
+        ("typography-junior", ["Межстрочный 1,0 — 16/16", "Межстрочный 2,0 — 16/32", "Слева семь кеглей"]),
+        # Ошибки набора в корректуре и тренажёре — намеренные: WordPress исправил бы их сам (wptexturize),
+        # поэтому в разметке они записаны кодами `&quot;` и `&#45;`. Здесь проверяем, что до читателя дошли ошибки.
+        ("typography-middle", ["Как исправить. «3000", "Здесь всё верно. В составных словах", "Так абзац выглядит на ноутбуке",
+                               'нажмите "Оформить заказ"', "Самовывоз - бесплатно", 'Нажмите "Купить в один клик"', "30 сентября - успейте"]),
+        ("typography-senior", ["Пропорциональные цифры", "Почти разряд под разрядом", "--text-body-strong: 600"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -81,6 +87,15 @@ with sync_playwright() as play:
     fails += 0 if say(cols and all(d == "grid" for d in cols), "сетка в разделе 5 видна: " + str(cols)) else 1
     edges = page.evaluate("[...document.querySelectorAll('.is-edges .ds-lesson__spec-el')].filter(el => getComputedStyle(el, '::before').content !== 'none').length")
     fails += 0 if say(edges > 0, "линии краёв в разделе 4 видны: " + str(edges)) else 1
+    page.close()
+
+    # «Типографика, Junior»: таблички кеглей — содержимое урока, без скрипта видны все.
+    page = plain.new_page()
+    page.goto(BASE + "typography-junior/")
+    head("typography-junior · кегли без скрипта")
+    badges = page.evaluate("""() => { const all = [...document.querySelectorAll('#seven .ds-lesson__fs-n')];
+        return [all.length, all.filter(el => el.offsetParent !== null).length]; }""")
+    fails += 0 if say(badges[0] == 14 and badges[0] == badges[1], "таблички кеглей видны: %d из %d" % (badges[1], badges[0])) else 1
     page.close()
 
     plain.close()
@@ -185,6 +200,99 @@ with sync_playwright() as play:
     fails += 0 if say(page.evaluate(shown) == [True, False, False], "после нажатия экран виден") else 1
     page.wait_for_timeout(3200)
     fails += 0 if say(page.evaluate(shown) == [False, True, True], "через три секунды экран спрятан, разбор виден") else 1
+    page.close()
+
+    # «Типографика, Junior»: слой «Кегли», шкала справа, переключатель интервалов.
+    page = ctx.new_page()
+    page.goto(BASE + "typography-junior/")
+    page.wait_for_timeout(400)
+    head("typography-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    seen = "() => [...document.querySelectorAll('#seven .ds-lesson__fs-n')].filter(el => el.offsetParent !== null).length"
+    pressed = page.get_attribute("#seven [data-layer='sizes'] button", "aria-pressed")
+    fails += 0 if say(pressed == "true" and page.evaluate(seen) == 14, "«Кегли» нажата, табличек 14") else 1
+    page.click("#seven [data-layer='sizes'] button")
+    fails += 0 if say(page.evaluate(seen) == 0, "«Кегли» прячет таблички") else 1
+    sizes = page.evaluate("""() => { const cols = document.querySelectorAll('#seven .ds-lesson__wf-col');
+        return [...cols].map(c => [...new Set([...c.querySelectorAll('.ds-lesson__ts')].map(el => parseFloat(getComputedStyle(el).fontSize)))].sort((a, b) => a - b)); }""")
+    fails += 0 if say(sizes == [[13, 14, 15, 17, 18, 22, 24], [12, 14, 16, 20, 24]], "кегли на глаз и по шкале: " + str(sizes)) else 1
+    weights = page.evaluate("""() => { const c = document.querySelectorAll('#headings .ds-lesson__wf-col')[0];
+        return [getComputedStyle(c.querySelector('.ds-lesson__ts b')).fontWeight, getComputedStyle(c.querySelector('.ds-lesson__ts--semi')).fontWeight]; }""")
+    fails += 0 if say(weights == ["700", "600"], "жирный и полужирный различаются: " + str(weights)) else 1
+    page.click("#leading [data-switch-btn='lh4']")
+    lh = page.evaluate("() => [...document.querySelectorAll('#leading [data-switch-pane]')].filter(p => !p.hidden).map(p => getComputedStyle(p.querySelector('.ds-lesson__measure')).lineHeight)")
+    fails += 0 if say(lh == ["32px"], "интервал 2,0 даёт 32 px: " + str(lh)) else 1
+    page.close()
+
+    # «Типографика, Middle»: корректура строками текста, длина строки, выравнивание заголовка.
+    page = ctx.new_page()
+    page.goto(BASE + "typography-middle/")
+    page.wait_for_timeout(400)
+    head("typography-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    pins = page.query_selector_all("[data-hunt] button")
+    fails += 0 if say(len(pins) == 9, "мест-кнопок в тексте: " + str(len(pins))) else 1
+    miss = page.evaluate("[...document.querySelectorAll('[data-hunt-item]')].map(el => el.hasAttribute('data-hunt-miss'))")
+    pins[miss.index(True)].click()
+    page.wait_for_timeout(50)
+    fails += 0 if say(
+        "0 из 6" in page.inner_text("[data-hunt-count-out]").lower() and "всё верно" in page.inner_text("[data-hunt-fb]"),
+        "ловушка разобрана, но не засчитана: " + page.inner_text("[data-hunt-count-out]"),
+    ) else 1
+
+    for pin, is_miss in zip(pins, miss):
+        if not is_miss:
+            pin.click()
+            page.wait_for_timeout(50)
+
+    fails += 0 if say("6 из 6" in page.inner_text("[data-hunt-count-out]").lower(), "все шесть найдены: " + page.inner_text("[data-hunt-count-out]")) else 1
+    fails += 0 if say(page.is_visible("[data-hunt-all]"), "итог корректуры показан") else 1
+    inline = page.evaluate("""() => { const m = document.querySelector('[data-hunt] .ds-lesson__measure').getBoundingClientRect();
+        return [...document.querySelectorAll('[data-hunt] button')].every(b => { const r = b.getBoundingClientRect();
+            return r.height < 40 && r.left >= m.left && r.right <= m.right; }); }""")
+    fails += 0 if say(inline, "места стоят в строке и внутри абзаца") else 1
+    widths = []
+
+    for key in ("w30", "w60"):
+        page.click("#measure [data-switch-btn='%s']" % key)
+        widths.append(page.evaluate("() => [...document.querySelectorAll('#measure [data-switch-pane]')].filter(p => !p.hidden).map(p => Math.round(p.querySelector('.ds-lesson__measure').getBoundingClientRect().width))[0]"))
+
+    # Абзац в 100 знаков шире колонки урока: образец выходит за её края, но не за край окна.
+    widths.append(page.evaluate("() => Math.round(document.querySelector('.ds-lesson__measure--bleed').getBoundingClientRect().width)"))
+    column = page.evaluate("() => Math.round(document.querySelector('.ds-lesson').getBoundingClientRect().width)")
+    over = page.evaluate("document.documentElement.scrollWidth - window.innerWidth")
+    fails += 0 if say(widths[0] < widths[1] < column < widths[2] and over <= 0, "длина строки растёт: %s, колонка %d, вылет за окно %d" % (widths, column, over)) else 1
+    wrap = page.evaluate("getComputedStyle(document.querySelector('.ds-lesson__balance')).textWrapStyle")
+    fails += 0 if say(wrap == "balance", "заголовок выровнен: " + str(wrap)) else 1
+    page.close()
+
+    # «Типографика, Senior»: цифры в таблице и экран коллеги с номерами замечаний.
+    page = ctx.new_page()
+    page.goto(BASE + "typography-senior/")
+    page.wait_for_timeout(400)
+    head("typography-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    digits = """() => { const pane = [...document.querySelectorAll('#numbers [data-switch-pane]')].find(p => !p.hidden);
+        const cells = [...pane.querySelectorAll('tbody tr')].map(r => r.cells[2]).filter(c => c.textContent.trim().length === 5);
+        return [getComputedStyle(pane.querySelector('table')).fontVariantNumeric, cells.map(c => { const g = document.createRange();
+            g.selectNodeContents(c); return Math.round(g.getBoundingClientRect().width * 10) / 10; })]; }"""
+    page.click("#numbers [data-switch-btn='prop']")
+    prop = page.evaluate(digits)
+    page.click("#numbers [data-switch-btn='tab']")
+    tab = page.evaluate(digits)
+    fails += 0 if say(prop[0] == "proportional-nums" and len(set(prop[1])) > 1, "пропорциональные: ширины разные " + str(prop)) else 1
+    # У Golos Text 2.004 `tnum` доводит до ширины нуля только 1, 4 и 7, остальные цифры своей ширины,
+    # поэтому равенства нет: проверяем, что разброс стал в разы меньше и не больше полутора пикселей.
+    spread = lambda w: max(w) - min(w)
+    fails += 0 if say(tab[0] == "tabular-nums" and spread(tab[1]) <= 1.5 and spread(tab[1]) * 4 < spread(prop[1]), "моноширинные: разброс ширин %.1f против %.1f" % (spread(tab[1]), spread(prop[1]))) else 1
+    marks = page.evaluate("""() => { const s = document.querySelector('#review .ds-lesson__spec').getBoundingClientRect();
+        const all = [...document.querySelectorAll('#review .ds-lesson__spec-mark')];
+        return [all.map(m => m.textContent).sort().join(''), all.every(m => { const r = m.getBoundingClientRect();
+            return r.left >= s.left - 1 && r.right <= s.right + 1; })]; }""")
+    fails += 0 if say(marks == ["123458", True], "номера замечаний 1–5 и 8 на экране: " + str(marks)) else 1
     page.close()
 
     page = ctx.new_page()

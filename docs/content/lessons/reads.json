@@ -148,6 +148,58 @@
   "nng-critiques": {
    "title": "<a href=\"https://www.nngroup.com/articles/design-critiques/\">Design Critiques: Encourage a Positive Culture to Improve Products</a>",
    "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Сара Гиббонс · на английском · бесплатно"
+  },
+  "pt-ten-minutes": {
+   "title": "<a href=\"https://practicaltypography.com/typography-in-ten-minutes.html\">Typography in ten minutes</a>",
+   "meta": "<a href=\"/resource/practical-typography/\">Practical Typography</a> Мэтью Баттерика · на английском · бесплатно"
+  },
+  "m3-type": {
+   "title": "<a href=\"https://m3.material.io/styles/typography/type-scale-tokens\">Type scale tokens</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+  },
+  "tim-brown-scale": {
+   "title": "<a href=\"https://alistapart.com/article/more-meaningful-typography/\">More Meaningful Typography</a>",
+   "meta": "A List Apart, Тим Браун, 2011 · на английском · бесплатно"
+  },
+  "apple-typography": {
+   "title": "<a href=\"https://developer.apple.com/design/human-interface-guidelines/typography\">Typography</a>",
+   "meta": "<a href=\"/resource/apple-hig/\">Apple Human Interface Guidelines</a> · на английском · бесплатно"
+  },
+  "kovodstvo-62-97": {
+   "title": "<a href=\"https://www.artlebedev.ru/kovodstvo/sections/62/\">§ 62. Экранная типографика</a> и <a href=\"https://www.artlebedev.ru/kovodstvo/sections/97/\">§ 97. Тире, минус и дефис</a>",
+   "meta": "<a href=\"/resource/kovodstvo/\">«Ководство» Артемия Лебедева</a> · на русском · бесплатно"
+  },
+  "bureau-dash": {
+   "title": "<a href=\"https://bureau.ru/soviet/20220807/\">Короткое или длинное тире?</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a> · на русском · бесплатно"
+  },
+  "bureau-digits": {
+   "title": "<a href=\"https://bureau.ru/soviet/20170327/\">Мильчин говорит, что разряды в числах нужно отделять пробелом. Как правильно?</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a> · на русском · бесплатно"
+  },
+  "gf-pairing": {
+   "title": "<a href=\"https://fonts.google.com/knowledge/choosing_type/pairing_typefaces\">Pairing typefaces</a>",
+   "meta": "<a href=\"/resource/google-fonts/\">Google Fonts Knowledge</a>, Эллиот Джей Стокс · на английском · бесплатно"
+  },
+  "fonts-cyrillic": {
+   "title": "<a href=\"/shrifty-s-kirillicey/\">Шрифты с кириллицей: что взять бесплатно в 2026 году</a>",
+   "meta": "Подборка DesignStack · на русском · бесплатно"
+  },
+  "atlassian-type": {
+   "title": "<a href=\"https://atlassian.design/foundations/typography\">Typography</a>",
+   "meta": "Atlassian Design System · на английском · бесплатно"
+  },
+  "carbon-type": {
+   "title": "<a href=\"https://carbondesignsystem.com/elements/typography/type-sets/\">Type sets</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно"
+  },
+  "govuk-type": {
+   "title": "<a href=\"https://design-system.service.gov.uk/styles/type-scale/\">Type scale</a> и <a href=\"https://design-system.service.gov.uk/get-started/new-type-scale/\">Using the updated type scale</a>",
+   "meta": "GOV.UK Design System · на английском · бесплатно"
+  },
+  "ofl-faq": {
+   "title": "<a href=\"https://openfontlicense.org/open-font-license-official-text/\">SIL Open Font License</a> и <a href=\"https://openfontlicense.org/ofl-faq/\">OFL-FAQ</a>",
+   "meta": "SIL International · на английском · бесплатно"
   }
  },
  "lessons": {
@@ -447,6 +499,72 @@
    {
     "res": "nng-critiques",
     "why": "Как давать обратную связь через цели дизайна, а не через вкус."
+   }
+  ],
+  "typography-junior": [
+   {
+    "res": "pt-ten-minutes",
+    "why": "Короткий свод правил с числами, на которые опирается урок: кегль основного текста, межстрочный, длина строки."
+   },
+   {
+    "res": "refactoring-ui",
+    "why": "Главы «Establish a type scale» и «Line-height is proportional» — шкала кеглей вместо размеров на глаз и межстрочный, который зависит от кегля."
+   },
+   {
+    "res": "tim-brown-scale",
+    "why": "Статья о модульных шкалах для веба: как строить кегли через одно соотношение."
+   },
+   {
+    "res": "m3-type",
+    "why": "Пятнадцать базовых стилей Material 3 с кеглями и межстрочными — шкала большой системы целиком."
+   },
+   {
+    "res": "apple-typography",
+    "why": "Размеры текста в iOS: основной 17 pt, самый мелкий рекомендуемый — 11 pt, и таблица стилей Dynamic Type."
+   }
+  ],
+  "typography-middle": [
+   {
+    "res": "kovodstvo-62-97",
+    "why": "Кавычки, неразрывные пробелы и висячие слова на экране, а ещё чем дефис отличается от минуса и тире."
+   },
+   {
+    "res": "bureau-dash",
+    "why": "Почему в диапазонах ставят длинное тире: взгляд, который расходится с «Ководством»."
+   },
+   {
+    "res": "bureau-digits",
+    "why": "Когда разбивать четырёхзначные числа и почему в таблицах разбивают всегда."
+   },
+   {
+    "res": "gf-pairing",
+    "why": "Как подбирать пару шрифтов: сначала одно семейство, потом «достаточно разные, но не слишком»."
+   },
+   {
+    "res": "fonts-cyrillic",
+    "why": "Бесплатные шрифты с кириллицей, которые можно брать в продукт."
+   }
+  ],
+  "typography-senior": [
+   {
+    "res": "m3-type",
+    "why": "Как Material 3 называет стили и токены: роль, размер, отдельный токен на каждое свойство."
+   },
+   {
+    "res": "atlassian-type",
+    "why": "Токены на всё свойство font в rem и таблица стилей с кеглями и межстрочными."
+   },
+   {
+    "res": "carbon-type",
+    "why": "Два набора стилей — продуктовый с базой 14 и выразительный с базой 16 — и как их различают имена."
+   },
+   {
+    "res": "govuk-type",
+    "why": "Шкала с именами-числами и то, как её пересобрали в шестой версии Frontend."
+   },
+   {
+    "res": "ofl-faq",
+    "why": "Что разрешает и запрещает OFL: встраивание, продажа, зарезервированные имена, документы."
    }
   ]
  }
