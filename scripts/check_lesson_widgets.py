@@ -62,6 +62,10 @@ with sync_playwright() as play:
         ("motion-junior", ["Убрать. Каждое открытие начинается с ожидания", "Добавлено в корзину", "Все пять найдены"]),
         ("motion-middle", ["Слева сумма и строка «Колумбия»", "Проявляются на месте, без сдвига и масштаба", "prefers-reduced-motion: reduce"]),
         ("motion-senior", ["Нарушение. Выбор — это отклик на нажатие", '"$type": "cubicBezier"', "Изменения нет в таблице"]),
+        # Состояния в переключателе — содержимое урока: без скрипта видны все панели подряд.
+        ("patterns-states-junior", ["Не удалось загрузить заказы", "Заказ № 1043 оформлен", "Убрать. Ответ быстрее секунды"]),
+        ("patterns-states-middle", ["Ещё 11 товаров", "имя не указано", "Вопрос: «Какой текст и где?»"]),
+        ("patterns-states-senior", ["Обманный паттерн. Это стыжение", "Удалить аккаунт «Кофейня на Лесной»?", "ГДЕ ИСПОЛЬЗУЕТСЯ"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1101,6 +1105,65 @@ with sync_playwright() as play:
 
     fails += 0 if say(len(pins) == 8 and "5 из 5" in page.inner_text("[data-hunt-count-out]").lower() and page.is_visible("[data-hunt-all]"),
                       "прогон спецификации: 8 строк, найдено 5 из 5, итог показан") else 1
+    page.close()
+
+    # «Паттерны и состояния»: переключатель показывает одно состояние за раз, поиск считает
+    # только недоделанное, правило обрезки из урока Middle работает — название в две строки.
+    def hunt_all(page, total):
+        pins = page.query_selector_all("[data-hunt] button")
+        miss = page.evaluate("[...document.querySelectorAll('[data-hunt-item]')].map(el => el.hasAttribute('data-hunt-miss'))")
+        pins[miss.index(True)].click()
+        page.wait_for_timeout(30)
+        ok = "0 из 5" in page.inner_text("[data-hunt-count-out]").lower()
+        for pin, is_miss in zip(pins, miss):
+            if not is_miss:
+                pin.click()
+                page.wait_for_timeout(30)
+        return ok and len(pins) == total and "5 из 5" in page.inner_text("[data-hunt-count-out]").lower() and page.is_visible("[data-hunt-all]")
+
+    shown = "() => [...document.querySelectorAll('#%s [data-switch-pane]')].filter(el => el.offsetParent !== null).map(el => el.getAttribute('data-switch-pane'))"
+
+    page = ctx.new_page()
+    page.goto(BASE + "patterns-states-junior/")
+    page.wait_for_timeout(300)
+    head("patterns-states-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    first = page.evaluate(shown % "five")
+    page.click("#five [data-switch-btn=st4]")
+    page.wait_for_timeout(30)
+    now = page.evaluate(shown % "five")
+    fails += 0 if say(first == ["st1"] and now == ["st4"] and page.is_visible("#five >> text=Не удалось загрузить заказы"),
+                      "переключатель: сначала «Обычное», по нажатию — «Ошибка», видна одна панель") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "листы состояний: 10 кусков, лишнее не засчитано, найдено 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "patterns-states-middle/")
+    page.wait_for_timeout(300)
+    head("patterns-states-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    page.click("#real-data [data-switch-btn=rd2]")
+    page.wait_for_timeout(30)
+    lines = page.evaluate("""() => { const el = document.querySelector('#real-data .ds-lesson__st-clamp');
+        const lh = parseFloat(getComputedStyle(el).lineHeight); return Math.round(el.getBoundingClientRect().height / lh); }""")
+    fails += 0 if say(lines == 2, "длинное название с правилом — две строки, сейчас %s" % lines) else 1
+    gone = page.evaluate("""() => { const row = document.querySelector('#real-data .ds-lesson__st-nowrap').parentElement;
+        const card = row.closest('.ds-lesson__wf').getBoundingClientRect();
+        return row.querySelector('.ds-lesson__wf-price').getBoundingClientRect().left >= card.right; }""")
+    fails += 0 if say(gone, "без правила цена уехала за край карточки") else 1
+    fails += 0 if say(hunt_all(page, 10), "описание промокода: 10 строк, понятные не засчитаны, найдено 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "patterns-states-senior/")
+    page.wait_for_timeout(300)
+    head("patterns-states-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(hunt_all(page, 10), "прогон экрана подписки: 10 строк, совпадения не засчитаны, найдено 5 из 5") else 1
     page.close()
     browser.close()
 

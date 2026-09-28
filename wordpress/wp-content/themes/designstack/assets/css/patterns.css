@@ -7723,3 +7723,251 @@ button.ds-lesson__mo-item.ds-lesson__hunt-pin,
 	font-size: var(--wp--preset--font-size--sm);
 	font-variant-numeric: tabular-nums;
 }
+
+/* ── Паттерны и состояния: детали черновых экранов ─────────────────────
+   Экран в разных состояниях собирается из тех же деталей `wf-*`, что и в уроках
+   про вайрфреймы. Здесь то, чего там не было: поле с ошибкой, сообщение системы,
+   подтверждение, нарисованная крутилка и кусок экрана, на который нажимают в поиске. */
+
+/* Вторая строка скелета короче первой: так серое место читается как строка текста. */
+.ds-lesson__st-short {
+	width: 60%;
+}
+
+.ds-lesson__wf-meta .ds-lesson__wf-skel + .ds-lesson__wf-skel {
+	margin-top: var(--wp--preset--spacing--1);
+}
+
+/* Кнопка-макет, на которую сейчас нельзя нажать. Это `div`, а не `button`: атрибута
+   `disabled` у него нет, поэтому вид неактивной кнопки — классом. */
+.ds-lesson__wf-btn.is-off {
+	border-color: var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Пустое состояние и ошибка на месте списка: по центру, с воздухом сверху и снизу. */
+.ds-lesson__st-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--6) var(--wp--preset--spacing--2);
+	text-align: center;
+}
+
+/* Крутилка нарисована и стоит на месте: урок показывает, где она, а не как крутится. */
+.ds-lesson__st-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(var(--wp--preset--spacing--16) * 3);
+}
+
+.ds-lesson__st-center--sm {
+	min-height: var(--wp--preset--spacing--16);
+}
+
+.ds-lesson__st-spin {
+	display: block;
+	width: var(--wp--custom--size--control-md);
+	height: var(--wp--custom--size--control-md);
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-default);
+	border-top-color: var(--wp--preset--color--text-default);
+	border-radius: var(--wp--custom--radius--full);
+}
+
+/* Поле с ошибкой: рамка цветом, а под полем — словами, что вписать. */
+.ds-lesson__st-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__wf-field.is-error {
+	border-color: var(--wp--preset--color--border-error);
+}
+
+.ds-lesson__st-err {
+	color: var(--wp--preset--color--text-error);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+/* Сообщение системы и подтверждение: заголовок и пояснение одним блоком,
+   полоса слева отличает их формой, а не только цветом фона. */
+.ds-lesson__st-alert,
+.ds-lesson__st-ok {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-left: var(--wp--custom--border-width--focus) solid;
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__st-alert {
+	border-left-color: var(--wp--preset--color--icon-error);
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__st-ok {
+	border-left-color: var(--wp--preset--color--icon-success);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__st-toast {
+	display: flex;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+/* Поиск на листе состояний: место, на которое нажимают, — кусок экрана целиком,
+   с подписью, когда он появляется. Внутри кнопки только строчные элементы,
+   поэтому детали экрана здесь — `span`, и блоками их делает гибкая раскладка. */
+button.ds-lesson__st-hit.ds-lesson__hunt-pin,
+.ds-lesson__st-hit.ds-lesson__hunt-pin {
+	position: static;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: var(--wp--preset--spacing--1);
+	width: 100%;
+	height: auto;
+	padding: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: inherit;
+	line-height: var(--wp--custom--line-height--snug);
+	text-align: left;
+	transform: none;
+}
+
+button.ds-lesson__st-hit.ds-lesson__hunt-pin:hover {
+	border-color: var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__st-hit.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__st-hit.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__st-when {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+.ds-lesson__st-skels {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+}
+
+/* Название с правилом: не больше двух строк, дальше многоточие. Внутри `wf-meta`
+   вторая строка — серая подпись, поэтому цвет и кегль возвращаются явно. */
+.ds-lesson__wf-meta .ds-lesson__st-clamp {
+	color: inherit;
+	font-size: inherit;
+}
+
+.ds-lesson__st-clamp,
+.ds-lesson__wf-meta .ds-lesson__st-clamp {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+}
+
+/* Название без правила: не переносится, уезжает за край карточки и уносит с собой
+   цену — так карточка ломается на первом длинном названии. */
+.ds-lesson__wf-meta.ds-lesson__st-nowrap {
+	white-space: nowrap;
+}
+
+/* Описание поведения в поиске: строка за строкой, каждая — место для нажатия. */
+.ds-lesson__st-list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/* Состояние всего приложения — плашка под шапкой экрана, одна для всех экранов. */
+.ds-lesson__st-banner {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--bg-warning);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+/* Действие в плашке — «Вернуть»: подчёркнуто, чтобы читалось как кнопка, а не как текст. */
+.ds-lesson__st-toast-act {
+	text-decoration: underline;
+	white-space: nowrap;
+}
+
+/* Действие, открытое свайпом по строке списка. */
+.ds-lesson__st-swipe {
+	display: flex;
+	flex: none;
+	align-items: center;
+	align-self: stretch;
+	padding: 0 var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-error);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--bg-error);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+}
+
+/* Диалог подтверждения внутри экрана: вопрос, пояснение и кнопки справа. */
+.ds-lesson__st-dialog {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__st-dialog-acts {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__st-dialog-acts .ds-lesson__wf-btn {
+	width: auto;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--sm);
+}

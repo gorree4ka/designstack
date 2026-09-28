@@ -288,6 +288,62 @@
   "carbon-motion": {
    "title": "<a href=\"https://carbondesignsystem.com/elements/motion/overview/\">Motion</a>",
    "meta": "IBM Carbon Design System · на английском · бесплатно"
+  },
+  "nng-empty-states": {
+   "title": "<a href=\"https://www.nngroup.com/articles/empty-state-interface-design/\">Designing Empty States in Complex Applications: 3 Guidelines</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно"
+  },
+  "nng-skeleton": {
+   "title": "<a href=\"https://www.nngroup.com/articles/skeleton-screens/\">Skeleton Screens 101</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Самхита Танкала · на английском · бесплатно"
+  },
+  "nng-error-messages": {
+   "title": "<a href=\"https://www.nngroup.com/articles/error-message-guidelines/\">Error-Message Guidelines</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Тим Нойзессер и Эван Санволл · на английском · бесплатно"
+  },
+  "checklist-empty-state": {
+   "title": "<a href=\"https://www.checklist.design/web-app/empty-state\">Empty State</a>",
+   "meta": "<a href=\"/resource/checklist-design/\">Checklist Design</a> · чек-лист на английском · бесплатно"
+  },
+  "smashing-hidden-disabled": {
+   "title": "<a href=\"https://www.smashingmagazine.com/2024/05/hidden-vs-disabled-ux/\">Hidden vs. Disabled In UX</a>",
+   "meta": "<a href=\"/resource/smashing-magazine/\">Smashing Magazine</a>, Виталий Фридман · на английском · бесплатно"
+  },
+  "nng-long-waits": {
+   "title": "<a href=\"https://www.nngroup.com/articles/designing-for-waits-and-interruptions/\">Designing for Long Waits and Interruptions</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно"
+  },
+  "m3-states": {
+   "title": "<a href=\"https://m3.material.io/foundations/interaction/states/overview\">States</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+  },
+  "devtools-network": {
+   "title": "<a href=\"https://developer.chrome.com/docs/devtools/network/reference#throttling\">Network features reference: Throttling</a>",
+   "meta": "Chrome DevTools, справка · на английском · бесплатно"
+  },
+  "figma-text-props": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360039956634-Explore-text-properties\">Explore text properties</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+  },
+  "atomic-workflow": {
+   "title": "<a href=\"https://atomicdesign.bradfrost.com/chapter-4/\">The Atomic Workflow</a>",
+   "meta": "<a href=\"/resource/atomic-design/\">Atomic Design</a>, Брэд Фрост, глава 4 · книга на английском · полный текст открыт на сайте книги"
+  },
+  "govuk-patterns": {
+   "title": "<a href=\"https://design-system.service.gov.uk/patterns/\">Patterns</a> · <a href=\"https://design-system.service.gov.uk/community/contribution-criteria/\">Contribution criteria</a>",
+   "meta": "GOV.UK Design System · на английском · бесплатно"
+  },
+  "nng-confirmation": {
+   "title": "<a href=\"https://www.nngroup.com/articles/confirmation-dialog/\">Confirmation Dialogs Can Prevent User Errors — If Not Overused</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Якоб Нильсен · на английском · бесплатно"
+  },
+  "atlassian-phases": {
+   "title": "<a href=\"https://atlassian.design/release-phases\">Release phases</a>",
+   "meta": "Atlassian Design System · на английском · бесплатно"
+  },
+  "deceptive-types": {
+   "title": "<a href=\"https://deceptive.design/types/\">Types of deceptive pattern</a>",
+   "meta": "<a href=\"/resource/deceptive-design/\">Deceptive Patterns</a>, Гарри Бриньолл · на английском · бесплатно"
   }
  },
  "lessons": {
@@ -777,6 +833,72 @@
    {
     "res": "wcag-animation",
     "why": "На что опереться, когда правило про «уменьшить движение» оспаривают."
+   }
+  ],
+  "patterns-states-junior": [
+   {
+    "res": "nng-empty-states",
+    "why": "Три правила для пустых экранов: сообщить, что происходит, подсказать, как всё устроено, и дать путь к главному действию."
+   },
+   {
+    "res": "nng-skeleton",
+    "why": "Когда скелет, когда крутилка, а когда полоса прогресса — по длительности ожидания и по тому, что грузится."
+   },
+   {
+    "res": "nng-error-messages",
+    "why": "Где показывать сообщение об ошибке, как его написать и почему нельзя стирать то, что человек ввёл."
+   },
+   {
+    "res": "checklist-empty-state",
+    "why": "Чек-лист пустого состояния: чем пустота первого раза отличается от пустого результата поиска."
+   },
+   {
+    "res": "refactoring-ui",
+    "why": "Раздел «Don’t overlook empty states»: как пустой экран становится приглашением к первому действию."
+   }
+  ],
+  "patterns-states-middle": [
+   {
+    "res": "smashing-hidden-disabled",
+    "why": "Когда элемент прятать, а когда показывать неактивным, и почему неактивный обязан объяснить, как его включить."
+   },
+   {
+    "res": "nng-long-waits",
+    "why": "Как не потерять человека на долгой операции: доля выполненного, работа в фоне, подробности в сообщении об успехе."
+   },
+   {
+    "res": "m3-states",
+    "why": "Шесть состояний элемента и как они сочетаются между собой."
+   },
+   {
+    "res": "devtools-network",
+    "why": "Где включить медленную сеть и режим без связи, чтобы пройти свой экран так, как его увидит человек с плохим интернетом."
+   },
+   {
+    "res": "figma-text-props",
+    "why": "Обрезка текста с многоточием и число строк: как проверить длинное название прямо в макете."
+   }
+  ],
+  "patterns-states-senior": [
+   {
+    "res": "atomic-workflow",
+    "why": "Как провести инвентаризацию интерфейса: что снимать, как раскладывать и как показать команде разнобой."
+   },
+   {
+    "res": "govuk-patterns",
+    "why": "Как устроены страницы паттернов в большой системе и по каким признакам решают, нужен ли новый."
+   },
+   {
+    "res": "nng-confirmation",
+    "why": "Когда подтверждение защищает от ошибки, а когда приучает нажимать «Да» не читая."
+   },
+   {
+    "res": "atlassian-phases",
+    "why": "Как большая система вводит и выводит компоненты: фазы, пометки и заранее объявленный срок."
+   },
+   {
+    "res": "deceptive-types",
+    "why": "Обманные паттерны с примерами и законами — чтобы ни один из них не попал в библиотеку."
    }
   ]
  }

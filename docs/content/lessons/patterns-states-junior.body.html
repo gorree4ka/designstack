@@ -1,0 +1,603 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#five">Пять состояний одного экрана</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#empty">Пустой экран: что здесь будет и что сделать</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#loading">Загрузка: когда показывать и какую</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#errors">Ошибка ввода и ошибка системы</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#success">Успех: сказать, что получилось</a></li>
+    <li><a href="#hunt">Найдите недоделанные состояния</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Приложение того же магазина кофе, что и в темах про <a href="/lessons/typography-junior/">типографику</a>, <a href="/lessons/color-contrast-junior/">цвет</a> и <a href="/lessons/motion-junior/">движение</a>. Главный экран урока — «Мои заказы»: список прошлых заказов и кнопка «Повторить последний заказ». Вы увидите его во всех состояниях.</div>
+
+<section id="five">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Пять состояний одного экрана</h2></div>
+  <p class="ds-lesson__lead">Макет обычно рисуют в одном состоянии: данные есть, всё загрузилось, всё получилось. В остальных экран бывает не реже.</p>
+
+  <p>Посмотрите на «Мои заказы» глазами покупателя. У нового покупателя заказов нет. При плохой связи список грузится несколько секунд. Сервер иногда не отвечает. А после нажатия «Повторить» в списке появляется новый заказ. Это пять разных экранов, и каждый кто-то должен нарисовать. Если его не нарисует дизайнер, его придумает разработка — на ходу и без текста.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">«Мои заказы» · пять состояний</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="st1" hidden>Обычное</button><button class="ds-switch__button" type="button" data-switch-btn="st2" hidden>Загрузка</button><button class="ds-switch__button" type="button" data-switch-btn="st3" hidden>Пусто</button><button class="ds-switch__button" type="button" data-switch-btn="st4" hidden>Ошибка</button><button class="ds-switch__button" type="button" data-switch-btn="st5" hidden>Успех</button></div>
+
+      <div data-switch-pane="st1"><p class="ds-switch__title">Обычное</p>
+        <div>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">№ 1042 · Эфиопия, Кения<span>12 сентября · доставлен</span></span><span class="ds-lesson__wf-price">1 850 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">№ 1027 · Колумбия<span>29 августа · доставлен</span></span><span class="ds-lesson__wf-price">890 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">№ 1011 · Эфиопия, 2 пачки<span>14 августа · доставлен</span></span><span class="ds-lesson__wf-price">1 780 ₽</span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Повторить последний заказ</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Обычное</b>Данные есть, всё загрузилось. Чаще всего рисуют только это состояние.</div>
+      </div>
+
+      <div data-switch-pane="st2"><p class="ds-switch__title">Загрузка</p>
+        <div>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span></span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span></span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span></span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary is-off">Повторить последний заказ</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Загрузка</b>Серые строки на месте заказов: видно, что будет список и какой он формы. Кнопка неактивна: повторять пока нечего.</div>
+      </div>
+
+      <div data-switch-pane="st3"><p class="ds-switch__title">Пусто</p>
+        <div>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Заказов пока нет</b><span class="ds-lesson__wf-dim">Здесь будут все ваши заказы: состав, чек и кнопка, чтобы повторить заказ в одно нажатие.</span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Выбрать кофе</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Пусто</b>У нового покупателя заказов нет, и это не ошибка. Экран говорит, что здесь появится, и ведёт туда, откуда начинается первый заказ.</div>
+      </div>
+
+      <div data-switch-pane="st4"><p class="ds-switch__title">Ошибка</p>
+        <div>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Не удалось загрузить заказы</b><span class="ds-lesson__wf-dim">Заказы на месте, не пришёл ответ от сервера. Попробуйте ещё раз.</span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Повторить</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Ошибка</b>Сказано, что не получилось и что с данными, и есть кнопка, чтобы попробовать снова. Без неё остаётся только закрыть приложение.</div>
+      </div>
+
+      <div data-switch-pane="st5"><p class="ds-switch__title">Успех</p>
+        <div>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-ok"><b>Заказ № 1043 оформлен</b><span>Эфиопия, Кения · 1 850 ₽. Привезут завтра, 10:00–14:00.</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">№ 1043 · Эфиопия, Кения<span>сегодня · оформлен</span></span><span class="ds-lesson__wf-price">1 850 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">№ 1042 · Эфиопия, Кения<span>12 сентября · доставлен</span></span><span class="ds-lesson__wf-price">1 850 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">№ 1027 · Колумбия<span>29 августа · доставлен</span></span><span class="ds-lesson__wf-price">890 ₽</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Успех</b>После нажатия «Повторить» видно номер нового заказа, сумму и когда привезут. Без этого покупатель не уверен, сработало ли нажатие, может нажать ещё раз и получить два одинаковых заказа.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Пять состояний, а экран один. Шапка и место на экране общие, меняется середина.</div>
+  </div>
+
+  <p>Чтобы не пропустить ни одно состояние, перечислите их до того, как рисовать. Помогают четыре вопроса:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Вопрос</th><th scope="col">Состояние</th><th scope="col">«Мои заказы»</th></tr></thead>
+      <tbody>
+        <tr><td>Что видно, пока данные идут?</td><td>Загрузка</td><td>Серые строки на месте заказов</td></tr>
+        <tr><td>Что, если данных нет?</td><td>Пусто</td><td>«Заказов пока нет» и кнопка в каталог</td></tr>
+        <tr><td>Что, если не получилось?</td><td>Ошибка</td><td>Что случилось и кнопка «Повторить»</td></tr>
+        <tr><td>Что после действия?</td><td>Успех</td><td>Номер нового заказа и когда его привезут</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Список состояний пишется до макета.</b> Состояние, которого нет в списке, в макете никто не нарисует.</div>
+
+  <p class="ds-lesson__dim">Дизайнер Скотт Хёрфф в 2015 году назвал такой набор стеком интерфейса. В его списке пять состояний: идеальное, пустое, ошибка, частичное и загрузка. Частичное — когда данных мало, например один заказ вместо двадцати: экран не пустой, но выглядит не так, как в макете.</p>
+</section>
+
+<section id="empty">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Пустой экран: что здесь будет и что сделать</h2></div>
+  <p class="ds-lesson__lead">Пустой экран — не ошибка, но и не повод оставить белое место. Он объясняет, что здесь появится, и показывает первый шаг.</p>
+
+  <p>Пустота бывает трёх видов, и в каждом нужно сказать разное.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Почему пусто</th><th scope="col">Пример в магазине</th><th scope="col">Что сказать</th><th scope="col">Что предложить</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ещё ничего нет</b></td><td>«Избранное» у нового покупателя</td><td>Что здесь появится и как сюда попадают</td><td>Перейти в каталог</td></tr>
+        <tr><td><b>Ничего не нашлось</b></td><td>Поиск с фильтром, под который нет товаров</td><td>Что искали и что мешает</td><td>Сбросить фильтр, показать похожее</td></tr>
+        <tr><td><b>Всё сделано</b></td><td>Новых уведомлений нет</td><td>Что всё в порядке</td><td>Обычно ничего: пусто, потому что всё хорошо</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Самая частая пустота — в поиске. Покупатель ищет кофе без кофеина, а включённый раньше фильтр «Молотый» оставляет ноль товаров.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Поиск без результатов · без объяснения и с объяснением</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Без объяснения</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Поиск</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-field">эфиопия без кофеина</div>
+              <div class="ds-lesson__wf-chips"><div class="ds-lesson__wf-chip is-on">Молотый ×</div><div class="ds-lesson__wf-chip">Зёрна</div><div class="ds-lesson__wf-chip">Капсулы</div></div>
+              <div class="ds-lesson__st-empty"><span class="ds-lesson__wf-dim">Ничего не найдено</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">С объяснением и действием</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Поиск</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-field">эфиопия без кофеина</div>
+              <div class="ds-lesson__wf-chips"><div class="ds-lesson__wf-chip is-on">Молотый ×</div><div class="ds-lesson__wf-chip">Зёрна</div><div class="ds-lesson__wf-chip">Капсулы</div></div>
+              <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Молотого такого нет</b><span class="ds-lesson__wf-dim">«Эфиопия без кофеина» есть только в зёрнах, две пачки.</span></div>
+              <div class="ds-lesson__wf-btn">Сбросить фильтр «Молотый»</div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Эфиопия без кофеина<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">990 ₽</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева непонятно, в чём дело: опечатка, товара нет или мешает фильтр. Справа видно, что мешает, и одно нажатие ведёт к результату.</div>
+  </div>
+
+  <p>В Nielsen Norman Group советуют три вещи для пустых экранов: сообщить, что происходит, подсказать, как здесь всё устроено, и дать прямой путь к главному действию. Иллюстрация без текста ни одну из них не выполняет: она красивая, но не говорит, что делать.</p>
+
+  <div class="ds-lesson__rule"><b>Пустой экран отвечает на два вопроса: что здесь будет и что сделать сейчас.</b> Для пустоты «всё сделано» второй ответ может быть «ничего не нужно».</div>
+</section>
+
+<section id="loading">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Загрузка: когда показывать и какую</h2></div>
+  <p class="ds-lesson__lead">Загрузку показывают там, где ожидание заметно. Где оно незаметно, индикатор только мелькает.</p>
+
+  <p>Ожидание человек замечает не сразу. По данным Nielsen Norman Group, ответ быстрее 0,1 секунды кажется мгновенным. До секунды задержку уже видно, но мысль не прерывается. А после 10 секунд внимание уходит на другое. От этого и зависит, что показывать.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Сколько ждать</th><th scope="col">Что показать</th><th scope="col">Пример</th></tr></thead>
+      <tbody>
+        <tr><td>Меньше секунды</td><td>Ничего, кроме отклика на само нажатие</td><td>Переключить вкладку, отфильтровать уже загруженный каталог</td></tr>
+        <tr><td>От 1 до 10 секунд</td><td>Индикатор на месте того, что грузится: скелет для списка или экрана, крутилку для кнопки или одного блока</td><td>Открыть список заказов, отправить отзыв</td></tr>
+        <tr><td>Больше 10 секунд</td><td>Прогресс с долей выполненного и возможность заняться другим</td><td>Отправить фото чека, выгрузить историю покупок за год</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Скелет — это серые блоки на месте будущего содержимого. Он лучше крутилки там, где грузится целый экран или список.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Список заказов грузится · крутилка и скелет</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Крутилка на весь экран</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-center"><span class="ds-lesson__st-spin"></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Скелет на месте списка</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span></span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span></span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span></span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary is-off">Повторить последний заказ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Крутилка говорит только «подождите». Скелет показывает, что будет список и где встанет кнопка, и экран не прыгает, когда заказы пришли.</div>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Не показывайте индикатор, если ответ приходит быстрее секунды.</b> Крутилка, которая мелькает на долю секунды, выглядит как сбой. Если ответ бывает и быстрым, и медленным, индикатор появляется, только когда ответа нет дольше секунды.</div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · что показать, пока ждём<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="none"><p class="ds-quiz__question">Фильтр «Зёрна» в уже загруженном каталоге. Список меняется за десятую долю секунды.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ничего</b>Ответ мгновенный. Индикатор мелькнул бы и сбил с толку.</p></li>
+<li data-quiz-q data-answer="skel"><p class="ds-quiz__question">Список заказов открывается, обычно за 2–3 секунды.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Скелет</b>Грузится весь список, и его форма известна заранее. Серые строки показывают, что будет, и экран не прыгает.</p></li>
+<li data-quiz-q data-answer="spot"><p class="ds-quiz__question">Кнопка «Отправить отзыв»: отправка идёт около 2 секунд, экран остаётся тем же.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Индикатор на месте</b>Ждёт одна кнопка, а не экран. Крутилка в самой кнопке, и кнопка на это время неактивна, чтобы отзыв не ушёл дважды.</p></li>
+<li data-quiz-q data-answer="bar"><p class="ds-quiz__question">Фото чека для возврата отправляется 20–40 секунд.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Прогресс с долей</b>Дольше 10 секунд. Человеку нужно видеть, сколько уже сделано, и знать, что можно пока заняться другим.</p></li>
+<li data-quiz-q data-answer="none"><p class="ds-quiz__question">Вкладки «Кофе» и «Чай»: содержимое обеих уже в телефоне.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ничего</b>Ждать нечего, вкладка открывается сразу.</p></li>
+<li data-quiz-q data-answer="skel"><p class="ds-quiz__question">Карточка товара открывается из каталога: фото и описание приходят за 1–2 секунды.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Скелет</b>Грузится весь экран, и его устройство известно: фото, название, цена, кнопка.</p></li>
+<li data-quiz-q data-answer="bar"><p class="ds-quiz__question">Выгрузка истории покупок за год в файл, около минуты.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Прогресс с долей</b>Минуту без понятного хода никто не ждёт. Доля показывает, что дело движется.</p></li>
+<li data-quiz-q data-answer="spot"><p class="ds-quiz__question">Кнопка «Применить» у промокода: проверка идёт 1–3 секунды.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Индикатор на месте</b>Проверяется одно поле. Крутилка у кнопки, остальной экран работает как работал.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="none">Ничего</button><button class="ds-quiz__option" type="button" data-quiz-answer="spot">Индикатор на месте</button><button class="ds-quiz__option" type="button" data-quiz-answer="skel">Скелет</button><button class="ds-quiz__option" type="button" data-quiz-answer="bar">Прогресс с долей</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Сначала прикиньте, сколько ждать, потом — что именно грузится: целый экран или одна кнопка.</div>
+</div>
+</section>
+
+<section id="errors">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Ошибка ввода и ошибка системы</h2></div>
+  <p class="ds-lesson__lead">Ошибку ввода человек исправляет сам, ошибку системы — нет. Поэтому показывают их по-разному.</p>
+
+  <p>Ошибка ввода — человек ввёл то, что нельзя принять: в телефоне не хватает цифры, не указан дом. Причина в поле, и исправить её можно в этом же поле. Ошибка системы — не получилось по причине, которую в поле не исправить: пропала связь, не ответил сервер, не ответил платёжный сервис.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Адрес доставки · две разные ошибки</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Ошибка ввода</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Адрес доставки</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-field"><b>Улица</b>Лесная</div>
+              <div class="ds-lesson__st-field"><div class="ds-lesson__wf-field is-error"><b>Дом</b><span class="ds-lesson__wf-dim">например, 8к2</span></div><span class="ds-lesson__st-err">Укажите номер дома</span></div>
+              <div class="ds-lesson__wf-field"><b>Квартира</b>14</div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Сохранить адрес</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Ошибка системы</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Адрес доставки</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-field"><b>Улица</b>Лесная</div>
+              <div class="ds-lesson__wf-field"><b>Дом</b>8к2</div>
+              <div class="ds-lesson__wf-field"><b>Квартира</b>14</div>
+              <div class="ds-lesson__st-alert"><b>Адрес не сохранился</b><span>Не ответил сервер. Всё введённое осталось в полях, нажмите ещё раз.</span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Сохранить ещё раз</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева ошибка стоит у поля и говорит, что вписать. Справа поля в порядке, поэтому сообщение стоит у кнопки: что не получилось, что с данными и что нажать.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Вопрос</th><th scope="col">Ошибка ввода</th><th scope="col">Ошибка системы</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Кто исправит</th><td>Человек, в этом же поле</td><td>Не человек: остаётся повторить, подождать или выбрать другой путь</td></tr>
+        <tr><th scope="row">Где показать</th><td>У поля с ошибкой</td><td>Там, где было действие: у кнопки или на месте списка</td></tr>
+        <tr><th scope="row">Что сказать</th><td>Что вписать: «Укажите номер дома»</td><td>Что не получилось и что с данными: «Адрес не сохранился, введённое осталось в полях»</td></tr>
+        <tr><th scope="row">Когда показать</th><td>Когда человек закончил с полем или нажал кнопку, а не на каждой букве</td><td>Сразу, как стало ясно, что не получилось</td></tr>
+        <tr><th scope="row">Что сохранить</th><td colspan="2">Всё, что человек ввёл. Заставлять вводить заново — худшее, что можно сделать после ошибки</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Не показывайте ошибку одним цветом.</b> Красную рамку без текста не заметит тот, кто плохо различает цвета, а заметивший не поймёт, что исправить. По WCAG ошибку ввода описывают текстом — это критерий 3.3.1, уровень A.</div>
+
+  <p>То же с кодами и общими словами. «Ошибка 500» ничего не говорит покупателю, а «Что-то пошло не так» не говорит, что делать дальше.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · чья это ошибка<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="input"><p class="ds-quiz__question">В номере телефона девять цифр после +7.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка ввода</b>Исправляется в том же поле. Текст у поля: «В номере 10 цифр после +7, сейчас 9».</p></li>
+<li data-quiz-q data-answer="system"><p class="ds-quiz__question">Список заказов не загрузился: сервер не ответил.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка системы</b>Покупатель тут ни при чём. Сказать, что не загрузилось, и дать кнопку «Повторить».</p></li>
+<li data-quiz-q data-answer="none"><p class="ds-quiz__question">По запросу «без кофеина» с фильтром «Капсулы» ничего не нашлось.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не ошибка</b>Это пустой результат. Объяснить, что мешает фильтр, и предложить его сбросить.</p></li>
+<li data-quiz-q data-answer="input"><p class="ds-quiz__question">Промокод введён верно, но его срок закончился 1 сентября.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка ввода</b>Этот код принять нельзя, а другой можно ввести в то же поле. Текст у поля: «Срок промокода закончился 1 сентября».</p></li>
+<li data-quiz-q data-answer="system"><p class="ds-quiz__question">Оплата не прошла: платёжный сервис не ответил за 30 секунд.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка системы</b>Данные карты верные, дело не в них. Сказать, списаны ли деньги, и предложить повторить.</p></li>
+<li data-quiz-q data-answer="none"><p class="ds-quiz__question">В корзине нет товаров.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не ошибка</b>Пустое состояние: сказать, что корзина пуста, и дать путь в каталог.</p></li>
+<li data-quiz-q data-answer="input"><p class="ds-quiz__question">В поле «Дата доставки» набрано 31.09.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка ввода</b>Такой даты нет. Сказать у поля, а ещё лучше дать выбрать дату в календаре, где её не выбрать.</p></li>
+<li data-quiz-q data-answer="system"><p class="ds-quiz__question">Фото к отзыву не отправилось: пропала связь.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка системы</b>Фото хорошее, дело в связи. Сохранить отзыв и предложить отправить, когда связь вернётся.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="input">Ошибка ввода</button><button class="ds-quiz__option" type="button" data-quiz-answer="system">Ошибка системы</button><button class="ds-quiz__option" type="button" data-quiz-answer="none">Не ошибка</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Спросите себя: может ли человек исправить это в поле? Если да — ошибка ввода. Если данных просто нет — это не ошибка, а пустое состояние.</div>
+</div>
+</section>
+
+<section id="success">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Успех: сказать, что получилось</h2></div>
+  <p class="ds-lesson__lead">После действия человек должен знать, что оно удалось. Насколько заметным сделать подтверждение, зависит от важности действия.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Действие</th><th scope="col">Как подтвердить</th><th scope="col">Пример</th></tr></thead>
+      <tbody>
+        <tr><td>Результат видно сразу на месте</td><td>Ничего дополнительно</td><td>Нажали «+», и на кнопке стало «2 пачки»</td></tr>
+        <tr><td>Результат в другом месте экрана или приложения</td><td>Короткая плашка, которая уходит сама</td><td>«Добавлено в корзину» внизу экрана</td></tr>
+        <tr><td>Важное действие или такое, которое не отменить</td><td>Экран или блок с подробностями: что сделано, номер, что будет дальше</td><td>«Заказ № 1043 оформлен, привезут завтра»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">После оплаты · общее слово и результат</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Общее слово</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Оплата</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Успешно!</b></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">ОК</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Результат и что дальше</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ оформлен</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-ok"><b>Заказ № 1043 оплачен</b><span>1 850 ₽ списано с карты •• 4417.</span></div>
+              <div class="ds-lesson__wf-field"><b>Доставка</b>Завтра, 10:00–14:00 · ул. Лесная, 8к2, кв. 14</div>
+              <div class="ds-lesson__wf-dim">Курьер позвонит за час. Отменить заказ можно до 20:00 сегодня.</div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">К заказу</div>
+              <div class="ds-lesson__wf-link">Вернуться в каталог</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева непонятно, что именно успешно и что теперь делать. Справа видно, что сделано, сколько списано и что будет дальше.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Подтверждение называет результат.</b> Не «Успешно», а «Заказ № 1043 оплачен». Не «Готово», а «Адрес сохранён».</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите недоделанные состояния</h2></div>
+  <p class="ds-lesson__lead">Листы состояний четырёх экранов, которые команда магазина отдала в разработку. Пять мест в них недоделаны.</p>
+
+  <p>Нажимайте на куски экранов, которые вы бы переделали. Под каждым куском написано, когда он появляется. В разборе будет, что с ним не так.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Листы состояний · найдите недоделанное<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Мои заказы</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Мои заказы: скелет списка при первом открытии, 2–3 секунды"><span class="ds-lesson__st-when">первое открытие · 2–3&nbsp;с</span><span class="ds-lesson__st-skels"><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span><span class="ds-lesson__wf-skel"></span><span class="ds-lesson__wf-skel ds-lesson__st-short"></span></span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Мои заказы: крутилка на весь экран при переключении вкладок, 0,2 секунды"><span class="ds-lesson__st-when">переключение «Текущие / Прошлые» · 0,2&nbsp;с</span><span class="ds-lesson__st-center ds-lesson__st-center--sm"><span class="ds-lesson__st-spin"></span></span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Мои заказы: «Заказов пока нет» и кнопка «Выбрать кофе»"><span class="ds-lesson__st-when">у нового покупателя</span><b>Заказов пока нет</b><span class="ds-lesson__wf-dim">Здесь будут все ваши заказы и кнопка, чтобы повторить заказ.</span><span class="ds-lesson__wf-btn">Выбрать кофе</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Поиск</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Поиск</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Поиск: запрос «декаф» остался в поле"><span class="ds-lesson__st-when">после поиска</span><span class="ds-lesson__wf-field">декаф</span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Поиск: «Ничего не найдено» без объяснения"><span class="ds-lesson__st-when">если ничего не нашлось</span><span class="ds-lesson__wf-dim">Ничего не найдено</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__gap" style="--g:24"></div>
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Адрес доставки</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Адрес доставки</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Адрес: поле «Телефон» с красной рамкой без текста"><span class="ds-lesson__st-when">в телефоне не хватает цифры</span><span class="ds-lesson__wf-field is-error"><b>Телефон</b>+7 912 345 67 8</span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Адрес: поле «Дом» с текстом «Укажите номер дома»"><span class="ds-lesson__st-when">дом не указан</span><span class="ds-lesson__wf-field is-error"><b>Дом</b><span class="ds-lesson__wf-dim">например, 8к2</span></span><span class="ds-lesson__st-err">Укажите номер дома</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Оплата</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Оплата: кнопка «Идёт оплата…» неактивна, пока нет ответа"><span class="ds-lesson__st-when">после нажатия «Оплатить», пока нет ответа</span><span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary is-off">Идёт оплата…</span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Оплата: плашка «Что-то пошло не так» пропадает через 3 секунды"><span class="ds-lesson__st-when">оплата не прошла · плашка пропадает через 3&nbsp;с</span><span class="ds-lesson__st-toast">Что-то пошло не так</span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Оплата: «Успешно!» и кнопка «ОК»"><span class="ds-lesson__st-when">оплата прошла</span><b>Успешно!</b><span class="ds-lesson__wf-btn">ОК</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Скелет списка при первом открытии.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Ждать 2–3 секунды, грузится весь список. Серые строки показывают его форму, и экран не прыгает, когда заказы пришли.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Крутилка на весь экран при переключении вкладок, 0,2 секунды.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Ответ быстрее секунды. Крутилка мелькнёт и закроет весь экран, будто что-то сломалось. Вкладка должна открываться сразу.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">«Заказов пока нет» и кнопка «Выбрать кофе».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Сказано, что здесь будет, и есть путь к первому заказу.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Запрос остался в поле поиска.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Видно, что именно искали, и запрос можно поправить, не набирая заново.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Ничего не найдено» — и больше ничего.</span><span class="ds-lesson__hunt-fix"><b>Дописать. </b>Непонятно, опечатка это, товара нет или мешает фильтр. Скажите, что мешает, и дайте действие: сбросить фильтр, показать похожее.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Поле «Телефон» с красной рамкой и без текста.</span><span class="ds-lesson__hunt-fix"><b>Дописать. </b>Цвет не все различают, а заметивший не поймёт, что не так. Под полем нужен текст: «В номере 10 цифр после +7, сейчас 9».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Поле «Дом» с текстом «Укажите номер дома».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Ошибка у поля, текстом, и сказано, что вписать.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Идёт оплата…» неактивна, пока нет ответа.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Видно, что нажатие принято, и второй раз не нажать — деньги не спишутся дважды.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Плашка «Что-то пошло не так» пропадает через 3 секунды.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Это ошибка системы, и в ней самое важное: списаны ли деньги и что делать. Сообщение остаётся на экране, пока человек не решит, что дальше, и в нём есть «Повторить оплату».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Успешно!» и кнопка «ОК».</span><span class="ds-lesson__hunt-fix"><b>Дописать. </b>Непонятно, что успешно: оплата, заказ, доставка? Назовите результат — «Заказ № 1043 оплачен», — сумму и что будет дальше.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой кусок экрана</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Почти везде состояние нарисовано, но человеку не сказано, что случилось и что делать дальше. А крутилка стоит там, где ждать не приходится.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные куски тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Состояние без текста — недоделанный экран.</b> Про каждое спросите: понятно ли, что случилось, и понятно ли, что делать.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите свой экран и нарисуйте все его состояния. Выпишите, какого из них раньше не было в макете.</p>
+
+  <h3>Часть 1 · Составить список, 15 минут</h3>
+  <ol>
+    <li><strong>Выберите экран с данными:</strong> список, поиск, форму, корзину. Экран, где ничего не грузится и ничего не вводят, для задания не подойдёт.</li>
+    <li><strong>Ответьте на четыре вопроса</strong> из начала урока: что видно, пока данные идут; что, если их нет; что, если не получилось; что после действия.</li>
+    <li><strong>Разберите пустоту по видам:</strong> бывает ли здесь «ещё ничего нет», «ничего не нашлось», «всё сделано».</li>
+    <li><strong>Разберите ошибки:</strong> по каждому полю — что можно ввести не так, и отдельно — что может не получиться у системы.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Состояния экрана · заполните перед макетом<span class="ds-lesson__spacer"></span><span data-copy="statesTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="statesTmpl">ЭКРАН: ______________________        Дата: __.__.____
+
+ОБЫЧНОЕ: что видно, когда всё есть: ______________________
+
+ЗАГРУЗКА
+сколько обычно ждать: ___ с   в худшем случае: ___ с
+что показать: ничего / индикатор на месте / скелет / прогресс с долей
+
+ПУСТО
+ещё ничего нет:     текст ______________   действие ______________
+ничего не нашлось:  текст ______________   действие ______________
+всё сделано:        текст ______________
+
+ОШИБКА ВВОДА (по полям)
+поле ______________: что не так ______________   текст у поля ______________
+поле ______________: что не так ______________   текст у поля ______________
+
+ОШИБКА СИСТЕМЫ
+что не получилось: ______________   что с данными: ______________
+что предложить: повторить / подождать / другой путь: ______________
+
+УСПЕХ
+как подтвердить: видно на месте / плашка / экран с подробностями
+текст: ______________________
+
+РАНЬШЕ НЕ БЫЛО В МАКЕТЕ: ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строку «раньше не было в макете» заполняйте честно: ради неё задание и делается.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать, 45 минут</h3>
+  <ol>
+    <li><strong>Скопируйте основной экран</strong> столько раз, сколько состояний в списке. Шапка и навигация общие, меняется середина.</li>
+    <li><strong>Нарисуйте каждое состояние</strong> по списку: загрузку по длительности, пустоту по виду, ошибку ввода у поля, ошибку системы у действия.</li>
+    <li><strong>Впишите настоящие тексты,</strong> а не «Текст ошибки». Пустое состояние без слов — недоделанный экран.</li>
+    <li><strong>Положите состояния рядом</strong> и подпишите, когда какое появляется.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 10 минут</h3>
+  <ol>
+    <li><strong>Пройдите каждое состояние</strong> двумя вопросами: понятно ли, что случилось; понятно ли, что делать.</li>
+    <li><strong>Покажите лист разработчику</strong> или коллеге и спросите, чего не хватает. Каждое «а что здесь показывать?» — пропущенное состояние.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> У экрана нет ни одного состояния, про которое разработка спросит «а что здесь показывать».</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Лист состояний</strong> экрана: обычное, загрузка, пусто, ошибки, успех.</li>
+    <li><strong>Заполненный шаблон</strong> с текстами для каждого состояния.</li>
+    <li><strong>Строка о том,</strong> какого состояния раньше не было в макете.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут на список, 45 на макеты, 10 на проверку. Всего — чуть больше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Пустое состояние бывает раз в жизни».</strong> Зато это первое, что видит новый человек. По нему он решает, понятно ли здесь хоть что-то.</li>
+    <li><strong>«Текст ошибки напишет разработка».</strong> Разработка напишет то, что знает: код и слово «Ошибка». Что человеку делать дальше, знает тот, кто проектировал сценарий.</li>
+    <li><strong>«Не знаю, сколько будет грузиться».</strong> Спросите разработку, сколько обычно и сколько в худшем случае. Нарисуйте состояние для худшего, а рядом допишите: показывать, только если ответа нет дольше секунды.</li>
+    <li><strong>«Состояний слишком много».</strong> Большинство отличаются только серединой экрана. Нарисуйте середину, остальное скопируйте.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Экран готов, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Состояния перечислены до макета: загрузка, пусто, ошибка, успех</li>
+    <li>Пустое состояние говорит, что здесь будет и что сделать сейчас</li>
+    <li>Загрузка показана там, где ждать дольше секунды</li>
+    <li>Для ожидания дольше 10 секунд есть прогресс с долей</li>
+    <li>Ошибка ввода стоит у поля и описана текстом</li>
+    <li>Ошибка системы говорит, что не получилось, что с данными и что делать</li>
+    <li>После ошибки введённое не пропадает</li>
+    <li>Подтверждение называет результат, а не «Успешно»</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>«Нарисую потом».</b> Потом состояние рисует разработка — как успеет и без текста.</li>
+    <li><b>Картинка вместо объяснения.</b> Пустой экран красивый, но непонятно, что делать.</li>
+    <li><b>Крутилка на всё.</b> Даже там, где ответ приходит за долю секунды.</li>
+    <li><b>«Что-то пошло не так».</b> Человек не знает, что именно, и не знает, что делать.</li>
+    <li><b>Ошибка одним цветом.</b> Красную рамку видят не все, и непонятно, что исправить.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся рисовать основные состояния экрана. На следующих ступенях — проверять экран на крайних случаях и описывать поведение элементов, а потом собирать общие паттерны для всего продукта.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Перечислять состояния до макета; рисовать пустой экран с объяснением и действием; выбирать индикатор загрузки по длительности; отличать ошибку ввода от ошибки системы; называть результат в подтверждении</td>
+          <td>У экрана нет состояния, про которое разработка спросит «а что здесь показывать»</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Проверять экран на длинном тексте, сотнях строк, пустых полях, отсутствии прав и медленной сети; отличать состояние элемента от состояния экрана; описывать поведение словами</td>
+          <td class="ds-lesson__dim">Разработка задала по макету меньше трёх вопросов о поведении</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Находить задачи, которые в продукте решены по-разному, собирать из них общий паттерн, заменять разнобой и выводить устаревшее</td>
+          <td class="ds-lesson__dim">Новый экран с этой задачей собран по паттерну кем-то другим</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любой экран вы можете сказать, как он выглядит, пока грузится, когда пуст, когда сломался и после того, как всё получилось.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/empty-state-interface-design/">Designing Empty States in Complex Applications: 3 Guidelines</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно</span><span>Три правила для пустых экранов: сообщить, что происходит, подсказать, как всё устроено, и дать путь к главному действию.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/skeleton-screens/">Skeleton Screens 101</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Самхита Танкала · на английском · бесплатно</span><span>Когда скелет, когда крутилка, а когда полоса прогресса — по длительности ожидания и по тому, что грузится.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/error-message-guidelines/">Error-Message Guidelines</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Тим Нойзессер и Эван Санволл · на английском · бесплатно</span><span>Где показывать сообщение об ошибке, как его написать и почему нельзя стирать то, что человек ввёл.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.checklist.design/web-app/empty-state">Empty State</a></span><span class="ds-lesson__reads-meta"><a href="/resource/checklist-design/">Checklist Design</a> · чек-лист на английском · бесплатно</span><span>Чек-лист пустого состояния: чем пустота первого раза отличается от пустого результата поиска.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Раздел «Don’t overlook empty states»: как пустой экран становится приглашением к первому действию.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

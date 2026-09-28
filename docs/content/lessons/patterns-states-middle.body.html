@@ -1,0 +1,569 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#real-data">Экран на настоящих данных</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#rights">Нет прав: что видит человек</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#slow">Медленная сеть и потеря связи</a></li>
+    <li><a href="#levels-of-state">Состояние элемента, экрана и приложения</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#behavior">Поведение словами рядом с макетом</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> То же приложение магазина кофе, что и в <a href="/lessons/patterns-states-junior/">уроке про основные состояния</a>. В нём появился офисный аккаунт: сотрудники собирают общий заказ, а оплачивает его администратор. Так в приложении появляются настоящие данные — длинные, пустые, большие — и люди с разными правами.</div>
+
+<section id="real-data">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Экран на настоящих данных</h2></div>
+  <p class="ds-lesson__lead">Макет рисуют на удобных данных: короткое название, два товара, все поля заполнены. Настоящие данные бывают другими, и экран должен это выдерживать.</p>
+
+  <p>Возьмите карточку заказа и подставьте в неё то, что встретится на самом деле. Переключайте варианты: слева карточка без правила, справа — с правилом.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Карточка заказа · пять вариантов данных</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="rd1" hidden>Как в макете</button><button class="ds-switch__button" type="button" data-switch-btn="rd2" hidden>Длинное название</button><button class="ds-switch__button" type="button" data-switch-btn="rd3" hidden>Пустые поля</button><button class="ds-switch__button" type="button" data-switch-btn="rd4" hidden>Много товаров</button><button class="ds-switch__button" type="button" data-switch-btn="rd5" hidden>Большие числа</button></div>
+
+      <div data-switch-pane="rd1"><p class="ds-switch__title">Как в макете</p>
+        <div>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ № 1042</span><span class="ds-lesson__wf-back">доставлен</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Эфиопия<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">890 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">960 ₽</span></div>
+              <div class="ds-lesson__wf-field"><b>Получатель</b>Ольга, +7 912 345-67-89</div>
+              <div class="ds-lesson__wf-sum"><span>2 товара</span><span>1 850 ₽</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Как в макете</b>Короткие названия, два товара, все поля заполнены. На таких данных карточка выглядит лучше всего и ничего не проверяет.</div>
+      </div>
+
+      <div data-switch-pane="rd2"><p class="ds-switch__title">Длинное название</p>
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Без правила</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ № 1042</span><span class="ds-lesson__wf-back">доставлен</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta ds-lesson__st-nowrap">Эфиопия Иргачеффе Кочере, мытая обработка, светлая обжарка для фильтра<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 480 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">960 ₽</span></div>
+                <div class="ds-lesson__wf-sum"><span>2 товара</span><span>4 440 ₽</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">С правилом</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ № 1042</span><span class="ds-lesson__wf-back">доставлен</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta"><span class="ds-lesson__st-clamp">Эфиопия Иргачеффе Кочере, мытая обработка, светлая обжарка для фильтра</span><span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 480 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">960 ₽</span></div>
+                <div class="ds-lesson__wf-sum"><span>2 товара</span><span>4 440 ₽</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Правило</b>Название переносится не больше чем на две строки, дальше — многоточие, полное название — на экране товара. Цена не переносится и не сжимается никогда. Слева правила нет: название ушло за край карточки и унесло с собой цену.</div>
+      </div>
+
+      <div data-switch-pane="rd3"><p class="ds-switch__title">Пустые поля</p>
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Без правила</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ № 1042</span><span class="ds-lesson__wf-back">доставлен</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Эфиопия<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">890 ₽</span></div>
+                <div class="ds-lesson__wf-field"><b>Получатель</b>null, +7 912 345-67-89</div>
+                <div class="ds-lesson__wf-field"><b>Комментарий курьеру</b>&nbsp;</div>
+                <div class="ds-lesson__wf-sum"><span>1 товара</span><span>890 ₽</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">С правилом</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ № 1042</span><span class="ds-lesson__wf-back">доставлен</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Эфиопия<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">890 ₽</span></div>
+                <div class="ds-lesson__wf-field"><b>Получатель</b><span class="ds-lesson__wf-dim">имя не указано</span> · +7 912 345-67-89</div>
+                <div class="ds-lesson__wf-link">Указать имя получателя</div>
+                <div class="ds-lesson__wf-sum"><span>1 товар</span><span>890 ₽</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Правило</b>Пустое необязательное поле не показывается. Для обязательного — «не указано» и действие, чтобы заполнить. Служебные слова вроде null до человека не доходят. И склонение считается от числа: 1 товар, 2 товара, 5 товаров, 21 товар.</div>
+      </div>
+
+      <div data-switch-pane="rd4"><p class="ds-switch__title">Много товаров</p>
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Без правила</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ № 1051</span><span class="ds-lesson__wf-back">в пути</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Эфиопия<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 480 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 720 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Колумбия<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 360 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Бразилия<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">2 980 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Гватемала<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 540 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Чай улун<span>100 г</span></span><span class="ds-lesson__wf-price">640 ₽</span></div>
+                <p class="ds-lesson__wf-note">…и ещё восемь строк ниже: карточка длиннее экрана</p>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">С правилом</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказ № 1051</span><span class="ds-lesson__wf-back">в пути</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Эфиопия<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 480 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 720 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Колумбия<span>зёрна, 1 кг</span></span><span class="ds-lesson__wf-price">3 360 ₽</span></div>
+                <div class="ds-lesson__wf-link">Ещё 11 товаров</div>
+                <div class="ds-lesson__wf-sum"><span>14 товаров</span><span>38 920 ₽</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Правило</b>В карточке — первые три товара и ссылка «Ещё 11 товаров», весь состав — на экране заказа. Для списка заказов то же самое: сколько строк грузится сразу и что внизу — «Показать ещё» или следующая страница.</div>
+      </div>
+
+      <div data-switch-pane="rd5"><p class="ds-switch__title">Большие числа</p>
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Без правила</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Офисный заказ</span><span class="ds-lesson__wf-back">Корзина 128</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Колумбия × 120<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">106800 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения × 8<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">7680 ₽</span></div>
+                <div class="ds-lesson__wf-sum"><span>128 товаров</span><span>114480 ₽</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">С правилом</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Офисный заказ</span><span class="ds-lesson__wf-back">Корзина 99+</span></div>
+              <div class="ds-lesson__wf-body">
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Колумбия × 120<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">106 800 ₽</span></div>
+                <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения × 8<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">7 680 ₽</span></div>
+                <div class="ds-lesson__wf-sum"><span>128 товаров</span><span>114 480 ₽</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Правило</b>Разряды разделены пробелом, сумма не переносится, счётчик на значке корзины после 99 показывает «99+». Колонку цен рассчитывают по самой длинной сумме, которая бывает, а не по той, что в макете.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Каждое правило — одна строка рядом с макетом. Без неё разработка решит сама: обрежет на полуслове, выведет null или растянет карточку на три экрана.</div>
+  </div>
+
+  <p>Пять вариантов из переключателя — не все крайние случаи. Прогоните экран по списку целиком:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Крайний случай</th><th scope="col">Что подставить</th><th scope="col">Какое правило нужно</th></tr></thead>
+      <tbody>
+        <tr><td><b>Длинный текст</b></td><td>Самое длинное название, адрес, имя, какие бывают</td><td>Переносить или обрезать, до скольких строк, где видно полностью</td></tr>
+        <tr><td><b>Пустые поля</b></td><td>Нет фото, имени, комментария</td><td>Скрыть строку или написать «не указано» и дать действие</td></tr>
+        <tr><td><b>Много строк</b></td><td>Сотня заказов, 14 товаров в одном</td><td>Сколько показывать сразу, что внизу списка</td></tr>
+        <tr><td><b>Большие числа</b></td><td>Самая большая сумма, 128 товаров в корзине</td><td>Разряды, ширина колонки, «99+» на значке</td></tr>
+        <tr><td><b>Ноль и один</b></td><td>Один заказ вместо двадцати, 1 товар и 21 товар</td><td>Как выглядит почти пустой список, склонение от числа</td></tr>
+        <tr><td><b>Крупный шрифт</b></td><td>Текст, увеличенный в настройках телефона</td><td>Что переносится, что уходит в прокрутку. WCAG требует, чтобы при увеличении текста до 200&nbsp;% ничего не терялось</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">В Figma длинный текст удобно проверять прямо в макете: у текстового слоя есть обрезка с многоточием и число строк, после которого она срабатывает. Правило из макета тогда совпадает с тем, что увидит человек.</p>
+
+  <div class="ds-lesson__rule"><b>Каждому крайнему случаю — правило, а не надежда.</b> Переносить или обрезать, скрывать или писать «не указано», показывать всё или первые три — это решает дизайнер и пишет рядом с макетом.</div>
+</section>
+
+<section id="rights">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Нет прав: что видит человек</h2></div>
+  <p class="ds-lesson__lead">Кнопка, которая не нажимается и не говорит почему, хуже, чем её отсутствие. Человеку нужно понять, почему нельзя и что можно сделать.</p>
+
+  <p>В офисном аккаунте две роли. Сотрудник собирает общий заказ, администратор ещё и оплачивает, и только он видит счета и реквизиты компании. Показать то, что сотруднику нельзя, можно тремя способами:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Способ</th><th scope="col">Когда</th><th scope="col">Пример</th></tr></thead>
+      <tbody>
+        <tr><td><b>Спрятать</b></td><td>Человеку это не понадобится, и знать о нём незачем</td><td>Сотрудник не видит настройки реквизитов компании</td></tr>
+        <tr><td><b>Показать неактивным и объяснить</b></td><td>Действие станет доступно, если что-то сделать, и человеку полезно знать, что именно</td><td>«Оформить» неактивна, пока не выбран адрес офиса, и рядом сказано об этом</td></tr>
+        <tr><td><b>Пустить и объяснить на месте</b></td><td>Человек пришёл сам — по ссылке или нажатием — и ждёт увидеть результат</td><td>Сотрудник открыл ссылку на счёт: «Счета видит администратор аккаунта» и кнопка «Попросить доступ»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Корзина сотрудника · без объяснения и с путём дальше</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Неактивна без объяснения</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Общий заказ</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Колумбия × 10<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">8 900 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения × 4<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">3 840 ₽</span></div>
+              <div class="ds-lesson__wf-sum"><span>14 товаров</span><span>12 740 ₽</span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary is-off">Оплатить 12 740 ₽</div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">С объяснением и путём</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Общий заказ</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Колумбия × 10<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">8 900 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения × 4<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">3 840 ₽</span></div>
+              <div class="ds-lesson__wf-sum"><span>14 товаров</span><span>12 740 ₽</span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Отправить на оплату</div>
+              <p class="ds-lesson__wf-note">Оплачивает администратор аккаунта. Он получит заказ и уведомление, состав можно менять до оплаты.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева сотрудник видит серую кнопку и не знает, сломалось что-то или так задумано. Справа ясно, кто платит, и есть действие, которое доступно ему самому.</div>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Не всегда стоит говорить, что закрытое существует.</b> Если человек открыл по ссылке чужой заказ, ответ «Заказ не найден» безопаснее, чем «Это заказ Ивана, у вас нет доступа»: второй выдаёт чужие данные. API GitHub так и поступает с закрытыми репозиториями: отвечает «не найдено», а не «нет доступа».</div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · спрятать, выключить или объяснить<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="off"><p class="ds-quiz__question">Сотрудник собрал общий заказ и видит кнопку оплаты, а платит администратор.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Показать неактивным и объяснить</b>А лучше заменить на доступное действие: «Отправить на оплату» и строка о том, кто платит.</p></li>
+<li data-quiz-q data-answer="hide"><p class="ds-quiz__question">Настройки реквизитов компании. Сотрудник их не меняет и не будет менять.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Спрятать</b>Знать о них сотруднику незачем. Неактивный пункт в меню только занимает место и вызывает вопрос «а мне это нужно?».</p></li>
+<li data-quiz-q data-answer="explain"><p class="ds-quiz__question">Сотрудник открыл из рабочего чата ссылку на счёт, который видит только администратор.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пустить и объяснить на месте</b>Он пришёл по ссылке и ждёт счёт. Экран «Счета видит администратор аккаунта» и кнопка «Попросить доступ».</p></li>
+<li data-quiz-q data-answer="explain"><p class="ds-quiz__question">Человек без входа в приложение нажимает «Повторить заказ».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пустить и объяснить на месте</b>По нажатию — «Войдите, чтобы повторить заказ», а после входа он возвращается к тому же действию, а не на главную.</p></li>
+<li data-quiz-q data-answer="off"><p class="ds-quiz__question">Администратор ещё не выбрал адрес офиса, а кнопка «Оформить» уже видна.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Показать неактивным и объяснить</b>Условие выполнимо, и его стоит назвать рядом с кнопкой: «Выберите адрес доставки».</p></li>
+<li data-quiz-q data-answer="hide"><p class="ds-quiz__question">Кнопка «Удалить аккаунт компании» в профиле сотрудника.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Спрятать</b>Сотрудник это сделать не может и не должен. Неактивная опасная кнопка пугает и ничего не даёт.</p></li>
+<li data-quiz-q data-answer="off"><p class="ds-quiz__question">Скидка 10&nbsp;% для офисов — с заказа от 15 000 ₽, а в корзине 12 740 ₽.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Показать неактивным и объяснить</b>Условие понятное и достижимое: «Скидка 10&nbsp;% — с 15 000 ₽. Добавьте товаров ещё на 2 260 ₽».</p></li>
+<li data-quiz-q data-answer="explain"><p class="ds-quiz__question">Покупатель открыл по пересланной ссылке чужой заказ.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пустить и объяснить на месте</b>Но объяснение — «Заказ не найден» и ссылка на свои заказы. Чей это заказ и что в нём, говорить нельзя.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="hide">Спрятать</button><button class="ds-quiz__option" type="button" data-quiz-answer="off">Неактивно с объяснением</button><button class="ds-quiz__option" type="button" data-quiz-answer="explain">Объяснить на месте</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Два вопроса помогают выбрать: понадобится ли это человеку когда-нибудь, и пришёл ли он сюда сам.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Неактивный элемент всегда объясняет себя.</b> Рядом написано, почему нельзя и что сделать, чтобы стало можно.</div>
+</section>
+
+<section id="slow">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Медленная сеть и потеря связи</h2></div>
+  <p class="ds-lesson__lead">Между нажатием и ответом на медленной сети проходят секунды. Что в эти секунды происходит с кнопкой, экраном и данными, решает дизайнер, а не случай.</p>
+
+  <p>Возьмите одно действие, которое уходит на сервер, и пройдите его по времени. Вот оплата общего заказа администратором:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Когда</th><th scope="col">Что видит человек</th><th scope="col">Что происходит</th></tr></thead>
+      <tbody>
+        <tr><td><b>Нажатие</b></td><td>Кнопка сразу меняется: «Идёт оплата…», неактивна, в ней индикатор</td><td>Запрос ушёл. Второе нажатие ничего не отправляет</td></tr>
+        <tr><td><b>Через 10 секунд</b></td><td>Под кнопкой: «Банк отвечает дольше обычного. Не закрывайте экран»</td><td>Ответа ещё нет, ожидание продолжается</td></tr>
+        <tr><td><b>Ответ пришёл</b></td><td>Экран «Заказ № 1051 оплачен»</td><td>Заказ уходит на сборку</td></tr>
+        <tr><td><b>Отказ</b></td><td>Сообщение у кнопки: «Банк отклонил оплату. Деньги не списаны». Кнопка снова активна</td><td>Заказ не оплачен, состав сохранён</td></tr>
+        <tr><td><b>Ответа нет минуту</b></td><td>«Статус оплаты пока неизвестен. Повторно деньги не спишутся». Кнопка «Проверить статус»</td><td>Неизвестно, прошла ли оплата. Это отдельное состояние, а не ошибка</td></tr>
+        <tr><td><b>Связь пропала</b></td><td>Плашка «Нет связи» сверху экрана, данные остаются на месте</td><td>Оплата не отправлена. «Оплатить» снова можно нажать, когда связь вернётся</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Самое коварное здесь — «ответа нет». Приложение не знает, прошла ли оплата: запрос мог дойти, а ответ потеряться. Если нарисовать на этот случай «Ошибка оплаты», человек нажмёт ещё раз и может заплатить дважды. Если ничего не нарисовать, он будет смотреть на крутилку, пока не закроет приложение.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Связь пропала · данные на месте</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Экран потерял всё</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Общий заказ</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Нет подключения к интернету</b></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Плашка сверху, заказ на месте</p>
+          <div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Общий заказ</span></div>
+            <div class="ds-lesson__st-banner">Нет связи. Заказ сохранён, оплатить можно, когда связь вернётся</div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Колумбия × 10<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">8 900 ₽</span></div>
+              <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-thumb"></span><span class="ds-lesson__wf-meta">Кения × 4<span>зёрна, 250 г</span></span><span class="ds-lesson__wf-price">3 840 ₽</span></div>
+              <div class="ds-lesson__wf-sum"><span>14 товаров</span><span>12 740 ₽</span></div>
+              <div class="ds-lesson__wf-btn ds-lesson__wf-btn--primary is-off">Оплатить 12 740 ₽</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева заказ пропал с экрана, хотя он есть в телефоне. Справа видно, что случилось, что с заказом и когда можно продолжить.</div>
+  </div>
+
+  <p>Для действий, где ошибка ничего не стоит, есть обратный приём — показать результат сразу, не дожидаясь сервера. Сердечко «В избранное» закрашивается в момент нажатия. Если сервер ответил отказом, оно возвращается назад, а внизу появляется «Не удалось добавить в избранное». С деньгами, адресом и составом заказа так не делают: там человек должен видеть настоящий результат.</p>
+
+  <p class="ds-lesson__dim">Проверять удобно в браузере Chrome: в инструментах разработчика, на вкладке Network, есть готовые профили медленной сети и режим без связи. Пройдите свой прототип или готовую страницу на медленном профиле и посмотрите, где экран молчит.</p>
+
+  <div class="ds-lesson__rule"><b>У каждого действия, которое уходит на сервер, описаны исходы:</b> ответ пришёл, ответа долго нет, отказ, неизвестно и нет связи. И для каждого — что видно и что с введёнными данными.</div>
+</section>
+
+<section id="levels-of-state">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Состояние элемента, экрана и приложения</h2></div>
+  <p class="ds-lesson__lead">Кнопка бывает нажатой и неактивной, экран — пустым и загружающимся, приложение — без связи. Это разные уровни, и описывают их в разных местах.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Уровень</th><th scope="col">Примеры</th><th scope="col">Где описывать</th></tr></thead>
+      <tbody>
+        <tr><td><b>Элемент</b></td><td>Кнопка: обычная, наведение, нажатие, фокус, неактивная, загрузка. Поле: пустое, заполненное, с ошибкой</td><td>В библиотеке компонентов, один раз для всех экранов</td></tr>
+        <tr><td><b>Экран</b></td><td>Загрузка, пусто, ошибка, нет прав, успех</td><td>В макете экрана: у каждого экрана свои тексты и действия</td></tr>
+        <tr><td><b>Приложение</b></td><td>Нет связи, вход истёк, нужно обновить приложение</td><td>Одно общее правило: как это выглядит на любом экране</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Путаница между уровнями дорого стоит. Если состояние кнопки нарисовать в макете одного экрана, на соседнем экране его не будет. Если «нет связи» решать на каждом экране отдельно, получится пять разных плашек с пятью разными текстами.</p>
+
+  <p class="ds-lesson__dim">В Material Design 3 у элемента шесть основных состояний: обычное, неактивное, наведение, фокус, нажатие и перетаскивание. Загрузку в кнопке и ошибку в поле библиотеки обычно добавляют к ним сами.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · чьё это состояние<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="el"><p class="ds-quiz__question">Поле «Промокод» с текстом «Срок промокода закончился».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Элемент</b>Как выглядит поле с ошибкой, описано в библиотеке. Сам текст ошибки — уже в описании экрана.</p></li>
+<li data-quiz-q data-answer="screen"><p class="ds-quiz__question">В «Избранном» ничего нет.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Экран</b>Пустое состояние конкретного экрана: у «Избранного» свои слова и своё действие.</p></li>
+<li data-quiz-q data-answer="app"><p class="ds-quiz__question">Телефон потерял связь посреди оформления заказа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Приложение</b>Связь пропадает на любом экране. Плашка и её текст — одно правило для всех.</p></li>
+<li data-quiz-q data-answer="el"><p class="ds-quiz__question">Кнопка «Оформить» в фокусе, когда до неё дошли клавишей Tab.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Элемент</b>Фокус рисуется у компонента один раз и одинаково работает на всех экранах.</p></li>
+<li data-quiz-q data-answer="screen"><p class="ds-quiz__question">Список счетов не загрузился: сервер не ответил.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Экран</b>Что сказать и что предложить, зависит от экрана: здесь — «Повторить» и где взять счёт иначе.</p></li>
+<li data-quiz-q data-answer="app"><p class="ds-quiz__question">Вход истёк, нужно снова ввести код из СМС.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Приложение</b>Это случается где угодно. Общее правило: после входа человек возвращается туда, где был, с тем, что ввёл.</p></li>
+<li data-quiz-q data-answer="screen"><p class="ds-quiz__question">Сотрудник открыл раздел «Счета», который видит только администратор.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Экран</b>Нет прав на конкретный раздел: текст и действие — «Попросить доступ» — у этого экрана свои.</p></li>
+<li data-quiz-q data-answer="el"><p class="ds-quiz__question">Переключатель «Автоповтор» неактивен, пока не выбран адрес.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Элемент</b>Вид неактивного переключателя — из библиотеки. А вот причину рядом с ним пишут в макете экрана.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="el">Элемент</button><button class="ds-quiz__option" type="button" data-quiz-answer="screen">Экран</button><button class="ds-quiz__option" type="button" data-quiz-answer="app">Приложение</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Спросите себя, где это может случиться: в одной детали, на одном экране или где угодно.</div>
+</div>
+</section>
+
+<section id="behavior">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Поведение словами рядом с макетом</h2></div>
+  <p class="ds-lesson__lead">Картинка показывает, как экран выглядит. Что происходит при нажатии, при ошибке, при потере связи, пишут словами рядом с макетом.</p>
+
+  <p>Описывайте каждый элемент, который что-то делает, по одной схеме: когда виден, что при нажатии, что пока ждём, что при успехе, при ошибке и без связи. Вот кнопка «Повторить последний заказ» из «Моих заказов»:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Когда</th><th scope="col">Кнопка «Повторить последний заказ»</th></tr></thead>
+      <tbody>
+        <tr><td><b>Видна</b></td><td>Есть хотя бы один заказ. Пока список грузится, кнопка неактивна</td></tr>
+        <tr><td><b>Нажатие</b></td><td>Кнопка неактивна, в ней индикатор. Второе нажатие ничего не отправляет</td></tr>
+        <tr><td><b>Товара нет в наличии</b></td><td>Перед оформлением: «Кении нет в наличии. Оформить без неё?» и две кнопки</td></tr>
+        <tr><td><b>Цена изменилась</b></td><td>Перед оформлением: новая сумма и старая рядом, «Оформить за 1 990 ₽»</td></tr>
+        <tr><td><b>Успех</b></td><td>Над списком: «Заказ № 1043 оформлен, привезут завтра, 10:00–14:00». Новый заказ — первым в списке</td></tr>
+        <tr><td><b>Ошибка системы</b></td><td>У кнопки: «Не удалось оформить заказ, ничего не списано». Кнопка снова активна</td></tr>
+        <tr><td><b>Нет связи</b></td><td>Кнопка неактивна, под ней: «Повторить можно, когда появится связь»</td></tr>
+        <tr><td><b>Экранный диктор</b></td><td>Сообщение об успехе или ошибке зачитывается, фокус с кнопки не уходит</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">Последняя строка — про людей, которые слушают интерфейс. Сообщение, которое появилось на экране само, без переноса фокуса, диктор не заметит, если его не пометить в коде. WCAG называет это сообщениями о статусе, критерий 4.1.3, уровень AA.</p>
+
+  <p>Ниже описание промокода, которое коллега отдал в разработку. Пять строк из десяти вернутся вопросами в рабочий чат. Нажимайте на строки, по которым разработчик переспросит.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Описание поведения · поле «Промокод»<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <ul class="ds-lesson__st-list">
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Где: под списком товаров, над суммой"><span class="ds-lesson__st-when">где</span>Под списком товаров, над суммой заказа.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Ввод: буквы заглавные, пробелы по краям убираются"><span class="ds-lesson__st-when">ввод</span>Буквы приводятся к заглавным, пробелы по краям убираются.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Нажатие «Применить»: применяет промокод"><span class="ds-lesson__st-when">нажатие «Применить»</span>Применяет промокод.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Проверка: кнопка неактивна, в ней индикатор"><span class="ds-lesson__st-when">пока идёт проверка</span>Кнопка «Применить» неактивна, в ней индикатор. Поле можно редактировать.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Код неверный: показать ошибку"><span class="ds-lesson__st-when">код неверный</span>Показать ошибку.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Код истёк: текст под полем, код остаётся"><span class="ds-lesson__st-when">срок кода закончился</span>Под полем: «Срок промокода закончился 1 сентября». Код остаётся в поле.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Код не подходит к товарам: как в макете"><span class="ds-lesson__st-when">код не подходит к товарам в корзине</span>Как в макете.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Успех: скидка под полем, сумма пересчитана"><span class="ds-lesson__st-when">код принят</span>Под полем: «Скидка 10&nbsp;% — 185 ₽». Сумма пересчитана, прежняя зачёркнута рядом.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Нет связи: обработать"><span class="ds-lesson__st-when">нет связи</span>Обработать.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Длинный код: красиво обрезать"><span class="ds-lesson__st-when">длинный код</span>Красиво обрезать.</span></li>
+        </ul>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Где: под списком товаров, над суммой.</span><span class="ds-lesson__hunt-fix"><b>Понятно. </b>Место видно и в макете, строка его подтверждает.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Ввод: заглавные буквы, пробелы по краям убираются.</span><span class="ds-lesson__hunt-fix"><b>Понятно. </b>Это правило из макета не увидеть, и оно записано. Код «kofe10 » с пробелом сработает.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Нажатие «Применить»: применяет промокод.</span><span class="ds-lesson__hunt-fix"><b>Вопрос: «А что видно после нажатия?» </b>Строка повторяет название кнопки. Можно ли нажать дважды, что с кнопкой, пока ждём, — не сказано. Ниже есть строка про проверку, но из этой на неё не выйти.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Пока идёт проверка: кнопка неактивна, в ней индикатор.</span><span class="ds-lesson__hunt-fix"><b>Понятно. </b>Видно, что происходит, и сказано, что поле при этом доступно.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Код неверный: показать ошибку.</span><span class="ds-lesson__hunt-fix"><b>Вопрос: «Какой текст и где?» </b>Нужен текст — «Такого промокода нет, проверьте буквы и цифры», — место — под полем — и что с кодом: остаётся в поле, чтобы исправить одну букву.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Срок кода закончился: текст под полем, код остаётся.</span><span class="ds-lesson__hunt-fix"><b>Понятно. </b>Есть текст, место и что с введённым.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Код не подходит к товарам: как в макете.</span><span class="ds-lesson__hunt-fix"><b>Вопрос: «В каком макете?» </b>Такого состояния в макете нет — поэтому строка и появилась. Нужен текст: «Промокод действует на чай, а в корзине только кофе» — и что с кодом.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Код принят: скидка под полем, сумма пересчитана.</span><span class="ds-lesson__hunt-fix"><b>Понятно. </b>Результат назван словами и числом, видно, что изменилось.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Нет связи: обработать.</span><span class="ds-lesson__hunt-fix"><b>Вопрос: «Как?» </b>«Обработать» — это задача, а не описание. Нужно: кнопка неактивна, под полем «Проверим код, когда появится связь» или общая плашка приложения — и какая из двух.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Длинный код: красиво обрезать.</span><span class="ds-lesson__hunt-fix"><b>Вопрос: «Это сколько символов?» </b>«Красиво» каждый понимает по-своему. Нужно: сколько знаков принимает поле и что с длинным кодом — прокручивается в поле, а не обрезается, иначе его не проверить глазами.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую строку</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Каждая такая строка — вопрос в рабочем чате, а то и решение, которое разработчик примет сам. Хорошие строки отвечают на вопрос «что именно видит человек» словами интерфейса.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Понятные строки тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Строка описания готова, если по ней не нужно переспрашивать.</b> В ней есть то, что видит человек, словами из интерфейса, а не глагол вроде «обработать» или «показать ошибку».</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите свой экран, прогоните по нему пять крайних случаев и опишите поведение элементов текстом рядом с макетом.</p>
+
+  <h3>Часть 1 · Прогнать крайние случаи, 30 минут</h3>
+  <ol>
+    <li><strong>Подставьте настоящие данные:</strong> самое длинное название, пустые поля, сотню строк, самую большую сумму, одну строку вместо двадцати.</li>
+    <li><strong>Увеличьте текст</strong> в настройках телефона и посмотрите на экран ещё раз.</li>
+    <li><strong>Пройдите роли:</strong> кто из пользователей не может сделать то, что на экране есть, и что он видит.</li>
+    <li><strong>Включите медленную сеть</strong> в инструментах разработчика или представьте, что каждое действие идёт 10 секунд, а потом связь пропадает.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Крайние случаи и поведение · заполните рядом с макетом<span class="ds-lesson__spacer"></span><span data-copy="edgeTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="edgeTmpl">ЭКРАН: ______________________        Дата: __.__.____
+
+КРАЙНИЕ СЛУЧАИ
+длинный текст:  где ______________   правило: переносить до __ строк / обрезать / ______
+пустые поля:    какие ____________   правило: скрыть / «не указано» и действие
+много строк:    сколько бывает ___   правило: первые __ и «ещё __» / постранично / ______
+большие числа:  самое большое ____   правило: ______________
+ноль и один:    как выглядит ______   склонение проверено: да / нет
+крупный шрифт:  что ломается _____________________
+
+НЕТ ПРАВ
+кто: ______________   что видит: спрятать / неактивно с объяснением / объяснить на месте
+текст: ______________________
+
+ПОВЕДЕНИЕ (по каждому элементу, который что-то делает)
+элемент: ______________________
+  когда виден:      ______________________
+  нажатие:          ______________________
+  пока ждём ответа: ______________________
+  успех:            ______________________
+  ошибка:           ______________________
+  ответа долго нет: ______________________
+  нет связи:        ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">В каждой строке — что видит человек, словами интерфейса. «Показать ошибку» и «обработать» не считаются.</div>
+  </div>
+
+  <h3>Часть 2 · Описать поведение, 40 минут</h3>
+  <ol>
+    <li><strong>Выпишите все элементы,</strong> которые что-то делают: кнопки, поля, переключатели, ссылки, которые что-то меняют.</li>
+    <li><strong>По каждому заполните поведение</strong> по шаблону. Где исход неизвестен, спросите разработку, что вообще может вернуться с сервера.</li>
+    <li><strong>Дорисуйте в макете</strong> то, что появилось в описании: сообщения, неактивные кнопки с объяснением, плашку «Нет связи».</li>
+    <li><strong>Положите описание рядом с макетом,</strong> а не в отдельный документ: в комментарии к фрейму или на соседнем фрейме.</li>
+  </ol>
+
+  <h3>Часть 3 · Отдать разработке, 15 минут</h3>
+  <ol>
+    <li><strong>Передайте макет с описанием</strong> и попросите записывать все вопросы о поведении, а не задавать их в личку по одному.</li>
+    <li><strong>Каждый вопрос превратите в строку описания,</strong> чтобы следующий человек его не задавал.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Разработка задала по макету меньше трёх уточняющих вопросов о поведении.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Макет, проверенный</strong> на пяти крайних случаях, с правилом для каждого.</li>
+    <li><strong>Описание поведения</strong> каждого действующего элемента рядом с макетом.</li>
+    <li><strong>Список вопросов разработки</strong> и строки, которые из них появились.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 30 минут на крайние случаи, 40 на описание, 15 на передачу. Всего — полтора часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Настоящих данных ещё нет».</strong> Спросите разработку, сколько знаков допускает каждое поле, и возьмите длинные названия у похожих магазинов. Предел поля — и есть самое длинное название.</li>
+    <li><strong>«Описание поведения никто не читает».</strong> Не читают отдельный документ на двадцать страниц. Короткие строки «когда — что видно» рядом с фреймом читают.</li>
+    <li><strong>«Разработка сама знает, что делать с ошибками».</strong> Она знает, как ошибку поймать. Что сказать человеку и куда его отправить — решение дизайна.</li>
+    <li><strong>«Крайних случаев бесконечно много».</strong> Пять из урока покрывают большую часть. Остальные придут вопросами разработки и жалобами в поддержку — каждый станет строкой описания.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Чек-лист и ошибки ступени</h2></div>
+
+  <h3>Макет готов к разработке, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Проверен на длинном тексте, пустых полях, сотнях строк и больших числах</li>
+    <li>Для каждого крайнего случая записано правило</li>
+    <li>Склонение от числа и почти пустой список проверены</li>
+    <li>Для каждой роли понятно, что она видит там, где действовать нельзя</li>
+    <li>Неактивные элементы объясняют, почему и что сделать</li>
+    <li>У действий, которые уходят на сервер, описаны ожидание, отказ, неизвестный исход и нет связи</li>
+    <li>Состояния элементов — в библиотеке, состояния экрана — в макете, общие для приложения — одним правилом</li>
+    <li>Поведение описано словами рядом с макетом</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Макет на удобных данных.</b> Первый же длинный адрес ломает карточку.</li>
+    <li><b>Серая кнопка без объяснения.</b> Человек не знает, сломалось или так задумано.</li>
+    <li><b>«Ошибка» на неизвестный исход.</b> Человек платит второй раз.</li>
+    <li><b>Состояние кнопки в макете экрана.</b> На соседнем экране его уже нет.</li>
+    <li><b>«Обработать», «показать ошибку», «как в макете».</b> Каждое — вопрос в чате или решение разработчика вместо дизайнера.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На этой ступени экран выдерживает настоящие данные и описан так, что разработке не приходится додумывать поведение. На следующей — одинаковые задачи решаются одинаково во всём продукте.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Перечислять состояния до макета; рисовать пустой экран с объяснением; выбирать индикатор загрузки; отличать ошибку ввода от ошибки системы; называть результат в подтверждении</td>
+          <td class="ds-lesson__dim">У экрана нет состояния, про которое разработка спросит «а что здесь показывать»</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Проверять экран на длинном тексте, сотнях строк, пустых полях, отсутствии прав и медленной сети; отличать состояние элемента от состояния экрана; описывать поведение словами рядом с макетом</td>
+          <td>Разработка задала по макету меньше трёх вопросов о поведении</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Находить задачи, которые в продукте решены по-разному, собирать из них общий паттерн, заменять разнобой и выводить устаревшее</td>
+          <td class="ds-lesson__dim">Новый экран с этой задачей собран по паттерну кем-то другим</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> экран не ломается на настоящих данных, а разработка не додумывает, что происходит при нажатии, ошибке и потере связи.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.smashingmagazine.com/2024/05/hidden-vs-disabled-ux/">Hidden vs. Disabled In UX</a></span><span class="ds-lesson__reads-meta"><a href="/resource/smashing-magazine/">Smashing Magazine</a>, Виталий Фридман · на английском · бесплатно</span><span>Когда элемент прятать, а когда показывать неактивным, и почему неактивный обязан объяснить, как его включить.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/designing-for-waits-and-interruptions/">Designing for Long Waits and Interruptions</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно</span><span>Как не потерять человека на долгой операции: доля выполненного, работа в фоне, подробности в сообщении об успехе.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/foundations/interaction/states/overview">States</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Шесть состояний элемента и как они сочетаются между собой.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://developer.chrome.com/docs/devtools/network/reference#throttling">Network features reference: Throttling</a></span><span class="ds-lesson__reads-meta">Chrome DevTools, справка · на английском · бесплатно</span><span>Где включить медленную сеть и режим без связи, чтобы пройти свой экран так, как его увидит человек с плохим интернетом.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/360039956634-Explore-text-properties">Explore text properties</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Обрезка текста с многоточием и число строк: как проверить длинное название прямо в макете.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->
