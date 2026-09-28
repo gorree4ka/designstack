@@ -6730,6 +6730,213 @@ button.ds-lesson__wf-btn[disabled] {
 	display: none;
 }
 
+/* Слой «Без цвета»: чёрно-белый снимок — проверка, держится ли иерархия без цвета. */
+.is-gray .ds-lesson__spec {
+	filter: grayscale(1);
+}
+
+/* Лаборатория иерархии (урок «Композиция и сетка, Middle»). Без слоёв карточка плоская:
+   все строки одного кегля, веса и цвета, расстояния одинаковые — главного не видно.
+   Каждый слой добавляет один инструмент, и по нему видно, что именно он даёт. */
+.ds-lesson__hl {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__hl-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__hl-act {
+	padding: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	text-align: center;
+}
+
+.is-size .ds-lesson__hl-main {
+	font-size: var(--wp--preset--font-size--xl);
+	line-height: var(--wp--custom--line-height--tight);
+}
+
+.is-size .ds-lesson__hl-key {
+	font-size: var(--wp--preset--font-size--2-xl);
+}
+
+.is-size .ds-lesson__hl-act {
+	padding: var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--base);
+}
+
+.is-weight :is(.ds-lesson__hl-main, .ds-lesson__hl-key, .ds-lesson__hl-act) {
+	font-weight: 700;
+}
+
+.is-weight .ds-lesson__hl-act {
+	border-color: transparent;
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+}
+
+.is-space .ds-lesson__hl {
+	gap: var(--wp--preset--spacing--6);
+}
+
+.is-space .ds-lesson__hl-group {
+	gap: var(--wp--preset--spacing--1);
+}
+
+.is-muted .ds-lesson__hl-sub {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.is-color .ds-lesson__hl-act {
+	border-color: transparent;
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+/* Плотный рабочий экран: строки таблицы по 4 и 8, мелкий кегль, цифры выровнены. */
+.ds-lesson__spec-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--wp--preset--font-size--xs);
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-lesson__spec-table :is(th, td) {
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--1);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	text-align: left;
+	vertical-align: top;
+}
+
+.ds-lesson__spec-table th {
+	color: var(--wp--preset--color--text-muted);
+	font-weight: 600;
+}
+
+/* Промо-экран: крупный заголовок и много воздуха — его смотрят один раз, а не весь день. */
+.ds-lesson__spec-hero {
+	font-size: var(--wp--preset--font-size--3-xl);
+	font-weight: 700;
+	line-height: var(--wp--custom--line-height--tight);
+}
+
+/* Схема типовой раскладки (урок «Композиция и сетка, Senior»): двенадцать колонок, блок
+   занимает столько, сколько задано `--c` в разметке, как в CSS Grid на сайте. */
+.ds-lesson__lay {
+	position: relative;
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__lay-b {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	grid-column: var(--c, 1 / -1);
+	min-height: var(--wp--preset--spacing--12);
+	padding: var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+}
+
+.ds-lesson__lay-b--tall {
+	min-height: calc(var(--wp--preset--spacing--16) + var(--wp--preset--spacing--8));
+}
+
+.ds-lesson__lay-cols {
+	display: none;
+	position: absolute;
+	inset: 0;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--2);
+	pointer-events: none;
+}
+
+.ds-lesson__lay-cols i {
+	background: var(--wp--preset--color--surface-selected);
+	opacity: 0.45;
+}
+
+.is-cols .ds-lesson__lay-cols {
+	display: grid;
+}
+
+/* Пометка на экране коллеги: номер замечания. Не кнопка — поэтому контур, а не заливка. */
+.ds-lesson__spec-mark {
+	position: absolute;
+	top: 50%;
+	right: calc(-1 * var(--wp--preset--spacing--3));
+	z-index: 2;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.6em;
+	height: 1.6em;
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	transform: translateY(-50%);
+}
+
+/* Подпись ближе к своей схеме, чем к соседней: внутри пары 8, между парами 24. */
+.ds-lesson__lay-item .ds-lesson__wf-caption {
+	margin-bottom: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__lay-item + .ds-lesson__lay-item {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__spec-mark--left {
+	right: auto;
+	left: calc(-1 * var(--wp--preset--spacing--3));
+}
+
+/* Поле в ряду тянется, кнопка рядом — по своему тексту: ряд «промокод + Применить». */
+.ds-lesson__spec-row > .ds-lesson__spec-field {
+	flex: 1;
+}
+
+.ds-lesson__spec-chip--fit {
+	position: relative;
+	flex: none;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+}
+
+/* «Три секунды»: пока экран спрятан, на его месте подсказка той же высоты — страница не прыгает. */
+.ds-lesson__flash-idle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: var(--wp--custom--size--screen-fold);
+	margin: 0;
+	border: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	color: var(--wp--preset--color--text-muted);
+	text-align: center;
+}
+
 /* ---------- ритм урока ---------- */
 
 /* Разметка урока приходит из конвертера: внутри `.ds-lesson` одна обёртка без класса,

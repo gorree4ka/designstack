@@ -120,6 +120,34 @@
   "sprint": {
    "title": "<a href=\"/resource/sprint/\">Спринт</a>",
    "meta": "Джейк Кнапп, Брейден Ковитц и Джон Зерацки · книга на русском · платная"
+  },
+  "nng-hierarchy": {
+   "title": "<a href=\"https://www.nngroup.com/articles/visual-hierarchy-ux-definition/\">Visual Hierarchy in UX: Definition</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Келли Гордон · на английском · бесплатно"
+  },
+  "nng-complex": {
+   "title": "<a href=\"https://www.nngroup.com/articles/complex-application-design/\">8 Design Guidelines for Complex Applications</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно"
+  },
+  "m3-density": {
+   "title": "<a href=\"https://m3.material.io/foundations/layout/grids-spacing/density\">Density</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+  },
+  "atlassian-layout": {
+   "title": "<a href=\"https://atlassian.design/foundations/spacing\">Spacing</a> и <a href=\"https://atlassian.design/foundations/grid\">Grid</a>",
+   "meta": "Atlassian Design System · на английском · бесплатно"
+  },
+  "carbon-layout": {
+   "title": "<a href=\"https://carbondesignsystem.com/elements/spacing/overview/\">Spacing</a> и <a href=\"https://carbondesignsystem.com/elements/2x-grid/overview/\">2x Grid</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно"
+  },
+  "govuk-layout": {
+   "title": "<a href=\"https://design-system.service.gov.uk/styles/spacing/\">Spacing</a> и <a href=\"https://design-system.service.gov.uk/styles/layout/\">Layout</a>",
+   "meta": "GOV.UK Design System · на английском · бесплатно"
+  },
+  "nng-critiques": {
+   "title": "<a href=\"https://www.nngroup.com/articles/design-critiques/\">Design Critiques: Encourage a Positive Culture to Improve Products</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Сара Гиббонс · на английском · бесплатно"
   }
  },
  "lessons": {
@@ -383,6 +411,42 @@
    {
     "res": "material-grid",
     "why": "Шаг 8 в Material 3 и адаптивная сетка Material 2, из которой таблица колонок в разделе 5."
+   }
+  ],
+  "layout-grid-middle": [
+   {
+    "res": "refactoring-ui",
+    "why": "Восемь глав группы «Hierarchy is Everything» — от «Not all elements are equal» до «Semantics are secondary», в том числе «De-emphasize to emphasize»."
+   },
+   {
+    "res": "nng-hierarchy",
+    "why": "Определение иерархии, три её инструмента с ограничениями и прищур-тест на примере с размытием."
+   },
+   {
+    "res": "nng-complex",
+    "why": "О рабочих экранах: как выделять важное и убирать лишнее, не урезая возможностей."
+   },
+   {
+    "res": "m3-density",
+    "why": "Когда нужна высокая плотность, когда низкая и что уплотнять нельзя."
+   }
+  ],
+  "layout-grid-senior": [
+   {
+    "res": "atlassian-layout",
+    "why": "Шкала от 0 до 80 px с тремя диапазонами применения, двенадцать колонок и три типа сетки с указанием, когда какой брать."
+   },
+   {
+    "res": "carbon-layout",
+    "why": "Тринадцать токенов отступов, правило для исключений, режимы промежутков сетки и запрет заводить текст в промежуток."
+   },
+   {
+    "res": "govuk-layout",
+    "why": "Статичная и адаптивная шкалы, схема «две трети + треть» и классы сетки в коде."
+   },
+   {
+    "res": "nng-critiques",
+    "why": "Как давать обратную связь через цели дизайна, а не через вкус."
    }
   ]
  }

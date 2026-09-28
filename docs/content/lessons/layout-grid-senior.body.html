@@ -1,0 +1,451 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#why">Что меняется на этой ступени</a></li>
+    <li><a href="#scale">Как записать шкалу отступов с правилом выбора</a></li>
+    <li><a href="#layouts">Как описать типовые раскладки продукта</a><span class="ds-lesson__tag">схемы и тренажёр</span></li>
+    <li><a href="#doc">Что должно быть в правилах на две страницы</a><span class="ds-lesson__tag">шаблон</span></li>
+    <li><a href="#review">Как проверять чужой экран без придирок</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#change">Что делать, когда случай не лезет в правила</a></li>
+    <li><a href="#code">Как правила ложатся на сетку в коде</a></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Магазин кофе вырос: над экранами теперь работают три дизайнера, и каждый собирает раскладку по-своему. Один ставит между полями 16, другой 20, третий делает форму оформления на всю ширину. Экраны по отдельности аккуратные, а вместе продукт выглядит собранным из разных кусков. Задача урока — записать правила, по которым любой из троих соберёт экран так, что его не придётся переделывать.</div>
+
+<section id="why">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Что меняется на этой ступени</h2></div>
+  <p class="ds-lesson__lead">На Middle вы собираете понятный экран сами. На Senior раскладка перестаёт зависеть от того, кто сегодня собирает экран.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col"></th><th scope="col">Middle</th><th scope="col">Senior</th></tr></thead>
+      <tbody>
+        <tr><td><b>Результат</b></td><td>Свой экран с ясной иерархией и подходящей плотностью</td><td>Правила, по которым другие соберут такой же экран</td></tr>
+        <tr><td><b>Где живут решения</b></td><td>В голове автора и в его макетах</td><td>В документе, который можно открыть и сослаться на пункт</td></tr>
+        <tr><td><b>Ревью</b></td><td>«Мне кажется, лучше так»</td><td>«По правилу такому-то здесь нужно так, потому что…»</td></tr>
+        <tr><td><b>Новый случай</b></td><td>Решается на месте</td><td>Решается и попадает в правила, чтобы в следующий раз не решать заново</td></tr>
+        <tr><td><b>Разработка</b></td><td>Получает макет с отступами</td><td>Получает токены и раскладки, которые повторяют правила в коде</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Всё, что вы умеете с прошлых ступеней, — набор отступов, сетка, иерархия, плотность — никуда не девается. Меняется адресат: раньше вы делали это для экрана, теперь — для людей, которые будут делать экраны без вас.</p>
+</section>
+
+<section id="scale">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Шкала отступов с правилом выбора</h2></div>
+  <p class="ds-lesson__lead">Список чисел — ещё не правило. Правилом его делает ответ на вопрос «когда какое число брать».</p>
+
+  <p>Посмотрите, как записывают шкалу большие дизайн-системы. Числа у всех разные, но у каждой есть не только значения, но и указание, где их ставить.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Система</th><th scope="col">Шкала</th><th scope="col">Как объясняет выбор</th></tr></thead>
+      <tbody>
+        <tr><td><b>Atlassian</b></td><td>От 0 до 80 px, база 8 px — токен space.100. Число в имени — процент от базы: space.200 = 16 px</td><td>Три диапазона: 0–8 px для мелкого и плотного интерфейса, 12–24 px для крупных элементов, 32–80 px для раскладки</td></tr>
+        <tr><td><b>IBM Carbon</b></td><td>13 токенов от $spacing-01 до $spacing-13: 2, 4, 8, 12, 16, 24, 32, 40, 48, 64, 80, 96, 160 px</td><td>Токены не зависят от ширины экрана: на брейкпоинте меняют шаг шкалы, значение токена остаётся прежним</td></tr>
+        <tr><td><b>GOV.UK</b></td><td>Две шкалы: статичная — 0, 5, 10, 15, 20, 25, 30, 40, 50, 60 px — и адаптивная, где у крупных шагов два значения, для малых и больших экранов</td><td>Большие значения адаптивной шкалы включаются шире 640 px, мелкие шаги одинаковы везде</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Как записать правило для своей шкалы</h3>
+  <p>Для каждого шага — четыре колонки: число, имя токена, где его ставить и пример из продукта. Пятая — исключения. Роли из урока Junior сюда переносятся почти дословно, только теперь их читает не автор, а команда.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Число</th><th scope="col">Токен</th><th scope="col">Где ставим</th><th scope="col">Пример в магазине</th></tr></thead>
+      <tbody>
+        <tr><td><b>4</b></td><td>space-1</td><td>Внутри элемента: подпись и значение, название и уточнение</td><td>«Адрес» и сам адрес</td></tr>
+        <tr><td><b>8</b></td><td>space-2</td><td>Соседи в группе</td><td>Варианты времени доставки</td></tr>
+        <tr><td><b>16</b></td><td>space-4</td><td>Связанные блоки, поля экрана, промежуток сетки на телефоне</td><td>Поля формы между собой; итог и кнопка</td></tr>
+        <tr><td><b>24</b></td><td>space-6</td><td>Между группами</td><td>Блок «Адрес» и блок «Когда привезти»</td></tr>
+        <tr><td><b>32</b></td><td>space-8</td><td>Между частями экрана</td><td>Форма и итог с кнопкой</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Исключения тоже записываются.</b> В Carbon прямо разрешают отступать от шкалы, но просят избегать этого везде, где можно. В Atlassian разрешают оптическую подгонку — но шагами той же шкалы. Честное правило оставляет место исключению и говорит, как его делать.</div>
+</section>
+
+<section id="layouts">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Типовые раскладки продукта</h2></div>
+  <p class="ds-lesson__lead">В продукте на десятки экранов раскладок обычно несколько. Если их назвать и описать, новый экран не придумывают, а выбирают.</p>
+
+  <p>Дизайн-системы описывают раскладки через назначение. В Atlassian три типа сетки: фиксированная широкая, до 1296 px, — для дашбордов и поиска; фиксированная узкая, до 864 px, — для статей и документации; резиновая без предела — для досок и вайтбордов. В GOV.UK для большинства страниц советуют схему «две трети» или «две трети + треть», чтобы строки не растягивались на широком экране.</p>
+
+  <p>У магазина кофе получилось пять типовых раскладок. Сетка на схемах уже включена: двенадцать колонок, как на десктопе.</p>
+
+  <div class="ds-lesson__box is-cols">
+    <div class="ds-lesson__box-head">Магазин кофе · пять раскладок<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="cols" data-layer-label="Сетка"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__lay-item">
+      <p class="ds-lesson__wf-caption">Каталог: фильтры и карточки</p>
+      <div class="ds-lesson__lay">
+        <div class="ds-lesson__lay-cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 3">Фильтры · 3</div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 3">Карточка · 3</div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 3">Карточка · 3</div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 3">Карточка · 3</div>
+      </div>
+      </div>
+      <div class="ds-lesson__lay-item">
+      <p class="ds-lesson__wf-caption">Карточка товара: фото и покупка</p>
+      <div class="ds-lesson__lay">
+        <div class="ds-lesson__lay-cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 7">Фото · 7</div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 5">Название, цена, кнопка · 5</div>
+      </div>
+      </div>
+      <div class="ds-lesson__lay-item">
+      <p class="ds-lesson__wf-caption">Оформление: форма и итог</p>
+      <div class="ds-lesson__lay">
+        <div class="ds-lesson__lay-cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 8">Форма · 8</div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 4">Итог и кнопка · 4</div>
+      </div>
+      </div>
+      <div class="ds-lesson__lay-item">
+      <p class="ds-lesson__wf-caption">Рабочий экран: таблица на всю ширину</p>
+      <div class="ds-lesson__lay">
+        <div class="ds-lesson__lay-cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:span 12">Таблица · 12</div>
+      </div>
+      </div>
+      <div class="ds-lesson__lay-item">
+      <p class="ds-lesson__wf-caption">Промо: одно сообщение по центру</p>
+      <div class="ds-lesson__lay">
+        <div class="ds-lesson__lay-cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="ds-lesson__lay-b ds-lesson__lay-b--tall" style="--c:3 / span 8">Сообщение · 8, отступ по 2 колонки</div>
+      </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Каждая схема занимает целое число колонок и отвечает своей задаче. «Оформление» устроено как «две трети + треть» у GOV.UK, промо держит строки узкими, рабочий экран отдаёт таблице всю ширину.</div>
+  </div>
+
+  <h3>Что выравнивать по колонкам, а что нет</h3>
+  <p>У Atlassian есть правило, которое экономит часы споров: к колонкам выравниваются только контейнеры верхнего уровня — карточки, изображения, текстовые блоки, таблицы, формы. Кнопки, значки и всё внутри контейнеров расставляется токенами отступов. В Carbon добавляют ещё одно: текст никогда не заходит в промежуток между колонками.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какая раскладка<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="catalog"><p class="ds-quiz__question">Раздел «Кофемолки»: 36 товаров, фильтр по цене и типу помола.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Каталог</b>Много похожих товаров и фильтры слева — это каталог: три колонки на фильтры, остальное на карточки.</p></li>
+<li data-quiz-q data-answer="form"><p class="ds-quiz__question">Экран подписки на кофе: частота доставки, адрес, способ оплаты и сумма в месяц.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Форма с итогом</b>Человек заполняет поля и видит, сколько заплатит. Форма на восемь колонок, итог на четыре — как у оформления заказа.</p></li>
+<li data-quiz-q data-answer="work"><p class="ds-quiz__question">Экран склада: все заказы за день со статусами и временем сборки.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Рабочая таблица</b>Много строк, которые сравнивают и просматривают весь день. Таблице нужна вся ширина.</p></li>
+<li data-quiz-q data-answer="promo"><p class="ds-quiz__question">Страница «Кофе недели»: одно название, фото и кнопка «Попробовать».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Промо</b>Одно сообщение и одна кнопка. Узкая колонка по центру не даёт строкам растянуться.</p></li>
+<li data-quiz-q data-answer="product"><p class="ds-quiz__question">Страница кофемолки Hario: фотографии, характеристики, цена и «В корзину».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Карточка товара</b>Слева фото на семь колонок, справа всё, что нужно для решения о покупке, — на пять.</p></li>
+<li data-quiz-q data-answer="form"><p class="ds-quiz__question">Возврат товара: выбор причины, фото брака, способ вернуть деньги и сумма к возврату.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Форма с итогом</b>Та же схема, что у оформления: поля слева, сумма и кнопка справа. Новую раскладку придумывать не нужно.</p></li>
+<li data-quiz-q data-answer="work"><p class="ds-quiz__question">Экран оператора поддержки: список обращений с номерами заказов и сроками ответа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Рабочая таблица</b>Оператор работает с ним весь день и сравнивает строки. Плотно и на всю ширину.</p></li>
+<li data-quiz-q data-answer="catalog"><p class="ds-quiz__question">Подборка «Всё для воронки»: 12 товаров без фильтров.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Каталог</b>Это каталог без фильтров. Правило стоит дополнить: если фильтров нет, карточки занимают все двенадцать колонок. Такие уточнения и делают правила рабочими.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="catalog">Каталог</button><button class="ds-quiz__option" type="button" data-quiz-answer="product">Карточка товара</button><button class="ds-quiz__option" type="button" data-quiz-answer="form">Форма с итогом</button><button class="ds-quiz__option" type="button" data-quiz-answer="work">Рабочая таблица</button><button class="ds-quiz__option" type="button" data-quiz-answer="promo">Промо</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Если экран легко относится к одной из пяти схем, правила работают. Если не относится ни к одной, это повод их дополнить.</div>
+</div>
+</section>
+
+<section id="doc">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Правила на две страницы</h2></div>
+  <p class="ds-lesson__lead">Правила, которые не помещаются на две страницы, не читают. Правила, в которых нет примеров, понимают по-разному.</p>
+
+  <p>В документе пять частей. Каждая отвечает на вопрос, который дизайнер задаёт себе, собирая экран.</p>
+  <ol>
+    <li><strong>Шкала отступов:</strong> числа, токены и где какое ставить. Вопрос: «Какой отступ здесь?»</li>
+    <li><strong>Сетка по брейкпоинтам:</strong> колонки, промежутки, поля. Вопрос: «Сколько колонок займёт блок?»</li>
+    <li><strong>Типовые раскладки:</strong> схема, назначение и пример экрана для каждой. Вопрос: «С чего начать экран?»</li>
+    <li><strong>«Так» и «не так»:</strong> по два-три примера на пункт, взятых из вашего продукта. Вопрос: «Я правильно понял правило?»</li>
+    <li><strong>Исключения и изменения:</strong> как сделать исключение и как предложить правку. Вопрос: «А если мой случай не подходит?»</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Правила раскладки · шаблон на две страницы<span class="ds-lesson__spacer"></span><span data-copy="rulesTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="rulesTmpl">ПРАВИЛА РАСКЛАДКИ · ПРОДУКТ: ______________   Версия: __  Дата: __.__.____
+Кто отвечает: ______________   Как предложить правку: ______________
+
+1. ШКАЛА ОТСТУПОВ
+   число | токен      | где ставим                         | пример
+   4     | space-1    | ________________________________   | __________
+   8     | space-2    | ________________________________   | __________
+   16    | space-4    | ________________________________   | __________
+   24    | space-6    | ________________________________   | __________
+   32    | space-8    | ________________________________   | __________
+   Исключения: как делать и когда нельзя ______________________
+
+2. СЕТКА
+   телефон:  колонок __  промежуток __  поля __
+   планшет:  колонок __  промежуток __  поля __
+   десктоп:  колонок __  промежуток __  поля __  максимум ширины __
+   К колонкам выравниваем: ______________________________
+   Не выравниваем (ставим токенами): ______________________
+
+3. ТИПОВЫЕ РАСКЛАДКИ
+   название | схема (колонки) | для каких экранов | пример в продукте
+   ________ | ______________  | _________________ | _______________
+   ________ | ______________  | _________________ | _______________
+
+4. ТАК И НЕ ТАК (по 2–3 на пункт, снимки из продукта)
+   пункт __: так — ____________   не так — ____________
+
+5. ИЗМЕНЕНИЯ
+   Новый случай → кто решает → куда записываем → когда сообщаем команде</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Шаблон повторяет пять частей документа. Пустые строки — места, где нужны ваши числа и снимки из продукта.</div>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Правило без примера — пожелание.</b> «Между группами — 24» понятно автору. Команде понятно, когда рядом снимок экрана оформления, где это 24 подписано, и снимок, где стоит 20 и группы слиплись.</div>
+</section>
+
+<section id="review">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Ревью без придирок</h2></div>
+  <p class="ds-lesson__lead">С правилами спор о раскладке идёт по пунктам документа: вместо «мне кажется» появляется ссылка.</p>
+
+  <p>В статье Nielsen Norman Group о дизайн-критике её определяют как анализ того, достигает ли дизайн своих целей. Без согласованных целей обратная связь субъективна. Там же советуют переформулировать оценочные замечания — «слишком красное» — и директивные — «я бы сделал иначе» — через цель дизайна. С правилами раскладки у ревью появляется ещё одна опора: пункт документа.</p>
+
+  <div class="ds-lesson__rule"><b>Замечание по правилам звучит так: «По пункту такому-то здесь должно быть так, потому что…».</b> Если пункт назвать не получается, это либо вкус, и его можно высказать как мнение, либо случай, который правила пока не покрывают.</div>
+
+  <p>Коллега собрал экран оформления для телефона. Ниже восемь замечаний с ревью. Решите для каждого, что это: нарушение правил, не ошибка или случай, который правила не покрывают. Опирайтесь на правила из разделов 2 и 3.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Экран коллеги · номера замечаний</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__spec">
+        <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Корзина</span><span class="ds-lesson__wf-back">Шаг 2 из 3</span></div>
+        <div class="ds-lesson__spec-body">
+          <div class="ds-lesson__spec-el ds-lesson__spec-hero">Оформление заказа<span class="ds-lesson__spec-mark">1</span></div>
+          <div class="ds-lesson__gap" style="--g:24"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-label">Имя получателя</div>
+          <div class="ds-lesson__gap" style="--g:4"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-field">Анна Иванова</div>
+          <div class="ds-lesson__gap" style="--g:20"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-label">Телефон<span class="ds-lesson__spec-mark">2</span></div>
+          <div class="ds-lesson__gap" style="--g:4"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-field">+7 912 000-00-00</div>
+          <div class="ds-lesson__gap" style="--g:16"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-label">Адрес<span class="ds-lesson__spec-mark">3</span></div>
+          <div class="ds-lesson__gap" style="--g:4"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-field">ул. Лесная, 8, кв. 14</div>
+          <div class="ds-lesson__gap" style="--g:24"></div>
+          <div class="ds-lesson__spec-el"><span class="ds-lesson__spec-label">значок</span> Курьер, завтра 10:00–14:00<span class="ds-lesson__spec-mark">4</span></div>
+          <div class="ds-lesson__gap" style="--g:24"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-row" style="--g:8"><span class="ds-lesson__spec-field">Промокод</span><span class="ds-lesson__spec-chip ds-lesson__spec-chip--fit">Применить<span class="ds-lesson__spec-mark">6</span></span><span class="ds-lesson__spec-mark ds-lesson__spec-mark--left">5</span></div>
+          <div class="ds-lesson__gap" style="--g:16"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-sum"><span>Итого</span><span>3 480 ₽</span><span class="ds-lesson__spec-mark ds-lesson__spec-mark--left">7</span></div>
+          <div class="ds-lesson__gap" style="--g:16"></div>
+          <div class="ds-lesson__spec-el ds-lesson__spec-btn" style="--r:48">Оплатить<span class="ds-lesson__spec-mark">8</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Номер 6 относится к кнопке «Применить» рядом с промокодом, номер 5 — к самому ряду промокода.</div>
+  </div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · что это за замечание<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="fine"><p class="ds-quiz__question">1. «Заголовок лучше сделать жирнее».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не ошибка</b>Правила раскладки о начертании заголовка молчат. Это мнение, его можно высказать, но переделывать по нему экран коллега не обязан.</p></li>
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">2. «Между полями „Имя“ и „Телефон“ 20, а по шкале соседние поля формы — 16».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение правила</b>Двадцати в шкале нет, а для соседних полей формы правило называет 16. Замечание ссылается на пункт и говорит, как исправить.</p></li>
+<li data-quiz-q data-answer="fine"><p class="ds-quiz__question">3. «Я бы поставил адрес выше имени».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не ошибка раскладки</b>Порядок полей — вопрос сценария и исследования, правила раскладки его не решают. Если довод есть, его стоит проверить отдельно.</p></li>
+<li data-quiz-q data-answer="fine"><p class="ds-quiz__question">4. «Значок доставки не растянут на колонку».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не ошибка</b>По правилу к колонкам выравниваются контейнеры, а значки и всё внутри контейнеров ставятся токенами отступов. Растягивать значок на колонку не нужно.</p></li>
+<li data-quiz-q data-answer="gap"><p class="ds-quiz__question">5. «Поле и кнопка промокода в одной строке — такого ряда нет ни в одной нашей схеме».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Правила не покрывают</b>Случай новый, и решение коллеги может быть разумным. Его стоит не запретить, а обсудить и, если оно приживётся, добавить в правила с примером.</p></li>
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">6. «Кнопка „Применить“ высотой 32, а по правилам цели нажатия не меньше 44».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение правила</b>Минимальная цель нажатия — одно из правил, которое нельзя обойти плотностью. Кнопку нужно увеличить, даже если ряд станет выше.</p></li>
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">7. «Между формой и итогом 16, а по шкале между частями экрана 32».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение правила</b>Итог с кнопкой — отдельная часть экрана. С отступом 16 он прилипает к форме и читается как её продолжение.</p></li>
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">8. «Кнопка „Оплатить“ заканчивается посередине колонки».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение правила</b>Край блока встаёт по краю колонки. Кнопка либо на всю ширину, либо на целое число колонок.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="rule">Нарушение правила</button><button class="ds-quiz__option" type="button" data-quiz-answer="fine">Не ошибка</button><button class="ds-quiz__option" type="button" data-quiz-answer="gap">Правила не покрывают</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Четыре замечания из восьми — по делу. Три — вкус или непонимание правила, одно — новый случай. Ревью, в котором всё записано в ошибки, коллега перестанет читать.</div>
+</div>
+</section>
+
+<section id="change">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Когда случай не лезет в правила</h2></div>
+  <p class="ds-lesson__lead">Правила, которые не меняются, начинают обходить. Правила, которые меняются по первому желанию, перестают что-то значить.</p>
+
+  <p>Дизайн-системы решают это процессом. В Material Design настройку системы отступов под продукт считают ожидаемой: если подходящего токена нет, его добавляют, а повторяющийся приём тоже можно оформить токеном. В GOV.UK новое предложение принимают, если оно полезно многим командам и не повторяет существующее, а для первого шага нужны идея и доказательство потребности — не макет и не код. В Carbon на этапе обсуждения проверяют, закрывает ли предложение настоящий пробел; если похожее уже есть, нужно показать, чем новое лучше.</p>
+
+  <h3>Как обновлять свои правила</h3>
+  <ol>
+    <li><strong>Случай решается на экране.</strong> Дизайнер делает, как считает нужным, и помечает место: «не по правилам, см. предложение».</li>
+    <li><strong>Проверяется, правда ли случай новый.</strong> Может быть, подходит существующая схема или исключение уже описано.</li>
+    <li><strong>Предложение пишется коротко:</strong> какой случай, почему старое правило не подходит, что предлагается, снимки «так» и «не так».</li>
+    <li><strong>Решение принимает один человек или встреча,</strong> и оно записывается в документ с датой.</li>
+    <li><strong>Команда узнаёт об изменении,</strong> а старые экраны, которые правило затрагивает, получают задачу на переделку или остаются исключением.</li>
+  </ol>
+
+  <div class="ds-lesson__warn"><b>Один случай — ещё не правило.</b> Строка промокода из прошлого раздела может остаться единственной в продукте. Тогда её записывают исключением. Правилом она станет, когда повторится.</div>
+</section>
+
+<section id="code">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Как правила ложатся в код</h2></div>
+  <p class="ds-lesson__lead">Правила работают, когда в макете и в коде одни и те же имена: разработчик пишет не «20 пикселей», а «space-6».</p>
+
+  <p>В дизайн-системах токены отступов живут и в макете, и в коде. В Atlassian разработчик вызывает токен функцией token('space.200'), и на сайте он превращается в CSS-переменную var(--ds-space-200). В Carbon это Sass-переменные вроде $spacing-05, их ставят в margin и padding вместо чисел. Сетка GOV.UK в коде — классы колонок: govuk-grid-column-two-thirds для основной колонки, govuk-grid-column-one-third для боковой.</p>
+
+  <p>В Figma то же самое делают числовые переменные: их можно поставить в gap и padding auto layout, а также в поля, промежутки и число колонок сетки на фрейме. У переменной можно задать имя в коде для веба, iOS и Android — Dev Mode покажет его разработчику. Одна ловушка: если тянуть padding или gap мышью прямо на холсте, переменная отвяжется, и отступ снова станет просто числом.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Правила магазина в CSS · пример для разработчика<span class="ds-lesson__spacer"></span><span data-copy="gridCode"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="gridCode">/* Шкала отступов — те же имена, что в макете */
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+}
+
+/* Типовая раскладка «Оформление»: 12 колонок, форма — 8, итог — 4 */
+.layout-checkout {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+.layout-checkout__form    { grid-column: span 8; }
+.layout-checkout__summary { grid-column: span 4; }
+
+/* Брейкпоинт — числом: переменные в условии медиазапроса не работают */
+@media (max-width: 599px) {
+  .layout-checkout { grid-template-columns: repeat(4, 1fr); }
+  .layout-checkout__form,
+  .layout-checkout__summary { grid-column: 1 / -1; }
+}</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Имена токенов совпадают с колонкой «Токен» из правил. Если в макете стоит space-6, в коде стоит var(--space-6), и разговор идёт на одном языке.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Брейкпоинты — числами, отступы — токенами.</b> CSS-переменные нельзя использовать в условиях медиазапросов, поэтому ширины брейкпоинтов в правилах и в коде пишут цифрами. Всё остальное — отступы, промежутки, поля — токенами.</div>
+
+  <h3>Чем проверять экраны на соответствие</h3>
+  <ul>
+    <li><strong>Check designs в Figma.</strong> Встроенная проверка находит числа, вписанные вручную вместо переменных: цвета, текстовые стили, радиусы, отступы и padding. Для переменных и стилей предлагает замену. Доступна на тарифах Organization и Enterprise.</li>
+    <li><strong>Плагин Design Lint.</strong> Открытый плагин находит слои без стилей и сверяет радиусы со списком. Отступы по умолчанию не проверяет, их правила добавляют в своей версии плагина.</li>
+    <li><strong>Взгляд по правилам.</strong> Инструменты находят числа не из шкалы, но не видят, что форма собрана на всю ширину вместо «восемь плюс четыре». Раскладку проверяет человек с документом.</li>
+  </ul>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Опишите правила раскладки своего продукта на двух страницах: шкала, сетка, типовые схемы, примеры «так» и «не так». Соберите по ним один экран чужими руками.</p>
+
+  <h3>Часть 1 · Собрать то, что уже есть, час</h3>
+  <ol>
+    <li><strong>Выпишите отступы</strong> с десяти разных экранов продукта. Посчитайте, какие числа встречаются.</li>
+    <li><strong>Сведите их к шкале</strong> из пяти–восьми шагов. Лишние числа — кандидаты на замену.</li>
+    <li><strong>Разложите экраны по типовым раскладкам.</strong> Обычно их от трёх до шести.</li>
+  </ol>
+
+  <h3>Часть 2 · Написать правила, два часа</h3>
+  <ol>
+    <li><strong>Заполните шаблон на две страницы</strong> из раздела 4.</li>
+    <li><strong>Для каждого пункта найдите в продукте пример «так» и «не так»</strong> и вставьте снимки.</li>
+    <li><strong>Запишите, как делать исключение</strong> и как предложить правку.</li>
+    <li><strong>Сверьте токены с разработкой:</strong> одинаково ли они называются в макете и в коде.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить чужими руками, день у коллеги</h3>
+  <ol>
+    <li><strong>Дайте правила дизайнеру,</strong> который их не писал, и задачу на один новый экран.</li>
+    <li><strong>Не подсказывайте.</strong> Все вопросы коллеги записывайте: каждый вопрос — место, где правила неясны.</li>
+    <li><strong>Проведите ревью по правилам:</strong> каждое замечание — со ссылкой на пункт.</li>
+    <li><strong>Поправьте документ</strong> по вопросам коллеги и замечаниям, которые не удалось сослать на пункт.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Экран, собранный другим дизайнером по вашим правилам, встаёт в продукт без переделки раскладки. Замечания на ревью есть, но каждое ссылается на пункт правил.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Документ правил раскладки</strong> на две страницы, с примерами из продукта.</li>
+    <li><strong>Экран, собранный коллегой</strong> по этим правилам, и список его вопросов.</li>
+    <li><strong>Вторая версия документа</strong> с правками по итогам проверки.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: час на разбор продукта, два часа на документ, день у коллеги на экран и час на ревью и правки.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Правила не помещаются в две страницы».</strong> Скорее всего, в них попали правила компонентов или типографики. Оставьте только раскладку: шкалу, сетку, схемы.</li>
+    <li><strong>«Коллега задал двадцать вопросов».</strong> Это хороший результат первой версии: теперь известно, где правила неясны. Вторая версия будет короче по вопросам.</li>
+    <li><strong>«В продукте уже десять разных отступов между полями».</strong> Не переделывайте всё сразу. Запишите правило для новых экранов и заведите задачу на старые.</li>
+    <li><strong>«Разработка называет отступы по-своему».</strong> Договоритесь об одном списке имён и заведите его и в Figma, и в коде. Без этого правила разойдутся на первой же передаче.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Правила готовы, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>У каждого шага шкалы есть токен, место применения и пример</li>
+    <li>Сетка описана по брейкпоинтам: колонки, промежутки, поля, максимум ширины</li>
+    <li>Сказано, что выравнивается по колонкам, а что ставится токенами</li>
+    <li>Типовые раскладки названы, у каждой — схема и пример экрана</li>
+    <li>На каждый пункт есть «так» и «не так» из вашего продукта</li>
+    <li>Описано, как делать исключение и как предложить правку</li>
+    <li>Имена токенов совпадают в макете и в коде</li>
+    <li>Всё помещается на две страницы</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Список чисел без правила выбора.</b> Шкала есть, но какое число ставить, каждый решает сам.</li>
+    <li><b>Правила без примеров.</b> Их понимают по-разному, и спор просто переезжает в другой документ.</li>
+    <li><b>Сетка на всё.</b> Значки и кнопки растягивают по колонкам, хотя выравнивать по сетке нужно контейнеры.</li>
+    <li><b>Ревью по вкусу.</b> Замечания без ссылки на пункт выглядят как придирки, и их перестают слушать.</li>
+    <li><b>Правила, которые не меняются.</b> Новые случаи решают в обход, и документ отстаёт от продукта.</li>
+    <li><b>Правила, которые меняются по первому случаю.</b> Каждое исключение становится новым правилом, и шкала расползается.</li>
+    <li><b>Разные имена в макете и коде.</b> Дизайнер говорит «24», разработчик пишет 1.5rem, и через месяц это уже 22.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">Тема пройдена целиком: от ровного экрана через понятный экран к правилам, по которым их собирает вся команда.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b><a href="/lessons/layout-grid-junior/">Junior</a></b></td>
+          <td class="ds-lesson__dim">Выбрать набор отступов и держаться его; группировать связанное расстоянием; класть блоки в колонки; проверять выравнивание сеткой</td>
+          <td class="ds-lesson__dim">Все отступы на экране из набора, и про каждый можно сказать, почему он такой</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b><a href="/lessons/layout-grid-middle/">Middle</a></b></td>
+          <td class="ds-lesson__dim">Строить иерархию размером, весом и расстоянием, а цвет добавлять последним; подбирать плотность под задачу и объяснять выбор</td>
+          <td class="ds-lesson__dim">На чёрно-белом снимке человек за три секунды показывает, что здесь главное</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Записывать шкалу отступов и типовые раскладки продукта; проверять чужие экраны по правилам без придирок; обновлять правила; объяснять разработке, как они ложатся на сетку в коде</td>
+          <td>Экран, собранный другим дизайнером по вашим правилам, встаёт в продукт без переделки раскладки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> раскладка в вашем продукте не зависит от того, кто сегодня собирает экран, а спор о ней идёт по пунктам документа, а не по вкусу.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://atlassian.design/foundations/spacing">Spacing</a> и <a href="https://atlassian.design/foundations/grid">Grid</a></span><span class="ds-lesson__reads-meta">Atlassian Design System · на английском · бесплатно</span><span>Шкала от 0 до 80 px с тремя диапазонами применения, двенадцать колонок и три типа сетки с указанием, когда какой брать.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/elements/spacing/overview/">Spacing</a> и <a href="https://carbondesignsystem.com/elements/2x-grid/overview/">2x Grid</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Тринадцать токенов отступов, правило для исключений, режимы промежутков сетки и запрет заводить текст в промежуток.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/styles/spacing/">Spacing</a> и <a href="https://design-system.service.gov.uk/styles/layout/">Layout</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Статичная и адаптивная шкалы, схема «две трети + треть» и классы сетки в коде.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/design-critiques/">Design Critiques: Encourage a Positive Culture to Improve Products</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Сара Гиббонс · на английском · бесплатно</span><span>Как давать обратную связь через цели дизайна, а не через вкус.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

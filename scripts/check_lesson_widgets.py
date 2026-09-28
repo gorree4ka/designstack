@@ -48,6 +48,8 @@ with sync_playwright() as play:
         ("usability-testing-middle", ["личный кабинет", "Модерируемый"]),
         ("usability-testing-senior", ["П-018"]),
         ("layout-grid-junior", ["Как исправить. 14 нет в наборе", "Здесь всё верно", "Слева восемь разных отступов"]),
+        ("layout-grid-middle", ["Ячейка A-14", "Что должно было запомниться", "Эфиопия Иргачеффе"]),
+        ("layout-grid-senior", ["Сообщение · 8, отступ по 2 колонки", "По пункту такому-то", "--space-6: 24px"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -143,6 +145,46 @@ with sync_playwright() as play:
         const r = b.getBoundingClientRect(), s = b.closest('.ds-lesson__spec').getBoundingClientRect();
         return r.left >= s.left && r.right <= s.right; })""")
     fails += 0 if say(inside, "числа стоят внутри экрана") else 1
+    page.close()
+
+    # Senior: схемы раскладок со слоем «Сетка».
+    page = ctx.new_page()
+    page.goto(BASE + "layout-grid-senior/")
+    page.wait_for_timeout(400)
+    head("layout-grid-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    cols = "() => [...document.querySelectorAll('#layouts .ds-lesson__lay-cols')].map(el => getComputedStyle(el).display)"
+    fails += 0 if say(set(page.evaluate(cols)) == {"grid"}, "сетка на пяти схемах включена") else 1
+    page.click("#layouts [data-layer='cols'] button")
+    fails += 0 if say(set(page.evaluate(cols)) == {"none"}, "«Сетка» прячет колонки на всех схемах") else 1
+    spans = page.evaluate("() => [...document.querySelectorAll('#layouts .ds-lesson__lay')].map(l => [...l.querySelectorAll('.ds-lesson__lay-b')].reduce((s, b) => s + Math.round(b.getBoundingClientRect().width), 0) > 0)")
+    fails += 0 if say(all(spans) and len(spans) == 5, "пять схем нарисованы") else 1
+    page.close()
+
+    # Middle: лаборатория иерархии и «три секунды».
+    page = ctx.new_page()
+    page.goto(BASE + "layout-grid-middle/")
+    page.wait_for_timeout(400)
+    head("layout-grid-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    size = "() => getComputedStyle(document.querySelector('#hierarchy .ds-lesson__hl-main')).fontSize"
+    flat = page.evaluate(size)
+    page.click("#hierarchy [data-layer='size'] button")
+    fails += 0 if say(page.evaluate(size) != flat, "«Размер» увеличивает главное: %s → %s" % (flat, page.evaluate(size))) else 1
+    page.click("#hierarchy [data-layer='weight'] button")
+    weight = page.evaluate("getComputedStyle(document.querySelector('#hierarchy .ds-lesson__hl-main')).fontWeight")
+    fails += 0 if say(int(weight) >= 700, "«Вес» делает главное жирным: " + weight) else 1
+    page.click("#hierarchy [data-layer='gray'] button")
+    fails += 0 if say("grayscale" in page.evaluate("getComputedStyle(document.querySelector('#hierarchy .ds-lesson__spec')).filter"), "«Без цвета» переводит в серое") else 1
+    shown = "() => [document.querySelector('[data-flash-screen]').offsetParent !== null, document.querySelector('[data-flash-after]').offsetParent !== null, document.querySelector('[data-flash-idle]').offsetParent !== null]"
+    fails += 0 if say(page.evaluate(shown) == [False, False, True], "«Три секунды» до нажатия: экран спрятан, заглушка видна") else 1
+    page.click("[data-flash-actions] button")
+    page.wait_for_timeout(300)
+    fails += 0 if say(page.evaluate(shown) == [True, False, False], "после нажатия экран виден") else 1
+    page.wait_for_timeout(3200)
+    fails += 0 if say(page.evaluate(shown) == [False, True, True], "через три секунды экран спрятан, разбор виден") else 1
     page.close()
 
     page = ctx.new_page()

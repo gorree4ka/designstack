@@ -4,7 +4,8 @@
  * лесенка причин, сборка сценария, поиск дыр на схеме, сортировка карточек,
  * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
  * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
- * по прототипу с поиском тупиков и слои экрана — сетка, отступы, края.
+ * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия —
+ * и «три секунды».
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -2267,6 +2268,54 @@
 			show();
 			holder.appendChild( btn );
 		} );
+	} );
+
+	/* ── три секунды: экран показывается и прячется ───────────────────────
+	   Проверка иерархии по мотивам теста пяти секунд: человек видит экран
+	   коротко и потом называет, что запомнил. Без скрипта экран и разбор
+	   видны сразу — это содержимое урока. Подписи кнопок приходят из урока. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-flash]' ), function ( root ) {
+		var screen = root.querySelector( '[data-flash-screen]' );
+		var idle = root.querySelector( '[data-flash-idle]' );
+		var after = root.querySelector( '[data-flash-after]' );
+		var place = root.querySelector( '[data-flash-actions]' );
+
+		if ( ! screen || ! place ) {
+			return;
+		}
+
+		var ms = parseInt( root.getAttribute( 'data-flash-ms' ), 10 ) || 3000;
+		var again = place.getAttribute( 'data-flash-again' ) || '';
+		var btn = button( place.getAttribute( 'data-flash-show' ) || '' );
+
+		function state( showing, done ) {
+			screen.hidden = ! showing;
+
+			if ( idle ) {
+				idle.hidden = showing;
+			}
+
+			if ( after ) {
+				after.hidden = ! done;
+			}
+		}
+
+		btn.addEventListener( 'click', function () {
+			btn.disabled = true;
+			state( true, false );
+
+			window.setTimeout( function () {
+				state( false, true );
+				btn.disabled = false;
+
+				if ( again ) {
+					btn.textContent = again;
+				}
+			}, ms );
+		} );
+
+		state( false, false );
+		place.appendChild( btn );
 	} );
 
 	/* ── проход по прототипу ───────────────────────────────────────────────
