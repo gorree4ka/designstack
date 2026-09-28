@@ -1,0 +1,460 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#why">Цвет по правилу, а не по вкусу</a></li>
+    <li><a href="#layers">Примитивы и роли</a></li>
+    <li><a href="#systems">Как это устроено в больших системах</a></li>
+    <li><a href="#direct">Почему примитив нельзя брать напрямую</a><span class="ds-lesson__tag">тёмная тема</span></li>
+    <li><a href="#roles">Роли продукта в двух темах</a></li>
+    <li><a href="#pairs">Таблица контраста</a></li>
+    <li><a href="#add">Как добавить новый цвет</a></li>
+    <li><a href="#code">Роли в коде и в Figma</a></li>
+    <li><a href="#review">Проверка чужого макета</a><span class="ds-lesson__tag">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Магазин кофе из <a href="/lessons/color-contrast-middle/">урока про контраст</a>. У него есть палитра с ролями и тёмная тема, но живут они в макете одного дизайнера. Теперь над продуктом работают трое, появились оптовый раздел и промо-страницы акций, и каждый новый экран приносит «ещё один синий». Опишем цветовую систему, по которой новый цвет попадает в продукт без автора палитры.</div>
+
+<section id="why">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Цвет по правилу, а не по вкусу</h2></div>
+  <p class="ds-lesson__lead">Пока палитра — привычка одного человека, новый цвет попадает в продукт, потому что понравился.</p>
+
+  <p>Через три месяца работы втроём в макетах магазина нашлись: оранжевый для баннера акции, второй зелёный для статуса «Доставлен» и синий кнопки, вписанный в оптовый раздел прямо кодом цвета. По отдельности каждое решение разумно. Вместе они ломают тёмную тему и контраст, а на вопрос «можно ли взять этот цвет» отвечает только автор палитры.</p>
+
+  <p>Цветовая система отвечает на этот вопрос сама. В ней пять частей:</p>
+  <ol>
+    <li><strong>Примитивы</strong> — все цвета продукта со шкалами оттенков.</li>
+    <li><strong>Роли</strong> — зачем цвет на экране: фон, текст, действие, ошибка.</li>
+    <li><strong>Две темы</strong> — у каждой роли значение для светлой и для тёмной.</li>
+    <li><strong>Таблица контраста</strong> — какие пары ролей проходят нормы и насколько.</li>
+    <li><strong>Правило добавления</strong> — как в систему попадает новый цвет.</li>
+  </ol>
+</section>
+
+<section id="layers">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Примитивы и роли</h2></div>
+  <p class="ds-lesson__lead">Примитив говорит, какой это цвет. Роль говорит, зачем он.</p>
+
+  <ul>
+    <li><strong>Примитив</strong> — <code>blue-600</code>, <code>gray-50</code>. Это значение со своим местом в шкале. Он не знает, где будет стоять, и не меняется от темы.</li>
+    <li><strong>Роль</strong> — <code>action</code>, <code>surface</code>, <code>error</code>. Она ссылается на примитив, и ссылка зависит от темы: в светлой <code>action</code> — это <code>blue-600</code>, в тёмной — <code>blue-300</code>.</li>
+  </ul>
+
+  <p>«Серый-100» живёт внутри системы. Наружу — в макеты и в код экранов — выходит только роль: «поверхность», «вторичный текст». Экран говорит, зачем ему цвет, а система решает, какой он.</p>
+
+  <div class="ds-lesson__rule"><b>Экран берёт цвет только через роль.</b> Примитив и код цвета на экране — это место, которое не переключится с темой и которое не найти при смене палитры.</div>
+</section>
+
+<section id="systems">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Как это устроено в больших системах</h2></div>
+  <p class="ds-lesson__lead">Названия разные, устройство одно: слой значений и слой смысла.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Система</th><th scope="col">Значения</th><th scope="col">Смысл</th><th scope="col">Что говорит о прямом использовании</th></tr></thead>
+      <tbody>
+        <tr><td><b>Material Design 3</b></td><td>Reference: <code>md.ref.palette.primary40</code></td><td>System: <code>md.sys.color.primary</code>, <code>on-primary</code>, <code>surface</code>, <code>error</code>, <code>outline</code>. Ещё есть component-токены, они ссылаются на system</td><td>Тема переключается на уровне system-токенов: <code>primary</code> в светлой теме — <code>primary40</code>, в тёмной — <code>primary80</code></td></tr>
+        <tr><td><b>Atlassian</b></td><td>Палитра, например Red100 и Red1000</td><td><code>color.background.danger</code>, <code>color.text.subtle</code>, <code>color.border.focused</code>, <code>color.icon.warning</code></td><td>Прибитые значения их линтер считает нарушением. И отдельно: не берите токен только потому, что цвет совпал, — в другой теме это сломается</td></tr>
+        <tr><td><b>IBM Carbon</b></td><td>Палитра IBM: <code>$blue-60</code></td><td><code>$background</code>, <code>$layer-01</code>, <code>$text-primary</code>, <code>$support-error</code>, <code>$focus</code>, <code>$interactive</code></td><td>Токены, в отличие от кодов цвета, действуют во всех четырёх темах: White, Gray 10, Gray 90, Gray 100</td></tr>
+        <tr><td><b>GitHub Primer</b></td><td>Base: <code>color-scale-pink-5</code></td><td>Functional: <code>borderColor-sponsors-emphasis</code>, есть ещё уровень компонентов</td><td>Базовые токены не учитывают тему и не должны использоваться напрямую ни в коде, ни в макете</td></tr>
+        <tr><td><b>GOV.UK</b></td><td><code>govuk-colour("red")</code></td><td><code>govuk-functional-colour("error")</code>, <code>focus</code> — #ffdd00</td><td>Не копируйте коды цвета. Жёлтый фокуса — только для фокуса</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>У Atlassian есть ещё третий тип цвета — акценты: десять цветов без смысла, для меток и категорий, которые выбирает сам человек. Их нельзя брать там, где у цвета есть значение, например для предупреждения. Это ответ на частый вопрос «а какой цвет дать тегу»: не роль статуса, а отдельный набор без смысла.</p>
+</section>
+
+<section id="direct">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Почему примитив нельзя брать напрямую</h2></div>
+  <p class="ds-lesson__lead">Экран на примитивах выглядит правильно ровно до смены темы.</p>
+
+  <p>Две карточки заказа выглядят одинаково. Левая собрана на ролях, правая — на тех же цветах, вписанных значениями. Включите тёмную тему.</p>
+
+  <div class="ds-lesson__box" data-contrast-demo>
+    <div class="ds-lesson__box-head">Карточка заказа · на ролях и на примитивах<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="dark" data-layer-label="Тёмная тема"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">На ролях</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-muted:#5B6570; --l-divider:#DCE1E6; --l-action:#1D5FD1; --l-on-action:#FFFFFF; --l-error:#C23030; --d-bg:#15181C; --d-surf:#1E2227; --d-text:#E8EBEE; --d-muted:#A3ADB8; --d-divider:#343A41; --d-action:#7AA7F0; --d-on-action:#0B1B33; --d-error:#F07C7C">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-card">
+                <div class="ds-lesson__cs-row"><b>Заказ № 1038</b><b>1 190 ₽</b></div>
+                <div class="ds-lesson__cs-row"><span class="ds-lesson__ink" style="--ink:var(--r-muted)">3 сентября</span><b class="ds-lesson__ink" style="--ink:var(--r-error)">✕ Отменён</b></div>
+                <div class="ds-lesson__ink" style="--ink:var(--r-action)">Подробнее о заказе</div>
+                <div class="ds-lesson__gap" style="--g:8"></div>
+                <span class="ds-lesson__cs-btn">Повторить</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">На примитивах</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-divider:#DCE1E6; --d-bg:#15181C; --d-surf:#1E2227; --d-text:#E8EBEE; --d-divider:#343A41">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-card">
+                <div class="ds-lesson__cs-row ds-lesson__ink" style="--ink:#1B1F24"><b>Заказ № 1038</b><b>1 190 ₽</b></div>
+                <div class="ds-lesson__cs-row"><span class="ds-lesson__ink" style="--ink:#5B6570">3 сентября</span><b class="ds-lesson__ink" style="--ink:#C23030">✕ Отменён</b></div>
+                <div class="ds-lesson__ink" style="--ink:#1D5FD1">Подробнее о заказе</div>
+                <div class="ds-lesson__gap" style="--g:8"></div>
+                <span class="ds-lesson__cs-btn ds-lesson__fill ds-lesson__ink" style="--fill:#1D5FD1; --ink:#FFFFFF">Повторить</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Фон карточки в обоих случаях берётся из роли, поэтому он темнеет вместе с темой. Текст справа вписан значениями и остаётся цветами светлой темы.</div>
+  </div>
+
+  <div class="ds-lesson__box" data-contrast-demo>
+    <div class="ds-lesson__box-head">Что стало с контрастом в тёмной теме</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+        <table>
+          <thead><tr><th scope="col">Место</th><th scope="col">На ролях</th><th scope="col">На примитивах</th></tr></thead>
+          <tbody>
+            <tr><td>Номер и сумма</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#E8EBEE">Заказ</span> 14,88&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#1B1F24">Заказ</span> 1,07&nbsp;:&nbsp;1</td></tr>
+            <tr><td>Дата</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#A3ADB8">3 сентября</span> 7,82&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#5B6570">3 сентября</span> 3,00&nbsp;:&nbsp;1</td></tr>
+            <tr><td>Статус</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#F07C7C">Отменён</span> 6,68&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#C23030">Отменён</span> 3,18&nbsp;:&nbsp;1</td></tr>
+            <tr><td>Ссылка</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#7AA7F0">Подробнее</span> 7,30&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#1D5FD1">Подробнее</span> 3,06&nbsp;:&nbsp;1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Основной текст на примитиве в тёмной теме пропадает совсем: 1,07&nbsp;:&nbsp;1. Остальное проваливает норму 4,5&nbsp;:&nbsp;1.</div>
+  </div>
+
+  <h3>Что ещё ломает прямой примитив</h3>
+  <ul>
+    <li><strong>Смену палитры.</strong> Бренд решил сделать синий чуть теплее. Роль <code>action</code> меняется в одном месте, а каждый вписанный <code>#1D5FD1</code> надо искать по всем макетам и всему коду.</li>
+    <li><strong>Смысл.</strong> По <code>#C23030</code> в коде не понять, ошибка это или просто красный заголовок акции. По <code>error</code> понятно сразу, и его можно найти поиском.</li>
+    <li><strong>Совпадение цветов.</strong> Сегодня у разделителя и у неактивной рамки один серый. Если взять для рамки «роль разделителя, раз цвет тот же», следующая правка разделителя сломает рамку. Atlassian об этом прямо предупреждает.</li>
+  </ul>
+</section>
+
+<section id="roles">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Роли продукта в двух темах</h2></div>
+  <p class="ds-lesson__lead">Одна таблица на обе темы: у каждой роли два значения, и оба — примитивы.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Роль</th><th scope="col">Зачем</th><th scope="col">Светлая</th><th scope="col">Тёмная</th></tr></thead>
+      <tbody>
+        <tr><td><code>bg</code></td><td>Фон карточек и полей</td><td><code>gray-0</code> #FFFFFF</td><td><code>gray-950</code> #15181C</td></tr>
+        <tr><td><code>surface</code></td><td>Фон страницы и шапки</td><td><code>gray-50</code> #F4F6F8</td><td><code>gray-850</code> #1E2227</td></tr>
+        <tr><td><code>text</code></td><td>Основной текст</td><td><code>gray-900</code> #1B1F24</td><td><code>gray-100</code> #E8EBEE</td></tr>
+        <tr><td><code>text-muted</code></td><td>Вторичный текст, подписи полей</td><td><code>gray-600</code> #5B6570</td><td><code>gray-300</code> #A3ADB8</td></tr>
+        <tr><td><code>border</code></td><td>Разделители, рамки карточек</td><td><code>gray-150</code> #DCE1E6</td><td><code>gray-800</code> #343A41</td></tr>
+        <tr><td><code>border-field</code></td><td>Рамка поля ввода</td><td><code>gray-400</code> #808A94</td><td><code>gray-500</code> #6E7883</td></tr>
+        <tr><td><code>action</code></td><td>Кнопки, ссылки, фокус</td><td><code>blue-600</code> #1D5FD1</td><td><code>blue-300</code> #7AA7F0</td></tr>
+        <tr><td><code>on-action</code></td><td>Текст на кнопке</td><td><code>gray-0</code> #FFFFFF</td><td><code>blue-950</code> #0B1B33</td></tr>
+        <tr><td><code>error</code> и <code>error-surface</code></td><td>Текст и подложка ошибки</td><td><code>red-600</code> и <code>red-50</code></td><td><code>red-300</code> и <code>red-900</code></td></tr>
+        <tr><td><code>warning</code> и <code>warning-surface</code></td><td>Текст и подложка предупреждения</td><td><code>yellow-700</code> и <code>yellow-50</code></td><td><code>yellow-300</code> и <code>yellow-900</code></td></tr>
+        <tr><td><code>success</code> и <code>success-surface</code></td><td>Текст и подложка успеха</td><td><code>green-700</code> и <code>green-50</code></td><td><code>green-300</code> и <code>green-900</code></td></tr>
+        <tr><td><code>info</code> и <code>info-surface</code></td><td>Текст и подложка сообщения</td><td><code>blue-600</code> и <code>blue-50</code></td><td><code>blue-300</code> и <code>blue-900</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>У <code>info</code> и <code>action</code> один примитив, но роли разные. Сегодня они совпадают по цвету, завтра <code>info</code> может стать бирюзовым, и кнопки это не заденет.</p>
+
+  <div class="ds-lesson__warn"><b>Роль без тёмного значения не публикуется.</b> Иначе первый же экран с этой ролью в тёмной теме покажет цвет светлой — как правая карточка в разделе 4.</div>
+</section>
+
+<section id="pairs">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Таблица контраста</h2></div>
+  <p class="ds-lesson__lead">Контраст считают не для цветов, а для пар ролей, которые встречаются на экране.</p>
+
+  <p>Material Design 3 строит роли парами — <code>primary</code> и <code>on-primary</code>, <code>surface</code> и <code>on-surface</code> — и обещает у пар минимум 3&nbsp;:&nbsp;1, если их использовать в задуманных сочетаниях. Этого хватает для крупного текста и значков, но не для обычного текста. Поэтому свою таблицу пар стоит считать самим и держать под обычный текст 4,5&nbsp;:&nbsp;1.</p>
+
+  <div class="ds-lesson__box" data-contrast-demo>
+    <div class="ds-lesson__box-head">Пары ролей магазина · светлая и тёмная</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+        <table>
+          <thead><tr><th scope="col">Пара</th><th scope="col">Норма</th><th scope="col">Светлая</th><th scope="col">Тёмная</th></tr></thead>
+          <tbody>
+            <tr><td><code>text</code> на <code>bg</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#1B1F24">Аа</span> 16,56&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#E8EBEE">Аа</span> 14,88&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>text-muted</code> на <code>bg</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#5B6570">Аа</span> 5,93&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#A3ADB8">Аа</span> 7,82&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>border-field</code> на <code>bg</code></td><td>3</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#808A94">▬</span> 3,51&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#6E7883">▬</span> 3,96&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>action</code> на <code>bg</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#1D5FD1">Аа</span> 5,81&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#15181C; --ink:#7AA7F0">Аа</span> 7,30&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>on-action</code> на <code>action</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#1D5FD1; --ink:#FFFFFF">Аа</span> 5,81&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#7AA7F0; --ink:#0B1B33">Аа</span> 7,06&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>error</code> на <code>error-surface</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FCEBEB; --ink:#C23030">Аа</span> 4,84&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#3A1D1F; --ink:#F07C7C">Аа</span> 5,72&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>warning</code> на <code>warning-surface</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFF4D6; --ink:#8A5A00">Аа</span> 5,40&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#33280F; --ink:#E8B64C">Аа</span> 7,73&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>success</code> на <code>success-surface</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#E6F4EA; --ink:#1E7B3A">Аа</span> 4,68&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#16301F; --ink:#5CC27A">Аа</span> 6,40&nbsp;:&nbsp;1</td></tr>
+            <tr><td><code>info</code> на <code>info-surface</code></td><td>4,5</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#E7EFFC; --ink:#1D5FD1">Аа</span> 5,02&nbsp;:&nbsp;1</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#1D2B40; --ink:#7AA7F0">Аа</span> 5,85&nbsp;:&nbsp;1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Ближе всех к норме пары статусов на своих подложках: 4,68 и 4,84. Любую правку <code>success</code> и <code>error</code> в светлой теме придётся мерить заново.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Таблицу пар проверяет скрипт.</b> Пары записаны ролями, значения берутся из системы, и после каждой правки палитры все пары пересчитываются в обеих темах. Провал останавливает правку.</div>
+</section>
+
+<section id="add">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Как добавить новый цвет</h2></div>
+  <p class="ds-lesson__lead">Новый цвет попадает в продукт по порядку.</p>
+
+  <p>Дизайнер промо-страниц хочет оранжевый #FF8A3D для кнопки акции. Вот как это решается по правилу:</p>
+  <ol>
+    <li><strong>Сначала роль, потом цвет.</strong> Зачем оранжевый? «Выделить кнопку акции». Это действие, и роль <code>action</code> уже есть. Если нужна вторая, заметная кнопка, это новая роль с именем по смыслу, например <code>action-promo</code>.</li>
+    <li><strong>Проверить, что роль правда новая.</strong> Может быть, хватит существующей: крупный баннер с кнопкой <code>action</code> выделится и без нового цвета.</li>
+    <li><strong>Предложение коротко:</strong> имя роли, где она стоит, почему существующие не подходят, снимок экрана.</li>
+    <li><strong>Значения для обеих тем из шкалы.</strong> Нет подходящего оттенка — в шкалу добавляется новый примитив.</li>
+    <li><strong>Пары контраста для обеих тем.</strong> Белый на #FF8A3D даёт 2,34&nbsp;:&nbsp;1 — кнопка с такой надписью не проходит. Проходит, например, #B34700: 5,50&nbsp;:&nbsp;1. Или оставить яркий оранжевый, но с тёмной надписью: 7,06&nbsp;:&nbsp;1. Выбор между ними — за брендом, а не за одним макетом.</li>
+    <li><strong>Роль появляется в Figma и в коде одновременно</strong>, с датой в журнале изменений системы, и команда о ней узнаёт.</li>
+  </ol>
+
+  <div class="ds-lesson__warn"><b>Один экран — ещё не повод для роли.</b> Если оранжевый нужен одному лендингу на неделю, это исключение: оно записывается в журнал и не становится ролью, пока не повторится.</div>
+</section>
+
+<section id="code">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Роли в коде и в Figma</h2></div>
+  <p class="ds-lesson__lead">Работает, когда в макете и в коде одни и те же имена ролей, а примитивы спрятаны внутри системы.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Роли магазина в CSS · пример для разработчика<span class="ds-lesson__spacer"></span><span data-copy="colorCode"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="colorCode">/* Примитивы — только внутри системы, экраны их не видят */
+:root {
+  --gray-0: #FFFFFF;   --gray-50: #F4F6F8;  --gray-100: #E8EBEE;
+  --gray-300: #A3ADB8; --gray-600: #5B6570; --gray-900: #1B1F24;
+  --gray-950: #15181C;
+  --blue-300: #7AA7F0; --blue-600: #1D5FD1; --blue-950: #0B1B33;
+  --red-300: #F07C7C;  --red-600: #C23030;
+}
+
+/* Роли — светлая тема по умолчанию */
+:root {
+  color-scheme: light dark;
+  --color-bg: var(--gray-0);
+  --color-text: var(--gray-900);
+  --color-text-muted: var(--gray-600);
+  --color-action: var(--blue-600);
+  --color-on-action: var(--gray-0);
+  --color-error: var(--red-600);
+}
+
+/* Тёмная тема — те же имена, другие значения */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: var(--gray-950);
+    --color-text: var(--gray-100);
+    --color-text-muted: var(--gray-300);
+    --color-action: var(--blue-300);
+    --color-on-action: var(--blue-950);
+    --color-error: var(--red-300);
+  }
+}
+
+/* Экраны берут только роли */
+.button { background: var(--color-action); color: var(--color-on-action); }
+.error  { color: var(--color-error); }</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Вместо медиазапроса можно писать обе темы в одной строке: <code>--color-bg: light-dark(var(--gray-0), var(--gray-950))</code>. Функция <code>light-dark()</code> работает во всех основных браузерах с мая 2024 года и только вместе с <code>color-scheme: light dark</code>.</div>
+  </div>
+
+  <h3>В Figma</h3>
+  <ul>
+    <li><strong>Две коллекции переменных.</strong> «Примитивы» — шкалы цветов. «Роли» — переменные, которые ссылаются на примитивы: в Figma это называется alias, и ссылаться можно только на переменную того же типа.</li>
+    <li><strong>Два режима в коллекции ролей</strong> — Light и Dark. Переключение режима на фрейме перекрашивает весь экран. Режимы есть на тарифах Professional и выше: до 10 на коллекцию в Professional, до 20 в Organization; на бесплатном Starter их нет.</li>
+    <li><strong>Области применения.</strong> У переменной можно ограничить, куда её разрешено ставить: заливка фрейма, фигуры, текста, обводка, эффекты. Роли текста — только в заливку текста, роли фона — только в заливку фреймов.</li>
+    <li><strong>Формат для разработчиков.</strong> Сообщество W3C по дизайн-токенам в октябре 2025 года выпустило первую стабильную версию формата — 2025.10, и Figma умеет импортировать токены в нём.</li>
+  </ul>
+</section>
+
+<section id="review">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Проверка чужого макета</h2></div>
+  <p class="ds-lesson__lead">С системой замечание звучит так: «Ц1: кнопка залита значением, нужна роль <code>action</code>». Без неё — «какой-то не наш синий».</p>
+
+  <p>Строки системы магазина, на которые ссылается ревью:</p>
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Строка</th><th scope="col">Правило</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ц1</b></td><td>Экран берёт цвет только через роль. Примитивы и коды цвета — внутри системы.</td></tr>
+        <tr><td><b>Ц2</b></td><td>Роль выбирают по смыслу, а не по виду. Совпавший цвет не делает роли взаимозаменяемыми.</td></tr>
+        <tr><td><b>Ц3</b></td><td>У каждой роли два значения — для светлой и тёмной темы.</td></tr>
+        <tr><td><b>Ц4</b></td><td>Пары ролей проходят нормы в обеих темах: текст 4,5&nbsp;:&nbsp;1, рамки и значки 3&nbsp;:&nbsp;1.</td></tr>
+        <tr><td><b>Ц5</b></td><td>Статус — слово и значок, цвет роли статуса помогает.</td></tr>
+        <tr><td><b>Ц6</b></td><td>Новый цвет попадает в систему по порядку из раздела 7.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · что это за замечание<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">1. «Кнопка „В корзину“ в оптовом разделе залита #1D5FD1 значением».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение системы</b>Ц1: цвет на экране — только роль. Значение не переключится в тёмной теме, нужна роль <code>action</code>.</p></li>
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">2. «Для кнопки акции взят новый оранжевый #FF8A3D с белой надписью».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение системы</b>Ц6 и Ц4: цвет пришёл без роли и без порядка добавления, а белый на нём даёт 2,34&nbsp;:&nbsp;1.</p></li>
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">3. «Статус „Доставлен“ — только зелёная точка, без слова».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение системы</b>Ц5: статус называют словом. Точка помогает найти его глазами, но сама смысла не несёт.</p></li>
+<li data-quiz-q data-answer="fine"><p class="ds-quiz__question">4. «Сообщение об ошибке оплаты: подложка <code>error-surface</code>, текст <code>text</code>, значок <code>error</code>».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не ошибка</b>Все цвета из ролей, пары из таблицы контраста. Основной текст на подложке ошибки читается лучше, чем красный.</p></li>
+<li data-quiz-q data-answer="gap"><p class="ds-quiz__question">5. «Метки сортов в каталоге — „Бразилия“, „Кения“ — хочется разного цвета, а ролей для этого нет».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Система не покрывает</b>Нужны цвета без смысла, для категорий. Брать для них роли статусов нельзя: зелёная «Кения» будет читаться как «успех». Это задача для системы — завести набор акцентов, как у Atlassian.</p></li>
+<li data-quiz-q data-answer="fine"><p class="ds-quiz__question">6. «В тёмной теме ссылка светлее, чем в светлой, — это разные цвета».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не ошибка</b>Ц3: это одна роль <code>action</code> с разными значениями в двух темах. Так и задумано.</p></li>
+<li data-quiz-q data-answer="rule"><p class="ds-quiz__question">7. «Разделитель строк в таблице опта нарисован ролью <code>border-field</code> — она потемнее, так заметнее».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарушение системы</b>Ц2: роль выбрана по виду. Для разделителей есть <code>border</code>. Если его не видно в плотной таблице, это повод обсудить роль <code>border</code>, брать чужую нельзя.</p></li>
+<li data-quiz-q data-answer="gap"><p class="ds-quiz__question">8. «Для графика продаж кофеен нужно шесть различимых цветов линий».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Система не покрывает</b>Цвета графиков — отдельная задача: их должно быть много, они должны различаться и без цвета, и в обеих темах. Роли интерфейса для этого не подходят.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="rule">Нарушение системы</button><button class="ds-quiz__option" type="button" data-quiz-answer="fine">Не ошибка</button><button class="ds-quiz__option" type="button" data-quiz-answer="gap">Система не покрывает</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Четыре нарушения, и у каждого есть номер строки. Два места сделаны верно, два — новые случаи, которые система пока не покрывает.</div>
+</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Опишите цветовую систему продукта: примитивы, роли, обе темы, таблица контраста, правило добавления нового цвета. Прогоните по ней один чужой макет.</p>
+
+  <h3>Часть 1 · Примитивы и роли, 60 минут</h3>
+  <ol>
+    <li><strong>Соберите примитивы</strong> из того, что уже есть в продукте, и разложите по шкалам: серые, основной цвет, статусы.</li>
+    <li><strong>Выпишите роли</strong> с назначением и значениями для обеих тем — только именами примитивов.</li>
+    <li><strong>Роль без тёмного значения</strong> — первая находка: допишите значение.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Цветовая система · шаблон<span class="ds-lesson__spacer"></span><span data-copy="colorSysTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="colorSysTmpl">ЦВЕТ · ПРОДУКТ: ______________   Версия: __  Дата: __.__.____
+Кто отвечает: ______________   Как предложить правку: ______________
+
+1. ПРИМИТИВЫ (шкалы)
+   gray:   ___ #______  ___ #______  ___ #______  ...
+   ______: ___ #______  ___ #______  ___ #______  ...
+
+2. РОЛИ
+   роль          | зачем                      | светлая     | тёмная
+   bg            | __________________________ | ___________ | ___________
+   text          | __________________________ | ___________ | ___________
+   text-muted    | __________________________ | ___________ | ___________
+   action        | __________________________ | ___________ | ___________
+   on-action     | __________________________ | ___________ | ___________
+   error / -surf | __________________________ | ___________ | ___________
+
+3. ТАБЛИЦА КОНТРАСТА (пары ролей)
+   пара                  | норма | светлая | тёмная
+   text на bg            | 4,5   | ___ : 1 | ___ : 1
+   ______ на ______      | ___   | ___ : 1 | ___ : 1
+
+4. СТРОКИ СИСТЕМЫ
+   Ц1 ____________________________________________
+   Ц2 ____________________________________________
+
+5. НОВЫЙ ЦВЕТ
+   роль → проверить, что новая → предложение → значения двух тем
+   → пары контраста → Figma и код одновременно → журнал</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Значения ролей пишите именами примитивов: так видно, что в систему не пробрался одиночный код цвета.</div>
+  </div>
+
+  <h3>Часть 2 · Контраст и правило, 30 минут</h3>
+  <ol>
+    <li><strong>Выпишите все пары ролей</strong>, которые встречаются на экранах, и замерьте их в обеих темах.</li>
+    <li><strong>Запишите порядок добавления</strong> нового цвета и строки системы с номерами.</li>
+  </ol>
+
+  <h3>Часть 3 · Чужой макет, 30 минут</h3>
+  <ol>
+    <li><strong>Возьмите макет, который делали не вы.</strong></li>
+    <li><strong>Найдите места</strong>, где цвет задан значением, где роль выбрана по виду и где статус передан одним цветом.</li>
+    <li><strong>Каждую находку запишите</strong> с номером строки и видом: нарушение, не ошибка, система не покрывает.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Новый цвет в продукт другой дизайнер добавил по вашему правилу и без вас.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Документ системы</strong> по шаблону: примитивы, роли в двух темах, таблица пар, строки, порядок добавления.</li>
+    <li><strong>Разбор чужого макета</strong> с номерами строк.</li>
+    <li><strong>Через месяц</strong> — хотя бы один цвет, добавленный коллегой по правилу.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 60 минут на примитивы и роли, 30 на контраст и правило, 30 на разбор. Всего — около двух часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«В коде сотни прибитых цветов».</strong> Не переводите всё сразу. Заведите роли, запретите новые значения в коде и переводите экраны по мере правок.</li>
+    <li><strong>«Бренд-гайд даёт шесть фирменных цветов».</strong> Они становятся примитивами. Ролью становится только тот, у кого есть работа на экране.</li>
+    <li><strong>«Разработчики называют по-своему».</strong> Договоритесь об одном списке имён ролей до того, как они появятся в коде. Имена в Figma и в CSS должны совпадать.</li>
+    <li><strong>«Роль нужна срочно, ждать некогда».</strong> Сделайте исключение с записью в журнале. Порядок добавления для того и нужен, чтобы исключение не превращалось в норму молча.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">11</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Система работает, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Примитивы собраны в шкалы и не выходят на экраны</li>
+    <li>Каждая роль названа по смыслу и описана одной строкой</li>
+    <li>У каждой роли два значения, и оба — примитивы</li>
+    <li>Таблица пар контраста есть для обеих тем и пересчитывается после правок</li>
+    <li>Статусы — слово и значок, цвет помогает</li>
+    <li>Имена ролей в Figma и в коде совпадают</li>
+    <li>Порядок добавления нового цвета записан, и им пользуются</li>
+    <li>У системы есть версия и журнал изменений</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Код цвета на экране.</b> Не переключается с темой, не находится при смене палитры.</li>
+    <li><b>Роль по виду.</b> Взяли чужую роль, потому что цвет совпал.</li>
+    <li><b>Роль без тёмного значения.</b> В тёмной теме показывает цвет светлой.</li>
+    <li><b>Контраст на глаз.</b> Пары статусов на подложках тихо проваливаются.</li>
+    <li><b>Цвет без порядка.</b> Оранжевый «на одну акцию» живёт в продукте годами.</li>
+    <li><b>Роли статусов для категорий.</b> Зелёная метка читается как «успех».</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">12</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На первой ступени собирали палитру с ролями, на второй — проверяли контраст и собирали тёмную тему. Здесь цвет становится системой, по которой работает вся команда.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Собрать палитру из ограниченного набора; дать каждому цвету роль; отличать оттенок для поверхности от оттенка для текста; находить дубли; не передавать статус одним цветом</td>
+          <td class="ds-lesson__dim">Для каждого цвета на экране можно назвать его роль, цветов без роли не осталось</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Мерить контраст текста, значков, границ и состояний; собирать тёмную тему на тех же ролях; не гасить неактивное одной прозрачностью</td>
+          <td class="ds-lesson__dim">В таблице замеров нет пары ниже нормы ни в светлой теме, ни в тёмной</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Описать цветовую систему: примитивы и роли, обе темы, таблица контраста, правило добавления нового цвета</td>
+          <td>Новый цвет в продукт другой дизайнер добавил по вашему правилу и без вас</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> цвет в продукте описан смыслом, и новый цвет попадает в него по правилу, а не потому что понравился.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/foundations/design-tokens/overview">Design tokens</a> и <a href="https://m3.material.io/styles/color/roles">Color roles</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Три класса токенов — reference, system, component — и как роли цвета собираются в пары.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://atlassian.design/foundations/color">Color</a> и <a href="https://atlassian.design/foundations/color/accents">Accents</a></span><span class="ds-lesson__reads-meta">Atlassian Design System · на английском · бесплатно</span><span>Семантические токены цвета по свойствам и отдельный набор акцентов для категорий без смысла.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://primer.style/product/getting-started/foundations/color-usage/">Color usage</a></span><span class="ds-lesson__reads-meta">GitHub Primer · на английском · бесплатно</span><span>Базовые, функциональные и компонентные токены и почему базовые не берут напрямую.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/elements/color/overview/">Color</a> и <a href="https://carbondesignsystem.com/elements/themes/overview/">Themes</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Четыре темы на одних токенах и таблица токенов с ролью каждого.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.designtokens.org/tr/2025.10/format/">Design Tokens Format Module 2025.10</a></span><span class="ds-lesson__reads-meta">W3C Design Tokens Community Group · на английском · бесплатно</span><span>Стабильный формат дизайн-токенов: тип color, ссылки на другие токены, обмен между Figma и кодом.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

@@ -1,0 +1,451 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#norms">Нормы контраста</a></li>
+    <li><a href="#lab">Замер всех пар на экране</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#beyond">Не только основной текст</a></li>
+    <li><a href="#disabled">Неактивное без одной прозрачности</a></li>
+    <li><a href="#dark">Тёмная тема на тех же ролях</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#tools">Чем мерить</a></li>
+    <li><a href="#pass">Проходит или нет</a><span class="ds-lesson__tag">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Магазин кофе из <a href="/lessons/color-contrast-junior/">урока про палитру</a>. Палитра с ролями уже есть, и теперь по ней собирают экран оплаты и тёмную тему. Первый вариант экрана «на глаз» выглядит аккуратно. Замерим его и посмотрим, что из этого читается на самом деле.</div>
+
+<section id="norms">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Нормы контраста</h2></div>
+  <p class="ds-lesson__lead">Контраст — отношение яркостей двух цветов: от 1&nbsp;:&nbsp;1, когда цвета одинаковы, до 21&nbsp;:&nbsp;1 — чёрный на белом.</p>
+
+  <p>Нормы задаёт WCAG, стандарт доступности веба. Уровень AA — тот, на который обычно равняются продукты:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что</th><th scope="col">AA</th><th scope="col">AAA</th></tr></thead>
+      <tbody>
+        <tr><td><b>Обычный текст</b></td><td>4,5&nbsp;:&nbsp;1</td><td>7&nbsp;:&nbsp;1</td></tr>
+        <tr><td><b>Крупный текст</b> — от 18 pt, это 24 px, или от 14 pt жирным, около 18,5 px</td><td>3&nbsp;:&nbsp;1</td><td>4,5&nbsp;:&nbsp;1</td></tr>
+        <tr><td><b>Значки, рамки полей, рамка фокуса</b> — всё, по чему видно элемент и его состояние</td><td>3&nbsp;:&nbsp;1</td><td>—</td></tr>
+        <tr><td><b>Не требуют контраста</b></td><td colspan="2">Декор, текст внутри логотипа, неактивные элементы, текст на фотографии, где он не главное</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Пороги не округляют: в пояснениях к WCAG прямо сказано, что 4,499&nbsp;:&nbsp;1 норму 4,5&nbsp;:&nbsp;1 не проходит, даже если инструмент покажет «4,5». У рамки фокуса есть и отдельное правило уровня AAA: рамка не тоньше 2 px по периметру и 3&nbsp;:&nbsp;1 между видом с фокусом и без.</p>
+
+  <div class="ds-lesson__rule"><b>Мерят пару: цвет и фон, на котором он стоит на самом деле.</b> Один и тот же серый проходит на белом и не проходит на светло-сером фоне карточки.</div>
+</section>
+
+<section id="lab">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Замер всех пар на экране</h2></div>
+  <p class="ds-lesson__lead">Контраст перестаёт быть делом удачи, когда замерены все пары, включая подписи, ошибки и фокус.</p>
+
+  <p>Экран оплаты в двух вариантах. Числа рядом с местами — замеры: ✓ — норма выполнена, ✗ — нет. Нажмите «Контраст», чтобы спрятать или показать их.</p>
+
+  <div class="ds-lesson__box is-ratios" data-contrast-demo>
+    <div class="ds-lesson__box-head">Оплата · на глаз и после замеров<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="ratios" data-layer-label="Контраст"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">На глаз</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-divider:#DCE1E6">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-card">
+                <div class="ds-lesson__ink" style="--ink:#808A94">Номер карты<span class="ds-lesson__cr ds-lesson__cr--fail">3,51 ✗</span></div>
+                <div class="ds-lesson__gap" style="--g:4"></div>
+                <div class="ds-lesson__cs-field ds-lesson__edge" style="--edge:#DCE1E6">4276 3800 1234 567<span class="ds-lesson__cr ds-lesson__cr--fail" data-pair="border">1,31 ✗</span></div>
+                <div class="ds-lesson__gap" style="--g:4"></div>
+                <div class="ds-lesson__ink" style="--ink:#F07C7C">✕ Не хватает одной цифры<span class="ds-lesson__cr ds-lesson__cr--fail">2,66 ✗</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__ink" style="--ink:#808A94">Срок действия</div>
+                <div class="ds-lesson__gap" style="--g:4"></div>
+                <div class="ds-lesson__cs-field ds-lesson__cs-focus ds-lesson__edge" style="--edge:#A9C5F5">12/28<span class="ds-lesson__cr ds-lesson__cr--fail" data-pair="border">1,75 ✗</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__ink" style="--ink:#3B7CF0">Изменить адрес доставки<span class="ds-lesson__cr ds-lesson__cr--fail">3,94 ✗</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__cs-line"></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__cs-btn ds-lesson__fill ds-lesson__ink" style="--fill:#1D5FD1; --ink:#FFFFFF">Оплатить 3 480 ₽<span class="ds-lesson__cr">5,81 ✓</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">После замеров</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-muted:#5B6570; --l-divider:#DCE1E6; --l-field:#808A94; --l-action:#1D5FD1; --l-on-action:#FFFFFF; --l-error:#C23030">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-card">
+                <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Номер карты<span class="ds-lesson__cr">5,93 ✓</span></div>
+                <div class="ds-lesson__gap" style="--g:4"></div>
+                <div class="ds-lesson__cs-field">4276 3800 1234 567<span class="ds-lesson__cr" data-pair="border">3,51 ✓</span></div>
+                <div class="ds-lesson__gap" style="--g:4"></div>
+                <div class="ds-lesson__ink" style="--ink:var(--r-error)">✕ Не хватает одной цифры<span class="ds-lesson__cr">5,58 ✓</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Срок действия</div>
+                <div class="ds-lesson__gap" style="--g:4"></div>
+                <div class="ds-lesson__cs-field ds-lesson__cs-focus">12/28<span class="ds-lesson__cr" data-pair="border">5,81 ✓</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__ink" style="--ink:var(--r-action)">Изменить адрес доставки<span class="ds-lesson__cr">5,81 ✓</span></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__cs-line"></div>
+                <div class="ds-lesson__gap" style="--g:12"></div>
+                <div class="ds-lesson__cs-btn">Оплатить 3 480 ₽<span class="ds-lesson__cr">5,81 ✓</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева пять провалов из шести замеров: подпись поля, рамка поля, текст ошибки, рамка фокуса и ссылка. Основной текст и кнопка проходили и так — их обычно и проверяют. Разделитель не замерен: это декор, норма к нему не относится.</div>
+  </div>
+
+  <h3>Что изменилось</h3>
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Место</th><th scope="col">Норма</th><th scope="col">На глаз</th><th scope="col">После</th></tr></thead>
+      <tbody>
+        <tr><td>Подпись поля, 13 px</td><td>4,5&nbsp;:&nbsp;1</td><td>3,51&nbsp;:&nbsp;1</td><td>5,93&nbsp;:&nbsp;1 — вторичный текст</td></tr>
+        <tr><td>Рамка поля</td><td>3&nbsp;:&nbsp;1</td><td>1,31&nbsp;:&nbsp;1</td><td>3,51&nbsp;:&nbsp;1 — своя роль «граница поля»</td></tr>
+        <tr><td>Текст ошибки</td><td>4,5&nbsp;:&nbsp;1</td><td>2,66&nbsp;:&nbsp;1</td><td>5,58&nbsp;:&nbsp;1 — тёмный красный</td></tr>
+        <tr><td>Рамка фокуса</td><td>3&nbsp;:&nbsp;1</td><td>1,75&nbsp;:&nbsp;1</td><td>5,81&nbsp;:&nbsp;1 — цвет действия, 2 px</td></tr>
+        <tr><td>Ссылка</td><td>4,5&nbsp;:&nbsp;1</td><td>3,94&nbsp;:&nbsp;1</td><td>5,81&nbsp;:&nbsp;1 — тот же синий, что у кнопки</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Почти все поправки — не новые цвета, а роли из палитры. Бледный синий фокуса и розовый ошибки на глаз смотрелись мягче, но оказались ниже нормы.</p>
+</section>
+
+<section id="beyond">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Не только основной текст</h2></div>
+  <p class="ds-lesson__lead">Основной текст проходит почти всегда. Проваливаются подписи, подсказки, ошибки, фокус и ссылки.</p>
+
+  <ul>
+    <li><strong>Подписи и подсказки.</strong> Их делают серее основного текста — и часто перебарщивают. Мелкий кегль не даёт скидки: норма для обычного текста та же.</li>
+    <li><strong>Текст в поле до ввода.</strong> Подсказка вроде «0000 0000 0000 0000» — тоже текст. Её читают, чтобы понять формат.</li>
+    <li><strong>Ошибки и статусы.</strong> Красный для ошибки часто выбирают по «тревожности» и забывают замерить. Светлый красный на белом не проходит.</li>
+    <li><strong>Рамки полей и фокуса.</strong> Если поле отличается от фона только рамкой, рамка должна давать 3&nbsp;:&nbsp;1: без неё поле не найти. Рамка фокуса — тоже: по ней человек с клавиатурой видит, где он.</li>
+    <li><strong>Ссылки внутри абзаца.</strong> Синий на белом может давать 5,81&nbsp;:&nbsp;1, но от чёрного текста рядом он отличается лишь на 2,84&nbsp;:&nbsp;1. Если ссылка выделена только цветом, между ней и текстом нужно не меньше 3&nbsp;:&nbsp;1. Проще подчеркнуть ссылку — тогда вопрос снимается.</li>
+  </ul>
+</section>
+
+<section id="disabled">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Неактивное без одной прозрачности</h2></div>
+  <p class="ds-lesson__lead">Неактивная кнопка должна выглядеть недоступной, а не стёртой.</p>
+
+  <p>Самый быстрый способ сделать кнопку неактивной — прозрачность 40 %. Надпись на такой кнопке получается 1,86&nbsp;:&nbsp;1. WCAG контраста от неактивных элементов не требует, но прочитать, что написано на кнопке, человеку всё равно нужно: иначе непонятно, что станет доступно, когда он заполнит форму.</p>
+
+  <div class="ds-lesson__box is-ratios" data-contrast-demo>
+    <div class="ds-lesson__box-head">Кнопка «Оплатить», пока номер карты не введён</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Прозрачность 40 %</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#FFFFFF; --l-text:#1B1F24; --l-divider:#DCE1E6; --l-action:#1D5FD1; --l-on-action:#FFFFFF">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el"><span class="ds-lesson__cs-btn is-faded">Оплатить 3 480 ₽</span><span class="ds-lesson__cr" data-of="prev">1,86</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Свои цвета неактивного</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#FFFFFF; --l-text:#1B1F24; --l-divider:#DCE1E6">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el"><span class="ds-lesson__cs-btn ds-lesson__fill ds-lesson__ink" style="--fill:#E9EDF1; --ink:#5B6570">Оплатить 3 480 ₽</span><span class="ds-lesson__cr" data-of="prev">5,04</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева надпись почти пропала, и кнопка похожа на ту, что ещё загружается. Справа у неактивного своя пара цветов: серая подложка и вторичный текст, надпись читается, а кнопка выглядит выключенной.</div>
+  </div>
+
+  <h3>Почему не прозрачность</h3>
+  <ul>
+    <li><strong>Надпись становится нечитаемой.</strong> 40 % от 5,81&nbsp;:&nbsp;1 — это 1,86&nbsp;:&nbsp;1.</li>
+    <li><strong>Результат зависит от фона.</strong> На картинке или цветной плашке прозрачная кнопка смешивается с тем, что под ней, и выглядит каждый раз по-разному.</li>
+    <li><strong>Неактивное путают с загрузкой.</strong> Полупрозрачным часто рисуют то, что ещё не появилось.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>У неактивного своя пара цветов в палитре:</b> подложка и текст. Надпись читается, а рядом с активной кнопкой видно, что эта выключена. Хорошо ещё написать, что нужно сделать: «Введите номер карты».</div>
+</section>
+
+<section id="dark">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Тёмная тема на тех же ролях</h2></div>
+  <p class="ds-lesson__lead">Тёмная тема — не второй макет, а те же роли с другими значениями.</p>
+
+  <p>В палитре уже есть роли: фон, текст, вторичный текст, граница поля, действие, ошибка. Для тёмной темы у каждой роли появляется второе значение, а экраны не перерисовывают: они и так ссылаются на роли. Переключите вариант ниже.</p>
+
+  <div class="ds-lesson__box is-ratios" data-contrast-demo>
+    <div class="ds-lesson__box-head">Оплата · светлая и две тёмные</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="light" hidden>Светлая</button><button class="ds-switch__button" type="button" data-switch-btn="same" hidden>Тёмная, те же акценты</button><button class="ds-switch__button" type="button" data-switch-btn="own" hidden>Тёмная, свои акценты</button></div>
+      <div data-switch-pane="light"><p class="ds-switch__title">Светлая</p>
+        <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-muted:#5B6570; --l-divider:#DCE1E6; --l-field:#808A94; --l-action:#1D5FD1; --l-on-action:#FFFFFF; --l-error:#C23030">
+          <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+          <div class="ds-lesson__spec-body">
+            <div class="ds-lesson__spec-el ds-lesson__cs-card">
+              <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Номер карты<span class="ds-lesson__cr">5,93 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__cs-field">4276 3800 1234 567<span class="ds-lesson__cr" data-pair="border">3,51 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__ink" style="--ink:var(--r-error)">✕ Не хватает одной цифры<span class="ds-lesson__cr">5,58 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__ink" style="--ink:var(--r-action)">Изменить адрес доставки<span class="ds-lesson__cr">5,81 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__cs-btn">Оплатить 3 480 ₽<span class="ds-lesson__cr">5,81 ✓</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Всё проходит</b>Это экран из раздела 2.</div>
+      </div>
+      <div data-switch-pane="same"><p class="ds-switch__title">Тёмная, те же акценты</p>
+        <div class="ds-lesson__spec ds-lesson__cs is-dark" style="--d-bg:#15181C; --d-surf:#1E2227; --d-text:#E8EBEE; --d-muted:#A3ADB8; --d-divider:#343A41; --d-field:#6E7883; --d-action:#1D5FD1; --d-on-action:#FFFFFF; --d-error:#C23030">
+          <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+          <div class="ds-lesson__spec-body">
+            <div class="ds-lesson__spec-el ds-lesson__cs-card">
+              <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Номер карты<span class="ds-lesson__cr">7,82 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__cs-field">4276 3800 1234 567<span class="ds-lesson__cr" data-pair="border">3,96 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__ink" style="--ink:var(--r-error)">✕ Не хватает одной цифры<span class="ds-lesson__cr ds-lesson__cr--fail">3,18 ✗</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__ink" style="--ink:var(--r-action)">Изменить адрес доставки<span class="ds-lesson__cr ds-lesson__cr--fail">3,06 ✗</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__cs-btn">Оплатить 3 480 ₽<span class="ds-lesson__cr">5,81 ✓</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Акценты тонут</b>Нейтральные роли получили тёмные значения, а синий и красный остались от светлой темы. Кнопка держится, потому что белый на синем не изменился, а ссылка и ошибка на тёмном фоне упали до 3&nbsp;:&nbsp;1.</div>
+      </div>
+      <div data-switch-pane="own"><p class="ds-switch__title">Тёмная, свои акценты</p>
+        <div class="ds-lesson__spec ds-lesson__cs is-dark" style="--d-bg:#15181C; --d-surf:#1E2227; --d-text:#E8EBEE; --d-muted:#A3ADB8; --d-divider:#343A41; --d-field:#6E7883; --d-action:#7AA7F0; --d-on-action:#0B1B33; --d-error:#F07C7C">
+          <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+          <div class="ds-lesson__spec-body">
+            <div class="ds-lesson__spec-el ds-lesson__cs-card">
+              <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Номер карты<span class="ds-lesson__cr">7,82 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__cs-field">4276 3800 1234 567<span class="ds-lesson__cr" data-pair="border">3,96 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:4"></div>
+              <div class="ds-lesson__ink" style="--ink:var(--r-error)">✕ Не хватает одной цифры<span class="ds-lesson__cr">6,68 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__ink" style="--ink:var(--r-action)">Изменить адрес доставки<span class="ds-lesson__cr">7,30 ✓</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__cs-btn">Оплатить 3 480 ₽<span class="ds-lesson__cr">7,06 ✓</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Всё проходит</b>У действия и ошибки в тёмной теме свои, более светлые значения. Текст на кнопке стал тёмным: на светлом синем белый бы не прочитался.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Разметка экрана во всех трёх вариантах одна и та же. Меняются только значения ролей.</div>
+  </div>
+
+  <h3>Роли в двух темах</h3>
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Роль</th><th scope="col">Светлая</th><th scope="col">Тёмная</th></tr></thead>
+      <tbody>
+        <tr><td>Фон</td><td><span class="ds-lesson__sw" style="--sw:#FFFFFF"><b>#FFFFFF</b></span></td><td><span class="ds-lesson__sw" style="--sw:#15181C"><b>#15181C</b></span></td></tr>
+        <tr><td>Поверхность</td><td><span class="ds-lesson__sw" style="--sw:#F4F6F8"><b>#F4F6F8</b></span></td><td><span class="ds-lesson__sw" style="--sw:#1E2227"><b>#1E2227</b></span></td></tr>
+        <tr><td>Основной текст</td><td><span class="ds-lesson__sw" style="--sw:#1B1F24"><b>#1B1F24</b></span></td><td><span class="ds-lesson__sw" style="--sw:#E8EBEE"><b>#E8EBEE</b></span></td></tr>
+        <tr><td>Вторичный текст</td><td><span class="ds-lesson__sw" style="--sw:#5B6570"><b>#5B6570</b></span></td><td><span class="ds-lesson__sw" style="--sw:#A3ADB8"><b>#A3ADB8</b></span></td></tr>
+        <tr><td>Граница поля</td><td><span class="ds-lesson__sw" style="--sw:#808A94"><b>#808A94</b></span></td><td><span class="ds-lesson__sw" style="--sw:#6E7883"><b>#6E7883</b></span></td></tr>
+        <tr><td>Действие</td><td><span class="ds-lesson__sw" style="--sw:#1D5FD1"><b>#1D5FD1</b></span></td><td><span class="ds-lesson__sw" style="--sw:#7AA7F0"><b>#7AA7F0</b></span></td></tr>
+        <tr><td>Текст на действии</td><td><span class="ds-lesson__sw" style="--sw:#FFFFFF"><b>#FFFFFF</b></span></td><td><span class="ds-lesson__sw" style="--sw:#0B1B33"><b>#0B1B33</b></span></td></tr>
+        <tr><td>Ошибка</td><td><span class="ds-lesson__sw" style="--sw:#C23030"><b>#C23030</b></span></td><td><span class="ds-lesson__sw" style="--sw:#F07C7C"><b>#F07C7C</b></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Что меняется в тёмной теме</h3>
+  <ul>
+    <li><strong>Акцент светлее.</strong> Насыщенный синий, который хорош на белом, на тёмном фоне теряет контраст. В Material Design 3 это заложено в саму схему: основной цвет в светлой теме берут из тона 40 тональной палитры, в тёмной — из тона 80.</li>
+    <li><strong>Фон не чисто чёрный.</strong> Material Design советует тёмно-серую поверхность #121212: на сером видны тени, а светлый текст на нём меньше режет глаз, чем на чёрном. Насыщенные цвета на тёмном фоне, по словам Material, ещё и «вибрируют», поэтому акценты берут приглушённее.</li>
+    <li><strong>Текст на акценте меняется.</strong> На светлом акценте нужен тёмный текст, поэтому роль «текст на действии» в тёмной теме тоже получает своё значение.</li>
+    <li><strong>Замер заново.</strong> Пары, которые прошли в светлой теме, в тёмной надо мерить отдельно: в варианте «те же акценты» провалились две из пяти. Apple в руководстве по тёмной теме просит держать не меньше 4,5&nbsp;:&nbsp;1, а для своих цветов в мелком тексте стремиться к 7&nbsp;:&nbsp;1.</li>
+  </ul>
+
+  <div class="ds-lesson__warn"><b>Тёмная тема, собранная отдельным макетом, расходится со светлой.</b> Через месяц в одной есть новый статус, а в другой нет. Когда обе темы — значения одних ролей, новое место на экране получает оба цвета сразу.</div>
+</section>
+
+<section id="tools">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Чем мерить</h2></div>
+  <p class="ds-lesson__lead">На глаз контраст не определить: одна и та же пара на разных экранах выглядит по-разному.</p>
+
+  <ul>
+    <li><strong><a href="/resource/webaim-contrast/">WebAIM Contrast Checker</a></strong> — два цвета на входе, на выходе отношение и отметки: обычный текст, крупный текст, графика и элементы интерфейса.</li>
+    <li><strong><a href="/resource/whocanuse/">Who Can Use</a></strong> — показывает, как пару видят люди с тринадцатью разными особенностями зрения, а ещё на ярком солнце и в ночном режиме экрана.</li>
+    <li><strong><a href="/resource/stark/">Stark</a></strong> — плагин для Figma: контраст и имитация нарушений цветового зрения прямо в макете.</li>
+    <li><strong>Figma</strong> — в палитре цвета есть кнопка Check color contrast: она мерит пару по уровням AA и AAA для обычного текста, крупного текста и графики.</li>
+    <li><strong>Chrome DevTools</strong> — в палитре цвета у текста показано отношение к фону с отметками AA и AAA, а во вкладке Rendering можно имитировать нарушения цветового зрения и сниженный контраст.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>Замер записывают таблицей:</b> место, цвет, фон, отношение, норма, светлая и тёмная тема. Такую таблицу можно проверить заново после любой правки палитры.</div>
+</section>
+
+<section id="pass">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Проходит или нет</h2></div>
+  <p class="ds-lesson__lead">Одно и то же отношение проходит для одного места и не проходит для другого.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · проходит ли пара<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 9 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="fail"><p class="ds-quiz__question">Подпись поля, 13 px, обычное начертание: 3,51&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не проходит</b>Это обычный текст, нужно 4,5&nbsp;:&nbsp;1. Мелкий кегль скидки не даёт.</p></li>
+<li data-quiz-q data-answer="pass"><p class="ds-quiz__question">Заголовок экрана, 24 px: 3,62&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Проходит</b>Текст от 24 px — крупный, для него 3&nbsp;:&nbsp;1. Но запас маленький: при уменьшении кегля пара провалится.</p></li>
+<li data-quiz-q data-answer="fail"><p class="ds-quiz__question">Рамка поля ввода на белом, фон поля тоже белый: 1,31&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не проходит</b>Поле отличается от фона только рамкой, значит, рамке нужно 3&nbsp;:&nbsp;1.</p></li>
+<li data-quiz-q data-answer="exempt"><p class="ds-quiz__question">Надпись внутри логотипа магазина в шапке: 2,1&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Норма не требует</b>Текст, который часть логотипа, в требования к контрасту не входит.</p></li>
+<li data-quiz-q data-answer="exempt"><p class="ds-quiz__question">Надпись на неактивной кнопке «Оплатить»: 1,86&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Норма не требует</b>Неактивные элементы в требования не входят. Но надпись всё равно стоит сделать читаемой — как в разделе 4.</p></li>
+<li data-quiz-q data-answer="fail"><p class="ds-quiz__question">Ссылка внутри абзаца, без подчёркивания: к белому фону 5,81&nbsp;:&nbsp;1, к чёрному тексту рядом 2,84&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не проходит</b>К фону контраста хватает. Но от соседнего текста ссылка отличается только цветом, и тогда между ними нужно 3&nbsp;:&nbsp;1, а здесь 2,84&nbsp;:&nbsp;1. Подчеркните ссылку или возьмите цвет темнее.</p></li>
+<li data-quiz-q data-answer="pass"><p class="ds-quiz__question">Рамка фокуса 2 px цвета действия на белом: 5,81&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Проходит</b>Для рамки фокуса нужно 3&nbsp;:&nbsp;1.</p></li>
+<li data-quiz-q data-answer="fail"><p class="ds-quiz__question">Подсказка «0000 0000 0000 0000» в пустом поле: 2,53&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не проходит</b>Подсказка — тоже текст, и её читают, чтобы понять формат. Нужно 4,5&nbsp;:&nbsp;1.</p></li>
+<li data-quiz-q data-answer="exempt"><p class="ds-quiz__question">Тонкая линия-разделитель между блоками: 1,31&nbsp;:&nbsp;1.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Норма не требует</b>Разделитель — декор: без него экран остаётся понятным. Если бы линия была единственной границей поля, норма 3&nbsp;:&nbsp;1 уже действовала бы.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="pass">Проходит</button><button class="ds-quiz__option" type="button" data-quiz-answer="fail">Не проходит</button><button class="ds-quiz__option" type="button" data-quiz-answer="exempt">Норма не требует</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Опирайтесь на таблицу норм из раздела 1 — уровень AA.</div>
+</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите свой экран, замерьте контраст всех текстовых и интерактивных пар, почините провалы и соберите тёмную тему на тех же ролях. Приложите таблицу замеров.</p>
+
+  <h3>Часть 1 · Замерить, 30 минут</h3>
+  <ol>
+    <li><strong>Выберите экран</strong> с формой, ссылками, ошибкой и кнопками — в том числе неактивной.</li>
+    <li><strong>Выпишите все пары:</strong> каждый текст с его фоном, рамки полей, рамку фокуса, значки.</li>
+    <li><strong>Замерьте каждую</strong> и отметьте норму: обычный текст, крупный, граница или «не требует».</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Таблица замеров · светлая и тёмная<span class="ds-lesson__spacer"></span><span data-copy="contrastTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="contrastTmpl">ЭКРАН: ______________________        Дата: __.__.____
+
+МЕСТО              | РОЛЬ ЦВЕТА        | НОРМА | СВЕТЛАЯ     | ТЁМНАЯ
+основной текст     | текст / фон       | 4,5   | ____ : 1    | ____ : 1
+подпись поля       | вторичный / фон   | 4,5   | ____ : 1    | ____ : 1
+подсказка в поле   | ______ / ______   | 4,5   | ____ : 1    | ____ : 1
+текст ошибки       | ошибка / фон      | 4,5   | ____ : 1    | ____ : 1
+ссылка             | действие / фон    | 4,5   | ____ : 1    | ____ : 1
+текст на кнопке    | на действии / действие | 4,5 | ____ : 1 | ____ : 1
+рамка поля         | граница / фон     | 3     | ____ : 1    | ____ : 1
+рамка фокуса       | ______ / фон      | 3     | ____ : 1    | ____ : 1
+значок             | ______ / ______   | 3     | ____ : 1    | ____ : 1
+неактивная кнопка  | ______ / ______   | —     | ____ : 1    | ____ : 1
+
+ПРОВАЛЫ И ЧТО ПОМЕНЯЛИ: ___________________________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">В колонке «Роль цвета» пишите роль из палитры, код цвета там не нужен: так таблица переживёт смену значений.</div>
+  </div>
+
+  <h3>Часть 2 · Починить, 30 минут</h3>
+  <ol>
+    <li><strong>Каждый провал чините ролью из палитры:</strong> темнее вторичный текст, своя граница поля, тёмный оттенок ошибки.</li>
+    <li><strong>Неактивное состояние</strong> переведите с прозрачности на свою пару цветов.</li>
+  </ol>
+
+  <h3>Часть 3 · Тёмная тема, 40 минут</h3>
+  <ol>
+    <li><strong>Для каждой роли задайте тёмное значение.</strong> В Figma — второй режим той же коллекции переменных.</li>
+    <li><strong>Переключите экран на тёмный режим</strong> и заполните колонку «Тёмная».</li>
+    <li><strong>Провалы тёмной темы чините тёмными значениями</strong>, светлые не трогайте.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> В таблице нет пары ниже нормы ни в светлой теме, ни в тёмной.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Экран в двух темах</strong> на одних ролях.</li>
+    <li><strong>Таблица замеров</strong> по обеим темам.</li>
+    <li><strong>Список поправок:</strong> что провалилось и чем починили.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 30 минут на замеры, 30 на починку, 40 на тёмную тему. Всего — около двух часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Бренд не разрешает темнее».</strong> Фирменный цвет может остаться на кнопке с крупной надписью или в иллюстрациях. Для текста и ссылок нужен оттенок, который проходит.</li>
+    <li><strong>«Серый текст выглядит элегантнее».</strong> Элегантно, пока его можно прочитать. Возьмите самый светлый серый, который проходит 4,5&nbsp;:&nbsp;1, — он всё равно заметно светлее основного текста.</li>
+    <li><strong>«Тёмную тему делает другой дизайнер».</strong> Договоритесь о списке ролей до начала. Иначе получатся два набора цветов, которые не сходятся.</li>
+    <li><strong>«В Figma нет режимов на нашем тарифе».</strong> Заведите тёмные значения второй коллекцией с теми же именами. Главное — роли одни.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Контраст под контролем, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Замерены все текстовые пары, включая подписи и ошибки</li>
+    <li>Текст — от 4,5&nbsp;:&nbsp;1, крупный текст — от 3&nbsp;:&nbsp;1</li>
+    <li>Рамки полей, фокуса и значки — от 3&nbsp;:&nbsp;1</li>
+    <li>Ссылки в тексте отличаются не только цветом</li>
+    <li>У неактивного своя пара цветов, надпись читается</li>
+    <li>Тёмная тема — те же роли с другими значениями</li>
+    <li>Акценты в тёмной теме светлее, текст на них перепроверен</li>
+    <li>Таблица замеров есть для обеих тем</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Проверили только основной текст.</b> Подписи, ошибки и фокус провалились незаметно.</li>
+    <li><b>Мягкий цвет ошибки.</b> Розовый на белом — 2,66&nbsp;:&nbsp;1.</li>
+    <li><b>Бледная рамка поля.</b> Поле сливается с фоном.</li>
+    <li><b>Неактивное прозрачностью.</b> Надпись не прочитать.</li>
+    <li><b>Тёмная тема отдельным макетом.</b> Темы расходятся с каждой правкой.</li>
+    <li><b>Те же акценты на тёмном фоне.</b> Ссылки и ошибки тонут.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На прошлой ступени собирали палитру с ролями. Здесь — проверяли её контрастом и собирали вторую тему на тех же ролях. Дальше — описать цветовую систему так, чтобы по ней работала вся команда.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Собрать палитру из ограниченного набора; дать каждому цвету роль; отличать оттенок для поверхности от оттенка для текста; находить дубли; не передавать статус одним цветом</td>
+          <td class="ds-lesson__dim">Для каждого цвета на экране можно назвать его роль, цветов без роли не осталось</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Мерить контраст текста, значков, границ и состояний; собирать тёмную тему на тех же ролях; не гасить неактивное одной прозрачностью</td>
+          <td>В таблице замеров нет пары ниже нормы ни в светлой теме, ни в тёмной</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описать цветовую систему: примитивы и роли, обе темы, таблица контраста, правило добавления нового цвета</td>
+          <td class="ds-lesson__dim">Новый цвет в продукт другой дизайнер добавил по вашему правилу и без вас</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> контраст любой пары на экране известен числом, а тёмная тема не требует отдельного макета.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">Understanding Success Criterion 1.4.3: Contrast (Minimum)</a> и <a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html">Success Criterion 1.4.11: Non-text Contrast</a></span><span class="ds-lesson__reads-meta">W3C WAI · на английском · бесплатно</span><span>Нормы для текста, значков и границ с примерами, исключения и почему пороги не округляют.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Глава «Accessible doesn’t have to mean ugly» — как пройти контраст, не превращая интерфейс в чёрно-белый.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m2.material.io/design/color/dark-theme.html">Dark theme</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a>, вторая версия · на английском · бесплатно</span><span>Почему в тёмной теме серый фон вместо чёрного и приглушённые акценты — с числами.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/webaim-contrast/">WebAIM Contrast Checker</a></span><span class="ds-lesson__reads-meta">инструмент · на английском · бесплатно</span><span>Самый простой замер пары: обычный и крупный текст, графика и элементы интерфейса.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

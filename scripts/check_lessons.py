@@ -52,6 +52,49 @@ RHYTHM = """() => {
   root.querySelectorAll(':scope > section').forEach(s => flow(s, 0));
   return out;
 }"""
+# Контраст по WCAG: цвет текста, рамки или заливки против первого непрозрачного фона под ним.
+# Прозрачность (неактивная кнопка) сводится к цвету поверх того, что под ней. Число в подписи
+# округлено вниз до сотых, как в самом уроке: 4,499 не превращается в 4,5.
+CONTRAST = """() => {
+  const rgb = c => { const m = c.match(/rgba?\\(([^)]+)\\)/); if (!m) return null;
+    const p = m[1].split(',').map(parseFloat); return {c: p.slice(0, 3), a: p.length > 3 ? p[3] : 1}; };
+  const lum = p => { const f = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    return 0.2126 * f(p[0]) + 0.7152 * f(p[1]) + 0.0722 * f(p[2]); };
+  const ratio = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
+  const mix = (a, b, t) => a.map((v, i) => t * v + (1 - t) * b[i]);
+  const under = el => { for (let n = el; n && n.nodeType === 1; n = n.parentElement) {
+      const b = rgb(getComputedStyle(n).backgroundColor); if (b && b.a >= 1) return b.c; } return [255, 255, 255]; };
+  const faded = el => { let a = 1, top = null; for (let n = el; n && !n.hasAttribute('data-contrast-demo'); n = n.parentElement) {
+      const o = parseFloat(getComputedStyle(n).opacity); if (o < 1) { a *= o; top = n; } } return {a, top}; };
+  const pair = (host, kind) => {
+    const s = getComputedStyle(host);
+    let fg = kind === 'fill' ? rgb(s.backgroundColor).c : kind === 'border' ? rgb(s.borderTopColor).c : rgb(s.color).c;
+    let bg = kind === 'text' ? under(host) : under(host.parentElement);
+    const f = faded(host);
+    if (f.top) { const back = under(f.top.parentElement);
+      fg = mix(fg, back, f.a); if (f.top.contains(host) && (kind === 'text')) { bg = mix(bg, back, f.a); } }
+    return Math.floor(ratio(fg, bg) * 100) / 100;
+  };
+  const read = t => { const m = (t || '').match(/(\\d+),(\\d+)\\s*:\\s*1/); return m ? parseFloat(m[1] + '.' + m[2]) : null; };
+  const out = {total: 0, bad: []};
+  document.querySelectorAll('[data-contrast-demo] .ds-lesson__cr').forEach(cr => {
+    const want = read(cr.textContent.replace(/(\\d),(\\d+)(?!\\s*:)/, '$1,$2 : 1'));
+    const host = cr.getAttribute('data-of') === 'prev' ? cr.previousElementSibling : cr.parentElement;
+    const got = pair(host, cr.getAttribute('data-pair') || 'text');
+    out.total++; if (want !== got) out.bad.push(cr.textContent.trim() + ' → замер ' + got);
+  });
+  // Образец в таблице сверяется с числом в своей ячейке, а если там числа нет — с числом строки:
+  // в строке бывает два образца, светлой и тёмной темы.
+  document.querySelectorAll('[data-contrast-demo] tr .ds-lesson__cs-badge').forEach(sample => {
+    const cell = sample.closest('td, th');
+    const own = cell ? read(cell.textContent) : null;
+    const want = own !== null ? own : read(sample.closest('tr').textContent);
+    if (want === null) return;
+    const got = pair(sample, 'text');
+    out.total++; if (want !== got) out.bad.push(sample.textContent.trim() + ': ' + want + ' → замер ' + got);
+  });
+  return out;
+}"""
 fails = 0
 
 with sync_playwright() as play:
@@ -86,6 +129,17 @@ with sync_playwright() as play:
         ok = reads[0] > 0 and reads[1] == 0
         print(("  ок  " if ok else "  ПЛОХО ") + "«Что почитать дальше»: пунктов %d, подвалов %d" % tuple(reads))
         fails += 0 if ok else 1
+
+        # Образцы контраста (`data-contrast-demo`): axe их пропускает, поэтому каждое число
+        # в тексте сверяем с замером того, что нарисовано. Иначе поправка цвета в разметке
+        # молча разойдётся с подписью «5,81 : 1».
+        demo = page.evaluate(CONTRAST)
+
+        if demo["total"]:
+            bad = demo["bad"]
+            print(("  ок  " if not bad else "  ПЛОХО ") + "контраст образцов совпадает с подписью: %d из %d"
+                  % (demo["total"] - len(bad), demo["total"]) + (" — " + "; ".join(bad[:4]) if bad else ""))
+            fails += 1 if bad else 0
 
         # тренажёр: отвечаем верно на первый вопрос каждого тренажёра
         boxes = page.query_selector_all("[data-quiz]")

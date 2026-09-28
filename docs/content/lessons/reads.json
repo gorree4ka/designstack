@@ -200,6 +200,50 @@
   "ofl-faq": {
    "title": "<a href=\"https://openfontlicense.org/open-font-license-official-text/\">SIL Open Font License</a> и <a href=\"https://openfontlicense.org/ofl-faq/\">OFL-FAQ</a>",
    "meta": "SIL International · на английском · бесплатно"
+  },
+  "wcag-use-of-color": {
+   "title": "<a href=\"https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html\">Understanding Success Criterion 1.4.1: Use of Color</a>",
+   "meta": "W3C WAI · на английском · бесплатно"
+  },
+  "cba-types": {
+   "title": "<a href=\"https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/\">Types of Colour Blindness</a>",
+   "meta": "Colour Blind Awareness · на английском · бесплатно"
+  },
+  "realtime-colors": {
+   "title": "<a href=\"/resource/realtime-colors/\">Realtime Colors</a>",
+   "meta": "инструмент · на английском · бесплатно"
+  },
+  "wcag-contrast-min": {
+   "title": "<a href=\"https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html\">Understanding Success Criterion 1.4.3: Contrast (Minimum)</a> и <a href=\"https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html\">Success Criterion 1.4.11: Non-text Contrast</a>",
+   "meta": "W3C WAI · на английском · бесплатно"
+  },
+  "m2-dark": {
+   "title": "<a href=\"https://m2.material.io/design/color/dark-theme.html\">Dark theme</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно"
+  },
+  "webaim-contrast": {
+   "title": "<a href=\"/resource/webaim-contrast/\">WebAIM Contrast Checker</a>",
+   "meta": "инструмент · на английском · бесплатно"
+  },
+  "m3-tokens": {
+   "title": "<a href=\"https://m3.material.io/foundations/design-tokens/overview\">Design tokens</a> и <a href=\"https://m3.material.io/styles/color/roles\">Color roles</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+  },
+  "atlassian-color": {
+   "title": "<a href=\"https://atlassian.design/foundations/color\">Color</a> и <a href=\"https://atlassian.design/foundations/color/accents\">Accents</a>",
+   "meta": "Atlassian Design System · на английском · бесплатно"
+  },
+  "primer-color": {
+   "title": "<a href=\"https://primer.style/product/getting-started/foundations/color-usage/\">Color usage</a>",
+   "meta": "GitHub Primer · на английском · бесплатно"
+  },
+  "carbon-color": {
+   "title": "<a href=\"https://carbondesignsystem.com/elements/color/overview/\">Color</a> и <a href=\"https://carbondesignsystem.com/elements/themes/overview/\">Themes</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно"
+  },
+  "dtcg-format": {
+   "title": "<a href=\"https://www.designtokens.org/tr/2025.10/format/\">Design Tokens Format Module 2025.10</a>",
+   "meta": "W3C Design Tokens Community Group · на английском · бесплатно"
   }
  },
  "lessons": {
@@ -565,6 +609,64 @@
    {
     "res": "ofl-faq",
     "why": "Что разрешает и запрещает OFL: встраивание, продажа, зарезервированные имена, документы."
+   }
+  ],
+  "color-contrast-junior": [
+   {
+    "res": "refactoring-ui",
+    "why": "Раздел «Working with Color», особенно главы «You need more colors than you think», «Define your shades up front» и «Greys don’t have to be grey» — палитра с оттенками, заданная заранее."
+   },
+   {
+    "res": "wcag-use-of-color",
+    "why": "Почему цвет не может быть единственным признаком и какие есть способы это исправить."
+   },
+   {
+    "res": "cba-types",
+    "why": "Какие бывают нарушения цветового зрения и какие цвета при них путаются."
+   },
+   {
+    "res": "realtime-colors",
+    "why": "Примерить палитру на готовый макет сайта и сразу увидеть, какая роль у какого цвета."
+   }
+  ],
+  "color-contrast-middle": [
+   {
+    "res": "wcag-contrast-min",
+    "why": "Нормы для текста, значков и границ с примерами, исключения и почему пороги не округляют."
+   },
+   {
+    "res": "refactoring-ui",
+    "why": "Глава «Accessible doesn’t have to mean ugly» — как пройти контраст, не превращая интерфейс в чёрно-белый."
+   },
+   {
+    "res": "m2-dark",
+    "why": "Почему в тёмной теме серый фон вместо чёрного и приглушённые акценты — с числами."
+   },
+   {
+    "res": "webaim-contrast",
+    "why": "Самый простой замер пары: обычный и крупный текст, графика и элементы интерфейса."
+   }
+  ],
+  "color-contrast-senior": [
+   {
+    "res": "m3-tokens",
+    "why": "Три класса токенов — reference, system, component — и как роли цвета собираются в пары."
+   },
+   {
+    "res": "atlassian-color",
+    "why": "Семантические токены цвета по свойствам и отдельный набор акцентов для категорий без смысла."
+   },
+   {
+    "res": "primer-color",
+    "why": "Базовые, функциональные и компонентные токены и почему базовые не берут напрямую."
+   },
+   {
+    "res": "carbon-color",
+    "why": "Четыре темы на одних токенах и таблица токенов с ролью каждого."
+   },
+   {
+    "res": "dtcg-format",
+    "why": "Стабильный формат дизайн-токенов: тип color, ссылки на другие токены, обмен между Figma и кодом."
    }
   ]
  }

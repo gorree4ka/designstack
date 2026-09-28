@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка» и «Типографика».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка», «Типографика» и «Цвет и контраст».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -56,6 +56,9 @@ with sync_playwright() as play:
         ("typography-middle", ["Как исправить. «3000", "Здесь всё верно. В составных словах", "Так абзац выглядит на ноутбуке",
                                'нажмите "Оформить заказ"', "Самовывоз - бесплатно", 'Нажмите "Купить в один клик"', "30 сентября - успейте"]),
         ("typography-senior", ["Пропорциональные цифры", "Почти разряд под разрядом", "--text-body-strong: 600"]),
+        ("color-contrast-junior", ["Убрать. Дубль #DCE1E6", "Остаётся, но меняет роль", "Справа шесть нейтральных"]),
+        ("color-contrast-middle", ["Тёмная, те же акценты", "Акценты тонут", "Справа у неактивного своя пара цветов"]),
+        ("color-contrast-senior", ["Текст справа вписан значениями", "--color-on-action: var(--blue-950);", "Система не покрывает"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -200,6 +203,70 @@ with sync_playwright() as play:
     fails += 0 if say(page.evaluate(shown) == [True, False, False], "после нажатия экран виден") else 1
     page.wait_for_timeout(3200)
     fails += 0 if say(page.evaluate(shown) == [False, True, True], "через три секунды экран спрятан, разбор виден") else 1
+    page.close()
+
+    # «Цвет и контраст, Junior»: поиск дублей среди образцов и режим «Без цвета».
+    page = ctx.new_page()
+    page.goto(BASE + "color-contrast-junior/")
+    page.wait_for_timeout(400)
+    head("color-contrast-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    pins = page.query_selector_all("[data-hunt] button")
+    kept = page.evaluate("() => [...document.querySelectorAll('[data-hunt] button')].every(b => b.querySelector('b'))")
+    fails += 0 if say(len(pins) == 16 and kept, "образцов-кнопок %d, код и подпись раздельно: %s" % (len(pins), kept)) else 1
+    miss = page.evaluate("[...document.querySelectorAll('[data-hunt-item]')].map(el => el.hasAttribute('data-hunt-miss'))")
+    pins[miss.index(True)].click()
+    page.wait_for_timeout(50)
+    fails += 0 if say("0 из 7" in page.inner_text("[data-hunt-count-out]").lower(), "нужный цвет разобран, но не засчитан") else 1
+
+    for pin, is_miss in zip(pins, miss):
+        if not is_miss:
+            pin.click()
+            page.wait_for_timeout(50)
+
+    fails += 0 if say("7 из 7" in page.inner_text("[data-hunt-count-out]").lower() and page.is_visible("[data-hunt-all]"), "все семь дублей найдены, итог показан") else 1
+    gray = "() => [...document.querySelectorAll('#status .ds-lesson__spec')].map(el => getComputedStyle(el).filter)"
+    before = page.evaluate(gray)
+    page.click("#status [data-layer='gray'] button")
+    after = page.evaluate(gray)
+    fails += 0 if say(set(before) == {"none"} and all(f.startswith("grayscale") for f in after), "«Без цвета» переводит оба экрана в серое") else 1
+    page.close()
+
+    # «Цвет и контраст, Middle»: слой замеров и тёмные темы на тех же ролях.
+    page = ctx.new_page()
+    page.goto(BASE + "color-contrast-middle/")
+    page.wait_for_timeout(400)
+    head("color-contrast-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    seen = "() => [...document.querySelectorAll('#lab .ds-lesson__cr')].filter(el => el.offsetParent !== null).length"
+    fails += 0 if say(page.evaluate(seen) == 12, "замеров на экранах видно: %d" % page.evaluate(seen)) else 1
+    page.click("#lab [data-layer='ratios'] button")
+    fails += 0 if say(page.evaluate(seen) == 0, "«Контраст» прячет замеры") else 1
+    inside = page.evaluate("""() => [...document.querySelectorAll('#dark .ds-lesson__cr, #disabled .ds-lesson__cr')].every(cr => {
+        const r = cr.getBoundingClientRect(), s = cr.closest('.ds-lesson__spec').getBoundingClientRect();
+        return r.width === 0 || (r.left >= s.left && r.right <= s.right); })""")
+    fails += 0 if say(inside, "таблички замеров не вылезают за экран") else 1
+    page.click("#dark [data-switch-btn='own']")
+    bg = page.evaluate("() => getComputedStyle([...document.querySelectorAll('#dark [data-switch-pane]')].find(p => !p.hidden).querySelector('.ds-lesson__cs')).backgroundColor")
+    fails += 0 if say(bg == "rgb(21, 24, 28)", "тёмная тема экрана включена ролями: " + bg) else 1
+    page.close()
+
+    # «Цвет и контраст, Senior»: тёмная тема перекрашивает роли и не трогает прибитые цвета.
+    page = ctx.new_page()
+    page.goto(BASE + "color-contrast-senior/")
+    page.wait_for_timeout(400)
+    head("color-contrast-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    ink = """() => [...document.querySelectorAll('#direct .ds-lesson__wf-col')].map(c =>
+        getComputedStyle(c.querySelector('.ds-lesson__cs-row b')).color)"""
+    light = page.evaluate(ink)
+    page.click("#direct [data-layer='dark'] button")
+    dark = page.evaluate(ink)
+    fails += 0 if say(light == ["rgb(27, 31, 36)", "rgb(27, 31, 36)"] and dark == ["rgb(232, 235, 238)", "rgb(27, 31, 36)"],
+                      "роль перекрасилась, примитив остался: %s → %s" % (light, dark)) else 1
     page.close()
 
     # «Типографика, Junior»: слой «Кегли», шкала справа, переключатель интервалов.

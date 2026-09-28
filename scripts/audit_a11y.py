@@ -39,13 +39,19 @@ for line in pathlib.Path(args.urls).read_text(encoding="utf-8").splitlines():
 
 axe_source = AXE.read_text(encoding="utf-8")
 report = []
+demo_blocks = 0
 
 # Кроме нарушений собираем `incomplete` — то, что axe проверить не смог. Контраст поверх
 # картинки или слоя с `z-index: -1` попадает именно сюда, и проверка «ноль нарушений» молчала
 # при контрасте 1,12:1 на всех 140 карточках каталога (16.09.2026).
-RUN = """() => { return axe.run(document, {
-    runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']}
-}).then(r => ({
+#
+# Образец с намеренно плохим контрастом (`data-contrast-demo`, уроки «Цвет и контраст») — содержимое
+# урока: серая дата 2,53:1 нужна, чтобы показать провал. Такие блоки проверяются всеми правилами,
+# кроме контраста, а их числа сверяет с замером `scripts/check_lessons.py`.
+RUN = """async () => {
+const opts = {runOnly: {type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']}};
+const demo = document.querySelectorAll('[data-contrast-demo]').length;
+const pack = r => ({
     violations: r.violations.map(v => ({
         id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length,
         target: v.nodes.slice(0, 2).map(n => n.target.join(' ')),
@@ -55,7 +61,16 @@ RUN = """() => { return axe.run(document, {
         target: v.nodes.slice(0, 2).map(n => n.target.join(' ')),
         measured: v.id === 'color-contrast' ? v.nodes.map(n => measure(n.target.join(' '))) : [],
     })),
-}))
+});
+const main = pack(await axe.run(demo ? {exclude: [['[data-contrast-demo]']]} : document, opts));
+if (demo) {
+    const inside = pack(await axe.run({include: [['[data-contrast-demo]']]},
+        Object.assign({}, opts, {rules: {'color-contrast': {enabled: false}}})));
+    main.violations = main.violations.concat(inside.violations);
+    main.incomplete = main.incomplete.concat(inside.incomplete);
+}
+main.demo = demo;
+return main;
 
 // Контраст узла, который axe оставил без ответа: цвет текста против первого непрозрачного
 // фона вверх по дереву. Картинка или полупрозрачный слой под текстом — честное «не измерить».
@@ -102,6 +117,7 @@ with sync_playwright() as pw:
             found = page.evaluate(RUN)
             violations = found["violations"]
             unchecked = found["incomplete"]
+            demo_blocks += found.get("demo", 0)
 
             # Ручные проверки, которые axe не делает.
             manual = page.evaluate("""() => {
@@ -135,6 +151,8 @@ total = sum(len(r["violations"]) for r in report)
 unknown = sum(len(r.get("incomplete", [])) for r in report)
 print(f"страниц проверено: {len(paths)} × 2 темы")
 print(f"страниц с замечаниями: {len(report)}; нарушений axe всего: {total}")
+if demo_blocks:
+    print(f"образцов с намеренно плохим контрастом: {demo_blocks} — контраст в них не мерит axe, числа сверяет check_lessons.py")
 # Что из «не смог проверить» удалось измерить самим, и что осталось глазам.
 measured = [m for r in report for one in r.get("incomplete", []) for m in one.get("measured", [])]
 ratios = [m for m in measured if "ratio" in m]

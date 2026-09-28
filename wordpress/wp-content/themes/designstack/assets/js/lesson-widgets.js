@@ -1235,7 +1235,8 @@
 			el.className = pin.className;
 			el.setAttribute( 'style', pin.getAttribute( 'style' ) || '' );
 			el.setAttribute( 'aria-label', pin.getAttribute( 'data-hunt-label' ) || pin.textContent );
-			el.textContent = pin.textContent;
+			// Разметка, а не текст: у образца цвета внутри код и подпись отдельными строками.
+			el.innerHTML = pin.innerHTML;
 			pin.parentNode.replaceChild( el, pin );
 
 			el.addEventListener( 'click', function () {

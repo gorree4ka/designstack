@@ -1,0 +1,429 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#many">Откуда в макете шестнадцать цветов</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#roles">Палитра с ролями</a></li>
+    <li><a href="#tints">Оттенок для поверхности и оттенок для текста</a></li>
+    <li><a href="#dupes">Как найти дубли</a><span class="ds-lesson__tag">поиск</span></li>
+    <li><a href="#status">Статус не только цветом</a><span class="ds-lesson__tag">без цвета</span></li>
+    <li><a href="#which">Какая роль у цвета</a><span class="ds-lesson__tag">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Экран «Мои заказы» в том же магазине кофе, что и в <a href="/lessons/typography-junior/">теме про типографику</a>. Его собирали по частям: кнопку взяли из библиотеки, ссылку — из старого макета, бейдж «Новинка» — из промо-баннера. Каждый цвет подбирали на месте, и на одном экране их оказалось шестнадцать. Сведём их к палитре из девяти, у каждого будет роль.</div>
+
+<section id="many">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Шестнадцать цветов там, где хватает девяти</h2></div>
+  <p class="ds-lesson__lead">Каждый цвет по отдельности выбран разумно. Вместе они делают экран пёстрым и непредсказуемым.</p>
+
+  <p>Слева — экран, где цвет подбирали для каждого места отдельно. Справа — тот же экран, собранный из палитры с ролями.</p>
+
+  <div class="ds-lesson__box" data-contrast-demo>
+    <div class="ds-lesson__box-head">Мои заказы · на глаз и по палитре</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">На глаз: 16 цветов</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F6F7F9; --l-text:#1B1F24; --l-divider:#E3E7EB">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title ds-lesson__ink" style="--ink:#333A42">Мои заказы</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-field ds-lesson__edge ds-lesson__fill ds-lesson__ink" style="--edge:#DCE1E6; --fill:#F4F6F8; --ink:#808A94">Найти заказ</div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-row"><span><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#3B7CF0; --ink:#FFFFFF">Новинка</span> Эфиопия Иргачеффе</span><span class="ds-lesson__ink" style="--ink:#2A6FE0">Подробнее</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card ds-lesson__cs-stripe" style="--st:#1E7B3A">
+                <div class="ds-lesson__cs-row"><b>Заказ № 1042</b><b>3 480 ₽</b></div>
+                <div class="ds-lesson__ink" style="--ink:#9AA4AE">12 сентября</div>
+                <div class="ds-lesson__ink" style="--ink:#6B7580">Lavazza Crema e Aroma и ещё 2</div>
+                <div class="ds-lesson__gap" style="--g:8"></div>
+                <span class="ds-lesson__cs-btn ds-lesson__fill ds-lesson__ink" style="--fill:#1D5FD1; --ink:#FFFFFF">Повторить</span>
+              </div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card ds-lesson__cs-stripe" style="--st:#C23030">
+                <div class="ds-lesson__cs-row"><b>Заказ № 1038</b><b>1 190 ₽</b></div>
+                <div class="ds-lesson__ink" style="--ink:#9AA4AE">3 сентября</div>
+                <div class="ds-lesson__ink" style="--ink:#5B6570">Не прошла оплата</div>
+              </div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card ds-lesson__cs-stripe" style="--st:#3B7CF0">
+                <div class="ds-lesson__cs-row"><b>Заказ № 1047</b><b>2 290 ₽</b></div>
+                <div class="ds-lesson__ink" style="--ink:#9AA4AE">Сегодня</div>
+                <div class="ds-lesson__ink" style="--ink:#6B7580">Кения АА, 250 г</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">По палитре: 9 цветов</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-muted:#5B6570; --l-divider:#DCE1E6; --l-field:#808A94; --l-action:#1D5FD1; --l-on-action:#FFFFFF; --l-error:#C23030; --l-ok:#1E7B3A">
+            <div class="ds-lesson__spec-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-field ds-lesson__ink" style="--ink:var(--r-muted)">Найти заказ</div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-row"><span><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:var(--r-action); --ink:var(--r-on-action)">Новинка</span> Эфиопия Иргачеффе</span><span class="ds-lesson__ink" style="--ink:var(--r-action)">Подробнее</span></div>
+              <div class="ds-lesson__gap" style="--g:12"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card">
+                <div class="ds-lesson__cs-row"><b>Заказ № 1042</b><b>3 480 ₽</b></div>
+                <div class="ds-lesson__cs-row"><span class="ds-lesson__ink" style="--ink:var(--r-muted)">12 сентября</span><b class="ds-lesson__ink" style="--ink:var(--r-ok)">✓ Оплачен</b></div>
+                <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Lavazza Crema e Aroma и ещё 2</div>
+                <div class="ds-lesson__gap" style="--g:8"></div>
+                <span class="ds-lesson__cs-btn">Повторить</span>
+              </div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card">
+                <div class="ds-lesson__cs-row"><b>Заказ № 1038</b><b>1 190 ₽</b></div>
+                <div class="ds-lesson__cs-row"><span class="ds-lesson__ink" style="--ink:var(--r-muted)">3 сентября</span><b class="ds-lesson__ink" style="--ink:var(--r-error)">✕ Отменён</b></div>
+                <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Не прошла оплата</div>
+              </div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card">
+                <div class="ds-lesson__cs-row"><b>Заказ № 1047</b><b>2 290 ₽</b></div>
+                <div class="ds-lesson__cs-row"><span class="ds-lesson__ink" style="--ink:var(--r-muted)">Сегодня</span><b>→ В пути</b></div>
+                <div class="ds-lesson__ink" style="--ink:var(--r-muted)">Кения АА, 250 г</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Слева одиннадцать серых и белых, три синих, зелёный и красный. Справа шесть нейтральных, один синий, зелёный и красный. Статус заказа справа назван словом.</div>
+  </div>
+
+  <h3>Что выдаёт цвет, подобранный на глаз</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Почти одинаковые цвета.</b> Синий кнопки, синий ссылки и синий бейджа отличаются на пару единиц. Глаз видит «примерно синий», а в макете это три разных значения.</li>
+    <li><b>Один смысл — разные цвета.</b> Дата набрана одним серым, состав заказа — другим. Оба вторичный текст, а выглядят по-разному.</li>
+    <li><b>Каждое новое место — новый цвет.</b> Под следующий блок снова подбирают «чуть светлее», и палитра растёт.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>У каждого цвета на экране должна быть роль, которую можно назвать.</b> «Фон», «вторичный текст», «действие». Если ответ «так красивее», это цвет на глаз.</div>
+</section>
+
+<section id="roles">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Палитра с ролями</h2></div>
+  <p class="ds-lesson__lead">Палитра — короткий список цветов, из которых собирается весь интерфейс. У каждого цвета одна роль.</p>
+
+  <p>Роль отвечает на вопрос «зачем этот цвет здесь». Девяти ролей экрану заказов хватает:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Цвет</th><th scope="col">Роль</th><th scope="col">Где на экране</th></tr></thead>
+      <tbody>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#FFFFFF"><b>#FFFFFF</b></span></td><td>Фон</td><td>Карточки заказов, поле поиска</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#F4F6F8"><b>#F4F6F8</b></span></td><td>Поверхность</td><td>Фон страницы и шапки</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#DCE1E6"><b>#DCE1E6</b></span></td><td>Разделитель</td><td>Рамки карточек, линии</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#808A94"><b>#808A94</b></span></td><td>Граница поля</td><td>Рамка поля поиска</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#1B1F24"><b>#1B1F24</b></span></td><td>Основной текст</td><td>Заголовок, номер заказа, сумма</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#5B6570"><b>#5B6570</b></span></td><td>Вторичный текст</td><td>Дата, состав заказа, подсказка в поле</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#1D5FD1"><b>#1D5FD1</b></span></td><td>Действие</td><td>Кнопка, ссылка, бейдж «Новинка»</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#C23030"><b>#C23030</b></span></td><td>Ошибка</td><td>Статус «Отменён», текст ошибки в форме</td></tr>
+        <tr><td><span class="ds-lesson__sw" style="--sw:#1E7B3A"><b>#1E7B3A</b></span></td><td>Успех</td><td>Статус «Оплачен»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Белый текст на кнопке — тот же белый фона. Отдельной строкой в палитре он не нужен, но в роли записан: «текст на действии». Об этом подробнее — в уроке Middle.</p>
+
+  <div class="ds-lesson__warn"><b>Не добавляйте цвет по ходу работы.</b> Если для нового блока «не хватает цвета», сначала найдите его роль в таблице. Роль есть — берите её цвет. Роли нет — это решение для всей палитры.</div>
+</section>
+
+<section id="tints">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Оттенок для поверхности и оттенок для текста</h2></div>
+  <p class="ds-lesson__lead">Один и тот же «синий» не годится везде. Для текста нужен тёмный оттенок, для фона — светлый.</p>
+
+  <p>Светлый синий хорош как подложка выбранного пункта, но текстом на белом его почти не прочитать. Тёмный синий хорош для ссылки и кнопки, но фоном под текстом он слишком тяжёл. Поэтому у цвета со смыслом обычно два оттенка: для текста и для поверхности.</p>
+
+  <div class="ds-lesson__box" data-contrast-demo>
+    <div class="ds-lesson__box-head">Синий и красный · текстом и фоном</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+        <table>
+          <thead><tr><th scope="col">Как использован</th><th scope="col">Образец</th><th scope="col">Контраст</th></tr></thead>
+          <tbody>
+            <tr><td>Тёмный синий, текст на белом</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#1D5FD1">Изменить адрес</span></td><td>5,81&nbsp;:&nbsp;1 — читается</td></tr>
+            <tr><td>Светлый синий, текст на белом</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#7AA7F0">Изменить адрес</span></td><td>2,43&nbsp;:&nbsp;1 — не читается</td></tr>
+            <tr><td>Светлый синий, фон под основным текстом</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#E7EFFC; --ink:#1B1F24">Курьер, завтра</span></td><td>14,31&nbsp;:&nbsp;1 — читается</td></tr>
+            <tr><td>Тёмный красный, текст на белом</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#C23030">Неверный номер карты</span></td><td>5,58&nbsp;:&nbsp;1 — читается</td></tr>
+            <tr><td>Светлый красный, текст на белом</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FFFFFF; --ink:#F07C7C">Неверный номер карты</span></td><td>2,66&nbsp;:&nbsp;1 — не читается</td></tr>
+            <tr><td>Светлый красный фон, основной текст</td><td><span class="ds-lesson__cs-badge ds-lesson__fill ds-lesson__ink" style="--fill:#FCEBEB; --ink:#1B1F24">Оплата не прошла</span></td><td>14,36&nbsp;:&nbsp;1 — читается</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Контраст — отношение яркостей двух цветов, от 1&nbsp;:&nbsp;1 до 21&nbsp;:&nbsp;1. Для обычного текста нужно не меньше 4,5&nbsp;:&nbsp;1. Как его мерить и какие ещё есть нормы, разберём в уроке Middle.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Светлый оттенок — для фона, тёмный — для текста и значков.</b> Если светлым оттенком надо написать слово, возьмите тёмный оттенок того же цвета.</div>
+</section>
+
+<section id="dupes">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Как найти дубли</h2></div>
+  <p class="ds-lesson__lead">Дубль — цвет, у которого та же роль, что у соседа, а разница почти не видна.</p>
+
+  <p>Ниже все шестнадцать цветов экрана «на глаз». Семь из них можно убрать: они повторяют роль другого цвета. Остальные девять остаются, хотя один из них меняет роль. Нажимайте на цвета, которые убрали бы: в разборе будет, чем их заменить.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Поиск дублей · нажимайте на цвета<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <ul class="ds-lesson__swatches">
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#FFFFFF" data-hunt-pin="0" data-hunt-label="Белый #FFFFFF, фон карточек"><b>#FFFFFF</b>карточки</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#F6F7F9" data-hunt-pin="1" data-hunt-label="#F6F7F9, фон страницы"><b>#F6F7F9</b>фон страницы</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#F4F6F8" data-hunt-pin="2" data-hunt-label="#F4F6F8, фон поля"><b>#F4F6F8</b>фон поля</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#E3E7EB" data-hunt-pin="3" data-hunt-label="#E3E7EB, рамка карточек"><b>#E3E7EB</b>рамка карточек</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#DCE1E6" data-hunt-pin="4" data-hunt-label="#DCE1E6, рамка поля"><b>#DCE1E6</b>рамка поля</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#9AA4AE" data-hunt-pin="5" data-hunt-label="#9AA4AE, дата"><b>#9AA4AE</b>дата</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#808A94" data-hunt-pin="6" data-hunt-label="#808A94, подсказка в поле"><b>#808A94</b>подсказка в поле</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#6B7580" data-hunt-pin="7" data-hunt-label="#6B7580, состав заказа"><b>#6B7580</b>состав заказа</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#5B6570" data-hunt-pin="8" data-hunt-label="#5B6570, причина отмены"><b>#5B6570</b>причина отмены</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#333A42" data-hunt-pin="9" data-hunt-label="#333A42, заголовок экрана"><b>#333A42</b>заголовок</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#1B1F24" data-hunt-pin="10" data-hunt-label="#1B1F24, номер и сумма заказа"><b>#1B1F24</b>номер и сумма</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#1D5FD1" data-hunt-pin="11" data-hunt-label="#1D5FD1, кнопка"><b>#1D5FD1</b>кнопка</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#2A6FE0" data-hunt-pin="12" data-hunt-label="#2A6FE0, ссылка"><b>#2A6FE0</b>ссылка</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#3B7CF0" data-hunt-pin="13" data-hunt-label="#3B7CF0, бейдж и полоска «в пути»"><b>#3B7CF0</b>бейдж</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#C23030" data-hunt-pin="14" data-hunt-label="#C23030, полоска «отменён»"><b>#C23030</b>отменён</span></li>
+          <li><span class="ds-lesson__sw ds-lesson__hunt-pin" style="--sw:#1E7B3A" data-hunt-pin="15" data-hunt-label="#1E7B3A, полоска «оплачен»"><b>#1E7B3A</b>оплачен</span></li>
+        </ul>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#FFFFFF — фон карточек.</span><span class="ds-lesson__hunt-fix"><b>Остаётся. </b>Роль «фон»: на нём лежит всё содержимое.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">#F6F7F9 — фон страницы.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Почти не отличается от #F4F6F8, а роль та же — поверхность под карточками. Оставьте один.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#F4F6F8 — фон поля поиска.</span><span class="ds-lesson__hunt-fix"><b>Остаётся. </b>Он становится поверхностью: фоном страницы и шапки. А поле поиска получает белый фон и заметную рамку.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">#E3E7EB — рамка карточек.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Дубль #DCE1E6: оба — тонкая линия, которая отделяет блоки. Один цвет на роль «разделитель».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#DCE1E6 — рамка поля.</span><span class="ds-lesson__hunt-fix"><b>Остаётся, но меняет место. </b>Это разделитель: рамки карточек и линии. Для рамки поля он слишком бледный — поле сливается с фоном.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">#9AA4AE — дата.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Дата — вторичный текст, как и состав заказа. К тому же этот серый на белом почти не читается: контраст 2,53&nbsp;:&nbsp;1. Берите вторичный текст #5B6570.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#808A94 — подсказка в поле.</span><span class="ds-lesson__hunt-fix"><b>Остаётся, но меняет роль. </b>Как текст он слишком бледный, а как рамка поля — в самый раз: поле видно на белом фоне. Подсказка в поле становится вторичным текстом.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">#6B7580 — состав заказа.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Дубль #5B6570: оба — вторичный текст, разницу глазом не видно.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#5B6570 — причина отмены.</span><span class="ds-lesson__hunt-fix"><b>Остаётся. </b>Роль «вторичный текст»: дата, состав заказа, подсказка в поле, причина отмены.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">#333A42 — заголовок экрана.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Рядом с #1B1F24 он выглядит тем же чёрным. Заголовок выделяют размером и весом, а цвет у него — основной текст.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#1B1F24 — номер и сумма заказа.</span><span class="ds-lesson__hunt-fix"><b>Остаётся. </b>Роль «основной текст».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#1D5FD1 — кнопка.</span><span class="ds-lesson__hunt-fix"><b>Остаётся. </b>Роль «действие»: кнопка, ссылка и всё, на что можно нажать.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">#2A6FE0 — ссылка.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Ссылка — тоже действие. Два почти одинаковых синих заставляют гадать, есть ли между ними разница.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">#3B7CF0 — бейдж и полоска «в пути».</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Третий синий. Бейдж берёт цвет действия, а статус «в пути» получает слово вместо полоски. К тому же белый на этом синем даёт только 3,94&nbsp;:&nbsp;1.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#C23030 — полоска «отменён».</span><span class="ds-lesson__hunt-fix"><b>Остаётся. </b>Роль «ошибка». Но статус теперь пишется словом, а красный только помогает.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">#1E7B3A — полоска «оплачен».</span><span class="ds-lesson__hunt-fix"><b>Остаётся. </b>Роль «успех». Как и красный, он теперь рядом со словом.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой цвет</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все семь найдены. </b>Из шестнадцати цветов осталось девять. Два из оставшихся поменяли место: светлый серый ушёл с рамки поля на разделители, средний — с подсказки на рамку поля.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нужные цвета тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <h3>Как искать дубли на своём экране</h3>
+  <ol>
+    <li><strong>Выпишите все цвета</strong> и где каждый встречается.</li>
+    <li><strong>Сгруппируйте по ролям:</strong> фоны, линии, текст, действия, статусы.</li>
+    <li><strong>Внутри группы сравните соседей.</strong> Если два цвета рядом не отличить с первого взгляда, а роль у них одна, оставьте один.</li>
+    <li><strong>Проверьте, что оставшиеся различимы.</strong> Основной и вторичный текст, фон и поверхность должны отличаться заметно, иначе роли сливаются.</li>
+  </ol>
+</section>
+
+<section id="status">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Статус не только цветом</h2></div>
+  <p class="ds-lesson__lead">Если статус передан одним цветом, часть людей его не увидит.</p>
+
+  <p>Красный и зелёный из палитры магазина почти одинаковой яркости: контраст между ними 1,05&nbsp;:&nbsp;1. Когда цвет не различается — из-за особенностей зрения, яркого солнца на экране или чёрно-белой печати, — полоски «оплачен» и «отменён» становятся одинаковыми. Включите «Без цвета» и сравните две карточки.</p>
+
+  <div class="ds-lesson__box" data-contrast-demo>
+    <div class="ds-lesson__box-head">Статус заказа · полоской и словом<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="gray" data-layer-label="Без цвета"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__wf-row">
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Только цветом</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-divider:#DCE1E6">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-card ds-lesson__cs-stripe" style="--st:#1E7B3A"><div class="ds-lesson__cs-row"><b>Заказ № 1042</b><b>3 480 ₽</b></div></div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card ds-lesson__cs-stripe" style="--st:#C23030"><div class="ds-lesson__cs-row"><b>Заказ № 1038</b><b>1 190 ₽</b></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ds-lesson__wf-col">
+          <p class="ds-lesson__wf-caption">Словом и значком</p>
+          <div class="ds-lesson__spec ds-lesson__cs" style="--l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-divider:#DCE1E6; --l-error:#C23030; --l-ok:#1E7B3A">
+            <div class="ds-lesson__spec-body">
+              <div class="ds-lesson__spec-el ds-lesson__cs-card"><div class="ds-lesson__cs-row"><b>Заказ № 1042</b><b class="ds-lesson__ink" style="--ink:var(--r-ok)">✓ Оплачен</b></div></div>
+              <div class="ds-lesson__gap" style="--g:8"></div>
+              <div class="ds-lesson__spec-el ds-lesson__cs-card"><div class="ds-lesson__cs-row"><b>Заказ № 1038</b><b class="ds-lesson__ink" style="--ink:var(--r-error)">✕ Отменён</b></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Без цвета слева обе карточки одинаковы. Справа статус читается словом, а цвет и значок помогают найти его глазами.</div>
+  </div>
+
+  <p>Нарушения цветового зрения — не редкость: по данным британской организации Colour Blind Awareness, они есть примерно у одного из двенадцати мужчин и одной из двухсот женщин, и чаще всего путаются красный и зелёный. Правило WCAG 1.4.1 так и сформулировано: цвет не должен быть единственным способом передать информацию.</p>
+
+  <div class="ds-lesson__rule"><b>Статус — это слово, цвет ему помогает.</b> «Оплачен», «Отменён», «Ошибка в номере карты». Значок рядом со словом ускоряет поиск глазами, но слова не заменяет.</div>
+</section>
+
+<section id="which">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Какая роль у цвета</h2></div>
+  <p class="ds-lesson__lead">Цвет выбирают по роли места: сначала роль, потом цвет из палитры.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какая роль у цвета<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="action"><p class="ds-quiz__question">Заливка кнопки «Оформить заказ».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Действие</b>На кнопку нажимают — значит, это цвет действия.</p></li>
+<li data-quiz-q data-answer="status"><p class="ds-quiz__question">Текст «Неверный номер карты» под полем.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Статус</b>Это ошибка. Цвет ошибки помогает её заметить, а смысл несут слова.</p></li>
+<li data-quiz-q data-answer="bg"><p class="ds-quiz__question">Фон карточки заказа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Фон</b>На нём лежит содержимое карточки.</p></li>
+<li data-quiz-q data-answer="line"><p class="ds-quiz__question">Тонкая линия между строками в списке заказов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Граница</b>Разделитель. Его задача — отделить строки, поэтому он светлый и не спорит с содержимым.</p></li>
+<li data-quiz-q data-answer="text"><p class="ds-quiz__question">Сумма заказа «3 480 ₽».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Текст</b>Основной текст. Сумму выделяют размером и весом, отдельный цвет ей не нужен.</p></li>
+<li data-quiz-q data-answer="action"><p class="ds-quiz__question">Ссылка «Изменить адрес».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Действие</b>По ссылке тоже нажимают. Тот же цвет, что у кнопки: «похожий синий» здесь уже дубль.</p></li>
+<li data-quiz-q data-answer="line"><p class="ds-quiz__question">Рамка поля «Телефон».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Граница</b>Рамка поля — граница, но заметнее разделителя: по ней человек находит, куда вводить.</p></li>
+<li data-quiz-q data-answer="text"><p class="ds-quiz__question">Дата под заказом «12 сентября».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Текст</b>Вторичный текст. Он светлее основного, но читается.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="bg">Фон</button><button class="ds-quiz__option" type="button" data-quiz-answer="text">Текст</button><button class="ds-quiz__option" type="button" data-quiz-answer="line">Граница</button><button class="ds-quiz__option" type="button" data-quiz-answer="action">Действие</button><button class="ds-quiz__option" type="button" data-quiz-answer="status">Статус</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Выберите роль для каждого места. Внутри ролей бывают оттенки — основной и вторичный текст, разделитель и рамка поля, — но сначала нужна сама роль.</div>
+</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите свой экран, выпишите все использованные цвета и сведите их к палитре с ролями. Приложите сравнение «до и после».</p>
+
+  <h3>Часть 1 · Выписать цвета, 15 минут</h3>
+  <ol>
+    <li><strong>Выберите экран</strong> с разными элементами: текст, кнопки, поля, статусы.</li>
+    <li><strong>Сделайте копию</strong> и подпишите её «до».</li>
+    <li><strong>Выпишите каждый цвет</strong> и где он встречается. В Figma, если выделить фрейм, цвета всех слоёв собраны в правой панели в разделе Selection colors.</li>
+    <li><strong>Посчитайте</strong>, сколько всего цветов и сколько из них серых.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Палитра и замеры · заполните до и после<span class="ds-lesson__spacer"></span><span data-copy="colorTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="colorTmpl">ЭКРАН: ______________________        Дата: __.__.____
+
+«ДО»
+цветов на экране: __   из них серых: __   синих (или основного цвета): __
+дубли (цвет → с каким совпадает по роли): ____________________
+статусы только цветом: да / нет — где: ________________
+
+ПАЛИТРА (цвет — роль — где)
+#______ — фон — ____________________
+#______ — поверхность — ____________________
+#______ — разделитель — ____________________
+#______ — граница поля — ____________________
+#______ — основной текст — ____________________
+#______ — вторичный текст — ____________________
+#______ — действие — ____________________
+#______ — ошибка — ____________________
+#______ — успех — ____________________
+
+«ПОСЛЕ»
+все цвета из палитры: да / нет
+у каждого цвета есть роль: да / нет
+статусы названы словом: да / нет</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Ролей может быть больше или меньше девяти. Главное — у каждого цвета одна роль.</div>
+  </div>
+
+  <h3>Часть 2 · Собрать палитру, 20 минут</h3>
+  <ol>
+    <li><strong>Сгруппируйте цвета по ролям:</strong> фон, поверхность, линии, текст, действие, статусы.</li>
+    <li><strong>Внутри роли оставьте один цвет.</strong> Дубли замените на него.</li>
+    <li><strong>Проверьте оттенки:</strong> светлые — для фонов, тёмные — для текста и значков.</li>
+  </ol>
+
+  <h3>Часть 3 · Пересобрать экран, 40 минут</h3>
+  <ol>
+    <li><strong>Заведите цвета палитры стилями</strong> или переменными с именами ролей и привяжите к ним все слои.</li>
+    <li><strong>Статусы, переданные только цветом,</strong> дополните словом и значком.</li>
+    <li><strong>Положите «до» и «после» рядом</strong> и заполните часть «после» в шаблоне.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Для каждого цвета на экране можно назвать его роль. Цветов без роли не осталось.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Экраны «до» и «после»</strong> рядом.</li>
+    <li><strong>Палитра</strong> с ролями и местами на экране.</li>
+    <li><strong>Заполненный шаблон.</strong></li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут на то, чтобы выписать цвета, 20 на палитру, 40 на пересборку. Всего — около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«У бренда пять фирменных цветов, все нужны».</strong> В интерфейсе у каждого из них должна быть роль. Фирменный цвет без роли уходит в иллюстрации и промо.</li>
+    <li><strong>«Серых не бывает меньше шести».</strong> Бывает и больше, если у каждого своя роль: фон, поверхность, разделитель, рамка поля, вторичный текст. Лишний серый — тот, чью роль не удаётся назвать.</li>
+    <li><strong>«Ссылка и кнопка разного синего, так задумано».</strong> Спросите, что должна понять разница. Если ответа нет, это один цвет.</li>
+    <li><strong>«В продукте уже есть палитра».</strong> Берите её. Задание учит держаться палитры, придумывать новую не нужно.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Цвет собран в палитру, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Все цвета на экране из палитры</li>
+    <li>У каждого цвета одна роль, и её можно назвать</li>
+    <li>Одна роль — один цвет на всём экране</li>
+    <li>Цвета одной группы заметно отличаются друг от друга</li>
+    <li>Светлые оттенки — для фонов, тёмные — для текста и значков</li>
+    <li>Статусы названы словом, цвет и значок помогают</li>
+    <li>Новый цвет не появляется без новой роли</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Цвет на глаз.</b> Три похожих синих и одиннадцать серых.</li>
+    <li><b>Одна роль — разные цвета.</b> Дата одним серым, состав заказа другим.</li>
+    <li><b>Светлый оттенок текстом.</b> Слово на белом почти не читается.</li>
+    <li><b>Статус только цветом.</b> Без цвета «оплачен» и «отменён» одинаковы.</li>
+    <li><b>Цвет «под этот блок».</b> Палитра растёт с каждым экраном.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся собирать палитру с ролями. На следующих ступенях — проверять контраст и собирать тёмную тему, а потом описывать цветовую систему для команды.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Собрать палитру из ограниченного набора; дать каждому цвету роль; отличать оттенок для поверхности от оттенка для текста; находить дубли; не передавать статус одним цветом</td>
+          <td>Для каждого цвета на экране можно назвать его роль, цветов без роли не осталось</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Мерить контраст текста, значков, границ и состояний; собирать тёмную тему на тех же ролях; не гасить неактивное одной прозрачностью</td>
+          <td class="ds-lesson__dim">В таблице замеров нет пары ниже нормы ни в светлой теме, ни в тёмной</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описать цветовую систему: примитивы и роли, обе темы, таблица контраста, правило добавления нового цвета</td>
+          <td class="ds-lesson__dim">Новый цвет в продукт другой дизайнер добавил по вашему правилу и без вас</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любой цвет на экране вы можете сказать, какая у него роль и почему он такой.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Раздел «Working with Color», особенно главы «You need more colors than you think», «Define your shades up front» и «Greys don’t have to be grey» — палитра с оттенками, заданная заранее.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html">Understanding Success Criterion 1.4.1: Use of Color</a></span><span class="ds-lesson__reads-meta">W3C WAI · на английском · бесплатно</span><span>Почему цвет не может быть единственным признаком и какие есть способы это исправить.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/">Types of Colour Blindness</a></span><span class="ds-lesson__reads-meta">Colour Blind Awareness · на английском · бесплатно</span><span>Какие бывают нарушения цветового зрения и какие цвета при них путаются.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/realtime-colors/">Realtime Colors</a></span><span class="ds-lesson__reads-meta">инструмент · на английском · бесплатно</span><span>Примерить палитру на готовый макет сайта и сразу увидеть, какая роль у какого цвета.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

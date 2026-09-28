@@ -7071,6 +7071,246 @@ button.ds-lesson__typo.ds-lesson__hunt-pin,
 	text-align: center;
 }
 
+/* ---------- уроки «Цвет и контраст» ---------- */
+
+/* Экран с палитрой примера. Цвета магазина — содержимое урока, как числа отступов (D182):
+   они приходят в разметке custom properties и темой сайта не перекрашиваются, это снимок
+   чужого продукта. У экрана роли: светлые значения `--l-*`, тёмные `--d-*`; класс is-dark
+   на коробке или на самом экране включает тёмную тему продукта. */
+.ds-lesson__cs {
+	--r-bg: var(--l-bg);
+	--r-surf: var(--l-surf);
+	--r-text: var(--l-text);
+	--r-muted: var(--l-muted);
+	--r-divider: var(--l-divider);
+	--r-field: var(--l-field);
+	--r-action: var(--l-action);
+	--r-on-action: var(--l-on-action);
+	--r-sel: var(--l-sel);
+	--r-error: var(--l-error);
+	--r-error-bg: var(--l-error-bg);
+	--r-ok: var(--l-ok);
+	--r-ok-bg: var(--l-ok-bg);
+	border-color: var(--r-divider);
+	background: var(--r-bg);
+	color: var(--r-text);
+}
+
+.is-dark .ds-lesson__cs,
+.ds-lesson__cs.is-dark {
+	--r-bg: var(--d-bg);
+	--r-surf: var(--d-surf);
+	--r-text: var(--d-text);
+	--r-muted: var(--d-muted);
+	--r-divider: var(--d-divider);
+	--r-field: var(--d-field);
+	--r-action: var(--d-action);
+	--r-on-action: var(--d-on-action);
+	--r-sel: var(--d-sel);
+	--r-error: var(--d-error);
+	--r-error-bg: var(--d-error-bg);
+	--r-ok: var(--d-ok);
+	--r-ok-bg: var(--d-ok-bg);
+}
+
+.ds-lesson__cs .ds-lesson__spec-top {
+	border-bottom-color: var(--r-divider);
+	background: var(--r-surf);
+}
+
+.ds-lesson__cs .ds-lesson__spec-body {
+	background: var(--r-surf);
+}
+
+/* Карточка, поле и кнопка экрана: форма общая, цвет — из покраски. */
+.ds-lesson__cs-card {
+	position: relative;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--r-divider);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--r-bg);
+}
+
+.ds-lesson__cs-stripe {
+	border-left: var(--wp--custom--border-width--focus) solid var(--st);
+}
+
+.ds-lesson__cs-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__cs-field {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--r-field);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--r-bg);
+}
+
+.ds-lesson__cs-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--r-action);
+	color: var(--r-on-action);
+	font-weight: 600;
+}
+
+.ds-lesson__cs-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--1);
+	padding: 0 var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--full);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+/* Поле в фокусе: рамка толще и цвета действия — по ней человек с клавиатурой видит, где он. */
+.ds-lesson__cs-focus {
+	border-width: var(--wp--custom--border-width--focus);
+	border-color: var(--r-action);
+}
+
+.ds-lesson__cs-line {
+	border-top: var(--wp--custom--border-width--hairline) solid var(--r-divider);
+}
+
+/* Неактивная кнопка двумя способами: прозрачностью и своими цветами. */
+.ds-lesson__cs-btn.is-faded {
+	opacity: 0.4;
+}
+
+/* Покраска места на экране: текст, фон и рамка. Значение — роль экрана `var(--r-…)`
+   или прибитый цвет; урок Senior показывает разницу между ними при смене темы. Стоит после
+   карточки, поля и кнопки, чтобы перебивать их цвет, а имена переменных свои: `--c`
+   уже занят колонкой в экране урока. */
+.ds-lesson__ink {
+	color: var(--ink);
+}
+
+.ds-lesson__fill {
+	background-color: var(--fill);
+}
+
+.ds-lesson__edge {
+	border-color: var(--edge);
+}
+
+/* Образец цвета: квадрат и подпись под ним. Цвет — из разметки. */
+.ds-lesson__swatches {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-lesson__sw {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--1);
+	min-width: var(--wp--custom--size--tile-lg);
+	font-size: var(--wp--preset--font-size--xs);
+	font-variant-numeric: tabular-nums;
+	line-height: var(--wp--custom--line-height--snug);
+	text-align: center;
+}
+
+.ds-lesson__sw::before {
+	content: "";
+	width: var(--wp--custom--size--tile-sm);
+	height: var(--wp--custom--size--tile-sm);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--sw);
+}
+
+.ds-lesson__sw b {
+	font-weight: 600;
+}
+
+/* Образец в поиске дублей: со скриптом — кнопка, без него — подпись. Форма точки поиска не нужна. */
+button.ds-lesson__sw.ds-lesson__hunt-pin,
+.ds-lesson__sw.ds-lesson__hunt-pin {
+	position: static;
+	display: inline-flex;
+	width: auto;
+	height: auto;
+	padding: var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--focus) dashed transparent;
+	border-radius: var(--wp--custom--radius--sm);
+	background: transparent;
+	color: var(--wp--preset--color--text-default);
+	font-weight: 400;
+	transform: none;
+}
+
+button.ds-lesson__sw.ds-lesson__hunt-pin:hover {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__sw.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__sw.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+/* Слой «Контраст»: у места на экране табличка с замером. Провал отмечен словом и рамкой,
+   не одним цветом. Место под табличку оставлено всегда, чтобы строки не прыгали. */
+.ds-lesson__cr {
+	display: none;
+}
+
+.ds-lesson__cs :has(> .ds-lesson__cr) {
+	position: relative;
+	padding-right: var(--wp--custom--size--tile-lg);
+}
+
+.is-ratios .ds-lesson__cr {
+	display: inline-flex;
+	position: absolute;
+	top: 50%;
+	right: var(--wp--preset--spacing--1);
+	z-index: 2;
+	align-items: center;
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+	line-height: var(--wp--custom--line-height--snug);
+	white-space: nowrap;
+	transform: translateY(-50%);
+}
+
+.is-ratios .ds-lesson__cr--fail {
+	border-style: dashed;
+	border-color: var(--wp--preset--color--border-error);
+}
+
+.is-gray .ds-lesson__swatches {
+	filter: grayscale(1);
+}
+
 /* ---------- ритм урока ---------- */
 
 /* Разметка урока приходит из конвертера: внутри `.ds-lesson` одна обёртка без класса,
