@@ -1,4 +1,4 @@
-"""Тренажёр, копирование, атрибут hidden, ритм отступов, якоря и «Что почитать дальше» во всех уроках — в браузере.
+"""Тренажёр, копирование, атрибут hidden, ритм отступов, якоря, внутренние ссылки и «Что почитать дальше» во всех уроках — в браузере.
 
     python scripts/check_lessons.py                               # локальный сайт
     python scripts/check_lessons.py --base https://designstack.ru  # живой
@@ -96,6 +96,7 @@ CONTRAST = """() => {
   return out;
 }"""
 fails = 0
+LINKS = {}  # адрес → код ответа, общий для всех уроков
 
 with sync_playwright() as play:
     browser = play.chromium.launch()
@@ -129,6 +130,26 @@ with sync_playwright() as play:
         ok = reads[0] > 0 and reads[1] == 0
         print(("  ок  " if ok else "  ПЛОХО ") + "«Что почитать дальше»: пунктов %d, подвалов %d" % tuple(reads))
         fails += 0 if ok else 1
+
+        # Внутренние ссылки урока отвечают 200 без переадресации. 28.09.2026 в уроке «Типографика,
+        # Middle» ушла на сайт ссылка /shrifty-s-kirillicey/ вместо /collections/…: 404, и её нашёл
+        # только обход сайта после письма Вебмастера.
+        hrefs = page.evaluate("""() => [...new Set([...document.querySelectorAll('#ds-main a[href]')]
+            .map(a => a.href.split('#')[0]).filter(h => h.startsWith(location.origin)))]""")
+        dead = []
+
+        for href in hrefs:
+            if href not in LINKS:
+                try:
+                    LINKS[href] = page.request.get(href, max_redirects=0).status
+                except Exception as error:  # noqa: BLE001
+                    LINKS[href] = str(error)[:40]
+            if LINKS[href] != 200:
+                dead.append("%s %s" % (LINKS[href], href.replace(args.base.rstrip("/"), "")))
+
+        print(("  ок  " if not dead else "  ПЛОХО ") + "внутренние ссылки отвечают 200: %d из %d"
+              % (len(hrefs) - len(dead), len(hrefs)) + (" — " + "; ".join(dead[:4]) if dead else ""))
+        fails += 1 if dead else 0
 
         # Образцы контраста (`data-contrast-demo`): axe их пропускает, поэтому каждое число
         # в тексте сверяем с замером того, что нарисовано. Иначе поправка цвета в разметке

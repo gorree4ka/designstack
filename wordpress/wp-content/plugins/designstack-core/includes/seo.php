@@ -445,3 +445,12 @@ function designstack_core_thanks_goal( string $content ): string {
 	return $content . '<span hidden data-track-on-load="suggest_submit"></span>';
 }
 add_filter( 'the_content', 'designstack_core_thanks_goal' );
+
+/*
+ * Ссылки в <head>, которые ведут в никуда. WordPress сам объявляет ленты разделов и таксономий
+ * (`/tools/feed/`, `/collections/feed/`), но адреса разделов у нас свои, и лент у них нет: робот
+ * Яндекса шёл по объявленной ссылке и получал 404. RSD указывает на xmlrpc.php, который хостинг
+ * не обслуживает (405). Основная лента `/feed/` и лента комментариев остаются — они отвечают 200.
+ */
+remove_action( 'wp_head', 'feed_links_extra', 3 );
+remove_action( 'wp_head', 'rsd_link' );
