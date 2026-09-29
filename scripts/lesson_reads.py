@@ -11,6 +11,11 @@
 
     python scripts/lesson_reads.py            # переписать тела уроков
     python scripts/lesson_reads.py --check    # только сверить, ничего не писать
+
+С 29.09.2026 (D185) каждый источник перед публикацией читается целиком, а не сверяется по кускам:
+дата прочтения — поле `read` у источника, разбор по уроку — `docs/research/reads/<урок>.md`.
+Если разбор у урока есть, непрочитанный пункт в его списке — ошибка. Уроки без разбора скрипт
+перечисляет отдельно: их списки перепроверяются отдельным этапом.
 """
 import argparse
 import json
@@ -26,6 +31,7 @@ DATA = json.loads((LESSONS / "reads.json").read_text(encoding="utf-8"))
 # Якорь `read` уже занят разделом «Как прочитать результат» в уроке «Структура и потоки, Middle»,
 # поэтому у списка своё имя — два одинаковых id на странице уводят ссылку оглавления не туда.
 OLD = re.compile(r"<footer>.*?</footer>|<section id=\"further-reading\">.*?</section>", re.S)
+READS = ROOT / "docs/research/reads"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--check", action="store_true")
@@ -60,6 +66,7 @@ def render(items):
 
 
 problems = []
+pending = []
 bodies = sorted(p.name.replace(".body.html", "") for p in LESSONS.glob("*.body.html"))
 
 for slug in sorted(set(bodies) - set(DATA["lessons"])):
@@ -82,8 +89,16 @@ for slug, items in DATA["lessons"].items():
 
     new = OLD.sub(lambda m: render(items), body)
     bare = sum(1 for i in items if "<a " not in DATA["resources"][i["res"]]["title"])
+    unread = [i["res"] for i in items if not DATA["resources"][i["res"]].get("read")]
     state = "без изменений" if new == body else ("было: подвал" if found[0].startswith("<footer>") else "обновлён")
-    print("%-30s пунктов %d, без ссылки %d · %s" % (slug, len(items), bare, state))
+    print("%-30s пунктов %d, без ссылки %d, прочитано целиком %d · %s"
+          % (slug, len(items), bare, len(items) - len(unread), state))
+
+    if (READS / (slug + ".md")).exists():
+        if unread:
+            problems.append("%s: есть разбор прочтения, но не прочитаны %s" % (slug, unread))
+    else:
+        pending.append(slug)
 
     if not args.check and new != body:
         if not new.strip():
@@ -95,6 +110,9 @@ used = {i["res"] for items in DATA["lessons"].values() for i in items}
 
 for key in sorted(set(DATA["resources"]) - used):
     problems.append("источник нигде не используется: " + key)
+
+if pending:
+    print("\nбез разбора прочтения (D185), ждут перепроверки: %d — %s" % (len(pending), ", ".join(pending)))
 
 print("\nпроблем: %d" % len(problems))
 

@@ -70,6 +70,10 @@ with sync_playwright() as play:
         ("icons-illustration-junior", ["Толщина исправлена", "Заливка. Набор линейный", "Круг 20"]),
         ("icons-illustration-middle", ["Белый фон в файле", "heart-filled.svg", "Отдельная отрисовка под размер"]),
         ("icons-illustration-senior", ["Вкус. Что именно грустно", "Официальный знак из материалов самого бренда", "9. КАК ПРИСЛАТЬ ИКОНКУ"]),
+        # Носители в переключателе и разборы — содержимое урока: без скрипта видно всё.
+        ("brand-language-junior", ["Не та версия. Рыжий знак на тёмном фоне", "негативная — светлым на тёмном", "Довод о характере"]),
+        ("brand-language-middle", ["Охранное поле. Заголовок стоит вплотную", "Только знак и цвет", "lockup-negative.svg"]),
+        ("brand-language-senior", ["Мода. Причина есть в продукте", "«Оценка куратора важнее названия»", "СУТЬ (3–4 слова о продукте)"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1236,6 +1240,43 @@ with sync_playwright() as play:
     leak = page.evaluate(HIDDEN)
     fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
     fails += 0 if say(hunt_all(page, 10), "ревью: замечания по правилу не засчитаны, вкусовых найдено 5 из 5") else 1
+    page.close()
+
+    # «Фирменный стиль»: поиски по носителям и по тексту, переключатель носителей,
+    # слой «Охранное поле» и граница поля, которая видна без скрипта.
+    page = ctx.new_page()
+    page.goto(BASE + "brand-language-junior/")
+    page.wait_for_timeout(300)
+    head("brand-language-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(hunt_all(page, 10), "материалы за месяц: по стилю не засчитаны, нарушений найдено 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "brand-language-middle/")
+    page.wait_for_timeout(300)
+    head("brand-language-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    shown = page.evaluate("[...document.querySelectorAll('#carriers [data-switch-pane]')].filter(el => el.offsetParent !== null).map(el => el.getAttribute('data-switch-pane'))")
+    fails += 0 if say(shown == ["cr1"], "носители: видно одно — «Письмо»") else 1
+    edge = "getComputedStyle(document.querySelector('#space .ds-lesson__bm-space')).borderTopColor"
+    before = page.evaluate(edge)
+    page.click("#space [data-layer=bmspace] button")
+    page.wait_for_timeout(30)
+    after = page.evaluate(edge)
+    fails += 0 if say(before != "rgba(0, 0, 0, 0)" and after == "rgba(0, 0, 0, 0)", "слой «Охранное поле»: граница видна и прячется кнопкой") else 1
+    fails += 0 if say(hunt_all(page, 10), "материалы нового дизайнера: по правилам не засчитаны, нарушений 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "brand-language-senior/")
+    page.wait_for_timeout(300)
+    head("brand-language-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(hunt_all(page, 10), "черновик описания: доводы не засчитаны, моды и вкуса найдено 5 из 5") else 1
     page.close()
     browser.close()
 

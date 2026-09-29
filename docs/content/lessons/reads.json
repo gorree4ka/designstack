@@ -396,6 +396,71 @@
   "cc-by-nc": {
    "title": "<a href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</a> · <a href=\"https://creativecommons.org/licenses/by-nc/4.0/\">CC BY-NC 4.0</a>",
    "meta": "Creative Commons · на английском · бесплатно"
+  },
+  "bureau-style-principles": {
+   "title": "<a href=\"https://bureau.ru/soviet/20141231/\">Есть ли какой-то набор базовых принципов, которые помогут при проектировании фирменного стиля?</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Антон Шнайдер, 2014 · на русском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "bureau-icon-logo": {
+   "title": "<a href=\"https://bureau.ru/soviet/20190713/\">Различие между иконкой и логотипом</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Сергей Чикин, 2019 · на русском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "golos-text": {
+   "title": "<a href=\"https://fonts.google.com/specimen/Golos+Text\">Golos Text</a>",
+   "meta": "Google Fonts, Paratype · на английском · бесплатно, лицензия OFL",
+   "read": "2026-09-29"
+  },
+  "mockuuups": {
+   "title": "<a href=\"/resource/mockuuups/\">Mockuuups Studio</a>",
+   "meta": "инструмент · на английском · бесплатно только для личного использования",
+   "read": "2026-09-29"
+  },
+  "spotify-brand": {
+   "title": "<a href=\"https://developer.spotify.com/documentation/design#using-our-logo\">Design &amp; Branding Guidelines</a>",
+   "meta": "Spotify for Developers · на английском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "caniemail-fontface": {
+   "title": "<a href=\"https://www.caniemail.com/features/css-at-font-face/\">@font-face</a>",
+   "meta": "Can I email · на английском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "google-favicon": {
+   "title": "<a href=\"https://developers.google.com/search/docs/appearance/favicon-in-search\">Define a favicon to show in search results</a>",
+   "meta": "Google Search Central · на английском, есть на русском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "webdev-adaptive-favicon": {
+   "title": "<a href=\"https://web.dev/articles/building/an-adaptive-favicon\">Building an adaptive favicon</a>",
+   "meta": "web.dev, Адам Аргайл · на английском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "webdev-manifest": {
+   "title": "<a href=\"https://web.dev/articles/add-manifest\">Add a web app manifest</a>",
+   "meta": "web.dev · на английском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "pentagram-mastercard": {
+   "title": "<a href=\"https://www.pentagram.com/work/mastercard\">Mastercard</a> · <a href=\"https://newsroom.mastercard.com/news/press/2019/january/mastercard-evolves-its-brand-mark-by-dropping-its-name/\">Mastercard Evolves Its Brand Mark by Dropping its Name</a>",
+   "meta": "Pentagram и Mastercard · на английском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "bureau-logo-presentation": {
+   "title": "<a href=\"https://bureau.ru/soviet/20260721/\">Как делать презентацию логотипа?</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Михаил Нозик, 2026 · на русском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "nng-aesthetic-usability": {
+   "title": "<a href=\"https://www.nngroup.com/articles/aesthetic-usability-effect/\">The Aesthetic-Usability Effect</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Моран · на английском · бесплатно",
+   "read": "2026-09-29"
+  },
+  "bureau-brandbooks": {
+   "title": "<a href=\"https://bureau.ru/soviet/20130417/\">Как, по-вашему, должны выглядеть современные руководства по фирстилю и брендбуки?</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Антон Шнайдер, 2013 · на русском · бесплатно",
+   "read": "2026-09-29"
   }
  },
  "lessons": {
@@ -1017,6 +1082,64 @@
    {
     "res": "cc-by-nc",
     "why": "Что требует указание автора и почему иконка с некоммерческой лицензией не годится для продукта."
+   }
+  ],
+  "brand-language-junior": [
+   {
+    "res": "bureau-style-principles",
+    "why": "Почему повторённый логотип и узор — ещё не стиль и когда фирменный узор всё же уместен. Совет 2014 года, тон резкий, примеры без подписей."
+   },
+   {
+    "res": "bureau-icon-logo",
+    "why": "Одна диаграмма на десятках знаков: какие работают и значком, и логотипом, а какие живут только словом. Весь ответ — одна картинка."
+   },
+   {
+    "res": "golos-text",
+    "why": "Карточка шрифта из урока: для чего Golos заказывали, кто рисовал, лицензия OFL, шесть начертаний и кириллица."
+   },
+   {
+    "res": "mockuuups",
+    "why": "Показать знак на визитке, постере или экране. Бесплатно — немного макетов, с подписью и не для работы на клиента."
+   }
+  ],
+  "brand-language-middle": [
+   {
+    "res": "spotify-brand",
+    "why": "Раздел о знаке в правилах Spotify для партнёров: полный логотип или значок, охранное поле, минимальные размеры, запреты."
+   },
+   {
+    "res": "caniemail-fontface",
+    "why": "В каких почтовых клиентах работает свой шрифт: Gmail, Outlook.com и Mail.ru его не покажут. Данные на конец 2023 года."
+   },
+   {
+    "res": "google-favicon",
+    "why": "Требования Google к значку в выдаче: квадрат от 8 × 8, лучше крупнее 48 × 48, какие форматы подходят, один значок на домен."
+   },
+   {
+    "res": "webdev-adaptive-favicon",
+    "why": "Как сделать значок вкладки в SVG, который сам меняет цвет в тёмной теме, и оставить .ico для остальных. Статья 2022 года, с кодом."
+   },
+   {
+    "res": "webdev-manifest",
+    "why": "Справка для разработки о манифесте приложения: иконки 192 и 512, короткое имя для тесных мест, цвет темы и заставки."
+   }
+  ],
+  "brand-language-senior": [
+   {
+    "res": "pentagram-mastercard",
+    "why": "Кейс от авторов знака: как упростить знак и сохранить узнаваемое, — и релиз 2019 года о знаке без слова. Портфолио агентства, без критики."
+   },
+   {
+    "res": "bureau-logo-presentation",
+    "why": "Как защищать логотип вживую: две раскадровки презентаций, где решение выводится из рассуждений об аудитории. Смотреть — слайды."
+   },
+   {
+    "res": "nng-aesthetic-usability",
+    "why": "Почему красивое кажется удобнее и как это сбивает отзывы на проверке: смотреть, что люди делают, а не что хвалят."
+   },
+   {
+    "res": "bureau-brandbooks",
+    "why": "Шнайдер против толстых брендбуков: руководство на две страницы и исходники вместо правил. Спорит с уроком Middle — полезно как контрдовод."
    }
   ]
  }

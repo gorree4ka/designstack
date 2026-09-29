@@ -8352,3 +8352,292 @@ button.ds-lesson__ic-pin.ds-lesson__hunt-pin:hover {
 	letter-spacing: var(--wp--custom--letter-spacing--wide);
 	text-transform: uppercase;
 }
+
+/* ── Фирменный стиль: образцы бренда в уроке ────────────────────────────
+   Цвета «Лесной обжарки» — данные урока (D183): плитка получает --bm-bg, --bm-ink
+   и --bm-mark во встроенном стиле, остальное берётся из токенов сайта. Бороздка
+   зерна рисуется цветом подложки, поэтому знак одним рисунком работает на любом фоне. */
+.ds-lesson__bm-mark {
+	flex: none;
+	fill: currentColor;
+}
+
+.ds-lesson__bm-cut {
+	fill: none;
+	stroke: var(--bm-bg, var(--wp--preset--color--surface-default));
+	stroke-width: 4;
+	stroke-linecap: round;
+}
+
+.ds-lesson__bm-cut--wide {
+	stroke-width: 7;
+}
+
+.ds-lesson__bm-cut--thin {
+	stroke-width: 2;
+}
+
+.ds-lesson__bm-line {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.5;
+	stroke-linecap: round;
+}
+
+/* Плитка бренда: подложка, текст и знак — цветами бренда из разметки. */
+.ds-lesson__bm {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--bm-bg);
+	color: var(--bm-ink);
+}
+
+.ds-lesson__bm .ds-lesson__bm-mark {
+	color: var(--bm-mark, currentColor);
+}
+
+.ds-lesson__bm + .ds-lesson__bm {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__bm-lockup {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__bm-word {
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 800;
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+/* Нарочные поломки: растянутое слово и слово чужим шрифтом. */
+.ds-lesson__bm-word--stretch {
+	display: inline-block;
+	transform: scaleX(1.3);
+	transform-origin: left center;
+}
+
+.ds-lesson__bm-word--alien {
+	font-family: var(--wp--preset--font-family--mono);
+	font-weight: 400;
+}
+
+.ds-lesson__bm-sizes {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__bm-cell {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--xs);
+	font-variant-numeric: tabular-nums;
+}
+
+/* Носители: вкладка браузера, иконка приложения, аватар, кнопка, этикетка. */
+.ds-lesson__bm-tab {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm) var(--wp--custom--radius--sm) 0 0;
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__bm-tab .ds-lesson__bm-mark {
+	color: var(--bm-mark, currentColor);
+}
+
+.ds-lesson__bm-app,
+.ds-lesson__bm-avatar {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: calc(var(--wp--custom--size--control-lg) * 1.25);
+	height: calc(var(--wp--custom--size--control-lg) * 1.25);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--bm-bg);
+	color: var(--bm-mark);
+}
+
+.ds-lesson__bm-avatar {
+	width: var(--wp--custom--size--control-md);
+	height: var(--wp--custom--size--control-md);
+	border-radius: var(--wp--custom--radius--full);
+}
+
+.ds-lesson__bm-btn {
+	display: inline-flex;
+	align-items: center;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--bm-btn);
+	color: var(--bm-btn-ink);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 700;
+}
+
+.ds-lesson__bm-label {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--focus) solid currentColor;
+	border-radius: var(--wp--custom--radius--sm);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+}
+
+/* Полоски лишних акцентов на баннере: цвета без текста на них. */
+.ds-lesson__bm-stripes {
+	display: flex;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__bm-stripes span {
+	width: var(--wp--preset--spacing--4);
+	height: var(--wp--preset--spacing--8);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--bm-c);
+}
+
+/* Поиск по носителям: плитка целиком — место, на которое нажимают. */
+.ds-lesson__bm-set {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(calc(var(--wp--custom--size--control-lg) * 3.5), 1fr));
+	gap: var(--wp--preset--spacing--2);
+}
+
+button.ds-lesson__bm-pin.ds-lesson__hunt-pin,
+.ds-lesson__bm-pin.ds-lesson__hunt-pin {
+	position: static;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: var(--wp--preset--spacing--2);
+	width: 100%;
+	height: auto;
+	padding: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: inherit;
+	text-align: left;
+	transform: none;
+}
+
+button.ds-lesson__bm-pin.ds-lesson__hunt-pin:hover {
+	border-color: var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__bm-pin.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__bm-pin.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__bm-pin .ds-lesson__bm {
+	min-height: calc(var(--wp--custom--size--control-lg) * 2);
+	padding: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__bm-name {
+	color: var(--wp--preset--color--text-muted);
+	font-weight: 600;
+}
+
+/* Подпись внутри плитки бренда — цветом текста бренда: контраст держит сама палитра. */
+.ds-lesson__bm .ds-lesson__bm-name {
+	color: var(--bm-ink);
+}
+
+/* Вкладка браузера: бороздка знака — цветом самой вкладки. */
+.ds-lesson__bm-tab {
+	--bm-bg: var(--wp--preset--color--surface-raised);
+}
+
+/* В плитке поиска название мельче, а растянутое слово не выходит за край плитки. */
+.ds-lesson__bm-pin .ds-lesson__bm {
+	overflow: hidden;
+}
+
+.ds-lesson__bm-pin .ds-lesson__bm-word {
+	font-size: var(--wp--preset--font-size--base);
+	white-space: nowrap;
+}
+
+/* Нарочная поломка знака: обводка. */
+.ds-lesson__bm-mark--outline {
+	stroke: var(--bm-ink);
+	stroke-width: 4;
+	paint-order: stroke;
+}
+
+/* Пёстрый фон: полосы двух цветов из разметки урока. */
+.ds-lesson__bm--busy {
+	background: repeating-linear-gradient(45deg, var(--bm-bg) 0 var(--wp--preset--spacing--2), var(--bm-c) var(--wp--preset--spacing--2) var(--wp--preset--spacing--4));
+}
+
+/* Заголовок вплотную к знаку — образец нарушенного охранного поля. */
+.ds-lesson__bm--tight {
+	gap: 0;
+}
+
+/* Охранное поле: половина высоты знака вокруг знака со словом; слой «Охранное поле» рисует границу. */
+.ds-lesson__bm-space {
+	display: inline-flex;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--focus) dashed transparent;
+}
+
+.is-bmspace .ds-lesson__bm-space {
+	border-color: var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__bm-avatar--lg {
+	width: calc(var(--wp--custom--size--control-lg) * 1.5);
+	height: calc(var(--wp--custom--size--control-lg) * 1.5);
+	overflow: hidden;
+}
+
+.ds-lesson__bm-sign .ds-lesson__bm-word {
+	font-size: var(--wp--preset--font-size--2-xl);
+}
+
+.ds-lesson__bm-label span {
+	font-weight: 400;
+}
+
+/* Знак и слово в парах «так / не так»: мельче, чтобы пара помещалась в колонку. */
+.ds-lesson__ic-pair .ds-lesson__bm {
+	padding: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__ic-pair .ds-lesson__bm-word {
+	font-size: var(--wp--preset--font-size--sm);
+}
