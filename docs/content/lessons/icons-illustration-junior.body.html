@@ -1,0 +1,463 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#need">Взять из набора, нарисовать или обойтись словом</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#foreign">Почему своя иконка выглядит чужой</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#grid">Холст, поле и опорные фигуры</a><span class="ds-lesson__tag">слои</span></li>
+    <li><a href="#size">Проверка в настоящем размере</a></li>
+    <li><a href="#svg">SVG для разработки</a><span class="ds-lesson__tag">шаблон</span></li>
+    <li><a href="#license">Лицензия набора и своя иконка</a></li>
+    <li><a href="#hunt">Найдите чужие иконки</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Приложение того же магазина кофе, что и в темах про <a href="/lessons/typography-junior/">типографику</a> и <a href="/lessons/patterns-states-junior/">состояния экрана</a>. Иконки в нём из готового линейного набора: холст 24 пикселя, линия 2 пикселя, скруглённые концы. В фильтрах появился новый пункт — «Помол», — а кофемолки в наборе нет. Её вы и нарисуете за урок.</div>
+
+<section id="need">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Взять из набора, нарисовать или обойтись словом</h2></div>
+  <p class="ds-lesson__lead">Своя иконка — это время на рисование и риск, что её не поймут. Прежде чем рисовать, проверьте, нужна ли она.</p>
+
+  <p>Сначала поищите в своём наборе, и не одним словом: иконки называют по тому, что нарисовано, а не по смыслу. Кофемолка может найтись как mill или grinder, а «повторить заказ» — как refresh. Поиск сразу по многим наборам, например в <a href="/resource/icones/">Icônes</a>, покажет, как задачу решили другие. Но переносить иконку из чужого набора в свой не стоит: у неё будет другая сетка и другая линия. Возьмите её как подсказку, что рисовать.</p>
+
+  <p>И помните, что иконки понимают хуже, чем кажется. В Nielsen Norman Group пишут, что почти всем понятны лишь несколько иконок — дом, печать, лупа поиска, — а остальным нужна подпись. Отвлечённое понятие вроде «программы лояльности» картинкой не объяснить совсем.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Случай</th><th scope="col">Что делать</th><th scope="col">Пример в магазине</th></tr></thead>
+      <tbody>
+        <tr><td>В наборе есть иконка с таким смыслом</td><td><b>Взять из набора</b></td><td>Лупа для поиска, корзина в нижнем меню</td></tr>
+        <tr><td>Предмет понятный, но в наборе его нет</td><td><b>Нарисовать по правилам набора</b></td><td>Кофемолка для фильтра «Помол»</td></tr>
+        <tr><td>Смысл отвлечённый, картинкой не объяснить</td><td><b>Обойтись словом</b></td><td>«Программа лояльности», «Условия возврата»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · взять, нарисовать или словом<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="take"><p class="ds-quiz__question">Кнопка поиска в шапке каталога.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Взять из набора</b>Лупа есть в любом наборе, и её понимают без подписи. Рисовать свою — только тратить время.</p></li>
+<li data-quiz-q data-answer="draw"><p class="ds-quiz__question">Фильтр «Помол»: в наборе нет ни кофемолки, ни чего-то похожего.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарисовать свою</b>Предмет понятный и узнаваемый, а в наборе его нет. Рисуется по правилам набора.</p></li>
+<li data-quiz-q data-answer="word"><p class="ds-quiz__question">Пункт меню «Программа лояльности».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Обойтись словом</b>Понятие отвлечённое. Звезда или подарок будут значить что угодно, а слово значит ровно это.</p></li>
+<li data-quiz-q data-answer="take"><p class="ds-quiz__question">Корзина в нижнем меню приложения.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Взять из набора</b>Корзина есть в каждом наборе для магазинов, и её узнают сразу. Подпись под ней всё равно не помешает.</p></li>
+<li data-quiz-q data-answer="draw"><p class="ds-quiz__question">Фильтр формата: «Зёрна», «Молотый», «Капсулы». Зерно в наборе есть, капсулы нет.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нарисовать свою</b>Капсулу узнают, а три пункта фильтра должны выглядеть одной семьёй. Недостающую рисуют по правилам набора.</p></li>
+<li data-quiz-q data-answer="word"><p class="ds-quiz__question">Отметка «обжарен на этой неделе» у свежего кофе.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Обойтись словом</b>Огонёк или календарь заставят гадать. «Обжарен 24 сентября» понятно сразу и полезнее.</p></li>
+<li data-quiz-q data-answer="take"><p class="ds-quiz__question">Кнопка «Повторить заказ»: в наборе есть круговые стрелки.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Взять из набора</b>Круговые стрелки в наборе уже есть. Рядом — подпись «Повторить заказ», одни стрелки легко принять за «Обновить».</p></li>
+<li data-quiz-q data-answer="word"><p class="ds-quiz__question">Раздел «Условия доставки и возврата» в профиле.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Обойтись словом</b>Грузовик с листком бумаги прочитают кто как. Пункт списка со словами найдут быстрее.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="take">Взять из набора</button><button class="ds-quiz__option" type="button" data-quiz-answer="draw">Нарисовать свою</button><button class="ds-quiz__option" type="button" data-quiz-answer="word">Обойтись словом</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Сначала спросите себя, узнают ли предмет с первого взгляда. Если нет — никакая иконка не поможет.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Своя иконка нужна, когда предмет понятен, а в наборе его нет.</b> Отвлечённое понятие объясняет слово.</div>
+</section>
+
+<section id="foreign">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Почему своя иконка выглядит чужой</h2></div>
+  <p class="ds-lesson__lead">Новую иконку выдаёт не сюжет, а мелочи: размер, толщина линии, концы, скругления и детали.</p>
+
+  <p>Вот иконки из фильтров магазина и новая кофемолка. Переключайте версии: нарисованную на глаз, с исправленной толщиной и по всем правилам набора. Верхний ряд в увеличении, нижний — в настоящем размере, 24 пикселя.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кофемолка среди иконок набора · три версии</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="fg1" hidden>На глаз</button><button class="ds-switch__button" type="button" data-switch-btn="fg2" hidden>Толщина исправлена</button><button class="ds-switch__button" type="button" data-switch-btn="fg3" hidden>По правилам набора</button></div>
+
+      <div data-switch-pane="fg1"><p class="ds-switch__title">На глаз</p>
+        <div class="ds-lesson__ic-row"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic ds-lesson__ic--thin ds-lesson__ic--square" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="12"/><path d="M6 11 4 5h16l-2 6"/><path d="M12 5V1h7"/><circle cx="20" cy="1.5" r="1.5"/><path d="M9 17h6"/><circle cx="6" cy="14" r=".5"/><circle cx="18" cy="14" r=".5"/><path d="M8 8h1"/><path d="M11.5 8h1"/><path d="M15 8h1"/></svg></span></div>
+        <div class="ds-lesson__ic-row"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic ds-lesson__ic--thin ds-lesson__ic--square" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="12"/><path d="M6 11 4 5h16l-2 6"/><path d="M12 5V1h7"/><circle cx="20" cy="1.5" r="1.5"/><path d="M9 17h6"/><circle cx="6" cy="14" r=".5"/><circle cx="18" cy="14" r=".5"/><path d="M8 8h1"/><path d="M11.5 8h1"/><path d="M15 8h1"/></svg></span></div>
+        <div class="ds-lesson__result"><b>Выбивается сразу</b>Кофемолка крупнее соседей и упирается в края, линия тоньше, углы острые, концы линий обрублены. Ещё на ней винтики и насечки, которые на 24 пикселях сливаются в пятна.</div>
+      </div>
+
+      <div data-switch-pane="fg2"><p class="ds-switch__title">Толщина исправлена</p>
+        <div class="ds-lesson__ic-row"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic ds-lesson__ic--square" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="12"/><path d="M6 11 4 5h16l-2 6"/><path d="M12 5V1h7"/><circle cx="20" cy="1.5" r="1.5"/><path d="M9 17h6"/><circle cx="6" cy="14" r=".5"/><circle cx="18" cy="14" r=".5"/><path d="M8 8h1"/><path d="M11.5 8h1"/><path d="M15 8h1"/></svg></span></div>
+        <div class="ds-lesson__ic-row"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic ds-lesson__ic--square" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="12"/><path d="M6 11 4 5h16l-2 6"/><path d="M12 5V1h7"/><circle cx="20" cy="1.5" r="1.5"/><path d="M9 17h6"/><circle cx="6" cy="14" r=".5"/><circle cx="18" cy="14" r=".5"/><path d="M8 8h1"/><path d="M11.5 8h1"/><path d="M15 8h1"/></svg></span></div>
+        <div class="ds-lesson__result"><b>Лучше, но всё ещё чужая</b>Линия как у соседей, но иконка выше и шире остальных, углы острые, а детали стали ещё гуще.</div>
+      </div>
+
+      <div data-switch-pane="fg3"><p class="ds-switch__title">По правилам набора</p>
+        <div class="ds-lesson__ic-row"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg></span></div>
+        <div class="ds-lesson__ic-row"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg></span></div>
+        <div class="ds-lesson__result"><b>Своя среди своих</b>Кофемолка помещается в поле, линия 2 пикселя, концы и углы скруглены, деталей ровно столько, чтобы узнать предмет. В ряду её не видно как новую.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Новая иконка в каждой версии — последняя в ряду.</div>
+  </div>
+
+  <p>Чтобы иконка встала в ряд, выпишите параметры набора до того, как рисовать. Если в описании набора их нет, измерьте две-три готовые иконки в редакторе.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Параметр</th><th scope="col">В наборе магазина</th><th scope="col">Кофемолка на глаз</th></tr></thead>
+      <tbody>
+        <tr><td><b>Холст</b></td><td>24 × 24</td><td>24 × 24</td></tr>
+        <tr><td><b>Поле</b></td><td>2 пикселя со всех сторон, рисунок в квадрате 20 × 20</td><td>Рисунок до самого края</td></tr>
+        <tr><td><b>Толщина линии</b></td><td>2 пикселя</td><td>1,5 пикселя</td></tr>
+        <tr><td><b>Концы и углы линий</b></td><td>Скруглённые</td><td>Прямые</td></tr>
+        <tr><td><b>Скругление прямоугольников</b></td><td>2 пикселя</td><td>Нет</td></tr>
+        <tr><td><b>Заливка</b></td><td>Нет, только линия</td><td>Нет</td></tr>
+        <tr><td><b>Детали</b></td><td>Между линиями не меньше 2 пикселей</td><td>Винтики и насечки вплотную</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>То же с иллюстрациями. Картинка для пустого экрана, которая стоит рядом с такими иконками, берёт у них толщину линии, скругления и два-три цвета из палитры продукта. Иллюстрация в другом стиле будет выглядеть так же чужой, как кофемолка на глаз, только крупнее.</p>
+
+  <div class="ds-lesson__rule"><b>Правила набора выписывают до того, как рисовать.</b> Своя иконка отличается от соседей только сюжетом.</div>
+</section>
+
+<section id="grid">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Холст, поле и опорные фигуры</h2></div>
+  <p class="ds-lesson__lead">Иконку рисуют на холсте набора и не выходят за поле. Форму подгоняют под опорные фигуры, чтобы круглые и квадратные иконки казались одного размера.</p>
+
+  <p>Холст — квадрат 24 на 24. Поле — отступ 2 пикселя со всех сторон, рисунок живёт в квадрате 20 на 20. Отступ нужен, чтобы иконки не слипались друг с другом и с краем кнопки. Включайте и выключайте слои и посмотрите, как кофемолка стоит на сетке.</p>
+
+  <div class="ds-lesson__box is-icgrid is-icpad is-ickeys">
+    <div class="ds-lesson__box-head">Кофемолка на холсте 24 × 24<span class="ds-lesson__spacer"></span><span data-layer-actions><span data-layer="icgrid" data-layer-label="Сетка"></span> <span data-layer="icpad" data-layer-label="Поле"></span> <span data-layer="ickeys" data-layer-label="Опорные фигуры"></span></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ic-stage"><svg class="ds-lesson__ic-board" width="240" height="240" viewBox="0 0 24 24" aria-hidden="true"><path class="ds-lesson__ic-pad" fill-rule="evenodd" d="M0 0h24v24H0zM2 2v20h20V2z"/><path class="ds-lesson__ic-grid" d="M1 0v24M2 0v24M3 0v24M4 0v24M5 0v24M6 0v24M7 0v24M8 0v24M9 0v24M10 0v24M11 0v24M12 0v24M13 0v24M14 0v24M15 0v24M16 0v24M17 0v24M18 0v24M19 0v24M20 0v24M21 0v24M22 0v24M23 0v24M0 1h24M0 2h24M0 3h24M0 4h24M0 5h24M0 6h24M0 7h24M0 8h24M0 9h24M0 10h24M0 11h24M0 12h24M0 13h24M0 14h24M0 15h24M0 16h24M0 17h24M0 18h24M0 19h24M0 20h24M0 21h24M0 22h24M0 23h24"/><g class="ds-lesson__ic-keys"><circle cx="12" cy="12" r="10"/><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="4" y="2" width="16" height="20" rx="2"/><rect x="2" y="4" width="20" height="16" rx="2"/></g><g class="ds-lesson__ic-art"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></g></svg><div class="ds-lesson__ic-actual"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">24 пикселя</span></div></div>
+    </div>
+    <div class="ds-lesson__box-foot">Сетка — один пиксель на клетку. Закрашенная рамка — поле, туда рисунок не заходит. Пунктир — опорные фигуры: круг, квадрат и два прямоугольника.</div>
+  </div>
+
+  <p>Опорные фигуры нужны из-за оптики. Круг, вписанный в тот же квадрат, что и квадрат, кажется меньше: у него нет углов. Поэтому во второй версии Material Design круглые иконки рисуют по кругу диаметром 20, квадратные — по квадрату 18, а вытянутые — по прямоугольникам 20 на 16 и 16 на 20. Так они выглядят одного размера.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Круг и квадрат · одинаковые на бумаге, разные на глаз</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ic-row ds-lesson__ic-row--named">
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic ds-lesson__ic--fill" width="72" height="72" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg><span class="ds-lesson__ic-name">Круг 20</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic ds-lesson__ic--fill" width="72" height="72" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="2"/></svg><span class="ds-lesson__ic-name">Квадрат 20</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic ds-lesson__ic--fill" width="72" height="72" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/></svg><span class="ds-lesson__ic-name">Квадрат 18</span></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Квадрат 20 кажется крупнее круга 20, хотя в ширину они одинаковые. Квадрат 18 стоит с кругом вровень.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Рисунок не выходит за поле.</b> Круглая форма берёт поле целиком, квадратная — чуть меньше. Кофемолка — квадратная, поэтому её корпус уже поля.</div>
+</section>
+
+<section id="size">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Проверка в настоящем размере</h2></div>
+  <p class="ds-lesson__lead">В увеличении любая иконка выглядит аккуратно. Правду показывает размер, в котором она стоит на экране.</p>
+
+  <p>Иконку рисуют крупно, а проверяют в тех размерах, где она будет: 24 в кнопке, 20 в поле, 16 в строке списка. И на обоих фонах — светлом и тёмном.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кофемолка · от 16 до 48 пикселей, на светлом и тёмном</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ic-strip">
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">16</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">20</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">24</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">32</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">48</span></span>
+      </div>
+      <div class="ds-lesson__ic-strip ds-lesson__ic-strip--dark">
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">16</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">20</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">24</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">32</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">48</span></span>
+      </div>
+      <p class="ds-lesson__wf-caption">С насечками и без, 16 и 24 пикселя</p>
+      <div class="ds-lesson__ic-strip">
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/><path d="M8.5 10h1"/><path d="M11.5 10h1"/><path d="M14.5 10h1"/><circle cx="7.5" cy="14.5" r=".4"/><circle cx="16.5" cy="14.5" r=".4"/></svg><span class="ds-lesson__ic-name">насечки, 16</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">без, 16</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/><path d="M8.5 10h1"/><path d="M11.5 10h1"/><path d="M14.5 10h1"/><circle cx="7.5" cy="14.5" r=".4"/><circle cx="16.5" cy="14.5" r=".4"/></svg><span class="ds-lesson__ic-name">насечки, 24</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">без, 24</span></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">На 16 пикселях насечки на чаше сливаются в сплошную полосу, а винтики — в грязь. Без них кофемолку узнают так же, а выглядит она чище.</div>
+  </div>
+
+  <p>Экран рисует пикселями. Линия толщиной 2, поставленная на целые координаты, ложится ровно на два столбца пикселей. Сдвинутая на полпикселя, она ложится на три: крайние становятся полупрозрачными, и иконка выглядит размытой. На экранах с высокой плотностью пикселей это почти не видно, на обычных мониторах — сразу.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Линия толщиной 2 · на целом пикселе и на половине</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ic-row ds-lesson__ic-row--named">
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic-px" width="160" height="160" viewBox="0 0 8 8" aria-hidden="true"><rect class="ds-lesson__ic-px-full" x="3" y="0" width="2" height="8"/><path class="ds-lesson__ic-px-grid" d="M1 0v8M2 0v8M3 0v8M4 0v8M5 0v8M6 0v8M7 0v8M0 1h8M0 2h8M0 3h8M0 4h8M0 5h8M0 6h8M0 7h8"/><rect class="ds-lesson__ic-px-line" x="3" y="0" width="2" height="8"/></svg><span class="ds-lesson__ic-name">x = 4: два столбца</span></span>
+        <span class="ds-lesson__ic-cell"><svg class="ds-lesson__ic-px" width="160" height="160" viewBox="0 0 8 8" aria-hidden="true"><rect class="ds-lesson__ic-px-half" x="3" y="0" width="1" height="8"/><rect class="ds-lesson__ic-px-full" x="4" y="0" width="1" height="8"/><rect class="ds-lesson__ic-px-half" x="5" y="0" width="1" height="8"/><path class="ds-lesson__ic-px-grid" d="M1 0v8M2 0v8M3 0v8M4 0v8M5 0v8M6 0v8M7 0v8M0 1h8M0 2h8M0 3h8M0 4h8M0 5h8M0 6h8M0 7h8"/><rect class="ds-lesson__ic-px-line" x="3.5" y="0" width="2" height="8"/></svg><span class="ds-lesson__ic-name">x = 4,5: три столбца</span></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Пунктир — где линия нарисована, клетки — пиксели экрана. Справа крайние пиксели закрашены наполовину: так выглядит размытие вблизи.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Точки линии толщиной 2 ставят на целые пиксели, толщиной 1 — на половинки.</b> Промежуток между линиями — не меньше 2 пикселей, иначе на 16 они слипаются.</div>
+
+  <p>И проверьте контраст. Иконка, без которой непонятно, что делает кнопка, должна иметь контраст с фоном не ниже 3&nbsp;:&nbsp;1. Это требование WCAG, критерий 1.4.11, уровень AA.</p>
+</section>
+
+<section id="svg">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>SVG для разработки</h2></div>
+  <p class="ds-lesson__lead">Разработке нужен файл, который встаёт в код как есть: один рисунок, без служебного мусора и с цветом, который можно поменять.</p>
+
+  <p>Вот кофемолка, как она часто выходит из редактора без настройки экспорта, и та же кофемолка, готовая к передаче.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">grinder.svg · из редактора и готовый<span class="ds-lesson__spacer"></span><span data-copy="svgClean"></span></div>
+    <div class="ds-lesson__box-body">
+      <p class="ds-lesson__wf-caption">Из редактора</p>
+<pre>&lt;svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"&gt;
+&lt;g id="Frame 12" clip-path="url(#clip0_12_3)"&gt;
+&lt;g id="Group 4"&gt;
+&lt;rect id="Rectangle 7" x="5" y="12" width="14" height="9" rx="2" stroke="#1B1F24" stroke-width="2"/&gt;
+&lt;path id="Vector 3" d="M8 12L7 8H17L16 12" stroke="#1B1F24" stroke-width="2" stroke-linejoin="round"/&gt;
+&lt;path id="Vector 5" d="M12 8V4H17" stroke="#1B1F24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;
+&lt;circle id="Ellipse 2" cx="18" cy="4" r="1" stroke="#1B1F24" stroke-width="2"/&gt;
+&lt;path id="Vector 6" d="M10 17H14" stroke="#1B1F24" stroke-width="2" stroke-linecap="round"/&gt;
+&lt;/g&gt;
+&lt;/g&gt;
+&lt;defs&gt;
+&lt;clipPath id="clip0_12_3"&gt;
+&lt;rect width="24" height="24" fill="white"/&gt;
+&lt;/clipPath&gt;
+&lt;/defs&gt;
+&lt;/svg&gt;</pre>
+      <p class="ds-lesson__wf-caption">Готовый к передаче</p>
+<pre id="svgClean">&lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="2"
+     stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;rect x="5" y="12" width="14" height="9" rx="2"/&gt;
+  &lt;path d="M8 12 7 8h10l-1 4"/&gt;
+  &lt;path d="M12 8V4h5"/&gt;
+  &lt;circle cx="18" cy="4" r="1"/&gt;
+  &lt;path d="M10 17h4"/&gt;
+&lt;/svg&gt;</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Рисунок один и тот же. Во втором файле нет групп, имён слоёв, обрезки и цвета, вписанного кодом, а параметры линии заданы один раз на весь файл.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что в файле</th><th scope="col">Зачем</th></tr></thead>
+      <tbody>
+        <tr><td><code>viewBox="0 0 24 24"</code></td><td>Холст набора. Размер на экране задаёт разработка, рисунок масштабируется целиком</td></tr>
+        <tr><td><code>stroke="currentColor"</code></td><td>Цвет берётся у текста рядом, поэтому иконка сама перекрашивается в тёмной теме и на кнопке</td></tr>
+        <tr><td><code>fill="none"</code>, толщина, концы и углы</td><td>Параметры набора один раз на весь файл, а не у каждой линии</td></tr>
+        <tr><td>Нет <code>id</code>, групп и обрезки</td><td>Они только занимают место, а одинаковые <code>id</code> у двух иконок на одной странице ломают друг другу рисунок</td></tr>
+        <tr><td>Имя <code>grinder.svg</code></td><td>Что нарисовано, латиницей, как у соседей по набору, а не <code>icon-new-final2.svg</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Почистить файл помогает <a href="/resource/svgomg/">SVGOMG</a>: он убирает служебные данные редактора и рядом показывает, не испортилась ли при этом форма. После чистки откройте файл в браузере и сравните с макетом.</p>
+
+  <p>И допишите для разработки, что иконка значит. Если она стоит рядом со словом, экранному диктору её не читают. Если кнопка состоит только из иконки, ей нужно название словами — «Помол», — иначе диктор скажет просто «кнопка».</p>
+
+  <div class="ds-lesson__rule"><b>Файл иконки — один рисунок и параметры набора.</b> Цвет не вписан, а берётся у текста, имя говорит, что нарисовано.</div>
+</section>
+
+<section id="license">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Лицензия набора и своя иконка</h2></div>
+  <p class="ds-lesson__lead">Своя иконка — ваша. Но когда вы дорисовываете к чужому набору или меняете его иконки, условия набора продолжают действовать.</p>
+
+  <p>У открытых наборов условия простые, но они есть. Вот что они требуют, если иконки набора попадают в ваш продукт:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Набор</th><th scope="col">Лицензия</th><th scope="col">Что нужно</th></tr></thead>
+      <tbody>
+        <tr><td><a href="/resource/lucide/">Lucide</a></td><td>ISC</td><td>Сохранять текст лицензии с файлами набора, которые вы распространяете</td></tr>
+        <tr><td><a href="/resource/tabler-icons/">Tabler Icons</a>, <a href="/resource/heroicons/">Heroicons</a>, <a href="/resource/phosphor-icons/">Phosphor</a></td><td>MIT</td><td>То же: текст лицензии остаётся с файлами</td></tr>
+        <tr><td><a href="/resource/material-symbols/">Material Symbols</a></td><td>Apache 2.0</td><td>Приложить текст лицензии и отметить файлы, которые вы изменили</td></tr>
+        <tr><td><a href="/resource/remix-icon/">Remix Icon</a></td><td>Собственная, с января 2026 года</td><td>В продукте можно. Продавать иконки отдельным набором и делать на их основе свой набор иконок нельзя</td></tr>
+        <tr><td><a href="/resource/font-awesome/">Font Awesome Free</a></td><td>CC BY 4.0 для иконок</td><td>Указать автора. В скачанных файлах указание уже стоит в комментариях</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>С иллюстрациями условия разнообразнее. <a href="/resource/undraw/">unDraw</a> разрешает ставить картинки в коммерческий продукт без указания автора, но не разрешает раздавать и продавать их как свои наборы. <a href="/resource/storyset/">Storyset</a> бесплатен, если указать сайт как источник, без этого — по подписке Flaticon Premium. <a href="/resource/humaaans/">Humaaans</a> и <a href="/resource/open-peeps/">Open Peeps</a> выложены под CC0: условий нет совсем.</p>
+
+  <div class="ds-lesson__rule"><b>Запишите рядом с каждой иконкой, откуда она:</b> своя или из набора и по какой лицензии. Через год этого никто не вспомнит, а спросить могут.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Найдите чужие иконки</h2></div>
+  <p class="ds-lesson__lead">Иконки фильтров и меню магазина. Пять из десяти нарушают правила набора.</p>
+
+  <p>Нажимайте на иконки, которые выбиваются из ряда. В разборе будет, каким параметром. Иконки показаны в 32 пикселя, чтобы на них было удобно нажимать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Набор магазина · найдите чужие<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__ic-set">
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Чашка"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><span class="ds-lesson__ic-name">чашка</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Избранное"><svg class="ds-lesson__ic ds-lesson__ic--fill" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><span class="ds-lesson__ic-name">избранное</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Корзина"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><span class="ds-lesson__ic-name">корзина</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Профиль"><svg class="ds-lesson__ic ds-lesson__ic--thin" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg><span class="ds-lesson__ic-name">профиль</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Помол"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-name">помол</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Время доставки"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11"/><path d="M12 4v8l5 3"/></svg><span class="ds-lesson__ic-name">время</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Поиск"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span class="ds-lesson__ic-name">поиск</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Уведомления"><svg class="ds-lesson__ic ds-lesson__ic--square" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 12 0v4l2 3H4z"/><path d="M10 21h4"/></svg><span class="ds-lesson__ic-name">уведомления</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Доставка"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="11" height="10" rx="2"/><path d="M14 9h3.5l3.5 4v3h-7"/><circle cx="8" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><span class="ds-lesson__ic-name">доставка</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Зёрна"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/><circle cx="9.5" cy="10" r=".5"/><circle cx="14.5" cy="14" r=".5"/><circle cx="11" cy="15.5" r=".5"/><circle cx="13" cy="8.5" r=".5"/><path d="M15.5 11.5l1 1"/><path d="M7.5 12.5l1 1"/></svg><span class="ds-lesson__ic-name">зёрна</span></span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Чашка.</span><span class="ds-lesson__hunt-fix"><b>По правилам. </b>Линия 2, концы скруглены, рисунок в поле.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Избранное — залитое сердце.</span><span class="ds-lesson__hunt-fix"><b>Заливка. </b>Набор линейный, и залитая иконка сразу темнее и тяжелее соседей. Залитое сердце можно оставить как состояние «уже в избранном», но основная иконка — контуром.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Корзина.</span><span class="ds-lesson__hunt-fix"><b>По правилам. </b>Та же линия и те же скругления, колёса — точки, как у соседей.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Профиль — линия тоньше.</span><span class="ds-lesson__hunt-fix"><b>Толщина. </b>Линия 1,5 вместо 2. В ряду иконка выглядит бледнее, будто неактивная.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Помол — кофемолка.</span><span class="ds-lesson__hunt-fix"><b>По правилам. </b>Та самая кофемолка из урока. Нарисована по правилам набора, и её не видно как новую.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Время доставки — часы во весь холст.</span><span class="ds-lesson__hunt-fix"><b>Размер. </b>Круг выходит за поле и упирается в края холста. Часы кажутся крупнее всех остальных. Круглой иконке хватает круга диаметром 20.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Поиск.</span><span class="ds-lesson__hunt-fix"><b>По правилам. </b>Круг в поле, ручка лупы заканчивается у его края.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Уведомления — колокольчик с острыми углами.</span><span class="ds-lesson__hunt-fix"><b>Концы и углы. </b>Концы линий обрублены, углы острые, а у всего набора они скруглены. Разница мелкая, но в ряду иконка выглядит жёстче остальных.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Доставка — грузовик.</span><span class="ds-lesson__hunt-fix"><b>По правилам. </b>Прямоугольник кузова скруглён на 2, как у кофемолки, колёса в поле.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Зёрна — зерно с точками и штрихами.</span><span class="ds-lesson__hunt-fix"><b>Детали. </b>Точки и штрихи ближе 2 пикселей друг к другу. На 24 и тем более на 16 они сливаются в пятно, и зерно становится похоже на что угодно.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую иконку</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Каждая чужая выбивается одним параметром: заливкой, толщиной, размером, концами или деталями. Кофемолка, которую вы рисовали весь урок, в чужие не попала.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Иконки по правилам тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Сравнивайте с соседями по одному параметру за раз.</b> Размер, толщина, концы, скругления, детали. Обычно иконку выдаёт что-то одно.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Найдите в своём продукте задачу, для которой нет подходящей иконки, нарисуйте её и поставьте рядом с иконками набора.</p>
+
+  <h3>Часть 1 · Правила набора, 15 минут</h3>
+  <ol>
+    <li><strong>Найдите задачу</strong>, для которой в наборе нет иконки, и проверьте по первому разделу урока, что иконка здесь вообще нужна.</li>
+    <li><strong>Выпишите правила набора:</strong> холст, поле, толщину, концы, скругления, заливку, детали. Нет описания — измерьте две-три готовые иконки.</li>
+    <li><strong>Узнайте лицензию набора</strong> и запишите её.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Новая иконка · заполните до и после рисования<span class="ds-lesson__spacer"></span><span data-copy="iconTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="iconTmpl">ИКОНКА: ______________   смысл: ______________   где стоит: ______________
+НАБОР: ______________   лицензия: ______________
+
+ПРАВИЛА НАБОРА
+холст: __ × __        поле: __ px         толщина линии: __ px
+концы и углы: скруглённые / прямые        скругление прямоугольников: __ px
+заливка: нет / есть   детали: промежутки не меньше __ px
+
+ПРОВЕРКА
+размеры 16 / 20 / 24 — проверено в каждом: да / нет
+светлый и тёмный фон — проверено: да / нет    контраст с фоном: __ : 1
+в ряду из десяти её не отличить от соседей: да / нет
+
+ФАЙЛ
+имя: ______________.svg    цвет: currentColor    групп, id и обрезки нет: да / нет
+название словами для кнопки без подписи: ______________
+откуда иконка: своя / из набора ______________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Правила набора заполняйте до рисования, проверку — после.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать, 40 минут</h3>
+  <ol>
+    <li><strong>Создайте холст набора</strong> и включите пиксельную сетку.</li>
+    <li><strong>Выберите опорную фигуру</strong> по форме предмета: круг, квадрат или прямоугольник.</li>
+    <li><strong>Соберите предмет из простых фигур</strong> с толщиной и скруглениями набора. Сначала силуэт, детали — только если без них предмет не узнать.</li>
+    <li><strong>После каждого шага смотрите иконку в 100 %</strong>, а не только в увеличении.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить и отдать, 15 минут</h3>
+  <ol>
+    <li><strong>Поставьте иконку в ряд</strong> из десяти иконок набора на светлом и тёмном фоне, в 16, 20 и 24 пикселя.</li>
+    <li><strong>Покажите ряд коллеге</strong> и спросите, какая иконка новая. Если угадал сразу, сравните с соседями по одному параметру.</li>
+    <li><strong>Выгрузите SVG,</strong> почистите в SVGOMG, назовите по правилам набора.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> В ряду из десяти иконок вашу не видно как чужую.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Иконка в SVG,</strong> готовая к передаче в разработку.</li>
+    <li><strong>Ряд из десяти иконок</strong> с вашей — на светлом и тёмном фоне.</li>
+    <li><strong>Заполненный шаблон</strong> с правилами набора и проверкой.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут на правила, 40 на рисование, 15 на проверку. Всего — чуть больше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«В увеличении ровно, на экране криво».</strong> Обычно виноваты точки на полупикселях или детали мельче 2 пикселей. Проверяйте в 100 % после каждого шага, а не в конце.</li>
+    <li><strong>«У набора нет описания правил».</strong> Откройте две-три иконки в редакторе и измерьте холст, отступ до края, толщину и радиусы. Этого хватит.</li>
+    <li><strong>«Предмет не узнаётся».</strong> Уберите детали и оставьте силуэт. Если без подписи всё равно не понять, это нормально: подпись нужна почти любой иконке.</li>
+    <li><strong>«Всё по правилам, а иконка всё равно чужая».</strong> Сравните плотность: сколько линий на холсте у соседей и у вашей. Иконка с вдвое большим числом линий выглядит темнее при той же толщине.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Иконка готова, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Её действительно нет в наборе, а предмет узнаётся</li>
+    <li>Холст и поле как у набора, рисунок за поле не выходит</li>
+    <li>Форма подогнана под опорную фигуру</li>
+    <li>Толщина, концы, углы и скругления как у соседей</li>
+    <li>Между линиями не меньше 2 пикселей</li>
+    <li>Проверена в 16, 20 и 24 пикселя на светлом и тёмном фоне</li>
+    <li>SVG без групп, id и вписанного цвета, имя по правилам набора</li>
+    <li>Записано, откуда иконка и по какой лицензии набор</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Рисунок до края холста.</b> Иконка кажется крупнее соседей и слипается с краем кнопки.</li>
+    <li><b>«Почти такая же» толщина.</b> 1,5 вместо 2 в ряду читается как неактивная иконка.</li>
+    <li><b>Детали ради красоты.</b> На 16 пикселях они превращаются в пятно.</li>
+    <li><b>Проверка только в увеличении.</b> Размытие и слипшиеся линии видны лишь в настоящем размере.</li>
+    <li><b>Иконка из чужого набора.</b> Своя сетка и своя линия, и в ряду её видно сразу.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся рисовать отдельную иконку, которая встаёт в готовый набор. На следующих ступенях — собирать свой набор с общими правилами и настроенным экспортом, а потом описывать правила так, чтобы набор дорисовывали другие.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Решать, нужна ли своя иконка; рисовать на холсте набора с его полем, толщиной и скруглениями; проверять в настоящем размере; отдавать чистый SVG; понимать лицензию набора</td>
+          <td>В ряду из десяти иконок вашу не видно как чужую</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Задавать правила набора один раз; собирать иконки компонентами с цветом и размером в переменных; настраивать экспорт; проверять набор в двух темах и в мелком размере; не заводить два значка на одну задачу</td>
+          <td class="ds-lesson__dim">Смена цвета и размера любой иконки — одно действие, а не правка исходника</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описывать правила набора для других; собирать примеры «так» и «не так»; принимать чужие иконки по правилам; решать, что в набор не берём; держать лицензии в порядке</td>
+          <td class="ds-lesson__dim">Чужая иконка вошла в набор без вашей перерисовки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> любую свою иконку можно поставить в ряд с готовыми, и никто не скажет, какая из них новая.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://m2.material.io/design/iconography/system-icons.html">System icons</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a>, вторая версия · на английском · бесплатно</span><span>Холст, поле и опорные фигуры с картинками: откуда берутся 24, 20 и 18.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://lucide.dev/contribute/icons/design-principles">Lucide design language</a></span><span class="ds-lesson__reads-meta"><a href="/resource/lucide/">Lucide</a> · на английском · бесплатно</span><span>Правила открытого набора по пунктам: холст, линия, скругления, промежутки. Удобно сверять свою иконку.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://iconutopia.com/how-to-design-pixel-perfect-icons/">How to Master Pixel Perfect Icons</a></span><span class="ds-lesson__reads-meta"><a href="/resource/icon-utopia/">Icon Utopia</a> · на английском · бесплатно</span><span>Как выровнять иконку по пиксельной сетке, чтобы она не размывалась: целые координаты, размеры и толщины.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/icon-usability/">Icon Usability</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Аврора Харли · на английском · бесплатно</span><span>Какие иконки узнают без подписи и почему остальным она нужна всегда.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/svgomg/">SVGOMG</a></span><span class="ds-lesson__reads-meta">инструмент · на английском · бесплатно</span><span>Почистить SVG перед отдачей в разработку и сразу увидеть, не испортилась ли форма.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

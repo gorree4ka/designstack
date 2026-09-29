@@ -5,7 +5,7 @@
  * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
  * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
  * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия, —
- * «три секунды» и проигрыватель движения.
+ * «три секунды», проигрыватель движения и настройка образца.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -2661,5 +2661,49 @@
 		void box.offsetWidth;
 		box.classList.remove( 'is-snap' );
 		place.appendChild( btn );
+	} );
+
+	/* ── настройка образца: размер и цвет одним действием ──────────────────
+	   Коробка `data-tune` держит свойства образца во встроенном стиле: без
+	   скрипта виден вариант по умолчанию. Скрипт ставит кнопки — по группе на
+	   каждый `data-tune-pick`, значения и подписи приходят из урока. Нажатие
+	   меняет одно пользовательское свойство на коробке, и весь образец следом. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-tune]' ), function ( box ) {
+		Array.prototype.forEach.call( box.querySelectorAll( '[data-tune-pick]' ), function ( pick ) {
+			var prop = pick.getAttribute( 'data-tune-pick' );
+			var values = ( pick.getAttribute( 'data-tune-values' ) || '' ).split( '|' );
+			var labels = ( pick.getAttribute( 'data-tune-labels' ) || '' ).split( '|' );
+			var title = pick.getAttribute( 'data-tune-title' );
+			var buttons = [];
+
+			function mark( value ) {
+				buttons.forEach( function ( one, i ) {
+					one.setAttribute( 'aria-pressed', String( values[ i ] === value ) );
+				} );
+			}
+
+			if ( title ) {
+				var head = document.createElement( 'span' );
+
+				head.className = 'ds-lesson__tune-title';
+				head.textContent = title;
+				pick.appendChild( head );
+				pick.setAttribute( 'role', 'group' );
+				pick.setAttribute( 'aria-label', title );
+			}
+
+			values.forEach( function ( value, i ) {
+				var one = button( labels[ i ] || value );
+
+				one.addEventListener( 'click', function () {
+					box.style.setProperty( prop, value );
+					mark( value );
+				} );
+				buttons.push( one );
+				pick.appendChild( one );
+			} );
+
+			mark( box.style.getPropertyValue( prop ).trim() );
+		} );
 	} );
 }() );

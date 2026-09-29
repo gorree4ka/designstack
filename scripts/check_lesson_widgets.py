@@ -66,6 +66,10 @@ with sync_playwright() as play:
         ("patterns-states-junior", ["Не удалось загрузить заказы", "Заказ № 1043 оформлен", "Убрать. Ответ быстрее секунды"]),
         ("patterns-states-middle", ["Ещё 11 товаров", "имя не указано", "Вопрос: «Какой текст и где?»"]),
         ("patterns-states-senior", ["Обманный паттерн. Это стыжение", "Удалить аккаунт «Кофейня на Лесной»?", "ГДЕ ИСПОЛЬЗУЕТСЯ"]),
+        # Версии иконки в переключателе и слои холста — содержимое урока: без скрипта видно всё.
+        ("icons-illustration-junior", ["Толщина исправлена", "Заливка. Набор линейный", "Круг 20"]),
+        ("icons-illustration-middle", ["Белый фон в файле", "heart-filled.svg", "Отдельная отрисовка под размер"]),
+        ("icons-illustration-senior", ["Вкус. Что именно грустно", "Официальный знак из материалов самого бренда", "9. КАК ПРИСЛАТЬ ИКОНКУ"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -106,6 +110,16 @@ with sync_playwright() as play:
     badges = page.evaluate("""() => { const all = [...document.querySelectorAll('#seven .ds-lesson__fs-n')];
         return [all.length, all.filter(el => el.offsetParent !== null).length]; }""")
     fails += 0 if say(badges[0] == 14 and badges[0] == badges[1], "таблички кеглей видны: %d из %d" % (badges[1], badges[0])) else 1
+    page.close()
+
+    # «Иконки, Junior»: все три слоя холста и все три версии кофемолки видны без скрипта.
+    page = plain.new_page()
+    page.goto(BASE + "icons-illustration-junior/")
+    head("icons-illustration-junior · слои и версии без скрипта")
+    layers = page.evaluate("""() => ['grid', 'pad', 'keys'].map(n => getComputedStyle(document.querySelector('.ds-lesson__ic-' + n)).display)""")
+    fails += 0 if say(all(d != "none" for d in layers), "сетка, поле и опорные фигуры видны: " + str(layers)) else 1
+    new = page.evaluate("[...document.querySelectorAll('#foreign .ds-lesson__ic-new')].filter(el => el.offsetParent !== null).length")
+    fails += 0 if say(new == 6, "кофемолка во всех трёх версиях, в двух размерах: %d из 6" % new) else 1
     page.close()
 
     plain.close()
@@ -1164,6 +1178,64 @@ with sync_playwright() as play:
     leak = page.evaluate(HIDDEN)
     fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
     fails += 0 if say(hunt_all(page, 10), "прогон экрана подписки: 10 строк, совпадения не засчитаны, найдено 5 из 5") else 1
+    page.close()
+
+    # «Иконки и иллюстрации»: слой выключается кнопкой, настройка меняет размер и цвет
+    # всего образца одним нажатием, три поиска считают только чужое.
+    page = ctx.new_page()
+    page.goto(BASE + "icons-illustration-junior/")
+    page.wait_for_timeout(300)
+    head("icons-illustration-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    page.click("#grid [data-layer=icgrid] button")
+    page.wait_for_timeout(30)
+    grid = page.evaluate("getComputedStyle(document.querySelector('.ds-lesson__ic-grid')).display")
+    keys = page.evaluate("getComputedStyle(document.querySelector('.ds-lesson__ic-keys')).display")
+    fails += 0 if say(grid == "none" and keys != "none", "кнопка «Сетка» прячет сетку, опорные фигуры остаются") else 1
+    shown = page.evaluate("[...document.querySelectorAll('#foreign [data-switch-pane]')].filter(el => el.offsetParent !== null).map(el => el.getAttribute('data-switch-pane'))")
+    fails += 0 if say(shown == ["fg1"], "переключатель версий: видна одна, «На глаз»") else 1
+    fails += 0 if say(hunt_all(page, 10), "ряд из десяти: по правилам не засчитаны, чужих найдено 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "icons-illustration-middle/")
+    page.wait_for_timeout(300)
+    head("icons-illustration-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    made = page.evaluate("[document.querySelectorAll('[data-tune-pick] button').length, [...document.querySelectorAll('[data-tune-pick] button[aria-pressed=true]')].map(b => b.textContent)]")
+    fails += 0 if say(made[0] == 8 and made[1] == ["24", "Основной"], "настройка: 8 кнопок, нажаты 24 и «Основной» — %s" % made) else 1
+    page.click("#component [data-tune-pick='--ic-size'] button:nth-of-type(1)")
+    page.click("#component [data-tune-pick='--ic-color'] button:nth-of-type(3)")
+    page.wait_for_timeout(30)
+    tuned = page.evaluate("""() => { const all = [...document.querySelectorAll('.ds-lesson__ic-tuned .ds-lesson__ic')];
+        const probe = document.createElement('span'); probe.style.color = 'var(--wp--preset--color--text-action)'; document.body.appendChild(probe);
+        const action = getComputedStyle(probe).color; probe.remove();
+        return [all.length, all.every(el => Math.round(el.getBoundingClientRect().width) === 16), all.every(el => getComputedStyle(el).color === action)]; }""")
+    fails += 0 if say(tuned[0] == 10 and tuned[1] and tuned[2], "одно нажатие — все %d иконок стали 16 и акцентными" % tuned[0]) else 1
+    fails += 0 if say(hunt_all(page, 10), "набор на тёмном: без поломок не засчитаны, найдено 5 из 5") else 1
+    page.close()
+
+    # Плитка «как в тёмной теме» тёмная при любой теме сайта: на подложке цвета текста
+    # в тёмной теме нарочная поломка (чёрная иконка, тёмный акцент) пропала бы.
+    tiles = []
+    for scheme in ("light", "dark"):
+        look = browser.new_context(color_scheme=scheme)
+        one = look.new_page()
+        one.goto(BASE + "icons-illustration-middle/")
+        tiles.append(one.evaluate("getComputedStyle(document.querySelector('.ds-lesson__ic-tile')).backgroundColor"))
+        look.close()
+    dark = [sum(int(v) for v in t[t.index("(") + 1:t.index(")")].split(",")[:3]) < 90 for t in tiles]
+    fails += 0 if say(tiles[0] == tiles[1] and all(dark), "плитка «тёмная тема» тёмная в обеих темах сайта: %s" % tiles) else 1
+
+    page = ctx.new_page()
+    page.goto(BASE + "icons-illustration-senior/")
+    page.wait_for_timeout(300)
+    head("icons-illustration-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(hunt_all(page, 10), "ревью: замечания по правилу не засчитаны, вкусовых найдено 5 из 5") else 1
     page.close()
     browser.close()
 

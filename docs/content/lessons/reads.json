@@ -344,6 +344,58 @@
   "deceptive-types": {
    "title": "<a href=\"https://deceptive.design/types/\">Types of deceptive pattern</a>",
    "meta": "<a href=\"/resource/deceptive-design/\">Deceptive Patterns</a>, Гарри Бриньолл · на английском · бесплатно"
+  },
+  "iconutopia-pixel": {
+   "title": "<a href=\"https://iconutopia.com/how-to-design-pixel-perfect-icons/\">How to Master Pixel Perfect Icons</a>",
+   "meta": "<a href=\"/resource/icon-utopia/\">Icon Utopia</a> · на английском · бесплатно"
+  },
+  "m2-system-icons": {
+   "title": "<a href=\"https://m2.material.io/design/iconography/system-icons.html\">System icons</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно"
+  },
+  "lucide-principles": {
+   "title": "<a href=\"https://lucide.dev/contribute/icons/design-principles\">Lucide design language</a>",
+   "meta": "<a href=\"/resource/lucide/\">Lucide</a> · на английском · бесплатно"
+  },
+  "nng-icon-usability": {
+   "title": "<a href=\"https://www.nngroup.com/articles/icon-usability/\">Icon Usability</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Аврора Харли · на английском · бесплатно"
+  },
+  "svgomg": {
+   "title": "<a href=\"/resource/svgomg/\">SVGOMG</a>",
+   "meta": "инструмент · на английском · бесплатно"
+  },
+  "material-symbols-guide": {
+   "title": "<a href=\"https://developers.google.com/fonts/docs/material_symbols\">Material Symbols guide</a>",
+   "meta": "<a href=\"/resource/material-symbols/\">Material Symbols</a> · на английском · бесплатно"
+  },
+  "heroicons": {
+   "title": "<a href=\"/resource/heroicons/\">Heroicons</a>",
+   "meta": "набор иконок · бесплатно, лицензия MIT"
+  },
+  "lucide-stroke": {
+   "title": "<a href=\"https://lucide.dev/guide/react/basics/stroke-width\">Stroke width</a>",
+   "meta": "<a href=\"/resource/lucide/\">Lucide</a>, документация · на английском · бесплатно"
+  },
+  "figma-component-props": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/5579474826519-Explore-component-properties\">Explore component properties</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+  },
+  "figma-export": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360040028114-Export-static-designs-from-Figma\">Export static designs from Figma</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+  },
+  "ibm-ui-icons": {
+   "title": "<a href=\"https://www.ibm.com/design/language/iconography/ui-icons/design/\">UI icons: design</a> · <a href=\"https://www.ibm.com/design/language/iconography/ui-icons/contribute/\">contribute</a>",
+   "meta": "IBM Design Language · на английском · бесплатно"
+  },
+  "atlassian-iconography": {
+   "title": "<a href=\"https://atlassian.design/foundations/iconography\">Iconography</a>",
+   "meta": "Atlassian Design System · на английском · бесплатно"
+  },
+  "cc-by-nc": {
+   "title": "<a href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</a> · <a href=\"https://creativecommons.org/licenses/by-nc/4.0/\">CC BY-NC 4.0</a>",
+   "meta": "Creative Commons · на английском · бесплатно"
   }
  },
  "lessons": {
@@ -899,6 +951,72 @@
    {
     "res": "deceptive-types",
     "why": "Обманные паттерны с примерами и законами — чтобы ни один из них не попал в библиотеку."
+   }
+  ],
+  "icons-illustration-junior": [
+   {
+    "res": "m2-system-icons",
+    "why": "Холст, поле и опорные фигуры с картинками: откуда берутся 24, 20 и 18."
+   },
+   {
+    "res": "lucide-principles",
+    "why": "Правила открытого набора по пунктам: холст, линия, скругления, промежутки. Удобно сверять свою иконку."
+   },
+   {
+    "res": "iconutopia-pixel",
+    "why": "Как выровнять иконку по пиксельной сетке, чтобы она не размывалась: целые координаты, размеры и толщины."
+   },
+   {
+    "res": "nng-icon-usability",
+    "why": "Какие иконки узнают без подписи и почему остальным она нужна всегда."
+   },
+   {
+    "res": "svgomg",
+    "why": "Почистить SVG перед отдачей в разработку и сразу увидеть, не испортилась ли форма."
+   }
+  ],
+  "icons-illustration-middle": [
+   {
+    "res": "material-symbols-guide",
+    "why": "Оси заливки, толщины, градации и оптического размера: как одна иконка подстраивается под размер."
+   },
+   {
+    "res": "heroicons",
+    "why": "Пример отдельной отрисовки под размер: контурные 24 и залитые 20 и 16."
+   },
+   {
+    "res": "lucide-stroke",
+    "why": "Как толщина линии ведёт себя при изменении размера и как зафиксировать её в коде."
+   },
+   {
+    "res": "figma-component-props",
+    "why": "Свойство замены экземпляра: как менять иконку в кнопке, не разбирая кнопку."
+   },
+   {
+    "res": "figma-export",
+    "why": "Как имена со слешем раскладывают выгруженные файлы по папкам."
+   }
+  ],
+  "icons-illustration-senior": [
+   {
+    "res": "ibm-ui-icons",
+    "why": "Правила большого набора и порядок, по которому в него принимают чужие иконки."
+   },
+   {
+    "res": "lucide-principles",
+    "why": "Правила рисования с парами «так» и «не так» — образец страницы правил для открытого набора."
+   },
+   {
+    "res": "m2-system-icons",
+    "why": "Правила парами: перспектива, толщина, скругления, опорные фигуры."
+   },
+   {
+    "res": "atlassian-iconography",
+    "why": "Когда иконка не нужна вовсе и почему новую не рисуют, если подходящая уже есть."
+   },
+   {
+    "res": "cc-by-nc",
+    "why": "Что требует указание автора и почему иконка с некоммерческой лицензией не годится для продукта."
    }
   ]
  }

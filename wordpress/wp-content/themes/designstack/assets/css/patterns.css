@@ -7971,3 +7971,384 @@ button.ds-lesson__st-hit.ds-lesson__hunt-pin:hover {
 	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
 	font-size: var(--wp--preset--font-size--sm);
 }
+
+/* ── Иконки и иллюстрации: образцы иконок в уроке ───────────────────────
+   Иконки урока — встроенный SVG на холсте 24. Геометрия лежит в разметке, а
+   параметры набора — линия 2, скруглённые концы, без заливки — здесь, одним
+   правилом: образцы «по правилам» и «на глаз» отличаются только модификатором. */
+.ds-lesson__ic {
+	flex: none;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ds-lesson__ic--thin {
+	stroke-width: 1.5;
+}
+
+.ds-lesson__ic--square {
+	stroke-linecap: square;
+	stroke-linejoin: miter;
+}
+
+.ds-lesson__ic--fill {
+	fill: currentColor;
+}
+
+/* Ряд иконок: в увеличении и в настоящем размере. */
+.ds-lesson__ic-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--3) 0;
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__ic-row--named {
+	align-items: flex-end;
+	gap: var(--wp--preset--spacing--6);
+}
+
+/* Новая иконка в ряду помечена чертой снизу, а не цветом: сравнивают форму. */
+.ds-lesson__ic-new {
+	display: inline-flex;
+	padding-bottom: var(--wp--preset--spacing--1);
+	border-bottom: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__ic-cell {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__ic-name {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-variant-numeric: tabular-nums;
+	text-align: center;
+}
+
+/* Холст 24 × 24 в десятикратном увеличении. Слои «Сетка», «Поле», «Опорные
+   фигуры» включает класс на коробке; без скрипта видны все три. */
+.ds-lesson__ic-stage {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--6);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__ic-board {
+	width: min(100%, calc(var(--wp--custom--size--control-lg) * 5));
+	height: auto;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__ic-pad {
+	fill: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__ic-grid {
+	fill: none;
+	stroke: var(--wp--preset--color--border-default);
+	stroke-width: 0.1;
+}
+
+.ds-lesson__ic-keys {
+	fill: none;
+	stroke: var(--wp--preset--color--icon-info);
+	stroke-width: 0.1;
+	stroke-dasharray: 0.4 0.3;
+}
+
+.ds-lesson__ic-art {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+.ds-lesson__box:not(.is-icgrid) .ds-lesson__ic-grid,
+.ds-lesson__box:not(.is-icpad) .ds-lesson__ic-pad,
+.ds-lesson__box:not(.is-ickeys) .ds-lesson__ic-keys {
+	display: none;
+}
+
+.ds-lesson__ic-actual {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+/* Полоса размеров: светлая и тёмная, как у двух тем сайта. */
+.ds-lesson__ic-strip {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--6);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__ic-strip + .ds-lesson__ic-strip {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__ic-strip + .ds-lesson__wf-caption {
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__ic-strip--dark {
+	border-color: transparent;
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__ic-strip--dark .ds-lesson__ic-name {
+	color: inherit;
+}
+
+/* Пиксели вблизи: клетка — пиксель экрана, пунктир — где нарисована линия. */
+.ds-lesson__ic-px {
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__ic-px-full,
+.ds-lesson__ic-px-half {
+	fill: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__ic-px-half {
+	fill-opacity: 0.45;
+}
+
+.ds-lesson__ic-px-grid {
+	fill: none;
+	stroke: var(--wp--preset--color--border-default);
+	stroke-width: 0.05;
+}
+
+.ds-lesson__ic-px-line {
+	fill: none;
+	stroke: var(--wp--preset--color--icon-info);
+	stroke-width: 0.1;
+	stroke-dasharray: 0.3 0.2;
+}
+
+/* Поиск по набору: иконка с подписью целиком — место, на которое нажимают. */
+.ds-lesson__ic-set {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+button.ds-lesson__ic-pin.ds-lesson__hunt-pin,
+.ds-lesson__ic-pin.ds-lesson__hunt-pin {
+	position: static;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--1);
+	width: calc(var(--wp--custom--size--control-lg) * 2);
+	height: auto;
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: inherit;
+	transform: none;
+}
+
+button.ds-lesson__ic-pin.ds-lesson__hunt-pin:hover {
+	border-color: var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__ic-pin.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__ic-pin.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__ic-pin .ds-lesson__ic-name {
+	color: inherit;
+}
+
+/* Линия всегда 2 пикселя экрана, какого бы размера ни была иконка: так показано
+   в уроке Middle, чем «толщина отдельно» отличается от «уменьшить целиком».
+   vector-effect не наследуется, поэтому правило стоит на фигурах внутри. */
+.ds-lesson__ic--ns > * {
+	vector-effect: non-scaling-stroke;
+}
+
+/* Точка-метка акцентом: цвет из токена, в тёмной теме у него своё значение. */
+.ds-lesson__ic-accent {
+	fill: var(--wp--preset--color--text-action);
+	stroke: none;
+}
+
+/* Несколько иконок одной подписью — ряд без зазоров между группами. */
+.ds-lesson__ic-group {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+/* Плитка «тёмная тема»: подложка под текст на фото тёмная в обеих темах сайта,
+   поэтому поломки тёмной темы видны, какую бы тему ни выбрал читатель. */
+.ds-lesson__ic-tile {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-scrim);
+	color: var(--wp--preset--color--text-on-scrim);
+}
+
+/* Настройка образца (`data-tune`): группа кнопок с подписью, как у проигрывателя. */
+.ds-lesson__tune-pick {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__tune-pick:empty {
+	display: none;
+}
+
+.ds-lesson__tune-pick + .ds-lesson__tune-pick {
+	margin-top: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__tune-title {
+	min-width: calc(var(--wp--custom--size--control-lg) * 2);
+	margin-right: var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+/* Образец настройки: размер и цвет всех иконок — два свойства на коробке. */
+.ds-lesson__ic-tuned {
+	margin-top: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+}
+
+.ds-lesson__ic-tuned .ds-lesson__ic {
+	width: calc(var(--ic-size, 24) * 1rem / 16);
+	height: calc(var(--ic-size, 24) * 1rem / 16);
+	color: var(--ic-color, currentColor);
+}
+
+.ds-lesson__ic-uses {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--wp--preset--spacing--6);
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__ic-button,
+.ds-lesson__ic-line {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+}
+
+.ds-lesson__ic-button {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-lesson__ic-line .ds-lesson__ic-name {
+	margin-left: var(--wp--preset--spacing--2);
+	font-weight: 400;
+}
+
+/* Правило в картинке: «выбрано» только цветом — пример «не так» в уроке Senior. */
+.ds-lesson__ic-accent-line {
+	stroke: var(--wp--preset--color--text-action);
+}
+
+/* Пары «так» и «не так»: слово и рамка, а не только цвет. */
+.ds-lesson__ic-dd {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--wp--custom--size--control-lg) * 5)), 1fr));
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__ic-pair {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__ic-rule {
+	grid-column: 1 / -1;
+	margin: 0;
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__ic-do,
+.ds-lesson__ic-dont {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--icon-success);
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+.ds-lesson__ic-dont {
+	border-style: dashed;
+	border-color: var(--wp--preset--color--border-error);
+}
+
+.ds-lesson__ic-mark {
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}

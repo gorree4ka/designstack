@@ -1,0 +1,385 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#rules">Правила набора — один раз</a></li>
+    <li><a href="#small">Маленький размер: уменьшить или перерисовать</a></li>
+    <li><a href="#component">Иконка как компонент</a><span class="ds-lesson__tag">настройка</span></li>
+    <li><a href="#export">Экспорт без переименования</a></li>
+    <li><a href="#dark">Тёмная тема и 16 пикселей</a><span class="ds-lesson__tag">поиск</span></li>
+    <li><a href="#one-meaning">Один смысл — одна иконка</a><span class="ds-lesson__tag">тренажёр</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Тот же магазин кофе, что и в <a href="/lessons/icons-illustration-junior/">уроке про одну иконку</a>. Теперь магазин собирает собственный набор: двадцать иконок для фильтров, меню и кнопок. Урок — о том, как превратить двадцать файлов в набор, который живёт по правилам и не требует ручной работы при каждой правке.</div>
+
+<section id="rules">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Правила набора — один раз</h2></div>
+  <p class="ds-lesson__lead">Набор держится на правилах, а не на глазе того, кто нарисовал первую иконку. Правила записывают один раз и кладут рядом с иконками.</p>
+
+  <p>В уроке для Junior правила чужого набора выписывали, чтобы дорисовать к нему одну иконку. Теперь набор свой, и правила задаёте вы. Вот карточка правил набора магазина — всё, что нужно человеку, который будет рисовать двадцать первую иконку.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Правило</th><th scope="col">Значение</th><th scope="col">Почему так</th></tr></thead>
+      <tbody>
+        <tr><td><b>Холст</b></td><td>24 × 24</td><td>Основной размер в кнопках и меню</td></tr>
+        <tr><td><b>Поле</b></td><td>2 с каждой стороны</td><td>Иконки не слипаются друг с другом и с краем кнопки</td></tr>
+        <tr><td><b>Опорные фигуры</b></td><td>Круг 20, квадрат 18, прямоугольники 20 × 16 и 16 × 20</td><td>Круглые и квадратные иконки выглядят одного размера</td></tr>
+        <tr><td><b>Линия</b></td><td>2, концы и углы скруглённые</td><td>Мягкий характер магазина, и линия не теряется на 16</td></tr>
+        <tr><td><b>Скругления</b></td><td>2 у прямоугольников</td><td>Как у кнопок и карточек интерфейса</td></tr>
+        <tr><td><b>Заливка</b></td><td>Нет. Залитый вариант — только у состояния «выбрано»</td><td>Состояние видно формой, а не одним цветом</td></tr>
+        <tr><td><b>Цвет</b></td><td>Один — цвет текста. Акцентом только точка-метка</td><td>Иконка перекрашивается вместе с текстом</td></tr>
+        <tr><td><b>Детали</b></td><td>Промежутки не меньше 2</td><td>На 16 линии не слипаются</td></tr>
+        <tr><td><b>Размеры</b></td><td>24, 20 и 16 — одна иконка, уменьшенная целиком</td><td>Один исходник на все размеры</td></tr>
+        <tr><td><b>Имена</b></td><td>Предмет латиницей через дефис: <code>grinder</code>, <code>heart-filled</code></td><td>Компонент в макете и файл называются одинаково</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Если в продукте есть иллюстрации, их правила продолжают эти: та же линия в пропорции к размеру, те же скругления, два-три цвета из палитры, одинаковые фигуры людей. Иллюстрации удобно собирать из готовых частей, как в конструкторах <a href="/resource/humaaans/">Humaaans</a> и <a href="/resource/open-peeps/">Open Peeps</a>: поза, лицо и одежда меняются отдельно, а стиль остаётся.</p>
+
+  <div class="ds-lesson__rule"><b>Правило, которого нет в карточке, каждый новый автор придумывает заново.</b> Спорные случаи дописывают в карточку, а не решают в личной переписке.</div>
+</section>
+
+<section id="small">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Маленький размер: уменьшить или перерисовать</h2></div>
+  <p class="ds-lesson__lead">Иконка, уменьшенная с 24 до 16 целиком, получает линию 1,33 пикселя. Большие наборы решают это по-разному, и выбор нужно записать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Четыре иконки набора · уменьшены целиком и с постоянной линией</div>
+    <div class="ds-lesson__box-body">
+      <p class="ds-lesson__wf-caption">Уменьшены целиком: линия меняется вместе с размером</p>
+      <div class="ds-lesson__ic-strip">
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 12 0v4l2 3H4z"/><path d="M10 21h4"/></svg></span><span class="ds-lesson__ic-name">16</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 12 0v4l2 3H4z"/><path d="M10 21h4"/></svg></span><span class="ds-lesson__ic-name">24</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 12 0v4l2 3H4z"/><path d="M10 21h4"/></svg></span><span class="ds-lesson__ic-name">40</span></span>
+      </div>
+      <p class="ds-lesson__wf-caption">Линия всегда 2 пикселя</p>
+      <div class="ds-lesson__ic-strip">
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic ds-lesson__ic--ns" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 12 0v4l2 3H4z"/><path d="M10 21h4"/></svg></span><span class="ds-lesson__ic-name">16</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic ds-lesson__ic--ns" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 12 0v4l2 3H4z"/><path d="M10 21h4"/></svg></span><span class="ds-lesson__ic-name">24</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic ds-lesson__ic--ns" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic ds-lesson__ic--ns" width="40" height="40" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 12 0v4l2 3H4z"/><path d="M10 21h4"/></svg></span><span class="ds-lesson__ic-name">40</span></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Сверху на 16 линия тоньше полутора пикселей и иконки бледнеют, а на 40 становятся тяжёлыми. Снизу линия одна, но на 16 кофемолка забивается, а на 40 все иконки кажутся тонкими.</div>
+  </div>
+
+  <p>Готового ответа нет, есть три подхода. Они видны на больших наборах:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Подход</th><th scope="col">Как устроено</th><th scope="col">Пример</th></tr></thead>
+      <tbody>
+        <tr><td><b>Отдельная отрисовка под размер</b></td><td>На каждый размер свой набор, нарисованный заново</td><td><a href="/resource/heroicons/">Heroicons</a>: контурные 24 с линией 1,5 и отдельные залитые наборы 20 и 16</td></tr>
+        <tr><td><b>Переменная иконка</b></td><td>Одна иконка с осями толщины и оптического размера, мелкий размер сам получает линию потолще</td><td><a href="/resource/material-symbols/">Material Symbols</a>: оптический размер от 20 до 48</td></tr>
+        <tr><td><b>Одна иконка, толщина отдельно</b></td><td>Иконка масштабируется, а толщину линии можно зафиксировать в коде</td><td><a href="/resource/lucide/">Lucide</a>: свойство nonScalingStroke в библиотеке для React</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Для набора в двадцать иконок обычно хватает одного исходника на 24, который уменьшают целиком. Отдельный вариант для 16 рисуют только там, где иконка на 16 не читается, — и записывают в карточку, у каких иконок он есть.</p>
+
+  <div class="ds-lesson__rule"><b>Выбор про маленький размер записан в карточке правил.</b> Иначе одна иконка окажется перерисованной под 16, а соседняя — просто уменьшенной.</div>
+</section>
+
+<section id="component">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Иконка как компонент</h2></div>
+  <p class="ds-lesson__lead">Иконка в макете — компонент, а не картинка. Тогда смена цвета и размера — одно действие, а не правка двадцати файлов.</p>
+
+  <p>В редакторе каждая иконка — отдельный компонент на холсте 24. Цвет линии привязан к переменной цвета, а не вписан кодом. В кнопке и строке списка иконка — вложенный экземпляр, и её меняют на другую свойством компонента, не разбирая кнопку. В коде то же делает <code>currentColor</code>: иконка берёт цвет у текста рядом.</p>
+
+  <div class="ds-lesson__box" data-tune style="--ic-size:24; --ic-color:var(--wp--preset--color--text-default)">
+    <div class="ds-lesson__box-head">Набор магазина · размер и цвет одним действием</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__tune-pick" data-tune-pick="--ic-size" data-tune-values="16|20|24|32" data-tune-labels="16|20|24|32" data-tune-title="Размер"></div>
+      <div class="ds-lesson__tune-pick" data-tune-pick="--ic-color" data-tune-values="var(--wp--preset--color--text-default)|var(--wp--preset--color--text-muted)|var(--wp--preset--color--text-action)|var(--wp--preset--color--text-error)" data-tune-labels="Основной|Приглушённый|Акцент|Ошибка" data-tune-title="Цвет"></div>
+      <div class="ds-lesson__ic-tuned">
+        <div class="ds-lesson__ic-row"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.9 9.9l4.2 4.2"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="11" height="10" rx="2"/><path d="M14 9h3.5l3.5 4v3h-7"/><circle cx="8" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div>
+        <div class="ds-lesson__ic-uses">
+          <span class="ds-lesson__ic-button"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg>Помол</span>
+          <span class="ds-lesson__ic-line"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg>Кофе в зёрнах<span class="ds-lesson__ic-name">48 сортов</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Нажатие меняет одно свойство, и вслед за ним — все иконки, кнопка и строка списка. Так же должно быть и в макете, и в коде.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что меняют</th><th scope="col">В макете</th><th scope="col">В коде</th></tr></thead>
+      <tbody>
+        <tr><td><b>Цвет</b></td><td>Переменная цвета у линии: основной, приглушённый, акцент</td><td><code>currentColor</code> и цвет текста у родителя</td></tr>
+        <tr><td><b>Размер</b></td><td>Размер экземпляра: 16, 20 или 24</td><td>Ширина и высота элемента</td></tr>
+        <tr><td><b>Какая иконка</b></td><td>Свойство замены экземпляра у кнопки</td><td>Имя иконки, совпадающее с именем компонента</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Если для смены цвета нужно открыть исходник иконки, набор собран неправильно.</b> Цвет и размер — свойства экземпляра, рисунок — свойство компонента.</div>
+</section>
+
+<section id="export">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Экспорт без переименования</h2></div>
+  <p class="ds-lesson__lead">Разработка забирает иконки под теми именами, что стоят в макете. Договоритесь об этом один раз, и переименовывать файлы не придётся никому.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">О чём договориться</th><th scope="col">Как в наборе магазина</th></tr></thead>
+      <tbody>
+        <tr><td><b>Имя</b></td><td>Компонент <code>icon/grinder</code> → файл <code>grinder.svg</code></td></tr>
+        <tr><td><b>Холст</b></td><td>24 × 24, рисунок в поле, других размеров в файле нет</td></tr>
+        <tr><td><b>Цвет</b></td><td><code>stroke="currentColor"</code>, вписанных цветов нет</td></tr>
+        <tr><td><b>Чистка</b></td><td>SVGO с общими настройками в сборке проекта, руками файлы не правят</td></tr>
+        <tr><td><b>Состояния</b></td><td>Отдельный файл с суффиксом: <code>heart-filled</code>, <code>bell-dot</code></td></tr>
+        <tr><td><b>Где лежат</b></td><td>Одна папка в репозитории. Новая иконка — отдельная правка со ссылкой на макет</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Папка иконок · что забирает разработка</div>
+    <div class="ds-lesson__box-body">
+<pre>icons/
+  bean.svg          bell.svg          bell-dot.svg
+  capsule.svg       cart.svg          clock.svg
+  cup.svg           grinder.svg       heart.svg
+  heart-filled.svg  search.svg        truck.svg</pre>
+    </div>
+    <div class="ds-lesson__box-foot">В именах нет размера, цвета и слов вроде final или new. Размер и цвет задаёт код, а слово new через месяц станет неправдой.</div>
+  </div>
+
+  <p>Экспорт выгружает иконки прямо из компонентов, поэтому у компонентов должны быть правильные имена. В Figma слеш в имени раскладывает файлы по папкам: <code>icon/grinder</code> выгрузится как <code>grinder.svg</code> в папке <code>icon</code>. Проверьте имена до первой выгрузки: переименовывать компонент потом дешевле, чем искать по коду все места, где стоит старое имя файла.</p>
+
+  <div class="ds-lesson__rule"><b>Имя компонента и имя файла совпадают.</b> Разработка не переименовывает, дизайнер не объясняет, какой файл какой.</div>
+</section>
+
+<section id="dark">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Тёмная тема и 16 пикселей</h2></div>
+  <p class="ds-lesson__lead">Набор, который хорошо выглядит на светлом фоне, может развалиться в тёмной теме и на 16 пикселях. Проверяйте весь набор разом, а не по одной иконке.</p>
+
+  <p>Ниже иконки магазина на тёмной подложке, в 24 и 16 пикселей: так их увидит человек с тёмной темой. Пять из них сломаются. Нажимайте на иконки, с которыми что-то не так.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Набор на тёмном · найдите поломки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__ic-set">
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Корзина"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg></span><span class="ds-lesson__ic-name">корзина</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Избранное"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#1A1C1F"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></g></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><g stroke="#1A1C1F"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></g></svg></span><span class="ds-lesson__ic-name">избранное</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Капсулы"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.9 9.9l4.2 4.2"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.9 9.9l4.2 4.2"/></svg></span><span class="ds-lesson__ic-name">капсулы</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Поиск"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" fill="#FFFFFF" stroke="none"/><g stroke="#1A1C1F"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></g></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" fill="#FFFFFF" stroke="none"/><g stroke="#1A1C1F"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></g></svg></span><span class="ds-lesson__ic-name">поиск</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Новые уведомления, точка токеном"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 9.5-4.9"/><path d="M18 11v4l2 3H4l2-3"/><path d="M10 21h4"/><circle class="ds-lesson__ic-accent" cx="18" cy="6" r="3"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 9.5-4.9"/><path d="M18 11v4l2 3H4l2-3"/><path d="M10 21h4"/><circle class="ds-lesson__ic-accent" cx="18" cy="6" r="3"/></svg></span><span class="ds-lesson__ic-name">новые</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Новые уведомления, точка вписана кодом"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 9.5-4.9"/><path d="M18 11v4l2 3H4l2-3"/><path d="M10 21h4"/><circle cx="18" cy="6" r="3" fill="#026172" stroke="none"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15v-4a6 6 0 0 1 9.5-4.9"/><path d="M18 11v4l2 3H4l2-3"/><path d="M10 21h4"/><circle cx="18" cy="6" r="3" fill="#026172" stroke="none"/></svg></span><span class="ds-lesson__ic-name">новые, второй вариант</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Помол"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg></span><span class="ds-lesson__ic-name">помол</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Увеличить фото"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/><path d="M11 8v6" stroke-width=".6"/><path d="M8 11h6" stroke-width=".6"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/><path d="M11 8v6" stroke-width=".6"/><path d="M8 11h6" stroke-width=".6"/></svg></span><span class="ds-lesson__ic-name">увеличить</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Доставка"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="11" height="10" rx="2"/><path d="M14 9h3.5l3.5 4v3h-7"/><circle cx="8" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="11" height="10" rx="2"/><path d="M14 9h3.5l3.5 4v3h-7"/><circle cx="8" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></span><span class="ds-lesson__ic-name">доставка</span></span>
+          <span class="ds-lesson__ic-pin ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Зёрна"><span class="ds-lesson__ic-tile"><svg class="ds-lesson__ic" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/><circle cx="9.5" cy="10" r=".5"/><circle cx="14.5" cy="14" r=".5"/><circle cx="11" cy="15.5" r=".5"/><circle cx="13" cy="8.5" r=".5"/><path d="M15.5 11.5l1 1"/><path d="M7.5 12.5l1 1"/></svg><svg class="ds-lesson__ic" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/><circle cx="9.5" cy="10" r=".5"/><circle cx="14.5" cy="14" r=".5"/><circle cx="11" cy="15.5" r=".5"/><circle cx="13" cy="8.5" r=".5"/><path d="M15.5 11.5l1 1"/><path d="M7.5 12.5l1 1"/></svg></span><span class="ds-lesson__ic-name">зёрна</span></span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Корзина.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Цвет берётся у текста, поэтому на тёмном иконка светлая. На 16 колёса-точки не сливаются с корзиной.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Избранное — сердце почти не видно.</span><span class="ds-lesson__hunt-fix"><b>Цвет вписан кодом. </b>В файле стоит цвет текста светлой темы, почти чёрный. На светлом фоне всё было хорошо, на тёмном иконка пропала. Нужен <code>currentColor</code>.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Капсулы.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Простая форма, одна линия раздела — читается и на 16.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Поиск — белый квадрат.</span><span class="ds-lesson__hunt-fix"><b>Белый фон в файле. </b>При выгрузке с иконкой уехала белая подложка холста. На светлом фоне её не видно, на тёмном она стала квадратом. В файле иконки фона нет вообще.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Новые уведомления — точка цветом из токена.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Точка-метка берёт акцентный цвет из токена, а у токена в тёмной теме своё, более светлое значение. Точку видно на обоих фонах.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Новые уведомления — точка тонет.</span><span class="ds-lesson__hunt-fix"><b>Акцент вписан кодом. </b>Тёмный бирюзовый хорош на белом, а на тёмном его контраст около 2,7&nbsp;:&nbsp;1 — меньше 3&nbsp;:&nbsp;1, которых требует WCAG для значимой графики. Точка должна брать цвет из токена.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Помол.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Кофемолка без насечек, и на 16 её по-прежнему узнают.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Увеличить — плюс в лупе почти пропал.</span><span class="ds-lesson__hunt-fix"><b>Линия тоньше правила. </b>Плюс нарисован линией 0,6 вместо 2. На 24 он бледный, на 16 его толщина меньше пикселя, и лупа становится обычным поиском.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Доставка.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Кузов и колёса разделены промежутком, на 16 грузовик остаётся грузовиком.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Зёрна — пятно на 16.</span><span class="ds-lesson__hunt-fix"><b>Детали мельче правила. </b>Точки и штрихи ближе 2 пикселей друг к другу. На 16 они сливаются, и зерно превращается в пятно.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую иконку</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Три поломки — от цвета и фона, вписанных в файл, две — от деталей тоньше правила. Первые ловит правило «цвет только currentColor», вторые — просмотр всего набора на 16.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Иконки без поломок тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Весь набор проверяют разом: на светлом и тёмном, в 24 и 16.</b> Поломка одной иконки видна только рядом с остальными.</div>
+</section>
+
+<section id="one-meaning">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Один смысл — одна иконка</h2></div>
+  <p class="ds-lesson__lead">Два значка для одной задачи заставляют человека гадать, одно ли это. Один значок для двух задач — гадать, что он сделает.</p>
+
+  <p>Когда набор собирают из иконок, нарисованных в разное время, в нём заводятся пары. Вот три пары из магазина:</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Пары в наборе магазина</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ic-row ds-lesson__ic-row--named">
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.3 10.2a2 2 0 0 0 2 1.8h7.9a2 2 0 0 0 1.9-1.5L21 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span><span class="ds-lesson__ic-name">корзина и корзина</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z"/></svg><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3l-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z"/></svg></span><span class="ds-lesson__ic-name">избранное и оценка</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"/><path d="M18 6 6 18"/></svg><svg class="ds-lesson__ic" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16"/><path d="M10 7V4h4v3"/><path d="M6 7l1 13h10l1-13"/></svg></span><span class="ds-lesson__ic-name">закрыть и удалить</span></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Тележка и сумка — одна корзина, нарисованная дважды. Звезда — два разных смысла одной картинкой. Крестик и корзина — два смысла, и они разведены правильно.</div>
+  </div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · что делать с парой<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="merge"><p class="ds-quiz__question">Корзина нарисована тележкой в каталоге и сумкой в карточке товара.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить одну</b>Смысл один, а человек видит две картинки и может решить, что это разные места. Оставьте тележку и замените сумку везде.</p></li>
+<li data-quiz-q data-answer="split"><p class="ds-quiz__question">Звезда значит «в избранное» на карточке и «оценка 4,8» под названием.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Развести по смыслу</b>Нажимая на звезду, человек не знает, что сделает: сохранит товар или поставит оценку. Избранному — сердце, оценке — звезда.</p></li>
+<li data-quiz-q data-answer="split"><p class="ds-quiz__question">Крестик закрывает шторку фильтров и удаляет товар из корзины.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Развести по смыслу</b>Закрыть — безопасно, удалить — нет. Одна картинка на оба действия приведёт к случайным удалениям. Удалению — корзина для мусора.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">Колокольчик — «уведомления», колокольчик с точкой — «есть новые».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Всё в порядке</b>Это одна иконка в двух состояниях. Точка-метка добавлена по правилу набора.</p></li>
+<li data-quiz-q data-answer="merge"><p class="ds-quiz__question">Доставка — грузовик в корзине и самокат в профиле.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить одну</b>Это одна и та же доставка. Две картинки намекают на два способа, которых нет.</p></li>
+<li data-quiz-q data-answer="split"><p class="ds-quiz__question">Лупа — поиск по каталогу и увеличение фото товара.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Развести по смыслу</b>Поиск — лупа, увеличение — лупа с плюсом. Иначе на карточке товара человек будет ждать поиска, а получит увеличенное фото.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">Сердце контуром — «не в избранном», залитое — «в избранном».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Всё в порядке</b>Одна иконка, два состояния, и состояние видно формой. Именно так записано в правилах набора.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">Кофемолка стоит в фильтре «Помол» и в карточке товара рядом со строкой «помолоть бесплатно».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Всё в порядке</b>Смысл один — помол — и значок один. Иконку и нужно повторять везде, где встречается тот же смысл.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="merge">Оставить одну</button><button class="ds-quiz__option" type="button" data-quiz-answer="split">Развести по смыслу</button><button class="ds-quiz__option" type="button" data-quiz-answer="ok">Всё в порядке</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Спросите себя: один здесь смысл или два? Один смысл — одна иконка, два смысла — две разные.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Перед тем как рисовать новую иконку, поищите её смысл в наборе.</b> Если он уже есть под другой картинкой, новая иконка не нужна.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Соберите набор из десяти иконок под свой продукт с общими правилами и настроенным экспортом. Покажите, как меняется цвет и размер без перерисовки.</p>
+
+  <h3>Часть 1 · Правила, 30 минут</h3>
+  <ol>
+    <li><strong>Выберите десять смыслов,</strong> которые в продукте встречаются чаще всего, и проверьте, что среди них нет пар.</li>
+    <li><strong>Заполните карточку правил:</strong> холст, поле, опорные фигуры, линия, скругления, заливка, цвет, детали, размеры, имена.</li>
+    <li><strong>Решите, что с маленьким размером:</strong> уменьшать целиком или рисовать отдельно, и у каких иконок.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Набор иконок · карточка правил и договорённость<span class="ds-lesson__spacer"></span><span data-copy="setTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="setTmpl">НАБОР: ______________   автор правил: ______________   дата: __.__.____
+
+ПРАВИЛА
+холст: __ × __       поле: __       опорные фигуры: круг __, квадрат __
+линия: __, концы и углы: скруглённые / прямые       скругления: __
+заливка: ______________       цвет: currentColor, акцент: ______________
+детали: промежутки не меньше __
+размеры: ______________   маленький размер: уменьшаем / рисуем отдельно
+имена: ______________   состояния: суффикс ______________
+
+КОМПОНЕНТЫ
+цвет линии привязан к переменной: да / нет
+иконка в кнопке меняется свойством компонента: да / нет
+
+ЭКСПОРТ
+компонент ______________ → файл ______________.svg
+чистка: ______________   где лежат: ______________
+
+ПРОВЕРКА НАБОРА
+светлый и тёмный фон: да / нет    16 и 24: да / нет
+пар «один смысл — две иконки» нет: да / нет</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Карточку кладите рядом с компонентами иконок, а не в отдельный документ.</div>
+  </div>
+
+  <h3>Часть 2 · Компоненты, 60 минут</h3>
+  <ol>
+    <li><strong>Нарисуйте или соберите десять иконок</strong> по карточке. Готовые иконки из прошлых макетов проверьте по каждому правилу.</li>
+    <li><strong>Сделайте каждую компонентом</strong> на холсте набора, линию привяжите к переменной цвета.</li>
+    <li><strong>Соберите кнопку с иконкой</strong> и поставьте в неё свойство замены иконки.</li>
+  </ol>
+
+  <h3>Часть 3 · Экспорт и проверка, 30 минут</h3>
+  <ol>
+    <li><strong>Выгрузите все десять</strong> и проверьте, что имена файлов совпадают с именами компонентов.</li>
+    <li><strong>Поставьте весь набор</strong> на светлый и тёмный фон в 24 и 16 пикселей.</li>
+    <li><strong>Запишите на видео или скриншотами,</strong> как меняются цвет и размер одной настройкой — в макете и, если есть, в коде.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Смена цвета и размера любой иконки — одно действие, а не правка исходника.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Десять иконок-компонентов</strong> с цветом в переменной.</li>
+    <li><strong>Карточка правил</strong> рядом с ними.</li>
+    <li><strong>Папка SVG</strong> с именами, совпадающими с компонентами.</li>
+    <li><strong>Проверка набора</strong> на светлом и тёмном, в 24 и 16.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: полчаса на правила, час на компоненты, полчаса на экспорт и проверку. Всего — два часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Иконки в проекте уже есть, но разные».</strong> Не перерисовывайте всё сразу. Сначала карточка правил, потом десять самых частых иконок по ней, остальные — по мере правок экранов.</li>
+    <li><strong>«При изменении размера в редакторе линия ведёт себя по-разному».</strong> В Figma обычное изменение размера сохраняет толщину линии, а инструмент масштабирования (клавиша K) меняет её вместе с иконкой. Договоритесь, каким способом иконки уменьшают, и проверьте его на трёх размерах до того, как собирать все двадцать.</li>
+    <li><strong>«Разработка всё равно вписывает цвет в файл».</strong> Покажите, что с <code>currentColor</code> иконка сама перекрашивается в тёмной теме. Обычно этого достаточно.</li>
+    <li><strong>«Кажется, что одна пара всё-таки нужна».</strong> Сформулируйте оба смысла словами. Если формулировки совпадают — пара лишняя.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки ступени</h2></div>
+
+  <h3>Набор готов, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Правила записаны в карточке и лежат рядом с иконками</li>
+    <li>Выбор про маленький размер записан</li>
+    <li>Каждая иконка — компонент, цвет линии в переменной</li>
+    <li>Иконка в кнопке меняется свойством, без разборки кнопки</li>
+    <li>В файлах нет вписанных цветов и фона</li>
+    <li>Имена файлов совпадают с именами компонентов</li>
+    <li>Набор проверен на светлом и тёмном, в 24 и 16</li>
+    <li>У каждого смысла одна иконка</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Правила в голове автора.</b> Двадцать первую иконку рисуют по-своему.</li>
+    <li><b>Цвет вписан в файл.</b> В тёмной теме иконка пропадает.</li>
+    <li><b>Белая подложка холста.</b> На тёмном фоне она становится квадратом.</li>
+    <li><b>Имена вроде icon-new-2.</b> Разработка переименовывает, связь с макетом теряется.</li>
+    <li><b>Пары иконок.</b> Две картинки на один смысл или один значок на два действия.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На этой ступени графика перестаёт быть набором отдельных файлов и становится набором с правилами. На следующей правила описываются так, что набор дорисовывают другие.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Решать, нужна ли своя иконка; рисовать на холсте набора с его полем, толщиной и скруглениями; проверять в настоящем размере; отдавать чистый SVG; понимать лицензию набора</td>
+          <td class="ds-lesson__dim">В ряду из десяти иконок вашу не видно как чужую</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Задавать правила набора один раз; решать, что с маленьким размером; собирать иконки компонентами с цветом в переменной; настраивать экспорт; проверять набор в двух темах и в 16; держать один смысл — одну иконку</td>
+          <td>Смена цвета и размера любой иконки — одно действие, а не правка исходника</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описывать правила набора для других; собирать примеры «так» и «не так»; принимать чужие иконки по правилам; решать, что в набор не берём; держать лицензии в порядке</td>
+          <td class="ds-lesson__dim">Чужая иконка вошла в набор без вашей перерисовки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> цвет, размер и тему иконок меняет одна настройка, а новая иконка встаёт в набор по карточке правил.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://developers.google.com/fonts/docs/material_symbols">Material Symbols guide</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-symbols/">Material Symbols</a> · на английском · бесплатно</span><span>Оси заливки, толщины, градации и оптического размера: как одна иконка подстраивается под размер.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/heroicons/">Heroicons</a></span><span class="ds-lesson__reads-meta">набор иконок · бесплатно, лицензия MIT</span><span>Пример отдельной отрисовки под размер: контурные 24 и залитые 20 и 16.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://lucide.dev/guide/react/basics/stroke-width">Stroke width</a></span><span class="ds-lesson__reads-meta"><a href="/resource/lucide/">Lucide</a>, документация · на английском · бесплатно</span><span>Как толщина линии ведёт себя при изменении размера и как зафиксировать её в коде.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/5579474826519-Explore-component-properties">Explore component properties</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Свойство замены экземпляра: как менять иконку в кнопке, не разбирая кнопку.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/360040028114-Export-static-designs-from-Figma">Export static designs from Figma</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Как имена со слешем раскладывают выгруженные файлы по папкам.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

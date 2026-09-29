@@ -1,0 +1,350 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#page">Правила на одной странице</a><span class="ds-lesson__tag">шаблон</span></li>
+    <li><a href="#examples">«Так» и «не так» на своих иконках</a></li>
+    <li><a href="#review">Ревью по правилам, а не по вкусу</a><span class="ds-lesson__tag">поиск</span></li>
+    <li><a href="#not">Что в набор не берём</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#licenses">Своё и чужое в одном наборе</a></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Набор магазина кофе из <a href="/lessons/icons-illustration-middle/">урока Middle</a> вырос до сорока иконок, и рисует их уже не один человек: новые иконки присылают дизайнеры двух команд. Урок — о том, как сделать, чтобы набор рос их руками и не разъезжался, а вам не приходилось перерисовывать каждую присланную иконку.</div>
+
+<section id="page">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Правила на одной странице</h2></div>
+  <p class="ds-lesson__lead">Карточка правил из урока Middle отвечает на вопрос «как нарисовать». Чтобы набор дорисовывали другие, странице правил нужно отвечать ещё на три: что рисовать, чего не рисовать и как прислать.</p>
+
+  <p>Так устроены правила больших наборов. У Lucide есть принципы рисования и чек-лист для тех, кто присылает иконку: зачем она нужна, названа ли по тому, что изображено, совпадает ли с набором по размеру, плотности и оптическому весу. В IBM все присланные иконки проходят ревью, прежде чем их опубликуют. В Material Design правила показаны парами «так» и «не так»: иконки смотрят прямо, без наклона и объёма.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Раздел</th><th scope="col">Что в нём</th><th scope="col">В наборе магазина</th></tr></thead>
+      <tbody>
+        <tr><td><b>Основа</b></td><td>Холст, поле, опорные фигуры</td><td>24, поле 2, круг 20, квадрат 18</td></tr>
+        <tr><td><b>Линия и форма</b></td><td>Толщина, концы, скругления, заливка, перспектива</td><td>Линия 2, всё скруглено, без заливки, предмет смотрит прямо</td></tr>
+        <tr><td><b>Метафоры</b></td><td>Какой картинкой обозначается какой смысл</td><td>Корзина — тележка, избранное — сердце, оценка — звезда, удалить — мусорная корзина</td></tr>
+        <tr><td><b>Состояния</b></td><td>Как иконка показывает «выбрано», «новое», «нельзя»</td><td>Выбрано — заливка, новое — точка акцентом справа сверху</td></tr>
+        <tr><td><b>Размеры и цвет</b></td><td>Какие размеры, что с маленьким, откуда цвет</td><td>24, 20, 16 уменьшением; цвет текста</td></tr>
+        <tr><td><b>Имена и файлы</b></td><td>Как называть и куда класть</td><td>Предмет латиницей, компонент и файл называются одинаково</td></tr>
+        <tr><td><b>Чего не берём</b></td><td>Что в набор не попадает и почему</td><td>Логотипы, иконки для одного экрана, второй значок на тот же смысл</td></tr>
+        <tr><td><b>Источники и лицензии</b></td><td>Какие чужие наборы допустимы и как это записывать</td><td>Только открытые лицензии, реестр источников</td></tr>
+        <tr><td><b>Как прислать</b></td><td>Что приложить и кто принимает</td><td>Зачем иконка, где стоит, чек-лист автора, ревью письменно</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Страница правил набора · заготовка<span class="ds-lesson__spacer"></span><span data-copy="rulesTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="rulesTmpl">НАБОР: ______________   владелец: ______________   версия: ___   дата: __.__.____
+
+1. ОСНОВА
+холст __ × __, поле __, опорные фигуры: круг __, квадрат __, прямоугольники __ × __
+
+2. ЛИНИЯ И ФОРМА
+линия __, концы и углы ______, скругления __, заливка ______
+перспектива: прямо, без наклона и объёма
+детали: промежутки не меньше __
+
+3. МЕТАФОРЫ (смысл → картинка)
+______________ → ______________
+______________ → ______________
+
+4. СОСТОЯНИЯ
+выбрано: ______   новое: ______   недоступно: ______
+
+5. РАЗМЕРЫ И ЦВЕТ
+размеры: ______   маленький размер: ______   цвет: ______
+
+6. ИМЕНА И ФАЙЛЫ
+имя: ______   файл: ______   папка: ______
+
+7. ЧЕГО НЕ БЕРЁМ
+______________________________________
+
+8. ИСТОЧНИКИ И ЛИЦЕНЗИИ
+допустимые лицензии: ______   реестр источников: ______
+
+9. КАК ПРИСЛАТЬ ИКОНКУ
+зачем нужна и где стоит; проверена по пунктам 1–6; в ряду из десяти не видна как новая;
+ревью: кто ______, срок ______, замечания письменно со ссылкой на пункт</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Пункты пронумерованы, чтобы в ревью ссылаться на них: «п. 2, линия 1,5 при правиле 2».</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Правила отвечают на четыре вопроса:</b> как рисовать, что рисовать, чего не рисовать и как прислать. Страница без двух последних — инструкция для одного автора, а не для команды.</div>
+</section>
+
+<section id="examples">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>«Так» и «не так» на своих иконках</h2></div>
+  <p class="ds-lesson__lead">Правило словами понимают по-разному. Правило с парой картинок из своего же набора понимают одинаково.</p>
+
+  <p>Примеры «не так» рисуют на настоящих иконках продукта, а не берут из чужого руководства. Тогда спор закрывается ссылкой на картинку, которую все в команде узнают.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Правила набора магазина · парами</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ic-dd">
+        <div class="ds-lesson__ic-pair"><p class="ds-lesson__ic-rule"><b>Поле.</b> Рисунок внутри поля 2</p><span class="ds-lesson__ic-do"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg><span class="ds-lesson__ic-mark">Так</span></span><span class="ds-lesson__ic-dont"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="11" width="18" height="12"/><path d="M6 11 4 5h16l-2 6"/><path d="M12 5V1h7"/><circle cx="20" cy="1.5" r="1.5"/><path d="M9 17h6"/><circle cx="6" cy="14" r=".5"/><circle cx="18" cy="14" r=".5"/><path d="M8 8h1"/><path d="M11.5 8h1"/><path d="M15 8h1"/></svg><span class="ds-lesson__ic-mark">Не так</span></span></div>
+        <div class="ds-lesson__ic-pair"><p class="ds-lesson__ic-rule"><b>Перспектива.</b> Предмет смотрит прямо</p><span class="ds-lesson__ic-do"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><span class="ds-lesson__ic-mark">Так</span></span><span class="ds-lesson__ic-dont"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="11" cy="8" rx="6" ry="2"/><path d="M5 8v6a6 5 0 0 0 12 0V8"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/></svg><span class="ds-lesson__ic-mark">Не так</span></span></div>
+        <div class="ds-lesson__ic-pair"><p class="ds-lesson__ic-rule"><b>Детали.</b> Промежутки не меньше 2</p><span class="ds-lesson__ic-do"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><span class="ds-lesson__ic-mark">Так</span></span><span class="ds-lesson__ic-dont"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/><circle cx="9.5" cy="10" r=".5"/><circle cx="14.5" cy="14" r=".5"/><circle cx="11" cy="15.5" r=".5"/><circle cx="13" cy="8.5" r=".5"/><path d="M15.5 11.5l1 1"/><path d="M7.5 12.5l1 1"/></svg><span class="ds-lesson__ic-mark">Не так</span></span></div>
+        <div class="ds-lesson__ic-pair"><p class="ds-lesson__ic-rule"><b>Состояние.</b> «Выбрано» — заливкой, не цветом</p><span class="ds-lesson__ic-do"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z" fill="currentColor"/></svg><span class="ds-lesson__ic-mark">Так</span></span><span class="ds-lesson__ic-dont"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path class="ds-lesson__ic-accent-line" d="M12 20c-4-2.5-8-5.5-8-10a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 4.5-4 7.5-8 10z"/></svg><span class="ds-lesson__ic-mark">Не так</span></span></div>
+        <div class="ds-lesson__ic-pair"><p class="ds-lesson__ic-rule"><b>Метафора.</b> Один знак, без сюжета внутри</p><span class="ds-lesson__ic-do"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 0 0-14.3-4.9L4 8"/><path d="M4 4v4h4"/><path d="M4 13a8 8 0 0 0 14.3 4.9L20 16"/><path d="M20 20v-4h-4"/></svg><span class="ds-lesson__ic-mark">Так</span></span><span class="ds-lesson__ic-dont"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M13.5 13a2.5 2.5 0 1 1-1-2"/><path d="M13 9.5V11h-1.5"/></svg><span class="ds-lesson__ic-mark">Не так</span></span></div>
+        <div class="ds-lesson__ic-pair"><p class="ds-lesson__ic-rule"><b>Линия.</b> Толщина 2 у всех</p><span class="ds-lesson__ic-do"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg><span class="ds-lesson__ic-mark">Так</span></span><span class="ds-lesson__ic-dont"><svg class="ds-lesson__ic ds-lesson__ic--thin" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg><span class="ds-lesson__ic-mark">Не так</span></span></div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">«Так» и «не так» подписаны словами и рамкой, а не только цветом. Каждая пара — одно правило со страницы.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>У каждого правила, о котором спорили, есть пара картинок.</b> Новая пара появляется после каждого спора, который закончился решением.</div>
+</section>
+
+<section id="review">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Ревью по правилам, а не по вкусу</h2></div>
+  <p class="ds-lesson__lead">Замечание со ссылкой на правило автор исправляет. Замечание «мне не нравится» он либо спорит, либо исправляет наугад.</p>
+
+  <p>Дизайнер из соседней команды прислал три иконки для новых фильтров: капсулы, френч-пресс и подарок к заказу. Вот они рядом с иконками набора.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Присланные иконки · рядом с набором</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__ic-row ds-lesson__ic-row--named">
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-group"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h12v6a5 5 0 0 1-5 5h-2a5 5 0 0 1-5-5z"/><path d="M17 10h1a3 3 0 0 1 0 6h-1"/><path d="M9 3v2"/><path d="M13 3v2"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="6" ry="9" transform="rotate(45 12 12)"/><path d="M8.5 15.5c1.5-1.5 1.5-3 3.5-3.5s2-2 3.5-3.5"/></svg><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="12" width="14" height="9" rx="2"/><path d="M8 12 7 8h10l-1 4"/><path d="M12 8V4h5"/><circle cx="18" cy="4" r="1"/><path d="M10 17h4"/></svg></span><span class="ds-lesson__ic-name">из набора</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic ds-lesson__ic--thin" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="6" rx="3" transform="rotate(-45 12 12)"/><path d="M9.9 9.9l4.2 4.2"/></svg></span><span class="ds-lesson__ic-name">капсулы</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="8" width="11" height="15" rx="2"/><path d="M16 11h1.5a2.5 2.5 0 0 1 2.5 2.5v1a2.5 2.5 0 0 1-2.5 2.5H16"/><path d="M10.5 8V3"/><path d="M8 3h5"/><path d="M5 13h11"/></svg></span><span class="ds-lesson__ic-name">френч-пресс</span></span>
+        <span class="ds-lesson__ic-cell"><span class="ds-lesson__ic-new"><svg class="ds-lesson__ic" width="48" height="48" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="9" width="16" height="4" rx="1"/><path d="M6 13v7h12v-7"/><rect x="11" y="9" width="2" height="11" fill="currentColor"/><path d="M12 9c-1.5-3-5-4-5-1.5S10 9 12 9"/><path d="M12 9c1.5-3 5-4 5-1.5S14 9 12 9"/><path d="M10 7l1 1"/><path d="M14 7l-1 1"/><path d="M9 6.5l.5 1"/><path d="M15 6.5l-.5 1"/></svg></span><span class="ds-lesson__ic-name">подарок</span></span>
+      </div>
+    </div>
+  </div>
+
+  <p>Ниже десять замечаний, которые написал ревьюер. Пять из них — вкус: они не ссылаются на правило, и по ним непонятно, что исправлять. Найдите их.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Ревью трёх иконок · найдите замечания без правила<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <ul class="ds-lesson__st-list">
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Капсулы: линия 1,5, правило — 2"><span class="ds-lesson__st-when">капсулы</span>Линия 1,5, в наборе 2 — п. 2, «Линия и форма».</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Капсулы: как-то грустно выглядит"><span class="ds-lesson__st-when">капсулы</span>Как-то грустно выглядит.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Френч-пресс: корпус выходит за поле снизу"><span class="ds-lesson__st-when">френч-пресс</span>Корпус выходит за поле снизу на 1 — п. 1, «Основа».</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Френч-пресс: я бы нарисовал турку"><span class="ds-lesson__st-when">френч-пресс</span>Я бы нарисовал турку, мне так привычнее.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Подарок: бант из шести линий с промежутком 1"><span class="ds-lesson__st-when">подарок</span>Бант из шести линий с промежутком 1, на 16 сольётся — п. 2, детали.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Подарок: слишком простой, добавь блеска"><span class="ds-lesson__st-when">подарок</span>Слишком простой, добавь блеска.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Подарок: лента залита, набор линейный"><span class="ds-lesson__st-when">подарок</span>Лента залита, а набор линейный — п. 2, заливка.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Френч-пресс: не нравится оттенок серого"><span class="ds-lesson__st-when">френч-пресс</span>Не нравится оттенок серого.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Все три: имена совпадают с компонентами"><span class="ds-lesson__st-when">все три</span>Имена capsule, french-press, gift совпадают с компонентами — п. 6, всё в порядке.</span></li>
+          <li><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Все три: не чувствую бренда"><span class="ds-lesson__st-when">все три</span>Не чувствую бренда.</span></li>
+        </ul>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Капсулы: линия 1,5 при правиле 2.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Понятно, что исправить, и спорить не о чем: число и пункт.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Капсулы: «как-то грустно выглядит».</span><span class="ds-lesson__hunt-fix"><b>Вкус. </b>Что именно грустно? Если дело в тонкой линии — это уже первое замечание. Если в наклоне — есть ли про наклон правило? Нет правила — либо предложите его для страницы, либо снимите замечание.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Френч-пресс: корпус выходит за поле.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Видно, где и на сколько, и какой пункт нарушен.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Френч-пресс: «я бы нарисовал турку».</span><span class="ds-lesson__hunt-fix"><b>Вкус. </b>Метафору выбирают по разделу «Метафоры»: если там не записано, что заваривание — турка, у автора есть право на френч-пресс. Спор о метафоре закрывается записью в правилах, а не личным предпочтением.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Подарок: бант из шести линий.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Сказано, что сольётся и почему, со ссылкой на правило о деталях.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Подарок: «добавь блеска».</span><span class="ds-lesson__hunt-fix"><b>Вкус, и против правил. </b>Блики — это детали мельче 2 и объём, которых в наборе нет. Замечание толкает автора нарушить страницу.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Подарок: лента залита.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Заливка в наборе только у состояния «выбрано».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Френч-пресс: «не нравится оттенок серого».</span><span class="ds-lesson__hunt-fix"><b>Вкус, и не по адресу. </b>У иконки нет своего цвета: она берёт цвет текста. Если оттенок кажется неудачным, речь о цвете текста, и это разговор не с автором иконки.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Все три: имена совпадают с компонентами.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Хорошее ревью отмечает и то, что сделано правильно: автор видит, что пункт проверен.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Все три: «не чувствую бренда».</span><span class="ds-lesson__hunt-fix"><b>Вкус. </b>Что в наборе значит «бренд»? Если это скругления и линия, так и скажите и сошлитесь на пункт. Если что-то другое — это повод дописать правила, а не вернуть иконки автору.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любое замечание</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Каждое замечание без правила — либо вопрос к ревьюеру «что именно?», либо пункт, которого не хватает на странице правил. Во втором случае правило дописывают, а иконки принимают.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Замечания по правилу тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Каждое замечание в ревью ссылается на пункт правил.</b> Замечание, для которого пункта нет, превращается в предложение дописать правила.</div>
+</section>
+
+<section id="not">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Что в набор не берём</h2></div>
+  <p class="ds-lesson__lead">Набор портится не только плохими иконками, но и лишними. Решение «не берём» — тоже работа, и у него есть причина.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Не берём</th><th scope="col">Почему</th><th scope="col">Что вместо</th></tr></thead>
+      <tbody>
+        <tr><td><b>Второй значок на смысл, который уже есть</b></td><td>Человек начинает гадать, одно ли это</td><td>Существующая иконка</td></tr>
+        <tr><td><b>Иконку для одного экрана</b></td><td>Набор растёт, а пользы другим экранам нет</td><td>Картинка остаётся в макете этого экрана</td></tr>
+        <tr><td><b>Логотипы и знаки брендов</b></td><td>Их рисует владелец бренда и задаёт свои правила. Lucide не принимает логотипы брендов вовсе, в Material Symbols их тоже нет</td><td>Официальный знак из материалов самого бренда</td></tr>
+        <tr><td><b>Иконку, которую без подписи не понять</b></td><td>Подпись всё равно нужна, а иконка только занимает место</td><td>Слово</td></tr>
+        <tr><td><b>Иконку с несовместимой лицензией</b></td><td>Например, из набора только для некоммерческого использования</td><td>Своя иконка по правилам набора</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">В Atlassian Design System тот, кто предлагает новую иконку, сначала отвечает на вопрос, нужна ли здесь иконка вообще. А в парах «так» и «не так» там прямо написано: не рисовать новую, если подходящая уже есть.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · брать в набор?<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">Знак платёжной системы, перерисованный линией 2, для экрана оплаты.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не брать</b>Это чужой знак, и перерисовывать его в своём стиле нельзя. Для экрана оплаты берут официальный знак из материалов самой платёжной системы.</p></li>
+<li data-quiz-q data-answer="take"><p class="ds-quiz__question">«Без кофеина»: смысла в наборе нет, нарисована по всем правилам, нужна в фильтрах и в карточке товара.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Взять</b>Смысл новый, используется в двух местах, правила соблюдены. Так и выглядит иконка, которая входит в набор без перерисовки.</p></li>
+<li data-quiz-q data-answer="fix"><p class="ds-quiz__question">«Подарок» с бантом из шести линий и залитой лентой.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Взять после правки</b>Смысл нужен, но две вещи против правил: детали и заливка. Замечания со ссылкой на пункты — и после исправления иконка входит в набор.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">Иконка «Скидка для офисов» для одного баннера на главной.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не брать</b>Иконка для одного места. Она остаётся в макете баннера и не занимает место в наборе.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">Корзина-сумка «потому что так моднее», хотя корзина-тележка в наборе есть.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не брать</b>Второй значок на тот же смысл. Если тележка устарела, её заменяют на сумку во всём наборе — отдельным решением, а не второй иконкой.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">Красивая иконка «Обжарка» из набора с лицензией CC BY-NC.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не брать</b>NC запрещает коммерческое использование, а магазин — коммерческий продукт. Смысл можно нарисовать самим по правилам набора.</p></li>
+<li data-quiz-q data-answer="fix"><p class="ds-quiz__question">«Капсулы» с линией 1,5 вместо 2.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Взять после правки</b>Смысл нужен, нарушение одно и понятное. Одна ссылка на пункт — и автор исправит сам.</p></li>
+<li data-quiz-q data-answer="take"><p class="ds-quiz__question">«Френч-пресс» по всем правилам, нужен в фильтре «Способ заваривания» и в статьях о кофе.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Взять</b>Новый смысл, несколько мест, правила соблюдены.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="take">Взять</button><button class="ds-quiz__option" type="button" data-quiz-answer="fix">После правки</button><button class="ds-quiz__option" type="button" data-quiz-answer="no">Не брать</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Сначала смысл: новый ли он и нужен ли больше чем в одном месте. Потом правила и лицензия.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Отказ записывают с причиной.</b> «Не берём: логотип, п. 7» — и в следующий раз этот вопрос не поднимается.</div>
+</section>
+
+<section id="licenses">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Своё и чужое в одном наборе</h2></div>
+  <p class="ds-lesson__lead">Когда в наборе есть и свои иконки, и взятые из открытых наборов, через год уже никто не помнит, какая откуда. Запоминать не нужно — нужен реестр.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Иконка</th><th scope="col">Откуда</th><th scope="col">Лицензия</th><th scope="col">Что сделано</th></tr></thead>
+      <tbody>
+        <tr><td><code>grinder</code></td><td>Своя</td><td>—</td><td>Нарисована по правилам набора</td></tr>
+        <tr><td><code>search</code></td><td>Lucide</td><td>ISC</td><td>Перерисована по правилам набора, текст лицензии Lucide лежит с файлами набора</td></tr>
+        <tr><td><code>capsule</code></td><td>Tabler Icons</td><td>MIT</td><td>Толщина приведена к 2, текст лицензии Tabler лежит с файлами набора</td></tr>
+        <tr><td><code>zoom</code></td><td>Material Symbols</td><td>Apache 2.0</td><td>Изменена, файл помечен как изменённый, текст лицензии приложен</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Условия разных лицензий нужно знать до того, как иконка попала в набор:</p>
+
+  <ul>
+    <li><strong>ISC и MIT</strong> — Lucide, Tabler, Heroicons, Phosphor. Уведомление об авторских правах и текст лицензии остаются со всеми копиями.</li>
+    <li><strong>Apache 2.0</strong> — Material Symbols. Приложить текст лицензии и пометить изменённые файлы.</li>
+    <li><strong>CC BY 4.0</strong> — например, иконки Font Awesome Free. Указать автора, дать ссылку на лицензию и отметить, если меняли.</li>
+    <li><strong>CC BY-NC</strong> — только для некоммерческого использования. В коммерческий продукт не годится.</li>
+    <li><strong>Собственные лицензии наборов.</strong> У Remix Icon с января 2026 года своя лицензия: в продукте иконки использовать можно, а продавать их отдельным набором и делать на их основе свой набор иконок — нельзя. Если ваш набор выложен как открытая библиотека, иконки Remix в нём, скорее всего, нарушают эту лицензию: она запрещает распространять на их основе свой набор.</li>
+    <li><strong>CC0</strong> — например, иллюстрации Humaaans и Open Peeps. Условий нет, но права на товарные знаки CC0 не затрагивает: логотип в такой картинке остаётся чужим.</li>
+  </ul>
+
+  <div class="ds-lesson__warn"><b>Лицензия набора может поменяться.</b> Remix Icon до января 2026 года был под Apache 2.0, а потом перешёл на собственную лицензию. Поэтому в реестре записывают не только лицензию, но и версию набора и дату, когда иконку взяли.</div>
+
+  <div class="ds-lesson__rule"><b>В наборе нет иконки без строки в реестре.</b> Откуда, по какой лицензии, из какой версии и что с ней сделали.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Опишите правила своего набора на одной странице, примите по ним три иконки, нарисованные другим человеком, и проведите ревью письменно.</p>
+
+  <h3>Часть 1 · Страница правил, 1,5 часа</h3>
+  <ol>
+    <li><strong>Заполните заготовку</strong> из первого раздела: девять пунктов, пронумерованных для ссылок.</li>
+    <li><strong>Нарисуйте пары «так» и «не так»</strong> для трёх правил, о которых в команде спорили чаще всего.</li>
+    <li><strong>Соберите реестр источников</strong> для иконок, которые уже есть в наборе.</li>
+  </ol>
+
+  <h3>Часть 2 · Три иконки от другого человека, по его времени</h3>
+  <ol>
+    <li><strong>Попросите коллегу нарисовать три иконки</strong> для настоящих задач продукта — только по странице правил, без устных пояснений.</li>
+    <li><strong>Всё, что он спросит</strong> по ходу, запишите: каждый вопрос — место, где страница молчит.</li>
+  </ol>
+
+  <h3>Часть 3 · Ревью, 30 минут</h3>
+  <ol>
+    <li><strong>Напишите замечания</strong> письменно, каждое — со ссылкой на пункт правил.</li>
+    <li><strong>Замечание без пункта</strong> превратите в правку страницы правил или снимите.</li>
+    <li><strong>Примите иконки</strong>, когда автор исправит их сам, и внесите их в реестр.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Чужая иконка вошла в набор без вашей перерисовки.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Страница правил</strong> из девяти пунктов с парами «так» и «не так».</li>
+    <li><strong>Реестр источников</strong> и лицензий.</li>
+    <li><strong>Письменное ревью</strong> трёх иконок со ссылками на пункты.</li>
+    <li><strong>Список правок страницы</strong> по вопросам автора и замечаниям без пункта.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: полтора часа на страницу правил и полчаса на ревью. Время коллеги на иконки — отдельно.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Страница получается на десять экранов».</strong> Правила — на одной странице, объяснения — ссылками. Если пункт не помещается в три строки, это два пункта.</li>
+    <li><strong>«Коллега всё равно спрашивает в чате».</strong> Отвечайте ссылкой на пункт, а если его нет — сначала допишите пункт, потом ссылку.</li>
+    <li><strong>«Иконка по всем правилам, но мне не нравится».</strong> Сформулируйте, что именно. Если это правило — допишите его на страницу и примените ко всем. Если нет — принимайте иконку.</li>
+    <li><strong>«Не знаю, откуда взяты старые иконки».</strong> Поиск по картинке в Icônes или по открытым наборам обычно находит источник. Не нашли — перерисуйте по правилам и запишите как свою.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Чек-лист и ошибки ступени</h2></div>
+
+  <h3>Набор растёт без вас, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Правила на одной странице и пронумерованы</li>
+    <li>На странице есть метафоры, состояния, чего не берём и как прислать</li>
+    <li>У спорных правил есть пары «так» и «не так» на своих иконках</li>
+    <li>Каждое замечание в ревью ссылается на пункт</li>
+    <li>Замечание без пункта превращается в правку страницы или снимается</li>
+    <li>Отказ записан с причиной</li>
+    <li>У каждой иконки есть строка в реестре источников и лицензий</li>
+    <li>Иконки от других принимаются без вашей перерисовки</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Правила только о том, как рисовать.</b> Что рисовать и чего не брать, каждый решает сам.</li>
+    <li><b>«Не так» из чужого руководства.</b> Команда не узнаёт своих ошибок в чужих картинках.</li>
+    <li><b>Ревью по вкусу.</b> Автор исправляет наугад и в следующий раз угадывает снова.</li>
+    <li><b>Перерисовать самому.</b> Быстрее сегодня, но набор перестаёт расти без вас.</li>
+    <li><b>Иконки без реестра.</b> Через год никто не знает, откуда они и что можно с ними делать.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Три ступени темы целиком</h2></div>
+  <p class="ds-lesson__lead">Тема прошла путь от одной иконки к набору, который растёт руками команды: сначала своя иконка в чужом наборе, потом свой набор с правилами и экспортом, теперь — правила, по которым набор дорисовывают другие.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Решать, нужна ли своя иконка; рисовать на холсте набора с его полем, толщиной и скруглениями; проверять в настоящем размере; отдавать чистый SVG; понимать лицензию набора</td>
+          <td class="ds-lesson__dim">В ряду из десяти иконок вашу не видно как чужую</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Задавать правила набора один раз; решать, что с маленьким размером; собирать иконки компонентами; настраивать экспорт; проверять в двух темах и в 16; держать один смысл — одну иконку</td>
+          <td class="ds-lesson__dim">Смена цвета и размера любой иконки — одно действие, а не правка исходника</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Описывать правила набора на одной странице; показывать их парами «так» и «не так»; проводить ревью по пунктам правил; решать, что в набор не берём; вести реестр источников и лицензий</td>
+          <td>Чужая иконка вошла в набор без вашей перерисовки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> новая иконка от любого дизайнера команды встаёт в набор по странице правил, а спор о ней закрывается ссылкой на пункт.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.ibm.com/design/language/iconography/ui-icons/design/">UI icons: design</a> · <a href="https://www.ibm.com/design/language/iconography/ui-icons/contribute/">contribute</a></span><span class="ds-lesson__reads-meta">IBM Design Language · на английском · бесплатно</span><span>Правила большого набора и порядок, по которому в него принимают чужие иконки.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://lucide.dev/contribute/icons/design-principles">Lucide design language</a></span><span class="ds-lesson__reads-meta"><a href="/resource/lucide/">Lucide</a> · на английском · бесплатно</span><span>Правила рисования с парами «так» и «не так» — образец страницы правил для открытого набора.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m2.material.io/design/iconography/system-icons.html">System icons</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a>, вторая версия · на английском · бесплатно</span><span>Правила парами: перспектива, толщина, скругления, опорные фигуры.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://atlassian.design/foundations/iconography">Iconography</a></span><span class="ds-lesson__reads-meta">Atlassian Design System · на английском · бесплатно</span><span>Когда иконка не нужна вовсе и почему новую не рисуют, если подходящая уже есть.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></span><span class="ds-lesson__reads-meta">Creative Commons · на английском · бесплатно</span><span>Что требует указание автора и почему иконка с некоммерческой лицензией не годится для продукта.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->
