@@ -181,7 +181,7 @@
   <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Загрузка: когда показывать и какую</h2></div>
   <p class="ds-lesson__lead">Загрузку показывают там, где ожидание заметно. Где оно незаметно, индикатор только мелькает.</p>
 
-  <p>Ожидание человек замечает не сразу. По данным Nielsen Norman Group, ответ быстрее 0,1 секунды кажется мгновенным. До секунды задержку уже видно, но мысль не прерывается. А после 10 секунд внимание уходит на другое. От этого и зависит, что показывать.</p>
+  <p>Ожидание человек замечает не сразу. Якоб Нильсен описал эти границы ещё в 1993 году: ответ быстрее 0,1 секунды кажется мгновенным. До секунды задержку уже видно, но мысль не прерывается. А после 10 секунд внимание уходит на другое. От этого и зависит, что показывать.</p>
 
   <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
     <table>
@@ -295,11 +295,13 @@
         <tr><th scope="row">Кто исправит</th><td>Человек, в этом же поле</td><td>Не человек: остаётся повторить, подождать или выбрать другой путь</td></tr>
         <tr><th scope="row">Где показать</th><td>У поля с ошибкой</td><td>Там, где было действие: у кнопки или на месте списка</td></tr>
         <tr><th scope="row">Что сказать</th><td>Что вписать: «Укажите номер дома»</td><td>Что не получилось и что с данными: «Адрес не сохранился, введённое осталось в полях»</td></tr>
-        <tr><th scope="row">Когда показать</th><td>Когда человек закончил с полем или нажал кнопку, а не на каждой букве</td><td>Сразу, как стало ясно, что не получилось</td></tr>
+        <tr><th scope="row">Когда показать</th><td>Когда человек закончил с полем или нажал кнопку, а не на каждой букве. Пустое поле, из которого человек просто ушёл, — ещё не ошибка</td><td>Сразу, как стало ясно, что не получилось</td></tr>
         <tr><th scope="row">Что сохранить</th><td colspan="2">Всё, что человек ввёл. Заставлять вводить заново — худшее, что можно сделать после ошибки</td></tr>
       </tbody>
     </table>
   </div>
+
+  <p class="ds-lesson__dim">Когда проверять поле, большие системы решают по-разному. В Nielsen Norman Group советуют показывать ошибку сразу, как человек закончил с полем. GOV.UK проверяет только по кнопке «Продолжить»: так человек не видит ошибок, пока заполняет форму. Оба способа лучше, чем проверка на каждой букве.</p>
 
   <div class="ds-lesson__warn"><b>Не показывайте ошибку одним цветом.</b> Красную рамку без текста не заметит тот, кто плохо различает цвета, а заметивший не поймёт, что исправить. По WCAG ошибку ввода описывают текстом — это критерий 3.3.1, уровень A.</div>
 
@@ -590,11 +592,11 @@
 <section id="further-reading">
   <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
   <ul class="ds-lesson__reads">
-    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/empty-state-interface-design/">Designing Empty States in Complex Applications: 3 Guidelines</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно</span><span>Три правила для пустых экранов: сообщить, что происходит, подсказать, как всё устроено, и дать путь к главному действию.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/skeleton-screens/">Skeleton Screens 101</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Самхита Танкала · на английском · бесплатно</span><span>Когда скелет, когда крутилка, а когда полоса прогресса — по длительности ожидания и по тому, что грузится.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/error-message-guidelines/">Error-Message Guidelines</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Тим Нойзессер и Эван Санволл · на английском · бесплатно</span><span>Где показывать сообщение об ошибке, как его написать и почему нельзя стирать то, что человек ввёл.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://www.checklist.design/web-app/empty-state">Empty State</a></span><span class="ds-lesson__reads-meta"><a href="/resource/checklist-design/">Checklist Design</a> · чек-лист на английском · бесплатно</span><span>Чек-лист пустого состояния: чем пустота первого раза отличается от пустого результата поиска.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Раздел «Don’t overlook empty states»: как пустой экран становится приглашением к первому действию.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/empty-state-interface-design/">Designing Empty States in Complex Applications: 3 Guidelines</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно</span><span>Три правила для пустых экранов: сообщить, что происходит, подсказать, как здесь всё устроено, и дать путь к главному действию. Там же — почему нельзя показывать «Нет записей», пока данные ещё грузятся. Статья 2021 года, примеры из сложных рабочих приложений.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/skeleton-screens/">Skeleton Screens 101</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Самхита Танкала · на английском · бесплатно</span><span>Когда показывать скелет, когда крутилку, а когда полосу прогресса: меньше секунды — ничего, до 10 секунд — скелет для целого экрана и крутилка для одного блока, дольше — прогресс. Там же — почему скелет из одной шапки и подвала не помогает.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/error-message-guidelines/">Error-Message Guidelines</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Тим Нойзессер и Эван Санволл · на английском · бесплатно</span><span>Как показать ошибку, чтобы её заметили, как написать, чтобы поняли, и как сберечь силы человека — в том числе не стирать то, что он ввёл. Уточнение к уроку: человек ушёл из пустого поля — это ещё не ошибка.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/patterns/empty-states-pattern/">Empty states</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Три вида пустоты в дизайн-системе IBM: данных ещё нет, пусто после действия человека (поиск без результатов, всё сделано) и пусто из-за ошибки или прав, — что сказать и что предложить в каждом. Справка дизайн-системы для рабочих приложений.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер, 2018 · книга на английском · платная</span><span>Глава «Don’t overlook empty states» из раздела «Finishing Touches»: пустой экран как место для первого действия. Три страницы, текст закрыт.</span></li>
   </ul>
 </section>
 

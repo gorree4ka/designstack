@@ -14,8 +14,10 @@
 
 С 29.09.2026 (D185) каждый источник перед публикацией читается целиком, а не сверяется по кускам:
 дата прочтения — поле `read` у источника, разбор по уроку — `docs/research/reads/<урок>.md`.
-Если разбор у урока есть, непрочитанный пункт в его списке — ошибка. Уроки без разбора скрипт
-перечисляет отдельно: их списки перепроверяются отдельным этапом.
+Если разбор у урока есть, непрочитанный пункт в его списке — ошибка, пункт без ссылки — тоже:
+прочитать целиком «материалы такого-то сайта» нельзя. Книга без открытого текста читается
+частично, и это видно в данных: поле `read_scope` — что именно прочитано («оглавление и глава 1»).
+Уроки без разбора скрипт перечисляет отдельно: их списки перепроверяются отдельным этапом.
 """
 import argparse
 import json
@@ -90,13 +92,16 @@ for slug, items in DATA["lessons"].items():
     new = OLD.sub(lambda m: render(items), body)
     bare = sum(1 for i in items if "<a " not in DATA["resources"][i["res"]]["title"])
     unread = [i["res"] for i in items if not DATA["resources"][i["res"]].get("read")]
+    part = sum(1 for i in items if DATA["resources"][i["res"]].get("read") and DATA["resources"][i["res"]].get("read_scope"))
     state = "без изменений" if new == body else ("было: подвал" if found[0].startswith("<footer>") else "обновлён")
-    print("%-30s пунктов %d, без ссылки %d, прочитано целиком %d · %s"
-          % (slug, len(items), bare, len(items) - len(unread), state))
+    print("%-30s пунктов %d, без ссылки %d, прочитано целиком %d, частично %d · %s"
+          % (slug, len(items), bare, len(items) - len(unread) - part, part, state))
 
     if (READS / (slug + ".md")).exists():
         if unread:
             problems.append("%s: есть разбор прочтения, но не прочитаны %s" % (slug, unread))
+        if bare:
+            problems.append("%s: есть разбор прочтения, но %d пункт(а) без ссылки — такой не прочитать" % (slug, bare))
     else:
         pending.append(slug)
 

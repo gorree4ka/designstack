@@ -145,7 +145,7 @@ h1          { font: var(--text-title-l); }
   <h3>Открытые шрифты</h3>
   <p>Открытые шрифты чаще всего выходят под SIL Open Font License, OFL: в Google Fonts это самая частая лицензия. Что она разрешает и запрещает:</p>
   <ul>
-    <li><strong>Можно:</strong> использовать, изучать, менять и распространять шрифт, встраивать его в сайты, приложения и документы, в том числе в коммерческие продукты.</li>
+    <li><strong>Можно:</strong> использовать, изучать, менять и распространять шрифт, встраивать в приложения и документы и подключать на сайтах, в том числе в коммерческих продуктах.</li>
     <li><strong>Нельзя:</strong> продавать сам шрифт отдельно. Продавать продукт, в который он встроен, можно.</li>
     <li><strong>Зарезервированное имя.</strong> Если автор объявил Reserved Font Name, изменённую версию нельзя выпускать под этим именем без его письменного разрешения. Объявлять такое имя автор не обязан.</li>
     <li><strong>Документы свободны.</strong> Требования лицензии не распространяются на документы, созданные этим шрифтом.</li>
@@ -172,7 +172,7 @@ h1          { font: var(--text-title-l); }
 <div class="ds-lesson__box-head">Тренажёр · можно ли так<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
 <div class="ds-lesson__box-body">
 <ol class="ds-quiz__list">
-<li data-quiz-q data-answer="yes"><p class="ds-quiz__question">Скачать гротеск под OFL с Google Fonts и разместить файлы шрифта на своём сервере.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Можно</b>FAQ Google Fonts прямо разрешает размещать шрифты у себя.</p></li>
+<li data-quiz-q data-answer="yes"><p class="ds-quiz__question">Скачать гротеск под OFL с Google Fonts и разместить файлы шрифта на своём сервере.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Можно</b>FAQ Google Fonts прямо разрешает размещать шрифты у себя. Но урезанный файл или перевод в другой формат по FAQ лицензии OFL — уже изменённая версия: если у шрифта есть зарезервированное имя, под этим именем такой файл подключать нельзя.</p></li>
 <li data-quiz-q data-answer="yes"><p class="ds-quiz__question">Встроить тот же шрифт в платное приложение для кофеен.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Можно</b>OFL разрешает встраивать шрифт в продукт, в том числе платный. Нельзя продавать сам шрифт.</p></li>
 <li data-quiz-q data-answer="no"><p class="ds-quiz__question">Выложить файлы OFL-шрифта на маркетплейс как отдельный товар за 500 ₽.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нельзя</b>По OFL шрифт не продают сам по себе — ни исходный, ни изменённый.</p></li>
 <li data-quiz-q data-answer="license"><p class="ds-quiz__question">Для макетов куплена настольная лицензия ParaType на антикву. Разработчик хочет подключить эту антикву на сайт.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нужна лицензия</b>Настольная лицензия ParaType запрещает показывать шрифтом текст на сайте. Нужна веб-лицензия.</p></li>
@@ -263,7 +263,7 @@ h1          { font: var(--text-title-l); }
   <p>С английской версией в систему приходят свои правила. Их лучше записать сразу, до первых жалоб:</p>
   <ul>
     <li><strong>Кавычки:</strong> в английском тексте “…” и ‘…’, как в «Ководстве».</li>
-    <li><strong>Числа:</strong> разряды отбивают запятой, дробную часть — точкой: 12,000 и 11,999.99. В русском наоборот: 12&nbsp;000 и 11&nbsp;999,99. Так написано в совете Бюро Горбунова.</li>
+    <li><strong>Числа:</strong> разряды отбивают запятой, дробную часть — точкой: 12,000 и 11,999.99. В русском наоборот: 12&nbsp;000 и 11&nbsp;999,99. Так отвечает Бюро Горбунова в совете «В каком формате писать числа разрядностью больше трёх?».</li>
     <li><strong>Длина строк меняется.</strong> «Корзина» становится «Shopping cart», «Оформить» — «Checkout». Кнопки, вкладки и заголовки проверяют на самой узкой ширине в обоих языках.</li>
     <li><strong>Шрифт.</strong> Если второй язык на другой письменности или с особыми буквами, шрифт проверяют на них во всех начертаниях, как кириллицу в уроке Middle.</li>
   </ul>
@@ -500,11 +500,11 @@ h1          { font: var(--text-title-l); }
 <section id="further-reading">
   <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
   <ul class="ds-lesson__reads">
-    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/styles/typography/type-scale-tokens">Type scale tokens</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Как Material 3 называет стили и токены: роль, размер, отдельный токен на каждое свойство.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://atlassian.design/foundations/typography">Typography</a></span><span class="ds-lesson__reads-meta">Atlassian Design System · на английском · бесплатно</span><span>Токены на всё свойство font в rem и таблица стилей с кеглями и межстрочными.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/elements/typography/type-sets/">Type sets</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Два набора стилей — продуктовый с базой 14 и выразительный с базой 16 — и как их различают имена.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/styles/type-scale/">Type scale</a> и <a href="https://design-system.service.gov.uk/get-started/new-type-scale/">Using the updated type scale</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Шкала с именами-числами и то, как её пересобрали в шестой версии Frontend.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://openfontlicense.org/open-font-license-official-text/">SIL Open Font License</a> и <a href="https://openfontlicense.org/ofl-faq/">OFL-FAQ</a></span><span class="ds-lesson__reads-meta">SIL International · на английском · бесплатно</span><span>Что разрешает и запрещает OFL: встраивание, продажа, зарезервированные имена, документы.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/styles/typography/type-scale-tokens">Type scale tokens</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Как Material 3 устроила имена и токены: роль и размер в имени, один составной токен на стиль и отдельные — на шрифт, кегль, межстрочный, трекинг и вес. Там же — базовый и акцентный наборы и высота строки для разных письменностей.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://atlassian.design/foundations/typography">Typography</a></span><span class="ds-lesson__reads-meta">Atlassian Design System · на английском · бесплатно</span><span>Шкала Atlassian с именами-размерами от xxlarge до xxsmall: кегли и межстрочные в rem и px, когда какой заголовок и текст ставить. Что токен хранит всё свойство font целиком, видно в справочнике токенов, раздел All tokens.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/elements/typography/type-sets/">Type sets</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Два набора стилей IBM: продуктовый с базой 14 и выразительный с базой 16. Как их различают суффиксы -01 и -02 и чем фиксированные заголовки отличаются от плавающих, которые растут с шириной экрана.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/styles/type-scale/">Type scale</a> и <a href="https://design-system.service.gov.uk/get-started/new-type-scale/">Using the updated type scale</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Шкала GOV.UK: точки-числа от 16 до 80 рядом с классами по ролям, значения для больших и малых экранов, и что изменилось в Frontend 6.0.0 — точку 14 убрали, текст на телефонах увеличили.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://openfontlicense.org/open-font-license-official-text/">SIL Open Font License</a> и <a href="https://openfontlicense.org/ofl-faq/">OFL-FAQ</a></span><span class="ds-lesson__reads-meta">SIL International · на английском · бесплатно</span><span>Текст OFL 1.1 и официальный FAQ: что разрешено при встраивании, продаже и изменении шрифта, как работают зарезервированные имена и почему урезанный шрифт для сайта уже считается изменённой версией. FAQ длинный, раздел 2 — про веб.</span></li>
   </ul>
 </section>
 

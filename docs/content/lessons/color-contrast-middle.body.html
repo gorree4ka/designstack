@@ -35,7 +35,7 @@
     </table>
   </div>
 
-  <p>Пороги не округляют: в пояснениях к WCAG прямо сказано, что 4,499&nbsp;:&nbsp;1 норму 4,5&nbsp;:&nbsp;1 не проходит, даже если инструмент покажет «4,5». У рамки фокуса есть и отдельное правило уровня AAA: рамка не тоньше 2 px по периметру и 3&nbsp;:&nbsp;1 между видом с фокусом и без.</p>
+  <p>Пороги не округляют: в пояснениях к WCAG прямо сказано, что 4,499&nbsp;:&nbsp;1 норму 4,5&nbsp;:&nbsp;1 не проходит, даже если инструмент покажет «4,5». У рамки фокуса есть и отдельное правило уровня AAA, критерий 2.4.13: рамка не тоньше 2 px по периметру и 3&nbsp;:&nbsp;1 между видом с фокусом и без.</p>
 
   <div class="ds-lesson__rule"><b>Мерят пару: цвет и фон, на котором он стоит на самом деле.</b> Один и тот же серый проходит на белом и не проходит на светло-сером фоне карточки.</div>
 </section>
@@ -168,10 +168,12 @@
 
   <h3>Почему не прозрачность</h3>
   <ul>
-    <li><strong>Надпись становится нечитаемой.</strong> 40 % от 5,81&nbsp;:&nbsp;1 — это 1,86&nbsp;:&nbsp;1.</li>
+    <li><strong>Надпись становится нечитаемой.</strong> Прозрачная подложка смешивается с белым фоном, и контраст надписи падает с 5,81&nbsp;:&nbsp;1 до 1,86&nbsp;:&nbsp;1.</li>
     <li><strong>Результат зависит от фона.</strong> На картинке или цветной плашке прозрачная кнопка смешивается с тем, что под ней, и выглядит каждый раз по-разному.</li>
     <li><strong>Неактивное путают с загрузкой.</strong> Полупрозрачным часто рисуют то, что ещё не появилось.</li>
   </ul>
+
+  <p class="ds-lesson__dim">В тёмной теме Material 2 неактивное задают как раз прозрачностью белого — 38 % для надписи. На однотонном фоне так можно, но контраст всё равно придётся измерить в каждой теме, а отдельный цвет для неактивного держать под контролем проще.</p>
 
   <div class="ds-lesson__rule"><b>У неактивного своя пара цветов в палитре:</b> подложка и текст. Надпись читается, а рядом с активной кнопкой видно, что эта выключена. Хорошо ещё написать, что нужно сделать: «Введите номер карты».</div>
 </section>
@@ -439,10 +441,10 @@
 <section id="further-reading">
   <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
   <ul class="ds-lesson__reads">
-    <li><span class="ds-lesson__reads-title"><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">Understanding Success Criterion 1.4.3: Contrast (Minimum)</a> и <a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html">Success Criterion 1.4.11: Non-text Contrast</a></span><span class="ds-lesson__reads-meta">W3C WAI · на английском · бесплатно</span><span>Нормы для текста, значков и границ с примерами, исключения и почему пороги не округляют.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Глава «Accessible doesn’t have to mean ugly» — как пройти контраст, не превращая интерфейс в чёрно-белый.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://m2.material.io/design/color/dark-theme.html">Dark theme</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a>, вторая версия · на английском · бесплатно</span><span>Почему в тёмной теме серый фон вместо чёрного и приглушённые акценты — с числами.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="/resource/webaim-contrast/">WebAIM Contrast Checker</a></span><span class="ds-lesson__reads-meta">инструмент · на английском · бесплатно</span><span>Самый простой замер пары: обычный и крупный текст, графика и элементы интерфейса.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html">Understanding Success Criterion 1.4.3: Contrast (Minimum)</a> и <a href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html">Success Criterion 1.4.11: Non-text Contrast</a></span><span class="ds-lesson__reads-meta">W3C WAI · на английском · бесплатно</span><span>Нормы 4,5 : 1 и 3 : 1 и откуда они взялись (острота зрения 20/40), что пороги не округляют — 4,499 : 1 уже провал, — и кому контраст не нужен: неактивным элементам, декору, логотипам. Во второй части почти полсотни рисунков «проходит / не проходит» для полей, флажков, фокуса, значков и графиков.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер, 2018 · книга на английском · платная</span><span>Глава «Accessible doesn’t have to mean ugly» — как пройти контраст и не обесцветить интерфейс. Текст главы закрыт, открыто оглавление.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m2.material.io/design/color/dark-theme.html">Dark theme</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a>, вторая версия · на английском · бесплатно</span><span>Почему фон тёмной темы — серый #121212, а не чёрный, как высота карточки показана светлеющей подложкой от 0 до 16 % белого и почему акценты берут из светлых тонов. Вторая версия Material, 2019 год. Неактивное и вторичный текст там задают прозрачностью белого, 38 % и 60 %, — урок советует свои цвета.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/webaim-contrast/">WebAIM Contrast Checker</a></span><span class="ds-lesson__reads-meta">инструмент · на английском · бесплатно</span><span>Самый простой замер пары по трём нормам: обычный текст, крупный текст, графика и элементы интерфейса. Ползунок Lightness подбирает ближайший проходящий оттенок, поле Alpha считает полупрозрачный цвет, а для ссылок без подчёркивания есть отдельный Link Contrast Checker.</span></li>
   </ul>
 </section>
 

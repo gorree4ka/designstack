@@ -251,12 +251,14 @@
   </div>
 
   <h3>Как уплотняет Material</h3>
-  <p>В Material Design у компонентов есть шкала плотности: 0 — по умолчанию, дальше −1, −2, −3, и каждый шаг уменьшает высоту компонента на 4 dp. Там же расписано, где плотность уместна, а где нет.</p>
+  <p>В Material Design у компонентов есть шкала плотности: 0 — по умолчанию, дальше −1, −2, −3, и каждый шаг обычно уменьшает высоту компонента на 4 dp. Там же расписано, где плотность уместна, а где нет. Часть правил ниже — выбор даты и связь плотности с полями — из второй версии Material, со страницы «Applying density».</p>
   <ul>
     <li><strong>Уплотнять можно</strong> списки, таблицы и длинные формы — там, где человек просматривает и сравнивает много информации.</li>
     <li><strong>Уплотнять нельзя</strong> компоненты сфокусированных задач — выпадающие меню, выбор даты — и оповещения: снекбары и диалоги. Они теряют площадь нажатия и заметность.</li>
     <li><strong>Чем плотнее компоненты, тем шире поля и промежутки сетки.</strong> Плотные компоненты на плотной сетке сливаются, и группы перестают различаться.</li>
   </ul>
+
+  <p>Уменьшенные компоненты Material включает только по выбору человека и не ставит по умолчанию, если цель нажатия станет меньше 48 × 48. Плотность раскладки — отступы, строки, промежутки — такого выбора не требует. Экран сборщика уплотнён именно раскладкой: строки стоят тесно, а кнопка осталась полноразмерной.</p>
 
   <div class="ds-lesson__rule"><b>Уплотняйте то, что просматривают, а не то, во что попадают.</b> Строки таблицы у сборщика могут стоять тесно. Кнопка «Собрано, к упаковке», по которой он нажимает весь день, остаётся полноразмерной.</div>
 </section>
@@ -413,10 +415,10 @@
 <section id="further-reading">
   <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
   <ul class="ds-lesson__reads">
-    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер · книга на английском · платная</span><span>Восемь глав группы «Hierarchy is Everything» — от «Not all elements are equal» до «Semantics are secondary», в том числе «De-emphasize to emphasize».</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/visual-hierarchy-ux-definition/">Visual Hierarchy in UX: Definition</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Келли Гордон · на английском · бесплатно</span><span>Определение иерархии, три её инструмента с ограничениями и прищур-тест на примере с размытием.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/complex-application-design/">8 Design Guidelines for Complex Applications</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно</span><span>О рабочих экранах: как выделять важное и убирать лишнее, не урезая возможностей.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/foundations/layout/grids-spacing/density">Density</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Когда нужна высокая плотность, когда низкая и что уплотнять нельзя.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="/resource/refactoring-ui/">Refactoring UI</a></span><span class="ds-lesson__reads-meta">Адам Уотан и Стив Шогер, 2018 · книга на английском · платная</span><span>Восемь глав группы «Hierarchy is Everything» — от «Not all elements are equal» до «Semantics are secondary», в том числе «De-emphasize to emphasize». Под «цветом» авторы понимают светлоту текста — в уроке это вес и приглушение. Глава «Labels are a last resort» открыта на сайте книги.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/visual-hierarchy-ux-definition/">Visual Hierarchy in UX: Definition</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Келли Гордон · на английском · бесплатно</span><span>Определение иерархии и три её инструмента с ограничениями: не больше трёх размеров, не больше двух крупных элементов, не больше трёх вариаций контраста. Прищур-тест на снимке Spotify с размытием 5, 10 и 20 px. Статья 2021 года.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/complex-application-design/">8 Design Guidelines for Complex Applications</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно</span><span>Восемь советов для сложных приложений специалистов; к уроку относятся два: убирать лишнее, не урезая возможностей, и выделять важное удалением шума, а не жирностью и цветом. Остальные шесть — про сценарии и обучение. Статья 2020 года.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/foundations/layout/grids-spacing/density">Density</a> и <a href="https://m2.material.io/design/layout/applying-density.html">Applying density</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design</a>, третья и вторая версии · на английском · бесплатно</span><span>Когда нужна высокая плотность, когда низкая и что нельзя уплотнять: меню, выбор даты, снекбары и диалоги. Вторая версия добавляет правило «чем плотнее компоненты, тем шире поля и промежутки», а обе включают плотные компоненты только по выбору человека.</span></li>
   </ul>
 </section>
 

@@ -83,10 +83,10 @@
     <div class="ds-lesson__box-foot">Имена ролей — договорённость команды. Главное, чтобы в макете и в коде они были одни и те же.</div>
   </div>
 
-  <p>Для обмена между макетом и кодом есть формат дизайн-токенов W3C. В нём у длительности и у кривой свои типы:</p>
+  <p>Для обмена между макетом и кодом есть формат дизайн-токенов, который выпустила группа сообщества при W3C. Стандартом W3C он не считается, но Figma и инструменты разработки его уже понимают. В нём у длительности и у кривой свои типы:</p>
 
   <div class="ds-lesson__box">
-    <div class="ds-lesson__box-head">Токены движения · формат W3C<span class="ds-lesson__spacer"></span><span data-copy="motionJson"></span></div>
+    <div class="ds-lesson__box-head">Токены движения · формат DTCG<span class="ds-lesson__spacer"></span><span data-copy="motionJson"></span></div>
     <div class="ds-lesson__box-body">
 <pre id="motionJson">{
   "duration": {
@@ -392,11 +392,11 @@ ______________________ — ___ — ______________________</pre>
 <section id="further-reading">
   <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
   <ul class="ds-lesson__reads">
-    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/elements/motion/overview/">Motion</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Два вида движения — рабочее и выразительное — и шесть токенов длительности с назначением каждого.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/styles/motion/easing-and-duration/tokens-specs">Easing and duration: tokens and specs</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Как устроены токены движения в большой системе и почему её перевели на пружины.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://www.designtokens.org/tr/2025.10/format/">Design Tokens Format Module 2025.10</a></span><span class="ds-lesson__reads-meta">W3C Design Tokens Community Group · на английском · бесплатно</span><span>Типы duration и cubicBezier: как записать токены движения для обмена между макетом и кодом.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://web.dev/articles/animations-guide">How to create high-performance CSS animations</a></span><span class="ds-lesson__reads-meta">web.dev · на английском · бесплатно</span><span>Что проверять в анимации перед выпуском и какие свойства не трогать.</span></li>
-    <li><span class="ds-lesson__reads-title"><a href="https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html">Understanding Success Criterion 2.3.3: Animation from Interactions</a></span><span class="ds-lesson__reads-meta">W3C WAI · на английском · бесплатно</span><span>На что опереться, когда правило про «уменьшить движение» оспаривают.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/elements/motion/overview/">Motion</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Два вида движения — рабочее и выразительное, — по три кривые на каждый с числами для CSS, шесть токенов длительности с назначением каждого и чек-лист проверки движения. Кривые с отскоком Carbon не использует.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://m3.material.io/styles/motion/easing-and-duration/tokens-specs">Easing and duration: tokens and specs</a></span><span class="ds-lesson__reads-meta"><a href="/resource/material-design/">Material Design 3</a> · на английском · бесплатно</span><span>Как устроены токены движения в большой системе: шестнадцать длительностей в четырёх группах и два набора кривых. Сверху пометка: компоненты Google уже перевели на пружины, а эту систему больше не развивают.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.designtokens.org/tr/2025.10/format/">Design Tokens Format Module 2025.10</a> и <a href="https://www.designtokens.org/tr/2025.10/resolver/">Resolver Module</a></span><span class="ds-lesson__reads-meta">W3C Design Tokens Community Group · на английском · бесплатно</span><span>Типы duration (только «ms» или «s») и cubicBezier (четыре числа, x от 0 до 1) и составной тип transition — длительность, задержка и кривая одной записью. Пружин в формате нет. Спецификация для авторов инструментов.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://web.dev/articles/animations-guide">How to create high-performance CSS animations</a> и <a href="https://web.dev/articles/animations-overview">Why are some animations slow?</a></span><span class="ds-lesson__reads-meta">web.dev · на английском · бесплатно</span><span>Что проверить в DevTools перед выпуском — запись Performance, пропущенные кадры, подсветку перерисовки — и почему анимировать стоит только transform и opacity. Справка для разработки 2020 года.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html">Understanding Success Criterion 2.3.3: Animation from Interactions</a></span><span class="ds-lesson__reads-meta">W3C WAI · на английском · бесплатно</span><span>Три способа выполнить критерий и определение, по которому смена цвета и прозрачности — не движение: на это опираются, когда правило про «уменьшить движение» оспаривают. Критерий уровня AAA — в споре это возражение прозвучит первым.</span></li>
   </ul>
 </section>
 

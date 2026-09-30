@@ -1,401 +1,490 @@
 {
  "_about": "Что почитать дальше в конце каждого урока. Разметку раздела #read собирает scripts/lesson_reads.py. resources — одна запись на источник: заголовок и строка «кто · язык · цена» (цена и язык — по каталогу). lessons — порядок и пояснения из урока. Книга без страницы в каталоге стоит без ссылки, пока её не заведут (D156).",
  "resources": {
-  "nng": {
-   "title": "<a href=\"/resource/nngroup-articles/\">Материалы Nielsen Norman Group</a>",
-   "meta": "статьи на английском · бесплатно"
-  },
   "mobbin": {
-   "title": "Библиотеки интерфейсов вроде <a href=\"/resource/mobbin/\">Mobbin</a>",
-   "meta": "сервис на английском · платный"
-  },
-  "principles": {
-   "title": "Открытые наборы принципов известных продуктов",
-   "meta": ""
-  },
-  "flows-docs": {
-   "title": "Дизайн-документация открытых продуктов",
-   "meta": ""
-  },
-  "decision-records": {
-   "title": "Decision records",
-   "meta": ""
-  },
-  "figma-proto": {
-   "title": "<a href=\"https://help.figma.com/hc/en-us/sections/4403936156695-Create-prototypes\">Документация Figma по прототипированию</a>",
-   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+   "title": "<a href=\"/resource/mobbin/\">Mobbin</a>",
+   "meta": "сервис на английском · поиск и сценарии — в Pro, от $10 в месяц при оплате за год",
+   "read": "2026-09-30"
   },
   "sprosi-mamu": {
    "title": "<a href=\"/resource/sprosi-mamu/\">Спроси маму</a>",
-   "meta": "Роб Фитцпатрик · книга на русском · платная"
+   "meta": "Роб Фитцпатрик · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, вступление и глава 1"
   },
   "interviewing-users": {
    "title": "<a href=\"/resource/interviewing-users/\">Interviewing Users</a>",
-   "meta": "Стив Портигал · книга на английском · платная"
+   "meta": "Стив Портигал, 2-е издание, 2023 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "описание, оглавление и глава 1"
   },
   "practical-empathy": {
    "title": "<a href=\"/resource/practical-empathy/\">Practical Empathy</a>",
-   "meta": "Инди Янг · книга на английском · платная"
+   "meta": "Инди Янг, 2015 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, глава 2 и часть главы 4"
   },
   "lean-customer-development": {
    "title": "<a href=\"/resource/lean-customer-development/\">Как создать продукт, который купят</a>",
-   "meta": "Синди Альварес · книга на русском · платная"
+   "meta": "Синди Альварес · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, предисловие, введение и начало главы 1"
   },
   "just-enough-research": {
    "title": "<a href=\"/resource/just-enough-research/\">Just Enough Research</a>",
-   "meta": "Эрика Холл · книга на английском · платная"
+   "meta": "Эрика Холл, издание 2024 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "описание и начало главы 9 «Surveys»; оглавление — по вторичным источникам"
   },
   "continuous-discovery-habits": {
    "title": "<a href=\"/resource/continuous-discovery-habits/\">Continuous Discovery Habits</a>",
-   "meta": "Тереза Торрес · книга на английском · платная"
+   "meta": "Тереза Торрес, 2021 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "описание и оглавление по разделам"
   },
   "refactoring-ui": {
    "title": "<a href=\"/resource/refactoring-ui/\">Refactoring UI</a>",
-   "meta": "Адам Уотан и Стив Шогер · книга на английском · платная"
+   "meta": "Адам Уотан и Стив Шогер, 2018 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление и две открытые главы-превью"
   },
   "bureau-inner-outer": {
    "title": "<a href=\"https://bureau.ru/soviet/20140818/\">Что такое «правило внутреннего и внешнего»?</a>",
-   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a> · на русском · бесплатно"
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Артём Горбунов, 2014 · на русском · бесплатно",
+   "read": "2026-09-30"
   },
   "kovodstvo-136": {
    "title": "<a href=\"https://www.artlebedev.ru/kovodstvo/sections/136/\">§ 136. Теория близости</a>",
-   "meta": "<a href=\"/resource/kovodstvo/\">«Ководство» Артемия Лебедева</a> · на русском · бесплатно"
+   "meta": "<a href=\"/resource/kovodstvo/\">«Ководство» Артемия Лебедева</a>, 2006 · на русском · бесплатно",
+   "read": "2026-09-30"
   },
   "material-grid": {
    "title": "<a href=\"https://m3.material.io/styles/spacing\">Spacing</a> и <a href=\"https://m2.material.io/design/layout/responsive-layout-grid.html\">Responsive layout grid</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "dont-make-me-think": {
    "title": "<a href=\"/resource/ne-zastavlyayte-menya-dumat/\">Не заставляйте меня думать</a>",
-   "meta": "Стив Круг · книга на русском · платная"
+   "meta": "Стив Круг, 3-е издание · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, предисловие, глава 4 и глава 9 первого издания"
   },
   "rocket-surgery-made-easy": {
    "title": "<a href=\"/resource/rocket-surgery-made-easy/\">Rocket Surgery Made Easy</a>",
-   "meta": "Стив Круг · книга на английском · платная"
+   "meta": "Стив Круг, 2010 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, вступление, сценарий теста и чек-листы с сайта автора, глава 11 в русском переводе"
   },
   "surveys-that-work": {
    "title": "<a href=\"/resource/surveys-that-work/\">Surveys That Work</a>",
-   "meta": "Кэролайн Джарретт · книга на английском · платная"
+   "meta": "Кэролайн Джарретт, 2021 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "описание и оглавление, глава 1 и дополнения автора к главам 1–7"
   },
   "about-face": {
    "title": "<a href=\"/resource/interfeys-osnovy-proektirovaniya/\">Интерфейс. Основы проектирования взаимодействия</a>",
-   "meta": "Алан Купер и соавторы · книга на русском · платная"
+   "meta": "Алан Купер и соавторы, 4-е издание · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление и начало главы 15"
   },
   "elements-of-ux": {
    "title": "<a href=\"/resource/veb-dizayn-elementy-opyta/\">Веб-дизайн. Элементы опыта взаимодействия</a>",
-   "meta": "Джесс Джеймс Гарретт · книга на русском · платная"
+   "meta": "Джесс Джеймс Гарретт, перевод первого издания · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, введение и глава 2 в оригинале"
   },
   "card-sorting": {
    "title": "<a href=\"/resource/card-sorting/\">Card Sorting: Designing Usable Categories</a>",
-   "meta": "Донна Спенсер · книга на английском · платная"
+   "meta": "Донна Спенсер, 2009 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, частые вопросы и глава 4"
   },
   "information-architecture": {
    "title": "<a href=\"/resource/informatsionnaya-arkhitektura/\">Информационная архитектура в Интернете</a>",
-   "meta": "Луис Розенфельд и Питер Морвиль · книга на русском · платная"
+   "meta": "Луис Розенфельд и Питер Морвиль, 3-е издание · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление и глава 19"
   },
   "how-to-make-sense": {
    "title": "<a href=\"/resource/how-to-make-sense-of-any-mess/\">How to Make Sense of Any Mess</a>",
-   "meta": "Эбби Коверт · книга на английском · бесплатно"
+   "meta": "Эбби Коверт, 2014 · книга на английском · бесплатно, полный текст на сайте книги",
+   "read": "2026-09-30"
   },
   "functional-art": {
    "title": "<a href=\"/resource/the-functional-art/\">The Functional Art</a>",
-   "meta": "Альберто Кайро · книга на английском · платная"
+   "meta": "Альберто Кайро, 2012 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, введение, глава 1 и начало главы 4"
   },
   "how-to-lie-with-statistics": {
    "title": "<a href=\"/resource/kak-lgat-pri-pomoshchi-statistiki/\">Как лгать при помощи статистики</a>",
-   "meta": "Дарелл Хафф · книга на русском · платная"
+   "meta": "Дарелл Хафф · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, введение и глава 1"
   },
   "how-charts-lie": {
    "title": "<a href=\"/resource/grafiki-lgut/\">Графики лгут</a>",
-   "meta": "Альберто Кайро · книга на русском · платная"
+   "meta": "Альберто Кайро · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, пролог и начало введения"
   },
   "measuring-ux": {
    "title": "<a href=\"/resource/measuring-the-user-experience/\">Measuring the User Experience</a>",
-   "meta": "Билл Альберт и Том Туллис · книга на английском · платная"
+   "meta": "Билл Альберт и Том Туллис, 3-е издание, 2022 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "только описание и оглавление"
   },
   "sketching-ux": {
    "title": "<a href=\"/resource/sketching-user-experiences/\">Sketching User Experiences</a>",
-   "meta": "Билл Бакстон · книга на английском · платная"
+   "meta": "Билл Бакстон, 2007 · книга на английском · платная",
+   "read": "2026-09-30",
+   "read_scope": "только описание и оглавление"
   },
   "sprint": {
    "title": "<a href=\"/resource/sprint/\">Спринт</a>",
-   "meta": "Джейк Кнапп, Брейден Ковитц и Джон Зерацки · книга на русском · платная"
+   "meta": "Джейк Кнапп, Брейден Ковитц и Джон Зерацки · книга на русском · платная",
+   "read": "2026-09-30",
+   "read_scope": "оглавление, «От автора», вступление и чек-лист авторов"
   },
   "nng-hierarchy": {
    "title": "<a href=\"https://www.nngroup.com/articles/visual-hierarchy-ux-definition/\">Visual Hierarchy in UX: Definition</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Келли Гордон · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Келли Гордон · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-complex": {
    "title": "<a href=\"https://www.nngroup.com/articles/complex-application-design/\">8 Design Guidelines for Complex Applications</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m3-density": {
-   "title": "<a href=\"https://m3.material.io/foundations/layout/grids-spacing/density\">Density</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+   "title": "<a href=\"https://m3.material.io/foundations/layout/grids-spacing/density\">Density</a> и <a href=\"https://m2.material.io/design/layout/applying-density.html\">Applying density</a>",
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, третья и вторая версии · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "atlassian-layout": {
    "title": "<a href=\"https://atlassian.design/foundations/spacing\">Spacing</a> и <a href=\"https://atlassian.design/foundations/grid\">Grid</a>",
-   "meta": "Atlassian Design System · на английском · бесплатно"
+   "meta": "Atlassian Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "carbon-layout": {
-   "title": "<a href=\"https://carbondesignsystem.com/elements/spacing/overview/\">Spacing</a> и <a href=\"https://carbondesignsystem.com/elements/2x-grid/overview/\">2x Grid</a>",
-   "meta": "IBM Carbon Design System · на английском · бесплатно"
+   "title": "<a href=\"https://carbondesignsystem.com/elements/spacing/overview/\">Spacing</a> и <a href=\"https://carbondesignsystem.com/elements/2x-grid/usage/\">2x Grid: Usage</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "govuk-layout": {
    "title": "<a href=\"https://design-system.service.gov.uk/styles/spacing/\">Spacing</a> и <a href=\"https://design-system.service.gov.uk/styles/layout/\">Layout</a>",
-   "meta": "GOV.UK Design System · на английском · бесплатно"
+   "meta": "GOV.UK Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-critiques": {
    "title": "<a href=\"https://www.nngroup.com/articles/design-critiques/\">Design Critiques: Encourage a Positive Culture to Improve Products</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Сара Гиббонс · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Сара Гиббонс · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "pt-ten-minutes": {
    "title": "<a href=\"https://practicaltypography.com/typography-in-ten-minutes.html\">Typography in ten minutes</a>",
-   "meta": "<a href=\"/resource/practical-typography/\">Practical Typography</a> Мэтью Баттерика · на английском · бесплатно"
+   "meta": "<a href=\"/resource/practical-typography/\">Practical Typography</a> Мэтью Баттерика · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m3-type": {
    "title": "<a href=\"https://m3.material.io/styles/typography/type-scale-tokens\">Type scale tokens</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "tim-brown-scale": {
    "title": "<a href=\"https://alistapart.com/article/more-meaningful-typography/\">More Meaningful Typography</a>",
-   "meta": "A List Apart, Тим Браун, 2011 · на английском · бесплатно"
+   "meta": "A List Apart, Тим Браун, 2011 · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "apple-typography": {
    "title": "<a href=\"https://developer.apple.com/design/human-interface-guidelines/typography\">Typography</a>",
-   "meta": "<a href=\"/resource/apple-hig/\">Apple Human Interface Guidelines</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/apple-hig/\">Apple Human Interface Guidelines</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "kovodstvo-62-97": {
-   "title": "<a href=\"https://www.artlebedev.ru/kovodstvo/sections/62/\">§ 62. Экранная типографика</a> и <a href=\"https://www.artlebedev.ru/kovodstvo/sections/97/\">§ 97. Тире, минус и дефис</a>",
-   "meta": "<a href=\"/resource/kovodstvo/\">«Ководство» Артемия Лебедева</a> · на русском · бесплатно"
+   "title": "<a href=\"https://www.artlebedev.ru/kovodstvo/sections/62/\">§ 62. Экранная типографика</a>, <a href=\"https://www.artlebedev.ru/kovodstvo/sections/97/\">§ 97. Тире, минус и дефис</a> и <a href=\"https://www.artlebedev.ru/kovodstvo/sections/158/\">§ 158. Короткое тире</a>",
+   "meta": "<a href=\"/resource/kovodstvo/\">«Ководство» Артемия Лебедева</a>, 2000–2009 · на русском · бесплатно",
+   "read": "2026-09-30"
   },
   "bureau-dash": {
    "title": "<a href=\"https://bureau.ru/soviet/20220807/\">Короткое или длинное тире?</a>",
-   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a> · на русском · бесплатно"
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Максим Ильяхов, 2022 · на русском · бесплатно",
+   "read": "2026-09-30"
   },
   "bureau-digits": {
    "title": "<a href=\"https://bureau.ru/soviet/20170327/\">Мильчин говорит, что разряды в числах нужно отделять пробелом. Как правильно?</a>",
-   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a> · на русском · бесплатно"
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Артём Горбунов, 2017 · на русском · бесплатно",
+   "read": "2026-09-30"
   },
   "gf-pairing": {
    "title": "<a href=\"https://fonts.google.com/knowledge/choosing_type/pairing_typefaces\">Pairing typefaces</a>",
-   "meta": "<a href=\"/resource/google-fonts/\">Google Fonts Knowledge</a>, Эллиот Джей Стокс · на английском · бесплатно"
+   "meta": "<a href=\"/resource/google-fonts/\">Google Fonts Knowledge</a>, Эллиот Джей Стокс · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "fonts-cyrillic": {
    "title": "<a href=\"/collections/shrifty-s-kirillicey/\">Шрифты с кириллицей: что взять бесплатно в 2026 году</a>",
-   "meta": "Подборка DesignStack · на русском · бесплатно"
+   "meta": "Подборка DesignStack · на русском · бесплатно",
+   "read": "2026-09-30"
   },
   "atlassian-type": {
    "title": "<a href=\"https://atlassian.design/foundations/typography\">Typography</a>",
-   "meta": "Atlassian Design System · на английском · бесплатно"
+   "meta": "Atlassian Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "carbon-type": {
    "title": "<a href=\"https://carbondesignsystem.com/elements/typography/type-sets/\">Type sets</a>",
-   "meta": "IBM Carbon Design System · на английском · бесплатно"
+   "meta": "IBM Carbon Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "govuk-type": {
    "title": "<a href=\"https://design-system.service.gov.uk/styles/type-scale/\">Type scale</a> и <a href=\"https://design-system.service.gov.uk/get-started/new-type-scale/\">Using the updated type scale</a>",
-   "meta": "GOV.UK Design System · на английском · бесплатно"
+   "meta": "GOV.UK Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "ofl-faq": {
    "title": "<a href=\"https://openfontlicense.org/open-font-license-official-text/\">SIL Open Font License</a> и <a href=\"https://openfontlicense.org/ofl-faq/\">OFL-FAQ</a>",
-   "meta": "SIL International · на английском · бесплатно"
+   "meta": "SIL International · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "wcag-use-of-color": {
    "title": "<a href=\"https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html\">Understanding Success Criterion 1.4.1: Use of Color</a>",
-   "meta": "W3C WAI · на английском · бесплатно"
+   "meta": "W3C WAI · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "cba-types": {
    "title": "<a href=\"https://www.colourblindawareness.org/colour-blindness/types-of-colour-blindness/\">Types of Colour Blindness</a>",
-   "meta": "Colour Blind Awareness · на английском · бесплатно"
+   "meta": "Colour Blind Awareness · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "realtime-colors": {
    "title": "<a href=\"/resource/realtime-colors/\">Realtime Colors</a>",
-   "meta": "инструмент · на английском · бесплатно"
+   "meta": "инструмент · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "wcag-contrast-min": {
    "title": "<a href=\"https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html\">Understanding Success Criterion 1.4.3: Contrast (Minimum)</a> и <a href=\"https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html\">Success Criterion 1.4.11: Non-text Contrast</a>",
-   "meta": "W3C WAI · на английском · бесплатно"
+   "meta": "W3C WAI · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m2-dark": {
    "title": "<a href=\"https://m2.material.io/design/color/dark-theme.html\">Dark theme</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "webaim-contrast": {
    "title": "<a href=\"/resource/webaim-contrast/\">WebAIM Contrast Checker</a>",
-   "meta": "инструмент · на английском · бесплатно"
+   "meta": "инструмент · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m3-tokens": {
    "title": "<a href=\"https://m3.material.io/foundations/design-tokens/overview\">Design tokens</a> и <a href=\"https://m3.material.io/styles/color/roles\">Color roles</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "atlassian-color": {
-   "title": "<a href=\"https://atlassian.design/foundations/color\">Color</a> и <a href=\"https://atlassian.design/foundations/color/accents\">Accents</a>",
-   "meta": "Atlassian Design System · на английском · бесплатно"
+   "title": "<a href=\"https://atlassian.design/foundations/color\">Color</a>, <a href=\"https://atlassian.design/foundations/color/accents\">Accents</a> и <a href=\"https://atlassian.design/foundations/tokens/design-tokens\">Design tokens</a>",
+   "meta": "Atlassian Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "primer-color": {
    "title": "<a href=\"https://primer.style/product/getting-started/foundations/color-usage/\">Color usage</a>",
-   "meta": "GitHub Primer · на английском · бесплатно"
+   "meta": "GitHub Primer · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "carbon-color": {
    "title": "<a href=\"https://carbondesignsystem.com/elements/color/overview/\">Color</a> и <a href=\"https://carbondesignsystem.com/elements/themes/overview/\">Themes</a>",
-   "meta": "IBM Carbon Design System · на английском · бесплатно"
+   "meta": "IBM Carbon Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "dtcg-format": {
-   "title": "<a href=\"https://www.designtokens.org/tr/2025.10/format/\">Design Tokens Format Module 2025.10</a>",
-   "meta": "W3C Design Tokens Community Group · на английском · бесплатно"
+   "title": "<a href=\"https://www.designtokens.org/tr/2025.10/format/\">Design Tokens Format Module 2025.10</a> и <a href=\"https://www.designtokens.org/tr/2025.10/resolver/\">Resolver Module</a>",
+   "meta": "W3C Design Tokens Community Group · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-anim-duration": {
    "title": "<a href=\"https://www.nngroup.com/articles/animation-duration/\">Executing UX Animations: Duration and Motion Characteristics</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-anim-purpose": {
    "title": "<a href=\"https://www.nngroup.com/articles/animation-purpose-ux/\">The Role of Animation and Motion in UX</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m2-speed": {
    "title": "<a href=\"https://m2.material.io/design/motion/speed.html\">Speed</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "figma-easing": {
    "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360051748654-Prototype-easing-and-spring-animations\">Prototype easing and spring animations</a>",
-   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "jitter": {
    "title": "<a href=\"/resource/jitter/\">Jitter</a>",
-   "meta": "инструмент · на английском · есть бесплатный тариф"
+   "meta": "инструмент · на английском · есть бесплатный тариф",
+   "read": "2026-09-30"
   },
   "wcag-animation": {
    "title": "<a href=\"https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html\">Understanding Success Criterion 2.3.3: Animation from Interactions</a>",
-   "meta": "W3C WAI · на английском · бесплатно"
+   "meta": "W3C WAI · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "apple-motion": {
    "title": "<a href=\"https://developer.apple.com/design/human-interface-guidelines/motion\">Motion</a> и <a href=\"https://developer.apple.com/design/human-interface-guidelines/accessibility\">Accessibility</a>",
-   "meta": "<a href=\"/resource/apple-hig/\">Apple Human Interface Guidelines</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/apple-hig/\">Apple Human Interface Guidelines</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "webdev-reduced-motion": {
    "title": "<a href=\"https://web.dev/articles/prefers-reduced-motion\">prefers-reduced-motion: Sometimes less movement is more</a>",
-   "meta": "web.dev · на английском · бесплатно"
+   "meta": "web.dev, Томас Штайнер, 2019 · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "webdev-anim-perf": {
-   "title": "<a href=\"https://web.dev/articles/animations-guide\">How to create high-performance CSS animations</a>",
-   "meta": "web.dev · на английском · бесплатно"
+   "title": "<a href=\"https://web.dev/articles/animations-guide\">How to create high-performance CSS animations</a> и <a href=\"https://web.dev/articles/animations-overview\">Why are some animations slow?</a>",
+   "meta": "web.dev · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m3-motion": {
    "title": "<a href=\"https://m3.material.io/styles/motion/easing-and-duration/tokens-specs\">Easing and duration: tokens and specs</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "carbon-motion": {
    "title": "<a href=\"https://carbondesignsystem.com/elements/motion/overview/\">Motion</a>",
-   "meta": "IBM Carbon Design System · на английском · бесплатно"
+   "meta": "IBM Carbon Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-empty-states": {
    "title": "<a href=\"https://www.nngroup.com/articles/empty-state-interface-design/\">Designing Empty States in Complex Applications: 3 Guidelines</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-skeleton": {
    "title": "<a href=\"https://www.nngroup.com/articles/skeleton-screens/\">Skeleton Screens 101</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Самхита Танкала · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Самхита Танкала · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-error-messages": {
    "title": "<a href=\"https://www.nngroup.com/articles/error-message-guidelines/\">Error-Message Guidelines</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Тим Нойзессер и Эван Санволл · на английском · бесплатно"
-  },
-  "checklist-empty-state": {
-   "title": "<a href=\"https://www.checklist.design/web-app/empty-state\">Empty State</a>",
-   "meta": "<a href=\"/resource/checklist-design/\">Checklist Design</a> · чек-лист на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Тим Нойзессер и Эван Санволл · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "smashing-hidden-disabled": {
    "title": "<a href=\"https://www.smashingmagazine.com/2024/05/hidden-vs-disabled-ux/\">Hidden vs. Disabled In UX</a>",
-   "meta": "<a href=\"/resource/smashing-magazine/\">Smashing Magazine</a>, Виталий Фридман · на английском · бесплатно"
+   "meta": "<a href=\"/resource/smashing-magazine/\">Smashing Magazine</a>, Виталий Фридман, 2024 · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-long-waits": {
    "title": "<a href=\"https://www.nngroup.com/articles/designing-for-waits-and-interruptions/\">Designing for Long Waits and Interruptions</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m3-states": {
    "title": "<a href=\"https://m3.material.io/foundations/interaction/states/overview\">States</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design 3</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "devtools-network": {
    "title": "<a href=\"https://developer.chrome.com/docs/devtools/network/reference#throttling\">Network features reference: Throttling</a>",
-   "meta": "Chrome DevTools, справка · на английском · бесплатно"
+   "meta": "Chrome DevTools, справка · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "figma-text-props": {
    "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360039956634-Explore-text-properties\">Explore text properties</a>",
-   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "atomic-workflow": {
    "title": "<a href=\"https://atomicdesign.bradfrost.com/chapter-4/\">The Atomic Workflow</a>",
-   "meta": "<a href=\"/resource/atomic-design/\">Atomic Design</a>, Брэд Фрост, глава 4 · книга на английском · полный текст открыт на сайте книги"
+   "meta": "<a href=\"/resource/atomic-design/\">Atomic Design</a>, Брэд Фрост, глава 4 · книга на английском · полный текст открыт на сайте книги",
+   "read": "2026-09-30"
   },
   "govuk-patterns": {
-   "title": "<a href=\"https://design-system.service.gov.uk/patterns/\">Patterns</a> · <a href=\"https://design-system.service.gov.uk/community/contribution-criteria/\">Contribution criteria</a>",
-   "meta": "GOV.UK Design System · на английском · бесплатно"
+   "title": "<a href=\"https://design-system.service.gov.uk/patterns/\">Patterns</a> · <a href=\"https://design-system.service.gov.uk/community/contribution-criteria/\">Contribution criteria</a> · <a href=\"https://design-system.service.gov.uk/community/component-lifecycle-statuses/\">Component lifecycle statuses</a>",
+   "meta": "GOV.UK Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-confirmation": {
    "title": "<a href=\"https://www.nngroup.com/articles/confirmation-dialog/\">Confirmation Dialogs Can Prevent User Errors — If Not Overused</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Якоб Нильсен · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Якоб Нильсен · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "atlassian-phases": {
    "title": "<a href=\"https://atlassian.design/release-phases\">Release phases</a>",
-   "meta": "Atlassian Design System · на английском · бесплатно"
+   "meta": "Atlassian Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "deceptive-types": {
    "title": "<a href=\"https://deceptive.design/types/\">Types of deceptive pattern</a>",
-   "meta": "<a href=\"/resource/deceptive-design/\">Deceptive Patterns</a>, Гарри Бриньолл · на английском · бесплатно"
+   "meta": "<a href=\"/resource/deceptive-design/\">Deceptive Patterns</a>, Гарри Бриньолл · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "iconutopia-pixel": {
    "title": "<a href=\"https://iconutopia.com/how-to-design-pixel-perfect-icons/\">How to Master Pixel Perfect Icons</a>",
-   "meta": "<a href=\"/resource/icon-utopia/\">Icon Utopia</a> · на английском · бесплатно"
+   "meta": "Icon Utopia, 2015 · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "m2-system-icons": {
    "title": "<a href=\"https://m2.material.io/design/iconography/system-icons.html\">System icons</a>",
-   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-design/\">Material Design</a>, вторая версия · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "lucide-principles": {
    "title": "<a href=\"https://lucide.dev/contribute/icons/design-principles\">Lucide design language</a>",
-   "meta": "<a href=\"/resource/lucide/\">Lucide</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/lucide/\">Lucide</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "nng-icon-usability": {
    "title": "<a href=\"https://www.nngroup.com/articles/icon-usability/\">Icon Usability</a>",
-   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Аврора Харли · на английском · бесплатно"
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Аврора Харли · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "svgomg": {
    "title": "<a href=\"/resource/svgomg/\">SVGOMG</a>",
-   "meta": "инструмент · на английском · бесплатно"
+   "meta": "инструмент · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "material-symbols-guide": {
    "title": "<a href=\"https://developers.google.com/fonts/docs/material_symbols\">Material Symbols guide</a>",
-   "meta": "<a href=\"/resource/material-symbols/\">Material Symbols</a> · на английском · бесплатно"
+   "meta": "<a href=\"/resource/material-symbols/\">Material Symbols</a> · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "heroicons": {
    "title": "<a href=\"/resource/heroicons/\">Heroicons</a>",
-   "meta": "набор иконок · бесплатно, лицензия MIT"
+   "meta": "набор иконок · бесплатно, лицензия MIT",
+   "read": "2026-09-30"
   },
   "lucide-stroke": {
    "title": "<a href=\"https://lucide.dev/guide/react/basics/stroke-width\">Stroke width</a>",
-   "meta": "<a href=\"/resource/lucide/\">Lucide</a>, документация · на английском · бесплатно"
+   "meta": "<a href=\"/resource/lucide/\">Lucide</a>, документация · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "figma-component-props": {
    "title": "<a href=\"https://help.figma.com/hc/en-us/articles/5579474826519-Explore-component-properties\">Explore component properties</a>",
-   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "figma-export": {
    "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360040028114-Export-static-designs-from-Figma\">Export static designs from Figma</a>",
-   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно"
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "ibm-ui-icons": {
    "title": "<a href=\"https://www.ibm.com/design/language/iconography/ui-icons/design/\">UI icons: design</a> · <a href=\"https://www.ibm.com/design/language/iconography/ui-icons/contribute/\">contribute</a>",
-   "meta": "IBM Design Language · на английском · бесплатно"
+   "meta": "IBM Design Language · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "atlassian-iconography": {
    "title": "<a href=\"https://atlassian.design/foundations/iconography\">Iconography</a>",
-   "meta": "Atlassian Design System · на английском · бесплатно"
+   "meta": "Atlassian Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   },
   "cc-by-nc": {
-   "title": "<a href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</a> · <a href=\"https://creativecommons.org/licenses/by-nc/4.0/\">CC BY-NC 4.0</a>",
-   "meta": "Creative Commons · на английском · бесплатно"
+   "title": "<a href=\"https://creativecommons.org/licenses/by/4.0/deed.ru\">CC BY 4.0</a> · <a href=\"https://creativecommons.org/licenses/by-nc/4.0/deed.ru\">CC BY-NC 4.0</a>",
+   "meta": "Creative Commons · официальный перевод на русский · бесплатно",
+   "read": "2026-09-30"
   },
   "bureau-style-principles": {
    "title": "<a href=\"https://bureau.ru/soviet/20141231/\">Есть ли какой-то набор базовых принципов, которые помогут при проектировании фирменного стиля?</a>",
@@ -461,627 +550,797 @@
    "title": "<a href=\"https://bureau.ru/soviet/20130417/\">Как, по-вашему, должны выглядеть современные руководства по фирстилю и брендбуки?</a>",
    "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Антон Шнайдер, 2013 · на русском · бесплатно",
    "read": "2026-09-29"
+  },
+  "nng-competitive-evaluations": {
+   "title": "<a href=\"https://www.nngroup.com/articles/competitive-usability-evaluations/\">Competitive Usability Evaluations</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Тим Нойзессер · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-design-principles": {
+   "title": "<a href=\"https://www.nngroup.com/articles/design-principles/\">Crafting Product-Specific Design Principles to Support Better Decision Making</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Мария Розала · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "windows-principles": {
+   "title": "<a href=\"https://learn.microsoft.com/en-us/previous-versions/dn742491(v=vs.85)\">Windows UX Design Principles</a>",
+   "meta": "Microsoft, 2014 · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "gitlab-principles": {
+   "title": "<a href=\"https://design.gitlab.com/about/principles/\">Principles</a>",
+   "meta": "GitLab, дизайн-система Pajamas · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-user-flows": {
+   "title": "<a href=\"https://www.nngroup.com/articles/user-journeys-vs-user-flows/\">User Journeys vs. User Flows</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "dfe-edit-course-workflow": {
+   "title": "<a href=\"https://becoming-a-teacher.design-history.education.gov.uk/publish-teacher-training-courses/edit-course-workflow/\">Edit course information workflow</a>",
+   "meta": "Министерство образования Великобритании, дизайн-история, 2019 · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-tree-testing": {
+   "title": "<a href=\"https://www.nngroup.com/articles/tree-testing/\">Tree Testing: Evaluate Menu Labels and Categories</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-audience-navigation": {
+   "title": "<a href=\"https://www.nngroup.com/articles/audience-based-navigation/\">Audience-Based Navigation: 5 Reasons to Avoid It</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кэти Шервин · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "conway-committees": {
+   "title": "<a href=\"https://www.melconway.com/Home/Committees_Paper.html\">How Do Committees Invent?</a>",
+   "meta": "Мелвин Конвей, журнал Datamation, 1968 · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-survey-questions": {
+   "title": "<a href=\"https://www.nngroup.com/articles/survey-best-practices/\">Writing Good Survey Questions: 10 Best Practices</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Мэдди Браун · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-survey-iterative": {
+   "title": "<a href=\"https://www.nngroup.com/articles/survey-questions-iterative-design/\">Iterative Design of a Survey Question: A Case Study</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Фэйфэй Лю · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-triangulation": {
+   "title": "<a href=\"https://www.nngroup.com/articles/triangulation-better-research-results-using-multiple-ux-methods/\">Triangulation: Get Better Research Results by Using Multiple UX Methods</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кэтрин Уайтентон · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-sampling": {
+   "title": "<a href=\"https://www.nngroup.com/articles/convenience-vs-probability-sampling/\">Convenience vs. Probability Sampling in UX Research</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Рейчел Банава · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-contradictory": {
+   "title": "<a href=\"https://www.nngroup.com/articles/interpreting-research-findings/\">Interpreting Contradictory UX Research Findings</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Моран · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-talking-to-users": {
+   "title": "<a href=\"https://www.nngroup.com/articles/talking-to-users/\">Talking with Participants During a Usability Test</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кара Перниче · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-how-many-users": {
+   "title": "<a href=\"https://www.nngroup.com/articles/how-many-test-users/\">How Many Test Users in a Usability Study?</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Якоб Нильсен · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-severity": {
+   "title": "<a href=\"https://www.nngroup.com/articles/how-to-rate-the-severity-of-usability-problems/\">Severity Ratings for Usability Problems</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Якоб Нильсен · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-5-users": {
+   "title": "<a href=\"https://www.nngroup.com/articles/5-test-users-qual-quant/\">Why 5 Participants Are Okay in a Qualitative Study, but Not in a Quantitative One</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Ралука Будиу · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-research-agile": {
+   "title": "<a href=\"https://www.nngroup.com/articles/user-research-agile/\">Accounting for User Research in Agile</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Рейчел Краузе · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-researchops": {
+   "title": "<a href=\"https://www.nngroup.com/articles/research-ops-101/\">ResearchOps 101</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кейт Каплан · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-democratize": {
+   "title": "<a href=\"https://www.nngroup.com/articles/democratize-user-research/\">Democratize User Research in 5 Steps</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кара Перниче · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "figma-guide": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma\">Guide to prototyping in Figma</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "figma-flows": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360039823894-Create-and-manage-prototype-flows\">Create and manage prototype flows</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-prototype-fidelity": {
+   "title": "<a href=\"https://www.nngroup.com/articles/ux-prototype-hi-lo-fidelity/\">UX Prototypes: Low Fidelity vs. High Fidelity</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Кара Перниче · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nygard-adr": {
+   "title": "<a href=\"https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions\">Documenting Architecture Decisions</a>",
+   "meta": "Майкл Найгард, блог Cognitect, 2011 · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "carbon-empty-states": {
+   "title": "<a href=\"https://carbondesignsystem.com/patterns/empty-states-pattern/\">Empty states</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно",
+   "read": "2026-09-30"
   }
  },
  "lessons": {
   "competitor-analysis-junior": [
    {
-    "res": "nng",
-    "why": "Про конкурентный анализ в дизайне."
+    "res": "nng-competitive-evaluations",
+    "why": "Что такое конкурентная оценка, чем обзор чужих решений отличается от теста на людях и зачем заглядывать в соседние отрасли. Статья 2024 года советует брать 2–4 конкурента, урок — пять аналогов."
    },
    {
     "res": "mobbin",
-    "why": "Для быстрого поиска непрямых аналогов по сценарию."
+    "why": "Экраны и сценарии зарубежных iOS-приложений и сайтов, разложенные по действиям: удаление, подписка, оплата. Поиск и сценарии — только в платном тарифе, без него видно по десятку карточек в категории."
    }
   ],
   "competitor-analysis-middle": [
    {
-    "res": "nng",
-    "why": "Про подтверждения и про отмену действий."
+    "res": "nng-confirmation",
+    "why": "Когда диалог «Вы уверены?» защищает от ошибки, а когда приучает нажимать «Да» не читая, и почему лучше дать отменить действие. Восемь правил, 2018 год."
    },
    {
     "res": "about-face",
-    "why": "Главы про необратимые действия и про цену защиты от ошибок."
+    "why": "Почему диалог «Вы уверены?» — слабая защита и чем его заменяют: глава 15 про отмену, возврат и предпросмотр и раздел об ошибках и подтверждениях в главе 21. Справочник на 720 страниц, читается главами; в открытом доступе оглавление и начало главы 15."
    }
   ],
   "competitor-analysis-senior": [
    {
     "res": "about-face",
-    "why": "Про обратимые и необратимые действия."
+    "why": "Откуда берётся принцип «откат вместо подтверждения»: глава 15 об отмене и истории операций, глава 21 о том, когда подтверждение не нужно, и глава 7 о принципах проектирования взаимодействия. В открытом доступе оглавление и начало главы 15."
    },
    {
-    "res": "nng",
-    "why": "Про принципы дизайна в продуктовых командах."
+    "res": "nng-design-principles",
+    "why": "Как команде написать принципы продукта: каждый выбирает одну ценность против другой, их немного, пишут их вместе и ссылаются на них в спорах. Примеров «не так», границы и условия пересмотра, которые требует урок, в статье нет."
    },
    {
-    "res": "principles",
-    "why": "Полезно смотреть не на формулировки, а на то, есть ли в них примеры «не так»."
+    "res": "windows-principles",
+    "why": "Восемь принципов Windows 7 в виде вопросов-проверок. Явное «не так» есть только в одном: иконка на рабочем столе, уведомление и тур не решают проблему, если функцию не находят. Страница 2014 года, без пояснений."
+   },
+   {
+    "res": "gitlab-principles",
+    "why": "Одиннадцать принципов GitLab: у каждого вопрос для проверки и пример «так» из продукта, а примеров «не так» почти нет — удобно сравнить с тем, что требует урок. Страница обновлена в сентябре 2026 года."
    }
   ],
   "flows-structure-junior": [
    {
     "res": "elements-of-ux",
-    "why": "Про уровни структуры продукта."
+    "why": "Пять уровней продукта — от стратегии до внешнего вида. Схема из урока живёт на уровне структуры: он отвечает, как человек попал на экран и куда уйдёт дальше, а раскладка экрана — уже следующий уровень. Перевод первого издания 2002 года, примеры — сайты начала 2000-х; введение и глава 2 открыты на сайте автора."
    },
    {
-    "res": "nng",
-    "why": "Про flowcharts и user flows."
+    "res": "nng-user-flows",
+    "why": "Чем user flow отличается от карты пути пользователя: один продукт, минуты, шаги человека и ответы системы, без эмоций и каналов. Статья 2023 года; flow в ней — «типичный или идеальный» путь, а урок добавляет к нему входы, обрывы и состояния."
    },
    {
-    "res": "flows-docs",
-    "why": "Из практики полезнее всего посмотреть, как в ней устроены схемы сценариев. Обращайте внимание не на красоту, а на то, подписаны ли стрелки."
+    "res": "dfe-edit-course-workflow",
+    "why": "Настоящая схема из открытой дизайн-документации британского Минобразования: развилки подписаны «Yes» и «No», а обычные стрелки — нет, и блоки названы экранами, а не действиями человека. Удобно разобрать по чек-листу урока. Пост 2019 года: три абзаца и схема."
    }
   ],
   "flows-structure-middle": [
    {
     "res": "card-sorting",
-    "why": "Про подготовку карточек и чтение результатов."
+    "why": "Как выбрать между открытой и закрытой сортировкой, сколько брать карточек и как читать результат без статистики. Спенсер любит сортировку в парах и группах и предупреждает: закрытая сортировка показывает, куда люди положат карточку, но не найдут ли её там. Книга 2009 года, список сервисов устарел."
    },
    {
-    "res": "nng",
-    "why": "Про tree testing и про empty states."
+    "res": "nng-tree-testing",
+    "why": "Как подготовить дерево и задачи без слов из меню и чем качественная проверка на нескольких людях отличается от количественной. Статья 2023 года; спорит с уроком: карточную сортировку там не считают способом проверить готовую структуру — это задача проверки дерева."
+   },
+   {
+    "res": "nng-empty-states",
+    "why": "Три правила для пустого экрана: честно сказать, что данных нет, и не писать «нет записей», пока они грузятся; подсказать, что здесь появится; дать кнопку к первому действию. Примеры из сложных рабочих приложений, 2021 год."
    },
    {
     "res": "dont-make-me-think",
-    "why": "Про то, почему названия разделов читаются не так, как задумано."
+    "why": "Второй закон Круга: неважно, сколько кликов, если каждый выбор не требует раздумий. Глава 4 о двусмысленных пунктах верхнего уровня открыта на сайте автора, глава 6 — о навигации и названиях разделов. Примеры 2013 года."
    }
   ],
   "flows-structure-senior": [
    {
     "res": "information-architecture",
-    "why": "Про структуру, которая переживает рост."
+    "why": "Схемы и структуры организации сайта (глава 5), подписи и навигация (главы 6–7) и глава 19 о сайте, который выглядит как оргструктура компании, и о том, как чинить его по частям. Перевод третьего издания, оригинал 2006–2007 годов: примеры — интрасети и сервисы той поры."
    },
    {
     "res": "how-to-make-sense",
-    "why": "Про общий язык внутри команды."
+    "why": "Как договориться о словах до спора о структуре: глава 4 о словаре «что говорим и чего не говорим», определениях для новичков и истории терминов, глава 6 — об иерархиях, фасетах и последовательностях. Книга для начинающих 2014 года, полный текст бесплатно на сайте книги."
    },
    {
-    "res": "nng",
-    "why": "Про навигацию и закон Конвея в интерфейсах."
+    "res": "nng-audience-navigation",
+    "why": "Почему пункты вроде «Партнёрам» и «Для бизнеса» в общем меню мешают: человек не знает, к какой группе себя отнести, и подозревает, что другим показывают больше. Если такой вход всё же нужен — вынести его из основного меню и начать название с «для». Статья 2015 года."
+   },
+   {
+    "res": "conway-committees",
+    "why": "Первоисточник закона Конвея: система повторяет структуру общения в организации, которая её проектирует, — не оргсхему и не «со временем». Эссе 1968 года, об интерфейсах там ни слова, примеры про компиляторы и военных; язык тяжёлый."
    }
   ],
   "surveys-data-junior": [
    {
-    "res": "nng",
-    "why": "Про опросы и про то, почему нельзя спрашивать людей о будущем поведении."
+    "res": "nng-survey-questions",
+    "why": "Десять частых ошибок в анкетах с примерами плохих и хороших формулировок: почему нельзя просить человека предсказать своё поведение и чем «сколько раз за последние 7 дней» лучше «как часто вы обычно». Статья 2023 года."
    },
    {
     "res": "surveys-that-work",
-    "why": "О подготовке анкет."
+    "why": "Опрос по семи шагам — от цели до отчёта. Для начала хватит открытой главы 1: как свести список вопросов к одному главному и заранее решить, что сделаете с ответом. Автор строже урока в порядке методов — «сначала интервью, потом опрос»."
    },
    {
     "res": "functional-art",
-    "why": "Главы про графики — о том, как ясно показывать данные."
+    "why": "Почему длины и положения сравнивать точнее, чем углы и площади, — отсюда столбики вместо круговой диаграммы, — и как выбрать форму графика под вопрос. Книга 2012 года о журналистской инфографике; открыты введение и глава 1."
    }
   ],
   "surveys-data-middle": [
    {
     "res": "surveys-that-work",
-    "why": "Про то, как люди на самом деле читают вопросы анкеты."
+    "why": "Глава 3 — четыре шага, которые человек проходит, отвечая на вопрос (понять, вспомнить, решить, ответить), и когнитивное интервью для проверки формулировок; глава 4 — порядок вопросов и проверка анкеты. Во врезке о NPS автор объясняет, почему не доверяет этому числу."
    },
    {
-    "res": "nng",
-    "why": "Про формулировки вопросов и про сочетание качественных и количественных методов."
+    "res": "nng-survey-iterative",
+    "why": "Один вопрос анкеты прошёл четыре пилота: как пояснение и вопрос-разминка перед ним подталкивали людей к одному ответу и что в итоге помогло. Кейс 2019 года, пилот — от 5 до 10 человек на версию, с мыслями вслух."
+   },
+   {
+    "res": "nng-triangulation",
+    "why": "Зачем сверять вывод вторым методом, с примерами связок вроде «интервью нашло причину, опрос посчитал, как часто она встречается». Чем дороже решение, тем больше таких сверок. Статья на три минуты."
    }
   ],
   "surveys-data-senior": [
    {
     "res": "surveys-that-work",
-    "why": "Главы про выборку и про то, что люди на самом деле отвечают."
+    "why": "Глава 2 — три ошибки выборки (кого нет в списке, кого не спросили, кто не ответил) и мысль «правильный отклик лучше большого»; глава 3 — почему ответ расходится с вопросом. В открытом доступе только глава 1 и дополнения автора на его сайте."
    },
    {
     "res": "how-to-lie-with-statistics",
-    "why": "Короткая старая книга, которая до сих пор объясняет почти все трюки с цифрами."
+    "why": "Десять коротких глав 1954 года: смещённая выборка, «удобное» среднее, разница в пределах погрешности, обрезанная ось, вывод о причине из совпадения. Глава 1 о выборке — те же вопросы, что в разделах 3–4 урока; примеры американские и старые."
    },
    {
     "res": "how-charts-lie",
-    "why": "Про то же самое, но в картинках."
+    "why": "Шесть глав о том, как график вводит в заблуждение: плохо построен, показывает непроверенные или неполные данные, прячет неопределённость, подсказывает ложную закономерность. Перевод 2022 года; открыты оглавление, пролог и начало введения."
    },
    {
-    "res": "nng",
-    "why": "Про смещение выборки и про сочетание методов."
+    "res": "nng-sampling",
+    "why": "Почему рассылка по своей базе, соцсетям или панели — удобная, а не случайная выборка и когда по ней нельзя судить о доле во всей аудитории. Про тех, кто получил анкету и не ответил, в статье почти ничего нет."
+   },
+   {
+    "res": "nng-contradictory",
+    "why": "Что делать, когда количественный тест и интервью говорят разное: сначала проверить участников, задания, условия и расчёт, потом толковать. Разбор случая 2019 года."
    }
   ],
   "usability-testing-junior": [
    {
     "res": "dont-make-me-think",
-    "why": ""
+    "why": "Глава 9 — тест своими силами. Её версию из издания 2000 года автор выложил бесплатно: трое-четверо участников за раунд, набор тех, кого удалось найти, с поправкой на аудиторию, и почему фокус-группа тест не заменяет."
    },
    {
     "res": "rocket-surgery-made-easy",
-    "why": ""
+    "why": "Как провести тест без исследователя в штате: три участника, вступление «проверяем сайт, а не вас», нейтральные фразы ведущего вместо подсказок. Сценарий теста, чек-листы и список таких фраз автор бесплатно выложил на своём сайте; книга 2010 года, примеры с сайтов."
    },
    {
-    "res": "nng",
-    "why": "О модерировании и планировании числа участников."
+    "res": "nng-talking-to-users",
+    "why": "Три приёма ведущего — «эхо», «бумеранг» и «Коломбо»: как ответить на вопрос участника и не подсказать. Статья 2014 года; перед репликой советует досчитать про себя до десяти."
+   },
+   {
+    "res": "nng-how-many-users",
+    "why": "Почему на качественный тест обычно хватает пяти человек, когда нужно больше и когда хватит двух-трёх. Нильсен, 2012 год, тон резкий; цифра 20 для количественных тестов устарела, в новых статьях NN/g — от 40."
    }
   ],
   "usability-testing-middle": [
    {
     "res": "rocket-surgery-made-easy",
-    "why": ""
+    "why": "Главы 10–13: разбор сразу после тестов, выбор немногих самых серьёзных проблем и правило «отлаживайте, а не переделывайте». Повторный тест Круг считает нужным только после крупной правки."
    },
    {
     "res": "measuring-ux",
-    "why": ""
+    "why": "Как перевести тест в числа: успешность и время выполнения заданий (глава 4), опросники после теста (глава 5), учёт найденных проблем и их серьёзности (глава 6). Учебник 2022 года с формулами и примерами в Excel; в открытом доступе только оглавление и описание."
    },
    {
-    "res": "nng",
-    "why": "Об <a href=\"https://www.nngroup.com/articles/how-to-rate-the-severity-of-usability-problems/\">оценке серьёзности проблем</a> и <a href=\"https://www.nngroup.com/articles/5-test-users-qual-quant/\">границах выводов по пяти участникам</a>."
+    "res": "nng-severity",
+    "why": "Из чего складывается серьёзность проблемы — частота, влияние, повторяемость — и шкала от 0 до 4. Заметка 1994 года для эвристической оценки; одной оценке автор не доверяет и советует брать среднее от трёх оценщиков."
+   },
+   {
+    "res": "nng-5-users",
+    "why": "Почему пять участников годятся для поиска проблем и не годятся для цифр и на каких допущениях держится правило пяти. Статья 2021 года; приоритет проблем здесь ставят суждением, а не счётом «сколько из пяти»."
    }
   ],
   "usability-testing-senior": [
    {
     "res": "rocket-surgery-made-easy",
-    "why": ""
+    "why": "Ритм «одно утро в месяц»: три сессии, наблюдатели из команды выписывают по три главные проблемы, разбор за обедом в тот же день. Памятки для наблюдателей и чек-листы подготовки — бесплатно на сайте автора."
    },
    {
     "res": "just-enough-research",
-    "why": ""
+    "why": "Как выбрать метод под вопрос и уложить исследование в сроки команды; отдельная глава — про оценочные исследования, в том числе тесты. Издание 2024 года; открыто только начало главы про опросы."
    },
    {
     "res": "continuous-discovery-habits",
-    "why": ""
+    "why": "Как сделать общение с пользователями еженедельной привычкой: менеджер, дизайнер и разработчик вместе говорят с людьми каждую неделю, а набор участников автоматизирован. Отдельной главы про юзабилити-тесты нет, книга про ритм, интервью и проверку предположений; открыты только оглавление и описание."
    },
    {
-    "res": "nng",
-    "why": "Об организации исследовательской практики и сочетании методов."
+    "res": "nng-research-agile",
+    "why": "Как вести исследование в бэклоге, если оно длится несколько спринтов, и как находки становятся задачами. Статья 2021 года зовёт исследовать каждый спринт; урок сначала требует вопроса, под который нужен слот."
+   },
+   {
+    "res": "nng-contradictory",
+    "why": "Когда цифры и наблюдения расходятся: по каким четырём пунктам проверить оба исследования и почему количественные данные не отменяют качественные автоматически. Разбор случая 2019 года."
    }
   ],
   "user-interviews-junior": [
    {
     "res": "sprosi-mamu",
-    "why": "О вопросах, которые помогают узнать об опыте человека."
+    "why": "Три правила «Теста для мамы»: говорить о жизни собеседника, а не о своей идее, спрашивать о прошлом, а не о планах, больше слушать — с разбором вопросов, на которые отвечают из вежливости. Книга для основателей стартапов: разговор в ней короче и свободнее, чем интервью по сценарию из урока."
    },
    {
     "res": "interviewing-users",
-    "why": "О ведении интервью."
+    "why": "Как вести сам разговор: главы о приёмах интервью, о тонкостях вопросов и о записи. Портигал против жёсткого «никогда не спрашивайте о будущем»: спросить можно, если понимать, чего такой ответ не покажет."
    },
    {
     "res": "practical-empathy",
-    "why": "О слушании и разборе услышанного."
+    "why": "Слушание без готовых вопросов: собеседник ведёт разговор, а вы уточняете, что у него было в голове (глава 4), и потом сводите услышанное (глава 5). Метод отличается от интервью по сценарию из урока — лучше читать после первых трёх интервью; открыты глава 2 и часть главы 4."
    }
   ],
   "user-interviews-middle": [
    {
     "res": "lean-customer-development",
-    "why": "Про формулировку гипотез и выборку."
+    "why": "Глава 2 — как сформулировать проверяемую гипотезу («у таких-то людей есть такая-то проблема при такой-то задаче»), глава 3 — кого звать и где искать собеседников, глава 6 — как понять, что гипотеза подтвердилась. Взгляд со стороны бизнеса и стартапов; открыты оглавление, предисловие, введение и начало главы 1."
    },
    {
     "res": "just-enough-research",
-    "why": "Про то, сколько исследования достаточно и как связать его с решениями."
+    "why": "Большинство решений держится на вкусах, страхах и надеждах; книга о том, как задать исследованию правильный вопрос и сделать ровно столько, сколько нужно для решения. Издание 2024 года; открыто только начало главы про опросы."
    },
    {
     "res": "interviewing-users",
-    "why": "Раздел про анализ и работу с командой."
+    "why": "Главы 9 и 10 второго издания: как свести данные в выводы и добиться, чтобы исследование повлияло на решения команды; глава 2 — подготовка и набор участников. Открыта глава 1."
    }
   ],
   "user-interviews-senior": [
    {
     "res": "just-enough-research",
-    "why": "Про то, как встроить исследования в работу команды."
+    "why": "Как встроить исследования в работу команды: по оглавлению — главы о процессе и об исследовании своей организации. Издание 2024 года; открыто только начало главы про опросы."
    },
    {
-    "res": "nng",
-    "why": "Про ResearchOps и демократизацию исследований, в том числе статьи Кейт Каплан."
+    "res": "nng-researchops",
+    "why": "Шесть частей исследовательской практики: участники, правила согласий и хранения, база находок, инструменты, обучение коллег и рассказ о пользе. Обзор 2020 года, без пошаговых инструкций."
+   },
+   {
+    "res": "nng-democratize",
+    "why": "Как дать исследовать не только исследователям и не потерять качество: что можно отдать новичку, что оставить опытному, и пять шагов от подсчёта спроса до пересмотра. Статья 2022 года."
    },
    {
     "res": "continuous-discovery-habits",
-    "why": "Про постоянный поток общения с пользователями вместо разовых заходов."
+    "why": "Еженедельные разговоры с пользователями силами самой команды — менеджера, дизайнера и разработчика, — а не отчёты исследователя; интервью по историям и короткая карточка после каждого. Открыты только оглавление и описание."
    }
   ],
   "wireframes-prototype-junior": [
    {
     "res": "sketching-ux",
-    "why": "О работе с набросками."
+    "why": "Чем набросок отличается от прототипа и зачем рисовать несколько вариантов, прежде чем доводить один: главы «The Anatomy of Sketching» и «Sketches are not Prototypes» из первой части. Толстая книга 2007 года о подходе, не практикум; в открытом доступе только оглавление."
    },
    {
     "res": "dont-make-me-think",
-    "why": "О понятности интерфейсов и проверке с пользователями."
+    "why": "Почему экран не читают, а просматривают, и что это значит для черновика: главы 2–3 о просмотре и «рекламных щитах», глава 5 о лишних словах. Короткая книга с примерами 2013 года."
    },
    {
-    "res": "figma-proto",
-    "why": "О настройке экранов и переходов."
+    "res": "figma-guide",
+    "why": "С чего собирается прототип в Figma: связь от кнопки к экрану, сценарий и его стартовый экран — и словарь терминов в конце, чтобы понимать остальную справку. Обзор, обновлён в 2024 году."
+   },
+   {
+    "res": "figma-flows",
+    "why": "Как задать стартовый экран сценария, дать участнику ссылку сразу на него и вписать задание для проверки в описание сценария. Справка Figma, 2025 год."
    }
   ],
   "wireframes-prototype-middle": [
    {
     "res": "dont-make-me-think",
-    "why": ""
+    "why": "Как проверить прототип на троих своими силами: глава 9. В открытой версии главы (2000) — показывать людям даже бумажные наброски и давать задачи, которые человек выбирает сам: на придуманных задачах видно меньше."
    },
    {
-    "res": "nng",
-    "why": "О детализации прототипов и пустых состояниях."
+    "res": "nng-prototype-fidelity",
+    "why": "Три оси подробности прототипа — интерактивность, внешний вид, содержание — и что сказать, если участник нажал туда, где ничего нет. Статья 2016 года; спорит с уроком: советует править черновик прямо между встречами, а урок держит решение одинаковым для всех трёх участников."
    }
   ],
   "wireframes-prototype-senior": [
    {
     "res": "sprint",
-    "why": ""
+    "why": "Пять дней от спора к проверке на пяти людях. Для урока — глава 11 «Битва гигантов»: если два решения спорят, собирают оба прототипа и показывают в одном тесте, а итог выбирает Распорядитель. Книга 2016 года, бизнес-тон; пошаговый чек-лист авторов бесплатно на их сайте."
    },
    {
     "res": "just-enough-research",
-    "why": ""
+    "why": "Почему спор о решении часто держится на вкусах и опасениях, а не на данных, и как подобрать самое лёгкое исследование под конкретный вопрос. Издание 2024 года; открыто только начало главы про опросы."
    },
    {
-    "res": "decision-records",
-    "why": "Материалы о записях решений в командах разработки."
+    "res": "nygard-adr",
+    "why": "Исходная статья о записях решений: короткий файл на одно решение — контекст, решение, статус, последствия, — а отменённое решение не удаляют, а помечают как заменённое. Написана в 2011 году для архитектуры кода; графы «что проверяли» и «что увидели» из урока придётся добавить самим."
    }
   ],
   "layout-grid-junior": [
    {
     "res": "refactoring-ui",
-    "why": "Три главы по теме урока: «Establish a spacing and sizing system», «Grids are overrated» и «Avoid ambiguous spacing» — завести систему отступов и размеров, не переоценивать сетку, не оставлять неоднозначных расстояний."
+    "why": "Три главы по теме урока: «Establish a spacing and sizing system», «Grids are overrated» и «Avoid ambiguous spacing». Вторая уже названием спорит с разделом 5 урока. Книга 2018 года для разработчиков; текст глав закрыт, открыто оглавление."
    },
    {
     "res": "bureau-inner-outer",
-    "why": "Короткий совет о правиле из раздела 3: внутренние расстояния блока должны быть меньше внешних."
+    "why": "Правило из раздела 3 на одной надписи: как соотношение внутренних и внешних расстояний отделяет буквы, слова, строки и подзаголовок и почему контраст важнее точной пропорции. Совет 2014 года, примеры типографские, не интерфейсные."
    },
    {
     "res": "kovodstvo-136",
-    "why": "О том, что объекты, расположенные близко друг к другу, воспринимаются связанно, и почему заголовок должен быть привязан к своему абзацу."
+    "why": "Почему близкие объекты читаются как связанные и почему заголовок должен стоять ближе к своему абзацу, — на примерах вёрстки и уличных указателей, плюс обратное правило: одинаковое трудно различить. Параграф 2006 года, на две минуты."
    },
    {
     "res": "material-grid",
-    "why": "Шаг 8 в Material 3 и адаптивная сетка Material 2, из которой таблица колонок в разделе 5."
+    "why": "Шкала отступов Material 3 на 8 dp с мелкими значениями 2, 4, 6 и 10 и адаптивная сетка Material 2, из которой взята таблица колонок в разделе 5. Material 2 — прошлая версия: в Material 3 брейкпоинты другие — 600, 840, 1200 и 1600 dp."
    }
   ],
   "layout-grid-middle": [
    {
     "res": "refactoring-ui",
-    "why": "Восемь глав группы «Hierarchy is Everything» — от «Not all elements are equal» до «Semantics are secondary», в том числе «De-emphasize to emphasize»."
+    "why": "Восемь глав группы «Hierarchy is Everything» — от «Not all elements are equal» до «Semantics are secondary», в том числе «De-emphasize to emphasize». Под «цветом» авторы понимают светлоту текста — в уроке это вес и приглушение. Глава «Labels are a last resort» открыта на сайте книги."
    },
    {
     "res": "nng-hierarchy",
-    "why": "Определение иерархии, три её инструмента с ограничениями и прищур-тест на примере с размытием."
+    "why": "Определение иерархии и три её инструмента с ограничениями: не больше трёх размеров, не больше двух крупных элементов, не больше трёх вариаций контраста. Прищур-тест на снимке Spotify с размытием 5, 10 и 20 px. Статья 2021 года."
    },
    {
     "res": "nng-complex",
-    "why": "О рабочих экранах: как выделять важное и убирать лишнее, не урезая возможностей."
+    "why": "Восемь советов для сложных приложений специалистов; к уроку относятся два: убирать лишнее, не урезая возможностей, и выделять важное удалением шума, а не жирностью и цветом. Остальные шесть — про сценарии и обучение. Статья 2020 года."
    },
    {
     "res": "m3-density",
-    "why": "Когда нужна высокая плотность, когда низкая и что уплотнять нельзя."
+    "why": "Когда нужна высокая плотность, когда низкая и что нельзя уплотнять: меню, выбор даты, снекбары и диалоги. Вторая версия добавляет правило «чем плотнее компоненты, тем шире поля и промежутки», а обе включают плотные компоненты только по выбору человека."
    }
   ],
   "layout-grid-senior": [
    {
     "res": "atlassian-layout",
-    "why": "Шкала от 0 до 80 px с тремя диапазонами применения, двенадцать колонок и три типа сетки с указанием, когда какой брать."
+    "why": "Шкала от 0 до 80 px с тремя диапазонами применения, сетка на 2, 6 и 12 колонок по брейкпоинтам, правило «к колонкам — только контейнеры» и три варианта ширины: фиксированная широкая, фиксированная узкая и резиновая, с примерами, когда какую брать."
    },
    {
     "res": "carbon-layout",
-    "why": "Тринадцать токенов отступов, правило для исключений, режимы промежутков сетки и запрет заводить текст в промежуток."
+    "why": "Тринадцать токенов отступов от 2 до 160 px, правило для исключений, три режима промежутков сетки — 32, 16 и 1 px — и запрет заводить текст в промежуток. Сетка Carbon — 16 колонок, 12 там считают наследием старых продуктов."
    },
    {
     "res": "govuk-layout",
-    "why": "Статичная и адаптивная шкалы, схема «две трети + треть» и классы сетки в коде."
+    "why": "Две шкалы на шаге 5 px — статичная и адаптивная, где крупные шаги растут шире 640 px, — схема «две трети + треть» ради строки до 75 знаков и классы сетки в коде. Сетка здесь из долей, а не из 12 колонок."
    },
    {
     "res": "nng-critiques",
-    "why": "Как давать обратную связь через цели дизайна, а не через вкус."
+    "why": "Как устроить критику дизайна: согласовать цели до встречи, переформулировать «слишком красное» и «я бы сделал иначе» через цель, вести обсуждение по кругу и записывать итоги. Статья 2016 года о самостоятельной критике; проверку по набору правил она не разбирает."
    }
   ],
   "typography-junior": [
    {
     "res": "pt-ten-minutes",
-    "why": "Короткий свод правил с числами, на которые опирается урок: кегль основного текста, межстрочный, длина строки."
+    "why": "Пять правил на десять минут: кегль основного текста (на вебе 15–25 px), межстрочный 120–145 %, строка 45–90 знаков. Пятое правило — купить платный шрифт вместо бесплатного; тон резкий, примеры для документов."
    },
    {
     "res": "refactoring-ui",
-    "why": "Главы «Establish a type scale» и «Line-height is proportional» — шкала кеглей вместо размеров на глаз и межстрочный, который зависит от кегля."
+    "why": "Главы «Establish a type scale» и «Line-height is proportional» — шкала кеглей вместо размеров на глаз и межстрочный, подобранный под кегль. Текст глав закрыт, открыто оглавление."
    },
    {
     "res": "tim-brown-scale",
-    "why": "Статья о модульных шкалах для веба: как строить кегли через одно соотношение."
+    "why": "Откуда берётся модульная шкала: одно соотношение, например 1,618, и опорный кегль основного текста, от которого по шкале считаются все размеры страницы. Статья 2011 года с разбором CSS; автор сам округляет числа и отступает от шкалы."
    },
    {
     "res": "m3-type",
-    "why": "Пятнадцать базовых стилей Material 3 с кеглями и межстрочными — шкала большой системы целиком."
+    "why": "Шкала Material 3 целиком: пять ролей по три размера, 15 базовых и 15 акцентных стилей, кегли и межстрочные в таблице токенов — от Display Large 57/64 до Label Small 11/16. Сама система называет шкалу Major Second с базой 14."
    },
    {
     "res": "apple-typography",
-    "why": "Размеры текста в iOS: основной 17 pt, самый мелкий рекомендуемый — 11 pt, и таблица стилей Dynamic Type."
+    "why": "Размеры текста у Apple: основной на iPhone 17 pt, самый мелкий рекомендуемый 11 pt, и таблицы стилей Dynamic Type от xSmall до AX5 — как растёт каждый стиль, когда человек увеличивает шрифт. Справка обновлена в декабре 2025 года."
    }
   ],
   "typography-middle": [
    {
     "res": "kovodstvo-62-97",
-    "why": "Кавычки, неразрывные пробелы и висячие слова на экране, а ещё чем дефис отличается от минуса и тире."
+    "why": "Кавычки, неразрывные пробелы и висячие слова на экране (§ 62, 2000), чем дефис отличается от минуса и тире (§ 97, 2003) и почему Лебедев ставит в диапазонах короткое тире (§ 158, 2009). Советы по HTML в § 62 устарели."
    },
    {
     "res": "bureau-dash",
-    "why": "Почему в диапазонах ставят длинное тире: взгляд, который расходится с «Ководством»."
+    "why": "Почему в русских диапазонах ставят длинное тире — по Мильчину, у которого среднего тире нет вовсе, — и когда можно взять среднее: если записать это правилом для всего издания. Ответ Максима Ильяхова 2022 года."
    },
    {
     "res": "bureau-digits",
-    "why": "Когда разбивать четырёхзначные числа и почему в таблицах разбивают всегда."
+    "why": "Когда разбивать четырёхзначные числа: что говорят Гиленсон, Мильчин и «Ководство» и почему в тексте «3000», а в таблице «3 000». Там же — почему пробел для разрядов можно сделать вдвое уже. Совет 2017 года."
    },
    {
     "res": "gf-pairing",
-    "why": "Как подбирать пару шрифтов: сначала одно семейство, потом «достаточно разные, но не слишком»."
+    "why": "Нужен ли второй шрифт — четыре случая, когда да, от смены контекста до нехватки знаков другого языка, — и как выбрать пару «достаточно разную, но не слишком»: родство шрифтов по Хише и совет Санта-Марии брать антикву с гротеском."
    },
    {
     "res": "fonts-cyrillic",
-    "why": "Бесплатные шрифты с кириллицей, которые можно брать в продукт."
+    "why": "Семь бесплатных гарнитур под OFL с полной кириллицей — Inter, Onest, Manrope, Golos Text, Unbounded, JetBrains Mono, Noto, — где искать остальные и чем проверить шрифт. Кириллицу и знаки продукта всё равно проверьте по разделу 8."
    }
   ],
   "typography-senior": [
    {
     "res": "m3-type",
-    "why": "Как Material 3 называет стили и токены: роль, размер, отдельный токен на каждое свойство."
+    "why": "Как Material 3 устроила имена и токены: роль и размер в имени, один составной токен на стиль и отдельные — на шрифт, кегль, межстрочный, трекинг и вес. Там же — базовый и акцентный наборы и высота строки для разных письменностей."
    },
    {
     "res": "atlassian-type",
-    "why": "Токены на всё свойство font в rem и таблица стилей с кеглями и межстрочными."
+    "why": "Шкала Atlassian с именами-размерами от xxlarge до xxsmall: кегли и межстрочные в rem и px, когда какой заголовок и текст ставить. Что токен хранит всё свойство font целиком, видно в справочнике токенов, раздел All tokens."
    },
    {
     "res": "carbon-type",
-    "why": "Два набора стилей — продуктовый с базой 14 и выразительный с базой 16 — и как их различают имена."
+    "why": "Два набора стилей IBM: продуктовый с базой 14 и выразительный с базой 16. Как их различают суффиксы -01 и -02 и чем фиксированные заголовки отличаются от плавающих, которые растут с шириной экрана."
    },
    {
     "res": "govuk-type",
-    "why": "Шкала с именами-числами и то, как её пересобрали в шестой версии Frontend."
+    "why": "Шкала GOV.UK: точки-числа от 16 до 80 рядом с классами по ролям, значения для больших и малых экранов, и что изменилось в Frontend 6.0.0 — точку 14 убрали, текст на телефонах увеличили."
    },
    {
     "res": "ofl-faq",
-    "why": "Что разрешает и запрещает OFL: встраивание, продажа, зарезервированные имена, документы."
+    "why": "Текст OFL 1.1 и официальный FAQ: что разрешено при встраивании, продаже и изменении шрифта, как работают зарезервированные имена и почему урезанный шрифт для сайта уже считается изменённой версией. FAQ длинный, раздел 2 — про веб."
    }
   ],
   "color-contrast-junior": [
    {
     "res": "refactoring-ui",
-    "why": "Раздел «Working with Color», особенно главы «You need more colors than you think», «Define your shades up front» и «Greys don’t have to be grey» — палитра с оттенками, заданная заранее."
+    "why": "Раздел «Working with Color», особенно «You need more colors than you think», «Define your shades up front» и «Greys don’t have to be grey». Первые две в сокращении открыты на сайте книги: 8–10 серых и по 5–10 оттенков на цвет, заданных заранее, — это палитра всей системы, а не одного экрана."
    },
    {
     "res": "wcag-use-of-color",
-    "why": "Почему цвет не может быть единственным признаком и какие есть способы это исправить."
+    "why": "Что считается «только цветом», а что уже нет: разница по светлоте от 3 : 1 засчитывается, а «зелёная рамка — верно, красная — ошибка» без слова или значка не проходит. Два примера и список техник, сами техники — на отдельных страницах."
    },
    {
     "res": "cba-types",
-    "why": "Какие бывают нарушения цветового зрения и какие цвета при них путаются."
+    "why": "Виды нарушений цветового зрения и какие пары при каждом путаются: красный с зелёным, коричневый с оранжевым, голубой с сиреневым. Там же статистика: 8 % мужчин и 0,5 % женщин. Справка британской благотворительной организации, про интерфейсы в ней ничего нет."
    },
    {
     "res": "realtime-colors",
-    "why": "Примерить палитру на готовый макет сайта и сразу увидеть, какая роль у какого цвета."
+    "why": "Пять цветов — текст, фон, основной, дополнительный и акцент — сразу раскладываются по живой странице, в светлой и тёмной теме. Ролей меньше, чем в уроке: нет серых и статусов, а ссылки инструмент красит акцентом, не цветом кнопки. Жёлтый значок контраста при 4,5–7 : 1 — не провал: это уже норма AA."
    }
   ],
   "color-contrast-middle": [
    {
     "res": "wcag-contrast-min",
-    "why": "Нормы для текста, значков и границ с примерами, исключения и почему пороги не округляют."
+    "why": "Нормы 4,5 : 1 и 3 : 1 и откуда они взялись (острота зрения 20/40), что пороги не округляют — 4,499 : 1 уже провал, — и кому контраст не нужен: неактивным элементам, декору, логотипам. Во второй части почти полсотни рисунков «проходит / не проходит» для полей, флажков, фокуса, значков и графиков."
    },
    {
     "res": "refactoring-ui",
-    "why": "Глава «Accessible doesn’t have to mean ugly» — как пройти контраст, не превращая интерфейс в чёрно-белый."
+    "why": "Глава «Accessible doesn’t have to mean ugly» — как пройти контраст и не обесцветить интерфейс. Текст главы закрыт, открыто оглавление."
    },
    {
     "res": "m2-dark",
-    "why": "Почему в тёмной теме серый фон вместо чёрного и приглушённые акценты — с числами."
+    "why": "Почему фон тёмной темы — серый #121212, а не чёрный, как высота карточки показана светлеющей подложкой от 0 до 16 % белого и почему акценты берут из светлых тонов. Вторая версия Material, 2019 год. Неактивное и вторичный текст там задают прозрачностью белого, 38 % и 60 %, — урок советует свои цвета."
    },
    {
     "res": "webaim-contrast",
-    "why": "Самый простой замер пары: обычный и крупный текст, графика и элементы интерфейса."
+    "why": "Самый простой замер пары по трём нормам: обычный текст, крупный текст, графика и элементы интерфейса. Ползунок Lightness подбирает ближайший проходящий оттенок, поле Alpha считает полупрозрачный цвет, а для ссылок без подчёркивания есть отдельный Link Contrast Checker."
    }
   ],
   "color-contrast-senior": [
    {
     "res": "m3-tokens",
-    "why": "Три класса токенов — reference, system, component — и как роли цвета собираются в пары."
+    "why": "Три класса токенов — reference, system и component — и где переключается тема: на system-токенах. Во второй статье 26 ролей цвета, которые работают парами с обещанным минимумом 3 : 1, и почему рамка поля и разделитель — разные роли. Вкладка How to use tokens с Adobe XD и DSP устарела."
    },
    {
     "res": "atlassian-color",
-    "why": "Семантические токены цвета по свойствам и отдельный набор акцентов для категорий без смысла."
+    "why": "Как устроено имя токена цвета — свойство, роль, выделение, состояние — и десять ролей от brand до danger. Отдельно десять акцентов для категорий без смысла и почему жёлтый среди них не брать. Правило «не бери токен, потому что совпал цвет» — на третьей странице, Design tokens."
    },
    {
     "res": "primer-color",
-    "why": "Базовые, функциональные и компонентные токены и почему базовые не берут напрямую."
+    "why": "Три группы токенов — базовые, функциональные, компонентные — и почему базовые не берут напрямую: они не знают про тему. Какие ступени серой шкалы идут на фон, рамки и текст. Роли разведены иначе, чем в уроке: ссылки, фокус и информация у GitHub — одна роль accent, а главная кнопка — зелёная роль success."
    },
    {
     "res": "carbon-color",
-    "why": "Четыре темы на одних токенах и таблица токенов с ролью каждого."
+    "why": "Четыре темы — White, Gray 10, Gray 90, Gray 100 — на одних токенах: роль не меняется, меняется значение. Модель слоёв, правила состояний по ступеням палитры и таблица, на сколько ступеней должны отстоять цвета для 4,5 : 1 и 3 : 1. Полный список токенов с ролями — на вкладке Tokens."
    },
    {
     "res": "dtcg-format",
-    "why": "Стабильный формат дизайн-токенов: тип color, ссылки на другие токены, обмен между Figma и кодом."
+    "why": "Стабильный с октября 2025 года JSON-формат для обмена токенами между инструментами: как записать токен, группу и ссылку на другой токен вида {color.brand}. Цвет описан в отдельном модуле Color, светлая и тёмная темы — во второй ссылке, модуле Resolver. Спецификация для авторов инструментов, дизайнеру хватит разделов 5–8."
    }
   ],
   "motion-junior": [
    {
     "res": "nng-anim-duration",
-    "why": "Сколько миллисекунд давать переключателю и модальному окну, почему уход короче появления и какую кривую брать на вход и на выход."
+    "why": "Сколько миллисекунд давать переключателю и модальному окну, с какой длительности анимация начинает мешать, почему на вход берут плавный конец, а на выход плавное начало, и как описать анимацию для разработки. Статья 2020 года."
    },
    {
     "res": "nng-anim-purpose",
-    "why": "Зачем движение в интерфейсе: какие задачи оно решает и когда только мешает."
+    "why": "Четыре задачи движения — отклик на действие, смена состояния, направление в навигации, подсказка жеста — и где движение уже перехватывает внимание. Пример со счётчиком корзины, который без анимации не замечают, тот же, что в начале урока. Статья 2020 года."
    },
    {
     "res": "m2-speed",
-    "why": "Длительности на примерах компонентов: переключатель, боковая панель, карточка — и отдельные кривые для появления и ухода."
+    "why": "Длительности на примерах компонентов — переключатель, боковая панель, карточка, — почему уход короче появления и какие кривые брать на вход и на выход. Архивная вторая версия Material."
    },
    {
     "res": "figma-easing",
-    "why": "Все кривые и пружины прототипа Figma и что меняет каждая настройка."
+    "why": "Семь готовых кривых прототипа Figma и когда какая уместна, своя кривая с числами для CSS cubic-bezier и четыре пружины с настройками жёсткости, затухания и массы. Свою кривую не сохранить: числа переносят вручную."
    },
    {
     "res": "jitter",
-    "why": "Собрать переходы из задания с точными длительностями и кривыми, если прототипа Figma не хватает."
+    "why": "Собрать переходы из задания с точными длительностями и кривыми и скопировать кривую для разработки в CSS. Результат — видео, GIF или Lottie, а не кликабельный прототип; бесплатно — три файла и выгрузка 720p с водяным знаком."
    }
   ],
   "motion-middle": [
    {
     "res": "wcag-animation",
-    "why": "Кому мешает движение, чем оно опасно и какую анимацию считать необходимой."
+    "why": "Кому мешает движение и чем оно опасно, почему смена цвета и прозрачности движением не считается и какую анимацию считать необходимой. Критерий уровня AAA."
    },
    {
     "res": "apple-motion",
-    "why": "Что Apple советует делать при «уменьшить движение»: меньше масштаба и автоматического движения, растворение вместо сдвига."
+    "why": "Что Apple советует при «уменьшить движение»: меньше автоматического движения, масштаба и приближения, пружины без отскока, растворение вместо сдвига — это абзац в разделе Cognitive страницы Accessibility. Страница Motion — про движение вообще: не анимировать частые действия и не заставлять ждать конца анимации."
    },
    {
     "res": "webdev-reduced-motion",
-    "why": "Медиазапрос prefers-reduced-motion на примерах: что убрать, что оставить."
+    "why": "Как сайт узнаёт о настройке: медиазапрос prefers-reduced-motion в CSS и JavaScript, анимированная картинка с неподвижной заменой, демо с появлением при прокрутке. Статья для разработки 2019 года; «вибрирующая» кнопка регистрации в примере — как раз то движение, которое урок убирает."
    },
    {
     "res": "webdev-anim-perf",
-    "why": "Почему сдвиг и прозрачность дешёвые, а ширина и положение от края — дорогие, и как это проверить."
+    "why": "Какими свойствами двигать — transform и opacity, — почему top и left тормозят и как проверить это в DevTools. Вторая статья объясняет, откуда 16 мс на кадр и что браузер успевает за это время. Справка для разработки 2020 года."
    },
    {
     "res": "m3-motion",
-    "why": "Шестнадцать длительностей и кривые появления, ухода и перемещения с именами токенов."
+    "why": "Шестнадцать длительностей от 50 до 1000 мс и кривые появления, ухода и перемещения с именами токенов и значениями для CSS. Длительности здесь длиннее, чем в уроке: переключатель 200 мс, раскрытие на весь экран 500 мс; саму систему Google больше не развивает."
    }
   ],
   "motion-senior": [
    {
     "res": "carbon-motion",
-    "why": "Два вида движения — рабочее и выразительное — и шесть токенов длительности с назначением каждого."
+    "why": "Два вида движения — рабочее и выразительное, — по три кривые на каждый с числами для CSS, шесть токенов длительности с назначением каждого и чек-лист проверки движения. Кривые с отскоком Carbon не использует."
    },
    {
     "res": "m3-motion",
-    "why": "Как устроены токены движения в большой системе и почему её перевели на пружины."
+    "why": "Как устроены токены движения в большой системе: шестнадцать длительностей в четырёх группах и два набора кривых. Сверху пометка: компоненты Google уже перевели на пружины, а эту систему больше не развивают."
    },
    {
     "res": "dtcg-format",
-    "why": "Типы duration и cubicBezier: как записать токены движения для обмена между макетом и кодом."
+    "why": "Типы duration (только «ms» или «s») и cubicBezier (четыре числа, x от 0 до 1) и составной тип transition — длительность, задержка и кривая одной записью. Пружин в формате нет. Спецификация для авторов инструментов."
    },
    {
     "res": "webdev-anim-perf",
-    "why": "Что проверять в анимации перед выпуском и какие свойства не трогать."
+    "why": "Что проверить в DevTools перед выпуском — запись Performance, пропущенные кадры, подсветку перерисовки — и почему анимировать стоит только transform и opacity. Справка для разработки 2020 года."
    },
    {
     "res": "wcag-animation",
-    "why": "На что опереться, когда правило про «уменьшить движение» оспаривают."
+    "why": "Три способа выполнить критерий и определение, по которому смена цвета и прозрачности — не движение: на это опираются, когда правило про «уменьшить движение» оспаривают. Критерий уровня AAA — в споре это возражение прозвучит первым."
    }
   ],
   "patterns-states-junior": [
    {
     "res": "nng-empty-states",
-    "why": "Три правила для пустых экранов: сообщить, что происходит, подсказать, как всё устроено, и дать путь к главному действию."
+    "why": "Три правила для пустых экранов: сообщить, что происходит, подсказать, как здесь всё устроено, и дать путь к главному действию. Там же — почему нельзя показывать «Нет записей», пока данные ещё грузятся. Статья 2021 года, примеры из сложных рабочих приложений."
    },
    {
     "res": "nng-skeleton",
-    "why": "Когда скелет, когда крутилка, а когда полоса прогресса — по длительности ожидания и по тому, что грузится."
+    "why": "Когда показывать скелет, когда крутилку, а когда полосу прогресса: меньше секунды — ничего, до 10 секунд — скелет для целого экрана и крутилка для одного блока, дольше — прогресс. Там же — почему скелет из одной шапки и подвала не помогает."
    },
    {
     "res": "nng-error-messages",
-    "why": "Где показывать сообщение об ошибке, как его написать и почему нельзя стирать то, что человек ввёл."
+    "why": "Как показать ошибку, чтобы её заметили, как написать, чтобы поняли, и как сберечь силы человека — в том числе не стирать то, что он ввёл. Уточнение к уроку: человек ушёл из пустого поля — это ещё не ошибка."
    },
    {
-    "res": "checklist-empty-state",
-    "why": "Чек-лист пустого состояния: чем пустота первого раза отличается от пустого результата поиска."
+    "res": "carbon-empty-states",
+    "why": "Три вида пустоты в дизайн-системе IBM: данных ещё нет, пусто после действия человека (поиск без результатов, всё сделано) и пусто из-за ошибки или прав, — что сказать и что предложить в каждом. Справка дизайн-системы для рабочих приложений."
    },
    {
     "res": "refactoring-ui",
-    "why": "Раздел «Don’t overlook empty states»: как пустой экран становится приглашением к первому действию."
+    "why": "Глава «Don’t overlook empty states» из раздела «Finishing Touches»: пустой экран как место для первого действия. Три страницы, текст закрыт."
    }
   ],
   "patterns-states-middle": [
    {
     "res": "smashing-hidden-disabled",
-    "why": "Когда элемент прятать, а когда показывать неактивным, и почему неактивный обязан объяснить, как его включить."
+    "why": "Когда прятать элемент, а когда показывать неактивным: один вопрос — сможет ли человек когда-нибудь с ним работать. Неактивный объясняет, почему выключен и как его включить. Короткие заметки 2024 года, почти половина — ссылки и реклама курса автора."
    },
    {
     "res": "nng-long-waits",
-    "why": "Как не потерять человека на долгой операции: доля выполненного, работа в фоне, подробности в сообщении об успехе."
+    "why": "Пять правил для операций на минуты и часы: показывать долю выполненного или оставшиеся шаги, отпускать работать в фоне, в сообщении об успехе писать, что произошло и сколько заняло. Статья 2021 года о сложных рабочих приложениях, а не о медленной сети."
    },
    {
     "res": "m3-states",
-    "why": "Шесть состояний элемента и как они сочетаются между собой."
+    "why": "Шесть состояний элемента в Material 3 — обычное, неактивное, наведение, фокус, нажатие, перетаскивание, — какие компоненты какое состояние получают и как состояния сочетаются. Там же — слой состояния с прозрачностью от 8 до 16 % и совет прятать кнопку FAB, если её действие недоступно."
    },
    {
     "res": "devtools-network",
-    "why": "Где включить медленную сеть и режим без связи, чтобы пройти свой экран так, как его увидит человек с плохим интернетом."
+    "why": "Где в Chrome включить медленную сеть (готовые профили Fast 4G, Slow 4G, 3G или свой) и режим без связи, чтобы пройти страницу так, как её увидит человек с плохим интернетом. Справка для разработки: замедляет только то, что грузится по сети, — страницу или прототип в коде."
    },
    {
     "res": "figma-text-props",
-    "why": "Обрезка текста с многоточием и число строк: как проверить длинное название прямо в макете."
+    "why": "Справочник по свойствам текста в Figma; нужный раздел — «Text truncation and max lines»: многоточие и число строк, после которого текст обрезается. Число строк задаётся, только если у слоя авторазмер по высоте или ширине."
    }
   ],
   "patterns-states-senior": [
    {
     "res": "atomic-workflow",
-    "why": "Как провести инвентаризацию интерфейса: что снимать, как раскладывать и как показать команде разнобой."
+    "why": "Как провести инвентаризацию интерфейса: снимать по одному примеру каждого непохожего решения, раскладывать по категориям (ошибки, успех и загрузка — отдельная, их труднее всего поймать) и показывать разнобой всей команде. Это около трети главы; остальное — как продать дизайн-систему и работать без водопада."
    },
    {
     "res": "govuk-patterns",
-    "why": "Как устроены страницы паттернов в большой системе и по каким признакам решают, нужен ли новый."
+    "why": "Чем паттерн отличается от компонента в GOV.UK Design System и по каким пяти признакам решают, принимать ли новый: полезен многим командам, не повторяет существующее, проверен на людях, собран из готового, подходит разным сервисам. Третья ссылка — два статуса компонентов, «проба» и «стабильный»."
    },
    {
     "res": "nng-confirmation",
-    "why": "Когда подтверждение защищает от ошибки, а когда приучает нажимать «Да» не читая."
+    "why": "Восемь правил для подтверждений: спрашивать только перед тем, что уничтожает работу или стоит больших денег, называть последствия, подписывать кнопки действием («Удалить файл» и «Оставить файл» вместо «Да» и «Нет»), а для самых опасных действий просить ввести слово. Статья 2018 года, пересмотрена в 2026-м."
    },
    {
     "res": "atlassian-phases",
-    "why": "Как большая система вводит и выводит компоненты: фазы, пометки и заранее объявленный срок."
+    "why": "Три фазы выпуска (Early Access, Beta, General Availability) и две фазы вывода (Intent to Deprecate, Deprecated): что значит каждая и можно ли брать компонент в новую работу. Стабильное не удаляют без объявленного заранее срока. Страница на минуту чтения."
    },
    {
     "res": "deceptive-types",
-    "why": "Обманные паттерны с примерами и законами — чтобы ни один из них не попал в библиотеку."
+    "why": "Восемнадцать типов обманных паттернов — от скрытых доплат до стыжения (confirmshaming) и подписки, которую трудно отменить: у каждого определение, пример, случаи из «Hall of shame», законы и решения регуляторов. У двух самых новых типов законов пока нет, только примеры."
    }
   ],
   "icons-illustration-junior": [
    {
     "res": "m2-system-icons",
-    "why": "Холст, поле и опорные фигуры с картинками: откуда берутся 24, 20 и 18."
+    "why": "Холст, поле и опорные фигуры с картинками: откуда берутся 24, 20 и 18. У Material концы линий прямые, а рисунок может заходить в поле ради веса — в наборе урока и то и другое иначе."
    },
    {
     "res": "lucide-principles",
-    "why": "Правила открытого набора по пунктам: холст, линия, скругления, промежутки. Удобно сверять свою иконку."
+    "why": "Четырнадцать правил открытого набора с парами «так» и «не так»: холст 24, линия 2, скругления 1 и 2, промежутки от 2 пикселей. Удобно сверять свою иконку, только поле у Lucide — 1 пиксель, а не 2, как в уроке."
    },
    {
     "res": "iconutopia-pixel",
-    "why": "Как выровнять иконку по пиксельной сетке, чтобы она не размывалась: целые координаты, размеры и толщины."
+    "why": "Как держать иконку на пиксельной сетке: целые размеры, координаты и толщины, проверка в Pixel Preview. Статья 2015 года, все шаги — для Adobe Illustrator; про линию в 1 пиксель на половинках пикселя в ней ничего нет."
    },
    {
     "res": "nng-icon-usability",
-    "why": "Какие иконки узнают без подписи и почему остальным она нужна всегда."
+    "why": "Какие иконки узнают без подписи — дом, печать, лупа — и почему подпись советуют даже знакомой иконке. Там же правило пяти секунд и путаница сердца со звездой. Статья 2014 года, обновлена в 2024-м."
    },
    {
     "res": "svgomg",
-    "why": "Почистить SVG перед отдачей в разработку и сразу увидеть, не испортилась ли форма."
+    "why": "Чистит SVG от служебных данных редактора, а переключатель Show original показывает, не испортилась ли форма. Цвет на currentColor и обрезку рамки из Figma он не заменит — это правят руками."
    }
   ],
   "icons-illustration-middle": [
    {
     "res": "material-symbols-guide",
-    "why": "Оси заливки, толщины, градации и оптического размера: как одна иконка подстраивается под размер."
+    "why": "Четыре оси — заливка, толщина, градация и оптический размер от 20 до 48: как одна иконка подстраивается под размер и тёмный фон. Справка для разработки, больше половины текста — как подключить шрифт."
    },
    {
     "res": "heroicons",
-    "why": "Пример отдельной отрисовки под размер: контурные 24 и залитые 20 и 16."
+    "why": "Пример отдельной отрисовки под размер: контурные и залитые 24, а для 20 и 16 — отдельно нарисованные залитые наборы. На сайте только сами иконки, правил и объяснений нет."
    },
    {
     "res": "lucide-stroke",
-    "why": "Как толщина линии ведёт себя при изменении размера и как зафиксировать её в коде."
+    "why": "Как толщина линии меняется вместе с размером и как свойство nonScalingStroke держит её постоянной. Короткая справка для разработки на React."
    },
    {
     "res": "figma-component-props",
-    "why": "Свойство замены экземпляра: как менять иконку в кнопке, не разбирая кнопку."
+    "why": "Свойство замены экземпляра: как менять иконку в кнопке, не разбирая кнопку, и как оставить в выборе только подходящие иконки набора. Справка обо всех видах свойств, про иконки — около трети."
    },
    {
     "res": "figma-export",
-    "why": "Как имена со слешем раскладывают выгруженные файлы по папкам."
+    "why": "Как выгрузить иконки из Figma: имена со слешем раскладывают файлы по папкам, а снятая галочка Show in exports не пускает в файл фон рамки. Настройки самого SVG — на соседней странице справки."
    }
   ],
   "icons-illustration-senior": [
    {
     "res": "ibm-ui-icons",
-    "why": "Правила большого набора и порядок, по которому в него принимают чужие иконки."
+    "why": "Правила большого набора парами «так» и «не так» и порядок приёма: поиск дублей, заявка, ревью до 30 дней. В IBM присланную иконку может переделать команда бренда — урок учит, чтобы исправлял автор."
    },
    {
     "res": "lucide-principles",
-    "why": "Правила рисования с парами «так» и «не так» — образец страницы правил для открытого набора."
+    "why": "Правила рисования с парами «так» и «не так» — образец страницы правил для открытого набора. Чек-лист того, кто присылает иконку, лежит отдельно, в шаблоне запроса на GitHub."
    },
    {
     "res": "m2-system-icons",
-    "why": "Правила парами: перспектива, толщина, скругления, опорные фигуры."
+    "why": "Правила парами «так» и «не так»: прямой взгляд без объёма, одна толщина, целые координаты, простая форма вместо буквальной. Концы линий у Material прямые — в наборе урока скруглённые."
    },
    {
     "res": "atlassian-iconography",
-    "why": "Когда иконка не нужна вовсе и почему новую не рисуют, если подходящая уже есть."
+    "why": "Четыре вопроса до того, как предлагать иконку, — от «нет ли похожей» до «нужна ли иконка вообще», и пара «не рисовать новую, если подходящая уже есть». Стиль у Atlassian свой: линия 1,5 и прямые концы."
    },
    {
     "res": "cc-by-nc",
-    "why": "Что требует указание автора и почему иконка с некоммерческой лицензией не годится для продукта."
+    "why": "Что значит указать автора — имя, ссылка на лицензию, отметка об изменениях — и как лицензия определяет некоммерческое использование. Кратко — на странице-выжимке, полностью — в юридическом тексте по ссылке с неё; обе в официальном переводе на русский."
    }
   ],
   "brand-language-junior": [
