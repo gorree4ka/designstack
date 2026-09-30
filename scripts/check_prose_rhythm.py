@@ -5,7 +5,8 @@
 правило записано с 17.09.2026 (D168) и проверяется `check_lessons.py`, статьи им не охвачены.
 
 Что проверяет на каждой статье — выпуски, подборки, обзоры из карты сайта и «О проекте»:
-у каждого h2 и h3 в колонке текста зазор снизу не больше 16 и меньше зазора сверху.
+у каждого h2 и h3 в колонке текста зазор снизу не больше 16 и меньше зазора сверху;
+строка «источник · дата» над заголовком новости (D190) стоит к нему не дальше 8 и меряется вместе с ним.
 
     python scripts/check_prose_rhythm.py                               # локальный сайт
     python scripts/check_prose_rhythm.py --base https://designstack.ru  # живой
@@ -42,7 +43,16 @@ MEASURE = """() => {
     if (!/^H[23]$/.test(h.tagName)) { continue; }
     heads++;
     const r = h.getBoundingClientRect();
-    const up = Math.round(r.top - kids[i - 1].getBoundingClientRect().bottom);
+    // Строка «источник · дата» над заголовком (D190) — одно целое с ним: зазор между ними не больше 8,
+    // а «сверху» меряется от блока перед этой строкой.
+    const kicker = kids[i - 1].classList.contains('ds-kicker') ? kids[i - 1] : null;
+    if (kicker && i < 2) { continue; }
+    const head = kicker || h;
+    if (kicker) {
+      const tie = Math.round(r.top - kicker.getBoundingClientRect().bottom);
+      if (tie > 8) { out.push(h.textContent.trim().slice(0, 40) + ': строка источника отстоит на ' + tie); }
+    }
+    const up = Math.round(head.getBoundingClientRect().top - kids[i - (kicker ? 2 : 1)].getBoundingClientRect().bottom);
     const down = Math.round(kids[i + 1].getBoundingClientRect().top - r.bottom);
     if (down > 16 || down >= up) { out.push(h.textContent.trim().slice(0, 40) + ': сверху ' + up + ', снизу ' + down); }
   }

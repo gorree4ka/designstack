@@ -1,21 +1,64 @@
 <!-- wp:paragraph -->
-<p>Главное для дизайнера интерфейсов с&nbsp;15 по&nbsp;30&nbsp;сентября: что поменялось в&nbsp;Figma, Framer и&nbsp;Affinity, что нового в&nbsp;браузерах и&nbsp;стандарте доступности, свежие исследования Baymard и&nbsp;NN/g, зарплаты по&nbsp;грейдам и&nbsp;российские кейсы. У&nbsp;каждой новости есть ссылка на&nbsp;первоисточник. Для инструментов из&nbsp;каталога указано, работают ли они из&nbsp;России.</p>
+<p>Главное для дизайнера интерфейсов с&nbsp;15 по&nbsp;30&nbsp;сентября: что поменялось в&nbsp;Figma, Framer и&nbsp;Affinity, что нового в&nbsp;браузерах и&nbsp;стандарте доступности, свежие исследования Baymard и&nbsp;NN/g, зарплаты по&nbsp;грейдам и&nbsp;российские кейсы. У&nbsp;каждой новости есть ссылка на&nbsp;первоисточник. Для инструментов из&nbsp;каталога указано, работают&nbsp;ли они из&nbsp;России.</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<section class="ds-brief" aria-labelledby="brief">
+	<h2 class="ds-brief__title" id="brief">Коротко</h2>
+	<ul class="ds-brief__list">
+		<li class="ds-brief__item"><a href="#figma-wrap">В&nbsp;автолейауте Figma появился перенос по&nbsp;вертикали</a></li>
+		<li class="ds-brief__item"><a href="#safari-select">Safari&nbsp;27 разрешил оформлять select как в&nbsp;макете</a></li>
+		<li class="ds-brief__item"><a href="#wcag-3">WCAG&nbsp;3 сведёт уровни A, AA и&nbsp;AAA к&nbsp;одному базовому</a></li>
+		<li class="ds-brief__item"><a href="#salaries">Медианная зарплата UX/UI-дизайнера&nbsp;— 120&nbsp;тысяч рублей в&nbsp;месяц</a></li>
+		<li class="ds-brief__item"><a href="#nielsen">Нильсен отнёс персоны и&nbsp;карты пути к&nbsp;риску «дизайн-театра»</a></li>
+	</ul>
+</section>
+<!-- /wp:html -->
 
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Инструменты</h2>
 <!-- /wp:heading -->
 
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Figma: перенос в&nbsp;вертикальном автолейауте</h3>
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">figma.com · 25&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3,"anchor":"figma-wrap"} -->
+<h3 class="wp-block-heading" id="figma-wrap">Figma: перенос в&nbsp;вертикальном автолейауте</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>25&nbsp;сентября перенос появился и&nbsp;в&nbsp;автолейауте с&nbsp;вертикальным направлением: всё, что не&nbsp;помещается по&nbsp;высоте фрейма, уходит в&nbsp;новую колонку. Список чекбоксов, фильтр или блок преимуществ в&nbsp;несколько колонок теперь собирается одним фреймом и&nbsp;сам перестраивается, когда пунктов становится больше или меньше. Это поведение flex-wrap из&nbsp;вёрстки, но&nbsp;не&nbsp;masonry: порядок элементов сохраняется, а&nbsp;в&nbsp;следующую колонку они переходят, только когда текущая заполнена.</p>
+<p>Перенос появился и&nbsp;в&nbsp;автолейауте с&nbsp;вертикальным направлением: всё, что не&nbsp;помещается по&nbsp;высоте фрейма, уходит в&nbsp;новую колонку. Список чекбоксов, фильтр или блок преимуществ в&nbsp;несколько колонок теперь собирается одним фреймом и&nbsp;сам перестраивается, когда пунктов становится больше или меньше. Это поведение flex-wrap из&nbsp;вёрстки, но&nbsp;не&nbsp;masonry: порядок элементов сохраняется.</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="ds-infographic">
+	<figcaption class="ds-infographic__title">Фрейм фиксированной высоты и&nbsp;восемь пунктов</figcaption>
+	<div class="ds-infographic__mech">
+		<div class="ds-infographic__mech-case ds-infographic__mech-case--over">
+			<p class="ds-infographic__mech-text">Без переноса пункты 5–8 вылезают за&nbsp;фрейм.</p>
+			<div class="ds-infographic__frame ds-infographic__frame--over">
+				<div class="ds-infographic__items"><span class="ds-infographic__item">1</span><span class="ds-infographic__item">2</span><span class="ds-infographic__item">3</span><span class="ds-infographic__item">4</span><span class="ds-infographic__item ds-infographic__item--out">5</span><span class="ds-infographic__item ds-infographic__item--out">6</span><span class="ds-infographic__item ds-infographic__item--out">7</span><span class="ds-infographic__item ds-infographic__item--out">8</span></div>
+				<span class="ds-infographic__cut" aria-hidden="true"></span>
+			</div>
+		</div>
+		<div class="ds-infographic__mech-case">
+			<p class="ds-infographic__mech-text">С&nbsp;переносом по&nbsp;вертикали лишнее уходит во&nbsp;вторую колонку: 1–4 и&nbsp;5–8.</p>
+			<div class="ds-infographic__frame ds-infographic__frame--wrap">
+				<div class="ds-infographic__items"><span class="ds-infographic__item">1</span><span class="ds-infographic__item">2</span><span class="ds-infographic__item">3</span><span class="ds-infographic__item">4</span><span class="ds-infographic__item">5</span><span class="ds-infographic__item">6</span><span class="ds-infographic__item">7</span><span class="ds-infographic__item">8</span></div>
+			</div>
+		</div>
+	</div>
+	<p class="ds-infographic__source">Figma, release notes, 25.09.2026</p>
+</figure>
+<!-- /wp:html -->
 
 <!-- wp:paragraph -->
 <p><a href="https://www.figma.com/release-notes/?title=vertical-wrap">Анонс в&nbsp;Figma</a>. Figma из&nbsp;России открывается, но&nbsp;платный тариф российской картой не&nbsp;оплатить&nbsp;— подробности и&nbsp;замена в&nbsp;<a href="/resource/figma/">карточке Figma</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">developer.apple.com · 17–18&nbsp;сентября</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -30,16 +73,24 @@
 <p><a href="https://developer.apple.com/design/resources/">Apple Design Resources</a> · <a href="https://developer.apple.com/design/whats-new/">список изменений в&nbsp;HIG</a>.</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">framer.com · 22&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Framer: навыки для ИИ-агента</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>22&nbsp;сентября в&nbsp;Framer появились Skills&nbsp;— сохранённые инструкции для встроенного агента: правила дизайн-системы, манера текста, порядок работы с&nbsp;CMS. Навык создаётся командой /skills, в&nbsp;нём можно сослаться на&nbsp;страницы, компоненты и&nbsp;стили проекта. Договорённости, к&nbsp;которым вы пришли с&nbsp;агентом в&nbsp;одном разговоре, больше не&nbsp;нужно повторять в&nbsp;следующем.</p>
+<p>В&nbsp;Framer появились Skills&nbsp;— сохранённые инструкции для встроенного агента: правила дизайн-системы, манера текста, порядок работы с&nbsp;CMS. Навык создаётся командой /skills, в&nbsp;нём можно сослаться на&nbsp;страницы, компоненты и&nbsp;стили проекта. Договорённости, к&nbsp;которым вы пришли с&nbsp;агентом в&nbsp;одном разговоре, больше не&nbsp;нужно повторять в&nbsp;следующем.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
 <p><a href="https://www.framer.com/updates/skills">Анонс в&nbsp;Framer</a>. Framer из&nbsp;России открывается, платный тариф российской картой не&nbsp;оплатить&nbsp;— <a href="/resource/framer/">карточка Framer</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">affinity.studio · 15&nbsp;сентября</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -47,7 +98,7 @@
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>15&nbsp;сентября Canva выпустила большое обновление Affinity&nbsp;— больше 60&nbsp;новых функций и&nbsp;улучшений. Главные&nbsp;— инструмент Blend для плавных переходов между фигурами и&nbsp;скрипты, которые пишутся прямо в&nbsp;программе и&nbsp;работают сразу с&nbsp;вектором, растром и&nbsp;вёрсткой. Основные инструменты по-прежнему бесплатны, ИИ-функции открываются только с&nbsp;платным тарифом Canva. Для иконок и&nbsp;иллюстраций к&nbsp;интерфейсу это бесплатный векторный редактор без подписки.</p>
+<p>Canva выпустила большое обновление Affinity&nbsp;— больше 60&nbsp;новых функций и&nbsp;улучшений. Главные&nbsp;— инструмент Blend для плавных переходов между фигурами и&nbsp;скрипты, которые пишутся прямо в&nbsp;программе и&nbsp;работают сразу с&nbsp;вектором, растром и&nbsp;вёрсткой. Основные инструменты по-прежнему бесплатны, ИИ-функции открываются только с&nbsp;платным тарифом Canva. Для иконок и&nbsp;иллюстраций к&nbsp;интерфейсу это бесплатный векторный редактор без подписки.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
@@ -58,8 +109,12 @@
 <h2 class="wp-block-heading">Браузеры и&nbsp;доступность</h2>
 <!-- /wp:heading -->
 
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Safari&nbsp;27: выпадающий список оформляется как в&nbsp;макете</h3>
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">webkit.org · 17&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3,"anchor":"safari-select"} -->
+<h3 class="wp-block-heading" id="safari-select">Safari&nbsp;27: выпадающий список оформляется как в&nbsp;макете</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
@@ -70,25 +125,55 @@
 <p><a href="https://webkit.org/blog/18325/webkit-features-for-safari-27-0/">Обзор релиза в&nbsp;блоге WebKit</a>.</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">developer.chrome.com · 22&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Chrome&nbsp;154: карусели и&nbsp;подчёркивание средствами CSS</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>22&nbsp;сентября вышел Chrome&nbsp;154. Точки-переключатели CSS-карусели теперь могут вести себя как вкладки: в&nbsp;фокус попадает только активная точка, между остальными переходят стрелками. Отступ подчёркивания от&nbsp;краёв текста задаёт свойство text-decoration-inset, и&nbsp;анимированное подчёркивание ссылки обходится без лишних элементов. Поповеры и&nbsp;диалоги на&nbsp;тачскрине больше не&nbsp;закрываются от&nbsp;прокрутки. Прежде чем закладывать это в&nbsp;макет, уточните у&nbsp;разработки, какие браузеры поддерживает продукт.</p>
+<p>Точки-переключатели CSS-карусели теперь могут вести себя как вкладки: в&nbsp;фокус попадает только активная точка, между остальными переходят стрелками. Отступ подчёркивания от&nbsp;краёв текста задаёт свойство text-decoration-inset, и&nbsp;анимированное подчёркивание ссылки обходится без лишних элементов. Поповеры и&nbsp;диалоги на&nbsp;тачскрине больше не&nbsp;закрываются от&nbsp;прокрутки. Прежде чем закладывать это в&nbsp;макет, уточните у&nbsp;разработки, какие браузеры поддерживает продукт.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph -->
 <p><a href="https://developer.chrome.com/release-notes/154">Заметки к&nbsp;выпуску Chrome&nbsp;154</a>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">WCAG&nbsp;3: один уровень вместо A, AA и&nbsp;AAA</h3>
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">w3.org · 25&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3,"anchor":"wcag-3"} -->
+<h3 class="wp-block-heading" id="wcag-3">WCAG&nbsp;3: один уровень вместо A, AA и&nbsp;AAA</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>25&nbsp;сентября W3C объяснил, как будет устроено соответствие в&nbsp;WCAG&nbsp;3. Вместо трёх уровней останется один базовый, core requirements, и&nbsp;строится он на&nbsp;критериях WCAG&nbsp;2.2 уровней A и&nbsp;AA. То, что нельзя измерить объективно или что применимо не&nbsp;везде, уйдёт в&nbsp;дополнительные требования, а&nbsp;регуляторы смогут включать и&nbsp;исключать требования под свои правила. Стандарт закончат не&nbsp;раньше чем через несколько лет, а&nbsp;WCAG&nbsp;2 не&nbsp;отменят ещё несколько лет после этого&nbsp;— проверять макеты по&nbsp;WCAG&nbsp;2.2 AA по-прежнему правильно.</p>
+<p>W3C объяснил, как будет устроено соответствие в&nbsp;WCAG&nbsp;3: вместо трёх уровней останется один базовый, а&nbsp;то, что нельзя измерить объективно, уйдёт в&nbsp;дополнительные требования. Стандарт закончат не&nbsp;раньше чем через несколько лет, а&nbsp;WCAG&nbsp;2 не&nbsp;отменят ещё несколько лет после этого&nbsp;— проверять макеты по&nbsp;WCAG&nbsp;2.2 AA по-прежнему правильно.</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="ds-infographic">
+	<figcaption class="ds-infographic__title">Как меняется устройство соответствия</figcaption>
+	<div class="ds-infographic__scheme">
+		<div class="ds-infographic__scheme-col">
+			<span class="ds-infographic__scheme-head">WCAG&nbsp;2.2, сейчас</span>
+			<div class="ds-infographic__levels"><span class="ds-infographic__level">A</span><span class="ds-infographic__level">AA</span><span class="ds-infographic__level ds-infographic__level--off">AAA</span></div>
+			<span class="ds-infographic__note">Три уровня соответствия</span>
+		</div>
+		<span class="ds-infographic__arrow" aria-hidden="true">→</span>
+		<div class="ds-infographic__scheme-col">
+			<span class="ds-infographic__scheme-head">Черновик WCAG&nbsp;3</span>
+			<div class="ds-infographic__box ds-infographic__box--core"><b>Базовые требования</b><span class="ds-infographic__box-note">core requirements&nbsp;— на&nbsp;критериях A и&nbsp;AA</span></div>
+			<div class="ds-infographic__box ds-infographic__box--extra"><b>Дополнительные требования</b><span class="ds-infographic__box-note">то, что нельзя измерить объективно или что подходит не&nbsp;везде</span></div>
+			<div class="ds-infographic__box ds-infographic__box--tag"><b>Теги для регуляторов</b><span class="ds-infographic__box-note">включают и&nbsp;исключают требования под свои правила</span></div>
+		</div>
+	</div>
+	<p class="ds-infographic__note">Куда уйдут критерии AAA, в&nbsp;статье W3C не&nbsp;сказано, поэтому у&nbsp;AAA нет стрелки.</p>
+	<p class="ds-infographic__source">W3C, блог, 25.09.2026</p>
+</figure>
+<!-- /wp:html -->
 
 <!-- wp:paragraph -->
 <p><a href="https://www.w3.org/blog/2026/crafting-wcag-3-for-more-accessible-user-experiences/">Статья W3C</a>. Как проверить контраст всех пар цветов на&nbsp;экране&nbsp;— в&nbsp;уроке «<a href="/lessons/color-contrast-middle/">Как проверить контраст всех пар на&nbsp;экране и&nbsp;собрать тёмную тему на&nbsp;тех&nbsp;же ролях</a>».</p>
@@ -97,6 +182,10 @@
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Исследования и&nbsp;статьи</h2>
 <!-- /wp:heading -->
+
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">baymard.com · 23&nbsp;сентября</p>
+<!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Baymard: бейдж на&nbsp;карточке работает, пока он редкий</h3>
@@ -110,28 +199,87 @@
 <p><a href="https://baymard.com/blog/badge-ui">Статья Baymard</a> · <a href="/resource/baymard/">Baymard Institute в&nbsp;каталоге</a>.</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">baymard.com · 24&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Baymard: сайты продажи билетов прячут цену до&nbsp;последнего шага</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Baymard выпустил исследование сайтов продажи билетов на&nbsp;концерты и&nbsp;мероприятия: 463&nbsp;тестовые сессии и&nbsp;больше 2&nbsp;800&nbsp;проблем средней и&nbsp;высокой серьёзности. Три главные: итоговая цена со&nbsp;сборами появляется только в&nbsp;конце, недоступные билеты отсеиваются слишком поздно, а&nbsp;выбрать место и&nbsp;понять, что с&nbsp;него видно, трудно. Вывод годится для любой корзины: цену и&nbsp;наличие показывать сразу. Полные рекомендации доступны по&nbsp;платной подписке, в&nbsp;открытой статье&nbsp;— главные выводы.</p>
+<p>Baymard выпустил исследование сайтов продажи билетов на&nbsp;концерты и&nbsp;мероприятия. Три главные проблемы: итоговая цена со&nbsp;сборами появляется только в&nbsp;конце, недоступные билеты отсеиваются слишком поздно, а&nbsp;выбрать место и&nbsp;понять, что с&nbsp;него видно, трудно. Вывод годится для любой корзины: цену и&nbsp;наличие показывать сразу.</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="ds-infographic">
+	<figcaption class="ds-infographic__title">Исследование сайтов продажи билетов</figcaption>
+	<div class="ds-infographic__stats">
+		<div class="ds-infographic__stat"><span class="ds-infographic__stat-value">463</span><span class="ds-infographic__stat-label">тестовые сессии с&nbsp;размышлением вслух</span></div>
+		<div class="ds-infographic__stat"><span class="ds-infographic__stat-value">2&nbsp;800+</span><span class="ds-infographic__stat-label">проблем средней и&nbsp;высокой серьёзности</span></div>
+		<div class="ds-infographic__stat"><span class="ds-infographic__stat-value">370+</span><span class="ds-infographic__stat-label">рекомендаций&nbsp;— по&nbsp;платной подписке</span></div>
+	</div>
+	<p class="ds-infographic__source">Baymard Institute, 24.09.2026</p>
+</figure>
+<!-- /wp:html -->
 
 <!-- wp:paragraph -->
 <p><a href="https://baymard.com/research-articles/event-ticketing-ux-research-launch">Статья об&nbsp;исследовании</a>.</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Якоб Нильсен оценил 100&nbsp;методов UX-дизайна</h3>
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">jakobnielsenphd.substack.com · 16&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3,"anchor":"nielsen"} -->
+<h3 class="wp-block-heading" id="nielsen">Якоб Нильсен оценил 100&nbsp;методов UX-дизайна</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Нильсен расставил сто методов по&nbsp;ценности, а&nbsp;стоимости метода дал двойной вес: именно она решает, применим&nbsp;ли метод на&nbsp;практике. Первое место&nbsp;— прототипирование с&nbsp;ИИ, рядом в&nbsp;первой десятке дешёвые способы поставить задачу: формулировка проблемы, Jobs-to-Be-Done, дизайн-бриф. Вайрфреймы&nbsp;— на&nbsp;девятом месте. Шесть известных методов он отнёс к&nbsp;зоне высокого риска «дизайн-театра», когда артефакт делают для вида и&nbsp;на&nbsp;решения он не&nbsp;влияет: персоны, карты пути пользователя, карты эмпатии, дизайн-спринты, концепции видения и&nbsp;дизайн-принципы. Оценки экспертные, без замеров, и&nbsp;сам автор это оговаривает. Хороший повод спросить себя, на&nbsp;какое решение повлияла ваша последняя персона.</p>
+<p>Нильсен расставил сто методов по&nbsp;ценности, а&nbsp;стоимости метода дал двойной вес: именно она решает, применим&nbsp;ли метод на&nbsp;практике. В&nbsp;первой десятке&nbsp;— прототипирование с&nbsp;ИИ и&nbsp;дешёвые способы поставить задачу. Шесть известных методов он отнёс к&nbsp;зоне высокого риска «дизайн-театра», когда артефакт делают для вида и&nbsp;на&nbsp;решения он не&nbsp;влияет. Оценки экспертные, без замеров, и&nbsp;сам автор это оговаривает. Хороший повод спросить себя, на&nbsp;какое решение повлияла ваша последняя персона.</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="ds-infographic">
+	<figcaption class="ds-infographic__title">Место в&nbsp;рейтинге и&nbsp;баллы <span class="ds-infographic__unit">· из&nbsp;100&nbsp;методов, у&nbsp;первого места 20&nbsp;баллов</span></figcaption>
+	<div class="ds-infographic__lists" style="--pmax: 20">
+		<div class="ds-infographic__list">
+			<p class="ds-infographic__list-title">Первая десятка</p>
+			<ol class="ds-infographic__rank">
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">1</span><span>Прототипирование с&nbsp;ИИ</span><span class="ds-infographic__pts" style="--p: 20"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>20</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">2</span><span>Скетчинг</span><span class="ds-infographic__pts" style="--p: 16"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>16</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">3</span><span>Формулировка проблемы</span><span class="ds-infographic__pts" style="--p: 15"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>15</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">4</span><span>Jobs-to-Be-Done</span><span class="ds-infographic__pts" style="--p: 15"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>15</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">5</span><span>Генерация идей с&nbsp;ИИ</span><span class="ds-infographic__pts" style="--p: 14"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>14</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">6</span><span>Дизайн-бриф</span><span class="ds-infographic__pts" style="--p: 14"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>14</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">7</span><span>Приоритизация «влияние&nbsp;— усилия»</span><span class="ds-infographic__pts" style="--p: 13"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>13</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">8</span><span>Бережливые гипотезы</span><span class="ds-infographic__pts" style="--p: 13"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>13</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">9</span><span>Вайрфреймы</span><span class="ds-infographic__pts" style="--p: 13"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>13</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">10</span><span>Вайтбординг</span><span class="ds-infographic__pts" style="--p: 13"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>13</span></li>
+			</ol>
+		</div>
+		<div class="ds-infographic__list ds-infographic__list--risk">
+			<p class="ds-infographic__list-title">Высокий риск «дизайн-театра»</p>
+			<ol class="ds-infographic__rank">
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">30</span><span>Карта пути пользователя</span><span class="ds-infographic__pts" style="--p: 10"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>10</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">40</span><span>Дизайн-принципы</span><span class="ds-infographic__pts" style="--p: 9"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>9</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">43</span><span>Персоны</span><span class="ds-infographic__pts" style="--p: 8"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>8</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">44</span><span>Концепции видения</span><span class="ds-infographic__pts" style="--p: 8"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>8</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">53</span><span>Карта эмпатии</span><span class="ds-infographic__pts" style="--p: 6"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>6</span></li>
+				<li class="ds-infographic__rank-item"><span class="ds-infographic__place">76</span><span>Дизайн-спринт</span><span class="ds-infographic__pts" style="--p: 4"><span class="ds-infographic__pts-bar" aria-hidden="true"></span>4</span></li>
+			</ol>
+		</div>
+	</div>
+	<p class="ds-infographic__source">Jakob Nielsen, «The 100 Most Common UX Design Methods», 16.09.2026; оценки экспертные</p>
+</figure>
+<!-- /wp:html -->
 
 <!-- wp:paragraph -->
 <p><a href="https://jakobnielsenphd.substack.com/p/100-uxd-methods">Статья Якоба Нильсена</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">nngroup.com · 25&nbsp;сентября</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -150,16 +298,38 @@
 <h2 class="wp-block-heading">В&nbsp;России</h2>
 <!-- /wp:heading -->
 
-<!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Хабр Карьера: зарплаты UX/UI-дизайнеров по&nbsp;грейдам</h3>
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">habr.com · 28&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3,"anchor":"salaries"} -->
+<h3 class="wp-block-heading" id="salaries">Хабр Карьера: зарплаты UX/UI-дизайнеров по&nbsp;грейдам</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>В&nbsp;статье от&nbsp;28&nbsp;сентября Хабр Карьера приводит медианы по&nbsp;своему исследованию за&nbsp;первое полугодие 2026&nbsp;года. У&nbsp;UX/UI-дизайнера в&nbsp;целом&nbsp;— 120&nbsp;тысяч рублей в&nbsp;месяц, у&nbsp;джуна&nbsp;— около 73&nbsp;тысяч, у&nbsp;мидла&nbsp;— 127&nbsp;тысяч, у&nbsp;сеньора&nbsp;— 217&nbsp;тысяч, у&nbsp;лида&nbsp;— примерно 258&nbsp;тысяч. За&nbsp;полугодие зарплаты дизайнеров выросли на&nbsp;3&nbsp;%. Пригодится как точка отсчёта, когда оцениваете оффер. А&nbsp;понять, на&nbsp;каком грейде вы сейчас, поможет <a href="/grade-check/">проверка грейда</a>.</p>
+<p>В&nbsp;статье от&nbsp;28&nbsp;сентября Хабр Карьера приводит медианы по&nbsp;своему исследованию за&nbsp;первое полугодие 2026&nbsp;года. За&nbsp;полугодие зарплаты дизайнеров выросли на&nbsp;3&nbsp;%. Пригодится как точка отсчёта, когда оцениваете оффер. А&nbsp;понять, на&nbsp;каком грейде вы сейчас, поможет <a href="/grade-check/">проверка грейда</a>.</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="ds-infographic">
+	<figcaption class="ds-infographic__title">Медианная зарплата UX/UI-дизайнера <span class="ds-infographic__unit">· тыс. ₽ в&nbsp;месяц</span></figcaption>
+	<div class="ds-infographic__bars" style="--max: 258; --m: 120">
+		<div class="ds-infographic__bar" style="--v: 73"><span>Junior</span><span class="ds-infographic__bar-track" aria-hidden="true"><span class="ds-infographic__bar-fill"></span><span class="ds-infographic__bar-mark"></span></span><span class="ds-infographic__bar-value">около 73</span></div>
+		<div class="ds-infographic__bar" style="--v: 127"><span>Middle</span><span class="ds-infographic__bar-track" aria-hidden="true"><span class="ds-infographic__bar-fill"></span><span class="ds-infographic__bar-mark"></span></span><span class="ds-infographic__bar-value">127</span></div>
+		<div class="ds-infographic__bar" style="--v: 217"><span>Senior</span><span class="ds-infographic__bar-track" aria-hidden="true"><span class="ds-infographic__bar-fill"></span><span class="ds-infographic__bar-mark"></span></span><span class="ds-infographic__bar-value">217</span></div>
+		<div class="ds-infographic__bar" style="--v: 258"><span>Lead</span><span class="ds-infographic__bar-track" aria-hidden="true"><span class="ds-infographic__bar-fill"></span><span class="ds-infographic__bar-mark"></span></span><span class="ds-infographic__bar-value">около 258</span></div>
+	</div>
+	<p class="ds-infographic__legend"><span class="ds-infographic__legend-mark" aria-hidden="true"></span>Пунктир&nbsp;— медиана UX/UI-дизайнера в&nbsp;целом, 120</p>
+	<p class="ds-infographic__source">Хабр Карьера, первое полугодие 2026</p>
+</figure>
+<!-- /wp:html -->
 
 <!-- wp:paragraph -->
 <p><a href="https://habr.com/ru/companies/habr_career/articles/1087708/">Статья Хабр Карьеры</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">habr.com · 25&nbsp;сентября</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -174,16 +344,38 @@
 <p><a href="https://habr.com/ru/companies/skbkontur/articles/1086566/">Статья Контура на&nbsp;Хабре</a>. Как готовить и&nbsp;проводить такие интервью&nbsp;— в&nbsp;уроке «<a href="/lessons/user-interviews-junior/">Проблемные интервью: как узнать об&nbsp;опыте пользователя</a>».</p>
 <!-- /wp:paragraph -->
 
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">habr.com · 30&nbsp;сентября</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">Сбер: ИИ-агент отвечает по&nbsp;документации дизайн-системы</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Команда дизайн-системы FinAI в&nbsp;Сбере сделала агента DAIS на&nbsp;GigaChat. Он отвечает на&nbsp;вопросы по&nbsp;компонентам, шаблонам и&nbsp;редакционной политике, а&nbsp;база знаний для него собрана из&nbsp;документации, которая лежала в&nbsp;Pixso. С&nbsp;17&nbsp;июня по&nbsp;8&nbsp;сентября агенту задали 663&nbsp;вопроса, и&nbsp;почти на&nbsp;60&nbsp;% из&nbsp;них он дал конкретный ответ из&nbsp;документации, а&nbsp;по&nbsp;компоненту таблицы&nbsp;— около 44&nbsp;%. Честные цифры для тех, кто думает подключить ИИ к&nbsp;своей дизайн-системе.</p>
+<p>Команда дизайн-системы FinAI в&nbsp;Сбере сделала агента DAIS на&nbsp;GigaChat. Он отвечает на&nbsp;вопросы по&nbsp;компонентам, шаблонам и&nbsp;редакционной политике, а&nbsp;база знаний для него собрана из&nbsp;документации, которая лежала в&nbsp;Pixso. По&nbsp;компоненту таблицы конкретных ответов&nbsp;— около 44&nbsp;%. Честные цифры для тех, кто думает подключить ИИ к&nbsp;своей дизайн-системе.</p>
 <!-- /wp:paragraph -->
+
+<!-- wp:html -->
+<figure class="ds-infographic">
+	<figcaption class="ds-infographic__title">663&nbsp;вопроса агенту DAIS <span class="ds-infographic__unit">· с&nbsp;17&nbsp;июня по&nbsp;8&nbsp;сентября</span></figcaption>
+	<div class="ds-infographic__share" aria-hidden="true"><span class="ds-infographic__share-part ds-infographic__share-part--1" style="--v: 410"></span><span class="ds-infographic__share-part ds-infographic__share-part--2" style="--v: 160"></span><span class="ds-infographic__share-part ds-infographic__share-part--3" style="--v: 93"></span></div>
+	<ul class="ds-infographic__keys">
+		<li class="ds-infographic__key"><span class="ds-infographic__swatch ds-infographic__swatch--1" aria-hidden="true"></span><span><b>410</b> по&nbsp;разработке</span></li>
+		<li class="ds-infographic__key"><span class="ds-infographic__swatch ds-infographic__swatch--2" aria-hidden="true"></span><span><b>160</b> по&nbsp;редполитике</span></li>
+		<li class="ds-infographic__key"><span class="ds-infographic__swatch ds-infographic__swatch--3" aria-hidden="true"></span><span><b>93</b> по&nbsp;дизайну</span></li>
+	</ul>
+	<div class="ds-infographic__meter"><span>Конкретный ответ из&nbsp;документации</span><b>почти 60&nbsp;%</b><span class="ds-infographic__meter-track" aria-hidden="true"><span class="ds-infographic__meter-fill" style="--v: 60"></span></span></div>
+	<p class="ds-infographic__source">Сбер, блог на&nbsp;Хабре, 30.09.2026</p>
+</figure>
+<!-- /wp:html -->
 
 <!-- wp:paragraph -->
 <p><a href="https://habr.com/ru/companies/sberbank/articles/1088332/">Статья Сбера на&nbsp;Хабре</a>.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">artdirectorsclub.ru · 24&nbsp;сентября</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:heading {"level":3} -->
@@ -202,8 +394,12 @@
 <h2 class="wp-block-heading">События</h2>
 <!-- /wp:heading -->
 
+<!-- wp:paragraph {"className":"ds-kicker"} -->
+<p class="ds-kicker">max.adobe.com · 10–12&nbsp;ноября</p>
+<!-- /wp:paragraph -->
+
 <!-- wp:heading {"level":3} -->
-<h3 class="wp-block-heading">Adobe MAX: 10–12&nbsp;ноября, онлайн бесплатно</h3>
+<h3 class="wp-block-heading">Adobe MAX: онлайн бесплатно</h3>
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->

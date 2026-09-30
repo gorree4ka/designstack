@@ -31,6 +31,15 @@
 	</div>
 
 	<div class="sg-item">
+		<h3 class="sg-item__title">infographic, brief и kicker</h3>
+		<p class="sg-section__note">Инфографика выпуска дайджеста (D190): шесть видов — вёрстка на токенах, числа текстом, под каждым источник. В узкой колонке столбцы переносят подпись над собой, списки и схема встают в столбик — по ширине самой колонки.</p>
+		<div class="sg-matrix">
+			<div class="sg-cell"><p class="sg-cell__label">широкая колонка</p><div class="sg-cell__body"><?php echo designstack_styleguide_pattern( 'infographic' ); ?></div></div>
+			<div class="sg-cell sg-cell--narrow"><p class="sg-cell__label">узкая колонка</p><div class="sg-cell__body"><?php echo designstack_styleguide_pattern( 'infographic' ); ?></div></div>
+		</div>
+	</div>
+
+	<div class="sg-item">
 		<h3 class="sg-item__title">curator-review</h3>
 		<div class="sg-matrix sg-matrix--wide"><div class="sg-cell"><p class="sg-cell__label">три части и подпись</p><div class="sg-cell__body"><?php echo designstack_styleguide_pattern( 'curator-review' ); ?></div></div></div>
 	</div>

@@ -8662,3 +8662,506 @@ button.ds-lesson__bm-pin.ds-lesson__hunt-pin:hover {
 .ds-lesson__ic-pair .ds-lesson__bm-word {
 	font-size: var(--wp--preset--font-size--sm);
 }
+
+/* ---------- выпуск дайджеста: «Коротко», строка источника, инфографика (D190) ----------
+   Инфографика — вёрстка, а не картинка: числа и подписи идут текстом, цвет только помогает.
+   Числа лежат в разметке выпуска пользовательскими свойствами (как D182): `--v` — значение,
+   `--max` — максимум шкалы, `--m` — отметка (медиана), `--p` и `--pmax` — баллы в списке.
+   Столбец и доля считаются от нуля одной шкалой. Под каждой инфографикой — источник. */
+
+/* Строка «источник · дата» стоит вплотную над заголовком новости и вместе с ним отходит от чужого текста. */
+.ds-prose > * + .ds-kicker {
+	margin-top: var(--wp--preset--spacing--2);
+}
+
+.ds-prose > h2 + .ds-kicker {
+	margin-top: calc(var(--wp--preset--spacing--4) - var(--wp--preset--spacing--6));
+}
+
+.ds-prose > .ds-kicker + :is(h2, h3) {
+	margin-top: calc(var(--wp--preset--spacing--1) - var(--wp--preset--spacing--6));
+}
+
+.ds-kicker {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* «Коротко»: главные новости выпуска одной строкой, каждая ведёт к своей новости. */
+.ds-brief {
+	max-width: var(--wp--custom--size--measure);
+	padding: var(--wp--preset--spacing--4) var(--wp--preset--spacing--6);
+	background: var(--wp--preset--color--surface-subtle);
+	border-radius: var(--wp--custom--radius--md);
+	display: grid;
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-brief__title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+}
+
+.ds-brief__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-brief__item {
+	position: relative;
+	padding-left: var(--wp--preset--spacing--6);
+}
+
+.ds-brief__item::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.7em;
+	width: var(--wp--preset--spacing--3);
+	height: var(--wp--custom--border-width--focus);
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+/* Каркас инфографики */
+.ds-infographic {
+	container-type: inline-size;
+	max-width: var(--wp--custom--size--measure);
+	margin: 0;
+	padding-top: var(--wp--preset--spacing--4);
+	border-top: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--text-default);
+	display: grid;
+	gap: var(--wp--preset--spacing--4);
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-infographic__title {
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-infographic__unit,
+.ds-infographic__note,
+.ds-infographic__source {
+	font-weight: 400;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__note,
+.ds-infographic__source {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* 1. Столбцы: подпись, столбец от нуля, число; пунктир — отметка на той же шкале */
+.ds-infographic__bars {
+	display: grid;
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-infographic__bar {
+	display: grid;
+	grid-template-columns: 5.5rem minmax(0, 1fr) 4rem;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+}
+
+.ds-infographic__bar-track {
+	position: relative;
+	height: var(--wp--preset--spacing--6);
+}
+
+.ds-infographic__bar-fill {
+	position: absolute;
+	inset: 0 auto 0 0;
+	width: calc(var(--v) / var(--max) * 100%);
+	background: var(--wp--preset--color--surface-action-primary);
+	border-radius: 0 var(--wp--custom--radius--xs) var(--wp--custom--radius--xs) 0;
+}
+
+.ds-infographic__bar-mark {
+	position: absolute;
+	top: calc(-1 * var(--wp--preset--spacing--1));
+	bottom: calc(-1 * var(--wp--preset--spacing--1));
+	left: calc(var(--m) / var(--max) * 100%);
+	border-left: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--text-default);
+}
+
+.ds-infographic__bar-value {
+	font-weight: 600;
+	text-align: right;
+}
+
+.ds-infographic__legend {
+	margin: 0;
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__legend-mark {
+	flex: none;
+	height: var(--wp--preset--spacing--4);
+	border-left: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--text-default);
+}
+
+@container (max-width: 26rem) {
+	.ds-infographic__bar {
+		grid-template-columns: minmax(0, 1fr) auto;
+		row-gap: var(--wp--preset--spacing--1);
+	}
+
+	.ds-infographic__bar-track {
+		grid-column: 1 / -1;
+		grid-row: 2;
+	}
+}
+
+/* 2. Крупные цифры — только когда цифры и есть новость */
+.ds-infographic__stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	gap: var(--wp--preset--spacing--4);
+}
+
+.ds-infographic__stat {
+	display: grid;
+	gap: var(--wp--preset--spacing--1);
+	align-content: start;
+	padding-left: var(--wp--preset--spacing--3);
+	border-left: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-infographic__stat-value {
+	font-size: var(--wp--preset--font-size--3-xl);
+	font-weight: 700;
+	line-height: var(--wp--custom--line-height--tight);
+	letter-spacing: var(--wp--custom--letter-spacing--tight);
+}
+
+.ds-infographic__stat-label {
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* 3. Доля: целое, разбитое на части; число каждой части — в подписи рядом */
+.ds-infographic__share {
+	display: flex;
+	gap: var(--wp--custom--border-width--focus);
+	height: var(--wp--preset--spacing--6);
+	border-radius: var(--wp--custom--radius--sm);
+	overflow: hidden;
+}
+
+.ds-infographic__share-part {
+	flex: var(--v) 1 0;
+}
+
+.ds-infographic__keys {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--6);
+}
+
+.ds-infographic__key {
+	display: inline-flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+}
+
+.ds-infographic__swatch {
+	flex: none;
+	width: var(--wp--preset--spacing--3);
+	height: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--xs);
+}
+
+.ds-infographic__share-part--1,
+.ds-infographic__swatch--1 {
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-infographic__share-part--2,
+.ds-infographic__swatch--2 {
+	background: var(--wp--preset--color--icon-warning);
+}
+
+.ds-infographic__share-part--3,
+.ds-infographic__swatch--3 {
+	background: var(--wp--preset--color--border-strong);
+}
+
+.ds-infographic__meter {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	align-items: center;
+}
+
+.ds-infographic__meter-track {
+	grid-column: 1 / -1;
+	height: var(--wp--preset--spacing--2);
+	background: var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--xs);
+	overflow: hidden;
+}
+
+.ds-infographic__meter-fill {
+	display: block;
+	height: 100%;
+	width: calc(var(--v) * 1%);
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+/* 4. Два списка рядом: место и баллы на одной шкале */
+.ds-infographic__lists {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--6) var(--wp--preset--spacing--8);
+}
+
+@container (max-width: 34rem) {
+	.ds-infographic__lists {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.ds-infographic__list-title {
+	margin: 0 0 var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__rank {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-infographic__rank-item {
+	display: grid;
+	grid-template-columns: 2.25rem minmax(0, 1fr) 5.5rem;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+}
+
+.ds-infographic__place {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__pts {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	justify-content: flex-end;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__pts-bar {
+	display: block;
+	height: var(--wp--preset--spacing--2);
+	width: calc(var(--p) / var(--pmax) * 3rem);
+	background: var(--wp--preset--color--surface-action-primary);
+	border-radius: var(--wp--custom--radius--xs);
+}
+
+.ds-infographic__list--risk .ds-infographic__pts-bar {
+	background: var(--wp--preset--color--icon-warning);
+}
+
+/* 5. Схема «было → стало» */
+.ds-infographic__scheme {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1.4fr);
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-infographic__scheme-col {
+	display: grid;
+	gap: var(--wp--preset--spacing--2);
+	align-content: start;
+}
+
+.ds-infographic__scheme-head {
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__levels {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-infographic__level {
+	flex: 1;
+	padding-block: var(--wp--preset--spacing--3);
+	text-align: center;
+	font-weight: 700;
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--surface-action-primary);
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+.ds-infographic__level--off {
+	border-style: dashed;
+	border-color: var(--wp--preset--color--border-strong);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__arrow {
+	align-self: start;
+	justify-self: center;
+	padding-top: 1.9rem;
+	font-size: var(--wp--preset--font-size--2-xl);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__box {
+	display: grid;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-infographic__box-note {
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__box--core {
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-infographic__box--core .ds-infographic__box-note {
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-infographic__box--extra {
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-infographic__box--tag {
+	border: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--border-strong);
+}
+
+@container (max-width: 34rem) {
+	.ds-infographic__scheme {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ds-infographic__arrow {
+		padding-top: 0;
+		transform: rotate(90deg);
+	}
+}
+
+/* 6. Механика: как ведёт себя интерфейс. Высота рамки — ровно четыре пункта, пятый уже не влезает. */
+.ds-infographic__mech {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--6);
+}
+
+@container (max-width: 30rem) {
+	.ds-infographic__mech {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+.ds-infographic__mech-case {
+	display: grid;
+	gap: var(--wp--preset--spacing--2);
+	align-content: start;
+}
+
+.ds-infographic__mech-case--over {
+	padding-bottom: 7.5rem;
+}
+
+.ds-infographic__mech-text {
+	min-height: 2lh;
+	margin: 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-infographic__frame {
+	box-sizing: border-box;
+	position: relative;
+	height: calc(var(--wp--preset--spacing--16) * 2 + var(--wp--preset--spacing--6));
+	padding: var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--text-default);
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+.ds-infographic__items {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	height: 100%;
+}
+
+.ds-infographic__frame--wrap .ds-infographic__items {
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
+
+.ds-infographic__frame--over .ds-infographic__items {
+	height: auto;
+}
+
+.ds-infographic__item {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	width: 7rem;
+	height: var(--wp--preset--spacing--6);
+	padding-left: var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-selected);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-infographic__item::before {
+	content: "";
+	flex: none;
+	width: var(--wp--preset--spacing--3);
+	height: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--text-action);
+	border-radius: var(--wp--custom--radius--xs);
+}
+
+.ds-infographic__item--out {
+	background: transparent;
+	outline: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--icon-warning);
+}
+
+.ds-infographic__cut {
+	position: absolute;
+	top: 100%;
+	left: calc(-1 * var(--wp--custom--border-width--focus));
+	right: calc(-1 * var(--wp--custom--border-width--focus));
+	border-top: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--icon-warning);
+}
