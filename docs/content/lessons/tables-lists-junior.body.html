@@ -1,0 +1,520 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#columns">Колонки под решение, а не под базу</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#align">Числа справа, текст слева</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#sort">Сортировка: по чему и в какую сторону</a><span class="ds-lesson__tag">живая таблица</span></li>
+    <li><a href="#empty">Пустая таблица</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#actions">Где живёт действие над строкой</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#hunt">Найдите ошибки в таблице заказов</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Тот же магазин кофе «Лесная обжарка», что и в темах про <a href="/lessons/typography-junior/">типографику</a> и <a href="/lessons/patterns-states-junior/">состояния экрана</a>, но с другой стороны — из админки. Оператор каждое утро открывает таблицу заказов и решает, что собрать первым и что отдать курьеру. Эту таблицу вы и соберёте.</div>
+
+<section id="columns">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Колонки под решение, а не под базу</h2></div>
+  <p class="ds-lesson__lead">Таблицу собирают не из всех полей, которые есть в базе, а из тех, по которым человек что-то решает.</p>
+
+  <p>У заказа в базе магазина больше двадцати полей: номер, дата, покупатель, телефон, почта, адрес, состав, вес, сумма, скидка, промокод, способ оплаты, способ доставки, интервал, комментарий, метка рекламной кампании. Если вывести их все, таблица станет шире экрана, и нужное в ней придётся искать.</p>
+
+  <p>Сначала поймите, зачем человек открывает таблицу. В Nielsen Norman Group выделяют четыре задачи, ради которых работают с таблицами данных: найти записи по условию, сравнить значения, посмотреть или изменить одну запись и сделать что-то с записями. У оператора утром все четыре: найти заказы на сегодня, сравнить суммы, открыть заказ, когда звонит покупатель, передать собранное курьеру.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Поле</th><th scope="col">Какое решение помогает принять</th><th scope="col">Где ему место</th></tr></thead>
+      <tbody>
+        <tr><td>Доставка: день и интервал</td><td>Что собирать первым</td><td>Колонка, по ней отсортировано</td></tr>
+        <tr><td>Номер заказа</td><td>Какой заказ назвать курьеру или покупателю</td><td>Колонка</td></tr>
+        <tr><td>Сумма</td><td>Какие заказы проверить перед отправкой: от 10&nbsp;000&nbsp;₽ магазин проверяет вручную</td><td>Колонка</td></tr>
+        <tr><td>Статус</td><td>Что уже собрано, а что ещё нет</td><td>Колонка</td></tr>
+        <tr><td>Телефон покупателя</td><td>Никакого в таблице: звонят из карточки заказа</td><td>Карточка заказа</td></tr>
+        <tr><td>Метка рекламной кампании</td><td>Никакого у оператора: это для маркетинга</td><td>Отчёт маркетинга</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Для каждой колонки должно найтись решение, которое по ней принимают.</b> Не нашлось — полю место в карточке записи, а не в таблице.</div>
+
+  <p>Есть и третий путь, между колонкой и карточкой, — пометка в строке. Комментарий «Позвоните за час» длинный, у большинства заказов его нет, и своя колонка вышла бы почти пустой. Но оператору важно видеть, что комментарий есть. Тогда в строке стоит короткая пометка, а текст — в карточке.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · колонка, пометка или карточка<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="col"><p class="ds-quiz__question">Дата и интервал доставки: «30 сентября, 10:00–14:00».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Колонкой</b>По ней оператор решает, что собирать первым. По ней же таблица и отсортирована.</p></li>
+<li data-quiz-q data-answer="card"><p class="ds-quiz__question">Телефон покупателя.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Только в карточке</b>Звонят не из таблицы, а открыв заказ. Одиннадцать цифр в каждой строке мешают читать всё остальное.</p></li>
+<li data-quiz-q data-answer="tag"><p class="ds-quiz__question">Комментарий покупателя: «Позвоните за час, домофон не работает».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пометкой в строке</b>Важно заметить, что он есть, а читают его в карточке. Своя колонка была бы широкой и почти пустой.</p></li>
+<li data-quiz-q data-answer="col"><p class="ds-quiz__question">Номер заказа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Колонкой</b>По номеру ищут заказ, когда звонит покупатель, и называют его курьеру.</p></li>
+<li data-quiz-q data-answer="card"><p class="ds-quiz__question">Промокод, по которому дали скидку.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Только в карточке</b>Скидка уже вошла в сумму. Оператор по промокоду ничего не решает.</p></li>
+<li data-quiz-q data-answer="tag"><p class="ds-quiz__question">Отметка «Упаковать как подарок» — бывает у одного заказа из двадцати.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пометкой в строке</b>Сборщик должен её заметить, но колонка «да / нет», где почти везде «нет», займёт место зря.</p></li>
+<li data-quiz-q data-answer="col"><p class="ds-quiz__question">Статус: новый, собран, передан курьеру.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Колонкой</b>По статусу видно, что ещё не собрано. Это главный вопрос утра.</p></li>
+<li data-quiz-q data-answer="card"><p class="ds-quiz__question">Метка рекламной кампании, из которой пришёл покупатель.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Только в карточке</b>Это данные для маркетинга. Оператору они не нужны, а в отчёте маркетинга им самое место.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="col">Колонкой</button><button class="ds-quiz__option" type="button" data-quiz-answer="tag">Пометкой в строке</button><button class="ds-quiz__option" type="button" data-quiz-answer="card">Только в карточке</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Спросите про каждое поле: что человек решит, глядя на него в таблице? Если ничего — это поле для карточки.</div>
+</div>
+</section>
+
+<section id="align">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Числа справа, текст слева</h2></div>
+  <p class="ds-lesson__lead">Числа, которые сравнивают, выравнивают по правому краю. Тогда тысячи стоят под тысячами, и крупную сумму видно, не читая.</p>
+
+  <p>Текст читают слева направо, поэтому имена и составы стоят по левому краю. Число сравнивают по величине, а величину видно по длине: 12 450 длиннее 890. Но видно это, только если разряды стоят друг под другом, то есть по правому краю. Так советуют и GOV.UK, и Material Design, и Контур.Гайды.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Заказы на 30 сентября · выравнивание</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="al1" hidden>Всё по левому краю</button><button class="ds-switch__button" type="button" data-switch-btn="al2" hidden>По правилу</button></div>
+
+      <div data-switch-pane="al1"><p class="ds-switch__title">Всё по левому краю</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица «Всё по левому краю», листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col">Вес</th><th scope="col">Сумма</th></tr></thead>
+              <tbody>
+                <tr><td>1051</td><td>Ирина Соколова</td><td class="is-left">0,5 кг</td><td class="is-left">1 850 ₽</td></tr>
+                <tr><td>1052</td><td>Марат Хасанов</td><td class="is-left">0,25 кг</td><td class="is-left">890 ₽</td></tr>
+                <tr><td>1047</td><td>Ольга Ким</td><td class="is-left">0,75 кг</td><td class="is-left">2 670 ₽</td></tr>
+                <tr><td>1049</td><td>Павел Орлов</td><td class="is-left">3,2 кг</td><td class="is-left">12 450 ₽</td></tr>
+                <tr><td>1053</td><td>Дина Абрамова</td><td class="is-left">0,25 кг</td><td class="is-left">990 ₽</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Всё по левому краю</b>Чтобы найти самый крупный заказ, приходится читать каждую сумму. 12 450 и 1 850 начинаются одинаково и на глаз почти равны.</div>
+      </div>
+
+      <div data-switch-pane="al2"><p class="ds-switch__title">По правилу</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица «По правилу», листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Вес, кг</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr><td>1051</td><td>Ирина Соколова</td><td class="is-num">0,50</td><td class="is-num">1 850</td></tr>
+                <tr><td>1052</td><td>Марат Хасанов</td><td class="is-num">0,25</td><td class="is-num">890</td></tr>
+                <tr><td>1047</td><td>Ольга Ким</td><td class="is-num">0,75</td><td class="is-num">2 670</td></tr>
+                <tr><td>1049</td><td>Павел Орлов</td><td class="is-num">3,20</td><td class="is-num">12 450</td></tr>
+                <tr><td>1053</td><td>Дина Абрамова</td><td class="is-num">0,25</td><td class="is-num">990</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>По правилу</b>Суммы и вес по правому краю, заголовки над ними — тоже. Знаков после запятой везде поровну, единицы ушли в заголовок. Крупный заказ виден сразу: его число длиннее остальных.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Номер заказа стоит по левому краю, как текст: номера не сравнивают по величине, их ищут глазами.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что в колонке</th><th scope="col">Как выровнять</th><th scope="col">Что ещё</th></tr></thead>
+      <tbody>
+        <tr><td>Текст: имя, состав, адрес</td><td>По левому краю</td><td>—</td></tr>
+        <tr><td>Числа, которые сравнивают: сумма, вес, количество</td><td>По правому краю</td><td>Поровну знаков после запятой, единица измерения — в заголовке, цифры одной ширины</td></tr>
+        <tr><td>Номера и коды: № заказа, артикул</td><td>По левому краю</td><td>Их не складывают и не сравнивают по величине</td></tr>
+        <tr><td>Заголовок колонки</td><td>Так же, как данные под ним</td><td>Иначе заголовок висит над пустым местом</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Чтобы разряды вставали ровно, у цифр должна быть одинаковая ширина. У многих шрифтов есть такой набор — моноширинные цифры, подробно о них в уроке <a href="/lessons/typography-senior/">«Типографика, Senior»</a>. Проверьте свой шрифт: наберите столбиком 1111 и 5555 и посмотрите, одной ли ширины строки.</p>
+
+  <div class="ds-lesson__rule"><b>Число, которое сравнивают, стоит по правому краю, и заголовок над ним — тоже.</b> Текст и номера — по левому.</div>
+</section>
+
+<section id="sort">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Сортировка: по чему и в какую сторону</h2></div>
+  <p class="ds-lesson__lead">Сортировка нужна, чтобы нужное оказалось наверху. Человек должен видеть, по какой колонке отсортировано и в какую сторону.</p>
+
+  <p>Порядок по умолчанию выбирают под главную задачу. Оператору утром нужно собрать то, что везти раньше, поэтому заказы стоят по дате и интервалу доставки: ближайшие сверху. Если бы таблица открывалась по номеру заказа, оператор каждое утро начинал бы с того, что пересортировывает её.</p>
+
+  <p>Нажмите на заголовки «Доставка», «Покупатель» и «Сумма». Повторное нажатие меняет направление.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Заказы · живая таблица</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__dt" data-dt-sort data-dt-arrows="↑|↓|↕" data-dt-say="Отсортировано: {col}, {dir}">
+        <div class="ds-lesson__dt-top">Заказы <span>6 на 30 сентября и 1 октября</span></div>
+        <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица заказов, листается вбок">
+          <table class="ds-lesson__dt-table">
+            <thead><tr>
+              <th scope="col">№</th>
+              <th scope="col" aria-sort="ascending" class="is-sorted" data-dt-key="date" data-dt-name="доставка" data-dt-dirs="сначала ближайшие|сначала дальние">Доставка<span class="ds-lesson__dt-arrow" aria-hidden="true">↑</span></th>
+              <th scope="col" data-dt-key="name" data-dt-name="покупатель" data-dt-dirs="от А до Я|от Я до А">Покупатель<span class="ds-lesson__dt-arrow" aria-hidden="true"></span></th>
+              <th scope="col">Состав</th>
+              <th scope="col" class="is-num" data-dt-key="sum" data-dt-first="descending" data-dt-name="сумма" data-dt-dirs="сначала меньшие|сначала крупные">Сумма, ₽<span class="ds-lesson__dt-arrow" aria-hidden="true"></span></th>
+              <th scope="col">Статус</th>
+            </tr></thead>
+            <tbody>
+              <tr><td>1051</td><td data-dt-v="2026-09-30 10">30.09<span class="ds-lesson__dt-sub">10:00–14:00</span></td><td>Ирина Соколова</td><td>Эфиопия, Кения</td><td class="is-num" data-dt-v="1850">1 850</td><td><span class="ds-lesson__dt-status">Собран</span></td></tr>
+              <tr><td>1052</td><td data-dt-v="2026-09-30 10">30.09<span class="ds-lesson__dt-sub">10:00–14:00</span></td><td>Марат Хасанов</td><td>Колумбия</td><td class="is-num" data-dt-v="890">890</td><td><span class="ds-lesson__dt-status ds-lesson__dt-status--new">Новый</span></td></tr>
+              <tr><td>1047</td><td data-dt-v="2026-09-30 14">30.09<span class="ds-lesson__dt-sub">14:00–18:00</span></td><td>Ольга Ким</td><td>Бразилия, 3 пачки</td><td class="is-num" data-dt-v="2670">2 670</td><td><span class="ds-lesson__dt-status">Собран</span></td></tr>
+              <tr><td>1049</td><td data-dt-v="2026-09-30 18">30.09<span class="ds-lesson__dt-sub">18:00–22:00</span></td><td>Павел Орлов</td><td>Кения, кофемолка</td><td class="is-num" data-dt-v="12450">12 450</td><td><span class="ds-lesson__dt-status ds-lesson__dt-status--new">Новый</span></td></tr>
+              <tr><td>1053</td><td data-dt-v="2026-10-01 10">01.10<span class="ds-lesson__dt-sub">10:00–14:00</span></td><td>Дина Абрамова</td><td>Эфиопия без кофеина</td><td class="is-num" data-dt-v="990">990</td><td><span class="ds-lesson__dt-status ds-lesson__dt-status--new">Новый</span></td></tr>
+              <tr><td>1044</td><td data-dt-v="2026-10-01 14">01.10<span class="ds-lesson__dt-sub">14:00–18:00</span></td><td>Сергей Лебедев</td><td>Гватемала, 2 пачки</td><td class="is-num" data-dt-v="1780">1 780</td><td><span class="ds-lesson__dt-status">Собран</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="ds-lesson__dt-live" data-dt-live aria-live="polite">Отсортировано: доставка, сначала ближайшие</p>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Сумма по первому нажатию встаёт крупными сверху: их и ищут. «Состав» и «Статус» не сортируются — по алфавиту составов ничего не решают.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что показать</th><th scope="col">Как</th></tr></thead>
+      <tbody>
+        <tr><td>По какой колонке отсортировано</td><td>Стрелка только у одной колонки, её заголовок темнее остальных</td></tr>
+        <tr><td>В какую сторону</td><td>Стрелка вверх или вниз. Под таблицей или в подсказке — словами колонки: «сначала ближайшие», «сначала крупные»</td></tr>
+        <tr><td>Какие колонки можно сортировать</td><td>Приглушённая двойная стрелка или подчёркивание при наведении. Несортируемые колонки без значка</td></tr>
+        <tr><td>Что будет по нажатию</td><td>Первое нажатие — самый нужный порядок, второе — обратный</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">Илья Бирман из Бюро Горбунова идёт дальше: стрелка в шапке путает, а сортировать в обе стороны часто незачем. Он советует подсветить колонку, по которой отсортировано, или назвать полезные порядки словами — «Сначала самые нагруженные» вместо «Нагрузка ↑». В живой таблице выше словами сделана строка под ней.</p>
+
+  <p class="ds-lesson__dim">Для разработки у сортировки есть своя разметка: у заголовка, по которому отсортировано, стоит атрибут <code>aria-sort</code> с направлением, а сам заголовок сделан кнопкой. Так порядок таблицы слышит и тот, кто читает её экранным диктором. Пример такой таблицы есть в руководстве W3C по доступным компонентам.</p>
+
+  <div class="ds-lesson__warn"><b>Не сортируйте всё подряд.</b> Двойная стрелка на каждой колонке обещает сортировку там, где она бессмысленна: по алфавиту составов или по статусам. Сортируйте колонки, по которым ищут крайние значения — ближайшее, крупное, давнее.</div>
+</section>
+
+<section id="empty">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Пустая таблица</h2></div>
+  <p class="ds-lesson__lead">Пустая таблица объясняет, почему в ней пусто, и показывает, что сделать. Поиск и фильтры над ней остаются на месте: через них строки и возвращают.</p>
+
+  <p>Причин у пустоты три, как и у любого пустого экрана из урока <a href="/lessons/patterns-states-junior/">про состояния</a>. Пусто бывает и из-за ошибки или нехватки прав, но тогда это уже ошибка, и показывают её как ошибку. У таблицы есть особенность: она часто пустеет из-за фильтра или поиска, и тогда главное — показать, что именно отфильтровано.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Заказы · три причины пустоты</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="em1" hidden>Ещё ничего нет</button><button class="ds-switch__button" type="button" data-switch-btn="em2" hidden>Ничего не нашлось</button><button class="ds-switch__button" type="button" data-switch-btn="em3" hidden>Всё сделано</button></div>
+
+      <div data-switch-pane="em1"><p class="ds-switch__title">Ещё ничего нет</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-top">Возвраты <span>0</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Пустая таблица возвратов, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№ заказа</th><th scope="col">Дата</th><th scope="col">Причина</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody><tr><td class="ds-lesson__dt-empty" colspan="4"><b>Возвратов пока не было</b><span>Когда покупатель вернёт заказ, возврат появится здесь: причина, сумма и кто его оформил.</span></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Ещё ничего нет</b>Раздел новый, и это не ошибка. Сказано, что здесь появится. Действия нет, и это честно: возврат нельзя создать из этой таблицы, он приходит из заказа.</div>
+      </div>
+
+      <div data-switch-pane="em2"><p class="ds-switch__title">Ничего не нашлось</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-top">Заказы <span>0 из 1 240</span></div>
+          <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-chip">Доставка: самовывоз ×</span><span class="ds-lesson__dt-chip">30 сентября ×</span><span class="ds-lesson__dt-link">Сбросить всё</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица заказов без результатов, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody><tr><td class="ds-lesson__dt-empty" colspan="4"><b>На 30 сентября самовывоза нет</b><span>Без фильтра «самовывоз» на эту дату 14 заказов.</span><span class="ds-lesson__dt-btn">Показать все доставки</span></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Ничего не нашлось</b>Видно, какие фильтры мешают, и сколько найдётся без одного из них. Одно нажатие — и таблица снова полная.</div>
+      </div>
+
+      <div data-switch-pane="em3"><p class="ds-switch__title">Всё сделано</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-top">Ждут сборки <span>0</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Пустая таблица «Ждут сборки», листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Состав</th><th scope="col">Статус</th></tr></thead>
+              <tbody><tr><td class="ds-lesson__dt-empty" colspan="4"><b>Все заказы на сегодня собраны</b><span>Следующие придут вечером. Собранные — во вкладке «Передать курьеру».</span></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Всё сделано</b>Пусто, потому что работа закончена. Сказать это прямо и подсказать, где собранное.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Здесь заголовки колонок оставлены: видно, какие данные будут в таблице. В IBM Carbon советуют иначе — убирать и заголовки, и подвал, чтобы пустое состояние встало на место всей таблицы. Годятся оба способа, если в продукте выбран один.</div>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Не показывайте «Нет данных», пока таблица грузится.</b> Если данные придут через две секунды, человек успеет решить, что заказов нет. Пока идёт загрузка, на месте строк стоит скелет: серые полосы в форме таблицы.</div>
+
+  <div class="ds-lesson__rule"><b>Пустая таблица говорит, почему пусто и что сделать.</b> Если пусто из-за фильтра — какого, и как вернуть всё.</div>
+</section>
+
+<section id="actions">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Где живёт действие над строкой</h2></div>
+  <p class="ds-lesson__lead">У строки обычно одно частое действие и несколько редких. Частое видно сразу, редкие убраны в меню.</p>
+
+  <p>Когда у каждой строки пять кнопок, таблица превращается в ряды одинаковых кнопок, и данные теряются. Разложите действия по частоте и по тому, сколько нужно знать, чтобы их сделать.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Где</th><th scope="col">Для каких действий</th><th scope="col">В таблице заказов</th></tr></thead>
+      <tbody>
+        <tr><td><b>Строка целиком</b></td><td>Открыть запись. Это самое частое действие с таблицей</td><td>Нажатие по строке открывает карточку заказа</td></tr>
+        <tr><td><b>Кнопка в строке</b></td><td>Одно частое действие, которое делают, не открывая запись</td><td>«Передать курьеру» — оператор делает это с каждым собранным заказом</td></tr>
+        <tr><td><b>Меню «⋯» в конце строки</b></td><td>Редкие действия. Опасные — там же, с подтверждением или отменой</td><td>«Скопировать номер», «Повторить заказ», «Отменить заказ»</td></tr>
+        <tr><td><b>Только в карточке</b></td><td>Действия, для которых нужно видеть всю запись</td><td>«Изменить адрес», «Изменить состав»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Строка заказа · кнопки на всё и одна кнопка с меню</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__dt">
+        <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Строка с пятью кнопками, листается вбок">
+          <table class="ds-lesson__dt-table">
+            <caption class="screen-reader-text">Кнопки на всё</caption>
+            <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th><th scope="col">Действия</th></tr></thead>
+            <tbody><tr><td>1047</td><td>Ольга Ким</td><td class="is-num">2 670</td><td><span class="ds-lesson__dt-btn">Открыть</span> <span class="ds-lesson__dt-btn">Изменить</span> <span class="ds-lesson__dt-btn">Курьеру</span> <span class="ds-lesson__dt-btn">Печать</span> <span class="ds-lesson__dt-btn ds-lesson__dt-btn--danger">Удалить</span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ds-lesson__dt">
+        <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Строка с одной кнопкой и меню, листается вбок">
+          <table class="ds-lesson__dt-table">
+            <caption class="screen-reader-text">Одна кнопка и меню</caption>
+            <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th><th scope="col"><span class="screen-reader-text">Действия</span></th></tr></thead>
+            <tbody><tr><td>1047</td><td>Ольга Ким</td><td class="is-num">2 670</td><td><span class="ds-lesson__dt-btn">Передать курьеру</span> <span class="ds-lesson__dt-more">⋯<span class="screen-reader-text"> ещё действия</span></span></td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Сверху пять кнопок, и красное «Удалить» стоит вплотную к «Печать»: промахнуться легко. Снизу строка открывает заказ, частое действие — кнопкой, остальное — в меню.</div>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Не прячьте главное действие до наведения курсора.</b> Кнопки, которые появляются только при наведении, не видны на сенсорном экране, и о них никто не узнает, пока случайно не проведёт мышью. Редкие действия можно убрать в меню, но само меню видно всегда.</div>
+
+  <p class="ds-lesson__dim">В Контур.Гайдах быстрые действия и флажки строки, наоборот, появляются при наведении: это решение для рабочих мест, где у всех мышь, и таблица без них спокойнее. Если таблицу открывают с планшета, как оператор «Лесной обжарки» на складе, прятать нельзя.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · где живёт действие<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="row"><p class="ds-quiz__question">Посмотреть состав и адрес заказа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Строка целиком</b>Это самое частое действие с таблицей. Отдельная кнопка «Открыть» в каждой строке не нужна.</p></li>
+<li data-quiz-q data-answer="btn"><p class="ds-quiz__question">«Передать курьеру»: оператор делает это с каждым собранным заказом, 40–60 раз за утро.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Кнопка в строке</b>Частое действие, и для него не нужно открывать заказ. Каждое лишнее нажатие повторится шестьдесят раз.</p></li>
+<li data-quiz-q data-answer="menu"><p class="ds-quiz__question">«Отменить заказ» — пару раз в неделю, после звонка покупателя.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Меню «⋯»</b>Редкое и опасное действие. В меню, с подтверждением: «Отменить заказ № 1047? Покупателю придёт письмо».</p></li>
+<li data-quiz-q data-answer="card"><p class="ds-quiz__question">«Изменить адрес доставки».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Только в карточке</b>Чтобы менять адрес, нужно видеть весь заказ: интервал, комментарий, телефон. В строке этого нет.</p></li>
+<li data-quiz-q data-answer="menu"><p class="ds-quiz__question">«Скопировать номер заказа» — нужен, когда пишут в службу доставки, раз в несколько дней.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Меню «⋯»</b>Редкое действие. Своя кнопка в каждой строке заняла бы место ради одного нажатия в неделю.</p></li>
+<li data-quiz-q data-answer="btn"><p class="ds-quiz__question">«Отметить собранным» в таблице сборщика: он собирает заказы один за другим весь день.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Кнопка в строке</b>Для сборщика это главное действие таблицы. То, что у оператора было бы в меню, у сборщика стоит кнопкой.</p></li>
+<li data-quiz-q data-answer="row"><p class="ds-quiz__question">Покупатель звонит и спрашивает, где его заказ.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Строка целиком</b>Найти заказ поиском по номеру или имени и открыть его. Всё, что нужно для ответа, — в карточке.</p></li>
+<li data-quiz-q data-answer="menu"><p class="ds-quiz__question">«Повторить заказ для покупателя» — когда покупатель просит то же самое по телефону.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Меню «⋯»</b>Бывает, но нечасто. В меню оно не мешает и находится, когда нужно.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="row">Строка целиком</button><button class="ds-quiz__option" type="button" data-quiz-answer="btn">Кнопка в строке</button><button class="ds-quiz__option" type="button" data-quiz-answer="menu">Меню «⋯»</button><button class="ds-quiz__option" type="button" data-quiz-answer="card">Только в карточке</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Место действия зависит от того, кто работает с таблицей. Одно и то же действие у оператора бывает в меню, а у сборщика — кнопкой.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Частое — на виду, редкое — в меню, опасное — с подтверждением или отменой.</b> Строка целиком открывает запись.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите ошибки в таблице заказов</h2></div>
+  <p class="ds-lesson__lead">Макет таблицы, который новый дизайнер принёс на обсуждение. Пять мест в нём мешают оператору.</p>
+
+  <p>Нажимайте на куски таблицы, которые вы бы переделали. В разборе будет, что с ними не так. Нормальные куски тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Макет таблицы · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-top">Заказы <span>1 240</span></div>
+          <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Строка поиска «Номер, имя или телефон»"><span class="ds-lesson__dt-search">Номер, имя или телефон</span></span><span class="ds-lesson__dt-chip">Сегодня ×</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Макет таблицы заказов, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr>
+                <th scope="col">№</th>
+                <th scope="col"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Заголовки: одинаковые стрелки ↕ у всех колонок">Доставка ↕</span></th>
+                <th scope="col">Покупатель ↕</th>
+                <th scope="col"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Колонка «UTM-метка»">UTM-метка ↕</span></th>
+                <th scope="col">Сумма ↕</th>
+                <th scope="col"><span class="screen-reader-text">Действия</span></th>
+              </tr></thead>
+              <tbody>
+                <tr><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Номер заказа 1051 по левому краю">1051</span></td><td>30.09<span class="ds-lesson__dt-sub">10:00–14:00</span></td><td>Ирина Соколова</td><td>vk_sept_promo</td><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Сумма «1 850 руб.» по левому краю">1 850 руб.</span></td><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Кнопка «Курьеру» и меню «⋯»"><span class="ds-lesson__dt-btn">Курьеру</span><span class="ds-lesson__dt-more">⋯</span></span></td></tr>
+                <tr><td>1052</td><td>30.09<span class="ds-lesson__dt-sub">10:00–14:00</span></td><td>Марат Хасанов<span class="ds-lesson__dt-sub"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Пометка «комментарий» у заказа 1052"><span class="ds-lesson__dt-tag">комментарий</span></span></span></td><td>—</td><td>890 руб.</td><td><span class="ds-lesson__dt-btn">Курьеру</span> <span class="ds-lesson__dt-more">⋯</span></td></tr>
+                <tr><td>1049</td><td>30.09<span class="ds-lesson__dt-sub">18:00–22:00</span></td><td>Павел Орлов</td><td>yandex_direct</td><td>12 450 руб.</td><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Строка 1049: кнопки появляются только при наведении"><span class="ds-lesson__dt-sub">кнопки при наведении</span></span></td></tr>
+                <tr><td colspan="6"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Под фильтром «Завтра»: «Нет данных»"><span class="ds-lesson__dt-sub">фильтр «Завтра»:</span>Нет данных</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-foot"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Подвал «1–25 из 1 240» и переход по страницам">1–25 из 1 240 · ‹ 1 2 3 … 50 ›</span></div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Поиск «Номер, имя или телефон».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Покупатель звонит и называет что-то одно из трёх. Поиск по всем трём полям сразу — ровно то, что нужно.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Одинаковые стрелки ↕ у всех колонок.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Непонятно, по какой колонке отсортировано и в какую сторону. У активной колонки — стрелка направления, а метку кампании сортировать незачем.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Колонка «UTM-метка».</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Оператор по ней ничего не решает, а место она занимает. Это данные для отчёта маркетинга.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Номер заказа по левому краю.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Номер ищут глазами, а не сравнивают по величине, поэтому он стоит как текст.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Суммы «1 850 руб.» по левому краю.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Разряды не стоят друг под другом, и 12 450 на глаз не длиннее 1 850. Суммы — по правому краю, «руб.» — один раз в заголовке: «Сумма, ₽».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Курьеру» и меню «⋯».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Частое действие — кнопкой, редкие — в меню, которое видно всегда.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Пометка «комментарий» у заказа.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Видно, что комментарий есть, а текст — в карточке. Своя колонка была бы почти пустой.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопки появляются только при наведении.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>На планшете у склада наводить нечем, а мышью о кнопках узнают случайно. Кнопка и меню видны в каждой строке всегда.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Нет данных» под фильтром «Завтра».</span><span class="ds-lesson__hunt-fix"><b>Дописать. </b>Непонятно: заказов на завтра нет или они ещё грузятся. Нужно «На завтра заказов пока нет» и что делать: сбросить фильтр или посмотреть сегодняшние.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Подвал «1–25 из 1 240» и страницы.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Видно, сколько всего заказов и какая часть на экране.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой кусок таблицы</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Лишняя колонка, суммы по левому краю, стрелки, по которым не понять порядок, спрятанные кнопки и пустота без объяснения. Каждую из этих ошибок оператор встречает десятки раз за утро.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные куски тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Проверяйте таблицу глазами того, кто с ней работает.</b> Что он ищет первым делом, что сравнивает и что делает с каждой строкой.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Соберите таблицу своего продукта с сортировкой, действиями над строкой и пустым состоянием.</p>
+
+  <h3>Часть 1 · Выбрать колонки, 20 минут</h3>
+  <ol>
+    <li><strong>Выберите таблицу,</strong> с которой кто-то работает каждый день: заказы, заявки, клиенты, товары. Если своего продукта нет, возьмите таблицу заказов «Лесной обжарки» из урока.</li>
+    <li><strong>Назовите, кто с ней работает</strong> и что он делает первым делом, когда её открывает.</li>
+    <li><strong>Выпишите все поля записи</strong> и у каждого — какое решение оно помогает принять в таблице.</li>
+    <li><strong>Разложите поля:</strong> колонка, пометка в строке или только карточка.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Колонки таблицы · заполните перед макетом<span class="ds-lesson__spacer"></span><span data-copy="tableTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="tableTmpl">ТАБЛИЦА: ______________________        Дата: __.__.____
+КТО РАБОТАЕТ: ______________________
+ЧТО ДЕЛАЕТ ПЕРВЫМ ДЕЛОМ: ______________________
+
+КОЛОНКИ
+поле ____________  решение ____________  край: левый / правый  сортировка: да / нет
+поле ____________  решение ____________  край: левый / правый  сортировка: да / нет
+поле ____________  решение ____________  край: левый / правый  сортировка: да / нет
+
+ПОМЕТКИ В СТРОКЕ: ______________________
+ТОЛЬКО В КАРТОЧКЕ: ______________________
+
+ПОРЯДОК ПО УМОЛЧАНИЮ: по ____________, сначала ____________
+ПОЧЕМУ: ______________________
+
+ДЕЙСТВИЯ
+строка целиком: ______________________
+кнопка в строке: ______________________
+меню «⋯»: ______________________
+только в карточке: ______________________
+
+ПУСТО
+ещё ничего нет: ______________________
+ничего не нашлось: ______________________
+всё сделано: ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Колонка без решения в строке «решение» — кандидат в карточку.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать, 40 минут</h3>
+  <ol>
+    <li><strong>Соберите таблицу</strong> на настоящих данных: пять–семь строк с разными суммами, именами и датами, а не «Текст, текст, 100».</li>
+    <li><strong>Выровняйте колонки</strong> по правилу и перенесите единицы измерения в заголовки.</li>
+    <li><strong>Покажите сортировку</strong> по умолчанию: стрелка только у одной колонки.</li>
+    <li><strong>Расставьте действия:</strong> строка открывает запись, частое — кнопкой, редкие — в меню.</li>
+    <li><strong>Нарисуйте три пустых состояния</strong> с текстом и действием.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 10 минут</h3>
+  <ol>
+    <li><strong>Пройдите по колонкам</strong> и для каждой скажите вслух, какое решение она помогает принять.</li>
+    <li><strong>Покажите таблицу</strong> тому, кто с ней будет работать, и спросите, что он ищет первым. Если это не наверху — порядок по умолчанию выбран не тот.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Для каждой колонки можно объяснить, какое решение она помогает принять.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Макет таблицы</strong> с сортировкой по умолчанию и действиями над строкой.</li>
+    <li><strong>Три пустых состояния</strong> с текстом и действием.</li>
+    <li><strong>Заполненный шаблон</strong> колонок с решением у каждой.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 20 минут на колонки, 40 на макет, 10 на проверку. Всего — чуть больше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Заказчик просит показать всё».</strong> Спросите, что он решает по каждому полю. Поля без ответа уйдут в карточку или в выгрузку, и никто по ним не заскучает.</li>
+    <li><strong>«Не знаю, какой порядок нужен».</strong> Посмотрите, что человек делает первым делом. Ищет срочное — сортируйте по сроку, ищет крупное — по сумме, ищет новое — по дате создания.</li>
+    <li><strong>«Действий у строки много, и все важные».</strong> Посчитайте, как часто делают каждое. Кнопкой остаётся одно, редко два.</li>
+    <li><strong>«В макете таблица всегда полная».</strong> Потому что в макете данные придумали. Пустое состояние видят все новые пользователи и все, кто промахнулся фильтром.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Таблица готова, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Для каждой колонки названо решение, которое по ней принимают</li>
+    <li>Числа, которые сравнивают, стоят по правому краю, заголовки над ними — тоже</li>
+    <li>Единицы измерения — в заголовке, а не в каждой ячейке</li>
+    <li>Порядок по умолчанию выбран под главную задачу</li>
+    <li>Видно, по какой колонке отсортировано и в какую сторону</li>
+    <li>Строка целиком открывает запись</li>
+    <li>Частое действие видно в строке, редкие — в меню, которое тоже видно</li>
+    <li>Для пустой таблицы есть текст: почему пусто и что сделать</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Все поля базы в колонках.</b> Нужное теряется, таблица шире экрана.</li>
+    <li><b>Суммы по левому краю.</b> Крупное не видно, приходится читать каждое число.</li>
+    <li><b>Стрелки на всех колонках.</b> Непонятно, как таблица отсортирована сейчас.</li>
+    <li><b>Кнопки при наведении.</b> На сенсорном экране их нет, мышью их не находят.</li>
+    <li><b>«Нет данных».</b> Непонятно, пусто, ошибка или ещё грузится.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся собирать таблицу, с которой можно работать. На следующих ступенях — держать настоящие объёмы данных, а потом сводить все таблицы продукта к общим правилам.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Выбирать колонки под решение; выравнивать числа и текст; показывать сортировку; рисовать пустую таблицу с объяснением; решать, где живёт действие над строкой</td>
+          <td>Для каждой колонки можно объяснить, какое решение она помогает принять</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Держать длинные значения, много колонок и сотни строк; проектировать таблицу для узкого экрана; показывать применённые фильтры; давать выбор строк и групповые действия с отменой</td>
+          <td class="ds-lesson__dim">На данных с самыми длинными значениями раскладка не ломается ни на одной ширине</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Сводить таблицы продукта к общим правилам; задавать поведение по умолчанию; описывать, когда таблица не подходит; проверять новые экраны по правилам и обновлять правила</td>
+          <td class="ds-lesson__dim">Новая таблица, собранная другим дизайнером по правилам, ведёт себя так же, как остальные</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любую колонку своей таблицы вы можете сказать, что по ней решают, и про любую строку — что с ней делают.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/data-tables/">Data Tables: Four Major User Tasks</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно</span><span>Четыре задачи, под которые строят рабочую таблицу, и что нужно каждой: понятный первый столбец, закреплённая шапка, скрытие колонок, правка записи в боковой панели, групповые действия.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://guides.kontur.ru/principles/tables/tables/">Таблицы</a></span><span class="ds-lesson__reads-meta">Контур.Гайды · на русском · бесплатно</span><span>Гайд Контура по рабочим таблицам на русском: какие колонки оставить, выравнивание и формат чисел, шапка, выбор строк, действия в строке, итоги и настройка колонок. Действия и флажки там появляются при наведении.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/components/table/">Table</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Короткая справка GOV.UK: когда нужна таблица, подпись и заголовки строк и колонок для экранного диктора, числа по правому краю, что делать с большой таблицей. Половина страницы — код.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20210216/">Как верстать заголовки таблиц с сортировкой?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2021 · на русском · бесплатно</span><span>Илья Бирман о том, почему стрелка в заголовке сбивает с толку и чем её заменить: подсветить колонку или вынести порядки в список со словами «Сначала новые». В комментариях с ним спорят.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/patterns/empty-states-pattern/">Empty states</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Пустые состояния в IBM Carbon: данных ещё нет, ничего не нашлось, всё сделано, ошибка или нет доступа — что писать и какую кнопку дать. У пустой таблицы Carbon убирает и шапку, и подвал.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.datawrapper.de/blog/guide-what-to-consider-when-creating-tables">What to consider when creating tables</a></span><span class="ds-lesson__reads-meta"><a href="/resource/datawrapper/">Datawrapper</a>, блог, Лиза Шарлотта Мут, 2019 · на английском · бесплатно</span><span>Таблицы в статьях и отчётах: когда таблица лучше графика, как сузить колонки, какие строки ставить первыми, когда нужны зебра и поиск. Совет прятать колонки на телефоне — для статей, а не для рабочих таблиц.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

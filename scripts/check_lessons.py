@@ -1,4 +1,4 @@
-"""Тренажёр, копирование, атрибут hidden, ритм отступов, якоря, внутренние ссылки и «Что почитать дальше» во всех уроках — в браузере.
+"""Ширина на 375, тренажёр, копирование, атрибут hidden, ритм отступов, якоря, внутренние ссылки и «Что почитать дальше» во всех уроках — в браузере.
 
     python scripts/check_lessons.py                               # локальный сайт
     python scripts/check_lessons.py --base https://designstack.ru  # живой
@@ -101,11 +101,20 @@ LINKS = {}  # адрес → код ответа, общий для всех у�
 with sync_playwright() as play:
     browser = play.chromium.launch()
     page = browser.new_page()
+    # Узкий экран: урок не шире окна телефона. 30.09.2026 скрытая подпись для диктора
+    # (`screen-reader-text`, position: absolute) внутри листающейся таблицы вставала
+    # от страницы и растягивала её на 54 пикселя — глазом на компьютере не видно.
+    phone = browser.new_page(viewport={"width": 375, "height": 800})
 
     for slug in LESSONS:
+        phone.goto(args.base.rstrip("/") + "/lessons/" + slug + "/")
+        phone.wait_for_timeout(250)
+        wide = phone.evaluate("document.documentElement.scrollWidth - document.documentElement.clientWidth")
         page.goto(args.base.rstrip("/") + "/lessons/" + slug + "/")
         page.wait_for_timeout(400)
         print("\n=== " + slug)
+        print(("  ок  " if wide <= 0 else "  ПЛОХО ") + "на 375 не шире окна" + ("" if wide <= 0 else ": на %d пикселей" % wide))
+        fails += 0 if wide <= 0 else 1
 
         leak = page.evaluate(HIDDEN)
         print(("  ок  " if not leak else "  ПЛОХО ") + "[hidden] скрывает" + (": " + str(leak) if leak else ""))

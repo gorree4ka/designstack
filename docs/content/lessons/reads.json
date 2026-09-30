@@ -680,6 +680,86 @@
    "title": "<a href=\"https://carbondesignsystem.com/patterns/empty-states-pattern/\">Empty states</a>",
    "meta": "IBM Carbon Design System · на английском · бесплатно",
    "read": "2026-09-30"
+  },
+  "nng-data-tables": {
+   "title": "<a href=\"https://www.nngroup.com/articles/data-tables/\">Data Tables: Four Major User Tasks</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Пейдж Лаубхаймер · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "kontur-tables": {
+   "title": "<a href=\"https://guides.kontur.ru/principles/tables/tables/\">Таблицы</a>",
+   "meta": "Контур.Гайды · на русском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "govuk-table": {
+   "title": "<a href=\"https://design-system.service.gov.uk/components/table/\">Table</a>",
+   "meta": "GOV.UK Design System · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "bureau-sort-headers": {
+   "title": "<a href=\"https://bureau.ru/soviet/20210216/\">Как верстать заголовки таблиц с сортировкой?</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Илья Бирман, 2021 · на русском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "datawrapper-tables": {
+   "title": "<a href=\"https://www.datawrapper.de/blog/guide-what-to-consider-when-creating-tables\">What to consider when creating tables</a>",
+   "meta": "<a href=\"/resource/datawrapper/\">Datawrapper</a>, блог, Лиза Шарлотта Мут, 2019 · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-mobile-tables": {
+   "title": "<a href=\"https://www.nngroup.com/articles/mobile-tables/\">Mobile Tables: Comparisons and Other Data Tables</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Эми Шейд · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "carbon-overflow": {
+   "title": "<a href=\"https://carbondesignsystem.com/patterns/overflow-content/\">Overflow content</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "bureau-big-tables": {
+   "title": "<a href=\"https://bureau.ru/bb/soviet/20150127/\">Расскажите про вёрстку больших таблиц</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Илья Бирман, 2015 · на русском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "baymard-applied-filters": {
+   "title": "<a href=\"https://baymard.com/research-articles/how-to-design-applied-filters\">Display “Applied Filters” in an Overview</a>",
+   "meta": "<a href=\"/resource/baymard/\">Baymard Institute</a>, Кэтрин Ривз · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-infinite-scroll": {
+   "title": "<a href=\"https://www.nngroup.com/articles/infinite-scrolling-tips/\">Infinite Scrolling: When to Use It, When to Avoid It</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Тим Нойзессер · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "bureau-orders-pagination": {
+   "title": "<a href=\"https://bureau.ru/soviet/20220412/\">Пагинация таблицы ордеров с тысячами строк</a>",
+   "meta": "<a href=\"/resource/bureau-soviet/\">Советы Бюро Горбунова</a>, Илья Бирман, 2022 · на русском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "carbon-data-table": {
+   "title": "<a href=\"https://carbondesignsystem.com/components/data-table/usage/\">Data table</a>",
+   "meta": "IBM Carbon Design System · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "govuk-summary-list": {
+   "title": "<a href=\"https://design-system.service.gov.uk/components/summary-list/\">Summary list</a>",
+   "meta": "GOV.UK Design System · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-alphabetical": {
+   "title": "<a href=\"https://www.nngroup.com/articles/alphabetical-sorting-must-mostly-die/\">Alphabetical Sorting Must (Mostly) Die</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Якоб Нильсен · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "nng-consistency": {
+   "title": "<a href=\"https://www.nngroup.com/articles/consistency-and-standards/\">Maintain Consistency and Adhere to Standards</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Рейчел Краузе · на английском · бесплатно",
+   "read": "2026-09-30"
+  },
+  "ozon-tables": {
+   "title": "<a href=\"https://habr.com/ru/companies/ozontech/articles/708162/\">Дизайн-долг платежом красен: улучшаем таблицы в большом продукте</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, блог Ozon Tech, Александра Савельева, 2022 · на русском · бесплатно",
+   "read": "2026-09-30"
   }
  },
  "lessons": {
@@ -1399,6 +1479,84 @@
    {
     "res": "bureau-brandbooks",
     "why": "Шнайдер против толстых брендбуков: руководство на две страницы и исходники вместо правил. Спорит с уроком Middle — полезно как контрдовод."
+   }
+  ],
+  "tables-lists-junior": [
+   {
+    "res": "nng-data-tables",
+    "why": "Четыре задачи, под которые строят рабочую таблицу, и что нужно каждой: понятный первый столбец, закреплённая шапка, скрытие колонок, правка записи в боковой панели, групповые действия."
+   },
+   {
+    "res": "kontur-tables",
+    "why": "Гайд Контура по рабочим таблицам на русском: какие колонки оставить, выравнивание и формат чисел, шапка, выбор строк, действия в строке, итоги и настройка колонок. Действия и флажки там появляются при наведении."
+   },
+   {
+    "res": "govuk-table",
+    "why": "Короткая справка GOV.UK: когда нужна таблица, подпись и заголовки строк и колонок для экранного диктора, числа по правому краю, что делать с большой таблицей. Половина страницы — код."
+   },
+   {
+    "res": "bureau-sort-headers",
+    "why": "Илья Бирман о том, почему стрелка в заголовке сбивает с толку и чем её заменить: подсветить колонку или вынести порядки в список со словами «Сначала новые». В комментариях с ним спорят."
+   },
+   {
+    "res": "carbon-empty-states",
+    "why": "Пустые состояния в IBM Carbon: данных ещё нет, ничего не нашлось, всё сделано, ошибка или нет доступа — что писать и какую кнопку дать. У пустой таблицы Carbon убирает и шапку, и подвал."
+   },
+   {
+    "res": "datawrapper-tables",
+    "why": "Таблицы в статьях и отчётах: когда таблица лучше графика, как сузить колонки, какие строки ставить первыми, когда нужны зебра и поиск. Совет прятать колонки на телефоне — для статей, а не для рабочих таблиц."
+   }
+  ],
+  "tables-lists-middle": [
+   {
+    "res": "nng-mobile-tables",
+    "why": "Как уместить большую таблицу в телефон: ширина колонок, закреплённые шапка и первый столбец, заметная прокрутка вбок, выбор нужных строк и колонок. Примеры 2017 года, в основном сравнение товаров."
+   },
+   {
+    "res": "carbon-overflow",
+    "why": "Короткий паттерн IBM Carbon об обрезке текста: многоточие в начале, в середине и в конце, обязательная подсказка с полным текстом и что обрезать нельзя. Про таблицы и телефон там ничего."
+   },
+   {
+    "res": "bureau-big-tables",
+    "why": "Ответ Ильи Бирмана про таблицу в 20 колонок: разделить и объединить колонки, сократить заголовки, переносить длинные значения, закрепить шапку — или оставить таблицу широкой. С девятью примерами 2015 года."
+   },
+   {
+    "res": "baymard-applied-filters",
+    "why": "Исследование Baymard на каталогах магазинов: почему без списка выбранных фильтров люди неверно понимают, что видят, где этот список ставить и почему одного числа «Фильтры (2)» мало. Перенос на рабочие таблицы — вывод урока."
+   },
+   {
+    "res": "nng-infinite-scroll",
+    "why": "Чем бесконечная прокрутка удобна и чем мешает: трудно найти элемент снова, не видно конца, недоступен подвал. Когда лучше страницы или «Показать ещё» и почему после карточки человека возвращают на то же место."
+   },
+   {
+    "res": "bureau-orders-pagination",
+    "why": "Короткий ответ Ильи Бирмана про таблицу на десятки тысяч строк: вместо умной разбивки на страницы разобрать задачи поиска и сравнения и дать под них фильтры, поиск и отчёты."
+   }
+  ],
+  "tables-lists-senior": [
+   {
+    "res": "carbon-data-table",
+    "why": "Правила таблицы данных IBM Carbon по частям: панель с поиском и кнопками, заголовки и сортировка, выбор строк и групповые действия, меню строки, страницы и высота строк. Действия строки там выносят иконками, если их меньше трёх."
+   },
+   {
+    "res": "atomic-workflow",
+    "why": "Как провести инвентаризацию интерфейса: по одному примеру каждого непохожего решения, по категориям, и показать разнобой всей команде — с этого начинается сводка таблиц. Это около трети главы; остальное — как продать дизайн-систему."
+   },
+   {
+    "res": "govuk-summary-list",
+    "why": "Когда вместо таблицы нужен список «поле — значение»: для ключевых фактов одной записи, а не для табличных данных. Там же — действия у строк, пропущенные значения и карточки для нескольких записей одного типа."
+   },
+   {
+    "res": "nng-alphabetical",
+    "why": "Короткая заметка Якоба Нильсена 2010 года: алфавит хорош, когда человек точно знает название, а для размеров, времени, важности и частоты нужен порядок по смыслу. Написана про списки и фильтры, правило то же и для таблиц."
+   },
+   {
+    "res": "nng-consistency",
+    "why": "Эвристика № 4: чем внутренняя согласованность отличается от внешней и как её удерживать — ревью с разными командами, проверка всех экранов раз в год, осознанный отказ от привычного. О таблицах в статье ничего."
+   },
+   {
+    "res": "ozon-tables",
+    "why": "Кейс Ozon Tech: как дизайнер добилась переделки старых таблиц — презентация руководству, компоненты, пилот на одном разделе — и что изменилось. Это история процесса, а не свод правил; панель выбора у Ozon стоит внизу."
    }
   ]
  }

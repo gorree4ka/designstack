@@ -1,0 +1,632 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#long">Длинные значения: перенести, обрезать или вынести</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#wide">Много колонок: закрепить, выбрать, уплотнить</a><span class="ds-lesson__tag">настройка</span></li>
+    <li><a href="#narrow">Таблица на узком экране</a><span class="ds-lesson__tag">три способа</span></li>
+    <li><a href="#filters">Фильтры: видно, что применено</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#select">Выбор строк и групповые действия</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#volume">Сотня строк и тысяча строк</a></li>
+    <li><a href="#hunt">Прогон на длинных данных</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Таблица заказов из админки «Лесной обжарки», которую собирали в <a href="/lessons/tables-lists-junior/">уроке Junior</a>. Там было шесть заказов с короткими именами. Здесь — настоящий день магазина: 1 240 заказов за месяц, покупатели с двойными фамилиями, адреса с корпусами и офисами, заказы на 40 позиций для кофеен. И оператор, который работает с планшета на складе.</div>
+
+<section id="long">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Длинные значения: перенести, обрезать или вынести</h2></div>
+  <p class="ds-lesson__lead">В макете у всех покупателей имена по 12 букв. В базе рано или поздно появится имя на 50. Что с ним будет, решают заранее — для каждой колонки.</p>
+
+  <p>Способов три: перенести на вторую строку, обрезать с многоточием или вынести длинное в отдельное место. У каждого своя цена. Перенос делает строки разной высоты. Обрезка прячет конец. А вынос требует места, куда вынести.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Одна строка · три способа</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="lg1" hidden>Без правила</button><button class="ds-switch__button" type="button" data-switch-btn="lg2" hidden>Перенос</button><button class="ds-switch__button" type="button" data-switch-btn="lg3" hidden>Обрезка</button><button class="ds-switch__button" type="button" data-switch-btn="lg4" hidden>Обрезка в середине</button></div>
+
+      <div data-switch-pane="lg1"><p class="ds-switch__title">Без правила</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица без правила для длинных значений, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col">Трек-номер</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr><td>1061</td><td>Константинопольская-Щедрина Александра Вячеславовна</td><td>RU482917360544RU</td><td class="is-num">3 480</td></tr>
+                <tr><td>1062</td><td>Ли Ан</td><td>RU482917360581RU</td><td class="is-num">890</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Без правила</b>Имя растянуло колонку, сумма уехала за край, и на телефоне таблицу приходится листать ради одной фамилии. Так ведёт себя таблица, если никто ничего не решил.</div>
+      </div>
+
+      <div data-switch-pane="lg2"><p class="ds-switch__title">Перенос</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица с переносом длинного имени, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col">Трек-номер</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr><td>1061</td><td class="is-wrap">Константинопольская-Щедрина Александра Вячеславовна</td><td>RU482917360544RU</td><td class="is-num">3 480</td></tr>
+                <tr><td>1062</td><td class="is-wrap">Ли Ан</td><td>RU482917360581RU</td><td class="is-num">890</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Перенос</b>Имя видно целиком, строка стала выше. Подходит для текста, который нужно прочитать полностью: имена, названия, причины возврата. Держите предел — две-три строки, дальше обрезка.</div>
+      </div>
+
+      <div data-switch-pane="lg3"><p class="ds-switch__title">Обрезка</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица с обрезкой длинного имени, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col">Трек-номер</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr><td>1061</td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 11em" title="Константинопольская-Щедрина Александра Вячеславовна">Константинопольская-Щедрина Александра Вячеславовна</span></td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 7em">RU482917360544RU</span></td><td class="is-num">3 480</td></tr>
+                <tr><td>1062</td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 11em">Ли Ан</span></td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 7em">RU482917360581RU</span></td><td class="is-num">890</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Обрезка с конца</b>Строки одной высоты. Для имени это работает: начало имени его и отличает, а полное — в подсказке при наведении и в карточке заказа. Для трек-номера — нет: все номера начинаются одинаково, и обрезанными они неотличимы.</div>
+      </div>
+
+      <div data-switch-pane="lg4"><p class="ds-switch__title">Обрезка в середине</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица с обрезкой номера в середине, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Покупатель</th><th scope="col">Трек-номер</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr><td>1061</td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 11em">Константинопольская-Щедрина Александра Вячеславовна</span></td><td>RU4829…544RU</td><td class="is-num">3 480</td></tr>
+                <tr><td>1062</td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 11em">Ли Ан</span></td><td>RU4829…581RU</td><td class="is-num">890</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Обрезка в середине</b>У номеров, путей к файлам и кодов отличается конец, а не начало. Многоточие ставят в середину: видно и начало, и хвост, по которому номера различают.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Сумму не обрезают никогда: «3 4…» хуже, чем ничего. Под число колонку расширяют, а сжимают соседнюю текстовую.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что в колонке</th><th scope="col">Что делать с длинным</th><th scope="col">Где увидеть целиком</th></tr></thead>
+      <tbody>
+        <tr><td>Имя, название товара</td><td>Перенос на две строки, дальше обрезка с конца</td><td>Подсказка при наведении и карточка</td></tr>
+        <tr><td>Адрес, комментарий</td><td>Обрезка с конца или пометка «есть комментарий»</td><td>Карточка</td></tr>
+        <tr><td>Номер, код, путь к файлу</td><td>Обрезка в середине</td><td>Подсказка, кнопка «скопировать»</td></tr>
+        <tr><td>Число, сумма, дата</td><td>Не обрезать. Колонка шире самого длинного значения</td><td>—</td></tr>
+        <tr><td>Заголовок колонки</td><td>Перенос на вторую строку. Если и двух мало — понятное сокращение: «Ср. цена»</td><td>Подсказка при наведении, пояснение под таблицей</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Обрезанное должно где-то читаться целиком.</b> Подсказка при наведении на телефоне не работает, поэтому полное значение есть ещё и в карточке записи. Если значение нужно, чтобы решить что-то прямо в таблице, его не обрезают, а переносят.</div>
+</section>
+
+<section id="wide">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Много колонок: закрепить, выбрать, уплотнить</h2></div>
+  <p class="ds-lesson__lead">Когда колонок больше, чем помещается, таблицу листают вбок. Чтобы при этом не потерять, чья это строка, первую колонку закрепляют.</p>
+
+  <p>У бухгалтера магазина своя таблица заказов: к номеру и покупателю добавляются способ оплаты, сумма без скидки, скидка, доставка, налог, итог. Десять колонок на ноутбуке не помещаются.</p>
+
+  <p>Сначала проверьте, нельзя ли колонок сделать меньше. Илья Бирман из Бюро Горбунова советует начинать со структуры: разделить таблицу на две, объединить связанные колонки, вынести общее в название таблицы. Если колонки всё равно не помещаются, работают четыре приёма.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Приём</th><th scope="col">Что даёт</th><th scope="col">Когда нужен</th></tr></thead>
+      <tbody>
+        <tr><td><b>Закрепить первую колонку</b></td><td>Номер или имя стоят на месте, пока остальное листается</td><td>Всегда, если таблица шире экрана</td></tr>
+        <tr><td><b>Закрепить заголовок</b></td><td>Названия колонок видны, когда листают вниз</td><td>Если строк больше, чем помещается на экран</td></tr>
+        <tr><td><b>Дать выбрать колонки</b></td><td>Каждый оставляет свои: бухгалтеру — налог, оператору — доставку</td><td>Если с одной таблицей работают люди с разными задачами</td></tr>
+        <tr><td><b>Дать выбрать плотность</b></td><td>Больше строк на экране у тех, кто работает с таблицей весь день</td><td>В рабочих инструментах, где таблицу смотрят часами</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Попробуйте закреплённую колонку: пролистайте таблицу ниже вбок. Номер заказа остаётся на месте. Кнопками под таблицей меняется плотность строк.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Заказы для бухгалтерии · десять колонок</div>
+    <div class="ds-lesson__box-body" data-tune style="--dt-pad: var(--wp--preset--spacing--2)">
+      <div class="ds-lesson__dt">
+        <div class="ds-lesson__dt-top">Заказы за сентябрь <span>1 240</span></div>
+        <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица из десяти колонок, листается вбок">
+          <table class="ds-lesson__dt-table">
+            <thead><tr><th scope="col" class="ds-lesson__dt-fix">№</th><th scope="col">Дата</th><th scope="col">Покупатель</th><th scope="col">Оплата</th><th scope="col" class="is-num">Товары, ₽</th><th scope="col" class="is-num">Скидка, ₽</th><th scope="col" class="is-num">Доставка, ₽</th><th scope="col" class="is-num">НДС, ₽</th><th scope="col" class="is-num">Итог, ₽</th><th scope="col">Чек</th></tr></thead>
+            <tbody>
+              <tr><th scope="row" class="ds-lesson__dt-fix">1061</th><td>28.09</td><td>Александра Щедрина</td><td>карта</td><td class="is-num">3 580</td><td class="is-num">−400</td><td class="is-num">300</td><td class="is-num">580</td><td class="is-num">3 480</td><td>выбит</td></tr>
+              <tr><th scope="row" class="ds-lesson__dt-fix">1062</th><td>28.09</td><td>Ли Ан</td><td>СБП</td><td class="is-num">890</td><td class="is-num">0</td><td class="is-num">0</td><td class="is-num">148</td><td class="is-num">890</td><td>выбит</td></tr>
+              <tr><th scope="row" class="ds-lesson__dt-fix">1063</th><td>29.09</td><td>Кофейня «Зерно»</td><td>счёт</td><td class="is-num">48 200</td><td class="is-num">−4 820</td><td class="is-num">0</td><td class="is-num">7 230</td><td class="is-num">43 380</td><td>ждёт оплаты</td></tr>
+              <tr><th scope="row" class="ds-lesson__dt-fix">1064</th><td>29.09</td><td>Павел Орлов</td><td>карта</td><td class="is-num">12 450</td><td class="is-num">0</td><td class="is-num">0</td><td class="is-num">2 075</td><td class="is-num">12 450</td><td>выбит</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ds-lesson__tune-pick" data-tune-pick="--dt-pad" data-tune-title="Плотность строк" data-tune-values="var(--wp--preset--spacing--3)|var(--wp--preset--spacing--2)|var(--wp--preset--spacing--1)" data-tune-labels="Просторно|Обычно|Плотно"></div>
+    </div>
+    <div class="ds-lesson__box-foot">Плотная таблица показывает больше строк, но в ней легче промахнуться строкой. Обычная плотность — по умолчанию, плотная — выбор того, кто работает с таблицей весь день.</div>
+  </div>
+
+  <p class="ds-lesson__dim">В дизайн-системе IBM Carbon у таблицы пять высот строки: 24, 32, 40, 48 и 64 пикселя. Самую высокую там советуют брать, только если в строке две строки текста. А в Nielsen Norman Group советуют закреплять строку заголовков и первую колонку, если таблица больше экрана, и давать прятать колонки так, чтобы было видно, что часть спрятана.</p>
+
+  <div class="ds-lesson__rule"><b>Таблица шире экрана листается вбок, а первая колонка стоит на месте.</b> Иначе через три колонки непонятно, чья это строка.</div>
+</section>
+
+<section id="narrow">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Таблица на узком экране</h2></div>
+  <p class="ds-lesson__lead">Прятать таблицу на телефоне нельзя: оператор на складе работает с планшета, а управляющая смотрит заказы с телефона. Способов показать таблицу на узком экране три, и выбирают по задаче.</p>
+
+  <p>Главный вопрос: человек сравнивает строки между собой или смотрит записи по одной? Если сравнивает, ему нужны колонки. Если смотрит по одной, колонки можно превратить в карточки.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Заказы на телефоне · три способа</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="nr1" hidden>Листать вбок</button><button class="ds-switch__button" type="button" data-switch-btn="nr2" hidden>Карточки</button><button class="ds-switch__button" type="button" data-switch-btn="nr3" hidden>Главное и раскрытие</button></div>
+
+      <div data-switch-pane="nr1"><p class="ds-switch__title">Листать вбок</p>
+        <div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказы · 30 сентября</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Узкая таблица, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col" class="ds-lesson__dt-fix">№</th><th scope="col">Доставка</th><th scope="col" class="is-num">Сумма, ₽</th><th scope="col">Статус</th><th scope="col">Покупатель</th></tr></thead>
+              <tbody>
+                <tr><th scope="row" class="ds-lesson__dt-fix">1051</th><td>10–14</td><td class="is-num">1 850</td><td>Собран</td><td>Ирина Соколова</td></tr>
+                <tr><th scope="row" class="ds-lesson__dt-fix">1052</th><td>10–14</td><td class="is-num">890</td><td>Новый</td><td>Марат Хасанов</td></tr>
+                <tr><th scope="row" class="ds-lesson__dt-fix">1049</th><td>18–22</td><td class="is-num">12 450</td><td>Новый</td><td>Павел Орлов</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Листать вбок, первая колонка на месте</b>Колонки остаются, суммы по-прежнему сравниваются взглядом. Колонки идут по важности: то, что нужно для решения, — в первом экране. Подходит, когда строки сравнивают.</div>
+      </div>
+
+      <div data-switch-pane="nr2"><p class="ds-switch__title">Карточки</p>
+        <div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказы · 30 сентября</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-meta">№ 1051 · Ирина Соколова<span>10:00–14:00 · собран</span></span><span class="ds-lesson__wf-price">1 850 ₽</span></div>
+            <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-meta">№ 1052 · Марат Хасанов<span>10:00–14:00 · новый</span></span><span class="ds-lesson__wf-price">890 ₽</span></div>
+            <div class="ds-lesson__wf-item"><span class="ds-lesson__wf-meta">№ 1049 · Павел Орлов<span>18:00–22:00 · новый</span></span><span class="ds-lesson__wf-price">12 450 ₽</span></div>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Строки — карточками</b>Каждый заказ читается целиком, без листания. Сравнивать суммы между заказами труднее: они стоят не столбцом, а в разных карточках. Подходит, когда записи смотрят по одной — найти заказ и открыть его.</div>
+      </div>
+
+      <div data-switch-pane="nr3"><p class="ds-switch__title">Главное и раскрытие</p>
+        <div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Заказы · 30 сентября</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица с главными колонками, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">№</th><th scope="col">Доставка</th><th scope="col" class="is-num">Сумма, ₽</th><th scope="col"><span class="screen-reader-text">Подробнее</span></th></tr></thead>
+              <tbody>
+                <tr><td>1051</td><td>10–14</td><td class="is-num">1 850</td><td><span aria-hidden="true">▾</span><span class="screen-reader-text">раскрыть</span></td></tr>
+                <tr class="is-selected"><td>1052</td><td>10–14</td><td class="is-num">890</td><td><span aria-hidden="true">▴</span><span class="screen-reader-text">свернуть</span></td></tr>
+                <tr class="is-selected"><td colspan="4" class="is-wrap"><span class="ds-lesson__dt-sub">Марат Хасанов · Колумбия, 250 г · новый · «Позвоните за час»</span></td></tr>
+                <tr><td>1049</td><td>18–22</td><td class="is-num">12 450</td><td><span aria-hidden="true">▾</span><span class="screen-reader-text">раскрыть</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="ds-lesson__result"><b>Главное в строке, остальное по нажатию</b>Три колонки, которые нужны для решения, помещаются без листания. Остальное раскрывается под строкой. Подходит, когда главных колонок немного, а подробности нужны изредка.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Во всех трёх способах на телефоне остаётся то, по чему решают: номер, время доставки и сумма.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Задача на телефоне</th><th scope="col">Способ</th></tr></thead>
+      <tbody>
+        <tr><td>Сравнить значения в строках: суммы, сроки, остатки</td><td>Листать вбок, первая колонка закреплена</td></tr>
+        <tr><td>Найти запись и открыть её</td><td>Карточки или главное в строке</td></tr>
+        <tr><td>Пробежать список и сделать что-то с каждой записью</td><td>Главное в строке, действие — в строке, подробности — по нажатию</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">В Nielsen Norman Group для таблиц на телефоне советуют закреплять заголовки и первую колонку, а обрезанной колонкой у края показывать, что таблица листается дальше. Новая таблица Shopify Polaris на узком экране сама превращается в список. По WCAG таблица данных может листаться вбок — это исключение из критерия 1.4.10 о перестройке под узкий экран. Но заголовок, поиск и страницы вокруг неё перестраиваться обязаны.</p>
+
+  <div class="ds-lesson__warn"><b>Не выкидывайте колонки молча.</b> Если на телефоне часть колонок скрыта, человек должен знать, что они есть, и уметь до них добраться: раскрыть строку или открыть карточку.</div>
+</section>
+
+<section id="filters">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Фильтры: видно, что применено</h2></div>
+  <p class="ds-lesson__lead">Фильтр, который не видно, опаснее, чем отсутствие фильтра: человек думает, что видит все заказы, а видит часть.</p>
+
+  <p>Оператор вчера отфильтровал заказы по самовывозу, а сегодня открыл таблицу и не нашёл заказ, о котором звонит покупатель. Фильтр сохранился, но был спрятан за кнопкой «Фильтры». Такие случаи и решают три правила: применённые фильтры видны над таблицей, каждый можно снять одним нажатием, и рядом видно, сколько строк осталось из скольких.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Заказы с фильтрами · спрятаны и на виду</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__dt">
+        <div class="ds-lesson__dt-top">Заказы</div>
+        <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-search">Поиск</span><span class="ds-lesson__dt-btn">Фильтры (2)</span></div>
+        <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица со спрятанными фильтрами, листается вбок">
+          <table class="ds-lesson__dt-table">
+            <caption class="screen-reader-text">Фильтры спрятаны</caption>
+            <thead><tr><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+            <tbody><tr><td>1055</td><td>30.09 · самовывоз</td><td>Анна Коваль</td><td class="is-num">1 290</td></tr><tr><td>1058</td><td>30.09 · самовывоз</td><td>Игорь Белов</td><td class="is-num">640</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="ds-lesson__dt">
+        <div class="ds-lesson__dt-top">Заказы <span>2 из 1 240</span></div>
+        <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-search">Поиск</span><span class="ds-lesson__dt-chip">Самовывоз ×</span><span class="ds-lesson__dt-chip">30 сентября ×</span><span class="ds-lesson__dt-link">Сбросить всё</span></div>
+        <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица с фильтрами на виду, листается вбок">
+          <table class="ds-lesson__dt-table">
+            <caption class="screen-reader-text">Фильтры на виду</caption>
+            <thead><tr><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+            <tbody><tr><td>1055</td><td>30.09 · самовывоз</td><td>Анна Коваль</td><td class="is-num">1 290</td></tr><tr><td>1058</td><td>30.09 · самовывоз</td><td>Игорь Белов</td><td class="is-num">640</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Сверху два заказа — и не сказано, что это два из 1 240. Снизу видно, что отфильтровано, сколько осталось и как вернуть всё.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Вопрос</th><th scope="col">Решение</th></tr></thead>
+      <tbody>
+        <tr><td>Что сейчас отфильтровано?</td><td>Каждый фильтр — плашкой над таблицей, со значением: «Самовывоз», а не «Доставка (1)»</td></tr>
+        <tr><td>Как снять один фильтр?</td><td>Крестик на плашке</td></tr>
+        <tr><td>Как вернуть всё?</td><td>«Сбросить всё» рядом с плашками</td></tr>
+        <tr><td>Сколько осталось?</td><td>«2 из 1 240» в шапке таблицы</td></tr>
+        <tr><td>Фильтр дал ноль строк?</td><td>Пустая таблица называет фильтры и предлагает снять тот, без которого что-то найдётся</td></tr>
+        <tr><td>Фильтр сохраняется до завтра?</td><td>Можно, если так удобнее работать. Но тогда он особенно заметен, а не ждёт за кнопкой</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">Baymard Institute по исследованиям интернет-магазинов советует показывать применённые фильтры списком над результатами, каждый с крестиком, и не ограничиваться числом вроде «Фильтры (2)».</p>
+
+  <div class="ds-lesson__rule"><b>Применённый фильтр видно без нажатий.</b> Рядом — сколько строк осталось из скольких и как вернуть всё.</div>
+</section>
+
+<section id="select">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Выбор строк и групповые действия</h2></div>
+  <p class="ds-lesson__lead">Утром оператор передаёт курьеру сорок заказов. По одному — сорок раз одно и то же. Выбор строк и групповое действие делают это за три нажатия.</p>
+
+  <p>Выбор строк — это флажок в начале каждой строки и флажок в заголовке, который выбирает все. Когда выбрана хотя бы одна строка, над таблицей появляется панель: сколько выбрано и что с ними можно сделать. Посмотрите, как меняется таблица по шагам.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Выбор строк · по шагам</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="sl1" hidden>Ничего не выбрано</button><button class="ds-switch__button" type="button" data-switch-btn="sl2" hidden>Выбраны два</button><button class="ds-switch__button" type="button" data-switch-btn="sl3" hidden>Все на странице</button><button class="ds-switch__button" type="button" data-switch-btn="sl4" hidden>После действия</button></div>
+
+      <div data-switch-pane="sl1"><p class="ds-switch__title">Ничего не выбрано</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-search">Номер, имя или телефон</span><span class="ds-lesson__dt-chip">Собран ×</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица без выбранных строк, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col"><span class="ds-lesson__dt-check"></span><span class="screen-reader-text">Выбрать все</span></th><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr><td><span class="ds-lesson__dt-check"></span></td><td>1051</td><td>30.09 · 10–14</td><td>Ирина Соколова</td><td class="is-num">1 850</td></tr>
+                <tr><td><span class="ds-lesson__dt-check"></span></td><td>1047</td><td>30.09 · 14–18</td><td>Ольга Ким</td><td class="is-num">2 670</td></tr>
+                <tr><td><span class="ds-lesson__dt-check"></span></td><td>1044</td><td>30.09 · 14–18</td><td>Сергей Лебедев</td><td class="is-num">1 780</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-foot"><span>1–25 из 42</span><span>‹ 1 2 ›</span></div>
+        </div>
+        <div class="ds-lesson__result"><b>Ничего не выбрано</b>Над таблицей — поиск и фильтр «Собран». Флажки стоят в каждой строке всегда, а не появляются при наведении: оператор работает и с планшета, где наводить нечем.</div>
+      </div>
+
+      <div data-switch-pane="sl2"><p class="ds-switch__title">Выбраны два</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-bulk"><b>Выбрано: 2</b><span class="ds-lesson__dt-btn ds-lesson__dt-btn--primary">Передать курьеру</span><span class="ds-lesson__dt-btn">Печать накладных</span><span class="ds-lesson__dt-spacer"></span><span class="ds-lesson__dt-link">Снять выбор</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица с двумя выбранными строками, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col"><span class="ds-lesson__dt-check is-some"></span><span class="screen-reader-text">Выбрать все</span></th><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr class="is-selected"><td><span class="ds-lesson__dt-check is-on"></span></td><td>1051</td><td>30.09 · 10–14</td><td>Ирина Соколова</td><td class="is-num">1 850</td></tr>
+                <tr><td><span class="ds-lesson__dt-check"></span></td><td>1047</td><td>30.09 · 14–18</td><td>Ольга Ким</td><td class="is-num">2 670</td></tr>
+                <tr class="is-selected"><td><span class="ds-lesson__dt-check is-on"></span></td><td>1044</td><td>30.09 · 14–18</td><td>Сергей Лебедев</td><td class="is-num">1 780</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-foot"><span>1–25 из 42</span><span>‹ 1 2 ›</span></div>
+        </div>
+        <div class="ds-lesson__result"><b>Выбраны два</b>Панель встала на место поиска: счётчик, главное действие, второе и «Снять выбор». Флажок в заголовке — с чертой: выбрана часть. Выбранные строки подсвечены.</div>
+      </div>
+
+      <div data-switch-pane="sl3"><p class="ds-switch__title">Все на странице</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-bulk"><b>Выбраны все 25 на этой странице.</b><span class="ds-lesson__dt-link">Выбрать все 42 собранных</span><span class="ds-lesson__dt-btn ds-lesson__dt-btn--primary">Передать курьеру</span><span class="ds-lesson__dt-spacer"></span><span class="ds-lesson__dt-link">Снять выбор</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица, выбраны все строки страницы, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col"><span class="ds-lesson__dt-check is-on"></span><span class="screen-reader-text">Выбрать все</span></th><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody>
+                <tr class="is-selected"><td><span class="ds-lesson__dt-check is-on"></span></td><td>1051</td><td>30.09 · 10–14</td><td>Ирина Соколова</td><td class="is-num">1 850</td></tr>
+                <tr class="is-selected"><td><span class="ds-lesson__dt-check is-on"></span></td><td>1047</td><td>30.09 · 14–18</td><td>Ольга Ким</td><td class="is-num">2 670</td></tr>
+                <tr class="is-selected"><td><span class="ds-lesson__dt-check is-on"></span></td><td>1044</td><td>30.09 · 14–18</td><td>Сергей Лебедев</td><td class="is-num">1 780</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-foot"><span>1–25 из 42</span><span>‹ 1 2 ›</span></div>
+        </div>
+        <div class="ds-lesson__result"><b>Все на странице</b>Флажок в заголовке выбрал 25 строк, которые видны, а собранных заказов 42. Панель говорит об этом прямо и предлагает выбрать все 42. Без этой строки оператор передал бы курьеру 25 и был бы уверен, что передал всё.</div>
+      </div>
+
+      <div data-switch-pane="sl4"><p class="ds-switch__title">После действия</p>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-search">Номер, имя или телефон</span><span class="ds-lesson__dt-chip">Собран ×</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица после группового действия, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col"><span class="ds-lesson__dt-check"></span><span class="screen-reader-text">Выбрать все</span></th><th scope="col">№</th><th scope="col">Доставка</th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th></tr></thead>
+              <tbody><tr><td class="ds-lesson__dt-empty" colspan="5"><b>Собранных заказов нет</b><span>Все 42 переданы курьеру.</span></td></tr></tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-bulk"><b>42 заказа переданы курьеру.</b><span class="ds-lesson__dt-spacer"></span><span class="ds-lesson__dt-link">Отменить</span></div>
+        </div>
+        <div class="ds-lesson__result"><b>После действия</b>Сказано, что сделано и со сколькими, и есть «Отменить». Заказы ушли из фильтра «Собран», поэтому таблица пуста — и она объясняет почему.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Та же схема в Gmail: «Выбраны все цепочки (50) на странице. Выбрать все цепочки (2000) в почте».</div>
+  </div>
+
+  <p>Групповое действие меняет десятки записей одним нажатием, и ошибиться в нём дороже, чем в строке. Защитить можно двумя способами: спросить до или дать отменить после. Подтверждение нужно там, где отменить нельзя. Где можно — лучше сразу сделать и показать «Отменить»: вопрос «Вы уверены?» на каждое действие приучает нажимать «Да» не читая.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · спросить до или отменить после<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="undo"><p class="ds-quiz__question">Передать курьеру 42 собранных заказа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сразу, с отменой</b>Действие частое, и пока курьер не забрал заказы, его можно отменить. Вопрос каждое утро приучит нажимать «Да» не глядя.</p></li>
+<li data-quiz-q data-answer="confirm"><p class="ds-quiz__question">Отменить 12 заказов: каждому покупателю уйдёт письмо об отмене, деньги вернутся на карту.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подтверждение</b>Письма и возврат денег не отменить. В вопросе — число и последствия: «Отменить 12 заказов? Покупатели получат письма, 21 480 ₽ вернутся на карты».</p></li>
+<li data-quiz-q data-answer="none"><p class="ds-quiz__question">Выгрузить 300 выбранных заказов в файл.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ничего не нужно</b>Выгрузка ничего не меняет в данных. Хватит сообщения, что файл готов.</p></li>
+<li data-quiz-q data-answer="undo"><p class="ds-quiz__question">Переместить 8 отзывов в архив.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сразу, с отменой</b>Из архива отзывы возвращаются. «8 отзывов в архиве. Отменить».</p></li>
+<li data-quiz-q data-answer="confirm"><p class="ds-quiz__question">Удалить навсегда 1 240 заказов за сентябрь: так просит сделать новая бухгалтерская программа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подтверждение</b>Навсегда — значит без отмены, и строк очень много. В вопросе — число и что пропадёт. Можно ещё попросить ввести это число, чтобы не нажать по привычке.</p></li>
+<li data-quiz-q data-answer="undo"><p class="ds-quiz__question">Поставить статус «Собран» 15 заказам.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сразу, с отменой</b>Статус можно вернуть, покупатель ничего не получит. Отмена спасает от промаха строкой.</p></li>
+<li data-quiz-q data-answer="confirm"><p class="ds-quiz__question">Разослать 400 покупателям письмо с промокодом.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подтверждение</b>Отправленное письмо не вернуть. В вопросе — сколько получателей и какое письмо уходит.</p></li>
+<li data-quiz-q data-answer="none"><p class="ds-quiz__question">Напечатать накладные для 42 заказов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ничего не нужно</b>Данные не меняются. Печать и так спрашивает, на каком принтере печатать.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="undo">Сразу, с отменой</button><button class="ds-quiz__option" type="button" data-quiz-answer="confirm">Подтверждение</button><button class="ds-quiz__option" type="button" data-quiz-answer="none">Ничего не нужно</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Спросите: можно ли это вернуть? Если да — делайте сразу и дайте «Отменить». Если нет — спрашивайте, называя число и последствия.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Счётчик выбранного виден всегда, а «все» означает то, что написано.</b> «Выбраны все 25 на этой странице» — не то же самое, что «выбраны все 42».</div>
+</section>
+
+<section id="volume">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Сотня строк и тысяча строк</h2></div>
+  <p class="ds-lesson__lead">Макет рисуют на десяти строках. Таблица живёт на тысяче. Что человек видит при тысяче строк, решают заранее.</p>
+
+  <p>Три способа показать много строк: по страницам, кнопкой «Показать ещё» и бесконечной прокруткой, когда строки догружаются сами. Для рабочей таблицы бесконечная прокрутка подходит хуже всего: до подвала не добраться, общее число строк не видно, а вернуться к заказу, на котором остановился, трудно. В Nielsen Norman Group её не советуют, когда нужно найти что-то конкретное или сравнить элементы длинного списка, — а это и есть работа с таблицей.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Способ</th><th scope="col">Что хорошо</th><th scope="col">Что плохо</th><th scope="col">Когда брать</th></tr></thead>
+      <tbody>
+        <tr><td><b>Страницы</b></td><td>Видно, сколько всего строк и на какой странице человек сейчас; к странице можно вернуться по ссылке</td><td>Сравнивать строки с разных страниц неудобно</td><td>Рабочие таблицы: заказы, заявки, клиенты</td></tr>
+        <tr><td><b>«Показать ещё»</b></td><td>Список растёт, пока нужно, подвал доступен</td><td>Длинный список тяжелеет, место легко потерять</td><td>Списки, которые смотрят подряд: история заказов покупателя</td></tr>
+        <tr><td><b>Бесконечная прокрутка</b></td><td>Не нужно нажимать</td><td>Нет подвала, нет общего числа, трудно вернуться на место</td><td>Лента, которую листают без цели. В рабочей таблице — почти никогда</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Что ещё решить, когда строк много:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Вопрос</th><th scope="col">Решение в таблице заказов</th></tr></thead>
+      <tbody>
+        <tr><td>Сколько строк на странице?</td><td>25 по умолчанию, выбор 25, 50 или 100 — рядом с номерами страниц</td></tr>
+        <tr><td>Сколько всего?</td><td>«1–25 из 1 240» в подвале и «1 240» в шапке</td></tr>
+        <tr><td>Что видно при листании вниз?</td><td>Заголовок таблицы закреплён: названия колонок не уезжают</td></tr>
+        <tr><td>Что при возврате из карточки?</td><td>Та же страница, те же фильтры и сортировка, строка, из которой ушли, на виду</td></tr>
+        <tr><td>Что пока грузится следующая страница?</td><td>Строки на месте, поверх — скелет или индикатор в подвале. Таблица не прыгает к началу</td></tr>
+        <tr><td>Что, если строк 50 000?</td><td>Поиск и фильтры важнее листания: столько страниц никто не пролистает</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Возврат из карточки — на то же место.</b> Оператор открыл заказ на седьмой странице, вернулся — и снова на первой, без фильтров. Это самая частая жалоба на рабочие таблицы, и в макете её не видно: её видно, только если нарисовать переход туда и обратно.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Прогон на длинных данных</h2></div>
+  <p class="ds-lesson__lead">Таблицу заказов прогнали на выгрузке из настоящей базы: самые длинные имена, адреса и суммы месяца. Пять мест сломались.</p>
+
+  <p>Нажимайте на куски таблицы, которые вы бы переделали. Разбор покажется под таблицей. Нормальные куски тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Прогон на длинных данных · найдите поломки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-top">Заказы <span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Шапка: «Заказы» без числа строк и кнопка «Фильтры (3)»"><span class="ds-lesson__dt-btn">Фильтры (3)</span></span></div>
+          <div class="ds-lesson__dt-bulk"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Панель: «Выбрано: 25» и кнопка «Удалить» после флажка в заголовке"><b>Выбрано: 25</b> <span class="ds-lesson__dt-btn ds-lesson__dt-btn--danger">Удалить</span></span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица на длинных данных, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr>
+                <th scope="col" class="ds-lesson__dt-fix"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Первая колонка «№» закреплена">№ · закреплена</span></th>
+                <th scope="col">Покупатель</th>
+                <th scope="col" class="is-wrap"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Заголовок «Интервал доставки» в две строки">Интервал доставки</span></th>
+                <th scope="col">Трек-номер</th>
+                <th scope="col" class="is-num">Сумма, ₽</th>
+              </tr></thead>
+              <tbody>
+                <tr class="is-selected"><th scope="row" class="ds-lesson__dt-fix">1061</th><td class="is-wrap"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Имя перенесено на две строки">Константинопольская-Щедрина Александра Вячеславовна</span></td><td>10:00–14:00</td><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Трек-номера обрезаны с конца: «RU48291…»"><span class="ds-lesson__dt-trunc" style="--dt-trunc: 5em">RU482917360544RU</span></span></td><td class="is-num">3 480</td></tr>
+                <tr class="is-selected"><th scope="row" class="ds-lesson__dt-fix">1063</th><td>Кофейня «Зерно»</td><td>09:00–12:00</td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 5em">RU482917360581RU</span></td><td class="is-num"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Сумма заказа кофейни обрезана: «43 3…»"><span class="ds-lesson__dt-trunc" style="--dt-trunc: 3em">43 380</span></span></td></tr>
+                <tr class="is-selected"><th scope="row" class="ds-lesson__dt-fix">1064</th><td>Павел Орлов</td><td>18:00–22:00</td><td><span class="ds-lesson__dt-trunc" style="--dt-trunc: 5em">RU482917360613RU</span></td><td class="is-num"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Суммы по правому краю, моноширинными цифрами">12 450</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-foot"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Подвал: «Загружаем ещё…» — бесконечная прокрутка">Загружаем ещё…</span><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Выбор «Строк на странице: 25»">Строк на странице: 25</span></div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Заказы» без числа строк и кнопка «Фильтры (3)».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Три фильтра применены, но не видно какие, и не видно, сколько строк осталось из скольких. Плашки со значениями над таблицей и «3 из 1 240» в шапке.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Выбрано: 25» и «Удалить».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Флажок в заголовке выбрал видимые 25 строк, а панель не говорит, что это только эта страница, и не предлагает выбрать все. А удаление 25 заказов идёт без вопроса и без отмены.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Первая колонка закреплена.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Таблица шире экрана, и номер заказа остаётся на месте, пока листают вбок.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Заголовок «Интервал доставки» в две строки.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Длинный заголовок перенесён, а не обрезан: видно, что в колонке, и колонка не шире своих данных.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Имя на две строки.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Имя читают целиком, и две строки — в пределах правила. Строка стала выше, но ничего не уехало.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Трек-номера обрезаны с конца.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Все номера начинаются с «RU48291», и после обрезки они одинаковые. Отличается конец — обрезку ставят в середину: «RU4829…544RU».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Сумма «43 3…».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Числа не обрезают. Самая крупная сумма месяца — ровно та, которую ищут, а она не читается. Колонка шире самого длинного числа, ужимается текстовая.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Суммы по правому краю.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Разряды стоят друг под другом, крупное видно сразу.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Загружаем ещё…» — бесконечная прокрутка.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>В рабочей таблице не видно, сколько всего, а после карточки заказа не вернуться на место. Страницы с «1–25 из 1 240».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">«Строк на странице: 25».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Разумное число по умолчанию, и тот, кому мало, выберет 50 или 100.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой кусок таблицы</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Спрятанные фильтры, «все», которые на самом деле 25, номера, неотличимые после обрезки, обрезанная сумма и бесконечная прокрутка. На десяти строках из макета ни одна из этих поломок не видна.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные куски тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Таблицу проверяют на самых длинных данных, а не на средних.</b> Попросите у разработки выгрузку: самое длинное имя, самый длинный адрес, самую крупную сумму, самый большой заказ.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Доведите свою таблицу до настоящих объёмов: фильтры, выбор строк, групповое действие, поведение на узком экране. Прогоните её на данных с длинными значениями.</p>
+
+  <h3>Часть 1 · Собрать худшие данные, 20 минут</h3>
+  <ol>
+    <li><strong>Возьмите таблицу</strong> из задания Junior или любую рабочую таблицу своего продукта.</li>
+    <li><strong>Соберите худшие значения</strong> для каждой колонки: самое длинное, самое короткое, пустое. Лучше из настоящей выгрузки, а не придуманные.</li>
+    <li><strong>Выпишите объёмы:</strong> сколько строк обычно, сколько в самый загруженный день, сколько за год.</li>
+    <li><strong>Решите по каждой колонке,</strong> что делать с длинным: перенос, обрезка с конца, обрезка в середине или «не обрезать».</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Таблица на настоящих данных · заполните<span class="ds-lesson__spacer"></span><span data-copy="volumeTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="volumeTmpl">ТАБЛИЦА: ______________________        Дата: __.__.____
+
+ОБЪЁМЫ
+обычно: ____ строк   в пиковый день: ____   за год: ____
+показ: страницы по ____ / «Показать ещё»   почему: __________
+
+КОЛОНКИ И ДЛИННЫЕ ЗНАЧЕНИЯ
+колонка ________  самое длинное: ________________  перенос / обрезка с конца / в середине / не обрезать
+колонка ________  самое длинное: ________________  перенос / обрезка с конца / в середине / не обрезать
+первая колонка закреплена: да / нет
+
+УЗКИЙ ЭКРАН
+задача на телефоне: сравнить / найти и открыть / пройти по списку
+способ: листать вбок / карточки / главное и раскрытие
+что остаётся на экране: ______________________
+
+ФИЛЬТРЫ
+где видно применённые: ______________________
+«N из M»: где ______________   сброс всего: где ______________
+
+ВЫБОР И ГРУППОВЫЕ ДЕЙСТВИЯ
+действие ________________  отменить можно: да / нет → отмена / подтверждение
+«все на странице» → «выбрать все N»: текст ______________________
+
+ВОЗВРАТ ИЗ КАРТОЧКИ: страница, фильтры, сортировка сохраняются: да / нет</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строку «самое длинное» заполняйте настоящими значениями из базы: придуманные всегда короче настоящих.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать, 60 минут</h3>
+  <ol>
+    <li><strong>Подставьте худшие данные</strong> в таблицу и поправьте колонки по своим решениям.</li>
+    <li><strong>Нарисуйте фильтры</strong> в применённом виде: плашки, «N из M», «Сбросить всё», пустой результат.</li>
+    <li><strong>Нарисуйте выбор по шагам:</strong> ничего, часть, все на странице с предложением выбрать все, после действия с отменой.</li>
+    <li><strong>Нарисуйте узкий экран</strong> выбранным способом на тех же худших данных.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 15 минут</h3>
+  <ol>
+    <li><strong>Проверьте каждую ширину:</strong> ноутбук, планшет, телефон. Ничего не уехало за край, числа не обрезаны.</li>
+    <li><strong>Пройдите сценарий</strong> «отфильтровал → выбрал → сделал → ошибся → отменил» и сценарий «открыл карточку → вернулся».</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> На данных с самыми длинными значениями раскладка не ломается ни на одной ширине.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Таблица на худших данных</strong> на трёх ширинах.</li>
+    <li><strong>Фильтры и выбор строк</strong> по шагам, с отменой группового действия.</li>
+    <li><strong>Заполненный шаблон</strong> с решениями по каждой колонке.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 20 минут на данные, час на макеты, 15 минут на проверку. Всего — около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Настоящих данных не дают».</strong> Попросите не данные, а крайние значения: длину самого длинного имени, самую крупную сумму, число строк за год. Это не личные данные, а цифры.</li>
+    <li><strong>«На телефоне таблицей никто не пользуется».</strong> Посмотрите статистику: заходят ли в админку с телефона. Если заходят хоть изредка, таблица должна там хотя бы читаться.</li>
+    <li><strong>«Отмену сложно сделать».</strong> Тогда это действие с подтверждением, и в вопросе — число записей и что с ними будет. Но спросите разработку: часто «отменить» — это просто вернуть прежний статус.</li>
+    <li><strong>«Фильтров слишком много для плашек».</strong> Плашками показывают применённые фильтры, а не все возможные. Применённых обычно два-три.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Таблица готова к настоящим данным, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Для каждой колонки решено, что делать с длинным значением</li>
+    <li>Числа не обрезаются, длинный заголовок переносится или понятно сокращается</li>
+    <li>Обрезанное значение можно прочитать целиком в карточке</li>
+    <li>Первая колонка закреплена, если таблица шире экрана</li>
+    <li>На телефоне остаётся то, по чему решают, и видно, как добраться до остального</li>
+    <li>Применённые фильтры видны плашками, рядом «N из M» и «Сбросить всё»</li>
+    <li>«Выбрать все» говорит, сколько выбрано, и предлагает выбрать все подходящие</li>
+    <li>Групповое действие либо отменяется, либо спрашивает с числом и последствиями</li>
+    <li>После возврата из карточки — та же страница, фильтры и сортировка</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Макет на средних данных.</b> Поломки видны только на самых длинных.</li>
+    <li><b>Фильтры за кнопкой.</b> Человек не знает, что видит часть строк.</li>
+    <li><b>«Выбраны все» на одной странице.</b> Действие уходит на 25 строк вместо 1 240, или наоборот.</li>
+    <li><b>«Вы уверены?» на всё.</b> Люди привыкают нажимать «Да», и вопрос перестаёт защищать.</li>
+    <li><b>Бесконечная прокрутка в рабочей таблице.</b> Не видно, сколько всего, и не вернуться на место.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся держать настоящие объёмы и настоящую работу с таблицей. На следующей ступени — сводить все таблицы продукта к общим правилам.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Выбирать колонки под решение; выравнивать числа и текст; показывать сортировку; рисовать пустую таблицу с объяснением; решать, где живёт действие над строкой</td>
+          <td class="ds-lesson__dim">Для каждой колонки можно объяснить, какое решение она помогает принять</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Держать длинные значения, много колонок и сотни строк; проектировать таблицу для узкого экрана; показывать применённые фильтры; давать выбор строк и групповые действия с отменой</td>
+          <td>На данных с самыми длинными значениями раскладка не ломается ни на одной ширине</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Сводить таблицы продукта к общим правилам; задавать поведение по умолчанию; описывать, когда таблица не подходит; проверять новые экраны по правилам и обновлять правила</td>
+          <td class="ds-lesson__dim">Новая таблица, собранная другим дизайнером по правилам, ведёт себя так же, как остальные</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> вы заранее знаете, что станет с вашей таблицей при самом длинном имени, тысяче строк и узком экране, и это нарисовано, а не оставлено разработке.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/mobile-tables/">Mobile Tables: Comparisons and Other Data Tables</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Эми Шейд · на английском · бесплатно</span><span>Как уместить большую таблицу в телефон: ширина колонок, закреплённые шапка и первый столбец, заметная прокрутка вбок, выбор нужных строк и колонок. Примеры 2017 года, в основном сравнение товаров.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/patterns/overflow-content/">Overflow content</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Короткий паттерн IBM Carbon об обрезке текста: многоточие в начале, в середине и в конце, обязательная подсказка с полным текстом и что обрезать нельзя. Про таблицы и телефон там ничего.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20150127/">Расскажите про вёрстку больших таблиц</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2015 · на русском · бесплатно</span><span>Ответ Ильи Бирмана про таблицу в 20 колонок: разделить и объединить колонки, сократить заголовки, переносить длинные значения, закрепить шапку — или оставить таблицу широкой. С девятью примерами 2015 года.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://baymard.com/research-articles/how-to-design-applied-filters">Display “Applied Filters” in an Overview</a></span><span class="ds-lesson__reads-meta"><a href="/resource/baymard/">Baymard Institute</a>, Кэтрин Ривз · на английском · бесплатно</span><span>Исследование Baymard на каталогах магазинов: почему без списка выбранных фильтров люди неверно понимают, что видят, где этот список ставить и почему одного числа «Фильтры (2)» мало. Перенос на рабочие таблицы — вывод урока.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/infinite-scrolling-tips/">Infinite Scrolling: When to Use It, When to Avoid It</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Тим Нойзессер · на английском · бесплатно</span><span>Чем бесконечная прокрутка удобна и чем мешает: трудно найти элемент снова, не видно конца, недоступен подвал. Когда лучше страницы или «Показать ещё» и почему после карточки человека возвращают на то же место.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20220412/">Пагинация таблицы ордеров с тысячами строк</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2022 · на русском · бесплатно</span><span>Короткий ответ Ильи Бирмана про таблицу на десятки тысяч строк: вместо умной разбивки на страницы разобрать задачи поиска и сравнения и дать под них фильтры, поиск и отчёты.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

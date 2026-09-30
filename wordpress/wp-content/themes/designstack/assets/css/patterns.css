@@ -9165,3 +9165,431 @@ button.ds-lesson__bm-pin.ds-lesson__hunt-pin:hover {
 	right: calc(-1 * var(--wp--custom--border-width--focus));
 	border-top: var(--wp--custom--border-width--focus) dashed var(--wp--preset--color--icon-warning);
 }
+
+/* ---------- урок «Таблицы и списки» ---------- */
+
+/* Экран рабочего инструмента: шире телефона, во всю коробку урока. Таблица
+   внутри листается вбок, если не помещается, — страница при этом не шире окна.
+   Черновой, без фирменного цвета, как экраны урока «Вайрфреймы и прототипы»:
+   урок про состав таблицы, а не про её окраску. Плотность строк —
+   пользовательское свойство `--dt-pad` в разметке урока (D182). */
+.ds-lesson__dt {
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__dt + .ds-lesson__dt {
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+/* Шапка экрана: название раздела и сколько всего строк. */
+.ds-lesson__dt-top {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-weight: 600;
+}
+
+.ds-lesson__dt-top > span:not([class]) {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 400;
+}
+
+/* Строка над таблицей: поиск, применённые фильтры, сброс. */
+.ds-lesson__dt-tools,
+.ds-lesson__dt-bulk {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+/* Выбраны строки: на месте инструментов — счётчик и групповые действия. */
+.ds-lesson__dt-bulk {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__dt-bulk b {
+	font-weight: 600;
+}
+
+.ds-lesson__dt-search {
+	flex: 1 1 10rem;
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Применённый фильтр: рамка и крестик — его видно и его можно снять. */
+.ds-lesson__dt-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-subtle);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.ds-lesson__dt-link {
+	color: var(--wp--preset--color--text-action);
+	text-decoration: underline;
+	white-space: nowrap;
+}
+
+.ds-lesson__dt-spacer {
+	flex: 1;
+}
+
+/* Кнопка на экране таблицы. Главная — тёмная, как в черновых экранах урока. */
+.ds-lesson__dt-btn {
+	display: inline-block;
+	padding: var(--wp--preset--spacing--1) var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.ds-lesson__dt-btn--primary {
+	border-color: transparent;
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__dt-btn--danger {
+	border-color: var(--wp--preset--color--border-error);
+	color: var(--wp--preset--color--text-error);
+}
+
+/* Меню строки «⋯»: редкие действия. */
+.ds-lesson__dt-more {
+	display: inline-block;
+	min-width: var(--wp--preset--spacing--6);
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--sm);
+	color: var(--wp--preset--color--text-muted);
+	font-weight: 700;
+	text-align: center;
+}
+
+/* Точка отсчёта для скрытых подписей внутри таблицы: иначе они встают от
+   страницы и растягивают её вбок на телефоне. */
+.ds-lesson__dt-scroll {
+	position: relative;
+	overflow-x: auto;
+}
+
+.ds-lesson__dt-scroll:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: calc(-1 * var(--wp--custom--border-width--focus));
+}
+
+/* Кегль задан у самой таблицы: она стоит и в экране инструмента, и в черновом
+   экране телефона, а у того свой кегль. */
+.ds-lesson__dt-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__dt-table th,
+.ds-lesson__dt-table td {
+	padding: var(--dt-pad, var(--wp--preset--spacing--2)) var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	text-align: left;
+	vertical-align: top;
+	white-space: nowrap;
+}
+
+.ds-lesson__dt-table thead th {
+	border-top: 0;
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+/* Заголовок строки (номер заказа) выглядит как обычная ячейка: он для диктора,
+   а не для глаза. */
+.ds-lesson__dt-table tbody th {
+	font-weight: inherit;
+}
+
+/* Настройка под таблицей: кнопки плотности отступают от неё. */
+.ds-lesson__dt + .ds-lesson__tune-pick {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__dt-table thead th.is-sorted {
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Числа, которые сравнивают, — по правому краю и моноширинными цифрами:
+   разряд встаёт под разряд. Заголовок колонки выравнивается так же. */
+.ds-lesson__dt-table .is-num {
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+}
+
+/* Намеренная ошибка на учебном экране: число по левому краю. */
+.ds-lesson__dt-table .is-left {
+	font-variant-numeric: normal;
+	text-align: left;
+}
+
+.ds-lesson__dt-table .is-wrap {
+	min-width: 9em;
+	white-space: normal;
+}
+
+/* Длинный заголовок переносится по ширине данных колонки, а не держит её. */
+.ds-lesson__dt-table thead th.is-wrap {
+	min-width: 0;
+}
+
+.ds-lesson__dt-table tr.is-selected td {
+	background: var(--wp--preset--color--surface-selected);
+}
+
+/* Стрелка сортировки. У колонки, по которой отсортировано, — направление;
+   у остальных сортируемых — приглушённая двойная стрелка. */
+.ds-lesson__dt-arrow {
+	display: inline-block;
+	min-width: 1em;
+	margin-left: var(--wp--preset--spacing--1);
+	text-align: center;
+}
+
+.ds-lesson__dt-table th:not(.is-sorted) .ds-lesson__dt-arrow {
+	color: var(--wp--preset--color--text-muted);
+	font-weight: 400;
+}
+
+/* Заголовок-кнопка: выглядит как заголовок, нажимается как кнопка. */
+.ds-lesson__dt-sortbtn {
+	display: inline-flex;
+	align-items: baseline;
+	padding: 0;
+	border: 0;
+	border-radius: var(--wp--custom--radius--xs);
+	background: none;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+}
+
+.ds-lesson__dt-sortbtn:hover {
+	color: var(--wp--preset--color--text-default);
+	text-decoration: underline;
+}
+
+.ds-lesson__dt-sortbtn:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Вторая строка ячейки: интервал доставки, телефон, пояснение. */
+.ds-lesson__dt-sub {
+	display: block;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+/* Статус заказа — словом в рамке, не цветом. */
+.ds-lesson__dt-status {
+	display: inline-block;
+	padding: 0 var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--full);
+	font-size: var(--wp--preset--font-size--xs);
+	white-space: nowrap;
+}
+
+.ds-lesson__dt-status--new {
+	border-style: dashed;
+}
+
+/* Пометка в строке: «подарок», «комментарий» — есть или нет, без своей колонки. */
+.ds-lesson__dt-tag {
+	display: inline-block;
+	margin-left: var(--wp--preset--spacing--1);
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--xs);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	white-space: nowrap;
+}
+
+/* Флажок выбора строки. Нарисован, а не настоящий: на учебном экране его
+   не нажимают. Отмеченный — заливкой и галочкой, частичный — чертой. */
+.ds-lesson__dt-check {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--wp--custom--size--icon-sm);
+	height: var(--wp--custom--size--icon-sm);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+.ds-lesson__dt-check.is-on,
+.ds-lesson__dt-check.is-some {
+	border-color: var(--wp--preset--color--text-default);
+	background: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__dt-check.is-on::after {
+	content: "✓";
+}
+
+.ds-lesson__dt-check.is-some::after {
+	content: "–";
+}
+
+/* Длинное значение, обрезанное с многоточием. Ширина — в разметке урока. */
+.ds-lesson__dt-trunc {
+	display: block;
+	max-width: var(--dt-trunc, 12em);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* Закреплённая первая колонка: остаётся на месте, когда таблицу листают вбок. */
+.ds-lesson__dt-table .ds-lesson__dt-fix {
+	position: sticky;
+	left: 0;
+	z-index: 1;
+	background: var(--wp--preset--color--surface-default);
+	box-shadow: inset calc(-1 * var(--wp--custom--border-width--hairline)) 0 0 var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__dt-table thead .ds-lesson__dt-fix {
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+/* Пустая таблица: заголовок остаётся, на месте строк — объяснение и действие. */
+.ds-lesson__dt-table td.ds-lesson__dt-empty {
+	padding: var(--wp--preset--spacing--8) var(--wp--preset--spacing--4);
+	text-align: center;
+	white-space: normal;
+}
+
+.ds-lesson__dt-empty b,
+.ds-lesson__dt-empty span {
+	display: block;
+	margin-bottom: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__dt-empty span {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+/* Кусок поиска ошибок на месте пустой таблицы: заголовок и пояснение столбиком. */
+.ds-lesson__dt-empty .ds-lesson__dt-hit.ds-lesson__hunt-pin {
+	flex-direction: column;
+	align-items: center;
+}
+
+/* Подвал: сколько строк показано из скольких и переход по страницам. */
+.ds-lesson__dt-foot {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+/* Строка состояния сортировки: что сейчас и в какую сторону — словами. */
+.ds-lesson__dt-live {
+	margin: 0;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+/* Номер части таблицы на схеме правил: кружок перед подписью. */
+.ds-lesson__dt-n {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: calc(var(--wp--preset--spacing--4) + var(--wp--preset--spacing--1));
+	height: calc(var(--wp--preset--spacing--4) + var(--wp--preset--spacing--1));
+	margin-right: var(--wp--preset--spacing--1);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+	line-height: 1;
+	vertical-align: middle;
+}
+
+/* Кусок таблицы в поиске ошибок: пунктир вокруг содержимого ячейки. */
+button.ds-lesson__dt-hit.ds-lesson__hunt-pin,
+.ds-lesson__dt-hit.ds-lesson__hunt-pin {
+	position: static;
+	display: inline-flex;
+	align-items: baseline;
+	gap: var(--wp--preset--spacing--1);
+	width: auto;
+	height: auto;
+	margin: calc(-1 * var(--wp--custom--border-width--focus)) calc(-1 * var(--wp--preset--spacing--1));
+	padding: var(--wp--custom--border-width--focus) var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	text-align: inherit;
+	transform: none;
+}
+
+button.ds-lesson__dt-hit.ds-lesson__hunt-pin:hover {
+	border-color: var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__dt-hit.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__dt-hit.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	background: var(--wp--preset--color--surface-subtle);
+}

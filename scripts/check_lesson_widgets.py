@@ -1,4 +1,4 @@
-"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка», «Типографика», «Цвет и контраст» и «Анимация и микровзаимодействия».
+"""Прогон живых кусков уроков в браузере: темы «Юзабилити-тесты», «Анализ конкурентов», «Сценарии и структура», «Опросы», «Вайрфреймы и прототипы» и «Композиция и сетка», «Типографика», «Цвет и контраст» и «Анимация и микровзаимодействия», «Таблицы и списки».
 
     python scripts/check_lesson_widgets.py [--base https://designstack.ru]
 
@@ -74,6 +74,10 @@ with sync_playwright() as play:
         ("brand-language-junior", ["Не та версия. Рыжий знак на тёмном фоне", "негативная — светлым на тёмном", "Довод о характере"]),
         ("brand-language-middle", ["Охранное поле. Заголовок стоит вплотную", "Только знак и цвет", "lockup-negative.svg"]),
         ("brand-language-senior", ["Мода. Причина есть в продукте", "«Оценка куратора важнее названия»", "СУТЬ (3–4 слова о продукте)"]),
+        # Три причины пустоты, способы для длинного и узкого, шаги выбора строк — содержимое урока.
+        ("tables-lists-junior", ["Возвратов пока не было", "Все заказы на сегодня собраны", "Убрать. Оператор по ней ничего не решает"]),
+        ("tables-lists-middle", ["RU4829…544RU", "Выбрать все 42 собранных", "42 заказа переданы курьеру", "Переделать. Числа не обрезают"]),
+        ("tables-lists-senior", ["Карандаш и корзина", "Не по правилу 3. Изменение — в карточке", "ЧТО ПРИВЕСТИ К ПРАВИЛУ"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1277,6 +1281,79 @@ with sync_playwright() as play:
     leak = page.evaluate(HIDDEN)
     fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
     fails += 0 if say(hunt_all(page, 10), "черновик описания: доводы не засчитаны, моды и вкуса найдено 5 из 5") else 1
+    page.close()
+
+    # «Таблицы и списки»: живая сортировка переставляет строки и переносит `aria-sort`,
+    # настройка плотности меняет высоту строк, три поиска считают только поломки.
+    page = ctx.new_page()
+    page.goto(BASE + "tables-lists-junior/")
+    page.wait_for_timeout(300)
+    head("tables-lists-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    table = "#sort [data-dt-sort]"
+    state = """() => { const box = document.querySelector('#sort [data-dt-sort]');
+        return [[...box.querySelectorAll('tbody tr')].map(r => r.cells[0].textContent.trim()),
+                [...box.querySelectorAll('th[aria-sort]')].map(th => th.textContent.trim() + ':' + th.getAttribute('aria-sort')),
+                box.querySelectorAll('th button').length, box.querySelector('[data-dt-live]').textContent.trim()]; }"""
+    first = page.evaluate(state)
+    fails += 0 if say(first[2] == 3 and first[0][:2] == ["1051", "1052"] and len(first[1]) == 1,
+                      "сортировка: три заголовка-кнопки, сначала по доставке — %s" % first[:3]) else 1
+    page.click(table + " thead th:nth-child(5) button")
+    page.wait_for_timeout(30)
+    big = page.evaluate(state)
+    page.click(table + " thead th:nth-child(5) button")
+    page.wait_for_timeout(30)
+    small = page.evaluate(state)
+    fails += 0 if say(big[0][0] == "1049" and big[1] == ["Сумма, ₽↓:descending"] and "сначала крупные" in big[3],
+                      "первое нажатие по «Сумме» — крупные сверху, стрелка и строка состояния: %s" % big[1:]) else 1
+    fails += 0 if say(small[0][0] == "1052" and small[1] == ["Сумма, ₽↑:ascending"] and "сначала меньшие" in small[3],
+                      "второе нажатие — обратный порядок: %s" % small[1:]) else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "макет таблицы: нормальное не засчитано, ошибок найдено 5 из 5") else 1
+    page.close()
+
+    # Без скрипта у живой таблицы нет кнопок, а порядок по умолчанию и строка состояния видны.
+    plain = browser.new_context(java_script_enabled=False)
+    page = plain.new_page()
+    page.goto(BASE + "tables-lists-junior/")
+    head("tables-lists-junior · таблица без скрипта")
+    static = page.evaluate("""() => { const box = document.querySelector('#sort [data-dt-sort]');
+        return [box.querySelectorAll('button').length, box.querySelector('th[aria-sort]').textContent.trim(),
+                box.querySelector('[data-dt-live]').textContent.trim()]; }""")
+    fails += 0 if say(static[0] == 0 and static[1] == "Доставка↑" and "сначала ближайшие" in static[2],
+                      "без скрипта: кнопок нет, отсортировано по доставке — %s" % static) else 1
+    plain.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "tables-lists-middle/")
+    page.wait_for_timeout(300)
+    head("tables-lists-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    shown = page.evaluate("[...document.querySelectorAll('#select [data-switch-pane]')].filter(el => el.offsetParent !== null).map(el => el.getAttribute('data-switch-pane'))")
+    fails += 0 if say(shown == ["sl1"], "выбор строк по шагам: виден один шаг — «Ничего не выбрано»") else 1
+    row = "() => Math.round(document.querySelector('#wide .ds-lesson__dt-table tbody tr').getBoundingClientRect().height)"
+    usual = page.evaluate(row)
+    page.click("#wide [data-tune-pick] button:nth-of-type(3)")
+    page.wait_for_timeout(30)
+    dense = page.evaluate(row)
+    fails += 0 if say(dense < usual, "плотность: «Плотно» ниже обычной строки — %s → %s" % (usual, dense)) else 1
+    fixed = page.evaluate("""() => { const scroll = document.querySelector('#wide .ds-lesson__dt-scroll');
+        const cell = scroll.querySelector('tbody .ds-lesson__dt-fix'); const before = cell.getBoundingClientRect().left;
+        scroll.scrollLeft = 200; return [scroll.scrollWidth > scroll.clientWidth, Math.round(cell.getBoundingClientRect().left - before)]; }""")
+    fails += 0 if say(fixed[0] and fixed[1] == 0, "десять колонок листаются, первая стоит на месте: %s" % fixed) else 1
+    fails += 0 if say(hunt_all(page, 10), "прогон на длинных данных: нормальное не засчитано, поломок 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "tables-lists-senior/")
+    page.wait_for_timeout(300)
+    head("tables-lists-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "таблица поставщиков: по правилам не засчитано, отличий 5 из 5") else 1
     page.close()
     browser.close()
 

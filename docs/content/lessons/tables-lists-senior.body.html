@@ -1,0 +1,481 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#inventory">Семь таблиц одной админки</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#parts">Правила по частям таблицы</a><span class="ds-lesson__tag">схема</span></li>
+    <li><a href="#defaults">Поведение по умолчанию</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#not-table">Когда таблица не подходит</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#review">Проверить новый экран по правилам</a><span class="ds-lesson__tag">поиск</span></li>
+    <li><a href="#update">Случай, который не лезет в правила</a></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Админка «Лесной обжарки» через два года после первой таблицы заказов из <a href="/lessons/tables-lists-junior/">урока Junior</a>. Таблиц стало семь, их рисовали три дизайнера в разное время. Каждая по отдельности сделана неплохо. Вместе они ведут себя по-разному, и сотрудники это замечают.</div>
+
+<section id="inventory">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Семь таблиц одной админки</h2></div>
+  <p class="ds-lesson__lead">Правила начинаются не с чистого листа, а с того, что уже есть: все таблицы продукта выписывают рядом и сравнивают по одним и тем же вопросам.</p>
+
+  <p>Оператор с утра работает в заказах, после обеда — в возвратах. В заказах нажатие по строке открывает карточку, в возвратах — ничего не делает. В заказах редкие действия лежат в меню «⋯», в клиентах — иконками прямо в строке, и корзина стоит рядом с карандашом. Каждый раз, переходя в другую таблицу, оператор учится заново и ошибается в том, в чём уже не ошибался.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Таблица</th><th scope="col">Порядок по умолчанию</th><th scope="col">Фильтры</th><th scope="col">Нажатие по строке</th><th scope="col">Действия строки</th><th scope="col">Выбор строк</th><th scope="col">Много строк</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Заказы</th><td>Ближайшая доставка</td><td>Плашками над таблицей</td><td>Карточка</td><td>Кнопка и «⋯»</td><td>Флажки, панель сверху</td><td>Страницы по 25</td></tr>
+        <tr><th scope="row">Клиенты</th><td>По имени</td><td>Боковая панель</td><td>Ничего, ссылка на имени</td><td>Карандаш и корзина</td><td>Флажки при наведении</td><td>Страницы по 50</td></tr>
+        <tr><th scope="row">Товары</th><td>Новые снизу</td><td>За кнопкой «Фильтры»</td><td>Сразу правка</td><td>«⋯»</td><td>Нет</td><td>Бесконечная прокрутка</td></tr>
+        <tr><th scope="row">Склад</th><td>Как в базе</td><td>Нет</td><td>Правка в ячейке</td><td>Нет</td><td>Нет</td><td>Всё на одной странице</td></tr>
+        <tr><th scope="row">Возвраты</th><td>Новые сверху</td><td>Плашками</td><td>Ничего</td><td>Кнопки «Вернуть» и «Отклонить»</td><td>Флажки, панель снизу</td><td>Страницы по 25</td></tr>
+        <tr><th scope="row">Промокоды</th><td>По номеру</td><td>Нет</td><td>Карточка</td><td>Карандаш и корзина</td><td>Нет</td><td>«Показать ещё»</td></tr>
+        <tr><th scope="row">Отзывы</th><td>Новые сверху</td><td>Вкладки</td><td>Карточка</td><td>«⋯»</td><td>Флажки, панель сверху</td><td>Страницы по 20</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>В каждой колонке этой сводки — от трёх до пяти разных ответов на один вопрос. Не всякий разнобой плох: складу правка в ячейке может быть нужна, а заказам — нет. Но у большей части различий нет причины, кроме того, что таблицы рисовали разные люди.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Различие</th><th scope="col">Есть причина?</th><th scope="col">Что делать</th></tr></thead>
+      <tbody>
+        <tr><td>Склад правят прямо в ячейке</td><td>Да: при пересчёте кладовщик меняет сотни остатков подряд, и открывать карточку на каждый — лишние сотни нажатий</td><td>Записать исключением, с причиной</td></tr>
+        <tr><td>У возвратов кнопки в строке, а не в меню</td><td>Да: «Вернуть» и «Отклонить» — главные действия этой таблицы</td><td>Не исключение: правило «частое действие — кнопкой» здесь и выполняется</td></tr>
+        <tr><td>В клиентах нажатие по строке ничего не делает</td><td>Нет</td><td>Привести к правилу: строка открывает карточку</td></tr>
+        <tr><td>Товары догружаются бесконечно</td><td>Нет: товары ищут и правят, а не листают</td><td>Привести к правилу: страницы</td></tr>
+        <tr><td>Страницы по 20, 25 и 50</td><td>Нет</td><td>Одно число по умолчанию и одинаковый выбор</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Сначала сводка, потом правила.</b> Правило, написанное без сводки, описывает одну любимую таблицу и не отвечает на вопросы остальных.</div>
+
+  <p class="ds-lesson__dim">Такой разбор — частный случай инвентаризации интерфейса, о которой писал Брэд Фрост: собрать все варианты одного элемента в одно место, чтобы увидеть разнобой. Про сами состояния и паттерны — урок <a href="/lessons/patterns-states-senior/">«Паттерны и состояния, Senior»</a>.</p>
+</section>
+
+<section id="parts">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Правила по частям таблицы</h2></div>
+  <p class="ds-lesson__lead">У любой рабочей таблицы одни и те же части. Правила удобно писать по ним: тогда у каждого вопроса одно место в документе.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Эталонная таблица · пять частей</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__dt">
+        <div class="ds-lesson__dt-top"><span class="ds-lesson__dt-n">1</span>Заказы <span>3 из 1 240</span></div>
+        <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-search">Номер, имя или телефон</span><span class="ds-lesson__dt-chip">Собран ×</span><span class="ds-lesson__dt-link">Сбросить всё</span><span class="ds-lesson__dt-spacer"></span><span class="ds-lesson__dt-btn ds-lesson__dt-btn--primary">Новый заказ</span></div>
+        <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Эталонная таблица, листается вбок">
+          <table class="ds-lesson__dt-table">
+            <thead><tr><th scope="col"><span class="ds-lesson__dt-n">4</span><span class="ds-lesson__dt-check"></span><span class="screen-reader-text">Выбрать все</span></th><th scope="col">№</th><th scope="col" aria-sort="ascending" class="is-sorted"><span class="ds-lesson__dt-n">2</span>Доставка<span class="ds-lesson__dt-arrow" aria-hidden="true">↑</span></th><th scope="col">Покупатель</th><th scope="col" class="is-num">Сумма, ₽</th><th scope="col"><span class="screen-reader-text">Действия</span></th></tr></thead>
+            <tbody>
+              <tr><td><span class="ds-lesson__dt-check"></span></td><td><span class="ds-lesson__dt-n">3</span>1051</td><td>30.09 · 10–14</td><td>Ирина Соколова</td><td class="is-num">1 850</td><td><span class="ds-lesson__dt-btn">Передать курьеру</span> <span class="ds-lesson__dt-more">⋯</span></td></tr>
+              <tr><td><span class="ds-lesson__dt-check"></span></td><td>1047</td><td>30.09 · 14–18</td><td>Ольга Ким</td><td class="is-num">2 670</td><td><span class="ds-lesson__dt-btn">Передать курьеру</span> <span class="ds-lesson__dt-more">⋯</span></td></tr>
+              <tr><td><span class="ds-lesson__dt-check"></span></td><td>1044</td><td>30.09 · 14–18</td><td>Сергей Лебедев</td><td class="is-num">1 780</td><td><span class="ds-lesson__dt-btn">Передать курьеру</span> <span class="ds-lesson__dt-more">⋯</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ds-lesson__dt-foot"><span><span class="ds-lesson__dt-n">5</span>1–3 из 3</span><span>Строк на странице: 25</span></div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Цифры на схеме — номера частей в таблице правил ниже.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Часть</th><th scope="col">Что решает правило</th><th scope="col">Правило админки «Лесной обжарки»</th></tr></thead>
+      <tbody>
+        <tr><td><b>1. Панель над таблицей</b></td><td>Где поиск, как видны фильтры, где главная кнопка</td><td>Поиск слева по полям, которые называют по телефону. Фильтры плашками, «N из M» в шапке, «Сбросить всё». Кнопка создания справа</td></tr>
+        <tr><td><b>2. Заголовок</b></td><td>Порядок по умолчанию, какие колонки сортируются, как видна сортировка</td><td>Порядок — по типу таблицы (раздел 3). Сортируются колонки, где ищут крайнее. Стрелка у одной колонки</td></tr>
+        <tr><td><b>3. Строка</b></td><td>Что делает нажатие, где частое действие, где редкие, как защищены опасные</td><td>Строка открывает карточку. Частое — одной кнопкой. Редкие — в «⋯». Необратимое — с подтверждением, обратимое — с отменой</td></tr>
+        <tr><td><b>4. Выбор строк</b></td><td>Когда он есть, где панель действий, что значит «все»</td><td>Флажки видны всегда. Панель встаёт на место поиска. «Все на странице» предлагает «все N»</td></tr>
+        <tr><td><b>5. Подвал</b></td><td>Как показывать много строк</td><td>Страницы по 25, выбор 25, 50 или 100, «1–25 из N»</td></tr>
+        <tr><td><b>Везде</b></td><td>Длинные значения, узкий экран, загрузка, пусто, ошибка</td><td>По урокам <a href="/lessons/tables-lists-middle/">Middle</a> и <a href="/lessons/patterns-states-junior/">про состояния</a>: числа не обрезаются, первая колонка закреплена, пусто — с причиной и действием</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Большие дизайн-системы описывают таблицу по тем же частям. У IBM Carbon над таблицей панель с главной кнопкой, поиском, фильтрами и настройками вида, а когда выбрана строка, сверху появляется панель групповых действий. У Atlassian своя таблица с сортировкой и разбивкой на страницы. В Material Design 3 таблицы данных нет вовсе: она описана только во второй версии системы. Их описания полезно прочитать, но скопировать нельзя: порядок по умолчанию, частое действие и число строк на странице зависят от ваших пользователей, а не от чужой системы.</p>
+
+  <p class="ds-lesson__dim">Даже в хороших системах правила расходятся. У Carbon у каждой строки меню «⋯», а если действий меньше трёх, их выносят иконками прямо в строку: критерий — число действий. В админке «Лесной обжарки» критерий — частота: кнопкой стоит то, что делают с каждой строкой. У Ozon панель групповых действий встаёт на место переключателя страниц внизу, у Carbon — сверху. Работают оба варианта, если в продукте выбран один.</p>
+
+  <div class="ds-lesson__warn"><b>Правило без причины не переживёт первого спора.</b> Рядом с каждым правилом — одна строка «почему»: «строка открывает карточку, потому что открыть запись — самое частое действие во всех семи таблицах». Когда кто-то захочет по-другому, спорить будут с причиной, а не с вами.</div>
+</section>
+
+<section id="defaults">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Поведение по умолчанию</h2></div>
+  <p class="ds-lesson__lead">Порядок строк, число строк на странице, плотность — это то, что человек видит, пока ничего не нажал. Многие так ничего и не нажмут, поэтому умолчания решают больше, чем настройки.</p>
+
+  <p>Одно правило «сортировать по дате» для всех таблиц не работает: заказам нужен ближайший срок, журналу — последнее событие, справочнику — алфавит. Правило пишется по типу таблицы, а тип определяет задача человека.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Тип таблицы</th><th scope="col">Что человек делает</th><th scope="col">Порядок по умолчанию</th><th scope="col">Пример в админке</th></tr></thead>
+      <tbody>
+        <tr><td><b>Очередь</b></td><td>Разбирает записи, у которых есть срок</td><td>По сроку: ближайший сверху</td><td>Заказы на сборку, возвраты</td></tr>
+        <tr><td><b>Журнал</b></td><td>Смотрит, что случилось недавно</td><td>Новые сверху</td><td>Отзывы, история изменений</td></tr>
+        <tr><td><b>Справочник</b></td><td>Ищет запись по названию</td><td>По алфавиту</td><td>Поставщики, промокоды</td></tr>
+        <tr><td><b>Отчёт</b></td><td>Ищет самое большое или самое маленькое</td><td>По величине</td><td>Выручка по товарам, остатки на складе</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какой порядок по умолчанию<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="due"><p class="ds-quiz__question">Возвраты: на каждую заявку нужно ответить, пока не истёк срок.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По сроку</b>Это очередь. Сверху — та заявка, у которой срок кончается раньше.</p></li>
+<li data-quiz-q data-answer="new"><p class="ds-quiz__question">История изменений: кто из сотрудников что поменял в заказах.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Новые сверху</b>Журнал открывают, чтобы понять, что случилось только что.</p></li>
+<li data-quiz-q data-answer="abc"><p class="ds-quiz__question">Поставщики: 30 компаний, ищут по названию, когда пришла накладная.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По алфавиту</b>Справочник. Человек знает название и ищет его глазами.</p></li>
+<li data-quiz-q data-answer="size"><p class="ds-quiz__question">Остатки на складе: закупщик смотрит, что скоро закончится.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По величине</b>Отчёт. Сверху — самые маленькие остатки: их и надо дозаказать.</p></li>
+<li data-quiz-q data-answer="due"><p class="ds-quiz__question">Заказы на сборку у сборщика.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По сроку</b>Сверху заказ, который везти раньше всех.</p></li>
+<li data-quiz-q data-answer="new"><p class="ds-quiz__question">Отзывы покупателей, на которые отвечает менеджер.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Новые сверху</b>Срока у отзыва нет, а свежий отзыв важнее вчерашнего: на него ещё не ответили.</p></li>
+<li data-quiz-q data-answer="size"><p class="ds-quiz__question">Выручка по сортам кофе за квартал.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По величине</b>Отчёт. Сначала то, что приносит больше всего.</p></li>
+<li data-quiz-q data-answer="abc"><p class="ds-quiz__question">Промокоды: 12 кодов, маркетолог ищет нужный по названию.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По алфавиту</b>Справочник. В семи таблицах из урока промокоды стояли «по номеру» — порядку, по которому никто ничего не ищет.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="due">По сроку</button><button class="ds-quiz__option" type="button" data-quiz-answer="new">Новые сверху</button><button class="ds-quiz__option" type="button" data-quiz-answer="abc">По алфавиту</button><button class="ds-quiz__option" type="button" data-quiz-answer="size">По величине</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Спросите, что человек ищет первым делом: ближайшее, последнее, известное по названию или крайнее по величине.</div>
+</div>
+
+  <p class="ds-lesson__dim">Якоб Нильсен ещё в 2010 году писал, что алфавитный порядок годится, когда человек знает название того, что ищет. Во всех остальных случаях лучше порядок по смыслу: по времени, по важности, по частоте.</p>
+
+  <p>Остальные умолчания — одной строкой на всю админку:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Умолчание</th><th scope="col">Правило</th><th scope="col">Почему</th></tr></thead>
+      <tbody>
+        <tr><td>Строк на странице</td><td>25, выбор 25 / 50 / 100</td><td>25 строк обычной плотности помещаются на ноутбуке почти без прокрутки</td></tr>
+        <tr><td>Плотность</td><td>Обычная, плотная — по выбору, выбор запоминается</td><td>Плотная нужна тем, кто в таблице весь день, остальным в ней легче промахнуться</td></tr>
+        <tr><td>Фильтр при открытии</td><td>Нет. Сохранённый фильтр — только плашкой на виду</td><td>Скрытый фильтр прячет строки, о которых человек не знает</td></tr>
+        <tr><td>Какие колонки видны</td><td>Те, по которым решают. Остальные — в выборе колонок</td><td>Правило колонки из урока Junior, одно на все таблицы</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="not-table">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Когда таблица не подходит</h2></div>
+  <p class="ds-lesson__lead">Правила таблиц включают и то, когда таблицу не делать. Иначе ею станет всё, что содержит больше двух полей.</p>
+
+  <p>Таблица хороша, когда записей много, у них одни и те же поля, и строки сравнивают между собой или делают с ними что-то пачкой. Если хоть одного из этих условий нет, обычно есть способ лучше.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Данные</th><th scope="col">Способ</th><th scope="col">Пример</th></tr></thead>
+      <tbody>
+        <tr><td>Много записей с одинаковыми полями, их сравнивают</td><td>Таблица</td><td>Заказы, остатки</td></tr>
+        <tr><td>Одна запись, много полей</td><td>Пары «поле — значение»</td><td>Карточка заказа: адрес, телефон, интервал</td></tr>
+        <tr><td>Выбирают глазами, по картинке</td><td>Карточки</td><td>Каталог кофе для покупателя</td></tr>
+        <tr><td>Несколько записей, одно-два поля, открыть одну</td><td>Простой список</td><td>Пять последних заказов на главной админки</td></tr>
+        <tr><td>События во времени</td><td>Лента событий или календарь</td><td>История заказа, смены курьеров</td></tr>
+        <tr><td>Вложенность</td><td>Дерево</td><td>Категории: кофе → зерно → Эфиопия</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · таблица или другой способ<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="table"><p class="ds-quiz__question">Сравнить три тарифа подписки на кофе: цена, пачек в месяц, доставка, пауза.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Таблица</b>Записей мало, но их сравнивают по одним и тем же признакам. Таблица сравнения — тоже таблица.</p></li>
+<li data-quiz-q data-answer="pairs"><p class="ds-quiz__question">Карточка одного заказа: покупатель, телефон, адрес, интервал, комментарий, оплата.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пары «поле — значение»</b>Запись одна, сравнивать не с чем. Таблица из одной строки и шести колонок читается хуже, чем столбик «поле — значение».</p></li>
+<li data-quiz-q data-answer="other"><p class="ds-quiz__question">Что происходило с заказом: создан, оплачен, собран, передан курьеру, доставлен — со временем каждого шага.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Другой вид</b>Это события во времени. Лента сверху вниз показывает последовательность лучше, чем колонки.</p></li>
+<li data-quiz-q data-answer="cards"><p class="ds-quiz__question">Каталог из 60 сортов кофе для покупателя: выбирают по фото, вкусу и цене.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Карточки или список</b>Покупатель не сравнивает 60 строк по колонкам, он смотрит на картинку и описание.</p></li>
+<li data-quiz-q data-answer="table"><p class="ds-quiz__question">1 240 заказов за месяц у бухгалтера: суммы, скидки, налоги, выгрузка.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Таблица</b>Много записей, одинаковые поля, числа сравнивают и выгружают пачкой.</p></li>
+<li data-quiz-q data-answer="other"><p class="ds-quiz__question">Категории товаров: кофе, чай, аксессуары, внутри — подкатегории.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Другой вид</b>Это вложенность. Дерево показывает, что внутри чего, а таблица её сплющивает.</p></li>
+<li data-quiz-q data-answer="cards"><p class="ds-quiz__question">Пять последних заказов на главном экране админки, чтобы открыть нужный.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Карточки или список</b>Записей пять, сравнивать и выбирать пачкой их не нужно. Простой список с номером и суммой.</p></li>
+<li data-quiz-q data-answer="other"><p class="ds-quiz__question">Кто из курьеров в какие дни недели работает.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Другой вид</b>Расписание — это календарь: дни по одной оси, люди по другой. Внешне похоже на таблицу, но работает иначе.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="table">Таблица</button><button class="ds-quiz__option" type="button" data-quiz-answer="pairs">Пары «поле — значение»</button><button class="ds-quiz__option" type="button" data-quiz-answer="cards">Карточки или список</button><button class="ds-quiz__option" type="button" data-quiz-answer="other">Другой вид</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Три вопроса: записей много? поля у них одинаковые? строки сравнивают или обрабатывают пачкой? Три «да» — таблица.</div>
+</div>
+
+  <p class="ds-lesson__dim">В Контур.Гайдах правило ещё короче: таблица нужна, когда значения сравнивают или ищут внутри одного столбца, а если нет — хватит списка или карточек. У GOV.UK для пар «поле — значение» есть отдельный компонент, список сведений, а таблица — чтобы сравнивать строки и колонки. В Nielsen Norman Group объясняют, почему карточки плохи для сравнения: взгляд от карточки к карточке каждый раз заново ищет нужное поле.</p>
+
+  <div class="ds-lesson__rule"><b>В правилах есть раздел «когда не таблица».</b> Без него таблицами станут и карточка заказа, и история изменений.</div>
+</section>
+
+<section id="review">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Проверить новый экран по правилам</h2></div>
+  <p class="ds-lesson__lead">Новый дизайнер собрал таблицу «Поставщики». Правила он прочитал, но в пяти местах сделал по-своему. Проверка по правилам находит это до разработки.</p>
+
+  <p>С поставщиками работают двое: закупщик ищет поставщика по названию, когда пришла накладная, а бухгалтер раз в неделю закрывает долги сразу нескольким. Нажимайте на куски таблицы, которые не совпадают с правилами из раздела 2. Там, где всё по правилам, разбор тоже покажется.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Таблица «Поставщики» · проверка по правилам<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-top">Поставщики <span>30</span></div>
+          <div class="ds-lesson__dt-tools"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Кнопка «Новый поставщик» слева, поиск справа"><span class="ds-lesson__dt-btn ds-lesson__dt-btn--primary">Новый поставщик</span></span><span class="ds-lesson__dt-spacer"></span><span class="ds-lesson__dt-search">Название или ИНН</span></div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Таблица поставщиков, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr>
+                <th scope="col" aria-sort="ascending" class="is-sorted"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Сортировка по названию, от А до Я">Название<span class="ds-lesson__dt-arrow" aria-hidden="true">↑</span></span></th>
+                <th scope="col">Что поставляет</th>
+                <th scope="col" class="is-num"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Колонка «Долг, ₽» по правому краю">Долг, ₽</span></th>
+                <th scope="col"><span class="screen-reader-text">Действия</span></th>
+              </tr></thead>
+              <tbody>
+                <tr><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Название — ссылка, нажатие по строке ничего не делает"><span class="ds-lesson__dt-link">Альтамира Кофе</span><span class="ds-lesson__dt-sub">строка не нажимается</span></span></td><td>Зелёное зерно, Бразилия</td><td class="is-num">0</td><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Иконки «изменить» и «удалить» в строке"><span class="ds-lesson__dt-more"><span aria-hidden="true">✎</span><span class="screen-reader-text">изменить</span></span> <span class="ds-lesson__dt-more"><span aria-hidden="true">✕</span><span class="screen-reader-text">удалить</span></span></span></td></tr>
+                <tr><td><span class="ds-lesson__dt-link">Бобры и Ко</span></td><td>Упаковка</td><td class="is-num">18 400</td><td><span class="ds-lesson__dt-more"><span aria-hidden="true">✎</span><span class="screen-reader-text">изменить</span></span> <span class="ds-lesson__dt-more"><span aria-hidden="true">✕</span><span class="screen-reader-text">удалить</span></span></td></tr>
+                <tr><td><span class="ds-lesson__dt-link">Восток-Импорт</span></td><td><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="«Зелёное зерно, Эфиопия и Кения» обрезано с конца"><span class="ds-lesson__dt-trunc" style="--dt-trunc: 9em">Зелёное зерно, Эфиопия и Кения</span></span></td><td class="is-num">124 000</td><td><span class="ds-lesson__dt-more"><span aria-hidden="true">✎</span><span class="screen-reader-text">изменить</span></span> <span class="ds-lesson__dt-more"><span aria-hidden="true">✕</span><span class="screen-reader-text">удалить</span></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-foot"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Подвал «Показать ещё 10»">Показать ещё 10</span><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Выбора строк нет">выбора строк нет</span></div>
+        </div>
+        <div class="ds-lesson__gap" style="--g:16"></div>
+        <div class="ds-lesson__dt">
+          <div class="ds-lesson__dt-top">Поставщики, поиск «Арабика»</div>
+          <div class="ds-lesson__dt-scroll" tabindex="0" role="group" aria-label="Пустая таблица поставщиков, листается вбок">
+            <table class="ds-lesson__dt-table">
+              <thead><tr><th scope="col">Название</th><th scope="col">Что поставляет</th><th scope="col" class="is-num">Долг, ₽</th></tr></thead>
+              <tbody><tr><td class="ds-lesson__dt-empty" colspan="3"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Пустой поиск: «Поставщиков с „Арабика“ нет» и «Искать по ИНН»"><b>Поставщиков с «Арабика» в названии нет</b><span>Если знаете ИНН, найдите по нему.</span></span></td></tr></tbody>
+            </table>
+          </div>
+          <div class="ds-lesson__dt-foot"><span class="ds-lesson__dt-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Подвал «0 из 30» и «Строк на странице: 25»">0 из 30 · Строк на странице: 25</span></div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Новый поставщик» слева, поиск справа.</span><span class="ds-lesson__hunt-fix"><b>Не по правилу 1. </b>Во всех таблицах поиск слева, кнопка создания справа. Человек, привыкший к заказам, ищет поиск на привычном месте и попадает в кнопку.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Сортировка по названию, от А до Я.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Поставщики — справочник, в нём ищут по названию. Правило 2 здесь и даёт алфавит.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">«Долг, ₽» по правому краю.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Суммы сравнивают, единица — в заголовке.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Название — ссылка, строка не нажимается.</span><span class="ds-lesson__hunt-fix"><b>Не по правилу 3. </b>Во всех таблицах строка целиком открывает карточку. Здесь в неё попадают, только прицелившись в название.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Иконки «изменить» и «удалить» в строке.</span><span class="ds-lesson__hunt-fix"><b>Не по правилу 3. </b>Изменение — в карточке, редкие действия — в «⋯». Корзина рядом с карандашом — ровно тот промах, от которого правило защищает.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">«Что поставляет» обрезано с конца.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Текст обрезается с конца, полное — в карточке и в подсказке. Решать по этой колонке не нужно, её читают целиком в карточке.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Показать ещё 10».</span><span class="ds-lesson__hunt-fix"><b>Не по правилу 5. </b>В рабочих таблицах — страницы по 25 и «1–25 из N». После «Показать ещё» и возврата из карточки закупщик окажется снова в начале списка.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Выбора строк нет.</span><span class="ds-lesson__hunt-fix"><b>Не по правилу 4. </b>Бухгалтер закрывает долги нескольким поставщикам сразу, значит, нужны флажки и панель групповых действий. Без них он будет закрывать долги по одному.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Пустой поиск с причиной и советом.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Сказано, что искали и что делать дальше.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">«0 из 30» и 25 строк на странице.</span><span class="ds-lesson__hunt-fix"><b>По правилу. </b>Счётчик честно говорит, что найдено ноль из тридцати, и число строк на странице — как во всех таблицах.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой кусок таблицы</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Панель наоборот, строка, которая не открывается, иконки вместо меню, «Показать ещё» и выбор, без которого бухгалтер будет закрывать долги по одному. Каждое отличие можно назвать номером правила — это и делает проверку быстрой.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные куски тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Замечание по правилам называет номер правила.</b> Не «мне кажется, иконки лишние», а «правило 3: изменение — в карточке, редкое — в меню».</div>
+</section>
+
+<section id="update">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Случай, который не лезет в правила</h2></div>
+  <p class="ds-lesson__lead">Правила пишутся по тем таблицам, что есть. Потом появляется новая задача, и правило её не покрывает. Это не провал правил, а повод их обновить.</p>
+
+  <p>У «Лесной обжарки» появились оптовые клиенты: кофейня заказывает 40 килограммов, и заказ уходит тремя поставками в разные дни. В правилах «одна строка — одна запись», а оператору нужно видеть и заказ целиком, и каждую поставку. Есть три пути, и выбирают между ними не по вкусу.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Путь</th><th scope="col">Когда подходит</th><th scope="col">Для заказов кофеен</th></tr></thead>
+      <tbody>
+        <tr><td><b>Правило не нарушено</b></td><td>Случай на самом деле укладывается в правило, просто его так не прочитали</td><td>Нет: поставки — отдельные записи со своими датами и статусами</td></tr>
+        <tr><td><b>Исключение</b></td><td>Случай один и не повторится в других таблицах. Исключение записывается с причиной и таблицей, где оно действует</td><td>Нет: вложенные записи появятся и в возвратах, и в закупках</td></tr>
+        <tr><td><b>Новое правило</b></td><td>Случай повторится. Правило описывает его для всех таблиц сразу</td><td>Да: «строка с поставками раскрывается, у каждой поставки свой статус, групповые действия — на уровне заказа»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Когда решение принято, документ правил меняется так, чтобы через год было понятно, что и почему поменялось:</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Журнал изменений правил · пример записи</div>
+    <div class="ds-lesson__box-body">
+<pre>ВЕРСИЯ 1.3 · 14.10.2026
+
+ЧТО ИЗМЕНИЛОСЬ
+Правило 3 «Строка»: добавлены вложенные строки. Строка заказа с
+несколькими поставками раскрывается, у каждой поставки свой статус
+и своя кнопка. Групповые действия — только на уровне заказа.
+
+ПОЧЕМУ
+Оптовые заказы кофеен уходят несколькими поставками. Такие же
+записи ожидаются в возвратах и закупках.
+
+ЧТО ПРИВЕСТИ К ПРАВИЛУ
+Заказы — сейчас поставки отдельными строками без связи с заказом.
+Возвраты — будет нужно, когда появятся оптовые возвраты.
+
+КТО РЕШИЛ
+Дизайнер админки, руководитель склада, разработка</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Без раздела «Что привести к правилу» новое правило живёт только в новых экранах, а старые остаются как были.</div>
+  </div>
+
+  <div class="ds-lesson__warn"><b>Исключений не должно становиться больше, чем правил.</b> Если одно и то же исключение пишут третий раз, это уже правило, и его пора переписать.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Опишите правила таблиц своего продукта и приведите к ним два существующих экрана. Выпишите, что пришлось изменить.</p>
+
+  <h3>Часть 1 · Сводка, 40 минут</h3>
+  <ol>
+    <li><strong>Соберите все таблицы продукта</strong> в один файл: снимки экранов, по одному на таблицу.</li>
+    <li><strong>Сведите их в таблицу-сводку</strong> по вопросам из раздела 1: порядок, фильтры, нажатие по строке, действия, выбор, много строк.</li>
+    <li><strong>Отметьте различия</strong> и у каждого — есть ли причина.</li>
+  </ol>
+
+  <h3>Часть 2 · Правила, 60 минут</h3>
+  <ol>
+    <li><strong>Заполните шаблон</strong> ниже: по каждой части таблицы — правило и одна строка «почему».</li>
+    <li><strong>Запишите исключения</strong> с причиной и таблицей, где они действуют.</li>
+    <li><strong>Напишите раздел «когда не таблица»</strong> с примерами из своего продукта.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Правила таблиц · шаблон документа<span class="ds-lesson__spacer"></span><span data-copy="rulesTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="rulesTmpl">ПРАВИЛА ТАБЛИЦ · ______________        Версия ___ от __.__.____
+
+0. КОГДА ТАБЛИЦА
+таблица — если: записей много, поля одинаковые, строки сравнивают или обрабатывают пачкой
+не таблица: одна запись → ______   события → ______   вложенность → ______
+
+1. ПАНЕЛЬ НАД ТАБЛИЦЕЙ
+поиск: где ______  по каким полям ______
+фильтры: ______   счётчик «N из M»: где ______   сброс: ______
+кнопка создания: где ______
+почему: ______________________
+
+2. ЗАГОЛОВОК И СОРТИРОВКА
+порядок по умолчанию: очередь → ______  журнал → ______  справочник → ______  отчёт → ______
+сортируемые колонки: ______________   первое нажатие: ______________
+почему: ______________________
+
+3. СТРОКА
+нажатие по строке: ______________
+частое действие: ______   редкие: ______   необратимые: ______
+почему: ______________________
+
+4. ВЫБОР СТРОК
+когда есть: ______   панель: где ______   «все на странице» → ______
+почему: ______________________
+
+5. ПОДВАЛ
+строк на странице: ______   выбор: ______   счётчик: ______
+возврат из карточки: ______
+почему: ______________________
+
+ВЕЗДЕ
+длинные значения: ______   узкий экран: ______
+загрузка: ______   пусто: ______   ошибка: ______
+
+ИСКЛЮЧЕНИЯ
+таблица ______  что ______  почему ______
+
+ЖУРНАЛ ИЗМЕНЕНИЙ
+версия · дата · что изменилось · почему · что привести к правилу</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строка «почему» обязательна у каждого раздела. Правило без причины отменят в первом же споре.</div>
+  </div>
+
+  <h3>Часть 3 · Привести два экрана, 60 минут</h3>
+  <ol>
+    <li><strong>Выберите две таблицы</strong> с самым большим числом отличий в сводке.</li>
+    <li><strong>Переделайте их по правилам</strong> и выпишите каждое изменение со ссылкой на номер правила.</li>
+    <li><strong>Отметьте, где правило пришлось поправить,</strong> и запишите это в журнал изменений.</li>
+  </ol>
+
+  <h3>Часть 4 · Проверка другим дизайнером</h3>
+  <ol>
+    <li><strong>Дайте правила коллеге</strong> и попросите собрать по ним новую таблицу, не показывая ваших макетов.</li>
+    <li><strong>Сравните его таблицу с вашими:</strong> каждое расхождение — либо недосказанность в правилах, либо повод для нового правила.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Новая таблица собрана другим дизайнером по правилам, и её поведение совпадает с остальными.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Сводка таблиц продукта</strong> с отмеченными различиями.</li>
+    <li><strong>Документ правил</strong> по частям таблицы, с причинами, исключениями и журналом изменений.</li>
+    <li><strong>Два экрана</strong> до и после, со списком изменений и номерами правил.</li>
+    <li><strong>Таблица коллеги</strong> и список расхождений с выводами.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 40 минут на сводку, час на правила, час на два экрана, проверка коллегой — отдельно. Всего — около трёх часов своего времени.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Каждая команда считает свою таблицу правильной».</strong> Не выбирайте между таблицами — выбирайте по причинам. Вариант, у которого есть причина, становится правилом. Вариант без причины уходит, чей бы он ни был.</li>
+    <li><strong>«Правила уже есть в дизайн-системе».</strong> Проверьте, отвечают ли они на вопросы сводки. Обычно в системе описан компонент — как выглядит строка и флажок, — а поведение по умолчанию и то, когда таблица не нужна, не описаны. А в некоторых системах таблицы нет вовсе.</li>
+    <li><strong>«Разработка не успеет переделать все таблицы».</strong> И не нужно сразу. Новые таблицы — по правилам, старые — в раздел «что привести к правилу» с порядком по частоте использования. В Nielsen Norman Group советуют раз в год проверять согласованность всех экранов и чинить худшие расхождения, а с мелкими жить до переделки экрана.</li>
+    <li><strong>«Правила слишком общие».</strong> Проверьте их заданием для коллеги. Каждое место, где он спросил «а как здесь?», — недописанное правило.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Правила готовы, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Написаны по сводке всех таблиц продукта, а не по одной любимой</li>
+    <li>Разделены по частям таблицы: панель, заголовок, строка, выбор, подвал</li>
+    <li>У каждого правила есть строка «почему»</li>
+    <li>Порядок по умолчанию задан по типу таблицы, а не один на всех</li>
+    <li>Есть раздел «когда не таблица» с примерами</li>
+    <li>Исключения записаны с причиной и местом действия</li>
+    <li>Есть журнал изменений с разделом «что привести к правилу»</li>
+    <li>Новая таблица коллеги по этим правилам совпала с остальными</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Правила по одной таблице.</b> Остальные в них не укладываются, и правила игнорируют.</li>
+    <li><b>Правила без причин.</b> Первый же спор их отменяет.</li>
+    <li><b>Один порядок на всё.</b> «По дате» не подходит ни справочнику, ни отчёту.</li>
+    <li><b>Исключение на каждый случай.</b> Исключений больше, чем правил, и правил фактически нет.</li>
+    <li><b>Правила без журнала.</b> Через год никто не помнит, почему так решили, и решают заново.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На этой ступени таблица перестаёт быть отдельным экраном и становится общим поведением продукта.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Выбирать колонки под решение; выравнивать числа и текст; показывать сортировку; рисовать пустую таблицу с объяснением; решать, где живёт действие над строкой</td>
+          <td class="ds-lesson__dim">Для каждой колонки можно объяснить, какое решение она помогает принять</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Держать длинные значения, много колонок и сотни строк; проектировать таблицу для узкого экрана; показывать применённые фильтры; давать выбор строк и групповые действия с отменой</td>
+          <td class="ds-lesson__dim">На данных с самыми длинными значениями раскладка не ломается ни на одной ширине</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Сводить таблицы продукта к общим правилам; задавать поведение по умолчанию; описывать, когда таблица не подходит; проверять новые экраны по правилам и обновлять правила</td>
+          <td>Новая таблица, собранная другим дизайнером по правилам, ведёт себя так же, как остальные</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> человек, который освоил одну таблицу вашего продукта, работает в любой другой без подсказки.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/components/data-table/usage/">Data table</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Правила таблицы данных IBM Carbon по частям: панель с поиском и кнопками, заголовки и сортировка, выбор строк и групповые действия, меню строки, страницы и высота строк. Действия строки там выносят иконками, если их меньше трёх.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://atomicdesign.bradfrost.com/chapter-4/">The Atomic Workflow</a></span><span class="ds-lesson__reads-meta"><a href="/resource/atomic-design/">Atomic Design</a>, Брэд Фрост, глава 4 · книга на английском · полный текст открыт на сайте книги</span><span>Как провести инвентаризацию интерфейса: по одному примеру каждого непохожего решения, по категориям, и показать разнобой всей команде — с этого начинается сводка таблиц. Это около трети главы; остальное — как продать дизайн-систему.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/components/summary-list/">Summary list</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Когда вместо таблицы нужен список «поле — значение»: для ключевых фактов одной записи, а не для табличных данных. Там же — действия у строк, пропущенные значения и карточки для нескольких записей одного типа.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/alphabetical-sorting-must-mostly-die/">Alphabetical Sorting Must (Mostly) Die</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Якоб Нильсен · на английском · бесплатно</span><span>Короткая заметка Якоба Нильсена 2010 года: алфавит хорош, когда человек точно знает название, а для размеров, времени, важности и частоты нужен порядок по смыслу. Написана про списки и фильтры, правило то же и для таблиц.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/consistency-and-standards/">Maintain Consistency and Adhere to Standards</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Рейчел Краузе · на английском · бесплатно</span><span>Эвристика № 4: чем внутренняя согласованность отличается от внешней и как её удерживать — ревью с разными командами, проверка всех экранов раз в год, осознанный отказ от привычного. О таблицах в статье ничего.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/ozontech/articles/708162/">Дизайн-долг платежом красен: улучшаем таблицы в большом продукте</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, блог Ozon Tech, Александра Савельева, 2022 · на русском · бесплатно</span><span>Кейс Ozon Tech: как дизайнер добилась переделки старых таблиц — презентация руководству, компоненты, пилот на одном разделе — и что изменилось. Это история процесса, а не свод правил; панель выбора у Ozon стоит внизу.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

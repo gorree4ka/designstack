@@ -5,7 +5,8 @@
  * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
  * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
  * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия, —
- * «три секунды», проигрыватель движения и настройка образца.
+ * «три секунды», проигрыватель движения, настройка образца и сортировка
+ * учебной таблицы.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -2705,5 +2706,123 @@
 
 			mark( box.style.getPropertyValue( prop ).trim() );
 		} );
+	} );
+
+	/* ── сортировка учебной таблицы ────────────────────────────────────────
+	   Таблица `data-dt-sort` приходит уже отсортированной: у одного заголовка
+	   `aria-sort` и стрелка. Без скрипта это просто таблица — кнопок нет.
+	   Скрипт делает кнопками заголовки с `data-dt-key`. Нажатие по другой
+	   колонке сортирует её в сторону `data-dt-first` (по умолчанию — по
+	   возрастанию), повторное — в обратную. Значение ячейки — `data-dt-v`,
+	   а если его нет — текст; числа сравниваются как числа. Стрелки
+	   (`data-dt-arrows`: по возрастанию | по убыванию | можно сортировать),
+	   названия направлений у колонки (`data-dt-dirs`) и строка состояния
+	   (`data-dt-say` с {col} и {dir}) — из урока. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-dt-sort]' ), function ( box ) {
+		var table = box.querySelector( 'table' );
+		var body = table && table.tBodies[ 0 ];
+
+		if ( ! body || ! table.tHead ) {
+			return;
+		}
+
+		var heads = Array.prototype.slice.call( table.tHead.rows[ 0 ].cells );
+		var arrows = ( box.getAttribute( 'data-dt-arrows' ) || '' ).split( '|' );
+		var say = box.getAttribute( 'data-dt-say' ) || '';
+		var live = box.querySelector( '[data-dt-live]' );
+		var order = Array.prototype.slice.call( body.rows );
+
+		function value( row, i ) {
+			var cell = row.cells[ i ];
+			var v = cell.getAttribute( 'data-dt-v' );
+
+			return null === v ? cell.textContent.trim() : v;
+		}
+
+		function apply( th, dir ) {
+			var i = heads.indexOf( th );
+			var rows = order.slice();
+			var nums = rows.every( function ( row ) {
+				return '' !== value( row, i ) && ! isNaN( Number( value( row, i ) ) );
+			} );
+
+			// Равные значения остаются в исходном порядке: строки не прыгают зря.
+			rows.sort( function ( a, b ) {
+				var x = value( a, i );
+				var y = value( b, i );
+				var d = nums ? Number( x ) - Number( y ) : x.localeCompare( y, document.documentElement.lang || undefined );
+
+				return ( 'descending' === dir ? -d : d ) || order.indexOf( a ) - order.indexOf( b );
+			} );
+			rows.forEach( function ( row ) {
+				body.appendChild( row );
+			} );
+
+			heads.forEach( function ( one ) {
+				var mark = one.querySelector( '.ds-lesson__dt-arrow' );
+				var on = one === th;
+
+				if ( on ) {
+					one.setAttribute( 'aria-sort', dir );
+				} else {
+					one.removeAttribute( 'aria-sort' );
+				}
+
+				one.classList.toggle( 'is-sorted', on );
+
+				if ( mark && one.hasAttribute( 'data-dt-key' ) ) {
+					mark.textContent = on ? arrows[ 'ascending' === dir ? 0 : 1 ] || '' : arrows[ 2 ] || '';
+				}
+			} );
+
+			if ( live && say ) {
+				var names = ( th.getAttribute( 'data-dt-dirs' ) || '' ).split( '|' );
+
+				live.textContent = say
+					.replace( '{col}', th.getAttribute( 'data-dt-name' ) || '' )
+					.replace( '{dir}', names[ 'ascending' === dir ? 0 : 1 ] || '' );
+			}
+		}
+
+		heads.forEach( function ( th ) {
+			if ( ! th.hasAttribute( 'data-dt-key' ) ) {
+				return;
+			}
+
+			var btn = document.createElement( 'button' );
+
+			btn.type = 'button';
+			btn.className = 'ds-lesson__dt-sortbtn';
+
+			while ( th.firstChild ) {
+				btn.appendChild( th.firstChild );
+			}
+
+			if ( ! btn.querySelector( '.ds-lesson__dt-arrow' ) ) {
+				var mark = document.createElement( 'span' );
+
+				mark.className = 'ds-lesson__dt-arrow';
+				mark.setAttribute( 'aria-hidden', 'true' );
+				btn.appendChild( mark );
+			}
+
+			th.appendChild( btn );
+			btn.addEventListener( 'click', function () {
+				var now = th.getAttribute( 'aria-sort' );
+				var dir = now ? ( 'ascending' === now ? 'descending' : 'ascending' ) : th.getAttribute( 'data-dt-first' ) || 'ascending';
+
+				apply( th, dir );
+			} );
+		} );
+
+		var start = heads.filter( function ( th ) {
+			return th.hasAttribute( 'aria-sort' );
+		} )[ 0 ];
+
+		if ( start ) {
+			apply( start, start.getAttribute( 'aria-sort' ) );
+		}
+
+		box.setAttribute( 'data-dt-live-on', '' );
 	} );
 }() );
