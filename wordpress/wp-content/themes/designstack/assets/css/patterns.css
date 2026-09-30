@@ -2113,10 +2113,11 @@ textarea.ds-field__control {
 	background: var(--wp--preset--color--surface-selected);
 }
 
+/* На выбранной подложке text-action даёт 4,45 : 1 и 4,16 : 1 — мало; text-action-hover — 6,30 и 5,59. */
 .ds-check__verdict-label {
 	margin: 0;
 	font-size: var(--wp--preset--font-size--sm);
-	color: var(--wp--preset--color--text-action);
+	color: var(--wp--preset--color--text-action-hover);
 }
 
 .ds-check__verdict-value {
@@ -2132,17 +2133,24 @@ textarea.ds-field__control {
 	color: var(--wp--preset--color--text-muted);
 }
 
+/* Кнопка карты развития — на первом экране результата (D192). */
+.ds-check__verdict-action {
+	margin-top: var(--wp--preset--spacing--4);
+}
+
 .ds-check__subtitle {
 	margin: 0;
 	font-size: var(--wp--preset--font-size--xl);
 }
 
-/* Лепестковая диаграмма профиля: форма видна одним взглядом, цифры — в списке под ней.
-   Оси подписаны номерами: тринадцать названий по кругу не помещаются ни на одной ширине. */
+/* Лепестковая диаграмма профиля: у конца каждой оси — короткое название области и ступень
+   в ней (D192), полные названия — в списке под диаграммой. Заливка — градиент от центра
+   к кольцу Senior: чем ближе к краю, тем гуще цвет. */
 .ds-check__radar {
 	display: block;
 	width: 100%;
 	max-width: var(--wp--custom--size--radar);
+	height: auto;
 	margin-inline: auto;
 }
 
@@ -2152,22 +2160,61 @@ textarea.ds-field__control {
 	stroke: var(--wp--preset--color--border-default);
 }
 
+/* Заливку ставит скрипт: url(#ds-check-radar-fill). */
 .ds-check__radar-shape {
-	fill: var(--wp--preset--color--surface-action-primary);
-	fill-opacity: 0.18;
 	stroke: var(--wp--preset--color--surface-action-primary);
 	stroke-width: 2;
 	stroke-linejoin: round;
+}
+
+.ds-check__radar-stop-in {
+	stop-color: var(--wp--preset--color--surface-action-primary);
+	stop-opacity: 0.04;
+}
+
+.ds-check__radar-stop-out {
+	stop-color: var(--wp--preset--color--surface-action-primary);
+	stop-opacity: 0.6;
 }
 
 .ds-check__radar-dot {
 	fill: var(--wp--preset--color--surface-action-primary);
 }
 
-.ds-check__radar-num {
-	font-family: var(--wp--preset--font-family--mono);
-	font-size: var(--wp--preset--font-size--sm);
+/* Кегль подписей — в единицах рисунка, а рисунок масштабируется. На узком рисунке единицы
+   крупнее, иначе на телефоне подпись выйдет мельче 12 пикселей (ступень там того же кегля, что
+   название: строка «нет ступени» самая широкая); на широком — мельче, чтобы подписи не спорили
+   с текстом страницы. Смену ширины ловит скрипт и раскладывает подписи заново. */
+.ds-check__figure {
+	container-type: inline-size;
+}
+
+.ds-check__radar-label {
+	font-family: var(--wp--preset--font-family--sans);
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 500;
+	fill: var(--wp--preset--color--text-default);
+}
+
+.ds-check__radar-grade {
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 400;
 	fill: var(--wp--preset--color--text-muted);
+}
+
+.ds-check__radar-grade.is-on {
+	font-weight: 600;
+	fill: var(--wp--preset--color--text-action);
+}
+
+@container (min-width: 25rem) {
+	.ds-check__radar-label {
+		font-size: var(--wp--preset--font-size--sm);
+	}
+
+	.ds-check__radar-grade {
+		font-size: var(--wp--preset--font-size--xs);
+	}
 }
 
 .ds-check__radar-key {
@@ -2188,13 +2235,6 @@ textarea.ds-field__control {
 .ds-check__group-title {
 	margin: 0;
 	font-size: var(--wp--preset--font-size--lg);
-}
-
-.ds-check__row-num {
-	margin-right: var(--wp--preset--spacing--2);
-	font-family: var(--wp--preset--font-family--mono);
-	font-size: var(--wp--preset--font-size--sm);
-	color: var(--wp--preset--color--text-muted);
 }
 
 .ds-check__rows {
@@ -2699,7 +2739,7 @@ a.ds-lesson__level-body {
 a.ds-lesson__level-body:hover,
 a.ds-lesson__level-body:focus-visible {
 	background: var(--wp--preset--color--surface-selected);
-	color: var(--wp--preset--color--text-action);
+	color: var(--wp--preset--color--text-action-hover);
 }
 
 .ds-lesson__level.is-current {

@@ -96,6 +96,8 @@
 	if ( again ) {
 		again.textContent = 'Пройти проверку заново';
 		again.className = 'ds-button ds-button--secondary';
+		// #again сразу открывает первый вопрос, а не вступление с «Посмотреть результат».
+		again.setAttribute( 'href', again.getAttribute( 'href' ).split( '#' )[ 0 ] + '#again' );
 	}
 }() );
 

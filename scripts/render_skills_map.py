@@ -9,6 +9,7 @@
     <абзац: что это за слой и зачем он дизайнеру>
 
     ### Исследование и пользователи
+    На круге: Исследования
     `ux-research`
 
     <абзац: что это за область и зачем она дизайнеру>
@@ -22,6 +23,8 @@
     - `senior` Разбираю чужие сценарии и выводы
 
 Пометка грейда нужна для подсчёта и в проверке не показывается (P24).
+«На круге» — короткое название оси на круге профиля в результате проверки (D192): одно слово,
+не длиннее 14 знаков, иначе подписи на телефоне не помещаются.
 
     python scripts/render_skills_map.py
     python scripts/render_skills_map.py --out .tmp/map.html --check .tmp/check.html
@@ -89,13 +92,17 @@ for raw in lines:
 
     if line.startswith("### "):
         title, slug = split_slug(line[4:].strip())
-        area = {"title": title, "slug": slug, "topics": "", "about": "", "skills": []}
+        area = {"title": title, "slug": slug, "short": "", "topics": "", "about": "", "skills": []}
         groups[-1]["areas"].append(area)
         skill = None
         continue
 
     if area is not None and skill is None and line.startswith("`"):
         area["topics"] = line.replace("`", "").strip()
+        continue
+
+    if area is not None and skill is None and line.startswith("На круге: "):
+        area["short"] = line[len("На круге: "):].strip()
         continue
 
     if skill is not None and line.startswith("> "):
@@ -137,6 +144,11 @@ if "" in slugs:
 
 if len(set(slugs)) != len(slugs):
     sys.exit("слаги повторяются: " + ", ".join(sorted({s for s in slugs if slugs.count(s) > 1})))
+
+no_short = [ar["title"] for ar in areas_all if not ar["short"] or len(ar["short"]) > 14 or " " in ar["short"]]
+
+if no_short:
+    sys.exit("у области нет строки «На круге: …» или название там длиннее одного слова в 14 знаков: " + ", ".join(no_short))
 
 
 def esc(text: str) -> str:
@@ -316,6 +328,7 @@ for ar in areas_all:
         "\tarray(",
         "\t\t'slug'   => %s," % php(ar["slug"]),
         "\t\t'name'   => %s," % php(ar["title"]),
+        "\t\t'short'  => %s," % php(ar["short"]),
         "\t\t'about'  => %s," % php(ar["about"]),
         "\t\t'skills' => array(",
     ]

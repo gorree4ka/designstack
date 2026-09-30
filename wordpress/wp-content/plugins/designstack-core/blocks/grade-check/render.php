@@ -42,6 +42,8 @@ $ds_out .= '<p class="ds-check__lead">' . sprintf(
 $ds_out .= '<p>' . esc_html__( 'По результатам вы получите свой профиль навыков, примерный уровень и рекомендации, куда двигаться дальше.', 'designstack-core' ) . '</p>';
 $ds_out .= '<div class="ds-check__actions"><button type="button" class="ds-button ds-button--primary ds-button--lg" data-check-start>'
 	. esc_html__( 'Проверить свой грейд', 'designstack-core' ) . '</button>'
+	. '<button type="button" class="ds-button ds-button--secondary ds-button--lg" data-check-restart hidden>'
+	. esc_html__( 'Пройти заново', 'designstack-core' ) . '</button>'
 	. '<span class="ds-check__resume" data-check-resume hidden>' . esc_html__( 'Есть незаконченная попытка — продолжите с того же места', 'designstack-core' ) . '</span></div>';
 $ds_out .= '<p class="ds-check__fine">' . esc_html__( 'Грейды в компаниях устроены по-разному, поэтому результат лучше воспринимать как ориентир, а не как окончательную оценку.', 'designstack-core' ) . '</p>';
 $ds_out .= '</div>';
@@ -68,7 +70,8 @@ foreach ( $ds_areas as $ds_area ) {
 			(int) $ds_index,
 			(int) $ds_total
 		) . '</span>';
-		$ds_out .= '<span class="ds-check__area">' . esc_html( $ds_area['name'] ) . '</span>';
+		// Короткое название — подпись оси на круге профиля (D192); полное остаётся в тексте.
+		$ds_out .= '<span class="ds-check__area" data-short="' . esc_attr( $ds_area['short'] ?? '' ) . '">' . esc_html( $ds_area['name'] ) . '</span>';
 		$ds_out .= '<span class="ds-check__name">' . esc_html( $ds_skill['name'] ) . '</span>';
 		$ds_out .= '</legend>';
 		$ds_out .= '<p class="ds-check__hint">' . esc_html( $ds_skill['hint'] ) . '</p>';

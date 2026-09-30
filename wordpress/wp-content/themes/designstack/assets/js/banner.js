@@ -81,7 +81,8 @@
 		var link = document.createElement( 'a' );
 
 		link.className = 'ds-banner__again-link';
-		link.href = check;
+		// #again сразу открывает первый вопрос, а не вступление с «Посмотреть результат».
+		link.href = check.split( '#' )[ 0 ] + '#again';
 		link.textContent = 'Пройти проверку заново';
 
 		again.appendChild( link );
