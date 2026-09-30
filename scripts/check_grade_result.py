@@ -16,7 +16,8 @@
 - axe на показанном результате, 1440 и 375, обе темы — без нарушений;
 - «заново» доходит до первого вопроса: ссылки «Пройти проверку заново» на главной и на карте ведут
   на проверку с #again и открывают первый вопрос; на вступлении пройденной проверки есть «Пройти заново»;
-  кнопка внизу результата тоже работает; старые ответы живы, пока не отмечен первый новый.
+  кнопка внизу результата тоже работает; старые ответы живы, пока не отмечен первый новый;
+- в шаге проверки «Назад» слева от «Дальше» — и на экране, и в разметке (порядок Tab).
 
 axe ставится один раз: `npm install axe-core --prefix .tmp/audit --no-save`; без него проверка падает.
 
@@ -210,6 +211,16 @@ with sync_playwright() as pw:
     check("заново: ответы целы, пока не отмечен новый", stored() == total, str(stored()))
     page.locator("[data-check-q]").first.locator("input").first.check()
     check("заново: первый новый ответ заменяет старые", stored() == 1, str(stored()))
+
+    # второй вопрос: видны обе кнопки шага
+    page.locator("[data-check-q]").first.locator("[data-check-next]").click()
+    order = page.evaluate("""() => { const nav = [...document.querySelectorAll('[data-check-q]')].find(i => !i.hidden).querySelector('[data-check-nav]');
+      const b = nav.querySelector('[data-check-back]'), n = nav.querySelector('[data-check-next]');
+      return { dom: [...nav.children].indexOf(b) < [...nav.children].indexOf(n),
+               screen: b.getBoundingClientRect().left < n.getBoundingClientRect().left, back: !b.hidden }; }""")
+    check("шаг: «Назад» виден со второго вопроса", order["back"])
+    check("шаг: «Назад» слева от «Дальше» на экране", order["screen"])
+    check("шаг: «Назад» раньше «Дальше» в разметке", order["dom"])
 
     fresh("/grade-check/#again")
     check("заново: #again без перезагрузки открывает первый вопрос", first_question())

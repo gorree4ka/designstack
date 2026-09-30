@@ -114,8 +114,9 @@ foreach ( $ds_areas as $ds_area ) {
 		$ds_out .= '</div>';
 		$ds_out .= '</fieldset>';
 		$ds_out .= '<div class="ds-check__nav" data-check-nav hidden>';
-		$ds_out .= '<button type="button" class="ds-button ds-button--primary" data-check-next>' . esc_html__( 'Дальше', 'designstack-core' ) . '</button>';
+		// «Назад» слева, «Дальше» справа — и в разметке тем же порядком, чтобы Tab шёл так же.
 		$ds_out .= '<button type="button" class="ds-button ds-button--secondary" data-check-back>' . esc_html__( 'Назад', 'designstack-core' ) . '</button>';
+		$ds_out .= '<button type="button" class="ds-button ds-button--primary" data-check-next>' . esc_html__( 'Дальше', 'designstack-core' ) . '</button>';
 		$ds_out .= '</div>';
 		$ds_out .= '</li>';
 	}
