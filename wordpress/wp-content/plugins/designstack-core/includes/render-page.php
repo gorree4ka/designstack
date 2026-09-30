@@ -586,7 +586,34 @@ function designstack_core_render_review( int $post_id ): string {
 }
 
 /**
+ * Есть ли у ресурса проблема для читателя из России: закрыт, не открывается или открывается
+ * с перебоями, платный и не оплачивается российской картой или только через посредника.
+ *
+ * От этого зависит заголовок блока аналогов (D187): аналогу ресурса с проблемой обещано,
+ * что он работает из России; у бесплатного и открытого ресурса аналоги — просто соседи по задаче.
+ *
+ * @param int $post_id Идентификатор записи.
+ * @return bool
+ */
+function designstack_core_has_ru_problem( int $post_id ): bool {
+	$status  = (string) designstack_core_get_field( $post_id, 'status' );
+	$open    = (string) designstack_core_get_field( $post_id, 'ru_open' );
+	$payment = (string) designstack_core_get_field( $post_id, 'ru_payment' );
+	$pricing = (string) designstack_core_get_field( $post_id, 'pricing' );
+
+	if ( 'dead' === $status || in_array( $open, array( 'blocked', 'unstable' ), true ) ) {
+		return true;
+	}
+
+	return 'free' !== $pricing && in_array( $payment, array( 'no_payment', 'intermediary' ), true );
+}
+
+/**
  * Блок аналогов: карточки из поля `ru_alternative`.
+ *
+ * Заголовок по D187: у ресурса с проблемой из России — «Аналог, который работает из России»,
+ * у остальных — «Аналоги»; число — по числу карточек. Прежний заголовок обещал российский
+ * сервис, а в большинстве пар стоит зарубежный, поэтому он больше не пишется.
  *
  * @param int $post_id Идентификатор записи.
  * @return string
@@ -600,6 +627,8 @@ function designstack_core_render_analogs( int $post_id ): string {
 		_prime_post_caches( $analogs, true, true );
 	}
 
+	$shown = 0;
+
 	foreach ( $analogs as $analog ) {
 		$analog = absint( $analog );
 
@@ -608,17 +637,22 @@ function designstack_core_render_analogs( int $post_id ): string {
 		}
 
 		$cards .= designstack_core_render_card( $analog );
+		++$shown;
 	}
 
 	if ( '' === $cards ) {
 		return '';
 	}
 
+	$title = designstack_core_has_ru_problem( $post_id )
+		? _n( 'Аналог, который работает из России', 'Аналоги, которые работают из России', $shown, 'designstack-core' )
+		: _n( 'Аналог', 'Аналоги', $shown, 'designstack-core' );
+
 	return sprintf(
 		'<section class="ds-section" id="analogs"><div class="ds-section__head">'
 		. '<h2 class="ds-section__title">%1$s</h2></div>'
 		. '<div class="ds-section__body"><div class="ds-resource-list ds-resource-list--grid">%2$s</div></div></section>',
-		esc_html__( 'Аналог из России', 'designstack-core' ),
+		esc_html( $title ),
 		$cards
 	);
 }

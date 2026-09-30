@@ -47,7 +47,7 @@ uninstall.php            удаление настроек; записи и те
 | `price_note` | Общие | Заметка о цене | одно значение, string | свободный текст |
 | `ru_open` | Общие | Доступ из РФ | одно значение, string | `open` · `vpn_only` · `blocked` |
 | `ru_payment` | Общие | Оплата из РФ | одно значение, string | `payable` · `intermediary` · `no_payment` · `ru_native` |
-| `ru_alternative` | Общие | Аналог из России | список, отдельные строки meta | номера записей `resource` |
+| `ru_alternative` | Общие | Аналоги | список, отдельные строки meta | номера записей `resource` |
 | `language` | Общие | Язык | одно значение, string | `ru` · `en` · `multi` |
 | `checked_at` | Общие | Дата проверки | одно значение, string | дата `Y-m-d` |
 | `status` | Общие | Состояние записи | одно значение, string | `active` · `changed` · `dead` |

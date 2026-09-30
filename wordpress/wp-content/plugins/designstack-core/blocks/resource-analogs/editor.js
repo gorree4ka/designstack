@@ -1,5 +1,5 @@
 /**
- * Редактор блока «Аналог из России».
+ * Редактор блока аналогов.
  */
 ( function ( blocks, element, blockEditor, ServerSideRender ) {
 	'use strict';
