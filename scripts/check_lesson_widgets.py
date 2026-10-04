@@ -78,6 +78,10 @@ with sync_playwright() as play:
         ("tables-lists-junior", ["Возвратов пока не было", "Все заказы на сегодня собраны", "Убрать. Оператор по ней ничего не решает"]),
         ("tables-lists-middle", ["RU4829…544RU", "Выбрать все 42 собранных", "42 заказа переданы курьеру", "Переделать. Числа не обрезают"]),
         ("tables-lists-senior", ["Карандаш и корзина", "Не по правилу 3. Изменение — в карточке", "ЧТО ПРИВЕСТИ К ПРАВИЛУ"]),
+        # Пометки, места ошибки, ошибки отправки и черновик — панели переключателя, видны все подряд.
+        ("forms-junior", ["Звёздочки у обязательных", "Проверьте два поля", "Убрать. Один промах — и всё введённое пропало"]),
+        ("forms-middle", ["Сервер не ответил", "Вы остановились на шаге «Реквизиты»", "Переделать. Проверка на вводе ругает", "Сложнее в разработке"]),
+        ("forms-senior", ["Правило 4. «Некорректно» в словаре", "ФАЙЛ НЕ ПОДОШЁЛ", "Посчитана по выбранным товарам"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1354,6 +1358,113 @@ with sync_playwright() as play:
     fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
     fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра на странице") else 1
     fails += 0 if say(hunt_all(page, 10), "таблица поставщиков: по правилам не засчитано, отличий 5 из 5") else 1
+    page.close()
+
+    # «Формы»: живые поля с подписью и без, тренажёр момента проверки в четырёх режимах,
+    # три поиска ошибок. Тренажёр без скрипта скрыт целиком — режимы описаны таблицей.
+    page = ctx.new_page()
+    page.goto(BASE + "forms-junior/")
+    page.wait_for_timeout(300)
+    head("forms-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    page.get_by_label("Цена за пачку, ₽", exact=True).fill("890")
+    labelled = page.evaluate("""() => { const f = document.getElementById('fj-price');
+        return [f.labels.length, document.getElementById(f.getAttribute('aria-describedby')).textContent.trim()]; }""")
+    fails += 0 if say(labelled[0] == 1 and "например 890" in labelled[1], "живое поле с подписью: подпись связана, подсказка описывает поле") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "форма «Новый сорт»: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "forms-middle/")
+    page.wait_for_timeout(300)
+    head("forms-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fv = "#timing [data-fv]"
+    look = """() => { const box = document.querySelector('#timing [data-fv]'); const err = box.querySelector('[data-fv-err]');
+        return [err.hidden ? '' : err.textContent.trim(), box.querySelector('[data-fv-log]').textContent.trim(),
+                box.querySelector('[data-fv-input]').getAttribute('aria-invalid')]; }"""
+    modes = page.evaluate("[...document.querySelectorAll('#timing [data-fv-pick] button')].map(b => b.textContent.trim() + ':' + b.getAttribute('aria-pressed'))")
+    fails += 0 if say(page.is_visible(fv) and len(modes) == 4 and modes[0].endswith(":true"),
+                      "тренажёр показан, четыре режима, выбран «На вводе»: %s" % modes) else 1
+    box = page.locator(fv)
+    inn = box.locator("[data-fv-input]")
+    inn.type("7")
+    one = page.evaluate(look)
+    fails += 0 if say(one[0] == "В ИНН компании 10 цифр, а сейчас 1" and "первой же цифре" in one[1] and one[2] == "true",
+                      "на вводе: ошибка на первой цифре — %s" % one[:2]) else 1
+    inn.type("7a")
+    fails += 0 if say(page.evaluate(look)[0].startswith("В ИНН только цифры"), "на вводе: буква — «только цифры»") else 1
+
+    box.locator("[data-fv-pick] button").nth(1).click()
+    blank = page.evaluate(look) + [inn.input_value()]
+    inn.type("770123456")
+    typing = page.evaluate(look)
+    box.locator("#fv-kpp").click()
+    left = page.evaluate(look)
+    inn.click()
+    inn.press("End")
+    inn.type("7")
+    stale = page.evaluate(look)
+    box.locator("#fv-kpp").click()
+    fixed = page.evaluate(look)
+    fails += 0 if say(blank[0] == "" and blank[3] == "" and typing[0] == "", "при уходе: смена режима очищает поле, пока вводят — тихо") else 1
+    fails += 0 if say(left[0] == "В ИНН компании 10 цифр, а сейчас 9" and "закончили с полем" in left[1], "при уходе: ошибка после ухода из поля — %s" % left[:2]) else 1
+    fails += 0 if say(stale[0] != "" and "пока вы не уйдёте" in stale[1], "при уходе: исправили — ошибка висит до ухода") else 1
+    fails += 0 if say(fixed[0] == "" and fixed[2] == "false" and "ошибки нет" in fixed[1], "при уходе: ушли из верного поля — ошибки нет") else 1
+    box.locator("#fv-kpp").click()
+    inn.click()
+    box.locator("[data-fv-pick] button").nth(1).click()
+    inn.click()
+    box.locator("#fv-kpp").click()
+    fails += 0 if say(page.evaluate(look)[0] == "", "при уходе: из пустого поля ушли — не ругают") else 1
+
+    box.locator("[data-fv-pick] button").nth(2).click()
+    inn.type("770123456")
+    box.locator("#fv-kpp").click()
+    quiet = page.evaluate(look)
+    box.locator("[data-fv-submit]").click()
+    late = page.evaluate(look)
+    fails += 0 if say(quiet[0] == "" and late[0].endswith("сейчас 9") and "только после «Сохранить»" in late[1],
+                      "при отправке: тихо до кнопки, ошибка после — %s" % late[:2]) else 1
+    inn.fill("")
+    box.locator("[data-fv-submit]").click()
+    fails += 0 if say(page.evaluate(look)[0] == "Введите ИНН поставщика", "при отправке: пустое поле — «Введите ИНН поставщика»") else 1
+
+    box.locator("[data-fv-pick] button").nth(3).click()
+    inn.type("770123456")
+    box.locator("#fv-kpp").click()
+    shown_err = page.evaluate(look)
+    inn.click()
+    inn.press("End")
+    inn.type("7")
+    gone = page.evaluate(look)
+    fails += 0 if say(shown_err[0].endswith("сейчас 9") and gone[0] == "" and "исчезла" in gone[1],
+                      "при уходе, потом на вводе: ошибка после ухода, исчезает на исправлении — %s" % gone[:2]) else 1
+    box.locator("[data-fv-submit]").click()
+    fails += 0 if say("форма сохранилась" in page.evaluate(look)[1], "верный ИНН — «форма сохранилась»") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "шаг «Реквизиты»: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    plain = browser.new_context(java_script_enabled=False)
+    page = plain.new_page()
+    page.goto(BASE + "forms-middle/")
+    head("forms-middle · тренажёр без скрипта")
+    fails += 0 if say(not page.is_visible("#timing [data-fv]") and page.is_visible("#timing table"),
+                      "без скрипта: коробки тренажёра нет, таблица режимов видна") else 1
+    plain.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "forms-senior/")
+    page.wait_for_timeout(300)
+    head("forms-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "форма «Промокод» на ревью: по правилам не засчитано, нарушений 5 из 5") else 1
     page.close()
     browser.close()
 

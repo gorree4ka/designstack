@@ -1,0 +1,450 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#label">Подпись над полем, а не внутри</a><span class="ds-lesson__tag">живые поля</span></li>
+    <li><a href="#fields">Каждое поле — с причиной</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#optional">Какие поля отмечать</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#where">Где показывать ошибку</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#text">Текст ошибки: что не так и что сделать</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#hunt">Найдите ошибки в форме «Новый сорт»</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Та же админка «Лесной обжарки», что и в уроке про <a href="/lessons/tables-lists-junior/">таблицы</a>. Обжарщик прислал новый сорт: описание, фото и цену. Контент-менеджер заводит его в каталог через форму «Новый сорт», а покупатели потом видят карточку на витрине. Эту форму вы и соберёте.</div>
+
+<section id="label">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Подпись над полем, а не внутри</h2></div>
+  <p class="ds-lesson__lead">Подпись над полем видна всё время. Серый текст внутри поля пропадает, как только человек начинает вводить, и вместе с ним пропадает вопрос.</p>
+
+  <p>Серый текст внутри пустого поля называют плейсхолдером. Его часто ставят вместо подписи: форма выглядит короче и чище. Попробуйте сами — введите цену в оба поля, а потом посмотрите на первое и скажите, о чём оно спрашивало.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Живые поля · введите цену</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__fm-pair">
+        <div class="ds-lesson__fm">
+          <p class="ds-lesson__fm-step">Подсказка внутри поля</p>
+          <input class="ds-lesson__fm-input" type="text" inputmode="numeric" autocomplete="off" placeholder="Цена за пачку, ₽" aria-label="Цена за пачку, ₽ — подсказка внутри поля">
+        </div>
+        <div class="ds-lesson__fm">
+          <p class="ds-lesson__fm-step">Подпись над полем</p>
+          <span class="ds-lesson__fm-row">
+            <label class="ds-lesson__fm-label" for="fj-price">Цена за пачку, ₽</label>
+            <span class="ds-lesson__fm-hint" id="fj-price-hint">Как на витрине, например 890</span>
+            <input class="ds-lesson__fm-input" id="fj-price" type="text" inputmode="numeric" autocomplete="off" aria-describedby="fj-price-hint">
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">В первом поле после ввода остаётся «890» — и уже не видно, цена это, вес в граммах или остаток на складе.</div>
+  </div>
+
+  <p>В Nielsen Norman Group насчитали семь причин не ставить подсказку внутри поля вместо подписи. Четыре из них:</p>
+  <ul>
+    <li>человек держит вопрос в голове, пока вводит ответ, а отвлёкся — и вопроса уже не видно;</li>
+    <li>перед отправкой нельзя проверить, что куда вписано: подписей нет ни у одного заполненного поля;</li>
+    <li>когда появляется ошибка, подсказки о формате уже нет — непонятно, как исправить;</li>
+    <li>серый текст принимают за значение, которое форма подставила сама, и пропускают поле.</li>
+  </ul>
+  <p>Там же — про доступность: бледный серый текст плохо виден, людям с когнитивными и двигательными нарушениями подсказка вместо подписи добавляет работы, а экранные дикторы читают её не всегда.</p>
+
+  <div class="ds-lesson__rule"><b>Подпись — над полем и видна всегда.</b> Пример и формат — подсказкой под подписью, а не внутри поля: подсказка под подписью тоже не исчезает.</div>
+
+  <p>Это и требование доступности. В WCAG 2.2 у поля, куда человек вводит данные, должна быть подпись или инструкция — критерий 3.3.2, уровень A, самый базовый. Подсказка внутри поля с этим не справляется: после ввода её не видно.</p>
+
+  <p class="ds-lesson__dim">Подпись можно поставить и слева от поля — так делают в широких формах настроек. Но на телефоне места слева нет, и подпись всё равно уезжает наверх. Подпись над полем работает на любой ширине, поэтому с неё и начинают. Иногда в её пользу приводят исследование Google, где подписи над полями «победили». Илья Бирман в «Советах» Бюро Горбунова разбирает, что в улучшенной форме тогда поменяли сразу и подписи, и поля, и кнопки, так что про подписи оно ничего не доказывает. Довод про ширину экрана проще и надёжнее.</p>
+</section>
+
+<section id="fields">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Каждое поле — с причиной</h2></div>
+  <p class="ds-lesson__lead">Каждое поле — это вопрос, на который человеку надо ответить. Поле без причины отнимает время и даёт ещё один повод ошибиться.</p>
+
+  <p>Первую версию формы «Новый сорт» собрали разработчики, и в неё попали все поля из базы — восемнадцать. Контент-менеджер заполняет её несколько раз в неделю, на каждый новый сорт. Лишнее поле он заполняет столько же раз.</p>
+
+  <p>Лишние поля — не особенность админок. Baymard Institute в 2024 году насчитал в оформлении заказа интернет-магазинов в среднем 11,3 поля, хотя большинству магазинов хватило бы восьми.</p>
+
+  <p>Про каждое поле задайте три вопроса:</p>
+  <ol>
+    <li><strong>Что сломается без него?</strong> Если ничего — поле лишнее.</li>
+    <li><strong>Может ли система узнать это сама?</strong> Артикул, дату добавления и автора она знает лучше человека.</li>
+    <li><strong>Нужно ли это сейчас?</strong> Скидку ставят, когда начинается акция, а не когда сорт появляется в каталоге. Такое поле переезжает в другую форму или на другой шаг.</li>
+  </ol>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · оставить, убрать или спросить позже<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="keep"><p class="ds-quiz__question">Название сорта: «Эфиопия Иргачеффе».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить</b>Без названия карточку не найти ни на витрине, ни в админке.</p></li>
+<li data-quiz-q data-answer="drop"><p class="ds-quiz__question">Артикул товара.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Убрать</b>Артикул система присваивает сама. Человек придумает свой и рано или поздно повторит чужой.</p></li>
+<li data-quiz-q data-answer="keep"><p class="ds-quiz__question">Цена за пачку.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить</b>Без цены сорт не продать.</p></li>
+<li data-quiz-q data-answer="later"><p class="ds-quiz__question">Старая цена — та, что будет перечёркнута.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Спросить позже</b>Она нужна, когда начинается скидка. Это другое дело — «Поставить скидку», и у него своя форма.</p></li>
+<li data-quiz-q data-answer="drop"><p class="ds-quiz__question">Дата добавления в каталог.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Убрать</b>Система знает, когда форму сохранили. Вписанная руками дата может только разойтись с настоящей.</p></li>
+<li data-quiz-q data-answer="keep"><p class="ds-quiz__question">Степень обжарки: светлая, средняя, тёмная.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить</b>По ней фильтруют каталог, и покупатель выбирает по ней в первую очередь.</p></li>
+<li data-quiz-q data-answer="later"><p class="ds-quiz__question">SEO-заголовок страницы сорта.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Спросить позже</b>По умолчанию он собирается из названия. Править его — работа продвижения, когда сорт уже продаётся.</p></li>
+<li data-quiz-q data-answer="drop"><p class="ds-quiz__question">Остаток на складе, пачек.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Убрать</b>Остаток считает склад по приходам и продажам. Число, вписанное в форму, разойдётся с настоящим в первый же день.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="keep">Оставить</button><button class="ds-quiz__option" type="button" data-quiz-answer="drop">Убрать</button><button class="ds-quiz__option" type="button" data-quiz-answer="later">Спросить позже</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Убрать — значит, ответ знает система. Спросить позже — значит, ответ понадобится в другом деле.</div>
+</div>
+
+  <p>После разбора из восемнадцати полей осталось девять: название, страна, обработка зерна, степень обжарки, вес пачки, цена, описание, фото и отметка «Новинка». Для каждого можно сказать, что без него сломается.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Поле</th><th scope="col">Что сломается без него</th></tr></thead>
+      <tbody>
+        <tr><td>Название</td><td>Сорт не найти ни покупателю, ни сотрудникам</td></tr>
+        <tr><td>Страна</td><td>Не работает фильтр «Страна» в каталоге</td></tr>
+        <tr><td>Обработка зерна</td><td>Не работает фильтр «Обработка», а покупатель выбирает по вкусу</td></tr>
+        <tr><td>Степень обжарки</td><td>Не работает фильтр «Обжарка»</td></tr>
+        <tr><td>Вес пачки</td><td>Склад не знает, какую упаковку брать; цену не с чем сравнить</td></tr>
+        <tr><td>Цена</td><td>Сорт нельзя продать</td></tr>
+        <tr><td>Фото</td><td>Карточка на витрине пустая — такие не покупают</td></tr>
+        <tr><td>Описание</td><td>Покупатель не узнает вкус. Сорт можно выставить и без описания, но продаётся он хуже</td></tr>
+        <tr><td>Отметка «Новинка»</td><td>Сорт не попадает в подборку новинок на главной</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">Если поле правда нужно, но человек может не понять зачем, объясните это в подсказке. Максим Ильяхов в «Советах» Бюро Горбунова показывает, как объяснение пользы работает лучше сухого «необходимо ввести» — и советует спрашивать данные тогда, когда они понадобились, а не все сразу.</p>
+
+  <div class="ds-lesson__rule"><b>Для каждого поля назовите, что сломается без него.</b> Не назвали — поле убирают. Ответ знает система — тоже убирают. Ответ понадобится позже — поле переезжает туда, где он нужен.</div>
+</section>
+
+<section id="optional">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Какие поля отмечать</h2></div>
+  <p class="ds-lesson__lead">Человек должен понять, без чего форма не сохранится, до того как нажмёт кнопку, а не после. Для этого поля отмечают — и выбирают, что именно.</p>
+
+  <p>В новой форме обязательных полей семь из девяти: без названия, страны, обработки, обжарки, веса, цены и фото сорт не выставить на витрину. Необязательных два: описание и отметка «Новинка».</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Форма «Новый сорт» · пометки</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="op1" hidden>Звёздочки у обязательных</button><button class="ds-switch__button" type="button" data-switch-btn="op2" hidden>Слово у необязательных</button></div>
+
+      <div data-switch-pane="op1"><p class="ds-switch__title">Звёздочки у обязательных</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Название <span class="ds-lesson__fm-req">*</span></span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Страна <span class="ds-lesson__fm-req">*</span></span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Вес пачки, г <span class="ds-lesson__fm-req">*</span></span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Цена за пачку, ₽ <span class="ds-lesson__fm-req">*</span></span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Описание</span><span class="ds-lesson__fm-control is-area"></span></span>
+          <span class="ds-lesson__fm-hint">… и ещё три поля со звёздочкой и одно без</span>
+          <span class="ds-lesson__fm-hint"><span class="ds-lesson__fm-req">*</span> — обязательные поля</span>
+        </div>
+        <div class="ds-lesson__result"><b>Звёздочки у обязательных</b>Семь звёздочек из девяти полей. Поле без звёздочки среди них выглядит так, будто его просто забыли отметить, а не нарочно оставили необязательным.</div>
+      </div>
+
+      <div data-switch-pane="op2"><p class="ds-switch__title">Слово у необязательных</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Название</span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Страна</span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Вес пачки, г</span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Цена за пачку, ₽</span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Описание <span class="ds-lesson__fm-opt">(необязательно)</span></span><span class="ds-lesson__fm-control is-area"></span></span>
+          <span class="ds-lesson__fm-hint">… и ещё три поля без пометки и одно с ней</span>
+        </div>
+        <div class="ds-lesson__result"><b>Слово у необязательных</b>Две пометки на девять полей, и обе понятны без расшифровки. Всё, что не помечено, нужно заполнить.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Отмечают то, чего меньше: пометка, которая стоит почти у всех полей, перестаёт что-то сообщать.</div>
+  </div>
+
+  <p>Так советуют в GOV.UK Design System: необязательные поля помечать словом «(optional)», а обязательные звёздочкой не отмечать никогда. Ралука Будиу из Nielsen Norman Group спорит именно с этим. Звёздочку, по её словам, ставят у каждого обязательного поля, даже если таких большинство: она занимает мало места и её все узнают. Пометка только у необязательных, считает Будиу, заставляет человека угадывать, а объяснение над формой не спасает — инструкции над формой не читают.</p>
+
+  <p>Урок держится правила GOV.UK: слово «необязательно» понятно без расшифровки и стоит там, где нужно, — у самого поля. Артём Горбунов в «Советах» Бюро Горбунова приходит к тому же с другой стороны: необязательное поле лучше убрать или объяснить, что даст его заполнение, — и тогда отмечать приходится именно его. Если в вашем продукте приняты звёздочки, ставьте их у каждого обязательного поля, как советует Будиу.</p>
+
+  <div class="ds-lesson__rule"><b>Отмечайте одним способом на весь продукт.</b> Слово «необязательно» у необязательных полей понятно без расшифровки. Если в продукте приняты звёздочки — они стоят у каждого обязательного поля. В одной форме два способа не смешивают.</div>
+
+  <p class="ds-lesson__dim">Если необязательных полей набралось много, это повод вернуться к прошлому разделу: может быть, часть из них не нужна вовсе.</p>
+</section>
+
+<section id="where">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Где показывать ошибку</h2></div>
+  <p class="ds-lesson__lead">Ошибку показывают у того поля, в котором она случилась, и словами. Общее сообщение сверху без пометки у поля заставляет перечитывать всю форму.</p>
+
+  <p>Контент-менеджер заполнил форму, нажал «Добавить сорт», и в двух полях форма нашла ошибку: вес вписан в килограммах, а цена не указана. Вот три способа об этом сказать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Форма «Новый сорт» · после нажатия «Добавить сорт»</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="wh1" hidden>Только сверху</button><button class="ds-switch__button" type="button" data-switch-btn="wh2" hidden>Только цветом</button><button class="ds-switch__button" type="button" data-switch-btn="wh3" hidden>У поля и сводка</button></div>
+
+      <div data-switch-pane="wh1"><p class="ds-switch__title">Только сверху</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-alert is-error"><b>Форма заполнена с ошибками</b><span>Проверьте данные и попробуйте снова.</span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Название</span><span class="ds-lesson__fm-control">Эфиопия Иргачеффе</span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Вес пачки, г</span><span class="ds-lesson__fm-control">0,25</span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Цена за пачку, ₽</span><span class="ds-lesson__fm-control"></span></span>
+        </div>
+        <div class="ds-lesson__result"><b>Только сверху</b>Что-то не так, но что и где — неизвестно. Человек перечитывает каждое поле и угадывает. В длинной форме сообщение сверху ещё и не видно, если ошибка внизу.</div>
+      </div>
+
+      <div data-switch-pane="wh2"><p class="ds-switch__title">Только цветом</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Название</span><span class="ds-lesson__fm-control">Эфиопия Иргачеффе</span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Вес пачки, г</span><span class="ds-lesson__fm-control is-error">0,25</span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Цена за пачку, ₽</span><span class="ds-lesson__fm-control is-error"></span></span>
+        </div>
+        <div class="ds-lesson__result"><b>Только цветом</b>Видно где, но не видно что: почему вес «0,25» не подошёл? Человек, который не различает красный, не увидит и этого. Экранный диктор рамку не прочтёт вовсе.</div>
+      </div>
+
+      <div data-switch-pane="wh3"><p class="ds-switch__title">У поля и сводка</p>
+        <div class="ds-lesson__fm">
+          <div class="ds-lesson__fm-summary"><b>Проверьте два поля</b><ul><li><span class="ds-lesson__fm-link">Вес пачки — в граммах, от 100 до 1000</span></li><li><span class="ds-lesson__fm-link">Введите цену за пачку</span></li></ul></div>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Название</span><span class="ds-lesson__fm-control">Эфиопия Иргачеффе</span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Вес пачки, г</span><span class="ds-lesson__fm-err">Вес пачки — в граммах, от 100 до 1000</span><span class="ds-lesson__fm-control is-error">0,25</span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Цена за пачку, ₽</span><span class="ds-lesson__fm-err">Введите цену за пачку</span><span class="ds-lesson__fm-control is-error"></span></span>
+        </div>
+        <div class="ds-lesson__result"><b>У поля и сводка</b>У каждого поля словами сказано, что не так. Сводка сверху перечисляет ошибки и в настоящей форме ведёт ссылкой к полю — это нужно в длинной форме, где до ошибки надо листать. В короткой хватит ошибок у полей.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Цвет и толстая рамка помогают заметить ошибку, а объясняет её только текст.</div>
+  </div>
+
+  <p>Требование доступности здесь такое же простое, как с подписями. По WCAG 2.2 ошибку, которую форма нашла сама, надо обозначить и описать текстом — критерий 3.3.1, уровень A. Красная рамка без слов этому не отвечает. В Nielsen Norman Group к этому добавляют: показывайте ошибку рядом с тем местом, где она случилась.</p>
+
+  <p>Сводку ошибок над формой предлагает GOV.UK Design System: она перечисляет ошибки тем же текстом, что у полей, и ведёт ссылками к полям. Там сводку показывают при любой ошибке, даже одной. В короткой форме, где все поля видны сразу, без сводки часто обходятся. В длинной она нужна: ошибка может оказаться за краем экрана.</p>
+
+  <div class="ds-lesson__rule"><b>Ошибка — у поля и словами.</b> Цветом и рамкой её выделяют, но не объясняют. В длинной форме над ней — сводка со ссылками на поля.</div>
+
+  <p class="ds-lesson__dim">Сообщение об ошибке ставят между подписью и полем или сразу под полем — главное, одинаково во всей форме. В GOV.UK его ставят под подписью и подсказкой, над полем. У такого места есть и практический плюс: ошибку не закроет выпадающий список или клавиатура телефона.</p>
+</section>
+
+<section id="text">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Текст ошибки: что не так и что сделать</h2></div>
+  <p class="ds-lesson__lead">Хорошая ошибка отвечает на два вопроса: что не так с этим полем и что вписать, чтобы стало так.</p>
+
+  <p>«Неверный формат» говорит только, что форма недовольна. Чтобы исправить, человеку нужно знать, чего форма ждёт: граммы или килограммы, только цифры или можно с «₽», с какого по какое число.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Было</th><th scope="col">Стало</th><th scope="col">Что изменилось</th></tr></thead>
+      <tbody>
+        <tr><td>Поле обязательно для заполнения</td><td>Введите цену за пачку</td><td>Сказано, какое поле и что сделать</td></tr>
+        <tr><td>Неверный формат</td><td>Введите цену только цифрами</td><td>Сказано, чего ждут. Пример уже стоит в подсказке, в ошибке его не повторяют</td></tr>
+        <tr><td>Недопустимое значение</td><td>Вес пачки — в граммах, от 100 до 1000</td><td>Названы единицы и границы</td></tr>
+        <tr><td>Вы не выбрали страну</td><td>Выберите страну</td><td>Без упрёка: сразу что сделать</td></tr>
+        <tr><td>Ошибка загрузки файла</td><td>Фото больше 10 МБ. Уменьшите его или выберите другое</td><td>Названа причина и два выхода</td></tr>
+        <tr><td>Объект с таким именем уже существует</td><td>Сорт «Кения АА» уже есть в каталоге. Откройте его или назовите новый иначе</td><td>Слова человека вместо слов базы данных</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Так пишут ошибки в GOV.UK Design System: текст говорит, что случилось и как это исправить, простыми словами и по делу. Там же список слов, которых в ошибках не бывает: технические коды, «недопустимо» и «запрещено», «вы забыли», «пожалуйста» — будто можно и не исправлять, «извините» — оно ничего не исправляет, «верный» и «неверный» — они ничего не добавляют. В Nielsen Norman Group добавляют: не вините человека и предлагайте выход, а не только называйте сбой.</p>
+
+  <p class="ds-lesson__dim">Пример в тексте ошибки нужен, если его нет рядом. Если подсказка под подписью уже говорит «например, 890», в GOV.UK советуют не повторять пример в ошибке.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · что не так с текстом ошибки<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">«Неверный формат» под полем «Цена».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно, что исправить</b>Какой формат верный — неизвестно. Лучше: «Введите цену только цифрами». Пример «890» уже есть в подсказке.</p></li>
+<li data-quiz-q data-answer="blame"><p class="ds-quiz__question">«Вы ввели неправильную цену».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Винит человека</b>И при этом не говорит, что вписать. Лучше назвать, чего ждёт поле: «Введите цену только цифрами».</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Выберите степень обжарки».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Годится</b>Понятно, какое поле и что сделать. Для пустого обязательного поля этого достаточно.</p></li>
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">«Ошибка 422».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно, что исправить</b>Код нужен разработчикам в журнале, а человеку — что пошло не так и что делать.</p></li>
+<li data-quiz-q data-answer="blame"><p class="ds-quiz__question">«Вы забыли загрузить фото!»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Винит человека</b>«Вы забыли» с восклицательным знаком звучит как окрик — в GOV.UK эти слова прямо в списке запретных. Лучше: «Загрузите фото пачки».</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Вес пачки — в граммах, от 100 до 1000».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Годится</b>Названы единицы и границы. Человек, вписавший «0,25», сразу видит, что перепутал килограммы с граммами.</p></li>
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">«Поле заполнено некорректно».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно, что исправить</b>Слово «некорректно» ничего не сообщает. Нужно сказать, какое значение поле принимает.</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Сорт «Кения АА» уже есть в каталоге. Откройте его или назовите новый иначе».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Годится</b>Понятно, что случилось, и есть два выхода. Ссылка «Откройте его» ведёт прямо к карточке.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="vague">Непонятно, что исправить</button><button class="ds-quiz__option" type="button" data-quiz-answer="blame">Винит человека</button><button class="ds-quiz__option" type="button" data-quiz-answer="ok">Годится</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Проверка простая: прочтите ошибку человеку, который не видит форму. Если он может сказать, что вписать, — текст годится.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>В тексте ошибки — что не так и что сделать.</b> Название поля или значения, ожидаемый формат, пример или границы. Без кодов, без «некорректно» и без упрёков.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите ошибки в форме «Новый сорт»</h2></div>
+  <p class="ds-lesson__lead">Макет формы, который новый дизайнер принёс на обсуждение, — сразу в состоянии после нажатия кнопки. Пять мест в нём мешают контент-менеджеру.</p>
+
+  <p>Нажимайте на куски формы, которые вы бы переделали. В разборе будет, что с ними не так. Нормальные куски тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Макет формы · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__fm">
+          <p class="ds-lesson__fm-title">Новый сорт</p>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Поле «Название» с подсказкой под подписью"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Название</span><span class="ds-lesson__fm-hint">Как на витрине: страна и регион</span><span class="ds-lesson__fm-control">Колумбия Уила</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Поле «Страна» с красной рамкой без текста"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Страна</span><span class="ds-lesson__fm-control is-error is-ph">Выберите</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Степень обжарки: три варианта видны сразу"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Степень обжарки</span><span class="ds-lesson__fm-check"><span class="ds-lesson__fm-box"></span>Светлая</span><span class="ds-lesson__fm-check"><span class="ds-lesson__fm-box"></span>Средняя</span><span class="ds-lesson__fm-check"><span class="ds-lesson__fm-box"></span>Тёмная</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Поле «Вес» с ошибкой «Неверный формат»"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Вес пачки, г</span><span class="ds-lesson__fm-err">Неверный формат</span><span class="ds-lesson__fm-control is-error">0,25</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Поле с числом 890 без подписи"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-control">890</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Обязательное поле «Артикул»"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Артикул <span class="ds-lesson__fm-req">*</span></span><span class="ds-lesson__fm-control is-ph">Например, LO-0142</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Поле «Описание» с пометкой «необязательно»"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Описание <span class="ds-lesson__fm-opt">(необязательно)</span></span><span class="ds-lesson__fm-control is-area"></span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Поле «Фото» с подсказкой о формате и размере"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Фото пачки</span><span class="ds-lesson__fm-hint">JPG или PNG, до 10 МБ</span><span class="ds-lesson__fm-control is-ph">Выбрать файл</span></span></span>
+          <span class="ds-lesson__fm-actions"><span class="ds-lesson__fm-hit ds-lesson__hunt-pin is-in" data-hunt-pin="8" data-hunt-label="Кнопка «Очистить форму»"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--sec">Очистить форму</span></span><span class="ds-lesson__fm-hit ds-lesson__hunt-pin is-in" data-hunt-pin="9" data-hunt-label="Кнопка «Добавить сорт»"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--pri">Добавить сорт</span></span></span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Поле «Название» с подсказкой под подписью.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Подпись видна, а подсказка под ней объясняет, как назвать сорт, и не исчезает при вводе.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Красная рамка у «Страны» без текста.</span><span class="ds-lesson__hunt-fix"><b>Дописать. </b>Видно, что поле не понравилось форме, но не сказано чем. Под рамкой нужен текст: «Выберите страну».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Три варианта обжарки видны сразу.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Вариантов всего три — их удобнее видеть сразу, чем открывать список.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Ошибка «Неверный формат» у веса.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Человек вписал «0,25», думая в килограммах. Нужно сказать, чего ждёт поле: «Вес пачки — в граммах, от 100 до 1000».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Поле с числом 890 без подписи.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Подпись была подсказкой внутри поля и пропала при вводе. Теперь не понять, что значит 890. Подпись «Цена за пачку, ₽» — над полем.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Обязательное поле «Артикул».</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Артикул система присваивает сама. Подсказка «Например, LO-0142» к тому же написана внутри поля.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Пометка «(необязательно)» у описания.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Необязательных полей в форме меньше, их и отмечают — словом, понятным без расшифровки.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Подсказка «JPG или PNG, до 10 МБ» у фото.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Ограничения сказаны до загрузки, а не в ошибке после неё.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «Очистить форму» рядом с «Добавить сорт».</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Один промах — и всё введённое пропало. Начать заново человек может и без кнопки: закрыть форму. В Nielsen Norman Group это один из десяти главных советов по формам: не ставить кнопки «Сбросить» и «Очистить».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Добавить сорт».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>На кнопке — что произойдёт, глаголом и предметом, а не безликое «Отправить».</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой кусок формы</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Ошибка одним цветом, ошибка без подсказки, подпись внутри поля, поле, которое система заполнит сама, и кнопка, стирающая всё. Каждое из этих мест контент-менеджер встречает на каждом новом сорте.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные куски тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Проверяйте форму в состоянии с ошибками.</b> Пустая аккуратная форма скрывает половину проблем: подписи-подсказки пропадают при вводе, а тексты ошибок появляются только после кнопки.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите форму своего продукта, сократите её на сколько получится и перепишите все сообщения об ошибках.</p>
+
+  <h3>Часть 1 · Сократить, 20 минут</h3>
+  <ol>
+    <li><strong>Выберите форму,</strong> которую заполняют часто: заявка, регистрация, карточка товара, новый клиент. Если своего продукта нет, возьмите форму «Новый сорт» из урока в первой версии на восемнадцать полей.</li>
+    <li><strong>Выпишите все поля</strong> и у каждого — что сломается без него.</li>
+    <li><strong>Разложите поля:</strong> оставить, убрать, потому что знает система, или спросить позже, в другом деле.</li>
+    <li><strong>Решите, что отмечать:</strong> обязательных больше — отмечайте необязательные.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Поля и ошибки · заполните перед макетом<span class="ds-lesson__spacer"></span><span data-copy="formTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="formTmpl">ФОРМА: ______________________        Дата: __.__.____
+КТО ЗАПОЛНЯЕТ: ______________________
+КАК ЧАСТО: ______________________
+
+ПОЛЯ
+поле ____________  что сломается без него ____________  оставить / убрать / позже
+поле ____________  что сломается без него ____________  оставить / убрать / позже
+поле ____________  что сломается без него ____________  оставить / убрать / позже
+
+БЫЛО ПОЛЕЙ: ____   СТАЛО: ____
+ОТМЕЧАЕМ: обязательные / необязательные — почему: ______________________
+
+ОШИБКИ
+поле ____________  когда ____________
+  было: ______________________
+  стало: ______________________
+поле ____________  когда ____________
+  было: ______________________
+  стало: ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">В строке «стало» должно быть, что вписать. Нет — текст ещё не готов.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать, 40 минут</h3>
+  <ol>
+    <li><strong>Соберите форму</strong> с подписями над полями. Пример и формат — подсказкой под подписью.</li>
+    <li><strong>Отметьте поля</strong> выбранным способом — одним на всю форму.</li>
+    <li><strong>Нарисуйте второй экран</strong> — форму после нажатия кнопки, с двумя–тремя ошибками у полей.</li>
+    <li><strong>Если форма длиннее одного экрана,</strong> добавьте сводку ошибок над ней.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 10 минут</h3>
+  <ol>
+    <li><strong>Прочтите каждую ошибку вслух</strong> человеку, который не видит форму. Если он не может сказать, что вписать, — перепишите.</li>
+    <li><strong>Заполните форму</strong> на макете до конца и посмотрите на неё: про каждое заполненное поле видно, что в нём?</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> По каждому оставшемуся полю можно сказать, зачем оно и что сломается без него.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Два экрана формы:</strong> до отправки и после, с ошибками у полей.</li>
+    <li><strong>Список полей</strong> с причиной у каждого: было столько-то, стало столько-то.</li>
+    <li><strong>Список ошибок:</strong> было — стало.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 20 минут на поля, 40 на макет, 10 на проверку. Всего — чуть больше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Все поля нужны, так сказал заказчик».</strong> Спросите, что он сделает с ответом. Поле, на которое не нашлось дела, заказчик отдаст сам.</li>
+    <li><strong>«Без подсказки внутри форма выглядит пустой».</strong> Пустое поле с подписью над ним понятнее серого текста. Пример можно дать подсказкой под подписью.</li>
+    <li><strong>«Не знаю, какие ошибки бывают».</strong> Для каждого поля спросите: что будет, если его оставить пустым, вписать не то или вписать слишком много? Это и есть ошибки.</li>
+    <li><strong>«Разработчики показывают ошибки, которые возвращает сервер».</strong> Попросите список кодов и напишите человеческий текст для каждого. Код останется в журнале, а человек увидит, что делать.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Форма готова, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>У каждого поля есть подпись над ним, и она видна, когда поле заполнено</li>
+    <li>Пример и формат — подсказкой под подписью, а не внутри поля</li>
+    <li>Для каждого поля названо, что сломается без него</li>
+    <li>В форме нет полей, которые система знает сама</li>
+    <li>Отмечено то, чего меньше, и одним способом</li>
+    <li>Ошибка стоит у своего поля и написана словами</li>
+    <li>В тексте ошибки сказано, что вписать</li>
+    <li>В длинной форме над полями есть сводка ошибок</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Подпись внутри поля.</b> Пропадает при вводе, и заполненную форму не проверить.</li>
+    <li><b>Все поля базы в форме.</b> Каждое лишнее поле заполняют каждый раз.</li>
+    <li><b>Звёздочки почти у всех полей.</b> Пометка перестаёт что-то сообщать.</li>
+    <li><b>Ошибка только цветом.</b> Видно где, не видно что.</li>
+    <li><b>«Неверный формат».</b> Непонятно, что вписать.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся собирать короткую понятную форму. На следующих ступенях — делать длинные формы, которые можно бросить и продолжить, а потом сводить все формы продукта к общим правилам.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Ставить подпись над полем; убирать лишние поля и обосновывать оставшиеся; отмечать то, чего меньше; показывать ошибку у поля и словами; писать, что исправить</td>
+          <td>По каждому оставшемуся полю можно сказать, зачем оно и что сломается без него</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Разводить подпись, подсказку и текст ошибки; выбирать момент проверки; разбивать длинную форму на шаги по смыслу; сохранять черновик; продумывать ошибку отправки</td>
+          <td class="ds-lesson__dim">Можно закрыть вкладку на середине, вернуться и продолжить с того же места</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Задавать единый момент проверки; собирать словарь ошибок; описывать порядок полей и поведение кнопки отправки; проверять новые формы по правилам</td>
+          <td class="ds-lesson__dim">Одна и та же ошибка во всех формах продукта звучит одинаково</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любое поле своей формы вы можете сказать, зачем оно, и про любую ошибку — что человек сделает, когда её прочтёт.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20180109/">Исследование Гугля: пользователям легче читать, когда подписи над полями</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2018 · на русском · бесплатно</span><span>Бирман разбирает исследование Google с ай-трекингом: в «улучшенной» форме поменяли сразу и подписи, и длину полей, и кнопки, так что вывод о подписях не доказан. Короткий совет 2018 года о положении подписи, а не о подсказке внутри поля.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20100419/">Хотелось бы разобраться с вопросом выделения обязательных полей на форме</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Артём Горбунов, 2010 · на русском · бесплатно</span><span>Горбунов отвечает, как помечать обязательные поля: необязательное поле лучше убрать или объяснить, что даст его заполнение, — и поэтому пометка нужна скорее необязательным. Совет 2010 года, примеры из веба тех лет.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20140126/">Как сформулировать просьбу заполнить поля, чтобы люди вводили настоящие данные?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Максим Ильяхов, 2014 · на русском · бесплатно</span><span>Ильяхов на шести парах подписей показывает, как объяснение пользы заменяет сухое «Необходимо ввести паспортные данные», и предлагает спрашивать данные тогда, когда они нужны. Совет 2014 года про формы для клиентов.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/form-design-placeholders/">Placeholders in Form Fields Are Harmful</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кэти Шервин · на английском · бесплатно</span><span>Семь причин, почему подсказка внутри поля вместо подписи мешает: память, проверка перед отправкой, исправление ошибок, клавиатура, доступность. Отдельно разобраны «плавающие подписи». Статья 2014 года, пересмотрена в 2018.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/required-fields/">Marking Required Fields in Forms</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Ралука Будиу · на английском · бесплатно</span><span>Ралука Будиу спорит с правилом урока: отмечать звёздочкой каждое обязательное поле, даже если их большинство, а «optional» — по желанию. Объясняет, почему инструкцию над формой не читают и почему метка только у необязательных заставляет угадывать.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/components/error-message/">Error message</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Руководство GOV.UK по тексту ошибки: где ставить сообщение, каких слов в нём не бывает («please», «invalid», «you forgot»), когда писать инструкцию, а когда описание, почему не повторять пример и не очищать поля. Примеры из британских госуслуг.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

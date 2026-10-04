@@ -9633,3 +9633,318 @@ button.ds-lesson__dt-hit.ds-lesson__hunt-pin:hover {
 	border-style: dotted;
 	background: var(--wp--preset--color--surface-subtle);
 }
+
+/* ---------- урок «Формы» ---------- */
+
+/* Учебная форма админки: подпись над полем, подсказка под подписью, поле, ошибка словами
+   под полем. Поле в макете — span, в тренажёре — настоящий input; выглядят одинаково.
+   Рамка поля — border-strong: у поля ввода она должна давать 3 : 1 к фону (WCAG 1.4.11),
+   а border-default этого не даёт. Ошибка отличается не только цветом: рамка толще,
+   а под полем — текст. */
+.ds-lesson__fm {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--4);
+	max-width: var(--wp--custom--size--form);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__fm p {
+	margin: 0;
+}
+
+.ds-lesson__fm + .ds-lesson__fm,
+.ds-lesson__fm + .ds-lesson__fm-note {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__fm-title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--tight);
+}
+
+.ds-lesson__fm-row {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__fm-label {
+	font-weight: 600;
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__fm-opt {
+	font-weight: 400;
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__fm-req {
+	color: var(--wp--preset--color--text-error);
+}
+
+.ds-lesson__fm-hint {
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__fm-control,
+.ds-lesson__fm-input {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	min-height: var(--wp--custom--size--control-md);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	color: var(--wp--preset--color--text-default);
+	font: inherit;
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__fm-control.is-area {
+	min-height: calc(var(--wp--custom--size--control-md) * 2);
+}
+
+.ds-lesson__fm-control.is-ph,
+.ds-lesson__fm-input::placeholder {
+	color: var(--wp--preset--color--text-muted);
+	opacity: 1;
+}
+
+.ds-lesson__fm-control.is-error,
+.ds-lesson__fm-input.is-error {
+	border-width: var(--wp--custom--border-width--focus);
+	border-color: var(--wp--preset--color--border-error);
+}
+
+.ds-lesson__fm-input:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__fm-err {
+	font-weight: 600;
+	color: var(--wp--preset--color--text-error);
+}
+
+/* Сводка ошибок над формой: что не так и ссылки на поля. */
+.ds-lesson__fm-summary {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-error);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-lesson__fm-summary ul {
+	margin: 0;
+	padding-left: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__fm-summary li + li {
+	margin-top: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__fm-summary a,
+.ds-lesson__fm-summary .ds-lesson__fm-link {
+	color: var(--wp--preset--color--text-error);
+	text-decoration: underline;
+}
+
+/* Плашка сообщения формы: черновик сохранён, связь пропала. */
+.ds-lesson__fm-alert {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-left: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__fm-alert.is-error {
+	border-left-color: var(--wp--preset--color--border-error);
+	background: var(--wp--preset--color--bg-error);
+}
+
+.ds-lesson__fm-pair {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__fm-group {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	padding-top: var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__fm-group-title {
+	font-weight: 600;
+}
+
+.ds-lesson__fm-check {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__fm-box {
+	flex: none;
+	width: var(--wp--custom--size--icon-sm);
+	height: var(--wp--custom--size--icon-sm);
+	margin-top: calc(var(--wp--custom--border-width--focus) / 2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-default);
+}
+
+/* Шаги длинной формы: «Шаг 2 из 5» и список шагов, текущий выделен словом и весом. */
+.ds-lesson__fm-step {
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__fm-steps {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__fm-steps .is-now {
+	color: var(--wp--preset--color--text-default);
+	font-weight: 600;
+	text-decoration: underline;
+	text-underline-offset: 0.3em;
+}
+
+.ds-lesson__fm-steps .is-done {
+	color: var(--wp--preset--color--text-action);
+}
+
+.ds-lesson__fm-note {
+	font-size: var(--wp--preset--font-size--xs);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__fm-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+}
+
+.ds-lesson__fm-btn {
+	display: inline-flex;
+	align-items: center;
+	min-height: var(--wp--custom--size--control-md);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid transparent;
+	border-radius: var(--wp--custom--radius--md);
+	font: inherit;
+	font-weight: 600;
+	cursor: default;
+}
+
+button.ds-lesson__fm-btn {
+	cursor: pointer;
+}
+
+button.ds-lesson__fm-btn:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__fm-btn--pri {
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+.ds-lesson__fm-btn--sec {
+	border-color: var(--wp--preset--color--border-strong);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-action);
+}
+
+.ds-lesson__fm-btn.is-off {
+	border-color: var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Метка поиска ошибок вокруг куска формы: целая строка поля или кусок текста. */
+.ds-lesson__fm-hit.ds-lesson__hunt-pin {
+	position: static;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: var(--wp--preset--spacing--1);
+	width: auto;
+	height: auto;
+	margin: calc(-1 * var(--wp--preset--spacing--1));
+	padding: var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--sm);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	text-align: inherit;
+	transform: none;
+}
+
+.ds-lesson__fm-hit.ds-lesson__hunt-pin.is-in {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: baseline;
+	margin: calc(-1 * var(--wp--custom--border-width--focus)) calc(-1 * var(--wp--preset--spacing--1));
+	padding: var(--wp--custom--border-width--focus) var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__fm-hit.ds-lesson__hunt-pin:hover {
+	border-color: var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__fm-hit.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__fm-hit.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+/* Тренажёр «когда проверять»: кнопки режимов, форма, строка пояснения. */
+.ds-lesson__fv-pick {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	margin-bottom: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__fv-log {
+	min-height: calc(2 * 1.5em);
+	margin: var(--wp--preset--spacing--3) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+	color: var(--wp--preset--color--text-muted);
+}

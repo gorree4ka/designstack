@@ -5,8 +5,8 @@
  * проверка дерева, стресс-тест структуры, симулятор отклика, калькулятор долей,
  * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
  * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия, —
- * «три секунды», проигрыватель движения, настройка образца и сортировка
- * учебной таблицы.
+ * «три секунды», проигрыватель движения, настройка образца, сортировка
+ * учебной таблицы и момент проверки поля формы.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -2824,5 +2824,167 @@
 		}
 
 		box.setAttribute( 'data-dt-live-on', '' );
+	} );
+
+	/* ── момент проверки поля ──────────────────────────────────────────────
+	   Коробка `data-fv` — одно поле с правилом и кнопка «Сохранить». Без
+	   скрипта коробка скрыта целиком: проверять было бы нечем, а что происходит
+	   в каждом режиме, урок пишет таблицей рядом. Скрипт показывает форму и ставит
+	   кнопки режимов из `data-fv-modes` и `data-fv-labels`:
+	   input — ошибка обновляется на каждом символе; blur — при уходе из поля;
+	   submit — только по кнопке; mixed — первый раз при уходе из поля, а пока
+	   ошибка на экране — на каждом символе, чтобы исчезнуть сразу после правки.
+	   Правило — только цифры и ровно `data-fv-len` знаков. Тексты ошибок
+	   (`data-fv-text`: empty, chars, length) и пояснения к тому, что сейчас
+	   произошло (`data-fv-note`), приходят из урока; {n} — сколько цифр сейчас. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-fv]' ), function ( box ) {
+		var form = box.querySelector( '[data-fv-form]' );
+		var input = box.querySelector( '[data-fv-input]' );
+		var err = box.querySelector( '[data-fv-err]' );
+		var submit = box.querySelector( '[data-fv-submit]' );
+		var log = box.querySelector( '[data-fv-log]' );
+		var pick = box.querySelector( '[data-fv-pick]' );
+
+		if ( ! form || ! input || ! err || ! submit || ! log || ! pick ) {
+			return;
+		}
+
+		var len = parseInt( box.getAttribute( 'data-fv-len' ), 10 ) || 10;
+		var modes = ( box.getAttribute( 'data-fv-modes' ) || '' ).split( '|' );
+		var labels = ( box.getAttribute( 'data-fv-labels' ) || '' ).split( '|' );
+		var title = box.getAttribute( 'data-fv-title' );
+		var mode = box.getAttribute( 'data-fv-mode' ) || modes[ 0 ];
+		var shown = false;
+		var said = '';
+		var buttons = [];
+
+		function piece( attr, key ) {
+			var el = box.querySelector( '[' + attr + '="' + key + '"]' );
+
+			return el ? el.textContent.trim() : '';
+		}
+
+		function fault( value ) {
+			if ( '' === value.trim() ) {
+				return 'empty';
+			}
+
+			if ( /\D/.test( value ) ) {
+				return 'chars';
+			}
+
+			return value.length === len ? '' : 'length';
+		}
+
+		function say( key ) {
+			if ( said === key ) {
+				return;
+			}
+
+			said = key;
+			log.textContent = piece( 'data-fv-note', key ).replace( '{n}', String( input.value.length ) );
+		}
+
+		function paint( key ) {
+			shown = !! key;
+			err.hidden = ! shown;
+			err.textContent = shown ? piece( 'data-fv-text', key ).replace( '{n}', String( input.value.length ) ) : '';
+			input.setAttribute( 'aria-invalid', String( shown ) );
+			input.classList.toggle( 'is-error', shown );
+		}
+
+		function check() {
+			var key = fault( input.value );
+
+			paint( key );
+			say( key ? ( 'submit' === mode ? 'late' : 'shown' ) : 'saved' );
+		}
+
+		function reset() {
+			input.value = '';
+			paint( '' );
+			said = '';
+			say( 'start' );
+		}
+
+		if ( title ) {
+			pick.setAttribute( 'role', 'group' );
+			pick.setAttribute( 'aria-label', title );
+		}
+
+		modes.forEach( function ( one, i ) {
+			var btn = button( labels[ i ] || one );
+
+			btn.setAttribute( 'aria-pressed', String( one === mode ) );
+			btn.addEventListener( 'click', function () {
+				mode = one;
+				buttons.forEach( function ( other, k ) {
+					other.setAttribute( 'aria-pressed', String( modes[ k ] === mode ) );
+				} );
+				reset();
+			} );
+			buttons.push( btn );
+			pick.appendChild( btn );
+		} );
+
+		input.addEventListener( 'input', function () {
+			var key = fault( input.value );
+
+			if ( 'input' === mode ) {
+				paint( key );
+
+				if ( 'length' === key && input.value.length < len ) {
+					say( 'early' );
+				} else if ( ! key ) {
+					say( 'fixed' );
+				}
+
+				return;
+			}
+
+			if ( ! shown ) {
+				return;
+			}
+
+			if ( 'mixed' === mode ) {
+				paint( key );
+
+				if ( ! key ) {
+					say( 'fixed' );
+				}
+
+				return;
+			}
+
+			// blur и submit: ошибка висит до следующего ухода из поля или нажатия.
+			if ( ! key ) {
+				say( 'blur' === mode ? 'stale-blur' : 'stale-submit' );
+			}
+		} );
+
+		input.addEventListener( 'blur', function () {
+			if ( ( 'blur' !== mode && 'mixed' !== mode ) || '' === input.value.trim() ) {
+				return;
+			}
+
+			var key = fault( input.value );
+
+			paint( key );
+			say( key ? 'shown' : 'saved-blur' );
+		} );
+
+		input.addEventListener( 'keydown', function ( event ) {
+			if ( 'Enter' === event.key ) {
+				event.preventDefault();
+				check();
+			}
+		} );
+
+		submit.addEventListener( 'click', check );
+
+		box.hidden = false;
+		form.hidden = false;
+		log.hidden = false;
+		say( 'start' );
 	} );
 }() );

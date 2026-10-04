@@ -1,0 +1,532 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#texts">Подпись, подсказка и ошибка — три разных текста</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#timing">Когда проверять поле</a><span class="ds-lesson__tag">живое поле</span></li>
+    <li><a href="#steps">Шаги по смыслу, а не поровну</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#back">Назад без потери данных</a><span class="ds-lesson__tag">схема</span></li>
+    <li><a href="#draft">Черновик: уйти и вернуться</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#submit">Ошибка отправки, когда всё заполнено</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#hunt">Найдите ошибки на шаге «Реквизиты»</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Админка «Лесной обжарки», как в уроках про <a href="/lessons/forms-junior/">короткие формы</a> и <a href="/lessons/tables-lists-middle/">таблицы</a>. Магазин подключает нового поставщика зелёного зерна. Менеджер по закупкам заводит его в админке: название и ИНН, банковские реквизиты, контакты, условия поставки и договор. Реквизиты лежат у бухгалтера поставщика, договор — у юриста, поэтому форму почти никогда не заполняют за один раз.</div>
+
+<section id="texts">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Подпись, подсказка и ошибка — три разных текста</h2></div>
+  <p class="ds-lesson__lead">У поля три текста, и у каждого своя работа. Подпись называет, что ввести. Подсказка объясняет, как или где это взять. Ошибка говорит, что не так и как исправить.</p>
+
+  <p>Когда тексты путают, каждый делает чужую работу плохо. Подпись с инструкцией длинная и читается дольше. Подсказка, повторяющая подпись, занимает место и ничего не добавляет. Ошибка, повторяющая подсказку слово в слово, не говорит, что именно не так.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Поле «ИНН» · три текста</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__fm">
+        <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">ИНН</span><span class="ds-lesson__fm-hint">10 цифр у компании, 12 — у индивидуального предпринимателя</span><span class="ds-lesson__fm-err">В ИНН компании 10 цифр, а сейчас 9</span><span class="ds-lesson__fm-control is-error">770123456</span></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Подпись — одно слово. Подсказка отвечает, сколько цифр. Ошибка говорит, сколько ждали и сколько получили.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Текст</th><th scope="col">На какой вопрос отвечает</th><th scope="col">Когда виден</th><th scope="col">Как испортить</th></tr></thead>
+      <tbody>
+        <tr><td>Подпись</td><td>Что ввести</td><td>Всегда</td><td>Вписать в неё инструкцию: «ИНН (10 или 12 цифр, без пробелов)»</td></tr>
+        <tr><td>Подсказка</td><td>Как ввести и где взять</td><td>Всегда, под подписью</td><td>Повторить подпись: «Введите ИНН»</td></tr>
+        <tr><td>Ошибка</td><td>Что не так с этим значением и что сделать</td><td>Когда значение не подошло</td><td>Повторить подсказку: «10 цифр у компании, 12 — у ИП»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Подсказку пишут не к каждому полю. «Название компании» подсказки не требует. «Отсрочка платежа» — требует: непонятно, от какого дня её считать.</p>
+
+  <p>В Контур.Гайдах подачу решают иначе: подсказку к формату разрешают писать внутри поля, а текст ошибки показывают во всплывающей подсказке у поля. Всплывающую подсказку видно, пока поле в фокусе или под курсором. В длинной форме, где ошибки нужно найти и исправить по очереди, урок держит оба текста на виду.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · подпись, подсказка или ошибка<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="label"><p class="ds-quiz__question">«Расчётный счёт»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подпись</b>Называет, что ввести, — коротко, словами из документа.</p></li>
+<li data-quiz-q data-answer="hint"><p class="ds-quiz__question">«20 цифр, есть в карточке компании поставщика»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подсказка</b>Отвечает, как выглядит значение и где его взять. Видна всегда, а не только после ошибки.</p></li>
+<li data-quiz-q data-answer="error"><p class="ds-quiz__question">«В расчётном счёте 20 цифр, а сейчас 18»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка</b>Говорит, что не так именно с этим значением: двух цифр не хватает.</p></li>
+<li data-quiz-q data-answer="hint"><p class="ds-quiz__question">«Сколько дней после поставки есть на оплату»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подсказка</b>Объясняет, от чего считать дни. Подпись над ней — «Отсрочка платежа, дней».</p></li>
+<li data-quiz-q data-answer="error"><p class="ds-quiz__question">«Такого БИК нет в справочнике банков. Проверьте цифры»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка</b>Значение по формату верное, но не нашлось. Ошибка говорит, что делать: проверить цифры.</p></li>
+<li data-quiz-q data-answer="label"><p class="ds-quiz__question">«Минимальная партия, кг»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подпись</b>Что ввести и в каких единицах. Единицы — в подписи, чтобы не писать их в каждом значении.</p></li>
+<li data-quiz-q data-answer="hint"><p class="ds-quiz__question">«PDF со всеми подписями, до 20 МБ»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Подсказка</b>Ограничения сказаны до загрузки договора, а не в ошибке после неё.</p></li>
+<li data-quiz-q data-answer="error"><p class="ds-quiz__question">«Выберите, кто платит за доставку»</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ошибка</b>Так звучит ошибка пустого обязательного поля: глагол и что выбрать.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="label">Подпись</button><button class="ds-quiz__option" type="button" data-quiz-answer="hint">Подсказка</button><button class="ds-quiz__option" type="button" data-quiz-answer="error">Ошибка</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Если текст не отвечает ни на один из трёх вопросов — что ввести, как, что не так, — он лишний.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Подпись — что ввести, подсказка — как и где взять, ошибка — что не так и что сделать.</b> Тексты не повторяют друг друга. Подсказка видна всегда, ошибка — только когда значение не подошло.</div>
+</section>
+
+<section id="timing">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Когда проверять поле</h2></div>
+  <p class="ds-lesson__lead">Ошибку показывают, когда человек закончил с полем: не раньше, пока он ещё вводит, и не намного позже, когда он уже ушёл на следующий шаг.</p>
+
+  <p>У проверки четыре привычных момента. Разница между ними лучше всего видна на живом поле: попробуйте каждый — наберите в ИНН девять цифр, уйдите в следующее поле, потом допишите десятую. Что происходит в каждом режиме, сведено в таблицу под тренажёром.</p>
+
+  <div class="ds-lesson__box" data-fv hidden data-fv-len="10" data-fv-mode="input" data-fv-modes="input|blur|submit|mixed" data-fv-labels="На вводе|При уходе из поля|При отправке|При уходе, потом на вводе" data-fv-title="Когда проверять">
+    <div class="ds-lesson__box-head">Тренажёр · когда проверять ИНН</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__fv-pick" data-fv-pick></div>
+      <div class="ds-lesson__fm" data-fv-form hidden>
+        <span class="ds-lesson__fm-row">
+          <label class="ds-lesson__fm-label" for="fv-inn">ИНН поставщика</label>
+          <span class="ds-lesson__fm-hint" id="fv-inn-hint">10 цифр — у компании</span>
+          <span class="ds-lesson__fm-err" id="fv-inn-err" data-fv-err hidden></span>
+          <input class="ds-lesson__fm-input" id="fv-inn" type="text" inputmode="numeric" autocomplete="off" aria-describedby="fv-inn-hint fv-inn-err" data-fv-input>
+        </span>
+        <span class="ds-lesson__fm-row">
+          <label class="ds-lesson__fm-label" for="fv-kpp">КПП</label>
+          <input class="ds-lesson__fm-input" id="fv-kpp" type="text" inputmode="numeric" autocomplete="off">
+        </span>
+        <span class="ds-lesson__fm-actions"><button class="ds-lesson__fm-btn ds-lesson__fm-btn--pri" type="button" data-fv-submit>Сохранить</button></span>
+      </div>
+      <p class="ds-lesson__fv-log" data-fv-log aria-live="polite" hidden></p>
+      <ul hidden>
+        <li data-fv-text="empty">Введите ИНН поставщика</li>
+        <li data-fv-text="chars">В ИНН только цифры, без пробелов и букв</li>
+        <li data-fv-text="length">В ИНН компании 10 цифр, а сейчас {n}</li>
+        <li data-fv-note="start">Наберите девять цифр, перейдите в поле «КПП» или нажмите «Сохранить», потом допишите десятую.</li>
+        <li data-fv-note="early">Ошибка появилась на первой же цифре: вы ещё вводите, а форма уже поправляет.</li>
+        <li data-fv-note="shown">Ошибка появилась, когда вы закончили с полем, — к месту.</li>
+        <li data-fv-note="late">Об ошибке вы узнали только после «Сохранить». В форме на пять шагов это была бы последняя страница.</li>
+        <li data-fv-note="fixed">Ошибка исчезла, как только ИНН стал верным.</li>
+        <li data-fv-note="stale-blur">ИНН уже верный, а ошибка висит, пока вы не уйдёте из поля.</li>
+        <li data-fv-note="stale-submit">ИНН уже верный, а ошибка висит, пока вы снова не нажмёте «Сохранить».</li>
+        <li data-fv-note="saved">ИНН верный — форма сохранилась.</li>
+        <li data-fv-note="saved-blur">ИНН верный — ошибки нет.</li>
+      </ul>
+    </div>
+    <div class="ds-lesson__box-foot">Последний режим берёт лучшее от двух: ругает не раньше, чем вы закончили, и хвалит сразу, как только исправили.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Момент проверки</th><th scope="col">Когда человек видит ошибку</th><th scope="col">Чем платит</th></tr></thead>
+      <tbody>
+        <tr><td>На вводе</td><td>На первом же знаке</td><td>Его поправляют, пока он не закончил. Ошибка мигает на каждом символе</td></tr>
+        <tr><td>При уходе из поля</td><td>Когда перешёл к следующему полю</td><td>Исправил — а ошибка висит, пока снова не уйдёт из поля</td></tr>
+        <tr><td>При отправке</td><td>После кнопки</td><td>Узнаёт обо всём в конце; в длинной форме — через несколько шагов</td></tr>
+        <tr><td>При уходе, потом на вводе</td><td>Когда перешёл к следующему полю; исчезает сразу после исправления</td><td>Сложнее в разработке: у поля два режима</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Самое известное исследование момента проверки провёл Люк Вроблевски вместе с лондонской компанией Etre в 2009 году: 22 человека заполняли шесть вариантов одной формы регистрации. Лучший вариант проверки у поля по сравнению с проверкой после кнопки дал на 22 % больше успешных заполнений и на 22 % меньше ошибок, а время заполнения сократилось на 42 %. Проверка после ухода из поля оказалась на 7 секунд быстрее проверки во время ввода и на 10 — проверки, которая начиналась, как только человек вставал в поле: обе ругали тех, кто ещё не закончил. Исследованию 17 лет, и каждый участник заполнял все шесть форм подряд, поэтому проценты — направление, а не точная мера.</p>
+
+  <p>Baymard Institute в 2024 году советует тот же порядок, что и последний режим тренажёра: проверять поле, когда человек из него ушёл, а сообщение об ошибке обновлять на каждом знаке, чтобы оно исчезло, как только значение стало верным. Там же посчитали, что у 31 % интернет-магазинов из их выборки проверки у поля нет вовсе. Расходятся Baymard и Вроблевски в мелочи: Baymard советует отмечать верное поле галочкой, а у Вроблевски галочки у простых полей вроде имени сбивали участников. В Контур.Гайдах основная проверка — тоже при потере фокуса, а проверка при отправке — для случаев, когда при уходе из поля проверить нельзя. И отдельное правило: пустое поле при уходе из него не ругают — человек мог просто пройти мимо.</p>
+
+  <p>GOV.UK Design System советует иначе: не проверять при уходе из поля, а ждать, пока человек попробует перейти дальше, — проверка до конца ввода мешает, особенно тем, кто печатает медленно. У них это работает ещё и потому, что на странице обычно один вопрос: «перейти дальше» там почти то же, что «закончить с полем». В форме, где на шаге пять полей, такая проверка становится проверкой при отправке шага.</p>
+
+  <p>Проверка на вводе уместна там, где она помогает, а не ругает: счётчик знаков у поля с пределом, условия пароля, которые отмечаются по мере ввода, проверка «такой логин уже занят» после паузы в наборе. Вроблевски так и пишет: помогать во время ввода можно, но с задержкой, чтобы преждевременные ошибки не злили.</p>
+
+  <div class="ds-lesson__rule"><b>Ошибку показывают, когда человек закончил с полем, а убирают сразу, как только он исправил.</b> На вводе проверяют только то, что помогает вводить, — счётчики и условия.</div>
+</section>
+
+<section id="steps">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Шаги по смыслу, а не поровну</h2></div>
+  <p class="ds-lesson__lead">Длинную форму делят на шаги там, где меняется тема или нужен другой документ, а не через каждые четыре поля.</p>
+
+  <p>В форме «Новый поставщик» шестнадцать полей. Их можно разложить на четыре шага по четыре поля — выглядит ровно. Но тогда расчётный счёт попадёт на один шаг с телефоном, а менеджер будет бегать между карточкой компании и перепиской.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Форма «Новый поставщик» · как разбить на шаги</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="st1" hidden>Поровну</button><button class="ds-switch__button" type="button" data-switch-btn="st2" hidden>По смыслу</button></div>
+
+      <div data-switch-pane="st1"><p class="ds-switch__title">Поровну</p>
+        <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица «Поровну», листается вбок">
+          <table>
+            <thead><tr><th scope="col">Шаг</th><th scope="col">Поля</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Название, ИНН, КПП, БИК банка</td></tr>
+              <tr><td>2</td><td>Расчётный счёт, контактное лицо, телефон, почта</td></tr>
+              <tr><td>3</td><td>Сайт, минимальная партия, срок поставки, кто платит за доставку</td></tr>
+              <tr><td>4</td><td>Отсрочка платежа, договор, комментарий, отметка «Проверен»</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ds-lesson__result"><b>Поровну</b>Банковские реквизиты разорваны между шагами 1 и 2, условия поставки — между 3 и 4. На каждом шаге нужен другой документ, и непонятно, о чём шаг: у него нет названия.</div>
+      </div>
+
+      <div data-switch-pane="st2"><p class="ds-switch__title">По смыслу</p>
+        <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица «По смыслу», листается вбок">
+          <table>
+            <thead><tr><th scope="col">Шаг</th><th scope="col">Поля</th><th scope="col">Откуда берут</th></tr></thead>
+            <tbody>
+              <tr><td>1 · Компания</td><td>Название, ИНН, КПП, сайт</td><td>Из письма поставщика</td></tr>
+              <tr><td>2 · Реквизиты</td><td>БИК, расчётный счёт</td><td>Карточка компании от бухгалтера</td></tr>
+              <tr><td>3 · Контакты</td><td>Контактное лицо, телефон, почта</td><td>Из переписки</td></tr>
+              <tr><td>4 · Условия</td><td>Минимальная партия, срок поставки, доставка, отсрочка, договор</td><td>Договор от юриста</td></tr>
+              <tr><td>5 · Проверка</td><td>Всё введённое одним списком</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="ds-lesson__result"><b>По смыслу</b>Шаги разной длины, зато у каждого есть название и один источник данных. Пока бухгалтер не прислал реквизиты, шаг можно пройти пустым — черновик сохранится, а на проверке форма напомнит, чего не хватает. Банк по БИК и корреспондентский счёт форма подставляет сама — из шестнадцати полей вводить осталось четырнадцать.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Граница шага — там, где человек меняет документ или тему разговора.</div>
+  </div>
+
+  <p>Что показывать над шагом. Номер без общего числа — «Шаг 2» — не говорит, сколько осталось. Нужны три вещи: где человек сейчас, сколько всего шагов и как они называются.</p>
+
+  <div class="ds-lesson__fm">
+    <span class="ds-lesson__fm-step">Шаг 2 из 5 · Реквизиты</span>
+    <ol class="ds-lesson__fm-steps"><li class="is-done">Компания ✓</li><li class="is-now">Реквизиты</li><li>Контакты</li><li>Условия</li><li>Проверка</li></ol>
+  </div>
+
+  <p>В Nielsen Norman Group форму по шагам называют мастером и советуют её новичкам и для дел, которые делают редко: шаги ведут по порядку и не дают пропустить нужное. Там же советуют показывать список шагов с выделенным текущим, называть на кнопке, куда она ведёт, — «Дальше: контакты», а не просто «Дальше», — и разрешать выйти на середине, сохранив введённое. Если шаги приходится заполнять вразнобой, мастер не подходит: он держит строгий порядок. Тогда нужен список задач — о нём в разделе 5.</p>
+
+  <p>Илья Бирман из Бюро Горбунова идёт дальше: в профессиональных интерфейсах мастер, по его мнению, скорее нежелателен — опытному человеку шаги мешают видеть всё сразу. Здесь довод решает частота. Форму поставщика менеджер заполняет несколько раз в год и каждый раз вспоминает, что где, — шаги ему помогают. Форму, которую заполняют каждый день, лучше держать одним экраном с группами полей.</p>
+
+  <p>Руководство по сервисам GOV.UK идёт дальше в дробности: начинать с того, чтобы на каждой странице был один вопрос. А индикатор шагов GOV.UK Design System советует сначала убрать и проверить форму без него — может быть, она и так достаточно проста. Если индикатор всё же нужен, хватит простого «Вопрос 3 из 9». Это другой масштаб: сервисами GOV.UK пользуются раз в жизни, а форму поставщика менеджер заполняет несколько раз в год, и шагов в ней пять, а не тридцать, — ему проще видеть, что впереди.</p>
+
+  <div class="ds-lesson__rule"><b>Шаг — это тема и один источник данных.</b> Над шагом — где человек сейчас, сколько всего шагов и как они называются. Последний шаг — проверка всего введённого.</div>
+</section>
+
+<section id="back">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Назад без потери данных</h2></div>
+  <p class="ds-lesson__lead">Кнопка «Назад» возвращает на прошлый шаг со всем, что там введено, и не стирает то, что введено на текущем.</p>
+
+  <p>Менеджер на шаге «Условия» понял, что ошибся в ИНН. Он нажимает «Назад» три раза, исправляет цифру — и возвращается вперёд. Если по дороге потерялись реквизиты или условия, форму бросят на этом месте.</p>
+
+  <ul>
+    <li><strong>«Назад» в форме и кнопка «Назад» браузера</strong> делают одно и то же: возвращают на прошлый шаг, а не уводят из формы.</li>
+    <li><strong>Переход между шагами сохраняет всё,</strong> даже если на текущем шаге есть ошибки: ошибку покажут, но введённое не пропадёт.</li>
+    <li><strong>На шаге «Проверка» у каждого ответа ссылка «Изменить».</strong> Она ведёт на нужный шаг, а после правки возвращает на проверку, а не заставляет идти через все шаги заново.</li>
+    <li><strong>Однажды введённое не спрашивают второй раз.</strong> Если контакт для счетов тот же, что основной, хватит отметки «Тот же человек», а не трёх полей заново.</li>
+  </ul>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Шаг 5 из 5 · Проверка</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__fm">
+        <span class="ds-lesson__fm-group"><span class="ds-lesson__fm-group-title">Компания</span><span>ООО «Зерно Юга» · ИНН 7701234567 · КПП 770101001</span><span class="ds-lesson__fm-link">Изменить</span></span>
+        <span class="ds-lesson__fm-group"><span class="ds-lesson__fm-group-title">Реквизиты</span><span>Банк «Восход» · счёт 40702 810 0 0000 0001234</span><span class="ds-lesson__fm-link">Изменить</span></span>
+        <span class="ds-lesson__fm-group"><span class="ds-lesson__fm-group-title">Условия</span><span>От 60 кг · 14 дней · отсрочка 30 дней · договор.pdf</span><span class="ds-lesson__fm-link">Изменить</span></span>
+        <span class="ds-lesson__fm-actions"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--pri">Добавить поставщика</span></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Проверка — последний шанс увидеть всё целиком. «Изменить» ведёт к полю и возвращает сюда же.</div>
+  </div>
+
+  <p>Требование повторно не спрашивать есть и в WCAG 2.2: критерий 3.3.7 «Повторный ввод», уровень A, появился в версии 2.2. То, что человек уже ввёл в этом же процессе, форма подставляет сама или даёт выбрать. Исключений три: повторный ввод — сама суть дела, он нужен для безопасности или прежние данные больше не действуют.</p>
+
+  <p>Страницу проверки перед отправкой описывает GOV.UK Design System — паттерн Check answers: человек видит все ответы, а у каждого раздела стоит ссылка «Изменить».</p>
+
+  <div class="ds-lesson__rule"><b>Любое движение по шагам сохраняет введённое.</b> «Назад» — на шаг назад, «Изменить» на проверке — к полю и обратно на проверку.</div>
+</section>
+
+<section id="draft">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Черновик: уйти и вернуться</h2></div>
+  <p class="ds-lesson__lead">Длинную форму не всегда заполняют за раз. Форма сохраняет черновик, говорит об этом и при возвращении открывается там, где человек остановился.</p>
+
+  <p>Менеджер заполнил компанию и контакты, а реквизиты бухгалтер поставщика пришлёт завтра. Закрыть вкладку должно быть не страшно.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Форма «Новый поставщик» · на следующий день</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="dr1" hidden>Без черновика</button><button class="ds-switch__button" type="button" data-switch-btn="dr2" hidden>С черновиком</button></div>
+
+      <div data-switch-pane="dr1"><p class="ds-switch__title">Без черновика</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-alert is-error"><b>Сессия истекла</b><span>Войдите снова, чтобы продолжить.</span></span>
+          <span class="ds-lesson__fm-step">Шаг 1 из 5 · Компания</span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Название</span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">ИНН</span><span class="ds-lesson__fm-control"></span></span>
+        </div>
+        <div class="ds-lesson__result"><b>Без черновика</b>После входа форма пустая и снова на первом шаге. Компанию и контакты придётся вводить заново — а менеджер ещё и не знает, сохранилось ли хоть что-то, пока не проверит.</div>
+      </div>
+
+      <div data-switch-pane="dr2"><p class="ds-switch__title">С черновиком</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-alert"><b>Вы остановились на шаге «Реквизиты»</b><span>Компания и контакты сохранены вчера в 17:40. Черновик хранится 30 дней.</span></span>
+          <span class="ds-lesson__fm-step">Шаг 2 из 5 · Реквизиты</span>
+          <span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">БИК банка</span><span class="ds-lesson__fm-control"></span></span>
+          <span class="ds-lesson__fm-actions"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--sec">Назад</span><span class="ds-lesson__fm-btn ds-lesson__fm-btn--pri">Дальше: контакты</span><span class="ds-lesson__fm-note">Черновик сохранён в 09:12</span></span>
+        </div>
+        <div class="ds-lesson__result"><b>С черновиком</b>Форма открылась на том шаге, где менеджер остановился. Сказано, что сохранено, когда и сколько будет храниться. Строка у кнопок тихо подтверждает каждое сохранение.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">В списке поставщиков черновик тоже виден: «ООО «Зерно Юга» · черновик · шаг 2 из 5 · Продолжить».</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Вопрос</th><th scope="col">Как решить в админке</th></tr></thead>
+      <tbody>
+        <tr><td>Где хранить</td><td>На сервере, а не только в браузере: менеджер начинает на рабочем компьютере, а продолжает с ноутбука</td></tr>
+        <tr><td>Когда сохранять</td><td>При уходе из каждого поля и при переходе между шагами, а не по кнопке «Сохранить черновик», о которой забудут</td></tr>
+        <tr><td>Как сказать</td><td>Тихой строкой у кнопок: «Черновик сохранён в 09:12». Не всплывающим окном на каждое сохранение</td></tr>
+        <tr><td>Как вернуться</td><td>Черновик виден в списке, а форма открывается на шаге, где остановились</td></tr>
+        <tr><td>Сколько хранить</td><td>Назвать срок прямо: «Черновик хранится 30 дней» — и предупредить, когда он подходит к концу</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>В Контур.Гайдах автосохранению отведена отдельная страница: правки копят не дольше 5–10 секунд и отправляют на сервер, у кнопки пишут «Черновик сохранён», а если сервер не отвечает — сохраняют в браузере и повторяют попытки, пока связь не вернётся.</p>
+
+  <p>Если части формы можно заполнять в любом порядке, вместо строгих шагов подходит список задач. В GOV.UK Design System это паттерн Complete multiple tasks — для долгих дел, которые заполняют в несколько подходов. Человек видит все разделы с отметками, что готово, а что нет, выбирает, с чего начать, и возвращается к остальным позже. Отдельного паттерна «сохранить и вернуться» в GOV.UK пока нет — заявка на него висит в списке задач команды с 2018 года.</p>
+
+  <p>Отдельная беда — время сессии. В WCAG 2.2 у ограничения по времени есть несколько способов не мешать человеку (критерий 2.2.1, уровень A). Самый частый — предупредить заранее и дать не меньше 20 секунд, чтобы продлить время простым действием. А если сессия всё-таки истекла, после повторного входа введённое должно остаться на месте — это критерий 2.2.5 уровня AAA. Его выполняют не все, но для длинной формы он важнее многих.</p>
+
+  <div class="ds-lesson__rule"><b>Черновик сохраняется сам, человек знает об этом и знает, где его найти.</b> Возвращение открывает тот шаг, где он остановился.</div>
+</section>
+
+<section id="submit">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Ошибка отправки, когда всё заполнено</h2></div>
+  <p class="ds-lesson__lead">Человек дошёл до конца и нажал «Добавить поставщика», а сохранить не получилось. Главное — ничего не потерять, сказать, что случилось, и дать выход.</p>
+
+  <p>Ошибки отправки — не то же самое, что ошибки полей. Поле может быть заполнено правильно, а сохранить всё равно нельзя: пропала связь, такой поставщик уже есть, сервер не ответил.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Шаг «Проверка» · после нажатия «Добавить поставщика»</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="sb1" hidden>Пропала связь</button><button class="ds-switch__button" type="button" data-switch-btn="sb2" hidden>Такой уже есть</button><button class="ds-switch__button" type="button" data-switch-btn="sb3" hidden>Сервер не ответил</button></div>
+
+      <div data-switch-pane="sb1"><p class="ds-switch__title">Пропала связь</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-alert is-error"><b>Не получилось сохранить: нет связи</b><span>Всё введённое на месте. Проверьте интернет и нажмите «Добавить поставщика» ещё раз.</span></span>
+          <span class="ds-lesson__fm-group"><span class="ds-lesson__fm-group-title">Компания</span><span>ООО «Зерно Юга» · ИНН 7701234567</span></span>
+          <span class="ds-lesson__fm-actions"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--pri">Добавить поставщика</span></span>
+        </div>
+        <div class="ds-lesson__result"><b>Пропала связь</b>Сказано, что данные целы, — это первое, о чём думает человек. Кнопка осталась той же и рабочей: повторить можно сразу.</div>
+      </div>
+
+      <div data-switch-pane="sb2"><p class="ds-switch__title">Такой уже есть</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-alert is-error"><b>Поставщик с ИНН 7701234567 уже есть</b><span>ООО «Зерно Юга», добавлен 12 марта. <span class="ds-lesson__fm-link">Открыть его</span> или <span class="ds-lesson__fm-link">исправить ИНН</span>.</span></span>
+          <span class="ds-lesson__fm-group"><span class="ds-lesson__fm-group-title">Компания</span><span>ООО «Зерно Юга» · ИНН 7701234567</span></span>
+          <span class="ds-lesson__fm-actions"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--pri">Добавить поставщика</span></span>
+        </div>
+        <div class="ds-lesson__result"><b>Такой уже есть</b>Проверить это можно только на сервере, поэтому ошибка пришла в конце. Сказано, кто именно уже есть, и два выхода: открыть существующего или вернуться к ИНН — вдруг опечатка. Чтобы не узнавать об этом в конце, ИНН можно сверить с базой ещё на первом шаге.</div>
+      </div>
+
+      <div data-switch-pane="sb3"><p class="ds-switch__title">Сервер не ответил</p>
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-alert is-error"><b>Сервер не ответил</b><span>Черновик сохранён — данные не пропадут. Попробуйте через несколько минут. Если не выйдет, напишите в поддержку и назовите код CX-4821.</span></span>
+          <span class="ds-lesson__fm-group"><span class="ds-lesson__fm-group-title">Компания</span><span>ООО «Зерно Юга» · ИНН 7701234567</span></span>
+          <span class="ds-lesson__fm-actions"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--pri">Добавить поставщика</span></span>
+        </div>
+        <div class="ds-lesson__result"><b>Сервер не ответил</b>Человек не виноват и сделать ничего не может, кроме как подождать. Ему говорят именно это, а код дают для поддержки, а не вместо объяснения.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Во всех трёх случаях форма не очищается и не возвращает на первый шаг.</div>
+  </div>
+
+  <p>Пока форма отправляется, кнопка показывает это — «Сохраняем…» — и не принимает второе нажатие. Иначе менеджер нажмёт дважды, пока ждёт, и в базе окажутся два одинаковых поставщика.</p>
+
+  <div class="ds-lesson__rule"><b>Ошибка отправки не стирает введённое.</b> Она говорит, что случилось и что делать: повторить, открыть существующую запись или подождать. Второе нажатие во время отправки ничего не делает.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Найдите ошибки на шаге «Реквизиты»</h2></div>
+  <p class="ds-lesson__lead">Макет второго шага формы «Новый поставщик» — в момент, когда менеджер вводит расчётный счёт. Пять мест в нём сделают длинную форму тяжелее, чем нужно.</p>
+
+  <p>Нажимайте на куски формы, которые вы бы переделали. В разборе будет, что с ними не так. Нормальные куски тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Макет шага · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__fm">
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin is-in" data-hunt-pin="0" data-hunt-label="Над формой: «Шаг 2»"><span class="ds-lesson__fm-step">Шаг 2</span></span>
+          <p class="ds-lesson__fm-title">Новый поставщик</p>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Поле «БИК» с подсказкой «Введите БИК банка»"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">БИК банка</span><span class="ds-lesson__fm-hint">Введите БИК банка</span><span class="ds-lesson__fm-control">044525000</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Банк, подставленный по БИК"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Банк</span><span>Банк «Восход», Москва</span><span class="ds-lesson__fm-hint">Подставлено по БИК</span></span></span>
+          <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Обязательное поле «Корреспондентский счёт»"><span class="ds-lesson__fm-row"><span class="ds-lesson__fm-label">Корреспондентский счёт <span class="ds-lesson__fm-req">*</span></span><span class="ds-lesson__fm-hint">20 цифр</span><span class="ds-lesson__fm-control"></span></span></span>
+          <span class="ds-lesson__fm-row">
+            <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Подпись и подсказка поля «Расчётный счёт»"><span class="ds-lesson__fm-label">Расчётный счёт</span><span class="ds-lesson__fm-hint">20 цифр, есть в карточке компании поставщика</span></span>
+            <span class="ds-lesson__fm-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Ошибка «В расчётном счёте 20 цифр, а сейчас 2», пока вводят"><span class="ds-lesson__fm-err">В расчётном счёте 20 цифр, а сейчас 2</span><span class="ds-lesson__fm-control is-error">40|</span><span class="ds-lesson__fm-hint">курсор в поле, менеджер вводит</span></span>
+          </span>
+          <span class="ds-lesson__fm-actions">
+            <span class="ds-lesson__fm-hit ds-lesson__hunt-pin is-in" data-hunt-pin="6" data-hunt-label="Кнопка «Назад» с предупреждением о потере данных"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--sec">Назад</span><span class="ds-lesson__fm-note">данные этого шага не сохранятся</span></span>
+            <span class="ds-lesson__fm-hit ds-lesson__hunt-pin is-in" data-hunt-pin="7" data-hunt-label="Кнопка «Дальше: контакты»"><span class="ds-lesson__fm-btn ds-lesson__fm-btn--pri">Дальше: контакты</span></span>
+          </span>
+          <span class="ds-lesson__fm-actions">
+            <span class="ds-lesson__fm-hit ds-lesson__hunt-pin is-in" data-hunt-pin="8" data-hunt-label="Строка «Черновик сохранён в 14:32»"><span class="ds-lesson__fm-note">Черновик сохранён в 14:32</span></span>
+            <span class="ds-lesson__fm-hit ds-lesson__hunt-pin is-in" data-hunt-pin="9" data-hunt-label="Ссылка «Сохранить и выйти»"><span class="ds-lesson__fm-link">Сохранить и выйти</span></span>
+          </span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Шаг 2» над формой.</span><span class="ds-lesson__hunt-fix"><b>Дописать. </b>Непонятно, сколько шагов осталось и как они называются. Нужно «Шаг 2 из 5 · Реквизиты» и список шагов.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Подсказка «Введите БИК банка».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Подсказка повторяет подпись и ничего не объясняет. Полезнее: «9 цифр, есть в карточке компании поставщика».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Банк, подставленный по БИК.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Форма сама нашла банк по БИК и показала его: менеджер сразу видит, не ошибся ли в цифрах.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Обязательный корреспондентский счёт.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Корреспондентский счёт однозначно следует из БИК — форма может подставить его сама, как подставила банк. Просить его ввести — лишние двадцать цифр и лишний повод ошибиться.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Подпись и подсказка у расчётного счёта.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Подпись называет поле, подсказка говорит, сколько цифр и где их взять.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Ошибка «20 цифр, а сейчас 2», пока менеджер вводит.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Проверка на вводе ругает того, кто ещё не закончил: две цифры из двадцати — не ошибка, а начало. Ошибку показывают, когда человек ушёл из поля.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Назад» с предупреждением «данные этого шага не сохранятся».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Предупреждение честное, но решение плохое: шаг назад не должен ничего стирать. Переход между шагами сохраняет всё введённое.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Дальше: контакты».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Видно, куда ведёт кнопка, — следующий шаг назван.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Строка «Черновик сохранён в 14:32».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Тихо подтверждает, что можно уйти, ничего не потеряв.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Ссылка «Сохранить и выйти».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Явный выход для того, кто ждёт реквизиты от бухгалтера. Черновик и так сохранён, но кнопка снимает тревогу.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой кусок формы</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Шаг без общего числа и названия, подсказка-повтор, поле, которое форма заполнит сама, ошибка во время ввода и «Назад», который стирает. Каждая из них в длинной форме повторяется на каждом шаге.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные куски тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Длинную форму проверяют на середине,</b> а не только на первом и последнем шаге: человек вводит, возвращается, уходит и приходит снова.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите длинную форму, разбейте её на шаги, добавьте сохранение черновика и опишите, что происходит при ошибке отправки.</p>
+
+  <h3>Часть 1 · Разложить, 30 минут</h3>
+  <ol>
+    <li><strong>Выберите форму</strong> на десять полей и больше: подключение партнёра, заявка на кредит, анкета сотрудника, настройки магазина. Если своей нет, возьмите форму «Новый поставщик» из урока.</li>
+    <li><strong>Для каждого поля выпишите,</strong> откуда человек берёт ответ: из головы, из документа, у коллеги.</li>
+    <li><strong>Разбейте на шаги</strong> по источнику и теме. Дайте каждому шагу название.</li>
+    <li><strong>Решите момент проверки</strong> для каждого поля и что из проверок нужно уже на вводе.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Длинная форма · заполните перед макетом<span class="ds-lesson__spacer"></span><span data-copy="longTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="longTmpl">ФОРМА: ______________________        Дата: __.__.____
+КТО ЗАПОЛНЯЕТ: ______________________
+ЗА СКОЛЬКО ПОДХОДОВ: ______________________
+
+ШАГИ
+1 · название ____________  поля ____________  откуда берут ____________
+2 · название ____________  поля ____________  откуда берут ____________
+3 · название ____________  поля ____________  откуда берут ____________
+последний · Проверка: всё введённое, «Изменить» у каждого раздела
+
+ПРОВЕРКА ПОЛЕЙ
+при уходе из поля: ______________________
+на вводе (только помощь): ______________________
+только на сервере: ______________________
+
+ЧЕРНОВИК
+где хранится: ______________________
+когда сохраняется: ______________________
+как человек узнаёт: ______________________
+где найти и сколько хранится: ______________________
+
+ОШИБКА ОТПРАВКИ
+нет связи: ______________________
+такая запись уже есть: ______________________
+сервер не ответил: ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Если у шага не придумалось название — скорее всего, он нарезан поровну, а не по смыслу.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать, 60 минут</h3>
+  <ol>
+    <li><strong>Соберите шаги</strong> с индикатором: где человек, сколько всего, как называются шаги.</li>
+    <li><strong>Нарисуйте поле с тремя текстами</strong> — подписью, подсказкой и ошибкой — хотя бы для двух сложных полей.</li>
+    <li><strong>Нарисуйте возвращение:</strong> черновик в списке и форму, открытую на шаге, где остановились.</li>
+    <li><strong>Нарисуйте шаг «Проверка»</strong> с «Изменить» у каждого раздела.</li>
+    <li><strong>Нарисуйте три ошибки отправки</strong> — с текстом и выходом из каждой.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 15 минут</h3>
+  <ol>
+    <li><strong>Пройдите сценарий «бросить на середине»:</strong> дошли до третьего шага, закрыли вкладку, открыли форму снова. Где вы оказались и что видите?</li>
+    <li><strong>Пройдите «назад три раза и обратно»:</strong> что-нибудь потерялось?</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Можно закрыть вкладку на середине, вернуться и продолжить с того же места.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Схема шагов</strong> с названиями и источником данных у каждого.</li>
+    <li><strong>Макеты:</strong> шаг с индикатором и тремя текстами у поля, возвращение к черновику, проверка, три ошибки отправки.</li>
+    <li><strong>Заполненный шаблон</strong> длинной формы.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 30 минут на разбор, час на макеты, 15 минут на проверку.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Разработчики говорят, что черновик на сервере — это дорого».</strong> Посчитайте, сколько раз форму бросают на середине и сколько стоит ввести её заново. Хранить черновик в браузере дешевле — это лучше, чем ничего, но предупредите, что на другом компьютере его не будет.</li>
+    <li><strong>«Шагов получается то два, то семь».</strong> Это нормально. Шаг — тема, а не порция полей.</li>
+    <li><strong>«Не знаю, какие бывают ошибки отправки».</strong> Спросите у разработчиков, что сервер может ответить на сохранение. Каждому ответу нужен текст и выход.</li>
+    <li><strong>«Проверка на вводе — это же современно».</strong> Современно — когда ошибка не появляется раньше, чем человек закончил. Попробуйте тренажёр из урока на своём поле.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Длинная форма готова, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Подпись, подсказка и ошибка у поля не повторяют друг друга</li>
+    <li>Ошибка появляется, когда человек закончил с полем, и исчезает, как только он исправил</li>
+    <li>Шаги нарезаны по теме и источнику данных, у каждого есть название</li>
+    <li>Над шагом видно, где человек, сколько всего шагов и как они называются</li>
+    <li>«Назад» и переход между шагами не стирают введённое</li>
+    <li>На последнем шаге — проверка всего введённого с «Изменить»</li>
+    <li>Черновик сохраняется сам, человек об этом знает и может его найти</li>
+    <li>Ошибка отправки не очищает форму и говорит, что делать</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Проверка на каждом знаке.</b> Форма ругает раньше, чем человек закончил.</li>
+    <li><b>Шаги поровну.</b> Один документ разорван между шагами, у шагов нет названий.</li>
+    <li><b>«Назад» стирает шаг.</b> Возвращаться страшно — форму бросают.</li>
+    <li><b>Черновик по кнопке.</b> О ней забывают, а сессия истекает.</li>
+    <li><b>Ошибка отправки на пустой форме.</b> Всё, что ввели, надо вводить заново.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">10</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся делать длинную форму, которая прощает: можно уйти, вернуться и не бояться ошибки в конце. На следующей ступени — сводить все формы продукта к общим правилам.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Ставить подпись над полем; убирать лишние поля и обосновывать оставшиеся; отмечать то, чего меньше; показывать ошибку у поля и словами; писать, что исправить</td>
+          <td class="ds-lesson__dim">По каждому оставшемуся полю можно сказать, зачем оно и что сломается без него</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Разводить подпись, подсказку и текст ошибки; выбирать момент проверки; разбивать длинную форму на шаги по смыслу; сохранять черновик; продумывать ошибку отправки</td>
+          <td>Можно закрыть вкладку на середине, вернуться и продолжить с того же места</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Задавать единый момент проверки; собирать словарь ошибок; описывать порядок полей и поведение кнопки отправки; проверять новые формы по правилам</td>
+          <td class="ds-lesson__dim">Одна и та же ошибка во всех формах продукта звучит одинаково</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> вашу длинную форму можно бросить на любом шаге и спокойно продолжить завтра, а ошибка в конце не отнимает введённое.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://guides.kontur.ru/principles/data/validation/">Валидация</a></span><span class="ds-lesson__reads-meta">Контур.Гайды · на русском · бесплатно</span><span>Правила проверки полей в продуктах Контура: основная проверка при уходе из поля, пустое поле не ругают, связанные ИНН и КПП сверяют при отправке. С уроком расходится в двух местах: текст ошибки прячут в тултип, а подсказку допускают в плейсхолдере.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://guides.kontur.ru/principles/data/data-saving/">Сохранение данных</a></span><span class="ds-lesson__reads-meta">Контур.Гайды · на русском · бесплатно</span><span>Как устроить автосохранение большой формы: копить правки не дольше 5–10 секунд, хранить на сервере, показывать «Черновик сохранён» у кнопки. Отдельно разобран сбой: сервер не отвечает — сохранить локально и повторять попытки.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20230912/">Расскажите о мастере</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2023 · на русском · бесплатно</span><span>Короткий разбор мастера от Ильи Бирмана: навигатор шагов, пара «Назад» и «Вперёд», сохранность данных даже при ветвлении шагов. В профессиональных интерфейсах Бирман считает мастер скорее нежелательным — доводы стоит сравнить с уроком.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://alistapart.com/article/inline-validation-in-web-forms/">Inline Validation in Web Forms</a></span><span class="ds-lesson__reads-meta">A List Apart, Люк Вроблевски, 2009 · на английском · бесплатно</span><span>Исследование Люка Вроблевски и Etre: 22 человека, шесть вариантов одной формы регистрации, проверка после ухода из поля против проверки во время ввода. Исследованию 17 лет, и каждый участник заполнял все шесть форм, поэтому проценты — направление, а не точная мера.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://baymard.com/research-articles/inline-form-validation">Usability Testing of Inline Form Validation</a></span><span class="ds-lesson__reads-meta"><a href="/resource/baymard/">Baymard Institute</a>, Эдвард Скотт, 2024 · на английском · бесплатно</span><span>Разбор Baymard по тестам интернет-магазинов: не проверять поле, пока человек не закончил, снимать ошибку на каждом знаке, как только значение стало верным, и отмечать верные поля галочкой. Контекст — оформление заказа, а не длинная форма в админке.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/wizards/">Wizards: Definition and Design Recommendations</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Ралука Будиу · на английском · бесплатно</span><span>Когда мастер уместен (новички, редкие задачи) и чем он плох: лишние клики при частом использовании, трудно сравнивать шаги, тяжело прерваться. Статья требует строгого порядка шагов: если части формы заполняют вразнобой, нужен не мастер, а список задач.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->
