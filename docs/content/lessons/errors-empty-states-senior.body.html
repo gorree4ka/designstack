@@ -1,0 +1,480 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#inventory">Сводка всех сообщений продукта</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#merge">Одна ситуация — одна формулировка</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#scheme">Схема сообщения</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#where">Где живут тексты и кто их меняет</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#prerelease">Проверка до выката</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#hunt">Разберите сводку от разработки</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> «Лесная обжарка» выросла: сайт, приложение, письма, СМС и пуш-уведомления. Системные сообщения в них писали в разное время разные люди — разработчики сайта и приложения, поддержка, а часть текстов приходит готовой от платёжного сервиса. Покупатель без связи видит в приложении «Нет подключения», на сайте — «Network Error», а письмо о неоплаченном заказе сообщает, что «платёж не прошёл по техническим причинам». Урок о том, как собрать это в общие правила. Правила тона и общий словарь продукта разобраны в уроке <a href="/lessons/ui-copy-senior/">«Формулировки интерфейса», Senior</a>, словарь ошибок у полей формы — в уроке <a href="/lessons/forms-senior/">«Формы», Senior</a>. Здесь — сообщения о сбоях, отказах, пустых экранах и ограничениях.</div>
+
+<section id="inventory">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Сводка всех сообщений продукта</h2></div>
+  <p class="ds-lesson__lead">Пока сообщения разбросаны по коду, письмам и шаблонам поддержки, дубли не видны. Первый шаг — собрать их в одну таблицу.</p>
+
+  <p>Сообщения прячутся в местах, куда дизайнер обычно не заглядывает. Половину из них нельзя увидеть в макетах: их писали сразу в коде или получали готовыми со стороны.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Где искать</th><th scope="col">Что там</th><th scope="col">Как достать</th></tr></thead>
+      <tbody>
+        <tr><td>Файлы строк сайта и приложения</td><td>Тексты, уже вынесенные из кода по ключам</td><td>Попросить у разработки выгрузку</td></tr>
+        <tr><td>Код</td><td>Тексты, вписанные прямо в код, и ответы сервера, которые экран показывает как есть: «Order not found»</td><td>Пройти поиск по коду вместе с разработчиком; пройти сценарии, вызывая ошибки</td></tr>
+        <tr><td>Платёжный сервис</td><td>Отказы банка, которые приходят готовой фразой</td><td>Вызвать отказы тестовыми картами платёжного сервиса</td></tr>
+        <tr><td>Письма, СМС, пуш</td><td>Неоплаченный заказ, отмена, задержка доставки</td><td>Шаблоны у маркетинга или в сервисе рассылок</td></tr>
+        <tr><td>Шаблоны поддержки</td><td>Ответы на «где заказ» и «не прошла оплата»</td><td>У старшего в поддержке</td></tr>
+        <tr><td>Обращения покупателей</td><td>Снимки экранов с ошибками, которых нет нигде больше</td><td>Поиск по обращениям: «ошибка», «не работает», «пусто»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>В сводке одна строка — один текст в одном месте. Главная колонка — «что случилось на самом деле»: её заполняют словами разработчика, а не текстом сообщения. Без неё дубли не найти: одна ситуация прячется за разными словами. Вот как выглядит в сводке «Лесной обжарки» одна ситуация — у телефона или компьютера нет связи.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Где появляется</th><th scope="col">Текст сейчас</th><th scope="col">Что случилось на самом деле</th></tr></thead>
+      <tbody>
+        <tr><td>Приложение, корзина</td><td>«Нет подключения к интернету»</td><td>Нет связи</td></tr>
+        <tr><td>Приложение, заказы</td><td>«Проверьте соединение и повторите попытку»</td><td>Нет связи</td></tr>
+        <tr><td>Сайт, оплата</td><td>«Network Error»</td><td>Нет связи</td></tr>
+        <tr><td>Сайт, каталог</td><td>«Не удалось загрузить данные»</td><td>Нет связи</td></tr>
+        <tr><td>Приложение, подписка</td><td>«Что-то пошло не так»</td><td>Нет связи</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Пять текстов на одну ситуацию — для покупателя это пять разных проблем. А в последней строке ещё и общая фраза там, где приложение точно знает причину.</p>
+
+  <p>В Nielsen Norman Group такой список называют инвентаризацией контента: полный перечень того, что есть, с признаками каждого куска. Оценка — что исправить, что убрать, чего не хватает — это следующий шаг, аудит. Их стоит не смешивать: если оценивать по ходу сбора, сводка выйдет неполной, а дубли так и останутся незамеченными.</p>
+
+  <div class="ds-lesson__rule"><b>Сначала собрать всё, потом оценивать.</b> Одна строка — один текст в одном месте, с колонкой «что случилось на самом деле». Дубли видны только по этой колонке.</div>
+</section>
+
+<section id="merge">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Одна ситуация — одна формулировка</h2></div>
+  <p class="ds-lesson__lead">Сводку группируют по ситуации, а не по экрану. Ситуация — это что случилось с делом человека и кто это исправит, а не где он это увидел.</p>
+
+  <p>Пять текстов про связь сводятся к одному — с местом для подробностей: «Нет связи с интернетом. [Что] сохранено — [что сделать], когда связь появится». В корзине это «Корзина сохранена — оформить заказ можно, когда связь появится», в отзыве — «Отзыв сохранён — отправить можно, когда связь появится». Формулировка одна, детали по месту. Так же устроен словарь ошибок полей в уроке про формы: шаблон с подстановкой и пример.</p>
+
+  <p>При сведении есть две ловушки.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ловушка</th><th scope="col">Пример</th><th scope="col">Что делать</th></tr></thead>
+      <tbody>
+        <tr><td>Разные слова, одна ситуация</td><td>«Нет подключения», «Network Error», «Проверьте соединение» — всё это нет связи</td><td>Свести к одной формулировке</td></tr>
+        <tr><td>Одни слова, разные ситуации</td><td>«Не удалось загрузить» и когда нет связи, и когда не отвечает сервер магазина</td><td>Развести: в первом случае исправит связь, во втором — магазин. Тексты разные</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Вторая ловушка опаснее первой. Синонимы видно в сводке сразу, а одинаковые слова для разных ситуаций выглядят как порядок. Проверка — вопрос из урока <a href="/lessons/errors-empty-states-middle/">Middle</a>: кто исправит? Если ответы разные, ситуации разные.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · одна ситуация или две<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="one"><p class="ds-quiz__question">«Нет подключения к интернету» в приложении и «Network Error» на сайте — оба при отключённой связи.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Одна</b>Нет связи, исправит её сам человек. Одна формулировка с местом для того, что сохранено.</p></li>
+<li data-quiz-q data-answer="two"><p class="ds-quiz__question">«Не удалось загрузить» при отключённой связи и «Не удалось загрузить», когда не отвечает сервер магазина.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Две</b>Слова одни, а исправляют разные: связь — сам человек, сервер — магазин. Совет «проверьте связь» во втором случае не поможет.</p></li>
+<li data-quiz-q data-answer="two"><p class="ds-quiz__question">«Сессия истекла» после получаса без действий и «Вы вышли из аккаунта» после выхода на другом устройстве.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Две</b>В первом случае достаточно войти снова. Во втором стоит добавить: если выходили не вы, смените пароль.</p></li>
+<li data-quiz-q data-answer="two"><p class="ds-quiz__question">«Промокод недействителен», когда срок вышел, и «Промокод недействителен», когда в нём опечатка.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Две</b>Опечатку человек исправит, просроченный код — нет. Нужны разные тексты: «Проверьте, нет ли опечатки» и «Промокод действовал до 30&nbsp;сентября».</p></li>
+<li data-quiz-q data-answer="one"><p class="ds-quiz__question">«Товар закончился» в корзине и «Нет в наличии» на карточке сорта.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Одна</b>Сорта нет на складе. Одна формулировка — «Кения АА закончилась» — и по месту то, что можно сделать: убрать из корзины или подписаться на поступление.</p></li>
+<li data-quiz-q data-answer="one"><p class="ds-quiz__question">«Банк отклонил платёж» на сайте и «Оплата не прошла» в письме о неоплаченном заказе — оба после отказа банка.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Одна</b>Канал разный, ситуация одна: банк не подтвердил оплату. В письме та же формулировка и ссылка, чтобы оплатить другой картой.</p></li>
+<li data-quiz-q data-answer="two"><p class="ds-quiz__question">«Страница не найдена» по старой ссылке на сорт и «Заказ не найден» по пересланной ссылке на чужой заказ.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Две</b>В первом случае страницы правда нет, и стоит помочь найти сорт. Во втором заказ есть, но чужой, и «не найдено» — нарочно скрытое «нет доступа».</p></li>
+<li data-quiz-q data-answer="one"><p class="ds-quiz__question">«Сервис временно недоступен» на сайте и «Технические работы» в приложении во время одного планового обновления.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Одна</b>Одно событие — одна формулировка, и в обоих местах срок, когда заработает.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="one">Одна ситуация</button><button class="ds-quiz__option" type="button" data-quiz-answer="two">Две ситуации</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Ситуация одна, если совпадает и что случилось, и кто это исправит. Совпадение слов ничего не значит.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Ситуации группируют по тому, что случилось и кто исправит.</b> Одна ситуация — одна формулировка с местами для подробностей. Разные ситуации не прячутся за одинаковыми словами.</div>
+
+  <p class="ds-lesson__dim">В дизайн-системе GitLab Pajamas требования к сообщению об ошибке сведены к трём словам: коротко, конкретно, единообразно. Сводка нужна для третьего — первые два можно выполнить и в одиночку.</p>
+</section>
+
+<section id="scheme">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Схема сообщения</h2></div>
+  <p class="ds-lesson__lead">Схема — порядок частей, который держат все сообщения продукта. С ней новое сообщение пишется по шаблону, а не с нуля, и разработчик может написать его сам.</p>
+
+  <p>Частей четыре: что случилось, почему, что цело, что делать. В руководстве Microsoft по сообщениям об ошибках схема та же, только из трёх частей — проблема, причина, решение. Отсылать человека в поддержку Microsoft не советует вовсе; в магазине с живой поддержкой это честный последний выход, и запасной текст урока его оставляет. Четвёртая часть, «что цело», есть в схеме Wix: там её называют «успокоить» — сказать, на что сбой не повлиял, например сохранён ли черновик. Это первый вопрос человека после сбоя.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Часть</th><th scope="col">Где стоит</th><th scope="col">Правило</th><th scope="col">Пример</th></tr></thead>
+      <tbody>
+        <tr><td>Что случилось</td><td>Заголовок</td><td>Что не получилось с делом человека, два-четыре слова</td><td>«Вход закончился»</td></tr>
+        <tr><td>Почему</td><td>Текст</td><td>Только если причина меняет решение человека или снимает тревогу</td><td>«Прошло 30 минут без действий»</td></tr>
+        <tr><td>Что цело</td><td>Текст</td><td>Данные и деньги — если это известно наверняка</td><td>«Корзина и адрес сохранены»</td></tr>
+        <tr><td>Что делать</td><td>Кнопка, иногда и текст</td><td>Действие, которое решает проблему отсюда</td><td>«Войти и продолжить»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>«Почему» — самая спорная часть. «Из-за технической ошибки» и «по техническим причинам» причину не называют, а только занимают место. Другое дело — «сбой на нашей стороне»: причины это тоже не называет, но говорит, кто исправит, и снимает вопрос «что я сделал не так». В Wix так пишут нарочно. «Прошло 30 минут без действий» — называет: человек понимает, что его не взломали, и знает, как этого избежать. Пишите причину, если после неё человек поступит иначе или успокоится; иначе пропускайте.</p>
+
+  <p>В Atlassian к частям сообщения добавляют длину: заголовок — три-четыре слова, текст — одно-два предложения, кнопка — одно-два слова. И советуют не выдумывать причину, если её нет: сказать, что что-то не получилось, и предложить, что делать. Так устроен запасной текст для неизвестной ошибки из урока <a href="/lessons/errors-empty-states-junior/">Junior</a>.</p>
+
+  <p>Схема — не одна форма на все случаи. Сообщение может быть строкой у поля, всплывающей строкой, плашкой или окном, и в каждое помещается своя часть схемы.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Где</th><th scope="col">Что из схемы помещается</th><th scope="col">Пример</th></tr></thead>
+      <tbody>
+        <tr><td>Строка у поля</td><td>Что поменять — по словарю ошибок форм</td><td>«Промокод действовал до 30&nbsp;сентября»</td></tr>
+        <tr><td>Всплывающая строка</td><td>Что случилось и кнопка</td><td>«Не удалось добавить в избранное · Повторить»</td></tr>
+        <tr><td>Плашка</td><td>Состояние, которое длится, и что цело</td><td>«Нет связи. Корзина сохранена»</td></tr>
+        <tr><td>На месте списка</td><td>Все части</td><td>«Заказы не загрузились. Сервер магазина не отвечает, история на месте» и «Обновить»</td></tr>
+        <tr><td>Окно</td><td>Все части и выбор из двух действий</td><td>«Кения АА закончилась. Оформить заказ без неё?» — «Оформить без Кении» и «Вернуться в корзину»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Проверьте схему на сообщении разработчика. Покупатель полчаса выбирал сорта и вернулся к оформлению, а вход в аккаунт закончился. Разработчик выбрал первые варианты.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Тренажёр · соберите сообщение по схеме</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__compose" data-compose data-compose-count="Частей по схеме: {n} из {total}">
+        <div class="ds-lesson__compose-view">
+          <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оформление заказа</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-dialog"><b data-compose-slot="what">Вход закончился</b><span data-compose-slot="why">Прошло 30 минут без действий.</span><span data-compose-slot="safe">Корзина и адрес доставки сохранены.</span><span class="ds-lesson__st-dialog-acts"><span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" data-compose-slot="btn">Войти и продолжить</span></span></div>
+            </div>
+          </div></div></div>
+        </div>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="what">
+          <legend>Заголовок — что случилось</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-what" data-compose-start>Сессия истекла</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> «Сессия» — слово разработки. Покупатель не знает, что это, и не понимает, что с ним случилось.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-what" data-compose-ok checked>Вход закончился</label><p class="ds-lesson__compose-note" data-compose-note><b>По схеме.</b> Что случилось с делом покупателя, два слова.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-what">Ошибка авторизации 401</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> Код и слово разработки. Код, если нужен поддержке, ставят после текста.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="why">
+          <legend>Почему</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-why" data-compose-start>В целях безопасности.</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> Причину не называет и звучит так, будто покупатель что-то нарушил.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-why" data-compose-ok checked>Прошло 30 минут без действий.</label><p class="ds-lesson__compose-note" data-compose-note><b>По схеме.</b> Причина снимает тревогу — аккаунт не взломали — и объясняет, как этого избежать.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-why" data-compose-text="">Без причины</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> Здесь причина меняет дело: без неё покупатель может решить, что его выкинули из аккаунта посторонние.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="safe">
+          <legend>Что цело</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-safe" data-compose-start>Несохранённые данные могут быть утеряны.</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> Пугает и не говорит, что именно пропало. А корзина и адрес на самом деле сохранены.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-safe">Пожалуйста, авторизуйтесь повторно.</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> Это не о данных, а действие, да ещё словом разработки. Действие — на кнопке.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-safe" data-compose-ok checked>Корзина и адрес доставки сохранены.</label><p class="ds-lesson__compose-note" data-compose-note><b>По схеме.</b> Ответ на первый вопрос: полчаса выбора не пропали.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="btn">
+          <legend>Кнопка — что делать</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-btn" data-compose-start>ОК</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> Закрывает окно, а войти покупатель должен догадаться сам.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-btn">На главную</label><p class="ds-lesson__compose-note" data-compose-note><b>Не по схеме.</b> Уводит от заказа. После входа покупатель будет искать корзину заново.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-ses-btn" data-compose-ok checked>Войти и продолжить</label><p class="ds-lesson__compose-note" data-compose-note><b>По схеме.</b> Действие и обещание вернуть к оформлению — то, что разобрано в уроке Middle.</p></div>
+        </fieldset>
+
+        <p class="ds-lesson__compose-meta" data-compose-meta aria-live="polite" hidden></p>
+        <p class="ds-lesson__compose-done" data-compose-done hidden>Все четыре части по схеме: что случилось, почему, что цело и что делать. По такому образцу разработчик напишет и следующее сообщение — например, о выходе на другом устройстве.</p>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Схема проверяется так: закройте заголовок и прочтите только кнопку. Если понятно, что будет, — кнопка по схеме.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Схема одна на продукт.</b> Что случилось — в заголовке, почему — если меняет решение, что цело — если известно, что делать — на кнопке. Короткое сообщение берёт из схемы меньше частей, но порядок не меняет.</div>
+</section>
+
+<section id="where">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Где живут тексты и кто их меняет</h2></div>
+  <p class="ds-lesson__lead">Схема ничего не даст, если тексты вписаны в код в двадцати местах. Договориться с разработкой, где лежат тексты и кто их меняет, — часть работы над сообщениями, а не её продолжение.</p>
+
+  <p>Договорённость обычно сводится к пяти пунктам.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Пункт</th><th scope="col">Как</th><th scope="col">Зачем</th></tr></thead>
+      <tbody>
+        <tr><td>Тексты в одном месте</td><td>Файл строк или таблица, у каждого текста ключ</td><td>Правка текста — одна строка, а не поиск по коду</td></tr>
+        <tr><td>Ключ — по ситуации, а не по экрану</td><td><code>error.offline</code>, <code>payment.declined</code>, а не <code>cart.error1</code></td><td>Одна ситуация автоматически звучит одинаково везде</td></tr>
+        <tr><td>Сервер отдаёт код ситуации, текст выбирает приложение</td><td>«Order not found» с сервера на экран не попадает</td><td>Текст пишет тот, кто отвечает за слова, и на языке покупателя</td></tr>
+        <tr><td>Запасной текст для неизвестного кода</td><td>Один на продукт, с кодом для поддержки</td><td>Новая ошибка сервера не превращается в пустое окно или английскую фразу</td></tr>
+        <tr><td>Числа — через формы множественного числа</td><td>Строка с вариантами для 1, 2 и 5</td><td>Не будет «Осталось 1 попыток»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>У общего ключа есть цена: правка меняет текст сразу на всех экранах. Команда интернационализации Яндекса поэтому делает наоборот — ключ строится из текста, а одинаковым текстам в разных местах советуют давать разные ключи, чтобы правка не задела то, чего не собирались менять. Тогда единообразие держит сводка, а не ключ. Тексты, которые нужно менять без выпуска приложения, там держат на сервере — но пишет их всё равно тот, кто отвечает за слова.</p>
+
+  <p>Третий пункт разработчики знают и без дизайнера. Стандарт RFC 9457 описывает, как сервер сообщает об ошибке: тип проблемы, короткий заголовок, подробности. Заголовок не меняется от случая к случаю, кроме перевода, а подробностям, как советует сам стандарт, лучше помогать исправить проблему, а не отлаживать сервер. Это хороший довод в разговоре с разработкой: даже сервер говорит о деле, а не о своём устройстве. Руководство Microsoft требует того же от всей программы: у каждой проблемы свой код, а хорошее сообщение — задача не только интерфейса, но и устройства программы.</p>
+
+  <p>С платёжным сервисом сложнее. Stripe пишет, что его тексты об ошибках карты можно показывать покупателям. Но они на английском, в своём тоне и с разной схемой. Надёжнее держать у себя свой текст на каждый код отказа банка, а текст сервиса использовать как запасной.</p>
+
+  <p>С числами в русском языке легко ошибиться, потому что форм у числа три, а не две, как в английском. Правила языков собраны в справочнике Unicode CLDR: для русского «одна» — 1, 21, 31, но не 11; «несколько» — 2–4, 22–24, но не 12–14; «много» — 0, 5–20, 25–30; отдельная форма — для дробей: «из 1,5 книги». Программисты пишут такие строки в формате ICU MessageFormat, где вместо знака # подставляется само число:</p>
+
+  <pre>{count, plural,
+  one {Осталась # попытка}
+  few {Осталось # попытки}
+  many {Осталось # попыток}
+  other {Осталось # попытки}}</pre>
+
+  <p>Если форм в продукте не завели, есть обходной путь, который советует документация Android: формулировка, где число не согласуется со словом. «Попыток осталось: 1» читается чуть суше, но без ошибки при любом числе.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что</th><th scope="col">Кто решает</th><th scope="col">Кто меняет</th></tr></thead>
+      <tbody>
+        <tr><td>Текст сообщения</td><td>Дизайнер или редактор</td><td>Любой, но через сводку и с проверкой дизайнера</td></tr>
+        <tr><td>Ключ и где сообщение показывается</td><td>Разработчик</td><td>Разработчик</td></tr>
+        <tr><td>Когда сообщение показывается: условие и порог</td><td>Вместе</td><td>Разработчик</td></tr>
+        <tr><td>Новая ситуация</td><td>Дизайнер заводит строку в сводке</td><td>Разработчик заводит ключ</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Текст отдельно от кода, ключ — по ситуации.</b> Сервер отдаёт код, приложение выбирает текст, для неизвестного кода есть запасной. Кто решает текст и кто его меняет — записано, а не помнится.</div>
+</section>
+
+<section id="prerelease">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Проверка до выката</h2></div>
+  <p class="ds-lesson__lead">Новое сообщение проверяют, пока оно в задаче, а не тогда, когда о нём пишут в поддержку.</p>
+
+  <p>Сообщения об ошибках попадают в продукт тише остальных текстов: их добавляют вместе с обработкой ошибки, часто без макета. Поэтому проверку встраивают в ту дорогу, по которой код идёт к покупателю.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Когда</th><th scope="col">Что проверяют</th><th scope="col">Кто</th></tr></thead>
+      <tbody>
+        <tr><td>В задаче на экран</td><td>Список ошибок и пустот экрана — до вёрстки, по шаблону из урока Middle</td><td>Дизайнер</td></tr>
+        <tr><td>Когда появилось новое сообщение</td><td>Есть ли его ситуация в сводке. Есть — берут ключ. Нет — сначала строка в сводке, потом ключ</td><td>Разработчик, вопрос — дизайнеру</td></tr>
+        <tr><td>При проверке кода перед слиянием</td><td>Изменения в файле строк: каждый новый или правленый текст по схеме</td><td>Дизайнер или редактор</td></tr>
+        <tr><td>Автоматически при каждой сборке</td><td>Запретные слова и формы: «некорректн», «Ошибка 500», «Что-то пошло не так» без продолжения</td><td>Скрипт</td></tr>
+        <tr><td>Перед выкатом</td><td>Сценарии с вызванными ошибками: без связи, с подставным сервером, с тестовыми картами отказа</td><td>Тестировщик и дизайнер</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Автоматическая проверка ловит только то, что можно описать списком, но этого уже немало. Для текстов есть готовые инструменты: например, Vale проверяет текст по правилам так же, как программы проверяют код, и одно из его правил ищет в тексте слова и выражения из заданного списка. GitLab проверяет им свою документацию прямо при сборке, и ошибки уровня error её останавливают. Для файла строк продукта хватит и короткого скрипта: важен не инструмент, а то, что список запретов записан и проверяется сам.</p>
+
+  <p>В Wix после большой правки сообщений завели ещё одну плановую проверку — через месяц после запуска. В новом продукте заранее не известно, какие ошибки станут частыми, и тексты для них дописывают по факту. Это не проверка после жалоб: дату назначают заранее.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · пропустить или вернуть<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="back"><p class="ds-quiz__question">Новый ключ <code>checkout.offline</code>: «Нет связи с интернетом. Корзина сохранена — оформить заказ можно, когда связь появится». В сводке уже есть <code>error.offline</code> с местом для подробностей.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Вернуть</b>Текст хороший, но это дубль ситуации. Нужен общий ключ с подстановкой «корзина», иначе через год формулировки разойдутся.</p></li>
+<li data-quiz-q data-answer="pass"><p class="ds-quiz__question">«Подарочную подписку нельзя оплатить картой иностранного банка. Оплатите российской картой или через СБП». Ситуации в сводке нет, по схеме всё есть.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пропустить</b>Новая ситуация, текст по схеме: что случилось и что делать. Только сначала — строка в сводке.</p></li>
+<li data-quiz-q data-answer="back"><p class="ds-quiz__question">«Осталось {n} попыток» без форм множественного числа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Вернуть</b>При одной попытке выйдет «Осталось 1 попыток». Нужны формы для 1, 2 и 5 или формулировка «Попыток осталось: {n}».</p></li>
+<li data-quiz-q data-answer="back"><p class="ds-quiz__question">На экран подписки выводится ответ сервера как есть: «SUBSCRIPTION_PAUSED».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Вернуть</b>Код ситуации — для приложения, а не для покупателя. Приложению нужен текст по ключу: «Подписка на паузе до 1&nbsp;ноября».</p></li>
+<li data-quiz-q data-answer="pass"><p class="ds-quiz__question">«Доставка 14&nbsp;октября недоступна: курьеры заняты. Ближайший свободный день — 15&nbsp;октября». Кнопка «Выбрать 15&nbsp;октября».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пропустить</b>Что случилось, почему и готовое действие.</p></li>
+<li data-quiz-q data-answer="back"><p class="ds-quiz__question">«Упс! Что-то сломалось. Попробуйте позже».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Вернуть</b>Шутка в проблеме, общая фраза и «позже» без срока. Если причина неизвестна — запасной текст продукта.</p></li>
+<li data-quiz-q data-answer="pass"><p class="ds-quiz__question">Запасной текст для неизвестного кода: «Не получилось: {действие}. Данные на месте — попробуйте через пару минут. Если не выйдет, напишите в поддержку и назовите код {код}».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Пропустить</b>Единственное место, где честно не знать причину. Даже здесь есть что цело и что делать.</p></li>
+<li data-quiz-q data-answer="back"><p class="ds-quiz__question">«Вы ввели неверный код подтверждения».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Вернуть</b>Упрёк вместо дела. По схеме: «Код не подходит. Новый можно запросить через 59 секунд».</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="pass">Пропустить</button><button class="ds-quiz__option" type="button" data-quiz-answer="back">Вернуть</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Возвращают с причиной — номером правила или строкой сводки. Тогда возврат учит, а не раздражает.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Сообщение проверяют на дороге к покупателю.</b> Ситуация — в сводке до ключа, текст — на проверке кода, запреты — скриптом при сборке, сценарии с ошибками — перед выкатом.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Разберите сводку от разработки</h2></div>
+  <p class="ds-lesson__lead">Разработчик собрал десять ключей приложения в таблицу и прислал на проверку перед выкатом. Пять строк нарушают правила урока.</p>
+
+  <p>Нажимайте на строки, которые вы бы вернули. Нормальные тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Сводка сообщений · найдите нарушения<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__er-list">
+          <div class="ds-lesson__er-head"><span>Ключ</span><span>Текст</span><span>Где</span></div>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="error.offline"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">error.offline</span><span>Нет связи с интернетом. {Что} сохранено — {что сделать}, когда связь появится.</span><span class="ds-lesson__er-where">Все экраны</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="cart.network_error"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">cart.network_error</span><span>Проверьте соединение и повторите попытку.</span><span class="ds-lesson__er-where">Корзина</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="payment.declined"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">payment.declined</span><span>Банк не подтвердил оплату. Деньги не списаны — оплатите другой картой или узнайте причину в банке.</span><span class="ds-lesson__er-where">Оплата, письмо</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="orders.load_failed"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">orders.load_failed</span><span>Не удалось загрузить заказы. Проверьте подключение к интернету.</span><span class="ds-lesson__er-where">Мои заказы, при сбое сервера</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="session.expired"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">session.expired</span><span>Вход закончился: прошло 30 минут без действий. Корзина и адрес сохранены.</span><span class="ds-lesson__er-where">Все экраны</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="promo.invalid"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">promo.invalid</span><span>Промокод недействителен.</span><span class="ds-lesson__er-where">Оформление: опечатка и истёкший срок</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="delivery.day_unavailable"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">delivery.day_unavailable</span><span>Доставка {дата} недоступна: курьеры заняты. Ближайший свободный день — {дата}.</span><span class="ds-lesson__er-where">Оформление</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="subscription.paused"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">subscription.paused</span><span>SUBSCRIPTION_PAUSED</span><span class="ds-lesson__er-where">Подписка</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="error.unknown"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">error.unknown</span><span>Не получилось: {действие}. Данные на месте — попробуйте через пару минут. Если не выйдет, напишите в поддержку и назовите код {код}.</span><span class="ds-lesson__er-where">Все экраны</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="login.attempts_left"><span class="ds-lesson__er-row"><span class="ds-lesson__er-key">login.attempts_left</span><span>Осталось {n} попыток.</span><span class="ds-lesson__er-where">Вход</span></span></span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q"><code>error.offline</code>.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Общий ключ ситуации с местами для подробностей — то, к чему сводятся все тексты про связь.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q"><code>cart.network_error</code>.</span><span class="ds-lesson__hunt-fix"><b>Вернуть. </b>Дубль <code>error.offline</code> другими словами и с ключом по экрану. Корзина должна брать общий ключ с подстановкой «Корзина».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q"><code>payment.declined</code>.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Кто отказал, что с деньгами, два выхода. Один ключ и для экрана, и для письма.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q"><code>orders.load_failed</code>.</span><span class="ds-lesson__hunt-fix"><b>Вернуть. </b>Текст про связь стоит на сбое сервера: покупатель будет проверять интернет, который в порядке. Нужна своя ситуация: «Заказы не загрузились. Сервер магазина не отвечает, история на месте».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q"><code>session.expired</code>.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Что случилось, почему и что цело — по схеме.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q"><code>promo.invalid</code>.</span><span class="ds-lesson__hunt-fix"><b>Вернуть. </b>Один текст на две ситуации: опечатку человек исправит, истёкший срок — нет. Два ключа: «Промокода {код} нет — проверьте, нет ли опечатки» и «Промокод {код} действовал до {дата}».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q"><code>delivery.day_unavailable</code>.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Причина и ближайший выход. Ключ назван по ситуации.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q"><code>subscription.paused</code>.</span><span class="ds-lesson__hunt-fix"><b>Вернуть. </b>Вместо текста — код ситуации с сервера. Нужен текст: «Подписка на паузе до {дата}».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q"><code>error.unknown</code>.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Запасной текст для неизвестного: что не получилось, что цело, что делать и код для поддержки.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q"><code>login.attempts_left</code>.</span><span class="ds-lesson__hunt-fix"><b>Вернуть. </b>Без форм множественного числа выйдет «Осталось 1 попыток». Нужны формы для 1, 2 и 5 или «Попыток осталось: {n}».</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую строку сводки</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Дубль с ключом по экрану, текст про связь на сбое сервера, один текст на две ситуации, код вместо слов и число без форм. Ни одно из этих нарушений не видно в макете — только в сводке.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные строки тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Сводку проверяют целиком, а не по одной строке.</b> Дубль и одинаковые слова для разных ситуаций видно только рядом с остальными строками.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Сведите системные сообщения своего продукта в один список, вычистите дубли и опишите схему, по которой пишется новое сообщение.</p>
+
+  <h3>Часть 1 · Собрать, 2 часа</h3>
+  <ol>
+    <li><strong>Возьмите один сценарий целиком,</strong> если продукт большой: оформление заказа, регистрацию, оплату. Весь продукт за один заход не собрать.</li>
+    <li><strong>Пройдите все источники</strong> из таблицы раздела 1: файлы строк, код, платёжный сервис, письма и СМС, шаблоны поддержки, обращения.</li>
+    <li><strong>Заполните колонку «что случилось на самом деле»</strong> вместе с разработчиком. Это самая долгая и самая полезная часть.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Сводка и схема сообщений<span class="ds-lesson__spacer"></span><span data-copy="listTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="listTmpl">ПРОДУКТ / СЦЕНАРИЙ: ______________________   Дата: __.__.____
+ВЛАДЕЛЕЦ СВОДКИ: ______________________
+
+СВОДКА · одна строка — один текст в одном месте
+где | канал | текст сейчас | что случилось на самом деле | кто исправит | ключ
+____ | ____ | ____ | ____ | ____ | ____
+
+СИТУАЦИИ ПОСЛЕ СВЕДЕНИЯ
+ситуация: ____________   было текстов: __
+формулировка: ______________________
+ключ: ____________   подстановки: ____________
+
+СХЕМА СООБЩЕНИЯ
+заголовок — что случилось: ____________
+текст — почему (если меняет решение), что цело: ____________
+кнопка — что делать: ____________
+запасной текст для неизвестного кода: ______________________
+не пишем: ______________________
+
+ДОГОВОРЁННОСТЬ С РАЗРАБОТКОЙ
+где лежат тексты: ____________   ключ — по ситуации: да / нет
+кто решает текст: ____________   кто меняет: ____________
+новая ситуация: сначала строка в сводке, потом ключ
+проверка до выката: ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Колонка «кто исправит» нужна, чтобы не склеить разные ситуации с одинаковыми словами.</div>
+  </div>
+
+  <h3>Часть 2 · Свести и описать схему, 2 часа</h3>
+  <ol>
+    <li><strong>Сгруппируйте строки по ситуации</strong> и для каждой выберите одну формулировку с местами для подробностей.</li>
+    <li><strong>Проверьте вторую ловушку:</strong> одинаковые тексты с разными ответами в колонке «кто исправит» разведите.</li>
+    <li><strong>Опишите схему</strong> на одной странице: части, где каждая стоит, что не пишем, запасной текст.</li>
+    <li><strong>Запишите договорённость</strong> с разработкой: где тексты, кто решает, как появляется новая ситуация.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 1 час</h3>
+  <ol>
+    <li><strong>Дайте схему разработчику</strong> и попросите написать сообщение для ситуации, которой в сводке нет.</li>
+    <li><strong>Сравните с тем, что написали бы сами.</strong> Расхождения — места, где схема недосказана; допишите её.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Новое сообщение написано разработкой по схеме и не потребовало вашей правки.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Сводка</strong> одного сценария или всего продукта, с колонкой «что случилось на самом деле».</li>
+    <li><strong>Список ситуаций</strong> с формулировками: сколько было текстов, сколько стало.</li>
+    <li><strong>Схема на одной странице</strong> и записанная договорённость с разработкой.</li>
+    <li><strong>Сообщение, написанное разработчиком</strong> по схеме, рядом с вашим вариантом.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 2 часа собрать, 2 — свести и описать, 1 — проверить. Полдня на один сценарий.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Текстов сотни».</strong> Начните с одного сценария, где ошибки стоят денег: оформление и оплата. Внутри сценария очередь — по тому, как часто ошибка случается и мешает ли она закончить дело: так расставлял правки Wix, когда поиск по ключам нашёл 7643 сообщения. Остальное — по мере правок.</li>
+    <li><strong>«Разработка не хочет выносить тексты из кода».</strong> Начните с новых: каждое новое сообщение — сразу по ключу. Старые переедут при первой правке.</li>
+    <li><strong>«Сервер отдаёт только текст, без кода».</strong> Запишите это в договорённость как задачу: экрану нужен код ситуации, чтобы выбрать свой текст.</li>
+    <li><strong>«Через полгода сводка устареет».</strong> Если новая ситуация сначала попадает в сводку, а потом в код, сводка обновляется сама. Владелец сводки проверяет это на проверке кода.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки ступени</h2></div>
+
+  <h3>Сообщения продукта в порядке, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Есть сводка с колонкой «что случилось на самом деле» и владельцем</li>
+    <li>Одна ситуация — одна формулировка с местами для подробностей</li>
+    <li>Одинаковые слова не стоят на ситуациях с разными ответами «кто исправит»</li>
+    <li>Схема описана: что случилось, почему, что цело, что делать — и где стоит каждая часть</li>
+    <li>Тексты лежат отдельно от кода, ключи названы по ситуации</li>
+    <li>Сервер отдаёт код, текст выбирает приложение, для неизвестного кода есть запасной текст</li>
+    <li>Числа в текстах — с формами множественного числа или в нейтральной формулировке</li>
+    <li>Новое сообщение проходит сводку, проверку кода и автоматическую проверку до выката</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Ключ по экрану.</b> Одна ситуация расходится на столько формулировок, сколько экранов.</li>
+    <li><b>Ответ сервера на экране как есть.</b> Покупатель читает «SUBSCRIPTION_PAUSED».</li>
+    <li><b>Одни слова на разные ситуации.</b> Совет «проверьте связь» при упавшем сервере.</li>
+    <li><b>Схема в голове у дизайнера.</b> Разработчик пишет сообщения так, как получится.</li>
+    <li><b>Проверка после жалоб.</b> Плохое сообщение месяц живёт у покупателей.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы целиком</h2></div>
+  <p class="ds-lesson__lead">Тема пройдена от одного сообщения до правил для всего продукта: сначала — писать ошибку и пустой экран так, чтобы было ясно, что делать; потом — разводить пустоты и писать под того, кто исправит; теперь — собирать всё в сводку, схему и договорённость с разработкой.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Говорить, что случилось, словами человека; давать следующий шаг и кнопку; не винить; не писать общую фразу, когда причина известна; отличать пустой экран новичка от пустого поиска</td>
+          <td class="ds-lesson__dim">В каждом сообщении есть ответ на вопрос «и что мне теперь делать»</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Разводить четыре пустоты: ещё нет, не найдено, нет доступа, сломалось; писать текст и действие для каждой; отличать исправимую ошибку от неисправимой; говорить про сбой честно и коротко; возвращать человека туда, куда он шёл</td>
+          <td class="ds-lesson__dim">По тексту пустого экрана видно, какая именно это пустота</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Собирать сообщения продукта в один список; сводить одинаковые ситуации к одной формулировке; держать схему сообщения; договариваться с разработкой, где живут тексты; проверять новые сообщения до выката</td>
+          <td>Новое сообщение написано разработкой по схеме и не потребовало правки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любое сообщение своего продукта вы можете сказать, к какой ситуации оно относится, где лежит его текст и кто его менял последним.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/articles/698498/">Будьте другом своему пользователю, пишите осмысленные сообщения об ошибках</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, перевод статьи Дженни Надлер (Wix), 2022 · на русском · бесплатно</span><span>Как Wix за месяц переписал тысячи сообщений об ошибках: поиск ключей в CMS, разбор каждого сообщения с разработчиками, очередь по частоте, проверка через месяц после запуска, и схема сообщения с частью «успокоить». В отличие от урока, Wix называет причину, даже если это просто техническая ошибка: «проблема на нашей стороне».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/articles/925688/">Как мы создали UI-kit состояний интерфейса и «навели порядок» в продукте</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Клаудмастер, 2025 · на русском · бесплатно</span><span>Опыт FinOps-платформы: тосты, экраны ошибок, пустые и загрузочные состояния собраны в один набор с чек-листами текста и условиями показа, по шагам от сбора до проверки на дизайн-ревью. В примерах «стало» остались слова, которые урок вернул бы: «Ошибка аутентификации», «Ссылка некорректная».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/yandex/articles/777204/">Интернационализация от i до n: как мы переводим интерфейсы в Фантехе Яндекса</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Александр Поляков, Яндекс, 2023 · на русском · бесплатно</span><span>Команда интернационализации Яндекса о строках интерфейса: формат ICU с формами множественного числа и подстановками, код как источник правды, линтеры при сборке. В отличие от урока, ключи там генерируются из текста, а автор в ответах читателям советует давать одинаковым текстам в разных местах разные ключи.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://cds.b2b-center.ru/patterns/errors">Ошибки</a></span><span class="ds-lesson__reads-meta">Central Design System, B2B-Center · на русском · бесплатно</span><span>Раздел «Ошибки» дизайн-системы B2B-Center: виды уведомлений об ошибке, правила проверки полей и таблица готовых формулировок для частых случаев, от 404 до потери связи. Материал для разбора: часть формулировок урок вернул бы — код в заголовке, «Попробуйте позже» без срока, «Неверный пароль», ошибки 500, 502 и 503 словами сервера.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/error-messages-scoring-rubric/">An Error Messages Scoring Rubric</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Тим Нойзессер и Эван Санволл, 2023 · на английском · бесплатно</span><span>Рубрика NN/g для оценки сообщений об ошибках: двенадцать правил в трёх группах — заметность, язык, экономия усилий, у каждого четыре уровня и итоговая оценка от A до D. Таблица скачивается в Excel, разобраны три примера. Подходит для аудита после сводки; единообразие сообщений между собой она не проверяет.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://learn.microsoft.com/en-us/windows/win32/uxguide/mess-error">Error Messages in Windows 7</a></span><span class="ds-lesson__reads-meta">Microsoft, руководство для Windows 7 · на английском · бесплатно</span><span>Руководство Microsoft времён Windows 7: схема «проблема, причина, решение», раздел о том, что хорошему сообщению нужен свой код на каждую причину, правила для неизвестных ошибок и шаблоны заголовков. Примеры устарели. В отличие от урока, советует не отсылать в поддержку и писать incorrect вместо invalid.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

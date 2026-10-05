@@ -91,6 +91,14 @@ with sync_playwright() as play:
         ("ui-copy-junior", ["Оставить подписку", "Ответы на вопросы", "Изменения вступят в силу со следующей доставки.", "Переписать. Подходит к любому экрану продукта"]),
         ("ui-copy-middle", ["Беспл. дост. в пр. МКАД от 2К", "LESNAYA OBZHARKA PODPISKA", "Заменить. Покупатель оформлял подписку"]),
         ("ui-copy-senior", ["Шкалы и примеры", "ПРАВИЛО: 4.2", "Поправить. Шкала «почтительный — дерзкий»"]),
+        # Три текста ошибки, пустоты и тупик — панели переключателя, видны все; у тренажёра «соберите
+        # сообщение» без скрипта на экране образцовый текст, а разборы всех вариантов видны.
+        ("errors-empty-states-junior", ["Сервер магазина не ответил, до оплаты дело не дошло", "Банк не подтвердил оплату",
+                                        "«Транзакция» и код — язык банка", "Переписать. Код для разработчика"]),
+        ("errors-empty-states-middle", ["Отменённых заказов в 2026 году нет", "Сервер магазина не отвечает. История на месте",
+                                        "Извините, оформление новых заказов недоступно.", "Переписать. Тупик: человек шёл к сорту"]),
+        ("errors-empty-states-senior", ["Корзина и адрес доставки сохранены.", "Не по схеме. «Сессия» — слово разработки",
+                                        "Вернуть. Без форм множественного числа"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1648,6 +1656,98 @@ with sync_playwright() as play:
     fails += 0 if say(hunt_all(page, 10), "рассылка по правилам: нормальное не засчитано, нарушений 5 из 5") else 1
     page.close()
 
+    # «Тексты ошибок и пустых состояний»: тренажёр «соберите сообщение» — у каждой части сообщения
+    # радиокнопки, экран сверху собирается из выбранного; сначала стоят варианты разработчика,
+    # разбор виден только у выбранного, «готово» — когда все части верные. Пустой текст прячет кусок.
+    def compose(page, n):
+        box = page.locator("[data-compose]").nth(n)
+        slots = box.evaluate("""b => Object.fromEntries([...b.querySelectorAll('[data-compose-slot]')]
+            .map(s => [s.getAttribute('data-compose-slot'), s.hidden ? null : s.textContent.replace(/\\s+/g, ' ').trim()]))""")
+        return {"slots": slots, "meta": box.locator("[data-compose-meta]").inner_text(),
+                "done": box.locator("[data-compose-done]").is_visible(),
+                "notes": box.locator("[data-compose-note]:visible").count()}
+
+    def pick(page, n, part, i):
+        page.locator("[data-compose]").nth(n).locator('[data-compose-part="%s"] label' % part).nth(i).click()
+        page.wait_for_timeout(30)
+
+    page = ctx.new_page()
+    page.goto(BASE + "errors-empty-states-junior/")
+    page.wait_for_timeout(300)
+    head("errors-empty-states-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    first = page.evaluate(panes % "what")
+    page.click("#what [data-switch-btn=er3]")
+    page.wait_for_timeout(30)
+    fails += 0 if say(first == ["er1"] and page.evaluate(panes % "what") == ["er3"] and page.is_visible("#what >> text=Оформить ещё раз"),
+                      "ошибка оформления: сначала код, по нажатию — «Словами человека»") else 1
+    c = compose(page, 0)
+    fails += 0 if say(c["slots"] == {"what": "Ошибка оплаты", "text": "Пожалуйста, проверьте данные карты и повторите попытку.", "btn": "ОК"}
+                      and "0 из 3" in c["meta"] and c["notes"] == 3 and not c["done"],
+                      "сообщение об оплате: сначала варианты разработчика, 0 из 3, видно три разбора") else 1
+    pick(page, 0, "what", 1)
+    pick(page, 0, "text", 1)
+    c = compose(page, 0)
+    fails += 0 if say(c["slots"]["what"] == "Банк не подтвердил оплату" and "2 из 3" in c["meta"] and not c["done"],
+                      "заголовок и текст верные: «Банк не подтвердил оплату», 2 из 3") else 1
+    pick(page, 0, "btn", 1)
+    c = compose(page, 0)
+    fails += 0 if say(c["slots"]["btn"] == "Оплатить другой картой" and "3 из 3" in c["meta"] and c["done"],
+                      "кнопка «Оплатить другой картой»: 3 из 3, итог открыт") else 1
+    pick(page, 0, "btn", 2)
+    fails += 0 if say(not compose(page, 0)["done"], "кнопка «Вернуться на главную»: итог снова закрыт") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "приложение магазина: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "errors-empty-states-middle/")
+    page.wait_for_timeout(300)
+    head("errors-empty-states-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    first = page.evaluate(panes % "four")
+    page.click("#four [data-switch-btn=fo4]")
+    page.wait_for_timeout(30)
+    fails += 0 if say(first == ["fo0"] and page.evaluate(panes % "four") == ["fo4"] and page.is_visible("#four >> text=Заказы не загрузились"),
+                      "четыре пустоты: сначала одна заглушка, по нажатию — «Сломалось»") else 1
+    press(page, 0, "Извините,")
+    s = strike(page, 0)
+    fails += 0 if say("единственное извинение" in s["note"] and not s["done"], "вычеркнули «Извините»: подсказка про единственное извинение") else 1
+    press(page, 0, "Извините,")
+    page.locator("[data-strike]").nth(0).locator("[data-strike-actions] button").click()
+    page.wait_for_timeout(30)
+    s = strike(page, 0)
+    fails += 0 if say(s["out"] == "Извините, оформление новых заказов недоступно. Уже оформленные заказы приедут в срок. Оформить новый можно будет после 15:00."
+                      and "5 из 5" in s["meta"] and s["done"], "плашка сбоя: одно извинение и три ответа, 5 из 5") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра-викторины на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "пять ситуаций: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "errors-empty-states-senior/")
+    page.wait_for_timeout(300)
+    head("errors-empty-states-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    c = compose(page, 0)
+    fails += 0 if say(c["slots"]["what"] == "Сессия истекла" and "0 из 4" in c["meta"] and c["notes"] == 4,
+                      "вход закончился: сначала «Сессия истекла», 0 из 4") else 1
+    pick(page, 0, "why", 2)
+    fails += 0 if say(compose(page, 0)["slots"]["why"] is None, "«Без причины»: строка причины спрятана") else 1
+    for part in ("what", "why"):
+        pick(page, 0, part, 1)
+    pick(page, 0, "safe", 2)
+    pick(page, 0, "btn", 2)
+    c = compose(page, 0)
+    fails += 0 if say(c["slots"] == {"what": "Вход закончился", "why": "Прошло 30 минут без действий.", "safe": "Корзина и адрес доставки сохранены.",
+                                     "btn": "Войти и продолжить"} and "4 из 4" in c["meta"] and c["done"],
+                      "все четыре части по схеме: 4 из 4, итог открыт") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра-викторины на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "сводка от разработки: нормальное не засчитано, нарушений 5 из 5") else 1
+    page.close()
+
     plain = browser.new_context(java_script_enabled=False)
     page = plain.new_page()
     page.goto(BASE + "ui-copy-junior/")
@@ -1657,6 +1757,15 @@ with sync_playwright() as play:
     fails += 0 if say(len(cut) == 12 and all("line-through" in c for c in cut) and not page.is_visible("[data-strike-meta]"),
                       "лишнее зачёркнуто стилем: %d кусков, счётчика нет" % len(cut)) else 1
     page.close()
+    for slug, notes, what in (("errors-empty-states-junior", 9, "Банк не подтвердил оплату"), ("errors-empty-states-senior", 12, "Вход закончился")):
+        page = plain.new_page()
+        page.goto(BASE + slug + "/")
+        head(slug + " · сборка сообщения без скрипта")
+        box = page.locator("[data-compose]").nth(0)
+        fails += 0 if say(box.locator("input:visible").count() == 0 and box.locator("[data-compose-note]:visible").count() == notes
+                          and box.locator('[data-compose-slot="what"]').inner_text() == what and not page.is_visible("[data-compose-meta]"),
+                          "радиокнопок нет, разборов %d, на экране образец «%s»" % (notes, what)) else 1
+        page.close()
     plain.close()
     browser.close()
 

@@ -12,6 +12,7 @@
 """
 import argparse
 import pathlib
+import re
 import sys
 
 from playwright.sync_api import sync_playwright
@@ -132,6 +133,16 @@ with sync_playwright() as play:
             return [...twice]; }""")
         print(("  ок  " if not twins else "  ПЛОХО ") + "якоря не повторяются" + (": " + str(twins) if twins else ""))
         fails += 1 if twins else 0
+
+        # Метки поиска ошибок пронумерованы по порядку разметки: тренажёр ищет разбор по номеру
+        # метки, проверка тренажёров нажимает метки по порядку, а без скрипта разбор читается
+        # списком — в том же порядке, что экран. 05.10.2026 в «Текстах ошибок» Junior и Middle
+        # номера шли вразнобой, и проверка засчитала не те метки.
+        body = (ROOT / "docs/content/lessons" / (slug + ".body.html")).read_text(encoding="utf-8")
+        pins = [int(n) for n in re.findall(r'data-hunt-pin="(\d+)"', body)]
+        ok = pins == list(range(len(pins)))
+        print(("  ок  " if ok else "  ПЛОХО ") + "метки поиска по порядку" + ("" if ok else ": " + str(pins)))
+        fails += 0 if ok else 1
 
         # «Что почитать дальше» — список, а не подвал одним абзацем (замечание заказчицы 27.09.2026).
         reads = page.evaluate("""() => [document.querySelectorAll('#further-reading .ds-lesson__reads li').length,

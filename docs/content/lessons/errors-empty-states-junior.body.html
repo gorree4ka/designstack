@@ -1,0 +1,514 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#what">Что случилось — словами человека</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#next">Что делать дальше — и кнопка для этого</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#blame">Без упрёка</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#known">«Что-то пошло не так» — только когда правда неизвестно</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#empty">Пустой экран новичка и пустой поиск</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#hunt">Найдите ошибки в приложении магазина</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Та же «Лесная обжарка», что в уроке <a href="/lessons/ui-copy-junior/">«Формулировки интерфейса»</a>: магазин кофе со своим приложением и подпиской. Пока приложение собирали, разработчики ставили в ошибки и пустые экраны то, что было под рукой: код ответа сервера, «Что-то пошло не так», «Нет данных». Эти тексты вы и перепишете. Как нарисовать сами состояния — пустой экран, загрузку, ошибку, — разобрано в уроке <a href="/lessons/patterns-states-junior/">«Паттерны и состояния», Junior</a>, тексты ошибок у полей формы — в уроке <a href="/lessons/forms-junior/">«Формы», Junior</a>. Здесь — слова сообщений, которые появляются, когда что-то не получилось или показать нечего.</div>
+
+<section id="what">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Что случилось — словами человека</h2></div>
+  <p class="ds-lesson__lead">Сообщение об ошибке читает тот, у кого не получилось. Код ответа сервера читает тот, кто будет чинить. Это разные люди, и им нужны разные слова.</p>
+
+  <p>Разработчик пишет ошибку с той стороны, где её поймал: «Ошибка 500», «Network request failed», «Timeout». Для него это точные слова — упал сервер, не дошёл запрос, не дождались ответа. Покупатель с той же ошибкой хочет знать другое: оформился ли заказ, списали ли деньги, нажимать ли кнопку ещё раз.</p>
+
+  <p>Вот одна и та же ошибка на шаге оформления заказа. Покупатель нажал «Перейти к оплате», а сервер магазина не ответил: заказ не создан, до оплаты дело не дошло.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Оформление заказа · три текста одной ошибки</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="er1" hidden>Код</button><button class="ds-switch__button" type="button" data-switch-btn="er2" hidden>Общая фраза</button><button class="ds-switch__button" type="button" data-switch-btn="er3" hidden>Словами человека</button></div>
+
+      <div data-switch-pane="er1"><p class="ds-switch__title">Код</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оформление заказа</span></div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Кения АА, 250&nbsp;г × 2</span><span class="ds-lesson__wf-dim">Доставка 14&nbsp;октября · 2&nbsp;180&nbsp;₽</span></span>
+            <div class="ds-lesson__st-alert"><b>Ошибка 500</b><span>Internal Server Error</span></div>
+            <span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Перейти к оплате</span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Код</b>Разработчику код говорит, что сломался сервер. Покупателю — ничего: создан ли заказ, списаны ли деньги, нажимать ли «Перейти к оплате» ещё раз.</div>
+      </div>
+
+      <div data-switch-pane="er2"><p class="ds-switch__title">Общая фраза</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оформление заказа</span></div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Кения АА, 250&nbsp;г × 2</span><span class="ds-lesson__wf-dim">Доставка 14&nbsp;октября · 2&nbsp;180&nbsp;₽</span></span>
+            <div class="ds-lesson__st-alert"><b>Что-то пошло не так</b><span>Попробуйте позже.</span></div>
+            <span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Перейти к оплате</span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Общая фраза</b>Слова человеческие, но сведений не прибавилось. Что не так — заказ, оплата, связь? «Позже» — через минуту или завтра? И не спишут ли деньги дважды, если нажать ещё раз?</div>
+      </div>
+
+      <div data-switch-pane="er3"><p class="ds-switch__title">Словами человека</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оформление заказа</span></div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Кения АА, 250&nbsp;г × 2</span><span class="ds-lesson__wf-dim">Доставка 14&nbsp;октября · 2&nbsp;180&nbsp;₽</span></span>
+            <div class="ds-lesson__st-alert"><b>Заказ не оформлен</b><span>Сервер магазина не ответил, до оплаты дело не дошло. Корзина на месте — нажмите ещё раз через минуту.</span><span class="ds-lesson__wf-dim">Код для поддержки: CX-4821</span></div>
+            <span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Оформить ещё раз</span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Словами человека</b>Сказано, что не получилось — заказ не создан, — что с деньгами и корзиной и что нажать. Код остался, но мелко и после объяснения: он для поддержки, а не для покупателя.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Проверка: прочтите сообщение человеку, который не видит экран. Если он может сказать, что с его заказом и что делать дальше, текст годится.</div>
+  </div>
+
+  <p>Это девятая из десяти эвристик Якоба Нильсена: сообщение об ошибке пишут простым языком, без кодов, точно называют проблему и предлагают, как её решить. В Контур.Гайдах то же правило сказано так: напишите, что произошло, с точки зрения пользователя, а не с точки зрения системы. Как неправильно, там показано на примере «Ошибка e-ecb00676. Произошла критическая ошибка».</p>
+
+  <p>Перевод с языка системы на язык человека почти всегда один и тот же. Система называет, что сломалось у неё; человеку нужно знать, что стало с его делом.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Пишет система</th><th scope="col">Что это значит для покупателя</th><th scope="col">Что написать</th></tr></thead>
+      <tbody>
+        <tr><td>«Ошибка 500», «Internal Server Error»</td><td>Магазин не смог выполнить действие</td><td>«Заказ не оформлен: сервер магазина не ответил»</td></tr>
+        <tr><td>«Network request failed»</td><td>У телефона пропала связь</td><td>«Нет связи с интернетом. Корзина сохранена»</td></tr>
+        <tr><td>«Session expired», «401»</td><td>Вход в аккаунт закончился</td><td>«Войдите снова — корзина останется на месте»</td></tr>
+        <tr><td>«Request timeout»</td><td>Ответа ждали слишком долго</td><td>«Заказы не загрузились: сервер долго не отвечает»</td></tr>
+        <tr><td>«404 Not Found»</td><td>Такой страницы нет</td><td>«Такой страницы нет. Если адрес набирали вручную, проверьте его»</td></tr>
+        <tr><td>«promo_code: expired»</td><td>Срок промокода закончился</td><td>«Промокод OSEN10 действовал до 30&nbsp;сентября»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Код ошибки при этом не обязательно выбрасывать: по нему разработчик найдёт, что сломалось, когда покупатель напишет в поддержку. Руководства спорят, показывать ли его. Контур советует ставить код рядом с заголовком страницы ошибки. Shopify — не показывать номера и коды, если человек их не знает и они не помогают решить проблему. В Nielsen Norman Group советуют прятать коды или показывать их только для диагностики, в старом, ещё для Windows 7, руководстве Microsoft — убирать в «Подробности» и подписывать «Код ошибки», в Atlassian — не класть техническое в сообщение, а если без этого никак, дать ссылку на справку. Урок держится середины, как в уроке <a href="/lessons/forms-middle/">«Формы», Middle</a>: код дают для поддержки, мелко и после объяснения, а не вместо него.</p>
+
+  <div class="ds-lesson__rule"><b>Сначала — что случилось с делом человека.</b> Не «Ошибка 500», а «Заказ не оформлен». Код — после объяснения и только для поддержки.</div>
+</section>
+
+<section id="next">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Что делать дальше — и кнопка для этого</h2></div>
+  <p class="ds-lesson__lead">Человек, который увидел ошибку, хочет одного — продолжить. Сообщение без следующего шага оставляет его перед стеной.</p>
+
+  <p>Следующих шагов после ошибки немного, и для каждого есть свой текст.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что делать</th><th scope="col">Когда</th><th scope="col">Как написать</th><th scope="col">Кнопка</th></tr></thead>
+      <tbody>
+        <tr><td>Повторить</td><td>Сбой случайный, и повтор ничего не испортит</td><td>«Список заказов не загрузился. Попробуйте ещё раз»</td><td>«Повторить»</td></tr>
+        <tr><td>Подождать</td><td>Сервис чинят или обновляют</td><td>«Оплата картой не работает до 14:00 — банк обновляет систему»</td><td>Нет: нажимать нечего. Можно дать другой путь</td></tr>
+        <tr><td>Пойти другим путём</td><td>Этот путь закрыт, а соседний открыт</td><td>«Курьер на Лесную улицу сегодня не едет. Заберите заказ в пункте выдачи — в 600&nbsp;м от дома»</td><td>«Выбрать пункт выдачи»</td></tr>
+        <tr><td>Написать в поддержку</td><td>Исправить может только магазин</td><td>«Напишите в поддержку и назовите код CX-4821»</td><td>«Написать в поддержку»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Самый частый текст после ошибки — «Попробуйте позже». Он не говорит главного: когда. Через минуту нажать снова или вернуться завтра? Максим Ильяхов в «Советах» Бюро Горбунова показывает, как такой текст дописывают: «Платёжный шлюз перегружен. Попробуйте позже» → «Платёж не прошёл: система перегружена. Повторите платёж через полчаса». В GOV.UK Design System для страницы «сервис недоступен» велят писать день, дату и время, когда он заработает. Если срок неизвестен, у GOV.UK наготове общая страница со словами «You will be able to use the service later» — «воспользоваться сервисом можно будет позже», и её меняют, как только срок станет известен. В Контур.Гайдах на этот случай советуют «Вернёмся в онлайн совсем скоро». Придумывать время, которого никто не знает, хуже, чем написать «позже». Но если срок известен, он должен стоять в тексте.</p>
+
+  <p>Кнопка в сообщении делает то, что советует текст. Если текст говорит «попробуйте ещё раз», кнопка — «Повторить» или «Оформить ещё раз», а не «ОК». «ОК» закрывает сообщение и оставляет человека там же, где была ошибка. В руководстве Microsoft по сообщениям об ошибках есть отдельное правило: не ставить «OK» на кнопку ошибки — выходит, будто проблема в порядке. Почему подпись «ОК» почти никогда не годится и в других местах, разобрано в уроке <a href="/lessons/ui-copy-junior/">«Формулировки интерфейса», Junior</a>.</p>
+
+  <p>Соберите сообщение сами. Покупатель оплачивает заказ на 2&nbsp;180&nbsp;₽, а банк отклонил оплату. Сверху — экран, как его увидит покупатель, под ним — три части сообщения. Разработчик выбрал первые варианты; поменяйте их и прочтите, почему один годится, а другие нет.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Тренажёр · соберите сообщение</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__compose" data-compose data-compose-count="Частей, которые годятся: {n} из {total}">
+        <div class="ds-lesson__compose-view">
+          <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Заказ № 1051</span><span class="ds-lesson__wf-dim">Кения АА, 250&nbsp;г × 2 · 2&nbsp;180&nbsp;₽</span></span>
+              <div class="ds-lesson__st-alert"><b data-compose-slot="what">Банк не подтвердил оплату</b><span data-compose-slot="text">Деньги не списаны, заказ сохранён. Оплатите другой картой или позвоните в банк — номер есть на обороте карты.</span></div>
+              <span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary" data-compose-slot="btn">Оплатить другой картой</span>
+            </div>
+          </div></div></div>
+        </div>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="what">
+          <legend>Заголовок — что случилось</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-what" data-compose-start>Ошибка оплаты</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Непонятно, чья ошибка и что с деньгами: списали, не списали, спишут потом?</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-what" data-compose-ok checked>Банк не подтвердил оплату</label><p class="ds-lesson__compose-note" data-compose-note><b>Годится.</b> Сказано, что случилось и кто отказал: оплату не пропустил банк, а покупатель ни в чём не обвинён.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-what">Транзакция отклонена: код 05</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> «Транзакция» и код — язык банка. Покупателю код ничего не скажет, а поддержка и так увидит его в своей системе.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="text">
+          <legend>Текст — что с деньгами и что делать</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-text" data-compose-start>Пожалуйста, проверьте данные карты и повторите попытку.</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Намекает, что покупатель ошибся в данных, хотя банк мог отказать по десятку причин. И ни слова о деньгах.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-text" data-compose-ok checked>Деньги не списаны, заказ сохранён. Оплатите другой картой или позвоните в банк — номер есть на обороте карты.</label><p class="ds-lesson__compose-note" data-compose-note><b>Годится.</b> Первым делом — ответ на главные вопросы: не пропали ли деньги и не придётся ли собирать корзину заново. Дальше — два выхода.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-text">Возможно, на карте недостаточно средств.</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Догадка вслух, да ещё неловкая. Причину отказа знает банк; если магазин её не знает, гадать не надо.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="btn">
+          <legend>Кнопка — что сделать</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-btn" data-compose-start>ОК</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Закрывает сообщение и оставляет покупателя там же. Что делать дальше, он будет искать сам.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-btn" data-compose-ok checked>Оплатить другой картой</label><p class="ds-lesson__compose-note" data-compose-note><b>Годится.</b> Действие, которое решает проблему прямо отсюда, и то же, что советует текст.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="cmp-pay-btn">Вернуться на главную</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Уводит от заказа, который покупатель почти оплатил. Возвращаться к нему придётся через корзину.</p></div>
+        </fieldset>
+
+        <p class="ds-lesson__compose-meta" data-compose-meta aria-live="polite" hidden></p>
+        <p class="ds-lesson__compose-done" data-compose-done hidden>Теперь сообщение отвечает на три вопроса покупателя: что случилось, что с моими деньгами и что мне теперь делать. Кнопка делает то, что советует текст.</p>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Позвонить в банк кнопкой не получится: номер банка у покупателя на карте, а не у магазина. Поэтому этот выход — в тексте, а на кнопке — тот, что работает отсюда.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Сообщение заканчивается действием.</b> Текст говорит, что сделать, кнопка это делает. «ОК» на кнопке ошибки — только если делать правда нечего.</div>
+</section>
+
+<section id="blame">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Без упрёка</h2></div>
+  <p class="ds-lesson__lead">Ошибка — это сбой в деле человека, а не его проступок. Текст, который ищет виноватого, злит и ничего не исправляет.</p>
+
+  <p>Упрёк прячется в нескольких словах: «вы ввели неверно», «вы не указали», «вы забыли», «недопустимо», «некорректно», «запрещено». Каждое из них переводит разговор с дела на человека. Про тексты у полей формы такой разбор есть в уроке <a href="/lessons/forms-junior/">«Формы», Junior</a>, со списком запретных слов GOV.UK. Те же слова встречаются и в сообщениях о входе, оплате, промокодах и доставке.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Было</th><th scope="col">Стало</th><th scope="col">Что изменилось</th></tr></thead>
+      <tbody>
+        <tr><td>«Вы ввели неверные данные»</td><td>«Не получилось сохранить адрес»</td><td>Сказано, что не получилось, а не кто виноват</td></tr>
+        <tr><td>«Ваша карта отклонена»</td><td>«Банк не подтвердил оплату. Деньги не списаны»</td><td>Отказал банк, и почему — неизвестно. Карта и покупатель тут ни при чём</td></tr>
+        <tr><td>«Недопустимый промокод»</td><td>«Промокод OSEN10 действовал до 30&nbsp;сентября»</td><td>Видно, что с кодом, и понятно, что вводить его снова бесполезно</td></tr>
+        <tr><td>«Вы указали адрес вне зоны доставки»</td><td>«Курьер на Лесную улицу пока не ездит. Ближайший пункт выдачи — в 600&nbsp;м»</td><td>Вместо упрёка — что можно сделать</td></tr>
+        <tr><td>«Вы не выбрали время доставки»</td><td>«Выберите время доставки»</td><td>Сразу о деле</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Безличные «не получилось» и «не удалось» снимают вопрос о виноватом. Это не значит прятать вину магазина: если сломалось у магазина, это говорят прямо, и как — разобрано на следующей ступени. В руководстве Apple по текстам интерфейса то же сказано одной фразой: показывайте ошибку как можно ближе к месту проблемы, не вините человека и ясно говорите, что он может сделать, чтобы её исправить.</p>
+
+  <p>Есть случай, где точность нарочно урезают, — вход в аккаунт. Если написать «Пароль неверный», посторонний узнает, что такая почта в магазине зарегистрирована, и сможет перебирать адреса. Поэтому OWASP, открытый проект по безопасности веб-приложений, советует на входе один общий ответ, не уточняя, что именно не подошло. В WCAG 2.2 есть та же оговорка: по критерию 3.3.3 «Подсказка при ошибке», уровень AA, подсказку, как исправить, дают, если она не вредит безопасности. Общий ответ — не упрёк: «Почта или пароль не подходят», а рядом — выход, «Восстановить пароль». Так же OWASP советует отвечать и при восстановлении пароля: «Если эта почта зарегистрирована, на неё придёт письмо со ссылкой».</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · упрекает или по делу<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="blame"><p class="ds-quiz__question">«Вы ввели неверный код из СМС».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Упрекает</b>И при этом не говорит, что делать. По делу: «Код не подходит. Проверьте последнее СМС или запросите новый код».</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Код не подходит. Новый можно запросить через 59 секунд».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По делу</b>Что случилось и что делать, без «вы ввели». Даже сказано, когда станет можно.</p></li>
+<li data-quiz-q data-answer="blame"><p class="ds-quiz__question">«Ошибка! Недопустимое количество товара».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Упрекает</b>Восклицательный знак и «недопустимое» звучат как выговор, и сколько можно — неизвестно. По делу: «Одного сорта можно заказать до 10 пачек».</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Не получилось сохранить адрес. Проверьте связь и нажмите «Сохранить адрес» ещё раз».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По делу</b>Что не получилось и что сделать. Покупатель ни в чём не обвинён.</p></li>
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">«Что-то пошло не так».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно</b>Не упрекает, но и не помогает: что не получилось и что теперь делать — неизвестно.</p></li>
+<li data-quiz-q data-answer="blame"><p class="ds-quiz__question">«Вы не выбрали время доставки».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Упрекает</b>Мягко, но всё равно о человеке, а не о деле. Хватит «Выберите время доставки».</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Банк не подтвердил оплату. Деньги не списаны — попробуйте другую карту».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>По делу</b>Кто отказал, что с деньгами и что делать.</p></li>
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">«Произошла ошибка при обработке вашего запроса».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно</b>Какого запроса — заказа, оплаты, смены адреса? И что делать — ни слова.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="blame">Упрекает</button><button class="ds-quiz__option" type="button" data-quiz-answer="ok">По делу</button><button class="ds-quiz__option" type="button" data-quiz-answer="vague">Непонятно</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Простая проверка: «вы» с глаголом в прошедшем времени — «вы ввели», «вы не указали», «вы забыли» — почти всегда ищет виноватого.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Говорят о деле, а не о человеке.</b> «Не получилось сохранить», «код не подходит», «выберите время» — вместо «вы ввели неверно», «вы не указали», «недопустимо».</div>
+
+  <p class="ds-lesson__dim">Якоб Нильсен писал об этом ещё в 2001 году: вежливое сообщение не винит человека и не намекает, что он глуп или делает что-то не так, — пример плохого у него «illegal command», «недопустимая команда». В руководстве Microsoft советуют избегать в сообщении об ошибке «вы» и «ваш». В словах-заменах источники расходятся: Microsoft предлагает писать «incorrect» вместо «invalid», а в Nielsen Norman Group и «incorrect», как наше «неверно», относят к словам с упрёком. Спорят и о «карте»: Эми Лик, UX-писатель BBC, приводит «Ваша карта была отклонена» как пример, где страдательный залог смягчает сообщение. Урок ставит эту фразу в «было» по другой причине: отказал банк, и карта, скорее всего, ни при чём.</p>
+</section>
+
+<section id="known">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>«Что-то пошло не так» — только когда правда неизвестно</h2></div>
+  <p class="ds-lesson__lead">Общая фраза уместна, только если приложение само не знает, что случилось. Чаще оно знает — просто текст написали один на все случаи.</p>
+
+  <p>Так получается, когда в коде есть один общий обработчик ошибок. Приложение получает точный ответ — нет связи, вход закончился, банк отказал, — а показывает одну и ту же фразу. Чтобы это исправить, дизайнеру нужен список: какие ошибки возможны на этом экране и что о каждой знает приложение. Спросите его у разработчика: обычно он есть в коде, просто его никто не показывал.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что знает приложение</th><th scope="col">Что написать вместо «Что-то пошло не так»</th></tr></thead>
+      <tbody>
+        <tr><td>Телефон без связи</td><td>«Нет связи с интернетом. Корзина сохранена — оформить заказ можно, когда связь появится»</td></tr>
+        <tr><td>Вход в аккаунт закончился</td><td>«Войдите снова — корзина останется на месте» и кнопка «Войти»</td></tr>
+        <tr><td>Банк отказал</td><td>«Банк не подтвердил оплату. Деньги не списаны»</td></tr>
+        <tr><td>Товар закончился, пока покупатель оформлял заказ</td><td>«Кения АА закончилась, пока вы оформляли заказ. Остальное можно оформить без неё»</td></tr>
+        <tr><td>Сервер магазина не ответил до оплаты</td><td>«Заказ не оформлен: сервер магазина не ответил. До оплаты дело не дошло»</td></tr>
+        <tr><td>Причина неизвестна</td><td>«Не получилось оформить заказ. Корзина на месте — попробуйте через пару минут. Если не выйдет, напишите в поддержку и назовите код CX-4821»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Посмотрите на последнюю строку. Даже когда причина неизвестна, кое-что известно всегда: какое действие не получилось, что стало с данными и что можно сделать. Это и пишут. «Что-то пошло не так» без продолжения говорит только одно — что сообщение не дописали.</p>
+
+  <p>Руководства здесь сходятся. В Atlassian советуют не придумывать причину, если её нет: сказать, что что-то не получилось, и предложить, что делать. В руководстве Microsoft — лучше честно написать «произошла неизвестная ошибка», чем назвать причину, которая, скорее всего, неверна. А в Nielsen Norman Group напоминают, что общая фраза вроде «Произошла ошибка» лишена контекста, — поэтому её и дополняют тем, что известно наверняка.</p>
+
+  <p>В Контур.Гайдах об этом сказано про страницы ошибок: не используйте одну страницу для всех видов ошибок, подготовьте внятный текст для решения конкретной проблемы. Тот же совет годится для любого сообщения: сколько разных ситуаций, столько и текстов.</p>
+
+  <p>Одно предупреждение. Пишите только то, что приложение знает наверняка. Если ответ банка не пришёл, неизвестно, прошла ли оплата, и «Деньги не списаны» было бы неправдой. Как написать о таком «неизвестно», разобрано в уроке <a href="/lessons/patterns-states-middle/">«Паттерны и состояния», Middle</a>: «Статус оплаты пока неизвестен. Повторно деньги не спишутся».</p>
+
+  <div class="ds-lesson__rule"><b>Сколько ситуаций знает приложение, столько и текстов.</b> Общий текст — запасной, для неизвестного, и даже он говорит, что не получилось, что с данными и что делать.</div>
+</section>
+
+<section id="empty">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Пустой экран новичка и пустой поиск</h2></div>
+  <p class="ds-lesson__lead">Пусто бывает потому, что человек ещё ничего не сделал, и потому, что не нашлось то, что он искал. Это разные ситуации, и текст у них разный.</p>
+
+  <p>Новичок открыл «Избранное» впервые. Он не знает, что сюда попадает и зачем это нужно, поэтому пустой экран для него — объяснение: что здесь появится и как сюда попадают. Покупатель, который ищет «кения без кофеина», знает, чего хочет. Ему нужно понять, почему ничего нет — опечатка, такого товара нет или мешает фильтр, — и как найти похожее.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Избранное и поиск · как оставил разработчик и как надо</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="em1" hidden>Как оставил разработчик</button><button class="ds-switch__button" type="button" data-switch-btn="em2" hidden>Как надо</button></div>
+
+      <div data-switch-pane="em1"><p class="ds-switch__title">Как оставил разработчик</p>
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col"><p class="ds-lesson__wf-caption">Избранное, первый вход</p><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Избранное</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-empty"><span class="ds-lesson__wf-dim">Нет данных</span></div>
+            </div>
+          </div></div>
+          <div class="ds-lesson__wf-col"><p class="ds-lesson__wf-caption">Поиск по каталогу</p><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Поиск</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__wf-field">кения без кофеина</span>
+              <div class="ds-lesson__st-empty"><span class="ds-lesson__wf-dim">По вашему запросу ничего не найдено. Попробуйте изменить запрос.</span></div>
+            </div>
+          </div></div>
+        </div>
+        <div class="ds-lesson__result"><b>Как оставил разработчик</b>«Нет данных» — слова базы, а не магазина: новичок не узнает, что такое «Избранное» и как сюда что-то положить. «Попробуйте изменить запрос» не говорит, что именно менять.</div>
+      </div>
+
+      <div data-switch-pane="em2"><p class="ds-switch__title">Как надо</p>
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col"><p class="ds-lesson__wf-caption">Избранное, первый вход</p><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Избранное</span></div>
+            <div class="ds-lesson__wf-body">
+              <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Здесь будут сорта, которые хочется попробовать</b><span class="ds-lesson__wf-dim">Нажмите ♡ на карточке сорта — он появится здесь, и магазин напишет, когда его снова обжарят.</span><span class="ds-lesson__wf-btn">Открыть каталог</span></div>
+            </div>
+          </div></div>
+          <div class="ds-lesson__wf-col"><p class="ds-lesson__wf-caption">Поиск по каталогу</p><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Поиск</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__wf-field">кения без кофеина</span>
+              <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Кении без кофеина нет</b><span class="ds-lesson__wf-dim">Без кофеина в каталоге два сорта: Эфиопия и Колумбия.</span></div>
+              <span class="ds-lesson__wf-item"><span class="ds-lesson__wf-meta">Эфиопия без кофеина, зёрна, 250&nbsp;г</span><span class="ds-lesson__wf-price">990&nbsp;₽</span></span>
+              <span class="ds-lesson__wf-item"><span class="ds-lesson__wf-meta">Колумбия без кофеина, 250&nbsp;г</span><span class="ds-lesson__wf-price">890&nbsp;₽</span></span>
+            </div>
+          </div></div>
+        </div>
+        <div class="ds-lesson__result"><b>Как надо</b>Слева — что здесь будет и как сюда попадают, и первый шаг. Справа — запрос повторён словами, сказано, что именно отсутствует, и показано ближайшее, что есть.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Пустой экран новичка видят один раз, пустой поиск — каждый день. Оба стоит написать до того, как приложение уйдёт к покупателям.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Пустота</th><th scope="col">На какой вопрос отвечает текст</th><th scope="col">Что дать сделать</th></tr></thead>
+      <tbody>
+        <tr><td>Новичок: ещё ничего нет</td><td>Что здесь появится, как сюда попадает и зачем это нужно</td><td>Первый шаг: открыть каталог, оформить первый заказ, добавить сорт</td></tr>
+        <tr><td>Поиск: ничего не нашлось</td><td>Что искали и почему пусто: опечатка, нет такого товара, мешает фильтр</td><td>Исправить запрос, снять фильтр, посмотреть похожее</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Для пустого экрана новичка Apple советует то же: дать ясный следующий шаг, по возможности кнопкой или ссылкой. И не класть туда важное: пустой экран временный, и вместе с ним исчезнет то, что на нём написано. Для пустого поиска в Nielsen Norman Group ещё в 2014 году собрали, что помогает двигаться дальше: повторить запрос словами, оставить его в строке поиска, чтобы было легко поправить, предложить похожие запросы, у которых есть результаты, и исправить написание. В Baymard Institute, проверяя интернет-магазины, выяснили, что почти половина из них не даёт покупателю выхода из пустого поиска, а одних советов вроде «проверьте написание» мало: их почти не читают.</p>
+
+  <p>Не все руководства с этим согласны. В дизайн-системе GitLab для пустого поиска велено писать ровно «No results found. Edit your search and try again» — одинаково везде, без подробностей. В Контур.Гайдах для пустого поиска тоже советуют короткую строку без картинки: «По вашему запросу ничего не найдено. Поищите по другим словам или воспользуйтесь фильтрами» — первая фраза дословно та, что оставил разработчик в примере выше. Material Design 2 советует, чтобы подпись пустого экрана не выглядела призывом к действию: она не нажимается. Урок держится Apple и Nielsen Norman Group: в магазине за пустым экраном — несостоявшаяся покупка, и следующий шаг стоит дать.</p>
+
+  <div class="ds-lesson__rule"><b>«Нет данных» не годится ни новичку, ни тому, кто искал.</b> Новичку объясняют, что здесь появится и как. Тому, кто искал, повторяют запрос, говорят, чего нет, и показывают ближайшее.</div>
+
+  <p class="ds-lesson__dim">Пустым экран бывает и по другим причинам: у человека нет доступа или список не загрузился. Как развести все четыре пустоты, чтобы по тексту было видно, какая из них случилась, — на следующей ступени.</p>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите ошибки в приложении магазина</h2></div>
+  <p class="ds-lesson__lead">Три экрана приложения «Лесной обжарки» с текстами от разработки. Пять сообщений в них не помогают покупателю понять, что случилось и что делать.</p>
+
+  <p>Нажимайте на тексты, которые вы бы переписали. В разборе будет, что с ними не так. Нормальные тексты тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Приложение магазина · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Заголовок экрана «Оформление заказа»"><span class="ds-lesson__wf-title">Оформление заказа</span></span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Кения АА, 250&nbsp;г × 2</span><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Строка «Доставка 14 октября, 10:00–14:00»"><span class="ds-lesson__wf-dim">Доставка 14&nbsp;октября, 10:00–14:00</span></span></span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Поле промокода и ошибка «Недопустимый промокод!»"><span class="ds-lesson__wf-field"><b>Промокод</b> OSEN10</span><span class="ds-lesson__st-err">Недопустимый промокод!</span></span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Сообщение «Ошибка 500. Internal Server Error»"><span class="ds-lesson__st-err">Ошибка 500. Internal Server Error</span></span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Кнопка «Оформить ещё раз»"><span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Оформить ещё раз</span></span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Всплывающее сообщение «Что-то пошло не так» после смены адреса"><span class="ds-lesson__st-toast">Что-то пошло не так</span></span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Плашка «Нет связи. Корзина сохранена»"><span class="ds-lesson__st-banner">Нет связи. Корзина сохранена — оформить можно, когда связь появится</span></span>
+            </div>
+          </div></div>
+          <div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Вход</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__wf-field"><b>Почта</b> anna@example.ru</span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Ошибка «Вы ввели неверный пароль»"><span class="ds-lesson__st-err">Вы ввели неверный пароль</span></span>
+            </div>
+          </div><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Избранное</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Пустой экран «Список пуст»"><span class="ds-lesson__st-empty"><span class="ds-lesson__wf-dim">Список пуст</span></span></span>
+            </div>
+          </div><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Поиск</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__wf-field">гватемала дикаф</span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Пустой поиск «Гватемалы без кофеина нет…»"><span class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Гватемалы без кофеина нет</b><span class="ds-lesson__wf-dim">Без кофеина есть Эфиопия и Колумбия.</span></span></span>
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Заголовок «Оформление заказа».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Покупатель видит, где он и чем занят.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Строка «Доставка 14&nbsp;октября, 10:00–14:00».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Дата и время — всё, что покупатель хочет знать о доставке.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Недопустимый промокод!»</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Звучит как выговор и не говорит, что с кодом. Приложение знает, что срок вышел, — так и написать: «Промокод OSEN10 действовал до 30&nbsp;сентября».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Ошибка 500. Internal Server Error».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Код для разработчика. Покупателю — что с заказом и деньгами: «Заказ не оформлен: сервер магазина не ответил. До оплаты дело не дошло, корзина на месте».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Оформить ещё раз».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Действие, которое решает проблему: повторить то, что не получилось.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Что-то пошло не так» после смены адреса.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Не сказано, что не получилось — сохранился новый адрес или нет — и что делать. По делу: «Адрес не сохранился. Нажмите «Сохранить адрес» ещё раз».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Плашка «Нет связи. Корзина сохранена…».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Что случилось, что с корзиной и когда можно продолжить.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Вы ввели неверный пароль».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Упрекает и выдаёт лишнее: теперь посторонний знает, что такая почта зарегистрирована. Лучше: «Почта или пароль не подходят» и ссылка «Восстановить пароль».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Пустое «Избранное» со словами «Список пуст».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Новичок не узнает, что сюда попадает и как. Лучше: «Здесь будут сорта, которые хочется попробовать. Нажмите ♡ на карточке сорта» и кнопка «Открыть каталог».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Пустой поиск «Гватемалы без кофеина нет…».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Приложение поняло «дикаф» и прямо говорит, чего нет и что есть похожего.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой текст экрана</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Выговор вместо срока промокода, код вместо слов, общая фраза там, где причина известна, «Список пуст» для новичка и упрёк на входе. Каждое из них покупатель встречает в тот момент, когда у него что-то не вышло.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные тексты тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Проверяйте ошибки, вызывая их.</b> Выключите интернет, введите старый промокод, подождите, пока закончится вход. Тексты, которые пишут «на всякий случай», в макете не видны — их видно, только когда ошибка случилась.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите пять сообщений об ошибках своего продукта и перепишите каждое по схеме: что случилось, что делать.</p>
+
+  <h3>Часть 1 · Собрать, 15 минут</h3>
+  <ol>
+    <li><strong>Найдите пять сообщений.</strong> Попросите у разработчика список ошибок экрана или вызовите их сами: выключите интернет, введите неверный код, оставьте поле пустым, подождите, пока закончится вход. Если своего продукта нет, возьмите сообщения из поиска ошибок выше.</li>
+    <li><strong>Снимите каждое на экране,</strong> а не выпишите по памяти: важно, где оно стоит и что рядом с ним.</li>
+    <li><strong>Рядом с каждым запишите,</strong> что на самом деле случилось. Если не знаете — спросите разработчика: это и есть первая строка нового текста.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Сообщения об ошибках · было и стало<span class="ds-lesson__spacer"></span><span data-copy="errTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="errTmpl">ПРОДУКТ: ______________________        Дата: __.__.____
+
+СООБЩЕНИЕ 1
+где появляется: ______________________
+было: ______________________
+что случилось на самом деле: ______________________
+что стало с данными и деньгами: ______________________
+что делать дальше: ______________________
+кнопка: ____________
+стало: ______________________
+
+СООБЩЕНИЕ 2 … 5 — так же
+
+ПРОВЕРКА
+человек, не видевший экран, ответил «что мне теперь делать»: да / нет
+в тексте нет «вы ввели», «некорректно», «недопустимо»: да / нет</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строка «что случилось на самом деле» — для вас, а не для покупателя. Из неё вырастает заголовок, но словами человека.</div>
+  </div>
+
+  <h3>Часть 2 · Переписать, 30 минут</h3>
+  <ol>
+    <li><strong>Заголовок:</strong> что не получилось с делом человека — «Заказ не оформлен», «Адрес не сохранился».</li>
+    <li><strong>Текст:</strong> что с данными и деньгами, и что делать — повторить, подождать сколько-то, пойти другим путём или написать в поддержку.</li>
+    <li><strong>Кнопка:</strong> то действие, которое советует текст. «ОК» — только если делать правда нечего.</li>
+    <li><strong>Код:</strong> если он нужен поддержке — мелко, после текста.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 10 минут</h3>
+  <ol>
+    <li><strong>Прочтите каждое сообщение человеку,</strong> который не видит экран, и спросите: «И что мне теперь делать?» Не ответил — допишите.</li>
+    <li><strong>Найдите «вы» с глаголом в прошедшем времени</strong> и слова «некорректно», «недопустимо». Каждое перепишите о деле.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> В каждом сообщении есть ответ на вопрос «и что мне теперь делать».</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Пять пар «было — стало»</strong> по шаблону выше.</li>
+    <li><strong>Снимки экранов</strong> с каждым сообщением до и после.</li>
+    <li><strong>Список вопросов к разработчику,</strong> если какие-то причины пришлось выяснять.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут собрать, 30 — переписать, 10 — проверить. Меньше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Разработчик говорит, что причина неизвестна».</strong> Спросите, что знает приложение: какой ответ пришёл от сервера, была ли связь, дошёл ли запрос. Обычно знает больше, чем показывает.</li>
+    <li><strong>«Не помещается».</strong> Заголовок — два-три слова о главном, подробности в тексте, действие на кнопке. Длинным бывает только текст.</li>
+    <li><strong>«Не знаем, списались ли деньги».</strong> Тогда не пишите, что не списались. Скажите, что статус пока неизвестен и повторно деньги не спишутся, — так, как разобрано в уроке про состояния.</li>
+    <li><strong>«Без кода поддержка не найдёт ошибку».</strong> Код можно оставить, но после объяснения и с подсказкой, кому его назвать.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Сообщение готово, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Заголовок говорит, что не получилось с делом человека, а не что сломалось в системе</li>
+    <li>Кода нет или он стоит мелко после объяснения, для поддержки</li>
+    <li>Сказано, что стало с данными и деньгами, — если это известно наверняка</li>
+    <li>Есть следующий шаг: повторить, подождать сколько-то, другой путь или поддержка</li>
+    <li>Кнопка делает то, что советует текст</li>
+    <li>Нет «вы ввели», «вы не указали», «некорректно», «недопустимо»</li>
+    <li>«Что-то пошло не так» стоит только там, где причина правда неизвестна, и с продолжением</li>
+    <li>Пустой экран новичка говорит, что здесь появится и как, а пустой поиск — что искали и что есть похожего</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>«Ошибка 500».</b> Код для разработчика вместо слов для покупателя.</li>
+    <li><b>«Попробуйте позже».</b> Неизвестно когда.</li>
+    <li><b>«ОК» под ошибкой.</b> Закрывает сообщение и не помогает продолжить.</li>
+    <li><b>«Вы ввели неверные данные».</b> Ищет виноватого и не говорит, что исправить.</li>
+    <li><b>«Нет данных» на пустом экране.</b> Не объясняет, что здесь будет и что сделать.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся писать сообщение об ошибке и текст пустого экрана так, чтобы было ясно, что случилось и что делать. На следующих ступенях — разводить четыре причины пустого экрана и отличать ошибку, которую человек исправит сам, а потом собирать сообщения всего продукта в общие правила.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Говорить, что случилось, словами человека; давать следующий шаг и кнопку; не винить; не писать общую фразу, когда причина известна; отличать пустой экран новичка от пустого поиска</td>
+          <td>В каждом сообщении есть ответ на вопрос «и что мне теперь делать»</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Разводить четыре пустоты: ещё нет, не найдено, нет доступа, сломалось; писать текст и действие для каждой; отличать исправимую ошибку от неисправимой; говорить про сбой честно и коротко; возвращать человека туда, куда он шёл</td>
+          <td class="ds-lesson__dim">По тексту пустого экрана видно, какая именно это пустота</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Собирать сообщения продукта в один список; сводить одинаковые ситуации к одной формулировке; держать схему сообщения; договариваться с разработкой, где живут тексты; проверять новые сообщения до выката</td>
+          <td class="ds-lesson__dim">Новое сообщение написано разработкой по схеме и не потребовало правки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любое сообщение своего продукта вы можете сказать, что человек сделает, прочитав его.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20150419/">Как правильно написать в интерфейсе сообщение о статусе?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Максим Ильяхов, 2015 · на русском · бесплатно</span><span>Короткий совет Максима Ильяхова о сообщениях после платежа: в заголовок ошибки ставят несостоявшееся действие («Платёж не прошёл»), а «Попробуйте позже» дописывают до «Повторите платёж через полчаса». Пример 2015 года. В отличие от урока, для неизвестной ошибки автор всё же называет причину: «из-за сбоя в системе».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://vc.ru/design/72996-kratkost-yasnost-i-umestnyi-ton-kakim-dolzhen-byt-tekst-soobsheniya-ob-oshibke">Краткость, ясность и уместный тон: каким должен быть текст сообщения об ошибке</a></span><span class="ds-lesson__reads-meta">vc.ru, перевод статьи Эми Лик (BBC), 2019 · на русском · бесплатно</span><span>Перевод короткого руководства Эми Лик, UX-писателя BBC: что выяснить до текста, схема «ошибка → как исправить», тон по серьёзности сбоя, понятные кнопки вместо «Ок». Картинки на английском. В отличие от урока, «Ваша карта была отклонена» автор приводит как способ смягчить сообщение.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://guides.kontur.ru/components/screens/emptystate/">Пустые состояния</a></span><span class="ds-lesson__reads-meta">Контур.Гайды · на русском · бесплатно</span><span>Контур.Гайды о пустых экранах, почти всё на картинках: данных ещё нет, нужна настройка, человек сам очистил список, не загрузилось, ничего не нашлось — у каждого свой вид и текст. Примеры из учётных сервисов Контура. Для пустого поиска Контур, в отличие от урока, советует короткую строку «По вашему запросу ничего не найдено…».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/ruvds/articles/699684/">Упс и опаньки… Юмору не место в сообщениях об ошибках</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, блог RUVDS, 2022 · на русском · бесплатно</span><span>Статья в блоге RUVDS о тоне сообщений об ошибках: почему «Упс» и «Опаньки» злят того, у кого сорвалось дело, и четыре частых промаха — жаргон, неуместный тон, перекладывание вины и «Попробуйте позже» — на примере до и после. В исправленном примере всё же осталось «Позже повторите попытку». Много места отдано юмору вообще.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/search-no-results-serp/">3 Guidelines for Search Engine "No Results" Pages</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кэтрин Уайтентон, 2014 · на английском · бесплатно</span><span>Кэтрин Уайтентон из Nielsen Norman Group о странице «ничего не найдено» в поиске по сайту: заметно сказать, что результатов нет, дать путь дальше — повторить запрос, оставить его в строке, предложить похожие запросы и исправить опечатку — и не смеяться над человеком. Пример 2014 года, на английском.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://atlassian.design/foundations/content/designing-messages/error-messages">Error messages</a></span><span class="ds-lesson__reads-meta">Atlassian Design System · на английском · бесплатно</span><span>Руководство Atlassian по сообщениям об ошибках: короткий заголовок, в тексте — что случилось и что делать, глагол на кнопке вместо «OK», запасной выход вторым предложением, «мы» вместо «вы». Неизвестную причину не придумывают. На английском. В отличие от урока, образец «Do» прямо говорит, что не подошло имя пользователя.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

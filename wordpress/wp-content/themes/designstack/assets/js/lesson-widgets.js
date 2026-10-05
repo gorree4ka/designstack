@@ -7,7 +7,7 @@
  * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия, —
  * «три секунды», проигрыватель движения, настройка образца, сортировка
  * учебной таблицы, момент проверки поля формы, начало шкалы графика,
- * порог отклонения и вычёркивание лишних слов.
+ * порог отклонения, вычёркивание лишних слов и сборка сообщения из частей.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -3267,6 +3267,93 @@
 			place.appendChild( show );
 			place.hidden = false;
 		}
+
+		box.classList.add( 'is-live' );
+		update();
+	} );
+
+	/* ── соберите сообщение ────────────────────────────────────────────────
+	   Коробка `data-compose` — учебный экран с сообщением и под ним части
+	   сообщения (`data-compose-part`, `fieldset` с радиокнопками). У варианта
+	   текст для экрана — `data-compose-text` или подпись самой кнопки; верный
+	   помечен `data-compose-ok`, исходный — `data-compose-start`; разбор
+	   варианта — `data-compose-note` рядом с ним. На экране кусок с тем же
+	   именем (`data-compose-slot`); пустой текст прячет кусок. Без скрипта
+	   экран показывает образцовое сообщение, кнопок выбора нет, разборы всех
+	   вариантов видны. Скрипт ставит исходные варианты, прячет разборы
+	   и открывает разбор выбранного, считает верные части по
+	   `data-compose-count` ({n}, {total}) и открывает `data-compose-done`,
+	   когда верны все. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-compose]' ), function ( box ) {
+		var parts = Array.prototype.slice.call( box.querySelectorAll( '[data-compose-part]' ) );
+		var meta = box.querySelector( '[data-compose-meta]' );
+		var done = box.querySelector( '[data-compose-done]' );
+
+		if ( ! parts.length ) {
+			return;
+		}
+
+		function textOf( input ) {
+			if ( input.hasAttribute( 'data-compose-text' ) ) {
+				return input.getAttribute( 'data-compose-text' );
+			}
+
+			return input.parentNode ? input.parentNode.textContent.replace( /\s+/g, ' ' ).trim() : '';
+		}
+
+		function chosen( part ) {
+			return part.querySelector( 'input:checked' );
+		}
+
+		function update() {
+			var right = 0;
+
+			parts.forEach( function ( part ) {
+				var name = part.getAttribute( 'data-compose-part' );
+				var input = chosen( part );
+				var text = input ? textOf( input ) : '';
+
+				Array.prototype.forEach.call( box.querySelectorAll( '[data-compose-slot="' + name + '"]' ), function ( slot ) {
+					slot.textContent = text;
+					slot.hidden = ! text;
+				} );
+
+				Array.prototype.forEach.call( part.querySelectorAll( 'input' ), function ( one ) {
+					var note = one.closest( '.ds-lesson__compose-opt' );
+
+					note = note ? note.querySelector( '[data-compose-note]' ) : null;
+
+					if ( note ) {
+						note.hidden = one !== input;
+					}
+				} );
+
+				if ( input && input.hasAttribute( 'data-compose-ok' ) ) {
+					right++;
+				}
+			} );
+
+			if ( meta ) {
+				meta.textContent = ( box.getAttribute( 'data-compose-count' ) || '' ).replace( '{n}', right ).replace( '{total}', parts.length );
+				meta.hidden = false;
+			}
+
+			if ( done ) {
+				done.hidden = right < parts.length;
+			}
+		}
+
+		parts.forEach( function ( part ) {
+			var inputs = Array.prototype.slice.call( part.querySelectorAll( 'input[type="radio"]' ) );
+			var start = inputs.filter( function ( one ) {
+				return one.hasAttribute( 'data-compose-start' );
+			} )[ 0 ] || inputs[ 0 ];
+
+			inputs.forEach( function ( one ) {
+				one.checked = one === start;
+				one.addEventListener( 'change', update );
+			} );
+		} );
 
 		box.classList.add( 'is-live' );
 		update();

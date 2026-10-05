@@ -1,0 +1,520 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#four">Четыре пустоты одного экрана</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#actions">Своя кнопка для каждой пустоты</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#fixable">Кто исправит ошибку</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#honest">Сбой у магазина: честно и коротко</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#return">После исправления — туда, куда шёл</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#hunt">Найдите ошибки в пяти экранах</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Приложение «Лесной обжарки», то же, что в уроке <a href="/lessons/errors-empty-states-junior/">Junior</a>. На экране «Мои заказы» разработчик поставил одну заглушку — «Заказов нет» и кнопку «Перейти в каталог», — и она появляется в четырёх разных случаях. В поддержку пишут постоянные покупатели: «Куда пропала история заказов?» Урок разбирает, как развести эти случаи и что писать в ошибках, когда исправить их может не только сам покупатель.</div>
+
+<section id="four">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Четыре пустоты одного экрана</h2></div>
+  <p class="ds-lesson__lead">Пустой список значит разное: заказов ещё не было, их скрыл фильтр, человек не вошёл в аккаунт или список не загрузился. Если текст один, человек сам выбирает, что случилось, — и чаще выбирает худшее.</p>
+
+  <p>В уроке <a href="/lessons/patterns-states-junior/">«Паттерны и состояния», Junior</a> пустых экранов три: ещё ничего нет, ничего не нашлось, всё сделано. На этой ступени к ним добавляются два случая, которые выглядят как пустота, но ею не являются: данные есть, а показать их нельзя — нет доступа или не загрузилось. Для экрана «Мои заказы» важны четыре: ещё нет, не найдено, нет доступа, сломалось.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Мои заказы · одна заглушка и четыре пустоты</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="fo0" hidden>Одна заглушка</button><button class="ds-switch__button" type="button" data-switch-btn="fo1" hidden>Ещё нет</button><button class="ds-switch__button" type="button" data-switch-btn="fo2" hidden>Не найдено</button><button class="ds-switch__button" type="button" data-switch-btn="fo3" hidden>Нет доступа</button><button class="ds-switch__button" type="button" data-switch-btn="fo4" hidden>Сломалось</button></div>
+
+      <div data-switch-pane="fo0"><p class="ds-switch__title">Одна заглушка</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Заказов нет</b><span class="ds-lesson__wf-btn">Перейти в каталог</span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Одна заглушка</b>Так экран выглядит во всех четырёх случаях. Покупатель с тридцатью заказами видит «Заказов нет» и кнопку в каталог — и решает, что история пропала.</div>
+      </div>
+
+      <div data-switch-pane="fo1"><p class="ds-switch__title">Ещё нет</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Здесь будут ваши заказы</b><span class="ds-lesson__wf-dim">После первого заказа здесь появятся состав, чек и статус доставки, а повторить заказ можно будет одним нажатием.</span><span class="ds-lesson__wf-btn">Открыть каталог</span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Ещё нет</b>Заказов правда не было: покупатель новый. Текст говорит, что здесь появится, и даёт первый шаг.</div>
+      </div>
+
+      <div data-switch-pane="fo2"><p class="ds-switch__title">Не найдено</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-chips"><span class="ds-lesson__wf-chip is-on">Отменённые ×</span><span class="ds-lesson__wf-chip is-on">2026 ×</span></span>
+            <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Отменённых заказов в 2026 году нет</b><span class="ds-lesson__wf-dim">Всего за 2026 год — 14 заказов.</span><span class="ds-lesson__wf-btn">Сбросить фильтры</span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Не найдено</b>Заказы есть, их скрыл фильтр. Видно, какой, сколько найдётся без него и как вернуть всё одним нажатием.</div>
+      </div>
+
+      <div data-switch-pane="fo3"><p class="ds-switch__title">Нет доступа</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Войдите, чтобы увидеть заказы</b><span class="ds-lesson__wf-dim">Заказы хранятся в аккаунте, а вход на этом телефоне закончился. История на месте.</span><span class="ds-lesson__wf-btn">Войти</span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Нет доступа</b>Заказы есть, но экран не покажет их, пока покупатель не войдёт. Сказано, что история цела, и что сделать.</div>
+      </div>
+
+      <div data-switch-pane="fo4"><p class="ds-switch__title">Сломалось</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Заказы не загрузились</b><span class="ds-lesson__wf-dim">Сервер магазина не отвечает. История на месте — обновите экран через минуту.</span><span class="ds-lesson__wf-btn">Обновить</span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Сломалось</b>Заказы есть, не сработала загрузка. Покупатель узнаёт, что история цела и что делать. Кнопка «Перейти в каталог» здесь звучала бы как «начните сначала».</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">По тексту каждой панели видно, какая это пустота, — без вопроса в поддержку и без догадок.</div>
+  </div>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Пустота</th><th scope="col">Что получает приложение</th><th scope="col">Что человек должен понять</th><th scope="col">Действие</th></tr></thead>
+      <tbody>
+        <tr><td>Ещё нет</td><td>Пустой список, фильтров и поиска нет</td><td>Заказов не было, и вот как они появятся</td><td>Первый шаг: открыть каталог</td></tr>
+        <tr><td>Не найдено</td><td>Пустой список при включённом фильтре или запросе</td><td>Заказы есть, их скрыл фильтр или запрос</td><td>Сбросить фильтр, поменять запрос</td></tr>
+        <tr><td>Нет доступа</td><td>Ответ «нужен вход» или «нет прав»</td><td>Заказы могут быть, но не для этого входа</td><td>Войти, сменить аккаунт, попросить доступ</td></tr>
+        <tr><td>Сломалось</td><td>Ошибка или ответа нет</td><td>Данные целы, не сработала загрузка</td><td>Повторить, подождать</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Похоже делят пустые экраны и в дизайн-системе IBM Carbon. Там три группы: нет данных — первый вход, данных ещё нет; пусто после действия человека — поиск ничего не нашёл; пусто из-за ошибки — нет прав, сбой системы, что-то не настроено. И для каждой группы свой совет к тексту: для первой — точно сказать, что здесь появится, когда данные будут; для второй — объяснить, почему пусто, и предложить поменять поиск или фильтры; для третьей — сказать, почему данных нет и что человек может сделать или когда они появятся. В Shopify пишут коротко: пустой список и фильтр, под который ничего не подошло, — разные тексты, а заголовок «Товаров нет» без причины оставляет человека гадать. В Контур.Гайдах, на странице «Пустые состояния», видов больше — данных ещё нет, начало настройки, закрытые списки, статусы, ничего не нашлось, — а для пустого поиска советуют короткую строку текста без картинки: картинка отвлекает от поиска. Ближе всего к уроку виды в дизайн-системе сервиса закупок B2B-Center: данных нет до первого действия, нет после действия — поиск ничего не нашёл, — нет из-за ограничений прав или оплаты и нет, потому что работа закончена. Для ограничений там образец «Недостаточно прав» с кнопкой «Запросить права».</p>
+
+  <p>Развести пустоты может только экран, который знает причину. Для разработчика это четыре разных ответа: пустой список, пустой список с фильтром, отказ без входа и ошибка. Если код сводит их в один пустой список, дизайнеру не из чего писать четыре текста. Поэтому в описании экрана для разработки — как его составлять, разобрано в уроке <a href="/lessons/patterns-states-middle/">«Паттерны и состояния», Middle</a> — пишут четыре состояния пустоты, а не одно «пусто».</p>
+
+  <p>Иногда «нет доступа» нарочно показывают как «не найдено». Протокол HTTP это разрешает: по RFC 9110 сервер, который хочет скрыть само существование закрытой страницы, может ответить «не найдено» вместо «доступ запрещён». Так поступает API GitHub — пример есть в уроке про состояния. Для покупателя то же самое: если он открыл по пересланной ссылке чужой заказ, экран говорит «Заказ не найден», а не «Это заказ Анны, у вас нет доступа».</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какая это пустота<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="yet"><p class="ds-quiz__question">Новый покупатель открыл «Подписки». Подписок он ещё не оформлял.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ещё нет</b>Сказать, что такое подписка и что здесь появится, и дать первый шаг: «Оформить подписку».</p></li>
+<li data-quiz-q data-answer="found"><p class="ds-quiz__question">В «Моих заказах» включён фильтр «Отменённые», а отменённых заказов не было.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не найдено</b>Заказы есть, их скрыл фильтр. Назвать фильтр и дать «Сбросить фильтры».</p></li>
+<li data-quiz-q data-answer="access"><p class="ds-quiz__question">Покупатель открыл из письма ссылку «Оставить отзыв», а вход на этом компьютере закончился.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нет доступа</b>Отзыв написать можно, но после входа. Кнопка «Войти», и после входа — сразу форма отзыва.</p></li>
+<li data-quiz-q data-answer="broken"><p class="ds-quiz__question">Список адресов не загрузился: сервер не ответил за 30 секунд.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сломалось</b>Адреса целы, не сработала загрузка. «Адреса не загрузились» и «Повторить».</p></li>
+<li data-quiz-q data-answer="found"><p class="ds-quiz__question">Покупатель ищет в истории заказов «колумбия», а Колумбию он ни разу не заказывал.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не найдено</b>Повторить запрос: «Колумбию вы не заказывали» — и предложить открыть сорт в каталоге.</p></li>
+<li data-quiz-q data-answer="access"><p class="ds-quiz__question">Сотрудник офиса открыл счета компании, которые видит только администратор аккаунта.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Нет доступа</b>Счета есть, но не для этой роли. «Счета видит администратор аккаунта» и «Попросить доступ».</p></li>
+<li data-quiz-q data-answer="yet"><p class="ds-quiz__question">В «Истории бонусов» пусто: покупатель ещё ничего не купил.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Ещё нет</b>Сказать, за что начисляют бонусы и когда здесь появится первая строка.</p></li>
+<li data-quiz-q data-answer="broken"><p class="ds-quiz__question">Приложение открыли без связи, и «Избранное» не загрузилось: в телефоне его копии нет.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сломалось</b>Не загрузилось из-за связи. «Нет связи — избранное появится, когда она вернётся».</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="yet">Ещё нет</button><button class="ds-quiz__option" type="button" data-quiz-answer="found">Не найдено</button><button class="ds-quiz__option" type="button" data-quiz-answer="access">Нет доступа</button><button class="ds-quiz__option" type="button" data-quiz-answer="broken">Сломалось</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Вопрос для проверки: данные есть или их правда нет? Если есть — это не «ещё нет», а одна из трёх других пустот.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>У каждой пустоты свой текст.</b> Ещё нет, не найдено, нет доступа, сломалось — четыре разных сообщения. По тексту должно быть видно, какая пустота случилась, без вопроса в поддержку.</div>
+</section>
+
+<section id="actions">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Своя кнопка для каждой пустоты</h2></div>
+  <p class="ds-lesson__lead">Пустоту выдаёт не только текст, но и кнопка. Кнопка от чужой пустоты ведёт не туда, даже если текст написан верно.</p>
+
+  <p>Чаще всего ошибаются, перенося на все пустоты кнопку первого случая. «Перейти в каталог» уместна, когда заказов ещё не было. В остальных трёх случаях она предлагает начать с нуля человеку, у которого всё уже есть.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Пустота</th><th scope="col">Чужая кнопка</th><th scope="col">Почему не годится</th><th scope="col">Своя кнопка</th></tr></thead>
+      <tbody>
+        <tr><td>Не найдено</td><td>«Перейти в каталог»</td><td>Заказы есть, мешает фильтр. Каталог тут ни при чём</td><td>«Сбросить фильтры»</td></tr>
+        <tr><td>Нет доступа</td><td>«Повторить»</td><td>Без входа ответ будет тем же, сколько раз ни повторять</td><td>«Войти»</td></tr>
+        <tr><td>Сломалось</td><td>«Перейти в каталог»</td><td>Постоянному покупателю предлагают начать сначала, а его история будто пропала</td><td>«Обновить»</td></tr>
+        <tr><td>Ещё нет</td><td>«Обновить»</td><td>Обновлять нечего: заказов не было</td><td>«Открыть каталог» или никакой</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Не все руководства дают кнопку и пустому поиску. В дизайн-системе GitLab Pajamas пустой поиск обходится без неё: заголовок «No results found» и строка «Edit your search and try again» — одинаково для поиска и фильтров. Урок советует кнопку «Сбросить фильтры»: она возвращает всё одним нажатием, а не отправляет искать, что именно мешает.</p>
+
+  <p>Текст каждой пустоты собирается из трёх частей, и для каждой пустоты части свои.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Пустота</th><th scope="col">Заголовок</th><th scope="col">Текст</th><th scope="col">Действие</th></tr></thead>
+      <tbody>
+        <tr><td>Ещё нет</td><td>Что здесь будет</td><td>Как сюда попадают и зачем это</td><td>Первый шаг — или никакого, если отсюда его не сделать</td></tr>
+        <tr><td>Не найдено</td><td>Что искали — словами запроса или фильтра</td><td>Что мешает и сколько найдётся без помехи</td><td>Снять фильтр, исправить запрос, похожее</td></tr>
+        <tr><td>Нет доступа</td><td>Почему не видно</td><td>Что цело и кто видит</td><td>Войти, сменить аккаунт, попросить доступ</td></tr>
+        <tr><td>Сломалось</td><td>Что не загрузилось</td><td>Что цело и когда попробовать снова</td><td>Повторить</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Действия у пустоты «ещё нет» может и не быть. В уроке про таблицы так выглядит раздел возвратов: возврат нельзя создать из списка, он приходит из заказа, поэтому кнопки нет, и это честно. Кнопка, которая ничего полезного не делает, хуже её отсутствия. Илья Бирман в «Советах» Бюро Горбунова разбирал экран «Актов пока нет. Появятся в конце месяца» с кнопкой «На главную» и предлагал её убрать: содержание экрана не должно менять навигацию. А если акты не загрузились из-за сбоя, уместна «Обновить».</p>
+
+  <div class="ds-lesson__rule"><b>Кнопка — от той же пустоты, что и текст.</b> «Перейти в каталог» — только для «ещё нет». Не найдено — сбросить, нет доступа — войти, сломалось — повторить.</div>
+
+  <p class="ds-lesson__dim">Пятая пустота из урока про состояния — «всё сделано»: новых уведомлений нет, все заказы собраны. Она хорошая, и кнопка у неё необязательна: можно подсказать следующее дело, а если его нет — просто сказать, что всё готово. В руководстве Atlassian словом empty state называют как раз такой экран, а первый вход — blank slate. На экране «Мои заказы» этой пустоты не бывает, поэтому в уроке её нет.</p>
+</section>
+
+<section id="fixable">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Кто исправит ошибку</h2></div>
+  <p class="ds-lesson__lead">Перед текстом ошибки стоит вопрос: кто её исправит. От ответа зависит, что писать — задание человеку или новость о том, что происходит.</p>
+
+  <p>В уроке Junior ошибки делились на ошибки ввода и ошибки системы. На этой ступени точнее спрашивать, кто может исправить, — вариантов три.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Кто исправит</th><th scope="col">Пример</th><th scope="col">Что писать</th><th scope="col">Чего не писать</th></tr></thead>
+      <tbody>
+        <tr><td>Сам человек</td><td>Срок карты закончился в сентябре</td><td>Что именно поменять: «Срок карты ••&nbsp;4417 закончился. Добавьте другую карту»</td><td>Общее «Проверьте данные»: человек будет проверять всё подряд</td></tr>
+        <tr><td>Никто прямо сейчас</td><td>Сервер магазина не отвечает</td><td>Что не работает, что цело и когда вернуться: «Оформление заказов не работает. Корзина сохранена, попробуйте через 10 минут»</td><td>Задания, которые не помогут: «Проверьте подключение к интернету», когда упал сервер магазина</td></tr>
+        <tr><td>Кто-то другой</td><td>Банк отклонил оплату без объяснений</td><td>Кто может помочь и как до него добраться: «Узнать причину можно в банке — номер есть на обороте карты»</td><td>Догадки за другого: «Возможно, у вас недостаточно средств»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Самая вредная ошибка в этих текстах — задание, которое не поможет. «Проверьте подключение к интернету», когда интернет в порядке, а не отвечает сервер магазина, отправляет человека перезагружать роутер. Он потратит время, ничего не исправит и решит, что виноват сам.</p>
+
+  <p>Платёжные сервисы раскладывают отказы банка так же. В документации Stripe у каждого кода отказа есть следующий шаг: не хватило денег на карте — оплатить другим способом, банк отказал без объяснения — обратиться в банк, выпустивший карту. А о части причин покупателю не говорят вовсе: если банк заподозрил мошенничество или карта числится потерянной или украденной, Stripe советует показывать отказ так же, как общий, без подробностей. Причина нужна банку и магазину, а не тому, кто, возможно, держит в руках чужую карту.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · кто исправит<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="self"><p class="ds-quiz__question">Промокод введён с опечаткой: OSNE10 вместо OSEN10.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сам человек</b>Исправит в том же поле. «Промокода OSNE10 нет — проверьте, нет ли опечатки».</p></li>
+<li data-quiz-q data-answer="nobody"><p class="ds-quiz__question">Сервер магазина не ответил, когда покупатель сохранял новый адрес.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Никто прямо сейчас</b>Сказать, что адрес не сохранился, что введённое на месте, и дать «Сохранить ещё раз».</p></li>
+<li data-quiz-q data-answer="other"><p class="ds-quiz__question">Банк отклонил оплату и не сообщил причину.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Кто-то другой</b>Причину знает банк. Сказать, что деньги не списаны, предложить другую карту и подсказать, где узнать причину.</p></li>
+<li data-quiz-q data-answer="self"><p class="ds-quiz__question">Срок карты для подписки закончился в сентябре.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сам человек</b>Добавит новую карту. Сказать, какая карта и до какого числа это сделать, чтобы доставка не сорвалась.</p></li>
+<li data-quiz-q data-answer="self"><p class="ds-quiz__question">В корзине 12 пачек одного сорта, а в одни руки продают до 10.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Сам человек</b>Уберёт две пачки. «Одного сорта — до 10 пачек в заказе».</p></li>
+<li data-quiz-q data-answer="other"><p class="ds-quiz__question">Сотрудник хочет оплатить заказ офиса, а оплачивает только администратор аккаунта.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Кто-то другой</b>Назвать, кто платит, и дать действие, доступное сотруднику: «Отправить на оплату».</p></li>
+<li data-quiz-q data-answer="nobody"><p class="ds-quiz__question">Склад закрыт на инвентаризацию, заказы начнут собирать в понедельник.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Никто прямо сейчас</b>Заказать можно, приедет позже. Сказать дату, когда начнут собирать, — без «попробуйте позже».</p></li>
+<li data-quiz-q data-answer="other"><p class="ds-quiz__question">Пункт выдачи закрылся, а заказ уже едет туда.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Кто-то другой</b>Перенаправить заказ может только магазин. Сказать, что магазин уже делает, и как выбрать другой пункт.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="self">Сам человек</button><button class="ds-quiz__option" type="button" data-quiz-answer="nobody">Никто прямо сейчас</button><button class="ds-quiz__option" type="button" data-quiz-answer="other">Кто-то другой</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">«Кто-то другой» — это и сам магазин: поддержка, склад, курьер. Тогда текст говорит, что магазин делает, а не что делать покупателю.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Сначала решите, кто исправит, потом пишите.</b> Сам — что именно поменять. Никто прямо сейчас — что цело и когда вернуться. Кто-то другой — кто и как до него добраться.</div>
+</section>
+
+<section id="honest">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Сбой у магазина: честно и коротко</h2></div>
+  <p class="ds-lesson__lead">Когда сломалось у магазина, человеку нужны три вещи: что не работает, что с его заказом и когда заработает. Извинения на три строки отодвигают эти три вещи вниз.</p>
+
+  <p>Сообщение о сбое часто пишут так, будто его будут читать в суде: «технические неполадки», «доставленные неудобства», «специалисты делают всё возможное». Ни одно из этих слов не отвечает ни на один вопрос покупателя. Попробуйте найти в таком тексте то, что ему нужно, и вычеркнуть остальное.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Тренажёр · вычеркните лишнее</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__strike" data-strike data-strike-count="Лишнего вычеркнуто: {n} из {total}" data-strike-show="Показать лишнее">
+        <p class="ds-lesson__strike-where">Плашка над каталогом во время сбоя</p>
+        <p class="ds-lesson__strike-text" data-strike-text><span data-strike-w="cut">Уважаемый покупатель!</span> <span data-strike-w="keep" data-strike-loss="Пропало единственное извинение. Сломалось у магазина — один раз извиниться нужно.">Извините,</span> <span data-strike-w="cut">по техническим причинам</span> <span data-strike-w="keep" data-strike-loss="Пропало, что именно не работает.">оформление новых заказов</span> <span data-strike-w="cut">временно</span> <span data-strike-w="keep" data-strike-loss="Пропало, что с оформлением: работает оно или нет.">недоступно.</span> <span data-strike-w="cut">Наши специалисты уже делают всё возможное для скорейшего устранения неполадок.</span> <span data-strike-w="keep" data-strike-loss="Пропало главное для тех, кто уже заказал: что с их заказами.">Уже оформленные заказы приедут в срок.</span> <span data-strike-w="keep" data-strike-loss="Пропало, когда можно будет заказать снова.">Оформить новый можно будет после 15:00.</span> <span data-strike-w="cut">Ещё раз приносим извинения за доставленные неудобства и благодарим за понимание!</span></p>
+        <p class="ds-lesson__strike-left"><b>Осталось</b><span data-strike-out>Извините, оформление новых заказов недоступно. Уже оформленные заказы приедут в срок. Оформить новый можно будет после 15:00.</span></p>
+        <p class="ds-lesson__strike-meta" data-strike-meta hidden></p>
+        <p class="ds-lesson__strike-note" data-strike-note aria-live="polite" hidden></p>
+        <p class="ds-lesson__strike-done" data-strike-done hidden>Из сорока семи слов осталось шестнадцать: одно извинение и три ответа — что не работает, что с заказами и когда заработает.</p>
+        <p class="ds-lesson__strike-actions" data-strike-actions hidden></p>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">«Временно» вычёркивается не потому, что сбой вечный: срок «после 15:00» говорит это точнее.</div>
+  </div>
+
+  <p>Короткое сообщение не значит уклончивое. «Произошла ошибка» и «возникли неполадки» — фразы без того, кто ошибся: читатель не понимает, сломалось у него или у магазина. Если сломалось у магазина, так и пишут: «у нас сбой», «сервер магазина не отвечает». Правило для извинений — одно, по делу и от первого лица — разобрано в уроке <a href="/lessons/ui-copy-senior/">«Формулировки интерфейса», Senior</a>; здесь важно, что извинение не заменяет сведений.</p>
+
+  <p>В GOV.UK Design System страница сбоя так и устроена. Заголовок — «Sorry, there is a problem with the service», «Извините, у сервиса проблема»: одно извинение, и оно же заголовок. Дальше — «попробуйте позже», что стало с введёнными ответами («Мы сохранили ваши ответы, они будут доступны 30 дней» или «не сохранили — придётся начать заново»), контакты, если они помогут, и другой сервис, через который можно сделать то же самое. Избегать велено кодов вроде 500 и фразы «We are experiencing technical difficulties» — «у нас технические трудности». Страницу проверяли на пяти пользователях: им нужно было знать, когда сервис заработает и как сделать то, ради чего открыли сервис. Первого GOV.UK сказать не может — причина сбоя неизвестна, — поэтому на странице контакты и другой сервис для того же дела. На странице «страница не найдена» у GOV.UK извинения нет: адрес мог набрать с ошибкой сам человек. Microsoft в руководстве по стилю пишет так же — извиняться за то, что сломалось в продукте, а за битую ссылку или ожидание связи не извиняться и просто сказать, что случилось.</p>
+
+  <div class="ds-lesson__rule"><b>Сломалось у магазина — так и сказать.</b> Одно извинение и три ответа: что не работает, что с заказом и данными, когда заработает. Если срок неизвестен — что делаем, где следить и как сделать то же другим путём, если он есть.</div>
+</section>
+
+<section id="return">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>После исправления — туда, куда шёл</h2></div>
+  <p class="ds-lesson__lead">Ошибку исправили — человек должен оказаться там, где был, с тем, что успел сделать. Иначе исправление стоит ему второго захода.</p>
+
+  <p>Самый частый тупик — страница «не найдено» с одной кнопкой «На главную». Покупатель пришёл по ссылке из старой рассылки на сорт «Кения АА». Сорт обжаривают снова, но страница переехала.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Старая ссылка на сорт · тупик и путь к делу</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="rt1" hidden>Тупик</button><button class="ds-switch__button" type="button" data-switch-btn="rt2" hidden>Путь к делу</button></div>
+
+      <div data-switch-pane="rt1"><p class="ds-switch__title">Тупик</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">lesobzharka.ru/sort/kenia-aa-2025</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Страница не найдена</b><span class="ds-lesson__wf-btn">На главную</span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Тупик</b>Человек шёл к сорту. Кнопка ведёт в начало сайта, и путь к «Кении» он ищет заново — или уходит.</div>
+      </div>
+
+      <div data-switch-pane="rt2"><p class="ds-switch__title">Путь к делу</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">lesobzharka.ru/sort/kenia-aa-2025</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Такой страницы нет</b><span class="ds-lesson__wf-dim">Если адрес набирали вручную, проверьте его. Если открыли по ссылке — страница могла переехать. Вот что нашлось по словам из адреса:</span></div>
+            <span class="ds-lesson__wf-field">кения аа</span>
+            <span class="ds-lesson__wf-item"><span class="ds-lesson__wf-meta">Кения АА, урожай 2026, 250&nbsp;г</span><span class="ds-lesson__wf-price">1&nbsp;090&nbsp;₽</span></span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Путь к делу</b>Сказано, что страницы нет и почему так бывает. Поиск уже заполнен словами из адреса, и нужный сорт — в одном нажатии.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Лучше всего, конечно, чтобы старая ссылка сама вела на новую страницу. Текст «не найдено» — для тех адресов, которые перенаправить нельзя.</div>
+  </div>
+
+  <p>Для страницы «не найдено» в GOV.UK Design System есть готовый образец: заголовок «Page not found», затем «если набирали адрес, проверьте, что он верный», «если вставляли адрес, проверьте, что скопировали его целиком» и куда обратиться, если адрес верный. Без кода 404, без шуток вроде «oops» и без упрёка. Контур в своих правилах прямо запрещает при ошибке 404 автоматически уводить человека на главную. Причину ещё в 2012 году называл Илья Бирман: адрес в строке должен остаться таким, каким его ввёл человек, чтобы он мог исправить опечатку, а не набирать всё заново. Шутки на этой странице Бирман, в отличие от GOV.UK, допускает.</p>
+
+  <p>Тот же вопрос — куда человек шёл — задают после любой ошибки, которую он исправил.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ошибка</th><th scope="col">Куда шёл</th><th scope="col">Куда ведёт исправление</th><th scope="col">Кнопка</th></tr></thead>
+      <tbody>
+        <tr><td>Вход закончился, когда покупатель открыл заказ из письма</td><td>К заказу № 1051</td><td>После входа — сразу заказ № 1051, а не главная</td><td>«Войти и открыть заказ»</td></tr>
+        <tr><td>Вход закончился, пока покупатель писал отзыв</td><td>К отправке отзыва</td><td>После входа — тот же отзыв с текстом</td><td>«Войти и отправить отзыв»</td></tr>
+        <tr><td>Банк не подтвердил оплату</td><td>К оплате корзины</td><td>После новой карты — оплата той же корзины</td><td>«Оплатить другой картой»</td></tr>
+        <tr><td>Пусто из-за фильтра «Молотый»</td><td>К товарам по запросу</td><td>Фильтр снят, запрос остался</td><td>«Сбросить фильтр «Молотый»»</td></tr>
+        <tr><td>Старая ссылка на сорт</td><td>К сорту</td><td>Поиск по словам из адреса</td><td>Сам сорт в выдаче</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Для входа это записано и в WCAG 2.2: по критерию 2.2.5 «Повторный вход», уровень AAA, после того как вход закончился и человек вошёл снова, он продолжает начатое без потери данных. Для интернет-магазинов это правило проверяли в Baymard Institute: после входа человека возвращают туда, где он был, если он сам не выбрал другую цель — нажал «Отследить заказ», значит, ведут к отслеживанию. По их замеру 2019 года, 34&nbsp;% сайтов этого не делали. То же правило в GOV.UK Design System, в паттерне проверки ответов: человек поменял ответ — кнопка «Продолжить» возвращает его на страницу проверки, и анкету заново он не проходит.</p>
+
+  <div class="ds-lesson__rule"><b>Исправление возвращает к делу.</b> После входа, новой карты или снятого фильтра человек там, где был, и с тем, что успел сделать. Куда вернёт, видно из заголовка и кнопки: на экране заказов хватит «Войти», а со ссылки из письма — «Войти и открыть заказ». Только не «На главную».</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите ошибки в пяти экранах</h2></div>
+  <p class="ds-lesson__lead">Пять экранов приложения в пяти разных ситуациях — что случилось, написано над каждым. Пять мест в них путают пустоты, дают не то действие или прячут сведения за словами.</p>
+
+  <p>Нажимайте на тексты и кнопки, которые вы бы переписали. Нормальные тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Пять ситуаций · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Включён фильтр «Отменённые»</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Мои заказы</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Фильтр «Отменённые ×»"><span class="ds-lesson__wf-chip is-on">Отменённые ×</span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Заглушка «Заказов нет» и кнопка «Перейти в каталог»"><span class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Заказов нет</b><span class="ds-lesson__wf-btn">Перейти в каталог</span></span></span>
+              </div>
+            </div>
+            <p class="ds-lesson__wf-caption">Сервер магазина не ответил</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Подписка на кофе</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Сообщение «Проверьте подключение к интернету…»"><span class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Подписка не загрузилась</b><span class="ds-lesson__wf-dim">Проверьте подключение к интернету и повторите попытку.</span></span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Кнопка «Обновить»"><span class="ds-lesson__wf-btn">Обновить</span></span>
+              </div>
+            </div>
+            <p class="ds-lesson__wf-caption">Сбой у магазина: заказы не оформляются</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Каталог</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Плашка с извинениями"><span class="ds-lesson__st-banner">Уважаемые покупатели! Приносим искренние извинения за доставленные неудобства. Наши специалисты делают всё возможное. Благодарим за понимание!</span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Карточка сорта «Кения АА»"><span class="ds-lesson__wf-item"><span class="ds-lesson__wf-meta">Кения АА, 250&nbsp;г</span><span class="ds-lesson__wf-price">1&nbsp;090&nbsp;₽</span></span></span>
+              </div>
+            </div>
+          </div>
+          <div class="ds-lesson__wf-col">
+            <p class="ds-lesson__wf-caption">Старая ссылка на сорт из рассылки</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-title">Страница не найдена</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Текст «Такой страницы нет…»"><span class="ds-lesson__st-empty"><b class="ds-lesson__wf-label">Такой страницы нет</b><span class="ds-lesson__wf-dim">Если адрес набирали вручную, проверьте его. Если открыли по ссылке — страница могла переехать.</span></span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Кнопка «На главную»"><span class="ds-lesson__wf-btn">На главную</span></span>
+              </div>
+            </div>
+            <p class="ds-lesson__wf-caption">Банк отклонил оплату</p>
+            <div class="ds-lesson__wf">
+              <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Оплата</span></div>
+              <div class="ds-lesson__wf-body">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Сообщение «Банк не подтвердил оплату…»"><span class="ds-lesson__st-alert"><b>Банк не подтвердил оплату</b><span>Деньги не списаны, заказ сохранён.</span></span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Кнопка «Попробовать ещё раз»"><span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Попробовать ещё раз</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Фильтр «Отменённые ×».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Видно, что фильтр включён, и его можно снять крестиком.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Заказов нет» и «Перейти в каталог» при включённом фильтре.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Это «не найдено», а выглядит как «ещё нет». Лучше: «Отменённых заказов нет. Всего заказов — 14» и «Сбросить фильтр».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Проверьте подключение к интернету» при сбое сервера.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Задание, которое не поможет: интернет в порядке. Лучше: «Сервер магазина не отвечает. Подписка на месте — обновите экран через минуту».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Обновить».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Для пустоты «сломалось» повторить загрузку — то самое действие.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Плашка с извинениями над каталогом.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Три строки, и ни одного ответа: что не работает, что с заказами, когда заработает. Лучше: «Извините, оформление заказов не работает до 15:00. Уже оформленные приедут в срок».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Карточка сорта «Кения АА».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Каталог работает: смотреть сорта можно и во время сбоя оформления.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Текст «Такой страницы нет…».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Без кода и без упрёка, и сказано, почему так бывает.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «На главную» на странице «не найдено».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Тупик: человек шёл к сорту, а его отправляют в начало. Лучше поиск по словам из адреса — «кения аа» — с найденным сортом.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">«Банк не подтвердил оплату. Деньги не списаны, заказ сохранён».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Кто отказал, что с деньгами и заказом.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «Попробовать ещё раз» после отказа банка.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Та же карта, скорее всего, получит тот же отказ: исправить его может банк, а не повтор. Лучше: «Оплатить другой картой» и в тексте — где узнать причину.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой текст или кнопку</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Пустота от фильтра под видом «ещё нет», задание, которое не поможет, тупик «На главную», повтор там, где поможет только банк, и извинения вместо сведений.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные тексты тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Проверяйте экран во всех его пустотах и ошибках.</b> Для каждого экрана — пять картинок: с данными, ещё нет, не найдено, нет доступа, сломалось. Чего нет в макете, разработчик допишет сам.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Найдите в своём продукте экран, где все четыре пустоты выглядят одинаково, и разведите их: свой текст и своё действие для каждой.</p>
+
+  <h3>Часть 1 · Найти экран, 15 минут</h3>
+  <ol>
+    <li><strong>Выберите список,</strong> который бывает пустым по разным причинам: заказы, документы, сообщения, проекты. Если своего продукта нет, возьмите «Мои заказы» из этого урока.</li>
+    <li><strong>Вызовите каждую пустоту:</strong> новый аккаунт, фильтр, под который ничего нет, выход из аккаунта или чужая роль, выключенный интернет.</li>
+    <li><strong>Снимите экран в каждой</strong> и положите снимки рядом. Если два снимка одинаковые — это и есть работа.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Четыре пустоты экрана<span class="ds-lesson__spacer"></span><span data-copy="emptyTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="emptyTmpl">ЭКРАН: ______________________        Дата: __.__.____
+СЕЙЧАС ВО ВСЕХ СЛУЧАЯХ: ______________________
+
+ЕЩЁ НЕТ
+когда бывает: ____________   как приложение это узнаёт: ____________
+заголовок: ____________
+текст: ______________________
+действие: ____________
+
+НЕ НАЙДЕНО
+когда бывает: ____________   как приложение это узнаёт: ____________
+заголовок: ____________
+текст: ______________________
+действие: ____________
+
+НЕТ ДОСТУПА
+когда бывает: ____________   как приложение это узнаёт: ____________
+заголовок: ____________
+текст: ______________________
+действие: ____________   куда ведёт после: ____________
+
+СЛОМАЛОСЬ
+когда бывает: ____________   как приложение это узнаёт: ____________
+заголовок: ____________
+текст: ______________________
+действие: ____________
+
+ВОПРОСЫ К РАЗРАБОТКЕ: ______________________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строка «как приложение это узнаёт» — вопрос к разработке. Если ответ «никак», экрану не из чего выбрать текст, и сначала надо договориться об этом.</div>
+  </div>
+
+  <h3>Часть 2 · Написать, 30 минут</h3>
+  <ol>
+    <li><strong>Для каждой пустоты</strong> — заголовок, текст и действие по таблице из раздела 2.</li>
+    <li><strong>Для «нет доступа»</strong> — куда человек попадёт после входа или запроса доступа. Ответ «на главную» не годится.</li>
+    <li><strong>Для «сломалось»</strong> — что цело и когда попробовать снова.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 15 минут</h3>
+  <ol>
+    <li><strong>Покажите четыре экрана коллеге вперемешку</strong> и попросите назвать, что случилось на каждом. Ошибся — перепишите заголовок.</li>
+    <li><strong>Отдайте шаблон разработчику</strong> и проверьте, что каждая пустота у него — отдельный случай в коде.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> По тексту пустого экрана видно, какая именно это пустота, без залезания в код.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Четыре снимка «было»</strong> и четыре макета «стало».</li>
+    <li><strong>Заполненный шаблон</strong> с вопросами к разработке.</li>
+    <li><strong>Ответ коллеги,</strong> который угадал каждую пустоту по тексту.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут найти, 30 — написать, 15 — проверить. Около часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Приложение не отличает пустой список от ошибки».</strong> Это задача для разработки, а не для текста. Принесите шаблон: в нём видно, какие четыре ответа нужны экрану.</li>
+    <li><strong>«Нет доступа нельзя показывать — выдадим лишнее».</strong> Тогда это «не найдено», как в разделе 1. Но только там, где за закрытым правда чужое: свои заказы после конца входа прятать незачем.</li>
+    <li><strong>«Не знаем, когда починят».</strong> Не обещайте срок. Скажите, что цело, и где появится новость, когда заработает.</li>
+    <li><strong>«На „ещё нет“ нечего предложить».</strong> Так бывает. Тогда текст объясняет, откуда здесь появятся данные, а кнопки нет.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки ступени</h2></div>
+
+  <h3>Пустоты и ошибки готовы, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>У экрана четыре разных пустоты: ещё нет, не найдено, нет доступа, сломалось</li>
+    <li>По заголовку пустоты видно, какая она, без остального текста</li>
+    <li>Кнопка — от той же пустоты: каталог только для «ещё нет»</li>
+    <li>Для каждой ошибки решено, кто её исправит, и текст написан под это</li>
+    <li>Нет заданий, которые не помогут: о связи пишут, только когда её правда нет</li>
+    <li>Сбой у магазина назван прямо, извинение одно, есть что с заказом и когда заработает</li>
+    <li>После входа, новой карты или снятого фильтра человек возвращается туда, куда шёл</li>
+    <li>Страница «не найдено» ведёт к делу, а не только на главную</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Одна заглушка на все пустоты.</b> Постоянный покупатель решает, что история пропала.</li>
+    <li><b>«Перейти в каталог» при сбое.</b> Предлагает начать с нуля тому, у кого всё есть.</li>
+    <li><b>«Проверьте подключение» при упавшем сервере.</b> Человек чинит то, что не сломано.</li>
+    <li><b>Три строки извинений.</b> Сведения уезжают вниз или пропадают совсем.</li>
+    <li><b>«На главную» после ошибки.</b> Всё, что человек успел сделать, — заново.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На этой ступени учимся разводить четыре пустоты и писать ошибки под того, кто их исправит. На следующей — собирать сообщения всего продукта в общие правила, чтобы одинаковые ситуации везде объяснялись одинаково.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Говорить, что случилось, словами человека; давать следующий шаг и кнопку; не винить; не писать общую фразу, когда причина известна; отличать пустой экран новичка от пустого поиска</td>
+          <td class="ds-lesson__dim">В каждом сообщении есть ответ на вопрос «и что мне теперь делать»</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Разводить четыре пустоты: ещё нет, не найдено, нет доступа, сломалось; писать текст и действие для каждой; отличать исправимую ошибку от неисправимой; говорить про сбой честно и коротко; возвращать человека туда, куда он шёл</td>
+          <td>По тексту пустого экрана видно, какая именно это пустота</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Собирать сообщения продукта в один список; сводить одинаковые ситуации к одной формулировке; держать схему сообщения; договариваться с разработкой, где живут тексты; проверять новые сообщения до выката</td>
+          <td class="ds-lesson__dim">Новое сообщение написано разработкой по схеме и не потребовало правки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> для любого списка своего продукта вы можете показать четыре его пустоты и сказать, чем они отличаются.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://atlassian.design/foundations/content/designing-messages/empty-state">Empty state</a></span><span class="ds-lesson__reads-meta">Atlassian Design System · на английском · бесплатно</span><span>Памятка Atlassian на английском о тексте пустого экрана: заголовок, одна-две фразы с причиной и следующим шагом, кнопка в одно-два слова. Empty state здесь — экран после законченной работы, первый вход называют blank slate; о пустом поиске, доступе и сбоях на странице ни слова.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20260210/">Кнопка-заглушка</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2026 · на русском · бесплатно</span><span>Илья Бирман сравнивает два экрана: «Актов пока нет» с кнопкой «На главную» и «Объявление не найдено» с кнопкой «Перейти к поиску». Кнопку определяет сценарий: в пустом разделе она лишняя, на месте пропавшего объявления помогает делу, а если акты не загрузились, уместно «Обновить».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://cds.b2b-center.ru/patterns/empty-states">Пустые состояния</a></span><span class="ds-lesson__reads-meta">Central Design System, B2B-Center · на русском · бесплатно</span><span>Шаблон пустых состояний дизайн-системы B2B-Center: из чего состоит экран, когда нужны кнопка и картинка, и таблица четырёх видов пустоты — до первого действия, после поиска, из-за ограничений прав или оплаты и после завершённой работы — с примерами из сервиса закупок.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20121106/">Зачем рядовому пользователю знать код ошибки 404?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2012 · на русском · бесплатно</span><span>Короткий ответ Ильи Бирмана, нужен ли на странице «не найдено» код 404: можно обойтись и без него, а вот уводить человека на главную автоматически нельзя — адрес должен остаться, чтобы исправить в нём опечатку. Автор допускает на этой странице шутки и крупные цифры 404, урок — нет. Ответ 2012 года.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/patterns/problem-with-the-service-pages/">There is a problem with the service pages</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Образец страницы сбоя из дизайн-системы правительства Великобритании, на английском: заголовок с извинением, «попробуйте позже», что стало с введёнными ответами, контакты и другой сервис для того же дела, а ещё чего не писать — кодов 500 и «технических трудностей». В конце — что показала проверка на пяти пользователях.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design.gitlab.com/patterns/empty-states">Empty States</a></span><span class="ds-lesson__reads-meta">GitLab, дизайн-система Pajamas · на английском · бесплатно</span><span>Правила пустых состояний в дизайн-системе GitLab, на английском: четыре вида — нет данных, нужна настройка, функция не входит в тариф, пустой поиск — и для каждого заголовок, текст и кнопка, вплоть до «пригласить коллегу настроить». В отличие от урока, пустой поиск здесь без кнопки и с общим текстом «No results found».</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->
