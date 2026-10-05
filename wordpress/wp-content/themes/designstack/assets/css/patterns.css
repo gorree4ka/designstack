@@ -1504,7 +1504,10 @@ textarea.ds-field__control {
 	min-width: 0;
 }
 
-@media (max-width: 1199px) {
+/* Поле поиска во всю ширину помещается в ряд шапки только от 1440: на 1200–1300 оно накрывало
+   последний пункт меню, на 900 пункт упирался в кнопку (лист P30, D197). До 1440 поиск — значок,
+   как раньше до 1200; граница та же в `assets/js/header.js`. */
+@media (max-width: 1439px) {
 	.ds-header__search-menu > summary {
 		display: inline-flex;
 	}
@@ -11121,4 +11124,152 @@ button.ds-lesson__strike-w.is-lost {
 		grid-template-columns: minmax(0, 1fr);
 		gap: var(--wp--preset--spacing--1);
 	}
+}
+
+/* ---------- страница уроков и ссылки на уроки (D197) ---------- */
+
+/* Страница `/lessons/`: области и навыки — классами карты развития (`ds-map__*`), под навыком
+   строки уроков. Ссылка — полное название урока: по нему поисковик понимает, о чём урок. */
+.ds-lessons {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--8);
+}
+
+.ds-lessons > .ds-page-header__lead {
+	margin: 0;
+}
+
+.ds-lessons__areas ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ds-lessons__area-link {
+	display: inline-flex;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+	font-size: var(--wp--preset--font-size--sm);
+	text-decoration: none;
+}
+
+.ds-lessons__area-link:hover {
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lessons__area-link:focus-visible,
+.ds-lessons__link:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* На карте развития навык и кнопки стоят в ряд от 48em; здесь список уроков всегда под
+   описанием навыка и во всю ширину карточки — длинные названия уроков в ряд не помещаются. */
+.ds-map__item.ds-lessons__item {
+	flex-direction: column;
+	align-items: stretch;
+	gap: var(--wp--preset--spacing--3);
+}
+
+/* Якорь области не прячется под шапкой при переходе по чипу. */
+.ds-lessons .ds-map__area {
+	scroll-margin-top: var(--wp--preset--spacing--16);
+}
+
+.ds-lessons__list {
+	display: grid;
+	gap: var(--wp--preset--spacing--2);
+	margin: 0;
+	padding: var(--wp--preset--spacing--3) 0 0;
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	list-style: none;
+}
+
+.ds-lessons__row {
+	display: grid;
+	grid-template-columns: 6em minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--3);
+	align-items: baseline;
+}
+
+.ds-lessons__step {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+.ds-lessons__link {
+	color: var(--wp--preset--color--text-action);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
+.ds-lessons__link:hover {
+	color: var(--wp--preset--color--text-action-hover);
+}
+
+@media (max-width: 599px) {
+	.ds-lessons__row {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--wp--preset--spacing--1);
+	}
+}
+
+/* Главная: «Новые уроки» — три карточки в ряд от 900, ниже — столбиком. */
+.ds-lessons__cards {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: var(--wp--preset--spacing--6);
+}
+
+@media (min-width: 900px) {
+	.ds-lessons__cards {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.ds-lessons__card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lessons__card-title {
+	margin: 0;
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 500;
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+/* Страница ресурса: «Есть в уроках» под оценкой куратора. */
+.ds-lessons-ref {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	margin-top: var(--wp--preset--spacing--8);
+}
+
+.ds-lessons-ref__sub {
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lessons-ref .ds-lessons__list {
+	padding-top: 0;
+	border-top: 0;
 }

@@ -76,6 +76,10 @@ function designstack_core_description(): string {
 		);
 	}
 
+	if ( is_post_type_archive( 'lesson' ) ) {
+		return designstack_core_trim( designstack_core_lessons_lead() );
+	}
+
 	$term = designstack_core_archive_term();
 
 	if ( $term ) {
@@ -226,6 +230,10 @@ function designstack_core_og_title(): string {
 		return (string) get_the_title();
 	}
 
+	if ( is_post_type_archive( 'lesson' ) ) {
+		return designstack_core_lessons_title();
+	}
+
 	$title = designstack_core_archive_title();
 
 	return '' !== $title ? $title : (string) get_bloginfo( 'name' );
@@ -245,6 +253,10 @@ function designstack_core_current_url(): string {
 		}
 	}
 
+	if ( is_post_type_archive( 'lesson' ) ) {
+		return (string) get_post_type_archive_link( 'lesson' );
+	}
+
 	$term = designstack_core_archive_term();
 
 	if ( $term ) {
@@ -252,6 +264,52 @@ function designstack_core_current_url(): string {
 	}
 
 	return home_url( '/' );
+}
+
+/**
+ * Заголовок страницы уроков: H1, вкладка, превью и крошки.
+ *
+ * @return string
+ */
+function designstack_core_lessons_title(): string {
+	return __( 'Уроки для UX/UI-дизайнера', 'designstack-core' );
+}
+
+/**
+ * Число уроков словами: «54 урока».
+ *
+ * @param int $number Число.
+ * @return string
+ */
+function designstack_core_lessons_count_line( int $number ): string {
+	return sprintf(
+		'%1$d %2$s',
+		$number,
+		designstack_core_plural( $number, array( __( 'урок', 'designstack-core' ), __( 'урока', 'designstack-core' ), __( 'уроков', 'designstack-core' ) ) )
+	);
+}
+
+/**
+ * Вводная строка страницы уроков — она же описание для поиска.
+ *
+ * @return string
+ */
+function designstack_core_lessons_lead(): string {
+	$index   = designstack_core_lessons_index();
+	$lessons = 0;
+
+	foreach ( $index as $steps ) {
+		$lessons += count( $steps );
+	}
+
+	$skills = count( $index );
+
+	return sprintf(
+		/* translators: 1: «54 бесплатных урока», 2: «18 навыкам». */
+		__( '%1$s по %2$s. У каждого навыка три ступени — Junior, Middle и Senior; в каждом уроке тренажёры, задание и чек-лист.', 'designstack-core' ),
+		$lessons . ' ' . designstack_core_plural( $lessons, array( __( 'бесплатный урок', 'designstack-core' ), __( 'бесплатных урока', 'designstack-core' ), __( 'бесплатных уроков', 'designstack-core' ) ) ),
+		$skills . ' ' . designstack_core_plural( $skills, array( __( 'навыку', 'designstack-core' ), __( 'навыкам', 'designstack-core' ), __( 'навыкам', 'designstack-core' ) ) )
+	);
 }
 
 /**
@@ -315,16 +373,25 @@ function designstack_core_title_parts( array $parts ): array {
 	}
 
 	// У урока заголовок страницы длинный и читается как фраза: в выдаче он обрежется
-	// на середине. Во вкладку и в выдачу ставим короткое «навык · ступень», а длинный
-	// заголовок остаётся на самой странице. Проверка — `npx html-validate`, правило long-title.
+	// на середине. Во вкладку и в выдачу ставим короткую форму запроса из поля урока —
+	// «Как писать тексты ошибок и пустых экранов — урок Junior» (D197), а без поля —
+	// «навык · ступень». Длинный заголовок остаётся на самой странице.
+	// Проверка — `npx html-validate`, правило long-title, и `check_lessons.py`, строка «заголовок вкладки».
 	if ( is_singular( 'lesson' ) ) {
 		$id    = get_queried_object_id();
 		$step  = designstack_core_step_label( (string) get_post_meta( $id, 'lesson_step', true ) );
-		$terms = wp_get_post_terms( $id, 'skill' );
+		$short = trim( (string) get_post_meta( $id, 'lesson_seo_title', true ) );
 
-		if ( $step && ! is_wp_error( $terms ) && $terms ) {
-			$parts['title'] = $terms[0]->name . ' · ' . $step;
+		if ( $step && '' !== $short ) {
+			/* translators: 1: короткий заголовок урока, 2: ступень. */
+			$parts['title'] = sprintf( __( '%1$s — урок %2$s', 'designstack-core' ), $short, $step );
+		} elseif ( '' !== designstack_core_lesson_label( $id ) ) {
+			$parts['title'] = designstack_core_lesson_label( $id );
 		}
+	}
+
+	if ( is_post_type_archive( 'lesson' ) ) {
+		$parts['title'] = designstack_core_lessons_title();
 	}
 
 	$what = designstack_core_single_filter_label();
@@ -336,6 +403,21 @@ function designstack_core_title_parts( array $parts ): array {
 	return $parts;
 }
 add_filter( 'document_title_parts', 'designstack_core_title_parts', 20 );
+
+/**
+ * Разделитель в заголовке вкладки — само тире, а не код.
+ *
+ * По умолчанию ядро ставит дефис, а русская локаль в `wptexturize()` превращает его в `&#8212;`:
+ * на экране то же тире, но в разметке семь знаков вместо одного, и проверка длины заголовка
+ * (`html-validate`, правило long-title, 70 знаков) считает заголовок урока длиннее, чем его видит
+ * поиск (D197). Само тире `wptexturize()` не трогает.
+ *
+ * @return string
+ */
+function designstack_core_title_separator(): string {
+	return '—';
+}
+add_filter( 'document_title_separator', 'designstack_core_title_separator' );
 
 /**
  * robots.txt: закрываем служебное и убираем метки из индекса Яндекса.
@@ -426,6 +508,59 @@ function designstack_core_sitemap_provider( $provider, string $name ) {
 	return 'users' === $name ? false : $provider;
 }
 add_filter( 'wp_sitemaps_add_provider', 'designstack_core_sitemap_provider', 10, 2 );
+
+/**
+ * Страница уроков в карте сайта: архивы типов записей ядро туда не кладёт, а это
+ * единственная страница со ссылками на все уроки (D197). Свой поставщик — `wp-sitemap-hubs-1.xml`.
+ *
+ * @return void
+ */
+function designstack_core_sitemap_hubs(): void {
+	if ( ! class_exists( 'WP_Sitemaps_Provider' ) || class_exists( 'DesignStack_Core_Sitemap_Hubs' ) ) {
+		return;
+	}
+
+	// phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound
+	/**
+	 * Разделы сайта, у которых нет своей записи: пока это страница уроков.
+	 */
+	class DesignStack_Core_Sitemap_Hubs extends WP_Sitemaps_Provider {
+		/**
+		 * Имя поставщика.
+		 */
+		public function __construct() {
+			$this->name        = 'hubs';
+			$this->object_type = 'hubs';
+		}
+
+		/**
+		 * Адреса.
+		 *
+		 * @param int    $page_num       Номер страницы карты.
+		 * @param string $object_subtype Подтип (не используется).
+		 * @return array<int, array<string, string>>
+		 */
+		public function get_url_list( $page_num, $object_subtype = '' ) {
+			$link = get_post_type_archive_link( 'lesson' );
+
+			return 1 === (int) $page_num && $link ? array( array( 'loc' => (string) $link ) ) : array();
+		}
+
+		/**
+		 * Число страниц карты.
+		 *
+		 * @param string $object_subtype Подтип (не используется).
+		 * @return int
+		 */
+		public function get_max_num_pages( $object_subtype = '' ) {
+			return 1;
+		}
+	}
+	// phpcs:enable
+
+	wp_register_sitemap_provider( 'hubs', new DesignStack_Core_Sitemap_Hubs() );
+}
+add_action( 'init', 'designstack_core_sitemap_hubs', 20 );
 
 /**
  * Успешная отправка формы: маркер на странице благодарности.

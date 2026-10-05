@@ -45,6 +45,9 @@ function designstack_core_block_names(): array {
 		'sort',
 		'grade-check',
 		'grade-banner',
+		'lessons-index',
+		'lessons-latest',
+		'resource-lessons',
 	);
 }
 

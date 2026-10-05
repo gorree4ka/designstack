@@ -74,6 +74,17 @@ foreach ( $slugs as $slug ) {
 	update_post_meta( $id, 'lesson_step', $parts[2] );
 	wp_set_object_terms( $id, array( (int) $term->term_id ), 'skill' );
 
+	// Короткий заголовок для вкладки и выдачи (D197): поле `seo_title` в том же файле, что название.
+	if ( ! empty( $head['seo_title'] ) ) {
+		update_post_meta( $id, 'lesson_seo_title', (string) $head['seo_title'] );
+	} else {
+		delete_post_meta( $id, 'lesson_seo_title' );
+	}
+
+	// Ресурсы из «Что почитать дальше» пересчитывает сохранение урока; здесь — ещё раз,
+	// уже после того, как у урока появились навык и ступень, и для отчёта.
+	$reads = function_exists( 'designstack_core_lesson_reads_sync' ) ? designstack_core_lesson_reads_sync( (int) $id ) : array();
+
 	echo ( $post ? 'обновлён' : 'создан' ) . ': ' . $slug . ' → #' . $id . ' · '
-		. strlen( get_post_field( 'post_content', $id ) ) . " байт\n";
+		. strlen( get_post_field( 'post_content', $id ) ) . ' байт · ресурсов каталога в списке: ' . count( $reads ) . "\n";
 }

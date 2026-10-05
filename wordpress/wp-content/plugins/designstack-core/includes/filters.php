@@ -434,6 +434,13 @@ function designstack_core_canonical_link(): void {
 		return;
 	}
 
+	// Страница уроков — архив типа записи: у неё одна страница и нет фильтров (D197).
+	if ( is_post_type_archive( 'lesson' ) ) {
+		printf( '<link rel="canonical" href="%s">' . "\n", esc_url( (string) get_post_type_archive_link( 'lesson' ) ) );
+
+		return;
+	}
+
 	if ( ! is_tax( array( 'resource_type', 'topic' ) ) && ! is_category() ) {
 		return;
 	}

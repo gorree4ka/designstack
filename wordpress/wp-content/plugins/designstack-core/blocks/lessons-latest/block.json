@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "designstack/lessons-latest",
+	"title": "Новые уроки",
+	"category": "designstack",
+	"icon": "welcome-learn-more",
+	"description": "Три последних урока и ссылка на страницу всех уроков. Без опубликованных уроков блок не выводится.",
+	"textdomain": "designstack-core",
+	"attributes": {},
+	"supports": {
+		"html": false,
+		"multiple": false
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./editor.js"
+}

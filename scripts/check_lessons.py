@@ -107,6 +107,17 @@ with sync_playwright() as play:
     # от страницы и растягивала её на 54 пикселя — глазом на компьютере не видно.
     phone = browser.new_page(viewport={"width": 375, "height": 800})
 
+    # Страница всех уроков `/lessons/` (D197): на ней ссылка на каждый урок из папки, и только на них.
+    page.goto(args.base.rstrip("/") + "/lessons/")
+    page.wait_for_timeout(300)
+    print("\n=== /lessons/")
+    hub = set(page.evaluate("""() => [...document.querySelectorAll('.ds-lessons__link')]
+        .map(a => new URL(a.href).pathname.replace(/^\\/lessons\\/|\\/$/g, ''))"""))
+    ok = hub == set(LESSONS)
+    print(("  ок  " if ok else "  ПЛОХО ") + "на странице уроков ссылки на все уроки: %d из %d" % (len(hub & set(LESSONS)), len(LESSONS))
+          + ("" if ok else ": нет %s, лишние %s" % (sorted(set(LESSONS) - hub), sorted(hub - set(LESSONS)))))
+    fails += 0 if ok else 1
+
     for slug in LESSONS:
         phone.goto(args.base.rstrip("/") + "/lessons/" + slug + "/")
         phone.wait_for_timeout(250)
@@ -142,6 +153,13 @@ with sync_playwright() as play:
         pins = [int(n) for n in re.findall(r'data-hunt-pin="(\d+)"', body)]
         ok = pins == list(range(len(pins)))
         print(("  ок  " if ok else "  ПЛОХО ") + "метки поиска по порядку" + ("" if ok else ": " + str(pins)))
+        fails += 0 if ok else 1
+
+        # Заголовок вкладки — короткая форма запроса из поля урока, не длиннее 70 знаков с названием
+        # сайта (D197): длинный заголовок урока обрезается в выдаче, а «навык · ступень» так никто не ищет.
+        title = page.title()
+        ok = len(title) <= 70 and " — урок " in title
+        print(("  ок  " if ok else "  ПЛОХО ") + "заголовок вкладки: %d знаков, «%s»" % (len(title), title))
         fails += 0 if ok else 1
 
         # «Что почитать дальше» — список, а не подвал одним абзацем (замечание заказчицы 27.09.2026).

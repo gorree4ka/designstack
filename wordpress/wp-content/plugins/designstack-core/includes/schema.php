@@ -98,6 +98,14 @@ function designstack_core_schema_entity(): array {
 		return designstack_core_schema_article( get_queried_object_id() );
 	}
 
+	if ( is_singular( 'lesson' ) ) {
+		return array( designstack_core_schema_lesson( get_queried_object_id() ) );
+	}
+
+	if ( is_post_type_archive( 'lesson' ) ) {
+		return designstack_core_schema_lessons();
+	}
+
 	if ( is_front_page() || designstack_core_archive_term() ) {
 		return designstack_core_schema_listing();
 	}
@@ -252,6 +260,101 @@ function designstack_core_schema_article( int $id ): array {
 }
 
 /**
+ * Урок: учебная статья по одному навыку на одной ступени (D197).
+ *
+ * Автор — сам сайт, как у статей редакции: уроки писались по-разному, и имя человека
+ * в разметке обещало бы больше, чем записано.
+ *
+ * @param int $id Урок.
+ * @return array<string, mixed>
+ */
+function designstack_core_schema_lesson( int $id ): array {
+	$url   = (string) get_permalink( $id );
+	$home  = home_url( '/' );
+	$step  = designstack_core_step_label( (string) get_post_meta( $id, 'lesson_step', true ) );
+	$terms = wp_get_post_terms( $id, 'skill' );
+
+	$lesson = array(
+		'@type'                => array( 'Article', 'LearningResource' ),
+		'@id'                  => $url . '#lesson',
+		'headline'             => get_the_title( $id ),
+		'description'          => get_the_excerpt( $id ),
+		'datePublished'        => get_the_date( 'c', $id ),
+		'dateModified'         => get_the_modified_date( 'c', $id ),
+		'inLanguage'           => 'ru-RU',
+		'mainEntityOfPage'     => $url,
+		'isAccessibleForFree'  => true,
+		'learningResourceType' => __( 'Урок', 'designstack-core' ),
+		'publisher'            => array( '@id' => $home . '#org' ),
+		'author'               => array( '@id' => $home . '#org' ),
+		'isPartOf'             => array( '@id' => get_post_type_archive_link( 'lesson' ) . '#page' ),
+	);
+
+	if ( $step ) {
+		$lesson['educationalLevel'] = $step;
+	}
+
+	if ( ! is_wp_error( $terms ) && $terms ) {
+		$lesson['about'] = array(
+			'@type' => 'Thing',
+			'name'  => $terms[0]->name,
+		);
+	}
+
+	return $lesson;
+}
+
+/**
+ * Страница уроков: список всех опубликованных уроков.
+ *
+ * @return array<int, array<string, mixed>>
+ */
+function designstack_core_schema_lessons(): array {
+	$url   = (string) get_post_type_archive_link( 'lesson' );
+	$items = array();
+	$n     = 0;
+
+	foreach ( designstack_core_skills_map() as $area ) {
+		foreach ( $area['skills'] as $skill ) {
+			foreach ( array( 'junior', 'middle', 'senior' ) as $step ) {
+				$one = designstack_core_lessons_index()[ $skill['slug'] ][ $step ] ?? null;
+
+				if ( ! $one ) {
+					continue;
+				}
+
+				++$n;
+				$items[] = array(
+					'@type'    => 'ListItem',
+					'position' => $n,
+					'url'      => $one['url'],
+					'name'     => $one['title'],
+				);
+			}
+		}
+	}
+
+	return array(
+		array(
+			'@type'       => 'CollectionPage',
+			'@id'         => $url . '#page',
+			'url'         => $url,
+			'name'        => designstack_core_lessons_title(),
+			'description' => designstack_core_lessons_lead(),
+			'inLanguage'  => 'ru-RU',
+			'isPartOf'    => array( '@id' => home_url( '/' ) . '#website' ),
+			'mainEntity'  => array( '@id' => $url . '#list' ),
+		),
+		array(
+			'@type'           => 'ItemList',
+			'@id'             => $url . '#list',
+			'numberOfItems'   => $n,
+			'itemListElement' => $items,
+		),
+	);
+}
+
+/**
  * Идентификаторы ресурсов, которые запись показывает блоками «список ресурсов».
  *
  * @param int $id Идентификатор записи.
@@ -395,6 +498,15 @@ function designstack_core_schema_breadcrumbs(): array {
 		}
 
 		$chain[] = array( 'name' => get_the_title() );
+	} elseif ( is_singular( 'lesson' ) ) {
+		$chain[] = array(
+			'name' => __( 'Уроки', 'designstack-core' ),
+			'item' => (string) get_post_type_archive_link( 'lesson' ),
+		);
+		$label   = designstack_core_lesson_label( get_queried_object_id() );
+		$chain[] = array( 'name' => '' !== $label ? $label : get_the_title() );
+	} elseif ( is_post_type_archive( 'lesson' ) ) {
+		$chain[] = array( 'name' => __( 'Уроки', 'designstack-core' ) );
 	} elseif ( is_page() ) {
 		$chain[] = array( 'name' => get_the_title() );
 	} else {

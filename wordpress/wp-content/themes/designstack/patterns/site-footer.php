@@ -27,6 +27,9 @@ $ds_topics = array(
 );
 
 $ds_links = array(
+	'Уроки'              => '/lessons/',
+	'Карта развития'     => '/map/',
+	'О проекте'          => '/about/',
 	'Обзоры'             => '/reviews/',
 	'Принципы оценки'    => '/about/#principles',
 	'Предложить ресурс'  => '/suggest/',

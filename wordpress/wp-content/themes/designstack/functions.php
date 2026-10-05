@@ -372,6 +372,11 @@ add_filter( 'render_block_core/breadcrumbs', 'designstack_breadcrumbs_markup' );
  * @return string URL of the current section or ''.
  */
 function designstack_current_section_url() {
+	// Уроки: пункт меню «Уроки» текущий и на странице всех уроков, и в каждом уроке (D197).
+	if ( is_post_type_archive( 'lesson' ) || is_singular( 'lesson' ) ) {
+		return (string) get_post_type_archive_link( 'lesson' );
+	}
+
 	if ( is_tax( 'resource_type' ) ) {
 		$term = get_queried_object();
 

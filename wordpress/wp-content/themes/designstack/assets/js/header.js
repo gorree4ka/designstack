@@ -25,7 +25,7 @@
 
 	// Без скрипта меню и поиск остаются раскрытыми: навигация работает и без JavaScript.
 	follow( menu, '(max-width: 899px)' );
-	follow( search, '(max-width: 1199px)' );
+	follow( search, '(max-width: 1439px)' );
 
 	// Открытая панель закрывает соседнюю: они занимают одно место под шапкой.
 	[ [ menu, search ], [ search, menu ] ].forEach( function ( pair ) {

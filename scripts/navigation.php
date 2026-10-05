@@ -5,10 +5,12 @@ $items = array(
 	array( 'Учёба', '/learn/' ),
 	array( 'Ассеты', '/assets/' ),
 	array( 'Сообщества', '/community/' ),
+	array( 'Уроки', '/lessons/' ),
 	array( 'Подборки', '/collections/' ),
 	array( 'Дайджест', '/digest/' ),
-	array( 'О проекте', '/about/' ),
 );
+// «О проекте» ушёл в подвал, его место в шапке заняли «Уроки» (лист P30, D197):
+// восемь пунктов с полем поиска в ряд шапки не помещаются.
 
 $blocks = '';
 foreach ( $items as $item ) {

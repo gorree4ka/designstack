@@ -183,6 +183,17 @@ function designstack_core_breadcrumb_items( array $items ): array {
 		}
 	}
 
+	// Урок: последнее звено — «Навык · Ступень», а не длинный заголовок урока. Звено «Уроки»
+	// ядро ставит само — у типа записи есть архив (D197); подпись берём ту же, что у H1 страницы уроков.
+	if ( $items && is_singular( 'lesson' ) ) {
+		$last  = array_key_last( $items );
+		$label = designstack_core_lesson_label( get_queried_object_id() );
+
+		if ( '' !== $label ) {
+			$items[ $last ]['label'] = $label;
+		}
+	}
+
 	// Служебные страницы ядро подписывает по-своему: «Результаты поиска для "figma"»,
 	// «Страница не найдена». На странице заголовки другие, а одно понятие называется одним словом.
 	if ( $items && ( is_search() || is_404() ) ) {
