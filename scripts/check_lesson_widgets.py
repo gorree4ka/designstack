@@ -82,6 +82,10 @@ with sync_playwright() as play:
         ("forms-junior", ["Звёздочки у обязательных", "Проверьте два поля", "Убрать. Один промах — и всё введённое пропало"]),
         ("forms-middle", ["Сервер не ответил", "Вы остановились на шаге «Реквизиты»", "Переделать. Проверка на вводе ругает", "Сложнее в разработке"]),
         ("forms-senior", ["Правило 4. «Некорректно» в словаре", "ФАЙЛ НЕ ПОДОШЁЛ", "Посчитана по выбранным товарам"]),
+        # Периоды, круг и столбцы, две шкалы, базы, вопросы, способы сказать — панели переключателя, видны все.
+        ("dashboards-junior", ["вчера к этому часу — 35 100", "Столбцы по убыванию", "Шкала от 880", "Переделать. Неполный день сравнили с полным"]),
+        ("dashboards-middle", ["Отстаём на 50 400", "Что изменилось за неделю — разница от нуля", "Мало: заказать у обжарщика, нужно от 10 дней", "Переделать. Было 2, стало 4"]),
+        ("dashboards-senior", ["Договорённость", "СЛЕДУЮЩИЙ ПЕРЕСМОТР", "Убрать. Число только растёт"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1465,6 +1469,89 @@ with sync_playwright() as play:
     fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
     fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
     fails += 0 if say(hunt_all(page, 10), "форма «Промокод» на ревью: по правилам не засчитано, нарушений 5 из 5") else 1
+    page.close()
+
+    # «Дашборды и графики»: живая шкала двигает начало и пересчитывает «выглядит / на деле»,
+    # порог красит дни за полосой, три поиска ошибок. Без скрипта ползунков нет, графики стоят
+    # как в разметке: столбцы от нуля, порог ±15 % с двумя выделенными днями.
+    def slide(page, sel, value):
+        page.evaluate("""([sel, v]) => { const el = document.querySelector(sel); el.value = v;
+            el.dispatchEvent(new Event('input', { bubbles: true })); }""", [sel, value])
+        page.wait_for_timeout(30)
+
+    def cols(page):
+        return page.evaluate("""() => [...document.querySelectorAll('[data-axis] .ds-lesson__col')]
+            .map(el => el.getBoundingClientRect().height)""")
+
+    page = ctx.new_page()
+    page.goto(BASE + "dashboards-junior/")
+    page.wait_for_timeout(300)
+    head("dashboards-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    out = page.inner_text("[data-axis-out]")
+    h = cols(page)
+    fails += 0 if say(page.is_visible("[data-axis-pick]") and "Шкала от 0" in out and "в 1,1 раза" in out and "на 10" in out
+                      and 1.05 < h[1] / h[0] < 1.15, "шкала от нуля: ползунок виден, «в 1,1 раза», столбцы 1 : %.2f" % (h[1] / h[0])) else 1
+    slide(page, "[data-axis-input]", 380)
+    out = page.inner_text("[data-axis-out]")
+    h = cols(page)
+    ticks = page.evaluate("[...document.querySelectorAll('[data-axis] .ds-lesson__tick')].filter(t => t.offsetParent !== null).map(t => t.textContent.trim())")
+    fails += 0 if say("в 3 раза" in out and 2.9 < h[1] / h[0] < 3.1 and ticks == ["380", "400"],
+                      "шкала от 380: «в 3 раза», столбцы 1 : %.2f, деления %s" % (h[1] / h[0], ticks)) else 1
+    slide(page, "[data-axis-input]", 200)
+    fails += 0 if say("в 1,2 раза" in page.inner_text("[data-axis-out]"), "шкала от 200: «в 1,2 раза»") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "экран «Сводка»: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "dashboards-middle/")
+    page.wait_for_timeout(300)
+    head("dashboards-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    bad = "() => document.querySelectorAll('[data-band] .ds-lesson__dev.is-bad').length"
+    out = page.inner_text("[data-band-out]")
+    fails += 0 if say(page.is_visible("[data-band-pick]") and "2 из 30" in out and "Выделено то" in out and page.evaluate(bad) == 2,
+                      "порог ±15 %: выделено 2 дня из 30") else 1
+    slide(page, "[data-band-input]", 5)
+    out = page.inner_text("[data-band-out]")
+    fails += 0 if say("13 из 30" in out and "Тревога" in out and page.evaluate(bad) == 13, "порог ±5 %: 13 дней и предупреждение о тревоге") else 1
+    slide(page, "[data-band-input]", 40)
+    fails += 0 if say("1 из 30" in page.inner_text("[data-band-out]") and page.evaluate(bad) == 1, "порог ±40 %: один день") else 1
+    slide(page, "[data-band-input]", 50)
+    out = page.inner_text("[data-band-out]")
+    band = page.evaluate("getComputedStyle(document.querySelector('[data-band-strip]')).getPropertyValue('--t').trim()")
+    fails += 0 if say("0 из 30" in out and "Ни одного" in out and band == "50", "порог ±50 %%: ни одного дня, полоса --t: %s" % band) else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра-викторины на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "экран «Продажи и склад»: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    plain = browser.new_context(java_script_enabled=False)
+    page = plain.new_page()
+    page.goto(BASE + "dashboards-junior/")
+    head("dashboards-junior · шкала без скрипта")
+    h = cols(page)
+    fails += 0 if say(not page.is_visible("[data-axis-pick]") and not page.is_visible("[data-axis-out]") and h and 1.05 < h[1] / h[0] < 1.15,
+                      "без скрипта: ползунка нет, столбцы от нуля 1 : %.2f" % (h[1] / h[0] if h else 0)) else 1
+    page.close()
+    page = plain.new_page()
+    page.goto(BASE + "dashboards-middle/")
+    head("dashboards-middle · порог без скрипта")
+    fails += 0 if say(not page.is_visible("[data-band-pick]") and page.evaluate(bad) == 2 and page.is_visible("[data-band] .ds-lesson__plot"),
+                      "без скрипта: ползунка нет, порог ±15 %, выделено 2 дня") else 1
+    page.close()
+    plain.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "dashboards-senior/")
+    page.wait_for_timeout(300)
+    head("dashboards-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "набор после запуска подписки: нормальное не засчитано, ошибок 5 из 5") else 1
     page.close()
     browser.close()
 

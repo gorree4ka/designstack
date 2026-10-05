@@ -9948,3 +9948,869 @@ button.ds-lesson__fm-btn:focus-visible {
 	font-size: var(--wp--preset--font-size--sm);
 	color: var(--wp--preset--color--text-muted);
 }
+
+/* ---------- уроки «Дашборды и графики» ---------- */
+
+/* Экран дашборда — рама, как у таблиц и форм урока. Цвет здесь не украшение, а предмет
+   урока: основной ряд — цвет действия, ряд для сравнения — серый, выход за порог — цвет
+   ошибки. Графики собраны из span и SVG: целый график может стать меткой поиска ошибок,
+   а метка превращается в кнопку, где допустимо только строчное содержимое.
+   Числа графиков — пользовательские свойства в разметке урока (D182): --v значение,
+   --max и --base верх и начало шкалы, --t деление, --n число столбцов, --x и --y точка
+   в процентах, --a1…--a6 границы долей круга. */
+.ds-lesson__db {
+	display: block;
+	container-type: inline-size;
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-lesson__db + .ds-lesson__db {
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+/* Шапка экрана: название и период, общий для всех показателей. */
+.ds-lesson__db-top {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-weight: 600;
+}
+
+.ds-lesson__db-top > span:not([class]) {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 400;
+}
+
+.ds-lesson__db-body {
+	display: grid;
+	gap: var(--wp--preset--spacing--3);
+	padding: var(--wp--preset--spacing--3);
+}
+
+/* Ряд плиток и ряд графиков: сколько влезет в ширину, на телефоне — по одному. */
+.ds-lesson__db-tiles {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 7.5rem), 1fr));
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__db-charts {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+	gap: var(--wp--preset--spacing--3);
+}
+
+/* Плитка показателя: подпись, число, период и сравнение. */
+.ds-lesson__kpi {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	min-width: 0;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	text-align: left;
+}
+
+.ds-lesson__kpi-label {
+	font-weight: 600;
+}
+
+.ds-lesson__kpi-note,
+.ds-lesson__kpi-delta {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__kpi-value {
+	white-space: nowrap;
+	font-size: var(--wp--preset--font-size--2-xl);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--tight);
+}
+
+.ds-lesson__kpi-unit {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+	font-weight: 400;
+}
+
+/* Отклонение заметно словами и цветом сразу, норма — спокойным серым. */
+.ds-lesson__kpi-delta.is-bad {
+	color: var(--wp--preset--color--text-error);
+	font-weight: 600;
+}
+
+.ds-lesson__kpi.is-alert {
+	border-color: var(--wp--preset--color--border-error);
+	box-shadow: inset var(--wp--custom--border-width--focus) 0 0 var(--wp--preset--color--border-error);
+}
+
+/* Спарклайн: линия размером со слово, без осей — форма ряда, а не его значения.
+   Селектор с тегом перебивает общее `.ds-lesson svg { height: auto }`. */
+svg.ds-lesson__spark {
+	display: block;
+	width: 100%;
+	height: 1.75rem;
+	overflow: visible;
+}
+
+.ds-lesson__spark polyline,
+.ds-lesson__lines polyline {
+	fill: none;
+	stroke: var(--wp--preset--color--surface-action-primary);
+	stroke-width: var(--wp--custom--border-width--focus);
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+
+/* Рамка графика: заголовок, пояснение, поле, подписи. */
+.ds-lesson__chart {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	min-width: 0;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	text-align: left;
+}
+
+.ds-lesson__box-body > .ds-lesson__chart,
+.ds-switch > div > .ds-lesson__chart {
+	max-width: 32rem;
+}
+
+.ds-lesson__chart-title {
+	font-weight: 600;
+}
+
+.ds-lesson__chart-note {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+/* Поле графика. Деление — линия во всю ширину и подпись слева от неё; высота
+   столбца и место деления считаются от начала шкалы --base до верха --max. */
+.ds-lesson__plot {
+	--axis: 2.5rem;
+	position: relative;
+	display: block;
+	height: var(--h, 9rem);
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__tick {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc((var(--t) - var(--base, 0)) / (var(--max) - var(--base, 0)) * 100%);
+	display: block;
+	height: 0;
+}
+
+.ds-lesson__tick[hidden] {
+	display: none;
+}
+
+.ds-lesson__tick::before {
+	content: "";
+	position: absolute;
+	left: var(--axis);
+	right: 0;
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__tick.is-base::before {
+	border-top-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__tick > span {
+	position: absolute;
+	left: 0;
+	width: calc(var(--axis) - var(--wp--preset--spacing--2));
+	transform: translateY(-50%);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: right;
+	white-space: nowrap;
+}
+
+/* Столбцы. Одна колонка сетки на столбец — та же сетка у подписей под полем. */
+.ds-lesson__cols,
+.ds-lesson__xs {
+	display: grid;
+	grid-template-columns: repeat(var(--n, 2), minmax(0, 1fr));
+	column-gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__cols {
+	position: absolute;
+	inset: 0 0 0 var(--axis);
+	align-items: end;
+}
+
+.ds-lesson__col {
+	position: relative;
+	display: block;
+	justify-self: center;
+	width: min(100%, 3.5rem);
+	height: max(0%, calc((var(--v) - var(--base, 0)) / (var(--max) - var(--base, 0)) * 100%));
+	border-radius: var(--wp--custom--radius--xs) var(--wp--custom--radius--xs) 0 0;
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__col.is-prev {
+	background: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__col.is-bad {
+	background: var(--wp--preset--color--icon-error);
+}
+
+.ds-lesson__col > span {
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	padding-bottom: var(--wp--preset--spacing--1);
+	transform: translateX(-50%);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.ds-lesson__xs {
+	margin-left: var(--axis);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+}
+
+/* Под линией подписаны только края и середина периода. */
+.ds-lesson__xs.is-ends {
+	display: flex;
+	justify-content: space-between;
+}
+
+/* Линия: SVG растянут на поле, координаты 0…100 по обеим осям; толщина не тянется. */
+svg.ds-lesson__lines {
+	position: absolute;
+	top: 0;
+	left: var(--axis);
+	display: block;
+	width: calc(100% - var(--axis));
+	height: 100%;
+	overflow: visible;
+}
+
+.ds-lesson__lines .is-prev {
+	stroke: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__lines .is-plan {
+	stroke: var(--wp--preset--color--text-muted);
+	stroke-dasharray: 4 4;
+}
+
+/* Точка на линии — отдельный кружок поверх, чтобы не растягивался вместе с SVG. */
+.ds-lesson__dot {
+	position: absolute;
+	left: calc(var(--axis) + (100% - var(--axis)) * var(--x) / 100);
+	bottom: calc(var(--y) * 1%);
+	display: block;
+	width: var(--wp--preset--spacing--2);
+	height: var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-action-primary);
+	box-shadow: 0 0 0 var(--wp--custom--border-width--focus) var(--wp--preset--color--surface-raised);
+	transform: translate(-50%, 50%);
+}
+
+.ds-lesson__dot.is-bad {
+	background: var(--wp--preset--color--icon-error);
+}
+
+/* Подпись точки — на подложке цвета плитки: линия проходит под ней и не съедает контраст.
+   У последней точки ряда (is-end) подпись прижата к правому краю поля. */
+.ds-lesson__dot > span {
+	position: absolute;
+	bottom: calc(100% + var(--wp--preset--spacing--1));
+	left: 50%;
+	padding: 0 var(--wp--preset--spacing--1);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-raised);
+	transform: translateX(-50%);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.ds-lesson__dot.is-end > span {
+	left: auto;
+	right: calc(-1 * var(--wp--preset--spacing--1));
+	transform: none;
+}
+
+.ds-lesson__dot.is-bad > span {
+	color: var(--wp--preset--color--text-error);
+}
+
+/* Вертикальная черта на линии: с этого места поставили цель. */
+.ds-lesson__vline {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(var(--axis) + (100% - var(--axis)) * var(--x) / 100);
+	display: block;
+	border-left: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__vline > span {
+	position: absolute;
+	bottom: 100%;
+	left: var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	white-space: nowrap;
+}
+
+/* Подпись ряда у графика с двумя линиями. */
+.ds-lesson__legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--4);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__legend > span {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--1);
+}
+
+.ds-lesson__legend > span::before {
+	content: "";
+	width: var(--wp--preset--spacing--4);
+	border-top: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__legend > .is-prev::before {
+	border-top-color: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__legend > .is-plan::before {
+	border-top-style: dashed;
+	border-top-color: var(--wp--preset--color--text-muted);
+}
+
+/* Горизонтальные столбцы: подпись, столбец от нуля, число. */
+.ds-lesson__hbars {
+	display: grid;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__hbar {
+	display: grid;
+	grid-template-columns: minmax(0, 8rem) minmax(0, 1fr) 2.75rem;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+}
+
+.ds-lesson__hbar-track {
+	display: block;
+	height: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__hbar-fill {
+	display: block;
+	width: calc(var(--v) / var(--max) * 100%);
+	height: 100%;
+	border-radius: 0 var(--wp--custom--radius--xs) var(--wp--custom--radius--xs) 0;
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__hbar-value {
+	font-weight: 600;
+	text-align: right;
+}
+
+@container (max-width: 24rem) {
+	.ds-lesson__hbar {
+		grid-template-columns: minmax(0, 1fr) auto;
+		row-gap: var(--wp--preset--spacing--1);
+	}
+
+	.ds-lesson__hbar-track {
+		grid-column: 1 / -1;
+		grid-row: 2;
+	}
+}
+
+/* Круг из долей: границы долей — накопленные проценты из разметки. Цвета долей —
+   данные урока, как цвета примера в D183: светлые `--l1…--l7` и тёмные `--d1…--d7`
+   стоят в разметке, тема сайта выбирает набор. Семь оттенков проверены на различимость
+   при нарушениях цветового зрения; сверять их с подписями всё равно приходится — это
+   и разбирает урок. */
+.ds-lesson__pie-wrap,
+.ds-lesson__cats {
+	--p1: var(--l1);
+	--p2: var(--l2);
+	--p3: var(--l3);
+	--p4: var(--l4);
+	--p5: var(--l5);
+	--p6: var(--l6);
+	--p7: var(--l7);
+}
+
+.ds-lesson__pie-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--4);
+}
+
+:root[data-theme="dark"] .ds-lesson__pie-wrap,
+:root[data-theme="dark"] .ds-lesson__cats {
+	--p1: var(--d1);
+	--p2: var(--d2);
+	--p3: var(--d3);
+	--p4: var(--d4);
+	--p5: var(--d5);
+	--p6: var(--d6);
+	--p7: var(--d7);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .ds-lesson__pie-wrap,
+	:root:not([data-theme="light"]) .ds-lesson__cats {
+		--p1: var(--d1);
+		--p2: var(--d2);
+		--p3: var(--d3);
+		--p4: var(--d4);
+		--p5: var(--d5);
+		--p6: var(--d6);
+		--p7: var(--d7);
+	}
+}
+
+.ds-lesson__pie {
+	display: block;
+	flex: none;
+	width: min(100%, 9rem);
+	aspect-ratio: 1;
+	border-radius: var(--wp--custom--radius--full);
+	background: conic-gradient(var(--p1) 0 var(--a1), var(--p2) 0 var(--a2), var(--p3) 0 var(--a3), var(--p4) 0 var(--a4), var(--p5) 0 var(--a5), var(--p6) 0 var(--a6), var(--p7) 0);
+}
+
+.ds-lesson__keys {
+	display: grid;
+	gap: var(--wp--preset--spacing--1);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__key {
+	display: flex;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__key::before {
+	content: "";
+	flex: none;
+	width: var(--wp--preset--spacing--3);
+	height: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--sw);
+}
+
+.ds-lesson__key:nth-child(1) {
+	--sw: var(--p1);
+}
+
+.ds-lesson__key:nth-child(2) {
+	--sw: var(--p2);
+}
+
+.ds-lesson__key:nth-child(3) {
+	--sw: var(--p3);
+}
+
+.ds-lesson__key:nth-child(4) {
+	--sw: var(--p4);
+}
+
+.ds-lesson__key:nth-child(5) {
+	--sw: var(--p5);
+}
+
+.ds-lesson__key:nth-child(6) {
+	--sw: var(--p6);
+}
+
+.ds-lesson__key:nth-child(7) {
+	--sw: var(--p7);
+}
+
+/* Полоса из двух–трёх долей: доля целого длиной, а не углом. */
+.ds-lesson__share {
+	display: flex;
+	gap: var(--wp--custom--border-width--focus);
+	height: var(--wp--preset--spacing--4);
+	overflow: hidden;
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+.ds-lesson__share > span {
+	flex: var(--v) 1 0;
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__share > span + span {
+	background: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__share-keys {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: var(--wp--preset--spacing--1) var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+/* Живая шкала: ползунок начала шкалы и строка «выглядит / на деле». */
+.ds-lesson__axis-pick {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	margin-top: var(--wp--preset--spacing--4);
+	font-weight: 600;
+}
+
+.ds-lesson__axis-pick[hidden] {
+	display: none;
+}
+
+.ds-lesson__axis-pick input {
+	flex: 1 1 10rem;
+	accent-color: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__axis-pick output {
+	min-width: 2.5rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-lesson__axis-out {
+	margin: var(--wp--preset--spacing--3) 0 0;
+}
+
+.ds-lesson__axis-out[hidden] {
+	display: none;
+}
+
+/* Линии «спагетти»: у каждого ряда свой цвет из набора долей. Выделенная линия —
+   цветом действия, остальные отходят на задний план серым. */
+.ds-lesson__lines .is-c1 {
+	stroke: var(--p1);
+}
+
+.ds-lesson__lines .is-c2 {
+	stroke: var(--p2);
+}
+
+.ds-lesson__lines .is-c3 {
+	stroke: var(--p3);
+}
+
+.ds-lesson__lines .is-c4 {
+	stroke: var(--p4);
+}
+
+.ds-lesson__lines .is-c5 {
+	stroke: var(--p5);
+}
+
+.ds-lesson__lines .is-c6 {
+	stroke: var(--p6);
+}
+
+.ds-lesson__lines .is-c7 {
+	stroke: var(--p7);
+}
+
+
+.ds-lesson__lines .is-bg {
+	stroke: var(--wp--preset--color--border-default);
+}
+
+/* Отметка прошлого периода на горизонтальном столбце. */
+.ds-lesson__hbar-track {
+	position: relative;
+}
+
+.ds-lesson__hbar-mark {
+	position: absolute;
+	top: calc(-1 * var(--wp--preset--spacing--1));
+	bottom: calc(-1 * var(--wp--preset--spacing--1));
+	left: calc(var(--m) / var(--max) * 100%);
+	border-left: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__legend > .is-mark::before {
+	width: 0;
+	height: var(--wp--preset--spacing--3);
+	border-top: 0;
+	border-left: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--text-default);
+}
+
+/* Полоса плана (bullet graph Стивена Фью): тёмно-серый диапазон — «плохо», до --b1,
+   светлый — остальное; столбец — факт, черта — цель. Всё от нуля, одна шкала.
+   Двух диапазонов хватает: третий серый в тёмной теме сливается с фоном плитки. */
+.ds-lesson__bullet {
+	position: relative;
+	display: block;
+	height: var(--wp--preset--spacing--4);
+	border-radius: var(--wp--custom--radius--xs);
+	background: linear-gradient(to right, var(--wp--preset--color--border-strong) 0 calc(var(--b1) / var(--max) * 100%), var(--wp--preset--color--border-default) 0);
+}
+
+.ds-lesson__bullet-fill {
+	position: absolute;
+	top: 30%;
+	bottom: 30%;
+	left: 0;
+	width: calc(var(--v) / var(--max) * 100%);
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__bullet-mark {
+	position: absolute;
+	top: 10%;
+	bottom: 10%;
+	left: calc(var(--m) / var(--max) * 100%);
+	border-left: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--text-default);
+}
+
+/* Разница в обе стороны от нуля: ноль посередине дорожки, рост — цветом действия,
+   падение — цветом ошибки и знаком «−» в числе, не одним цветом. */
+.ds-lesson__hdiv-track {
+	position: relative;
+	display: block;
+	height: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__hdiv-track::before {
+	content: "";
+	position: absolute;
+	top: calc(-1 * var(--wp--preset--spacing--1));
+	bottom: calc(-1 * var(--wp--preset--spacing--1));
+	left: 50%;
+	border-left: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__hdiv-fill {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(50% + min(var(--v), 0) / var(--max) * 50%);
+	width: calc((max(var(--v), 0) - min(var(--v), 0)) / var(--max) * 50%);
+	background: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__hdiv-fill.is-neg {
+	background: var(--wp--preset--color--icon-error);
+}
+
+.ds-lesson__hbar:has(.ds-lesson__hdiv-track) {
+	grid-template-columns: minmax(0, 8rem) minmax(0, 1fr) 3.5rem;
+}
+
+@container (max-width: 24rem) {
+	.ds-lesson__hbar:has(.ds-lesson__hdiv-track) {
+		grid-template-columns: minmax(0, 1fr) auto;
+	}
+}
+
+/* Норма в «светофоре» — пример «не так»: зелёным покрашено то, что и так в порядке. */
+.ds-lesson__kpi-delta.is-good {
+	color: var(--wp--preset--color--icon-success);
+	font-weight: 600;
+}
+
+/* Спидометр — пример «не так»: полукруг занимает место, а сказать может одно число. */
+.ds-lesson__gauge {
+	display: block;
+	width: min(100%, 9rem);
+	aspect-ratio: 2;
+	border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+	background: conic-gradient(from -90deg at 50% 100%, var(--wp--preset--color--icon-error) 0 54deg, var(--wp--preset--color--icon-warning) 0 108deg, var(--wp--preset--color--icon-success) 0 180deg, transparent 0);
+	mask: radial-gradient(circle at 50% 100%, transparent 58%, var(--wp--preset--color--text-default) 59%);
+}
+
+.ds-lesson__gauge-wrap {
+	position: relative;
+	display: block;
+	width: min(100%, 9rem);
+}
+
+.ds-lesson__gauge-needle {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 45%;
+	border-top: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--text-default);
+	transform: rotate(calc(180deg + var(--v) * 1.8deg));
+	transform-origin: 0 50%;
+}
+
+/* Отклонения от обычного: столбцы вверх и вниз от нуля, серая полоса — допустимый
+   разброс ±порог. Что вышло за полосу — цвет ошибки; --lo и --hi — края шкалы, %. */
+.ds-lesson__devs {
+	position: absolute;
+	inset: 0 0 0 var(--axis);
+	display: grid;
+	grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+	column-gap: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__dev {
+	position: relative;
+	display: block;
+}
+
+.ds-lesson__dev::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: calc((min(var(--v), 0) - var(--lo)) / (var(--hi) - var(--lo)) * 100%);
+	height: calc((max(var(--v), 0) - min(var(--v), 0)) / (var(--hi) - var(--lo)) * 100%);
+	background: var(--wp--preset--color--border-strong);
+}
+
+.ds-lesson__dev.is-bad::before {
+	background: var(--wp--preset--color--icon-error);
+}
+
+.ds-lesson__dev > span {
+	position: absolute;
+	left: 50%;
+	bottom: calc((max(var(--v), 0) - var(--lo)) / (var(--hi) - var(--lo)) * 100%);
+	padding-bottom: var(--wp--preset--spacing--1);
+	transform: translateX(-50%);
+	color: var(--wp--preset--color--text-error);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.ds-lesson__dev:not(.is-bad) > span {
+	display: none;
+}
+
+.ds-lesson__dev.is-low > span {
+	bottom: auto;
+	top: calc((var(--hi) - min(var(--v), 0)) / (var(--hi) - var(--lo)) * 100%);
+	padding-top: var(--wp--preset--spacing--1);
+	padding-bottom: 0;
+}
+
+.ds-lesson__band {
+	position: absolute;
+	left: var(--axis);
+	right: 0;
+	bottom: calc((-1 * var(--t) - var(--lo)) / (var(--hi) - var(--lo)) * 100%);
+	height: calc(2 * var(--t) / (var(--hi) - var(--lo)) * 100%);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+/* Тренажёр порога: ползунок и строка «сколько дней выделено». */
+.ds-lesson__band-pick {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	margin-top: var(--wp--preset--spacing--4);
+	font-weight: 600;
+}
+
+.ds-lesson__band-pick[hidden],
+.ds-lesson__band-out[hidden] {
+	display: none;
+}
+
+.ds-lesson__band-pick input {
+	flex: 1 1 10rem;
+	accent-color: var(--wp--preset--color--surface-action-primary);
+}
+
+.ds-lesson__band-pick output {
+	min-width: 3.5rem;
+	font-variant-numeric: tabular-nums;
+}
+
+.ds-lesson__band-out {
+	margin: var(--wp--preset--spacing--3) 0 0;
+}
+
+/* Ссылка «остальное — в отчёте» внизу экрана. */
+.ds-lesson__db-more {
+	color: var(--wp--preset--color--text-action);
+	font-size: var(--wp--preset--font-size--xs);
+	text-decoration: underline;
+}
+
+/* Метка поиска ошибок вокруг плитки или графика целиком. */
+.ds-lesson__db-hit.ds-lesson__hunt-pin {
+	position: static;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	min-width: 0;
+	width: auto;
+	height: auto;
+	padding: 0;
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	line-height: inherit;
+	text-align: inherit;
+	transform: none;
+}
+
+.ds-lesson__db-hit > .ds-lesson__kpi,
+.ds-lesson__db-hit > .ds-lesson__chart {
+	flex: 1;
+	border-color: transparent;
+}
+
+.ds-lesson__db-hit.ds-lesson__hunt-pin:hover {
+	border-color: var(--wp--preset--color--border-focus-ring);
+	background: transparent;
+}
+
+.ds-lesson__db-hit.ds-lesson__hunt-pin.is-found {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-focus-ring);
+	box-shadow: 0 0 0 var(--wp--custom--border-width--hairline) var(--wp--preset--color--border-focus-ring);
+}
+
+.ds-lesson__db-hit.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+}

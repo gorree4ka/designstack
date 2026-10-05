@@ -1,0 +1,571 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#label">Подпись: что именно посчитано</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#period">Период рядом с числом</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#type">График под данные</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#pie">Круговая на семи долях</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#axis">Оси и ноль на шкале</a><span class="ds-lesson__tag">живая шкала</span></li>
+    <li><a href="#hunt">Найдите ошибки на экране «Сводка»</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Та же админка «Лесной обжарки», что и в уроках про <a href="/lessons/tables-lists-junior/">таблицы</a> и <a href="/lessons/forms-junior/">формы</a>. Управляющая открывает главный экран админки — «Сводку» — утром и после обеда: как идут продажи, не случилось ли чего. Первую версию экрана собрали из того, что база умеет считать. Этот экран вы и переделаете.</div>
+
+<section id="label">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Подпись: что именно посчитано</h2></div>
+  <p class="ds-lesson__lead">Число на экране ничего не значит, пока не ясно, что посчитано. Подпись отвечает на этот вопрос — словами того, кто смотрит на экран.</p>
+
+  <p>Так выглядела первая версия «Сводки»: четыре плитки, у каждой слово и число.</p>
+
+  <div class="ds-lesson__db">
+    <div class="ds-lesson__db-top">Сводка</div>
+    <div class="ds-lesson__db-body">
+      <div class="ds-lesson__db-tiles">
+        <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Заказы</span><span class="ds-lesson__kpi-value">41</span></span>
+        <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка</span><span class="ds-lesson__kpi-value">38 400</span></span>
+        <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Конверсия</span><span class="ds-lesson__kpi-value">3,2 %</span></span>
+        <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Пользователи</span><span class="ds-lesson__kpi-value">1 204</span></span>
+      </div>
+    </div>
+  </div>
+
+  <p>Управляющая смотрит на экран и не может ответить ни на один вопрос:</p>
+  <ul>
+    <li><b>Заказы</b> — все оформленные или только оплаченные? Отменённые считаются?</li>
+    <li><b>Выручка</b> — в рублях? С доставкой или без? Возвраты уже вычли?</li>
+    <li><b>Конверсия</b> — доля кого среди кого: посетителей, которые купили, или тех, кто положил товар в корзину и дошёл до оплаты?</li>
+    <li><b>Пользователи</b> — посетители сайта, покупатели или зарегистрированные аккаунты?</li>
+  </ul>
+  <p>Разработчик, который собирал экран, знает ответы: он писал запросы к базе. Управляющая — нет. Если она решит, что «Выручка» — это деньги после возвратов, она ошибётся в каждом расчёте, где возьмёт это число.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Было</th><th scope="col">Стало</th><th scope="col">Что уточнили</th></tr></thead>
+      <tbody>
+        <tr><td>Заказы</td><td>Оплаченные заказы</td><td>Какие заказы: без неоплаченных и отменённых</td></tr>
+        <tr><td>Выручка</td><td>Выручка, ₽ · оплаченные заказы, без доставки</td><td>Единицы и что входит в сумму</td></tr>
+        <tr><td>Конверсия</td><td>Купили · доля посетителей сайта</td><td>Кто среди кого: из посетителей — те, кто оплатил заказ</td></tr>
+        <tr><td>Пользователи</td><td>Посетители сайта</td><td>Кто это: не покупатели и не аккаунты</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Единицы — тоже часть подписи. «38 400» без них можно прочитать как рубли, граммы и просмотры страниц. Короче всего — после названия: «Выручка, ₽», «Продажи, пачек».</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · понятно, что посчитано?<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 6 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Средний чек, ₽ — сумма оплаченных заказов, делённая на их число».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно</b>Сказано, какие заказы взяли, как посчитали и в чём.</p></li>
+<li data-quiz-q data-answer="fix"><p class="ds-quiz__question">«Активность».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Уточнить</b>Чья и в чём? Покупателей, посетителей, сотрудников? Например: «Покупатели, у которых был заказ за 30 дней».</p></li>
+<li data-quiz-q data-answer="fix"><p class="ds-quiz__question">«Отказы».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Уточнить</b>В магазине так говорят об отменённых заказах, в веб-аналитике — о посетителях, которые сразу ушли с сайта. Два разных числа под одним словом: «Отменённые заказы» или «Ушли с первой страницы».</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Новые покупатели — первый оплаченный заказ в магазине».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно</b>Ясно, кого считают новым: того, кто впервые заплатил, а не того, кто впервые зашёл.</p></li>
+<li data-quiz-q data-answer="fix"><p class="ds-quiz__question">«Трафик».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Уточнить</b>Посетители, визиты или просмотры страниц — три разных числа, и они различаются в разы. Например: «Визиты на сайт».</p></li>
+<li data-quiz-q data-answer="ok"><p class="ds-quiz__question">«Возвраты, пачек — вернули покупатели».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно</b>Что считают, в чём и кто вернул. Не хватает только периода — о нём в следующем разделе.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="ok">Понятно</button><button class="ds-quiz__option" type="button" data-quiz-answer="fix">Уточнить</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Проверка простая: два человека из команды объясняют число своими словами. Объяснили по-разному — подпись надо уточнять.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Подпись говорит, что посчитано и в чём.</b> Слово, которое можно понять двумя способами, меняют на то, которое понимают одним. Если без пояснения не обойтись, пояснение — мелким текстом под числом, а не в подсказке по наведению: на телефоне наводить нечем.</div>
+</section>
+
+<section id="period">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Период рядом с числом</h2></div>
+  <p class="ds-lesson__lead">Число без периода не с чем сравнить. 41 заказ за день и 41 заказ за месяц — это два разных магазина.</p>
+
+  <p>Подписи уже понятные, а периода у чисел нет. Переключите и сравните.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Плитки «Сводки» · без периода и с периодом</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="pr1" hidden>Без периода</button><button class="ds-switch__button" type="button" data-switch-btn="pr2" hidden>С периодом</button></div>
+
+      <div data-switch-pane="pr1"><p class="ds-switch__title">Без периода</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Оплаченные заказы</span><span class="ds-lesson__kpi-value">41</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">оплаченные заказы, без доставки</span><span class="ds-lesson__kpi-value">38 400</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Средний чек, ₽</span><span class="ds-lesson__kpi-value">936</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Купили</span><span class="ds-lesson__kpi-note">доля посетителей сайта</span><span class="ds-lesson__kpi-value">3,2 %</span></span>
+        </div>
+      </div>
+
+      <div data-switch-pane="pr2"><p class="ds-switch__title">С периодом</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Оплаченные заказы</span><span class="ds-lesson__kpi-note">сегодня, до 14:20</span><span class="ds-lesson__kpi-value">41</span><span class="ds-lesson__kpi-delta">вчера к этому часу — 38</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">сегодня, до 14:20 · без доставки</span><span class="ds-lesson__kpi-value">38 400</span><span class="ds-lesson__kpi-delta">вчера к этому часу — 35 100</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Средний чек, ₽</span><span class="ds-lesson__kpi-note">за 30 дней</span><span class="ds-lesson__kpi-value">936</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Купили</span><span class="ds-lesson__kpi-note">доля посетителей сайта · за 30 дней</span><span class="ds-lesson__kpi-value">3,2 %</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Во втором варианте видно, что заказы и выручка — за неполный день, а чек и доля купивших — за месяц. Сравнивать их друг с другом не нужно.</div>
+  </div>
+
+  <p>На дашбордах встречаются три вида периодов, и ведут они себя по-разному:</p>
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Период</th><th scope="col">Как ведёт себя число</th><th scope="col">Для чего годится</th></tr></thead>
+      <tbody>
+        <tr><td>За сегодня</td><td>Растёт в течение дня, с утра почти ноль</td><td>Следить за днём: всё ли идёт как обычно</td></tr>
+        <tr><td>За последние 30 дней</td><td>Каждый день сдвигается на день вперёд, меняется плавно</td><td>Видеть, куда идут дела, без шума отдельных дней</td></tr>
+        <tr><td>За всё время</td><td>Только растёт</td><td>Почти ни для чего: по нему не видно, стало ли хуже</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>С неполным днём связана самая частая ошибка. В 14:20 заказов 41, а вчера за весь день было 86. Плитка показывает «−52 % к вчера» — и управляющая думает, что продажи упали вдвое. На деле это полдня против целого дня. Честное сравнение — с тем же часом вчера: тогда было 38, и сегодня даже чуть лучше.</p>
+
+  <div class="ds-lesson__rule"><b>Период — рядом с числом.</b> Если у всего экрана период один, его можно написать один раз в шапке. Если разный — у каждого числа свой. Неполный период сравнивают с таким же неполным: сегодня до 14:20 — со вчера до 14:20.</div>
+</section>
+
+<section id="type">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>График под данные</h2></div>
+  <p class="ds-lesson__lead">График выбирают по тому, что надо увидеть в данных: как число менялось, что больше или какую часть целого оно составляет.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Что надо увидеть</th><th scope="col">График</th><th scope="col">Пример из «Сводки»</th></tr></thead>
+      <tbody>
+        <tr><td>Как менялось во времени</td><td>Линия. Если точек меньше десятка и числа складываются — заказы, выручка, — можно столбцы. Средний чек, цену и долю — линией</td><td>Заказы по дням за 30 дней</td></tr>
+        <tr><td>Что больше, что меньше</td><td>Столбцы. При длинных названиях — горизонтальные, по убыванию</td><td>Продажи по сортам</td></tr>
+        <tr><td>Какую часть целого</td><td>Если частей две–три — полоса из частей или одно число</td><td>Доставка и самовывоз</td></tr>
+        <tr><td>Одно число</td><td>Число с подписью и периодом, без графика</td><td>Заказы сегодня</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__db">
+    <div class="ds-lesson__db-top">Три графика «Сводки» <span>за 30 дней</span></div>
+    <div class="ds-lesson__db-body">
+      <div class="ds-lesson__db-charts">
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Оплаченные заказы по дням</span>
+          <span class="ds-lesson__chart-note">4 сентября — 3 октября, шт.</span>
+          <span class="ds-lesson__plot" style="--max:100" role="img" aria-label="Линия: заказов в день от 55 до 86, к концу месяца больше, в выходные провалы">
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:50"><span>50</span></span>
+            <span class="ds-lesson__tick" style="--t:100"><span>100</span></span>
+            <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline vector-effect="non-scaling-stroke" points="0,36 3.4,30 6.9,27 10.3,31 13.8,25 17.2,42 20.7,45 24.1,32 27.6,26 31,23 34.5,28 37.9,21 41.4,40 44.8,43 48.3,29 51.7,22 55.2,20 58.6,24 62.1,17 65.5,37 69,41 72.4,26 75.9,18 79.3,15 82.8,21 86.2,14 89.7,34 93.1,38 96.6,20 100,14"/></svg>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>4 сен</span><span>3 окт</span></span>
+        </span>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Продажи по сортам, пачек</span>
+          <span class="ds-lesson__chart-note">пять сортов из семи</span>
+          <span class="ds-lesson__hbars">
+            <span class="ds-lesson__hbar" style="--max:412;--v:412"><span>Эфиопия Иргачеффе</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">412</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:356"><span>Колумбия Супремо</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">356</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:341"><span>Бразилия Сантос</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">341</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:262"><span>Кения АА</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">262</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:240"><span>Гватемала Антигуа</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">240</span></span>
+          </span>
+        </span>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Как получают заказ</span>
+          <span class="ds-lesson__chart-note">доля оплаченных заказов</span>
+          <span class="ds-lesson__share"><span style="--v:77"></span><span style="--v:23"></span></span>
+          <span class="ds-lesson__share-keys"><span><b>Доставка</b> 77 %</span><span><b>Самовывоз</b> 23 %</span></span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <p>Почему столбцы, а не круги и пузыри разного размера? В 1984 году статистики Уильям Кливленд и Роберт Макгилл расставили способы показать число по тому, насколько точно их читают. На первом месте — положение на общей шкале: так читаются верхушки столбцов от одной оси и точки линии. Длина и угол делят третье место, площадь — четвёртое, насыщенность цвета — последнее. Сами авторы назвали этот порядок гипотезой, но на нём с тех пор стоят почти все советы о выборе графика.</p>
+
+  <p>В Nielsen Norman Group объясняют выбор тем же восприятием: длину и положение глаз сравнивает быстро и точно, угол и площадь — плохо. Поэтому круговые диаграммы там советуют избегать почти всегда — кроме случая, когда одна доля намного больше остальных. В другой статье там же правило короче: изменение во времени — линией, сравнение — столбцами.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какой график<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 6 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="line"><p class="ds-quiz__question">Как менялся средний чек за полгода.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Линия</b>Двадцать шесть недель подряд — это изменение во времени. Линия покажет, рос чек или падал.</p></li>
+<li data-quiz-q data-answer="bars"><p class="ds-quiz__question">Какой из двенадцати сортов продаётся лучше.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Столбцы</b>Сравнение категорий. Названия длинные — горизонтальные столбцы, по убыванию, с числом у каждого.</p></li>
+<li data-quiz-q data-answer="number"><p class="ds-quiz__question">Сколько заказов оплачено сегодня.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Число</b>Одно значение. График из одного столбца или спидометр с одной стрелкой не скажут больше, чем само число с подписью и периодом.</p></li>
+<li data-quiz-q data-answer="bars"><p class="ds-quiz__question">В какие города чаще всего возят заказы — восемь городов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Столбцы</b>Восемь частей круга уже не сравнить. Столбцы по убыванию сразу покажут порядок.</p></li>
+<li data-quiz-q data-answer="number"><p class="ds-quiz__question">Какая доля покупателей заказывает повторно.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Число</b>Доля из двух частей — «повторно» и «один раз». Хватит одного числа: «Повторно заказывают 38 %». Можно добавить полосу из двух частей.</p></li>
+<li data-quiz-q data-answer="line"><p class="ds-quiz__question">Сколько посетителей было на сайте в каждый час сегодня.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Линия</b>Часы идут подряд — это время. Линия покажет, когда приходят покупатели.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="line">Линия</button><button class="ds-quiz__option" type="button" data-quiz-answer="bars">Столбцы</button><button class="ds-quiz__option" type="button" data-quiz-answer="number">Число или доля</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Сначала вопрос к данным, потом график. Слова «как менялось», «что больше» и «какая часть» почти всегда подсказывают ответ.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Сначала вопрос, потом график.</b> «Как менялось» — линия. «Что больше» — столбцы. «Какая часть» из двух–трёх долей — полоса или число. Одно значение — число без графика.</div>
+</section>
+
+<section id="pie">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Круговая на семи долях</h2></div>
+  <p class="ds-lesson__lead">Круговую диаграмму читают по углам и площадям долей. На двух–трёх долях это работает, на семи — уже нет: соседние доли не сравнить, а цвета приходится сверять с подписями.</p>
+
+  <p>Продажи по сортам за 30 дней. Попробуйте ответить по кругу: что продаётся лучше — Колумбия или Бразилия? Какой сорт на четвёртом месте? Потом переключите на столбцы.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Продажи по сортам · круг и столбцы</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="pi1" hidden>Круговая</button><button class="ds-switch__button" type="button" data-switch-btn="pi2" hidden>Столбцы по убыванию</button></div>
+
+      <div data-switch-pane="pi1"><p class="ds-switch__title">Круговая</p>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Продажи по сортам</span>
+          <span class="ds-lesson__chart-note">за 30 дней</span>
+          <span class="ds-lesson__pie-wrap" style="--l1:#2a78d6;--l2:#eb6834;--l3:#1baf7a;--l4:#eda100;--l5:#e87ba4;--l6:#008300;--l7:#4a3aa7;--d1:#3987e5;--d2:#d95926;--d3:#199e70;--d4:#c98500;--d5:#d55181;--d6:#008300;--d7:#9085e9">
+            <span class="ds-lesson__pie" style="--a1:21%;--a2:39%;--a3:56%;--a4:69%;--a5:81%;--a6:91%" role="img" aria-label="Круговая диаграмма из семи долей без чисел"></span>
+            <span class="ds-lesson__keys"><span class="ds-lesson__key">Эфиопия Иргачеффе</span><span class="ds-lesson__key">Колумбия Супремо</span><span class="ds-lesson__key">Бразилия Сантос</span><span class="ds-lesson__key">Кения АА</span><span class="ds-lesson__key">Гватемала Антигуа</span><span class="ds-lesson__key">Коста-Рика Тарразу</span><span class="ds-lesson__key">Суматра Мандхелинг</span></span>
+          </span>
+        </span>
+      </div>
+
+      <div data-switch-pane="pi2"><p class="ds-switch__title">Столбцы по убыванию</p>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Продажи по сортам, пачек</span>
+          <span class="ds-lesson__chart-note">за 30 дней</span>
+          <span class="ds-lesson__hbars">
+            <span class="ds-lesson__hbar" style="--max:412;--v:412"><span>Эфиопия Иргачеффе</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">412</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:356"><span>Колумбия Супремо</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">356</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:341"><span>Бразилия Сантос</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">341</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:262"><span>Кения АА</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">262</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:240"><span>Гватемала Антигуа</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">240</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:198"><span>Коста-Рика Тарразу</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">198</span></span>
+            <span class="ds-lesson__hbar" style="--max:412;--v:181"><span>Суматра Мандхелинг</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">181</span></span>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Колумбия — 356 пачек, Бразилия — 341: разница 4 %. На круге её не видно, на столбцах видно сразу, а порядок читается сверху вниз.</div>
+  </div>
+
+  <p>Круг часто подписывают процентами у каждой доли. Тогда его можно прочитать — но читают уже числа, а не круг. Это таблица, которая занимает больше места.</p>
+
+  <p>Круг уместен, когда долей мало и важно, что вместе они — целое: «доставка и самовывоз», «новые и повторные покупатели». Насколько мало — источники расходятся. В Datawrapper советуют не больше четырёх долей, британская государственная служба аналитики — не больше пяти и чтобы одна была явно крупнее остальных. Урок осторожнее: на двух–трёх долях угадывать не приходится вовсе, а полоса из частей или одно число обычно читаются ещё быстрее.</p>
+
+  <div class="ds-lesson__rule"><b>Больше трёх долей — столбцы по убыванию.</b> С числом у каждого столбца и названием слева. Две–три доли можно показать кругом, полосой или одним числом.</div>
+</section>
+
+<section id="axis">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Оси и ноль на шкале</h2></div>
+  <p class="ds-lesson__lead">Высоту столбца глаз читает как величину. Если шкала начинается не с нуля, столбец обманывает: разница в 10 % выглядит как разница в разы.</p>
+
+  <p>В первой версии «Сводки» был график «Заказы за неделю»: на прошлой неделе 400, на этой 440. Шкалу начали с 380, чтобы «было видно рост». Подвиньте начало шкалы и посмотрите, что происходит со столбцами.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Живая шкала · подвиньте начало</div>
+    <div class="ds-lesson__box-body" data-axis data-axis-a="400" data-axis-b="440" data-axis-note="Шкала от {base}. Столбец «Эта неделя» выглядит выше в {looks}, а заказов больше на {real} %." data-axis-times="раз|раза|раз">
+      <span class="ds-lesson__chart" style="--n:2">
+        <span class="ds-lesson__chart-title">Оплаченные заказы за неделю, шт.</span>
+        <span class="ds-lesson__plot" style="--max:450;--h:10rem" data-axis-plot role="img" aria-label="Столбцы: прошлая неделя 400 заказов, эта неделя 440">
+          <span class="ds-lesson__tick is-base" style="--t:0" data-axis-base><span>0</span></span>
+          <span class="ds-lesson__tick" style="--t:100"><span>100</span></span>
+          <span class="ds-lesson__tick" style="--t:200"><span>200</span></span>
+          <span class="ds-lesson__tick" style="--t:300"><span>300</span></span>
+          <span class="ds-lesson__tick" style="--t:400"><span>400</span></span>
+          <span class="ds-lesson__cols"><span class="ds-lesson__col is-prev" style="--v:400"><span>400</span></span><span class="ds-lesson__col" style="--v:440"><span>440</span></span></span>
+        </span>
+        <span class="ds-lesson__xs"><span>Прошлая неделя</span><span>Эта неделя</span></span>
+      </span>
+      <div class="ds-lesson__axis-pick" data-axis-pick hidden><label for="axis-from">Начало шкалы</label><input id="axis-from" type="range" min="0" max="380" step="20" value="0" data-axis-input><output for="axis-from" data-axis-value>0</output></div>
+      <p class="ds-lesson__axis-out" data-axis-out aria-live="polite" hidden></p>
+    </div>
+    <div class="ds-lesson__box-foot">Числа над столбцами не меняются — меняется только начало шкалы. При шкале от 380 столбец «Эта неделя» выше в три раза, хотя заказов больше на 10 %.</div>
+  </div>
+
+  <p>Такой график разбирал ещё Даррелл Хафф в 1954 году в книге «Как лгать при помощи статистики». Обрезанная шкала не всегда умысел: часто так получается само, когда начало шкалы никто не проверил. Но управляющая увидит «рост в три раза» в любом случае.</p>
+
+  <p>Если от нуля разница не видна, а она важна, шкалу всё равно не обрезают — меняют график. В Datawrapper предлагают три выхода: точки вместо столбцов, линию или столбцы самой разницы — «+40 заказов к прошлой неделе».</p>
+
+  <p>У каждого графика с осями есть ещё две подписи: что по вертикали и в чём — «заказы, шт.», «выручка, тыс. ₽», — и что по горизонтали — дни, недели, месяцы. Единицы можно перенести в заголовок графика, как выше. Главное, чтобы они были.</p>
+
+  <p>У линии правило другое. Её читают по наклону, а не по высоте, поэтому шкала может начинаться не с нуля — если начало подписано и видно. Так считают и в Datawrapper, и в британской государственной службе аналитики: шкалу столбцов обрезать нельзя, шкалу линии — можно, когда без этого не видно изменения. Если же линия подходит близко к нулю, ноль на шкале лучше оставить. Средний чек за полгода колеблется между 908 и 951 рублями. От нуля линия выйдет почти плоской, и изменение в 4–5 % пропадёт.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Средний чек за полгода · две шкалы</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="ax1" hidden>Шкала от нуля</button><button class="ds-switch__button" type="button" data-switch-btn="ax2" hidden>Шкала от 880</button></div>
+
+      <div data-switch-pane="ax1"><p class="ds-switch__title">Шкала от нуля</p>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Средний чек, ₽</span>
+          <span class="ds-lesson__chart-note">по неделям, апрель — сентябрь</span>
+          <span class="ds-lesson__plot" style="--max:1000;--axis:3rem" role="img" aria-label="Линия почти плоская у отметки 900">
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:500"><span>500</span></span>
+            <span class="ds-lesson__tick" style="--t:1000"><span>1 000</span></span>
+            <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline vector-effect="non-scaling-stroke" points="0,8.8 4,9.2 8,8.5 12,7.9 16,8.2 20,7.5 24,7 28,7.3 32,7.8 36,8.1 40,7.4 44,6.7 48,6.2 52,6.5 56,7.1 60,5.9 64,5.6 68,6.1 72,6.4 76,5.8 80,5.3 84,4.9 88,5.4 92,5.7 96,5.1 100,5.2"/></svg>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>апрель</span><span>сентябрь</span></span>
+        </span>
+      </div>
+
+      <div data-switch-pane="ax2"><p class="ds-switch__title">Шкала от 880</p>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Средний чек, ₽</span>
+          <span class="ds-lesson__chart-note">по неделям, апрель — сентябрь · шкала от 880</span>
+          <span class="ds-lesson__plot" style="--base:880;--max:960;--axis:3rem" role="img" aria-label="Линия растёт от 912 до 948 рублей">
+            <span class="ds-lesson__tick is-base" style="--t:880"><span>880</span></span>
+            <span class="ds-lesson__tick" style="--t:920"><span>920</span></span>
+            <span class="ds-lesson__tick" style="--t:960"><span>960</span></span>
+            <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline vector-effect="non-scaling-stroke" points="0,60 4,65 8,56.2 12,48.8 16,52.5 20,43.8 24,37.5 28,41.2 32,47.5 36,51.2 40,42.5 44,33.8 48,27.5 52,31.2 56,38.7 60,23.8 64,20 68,26.2 72,30 76,22.5 80,16.2 84,11.2 88,17.5 92,21.2 96,13.8 100,15"/></svg>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>апрель</span><span>сентябрь</span></span>
+        </span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Столбцы так обрезать нельзя: столбец от 880 до 948 выглядел бы вчетверо выше столбца от 880 до 897. Линии высота не важна — важен наклон.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Столбцы — всегда от нуля.</b> Линия может начинаться не с нуля, если важна форма изменения, а начало шкалы подписано. У каждого графика подписаны обе оси и единицы.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите ошибки на экране «Сводка»</h2></div>
+  <p class="ds-lesson__lead">Вторая версия «Сводки», которую дизайнер принёс на обсуждение. Пять мест в ней мешают управляющей понять, как идут дела.</p>
+
+  <p>Нажимайте на плитки и графики, которые вы бы переделали. В разборе будет, что с ними не так. Нормальные тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Макет «Сводки» · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__db">
+          <div class="ds-lesson__db-top">Сводка <span>4 октября</span></div>
+          <div class="ds-lesson__db-body">
+            <div class="ds-lesson__db-tiles">
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Плитка «Оплаченные заказы, сегодня до 14:20»"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Оплаченные заказы</span><span class="ds-lesson__kpi-note">сегодня, до 14:20</span><span class="ds-lesson__kpi-value">41</span><span class="ds-lesson__kpi-delta">вчера к этому часу — 38</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Плитка «Пользователи»"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Пользователи</span><span class="ds-lesson__kpi-value">1 204</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Плитка «Выручка» с «−55 % к вчера»"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">сегодня, до 14:20</span><span class="ds-lesson__kpi-value">38 400</span><span class="ds-lesson__kpi-delta">−55 % к вчера</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Плитка «Средний чек за 30 дней»"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Средний чек, ₽</span><span class="ds-lesson__kpi-note">за 30 дней</span><span class="ds-lesson__kpi-value">936</span></span></span>
+            </div>
+            <div class="ds-lesson__db-charts">
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Линия «Оплаченные заказы по дням»"><span class="ds-lesson__chart">
+                <span class="ds-lesson__chart-title">Оплаченные заказы по дням, шт.</span>
+                <span class="ds-lesson__chart-note">4 сентября — 3 октября</span>
+                <span class="ds-lesson__plot" style="--max:100;--h:6rem">
+                  <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+                  <span class="ds-lesson__tick" style="--t:50"><span>50</span></span>
+                  <span class="ds-lesson__tick" style="--t:100"><span>100</span></span>
+                  <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline vector-effect="non-scaling-stroke" points="0,36 3.4,30 6.9,27 10.3,31 13.8,25 17.2,42 20.7,45 24.1,32 27.6,26 31,23 34.5,28 37.9,21 41.4,40 44.8,43 48.3,29 51.7,22 55.2,20 58.6,24 62.1,17 65.5,37 69,41 72.4,26 75.9,18 79.3,15 82.8,21 86.2,14 89.7,34 93.1,38 96.6,20 100,14"/></svg>
+                </span>
+                <span class="ds-lesson__xs is-ends"><span>4 сен</span><span>3 окт</span></span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Столбцы «Заказы за неделю»"><span class="ds-lesson__chart" style="--n:2">
+                <span class="ds-lesson__chart-title">Заказы за неделю, шт.</span>
+                <span class="ds-lesson__plot" style="--base:380;--max:450;--h:6rem">
+                  <span class="ds-lesson__tick is-base" style="--t:380"><span>380</span></span>
+                  <span class="ds-lesson__tick" style="--t:410"><span>410</span></span>
+                  <span class="ds-lesson__tick" style="--t:440"><span>440</span></span>
+                  <span class="ds-lesson__cols"><span class="ds-lesson__col is-prev" style="--v:400"><span>400</span></span><span class="ds-lesson__col" style="--v:440"><span>440</span></span></span>
+                </span>
+                <span class="ds-lesson__xs"><span>Прошлая</span><span>Эта</span></span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Круговая «Продажи по сортам»"><span class="ds-lesson__chart">
+                <span class="ds-lesson__chart-title">Продажи по сортам</span>
+                <span class="ds-lesson__chart-note">за 30 дней</span>
+                <span class="ds-lesson__pie-wrap" style="--l1:#2a78d6;--l2:#eb6834;--l3:#1baf7a;--l4:#eda100;--l5:#e87ba4;--l6:#008300;--l7:#4a3aa7;--d1:#3987e5;--d2:#d95926;--d3:#199e70;--d4:#c98500;--d5:#d55181;--d6:#008300;--d7:#9085e9">
+                  <span class="ds-lesson__pie" style="--a1:21%;--a2:39%;--a3:56%;--a4:69%;--a5:81%;--a6:91%"></span>
+                  <span class="ds-lesson__keys"><span class="ds-lesson__key">Эфиопия</span><span class="ds-lesson__key">Колумбия</span><span class="ds-lesson__key">Бразилия</span><span class="ds-lesson__key">Кения</span><span class="ds-lesson__key">Гватемала</span><span class="ds-lesson__key">Коста-Рика</span><span class="ds-lesson__key">Суматра</span></span>
+                </span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Столбцы «Города доставки»"><span class="ds-lesson__chart">
+                <span class="ds-lesson__chart-title">Города доставки, заказов</span>
+                <span class="ds-lesson__chart-note">за 30 дней</span>
+                <span class="ds-lesson__hbars">
+                  <span class="ds-lesson__hbar" style="--max:812;--v:812"><span>Москва</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">812</span></span>
+                  <span class="ds-lesson__hbar" style="--max:812;--v:431"><span>Санкт-Петербург</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">431</span></span>
+                  <span class="ds-lesson__hbar" style="--max:812;--v:198"><span>Екатеринбург</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">198</span></span>
+                  <span class="ds-lesson__hbar" style="--max:812;--v:164"><span>Казань</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span></span><span class="ds-lesson__hbar-value">164</span></span>
+                </span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Линия «Выручка» без шкалы"><span class="ds-lesson__chart">
+                <span class="ds-lesson__chart-title">Выручка</span>
+                <span class="ds-lesson__plot" style="--axis:0rem;--max:80;--h:6rem">
+                  <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline vector-effect="non-scaling-stroke" points="0,22.5 7.7,17.5 15.4,12.5 23.1,20 30.8,10 38.5,32.5 46.2,36.3 53.8,16.2 61.5,11.2 69.2,7.5 76.9,13.8 84.6,5 92.3,28.8 100,31.2"/></svg>
+                </span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Полоса «Как получают заказ»"><span class="ds-lesson__chart">
+                <span class="ds-lesson__chart-title">Как получают заказ</span>
+                <span class="ds-lesson__chart-note">доля оплаченных заказов за 30 дней</span>
+                <span class="ds-lesson__share"><span style="--v:77"></span><span style="--v:23"></span></span>
+                <span class="ds-lesson__share-keys"><span><b>Доставка</b> 77 %</span><span><b>Самовывоз</b> 23 %</span></span>
+              </span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Плитка «Оплаченные заказы» за сегодня до 14:20.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Понятно, какие заказы, за какое время и с чем сравнить: вчера к этому же часу.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Плитка «Пользователи».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Непонятно, кто это — посетители, покупатели или аккаунты, — и за какое время. Например: «Посетители сайта · сегодня, до 14:20».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«−55 % к вчера» у выручки.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Неполный день сравнили с полным: выручка до 14:20 против выручки за весь вчерашний день. Сравнивать надо с тем же часом: вчера к 14:20 было 35 100, это +9 %.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Плитка «Средний чек» за 30 дней.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Подпись, единицы и период на месте. Месяц для чека правильнее дня: за день он скачет от одного крупного заказа.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Линия «Оплаченные заказы по дням».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Время — линией, шкала подписана и начинается с нуля, даты по краям, единицы в заголовке.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Столбцы «Заказы за неделю» со шкалой от 380.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Столбцы обязаны начинаться с нуля. От 380 столбец «Эта» втрое выше, хотя заказов больше на 10 %.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Круговая «Продажи по сортам» на семь долей.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Семь долей не сравнить по углам, а цвета приходится сверять с подписями. Горизонтальные столбцы по убыванию с числом у каждого.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Горизонтальные столбцы «Города доставки».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Сравнение — столбцами от нуля, по убыванию, названия слева, число у каждого.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Линия «Выручка» без шкалы и дат.</span><span class="ds-lesson__hunt-fix"><b>Дописать. </b>Видна форма, но не видно ни величины, ни времени: рубли это или тысячи, неделя или месяц. Нужны единицы в заголовке, шкала слева и даты под линией.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Полоса «Как получают заказ».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Две доли целого — полосой и числами. Круг здесь тоже сработал бы, но полоса короче.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую плитку или график</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Подпись без смысла, неполный день против полного, столбцы не от нуля, круг на семь долей и линия без шкалы. Каждое из этих мест управляющая встречает каждый день, когда открывает «Сводку».</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные плитки и графики тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Проверяйте экран вопросом «что значит это число».</b> Задайте его про каждую плитку и каждый график. Если ответ начинается с «наверное», подписи не хватает.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Соберите экран с четырьмя показателями своего продукта. Подпишите каждый и укажите период.</p>
+
+  <h3>Часть 1 · Выбрать и описать, 20 минут</h3>
+  <ol>
+    <li><strong>Выберите четыре показателя,</strong> на которые смотрят каждый день или каждую неделю: заказы, заявки, оплаты, обращения в поддержку. Если своего продукта нет, возьмите «Сводку» «Лесной обжарки» из урока.</li>
+    <li><strong>Для каждого запишите,</strong> что именно считается и что не считается: какие заказы, какие деньги, какие люди.</li>
+    <li><strong>Выберите период</strong> и решите, с чем число сравнивать: со вчера к тому же часу, с прошлой неделей.</li>
+    <li><strong>Решите, нужен ли график.</strong> Если нужен — какой и почему.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Показатели · заполните перед макетом<span class="ds-lesson__spacer"></span><span data-copy="kpiTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="kpiTmpl">ЭКРАН: ______________________        Дата: __.__.____
+КТО СМОТРИТ: ______________________
+КАК ЧАСТО: ______________________
+
+ПОКАЗАТЕЛЬ 1: ______________________
+  считаем: ______________________
+  не считаем: ______________________
+  единицы: ________   период: ________   сравниваем с: ________
+  график: нет / линия / столбцы / полоса — почему: ______________
+
+ПОКАЗАТЕЛЬ 2: ______________________
+  считаем: ______________________
+  не считаем: ______________________
+  единицы: ________   период: ________   сравниваем с: ________
+  график: нет / линия / столбцы / полоса — почему: ______________
+
+ПОКАЗАТЕЛЬ 3: ______________________
+  считаем: ______________________
+  не считаем: ______________________
+  единицы: ________   период: ________   сравниваем с: ________
+  график: нет / линия / столбцы / полоса — почему: ______________
+
+ПОКАЗАТЕЛЬ 4: ______________________
+  считаем: ______________________
+  не считаем: ______________________
+  единицы: ________   период: ________   сравниваем с: ________
+  график: нет / линия / столбцы / полоса — почему: ______________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строка «не считаем» — самая полезная: именно в ней прячутся отменённые заказы, возвраты и тестовые оплаты.</div>
+  </div>
+
+  <h3>Часть 2 · Нарисовать, 40 минут</h3>
+  <ol>
+    <li><strong>Соберите экран:</strong> четыре плитки сверху, под ними — графики, если они нужны.</li>
+    <li><strong>У каждой плитки</strong> — подпись с единицами, число, период и сравнение.</li>
+    <li><strong>У каждого графика</strong> — заголовок с единицами, подписанная шкала и даты. Столбцы — от нуля.</li>
+    <li><strong>Проверьте на телефоне:</strong> плитки встают одна под другой, подписи не обрезаются.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 10 минут</h3>
+  <ol>
+    <li><strong>Покажите экран человеку,</strong> который видит его впервые, и попросите объяснить каждое число своими словами.</li>
+    <li><strong>Запишите, где он ошибся</strong> или сказал «наверное». Там подпись или период надо уточнить.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Человек, впервые увидевший экран, объясняет каждое число своими словами.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Экран</strong> с четырьмя подписанными показателями и периодами.</li>
+    <li><strong>Описание показателей:</strong> что считается, что нет, с чем сравнивается.</li>
+    <li><strong>Заметки с проверки:</strong> какие числа поняли не так и что вы поправили.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 20 минут на описание, 40 на макет, 10 на проверку. Всего — чуть больше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Не знаю, что именно считает система».</strong> Спросите разработчика или аналитика, какой запрос стоит за числом. Ответ «все заказы» — повод уточнить, входят ли отменённые и тестовые.</li>
+    <li><strong>«Подпись получается длинной».</strong> Короткое название — крупно, уточнение — мелко под ним: «Выручка, ₽» и ниже «оплаченные заказы, без доставки».</li>
+    <li><strong>«Хочется показать все числа, которые есть».</strong> Четыре — это ограничение задания, а не случайность. Выбирайте те, по которым что-то решают каждый день.</li>
+    <li><strong>«График выглядит скучно».</strong> Скучный график, который читается за секунду, лучше красивого, который надо разгадывать. Объём, тени и градиенты числа не добавляют.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Экран готов, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>У каждого числа есть подпись, которую нельзя понять двумя способами</li>
+    <li>Единицы указаны: рубли, штуки, пачки, проценты</li>
+    <li>У каждого числа виден период — у плитки или в шапке экрана</li>
+    <li>Неполный период сравнивается с таким же неполным</li>
+    <li>Время показано линией, сравнение — столбцами</li>
+    <li>Круговая — не больше чем на три доли</li>
+    <li>Столбцы начинаются с нуля</li>
+    <li>У графиков подписаны шкала, единицы и даты</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Слово вместо подписи.</b> «Пользователи», «Трафик», «Активность» каждый понимает по-своему.</li>
+    <li><b>Число без периода.</b> Не с чем сравнить.</li>
+    <li><b>Полдня против целого дня.</b> Плитка показывает падение, которого нет.</li>
+    <li><b>Круг на семь долей.</b> Доли не сравнить, цвета не запомнить.</li>
+    <li><b>Шкала столбцов не от нуля.</b> Разница в 10 % выглядит как разница в разы.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся собирать экран, на котором понятно каждое число. На следующих ступенях — делать дашборд, по которому видно, что делать дальше, а потом вместе с продуктом решать, какие показатели вообще нужны.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Подписывать показатель так, чтобы было ясно, что посчитано; указывать период; выбирать простой график под данные; не рисовать круг на семи долях; подписывать оси и начинать столбцы с нуля</td>
+          <td>Человек, впервые увидевший экран, объясняет каждое число своими словами</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Давать числу базу сравнения; выбирать график под вопрос; показывать отклонение заметно, а норму спокойно; убирать показатели, на которые не смотрят; ставить главное наверх</td>
+          <td class="ds-lesson__dim">По каждому показателю можно назвать решение, которое по нему принимают</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Вести с продуктом разговор о решении за каждым показателем; отличать показатели влияния от показателей наблюдения; убирать мёртвые показатели; видеть, где показатель толкает к вредному</td>
+          <td class="ds-lesson__dim">Хотя бы один показатель убран, и причина записана</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любое число на своём экране вы можете сказать, что посчитано, за какое время и с чем его сравнить.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20240403/">Правдивость</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Таня Мисютина, 2024 · на русском · бесплатно</span><span>Короткий текст о том, почему размер фигуры должен быть пропорционален числу: столбец, обрезанный снизу, круги в газете «Правда», опасная настройка Tableau. Автор строже урока: обрезанный столбец считает враньём, даже если умысла не было.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20250917/">Конструируем каркасы. Линейный график</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Таня Мисютина, 2025 · на русском · бесплатно</span><span>Разбор линейного графика на примере цены яиц: как усреднение стирает ступеньки, почему цену и среднее не рисуют столбиками, а количество и деньги — рисуют. Автор строже урока: столбцы во времени — только для того, что складывается.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://gopractice.ru/data/always-clearly-define-metrics/">Почему важно давать точное определение метрик</a></span><span class="ds-lesson__reads-meta">GoPractice, 2023 · на русском · бесплатно</span><span>Как одно слово «конверсия» дало Spotify 45 % вместо примерно 15 %: делили платящих на всех активных, а не на новых. В конце — четыре разных значения «конверсии в платящего». Середина с расчётами удержания — уровень выше урока.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/articles/976374/">Вот такие пироги… Почему нам врут круговые диаграммы</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Александр Клименков, 2025 · на русском · бесплатно</span><span>Короткая статья о том, почему сектора не сравнить на глаз и как объём искажает и круг, и столбцы. Автор строже урока: сначала предлагает не использовать круг нигде, в конце допускает несколько заметно разных долей. «Гистограммой» там названа столбчатая диаграмма.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/dashboards-preattentive/">Dashboards: Making Charts and Graphs Easier to Understand</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Пейдж Лаубхаймер, 2017 · на английском · бесплатно</span><span>Почему столбцы и линии читаются быстрее кругов, спидометров и тримапов: глаз точно сравнивает длину и положение и плохо — угол и площадь. Отдельно про объём и цвет. Строже урока: круг советуют избегать почти всегда, кроме одной доли, которая сильно больше остальных.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.datawrapper.de/academy/why-our-column-and-bar-charts-start-at-zero">Why our column and bar charts start at zero (or below)</a></span><span class="ds-lesson__reads-meta"><a href="/resource/datawrapper/">Datawrapper</a>, справка Academy, 2021 · на английском · бесплатно</span><span>Справка Datawrapper о том, почему инструмент не даёт начать столбцы выше нуля: исследование 2015 года о том, как обрезанная ось преувеличивает разницу, и три выхода, если от нуля разница не видна: точки, линия, столбцы разницы.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

@@ -1,0 +1,574 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#base">База сравнения: с чем сравнить число</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#question">График под вопрос, а не под красоту</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#deviation">Отклонение заметно, норма спокойно</a><span class="ds-lesson__tag">порог</span></li>
+    <li><a href="#remove">Показатель без решения</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#layout">Главное — сверху</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#hunt">Найдите ошибки на экране «Продажи и склад»</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Та же админка «Лесной обжарки», что и в уроке про <a href="/lessons/dashboards-junior/">экран «Сводка»</a>. Каждый понедельник управляющая разбирает прошлую неделю: что продалось, чего не хватает на складе, сколько зерна заказать у обжарщиков. Для этого в админке есть экран «Продажи и склад» — двенадцать графиков и плиток. Разбор занимает час, и половину часа она ищет, на что смотреть. Этот экран вы и пересоберёте.</div>
+
+<section id="base">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>База сравнения: с чем сравнить число</h2></div>
+  <p class="ds-lesson__lead">Само число не говорит, хорошо это или плохо. Хорошо или плохо становится рядом с другим числом — с прошлой неделей, с планом, с обычным уровнем.</p>
+
+  <p>Выручка за прошлую неделю — 489 600 ₽. Переключите базу сравнения и посмотрите, какой вывод сделает управляющая в каждом случае.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Выручка за неделю · четыре базы</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="b1" hidden>Без базы</button><button class="ds-switch__button" type="button" data-switch-btn="b2" hidden>К прошлой неделе</button><button class="ds-switch__button" type="button" data-switch-btn="b3" hidden>К плану</button><button class="ds-switch__button" type="button" data-switch-btn="b4" hidden>К обычной неделе</button></div>
+
+      <div data-switch-pane="b1"><p class="ds-switch__title">Без базы</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">28 сентября — 4 октября</span><span class="ds-lesson__kpi-value">489 600</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Вывод</span><span class="ds-lesson__kpi-note">Никакого. Много это или мало, не узнать без второго числа.</span></span>
+        </div>
+      </div>
+
+      <div data-switch-pane="b2"><p class="ds-switch__title">К прошлой неделе</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">28 сентября — 4 октября</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__kpi-delta">+4 % к прошлой неделе — 471 000</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Вывод</span><span class="ds-lesson__kpi-note">Стало лучше. Но прошлая неделя могла быть слабой — тогда «лучше» ничего не значит.</span></span>
+        </div>
+      </div>
+
+      <div data-switch-pane="b3"><p class="ds-switch__title">К плану</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">28 сентября — 4 октября</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__bullet" style="--max:600;--b1:432;--v:489.6;--m:540" role="img" aria-label="Факт 489 600, план 540 000"><span class="ds-lesson__bullet-fill"></span><span class="ds-lesson__bullet-mark"></span></span><span class="ds-lesson__kpi-delta">91 % плана недели — 540 000</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Вывод</span><span class="ds-lesson__kpi-note">Отстаём на 50 400. Если так пойдёт до конца месяца, план не выполнить.</span></span>
+        </div>
+      </div>
+
+      <div data-switch-pane="b4"><p class="ds-switch__title">К обычной неделе</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">28 сентября — 4 октября</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__kpi-delta">обычно 452 000 — 505 000 за последние 8 недель</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Вывод</span><span class="ds-lesson__kpi-note">Ничего не случилось: неделя как неделя.</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Одно число — три вывода: стало лучше, отстаём от плана, всё как обычно. И все три верные: каждая база отвечает на свой вопрос.</div>
+  </div>
+
+  <p>Базу выбирают по вопросу, ради которого человек смотрит на число:</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">База</th><th scope="col">На какой вопрос отвечает</th><th scope="col">Где ловушка</th></tr></thead>
+      <tbody>
+        <tr><td>Прошлый период</td><td>Стало лучше или хуже?</td><td>В прошлом периоде мог быть праздник или акция. Дни сравнивают с тем же днём недели: понедельник — с понедельником</td></tr>
+        <tr><td>План или цель</td><td>Успеваем?</td><td>План, поставленный на глаз. Тогда «91 % плана» говорит о плане, а не о продажах</td></tr>
+        <tr><td>Обычный уровень</td><td>Это нормально или что-то случилось?</td><td>Одно среднее прячет разброс. Лучше показать обычный диапазон: «обычно 452–505 тыс.»</td></tr>
+        <tr><td>Тот же период год назад</td><td>Это сезон или что-то новое?</td><td>Нужна история: магазину меньше года — базы нет</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Отдельная ловушка — проценты на маленьких числах. Возвратов на прошлой неделе было 2, на этой 4 — плитка пишет «+100 %» и краснеет. Но четыре возврата в неделю для «Лесной обжарки» — обычное дело: за последние два месяца бывало от 2 до 7. Когда число маленькое, показывают само число и обычный диапазон, а не процент.</p>
+
+  <p class="ds-lesson__dim">В Nielsen Norman Group пишут, что число без контекста ничего не значит: его сравнивают с прошлым — с прошлым годом, с версией до редизайна — или с похожим: с конкурентом, с другой задачей, с другой группой пользователей. У Стивена Фью «недостаточный контекст для данных» — одна из тринадцати типичных ошибок дашбордов, а контекстом он называет цель или историю показателя и быструю оценку «хорошо, норма, плохо».</p>
+
+  <div class="ds-lesson__rule"><b>У каждого числа — база сравнения.</b> Её выбирают по вопросу: «стало лучше?» — прошлый период, «успеваем?» — план, «всё в порядке?» — обычный диапазон. Маленькие числа сравнивают в штуках, а не в процентах.</div>
+</section>
+
+<section id="question">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>График под вопрос, а не под красоту</h2></div>
+  <p class="ds-lesson__lead">Одни и те же данные отвечают на разные вопросы. Под каждый вопрос нужен свой график, и один график на все вопросы не отвечает ни на один.</p>
+
+  <p>Данные — продажи семи сортов за восемь недель. В первой версии экрана их показывали одним графиком: семь цветных линий. Переключите вопросы и посмотрите, какой график отвечает на каждый.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Продажи по сортам · один набор данных, три вопроса</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="q0" hidden>Как было</button><button class="ds-switch__button" type="button" data-switch-btn="q1" hidden>Что продаётся лучше</button><button class="ds-switch__button" type="button" data-switch-btn="q2" hidden>Что с Кенией</button><button class="ds-switch__button" type="button" data-switch-btn="q3" hidden>Что изменилось за неделю</button></div>
+
+      <div data-switch-pane="q0"><p class="ds-switch__title">Как было: семь линий</p>
+        <span class="ds-lesson__chart ds-lesson__cats" style="--l1:#2a78d6;--l2:#eb6834;--l3:#1baf7a;--l4:#eda100;--l5:#e87ba4;--l6:#008300;--l7:#4a3aa7;--d1:#3987e5;--d2:#d95926;--d3:#199e70;--d4:#c98500;--d5:#d55181;--d6:#008300;--d7:#9085e9">
+          <span class="ds-lesson__chart-title">Продажи по сортам, пачек в неделю</span>
+          <span class="ds-lesson__plot" style="--max:160;--h:9rem" role="img" aria-label="Семь цветных линий продаж по сортам за восемь недель, пересекаются">
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:80"><span>80</span></span>
+            <span class="ds-lesson__tick" style="--t:160"><span>160</span></span>
+            <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline class="is-c1" vector-effect="non-scaling-stroke" points="0,15.6 14.3,13.1 28.6,10 42.9,13.8 57.1,7.5 71.4,8.8 85.7,3.8 100,5"/><polyline class="is-c2" vector-effect="non-scaling-stroke" points="0,23.1 14.3,26.2 28.6,21.2 42.9,23.8 57.1,24.4 71.4,19.4 85.7,21.9 100,18.1"/><polyline class="is-c3" vector-effect="non-scaling-stroke" points="0,28.1 14.3,25.6 28.6,27.5 42.9,23.8 57.1,26.2 71.4,24.4 85.7,22.5 100,25.6"/><polyline class="is-c5" vector-effect="non-scaling-stroke" points="0,49.4 14.3,46.9 28.6,50.6 42.9,47.5 57.1,45 71.4,48.8 85.7,45.6 100,46.9"/><polyline class="is-c6" vector-effect="non-scaling-stroke" points="0,59.4 14.3,56.9 28.6,58.8 42.9,55 57.1,57.5 71.4,56.2 85.7,54.4 100,52.5"/><polyline class="is-c7" vector-effect="non-scaling-stroke" points="0,62.5 14.3,64.4 28.6,60.6 42.9,63.1 57.1,61.2 71.4,59.4 85.7,62.5 100,58.8"/><polyline class="is-c4" vector-effect="non-scaling-stroke" points="0,35.6 14.3,39.4 28.6,41.9 42.9,43.8 57.1,46.9 71.4,49.4 85.7,52.5 100,62.5"/></svg>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>10 авг</span><span>4 окт</span></span>
+          <span class="ds-lesson__keys"><span class="ds-lesson__key">Эфиопия</span><span class="ds-lesson__key">Колумбия</span><span class="ds-lesson__key">Бразилия</span><span class="ds-lesson__key">Кения</span><span class="ds-lesson__key">Гватемала</span><span class="ds-lesson__key">Коста-Рика</span><span class="ds-lesson__key">Суматра</span></span>
+        </span>
+      </div>
+
+      <div data-switch-pane="q1"><p class="ds-switch__title">Что продаётся лучше — столбцы по убыванию</p>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Продажи по сортам, пачек</span>
+          <span class="ds-lesson__chart-note">28 сентября — 4 октября; черта — прошлая неделя</span>
+          <span class="ds-lesson__hbars">
+            <span class="ds-lesson__hbar" style="--max:160;--v:152"><span>Эфиопия Иргачеффе</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:154"></span></span><span class="ds-lesson__hbar-value">152</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:131"><span>Колумбия Супремо</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:125"></span></span><span class="ds-lesson__hbar-value">131</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:119"><span>Бразилия Сантос</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:124"></span></span><span class="ds-lesson__hbar-value">119</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:85"><span>Гватемала Антигуа</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:87"></span></span><span class="ds-lesson__hbar-value">85</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:76"><span>Коста-Рика Тарразу</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:73"></span></span><span class="ds-lesson__hbar-value">76</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:66"><span>Суматра Мандхелинг</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:60"></span></span><span class="ds-lesson__hbar-value">66</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:60"><span>Кения АА</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:76"></span></span><span class="ds-lesson__hbar-value">60</span></span>
+          </span>
+        </span>
+      </div>
+
+      <div data-switch-pane="q2"><p class="ds-switch__title">Что с Кенией — одна линия выделена</p>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Продажи Кении АА, пачек в неделю</span>
+          <span class="ds-lesson__chart-note">остальные сорта — серым, для сравнения</span>
+          <span class="ds-lesson__plot" style="--max:160;--h:9rem" role="img" aria-label="Линия Кении АА падает со 103 до 60 пачек в неделю, остальные сорта — серым, ровно">
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:80"><span>80</span></span>
+            <span class="ds-lesson__tick" style="--t:160"><span>160</span></span>
+            <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline class="is-bg" vector-effect="non-scaling-stroke" points="0,15.6 14.3,13.1 28.6,10 42.9,13.8 57.1,7.5 71.4,8.8 85.7,3.8 100,5"/><polyline class="is-bg" vector-effect="non-scaling-stroke" points="0,23.1 14.3,26.2 28.6,21.2 42.9,23.8 57.1,24.4 71.4,19.4 85.7,21.9 100,18.1"/><polyline class="is-bg" vector-effect="non-scaling-stroke" points="0,28.1 14.3,25.6 28.6,27.5 42.9,23.8 57.1,26.2 71.4,24.4 85.7,22.5 100,25.6"/><polyline class="is-bg" vector-effect="non-scaling-stroke" points="0,49.4 14.3,46.9 28.6,50.6 42.9,47.5 57.1,45 71.4,48.8 85.7,45.6 100,46.9"/><polyline class="is-bg" vector-effect="non-scaling-stroke" points="0,59.4 14.3,56.9 28.6,58.8 42.9,55 57.1,57.5 71.4,56.2 85.7,54.4 100,52.5"/><polyline class="is-bg" vector-effect="non-scaling-stroke" points="0,62.5 14.3,64.4 28.6,60.6 42.9,63.1 57.1,61.2 71.4,59.4 85.7,62.5 100,58.8"/><polyline class="" vector-effect="non-scaling-stroke" points="0,35.6 14.3,39.4 28.6,41.9 42.9,43.8 57.1,46.9 71.4,49.4 85.7,52.5 100,62.5"/></svg>
+            <span class="ds-lesson__dot is-end" style="--x:100;--y:37.5"><span>Кения АА · 60</span></span>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>10 авг</span><span>4 окт</span></span>
+        </span>
+      </div>
+
+      <div data-switch-pane="q3"><p class="ds-switch__title">Что изменилось за неделю — разница от нуля</p>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Продажи к прошлой неделе, %</span>
+          <span class="ds-lesson__chart-note">28 сентября — 4 октября против 21–27 сентября</span>
+          <span class="ds-lesson__hbars">
+            <span class="ds-lesson__hbar" style="--max:25;--v:10"><span>Суматра Мандхелинг</span><span class="ds-lesson__hdiv-track"><span class="ds-lesson__hdiv-fill"></span></span><span class="ds-lesson__hbar-value">+10 %</span></span>
+            <span class="ds-lesson__hbar" style="--max:25;--v:5"><span>Колумбия Супремо</span><span class="ds-lesson__hdiv-track"><span class="ds-lesson__hdiv-fill"></span></span><span class="ds-lesson__hbar-value">+5 %</span></span>
+            <span class="ds-lesson__hbar" style="--max:25;--v:4"><span>Коста-Рика Тарразу</span><span class="ds-lesson__hdiv-track"><span class="ds-lesson__hdiv-fill"></span></span><span class="ds-lesson__hbar-value">+4 %</span></span>
+            <span class="ds-lesson__hbar" style="--max:25;--v:-1"><span>Эфиопия Иргачеффе</span><span class="ds-lesson__hdiv-track"><span class="ds-lesson__hdiv-fill is-neg"></span></span><span class="ds-lesson__hbar-value">−1 %</span></span>
+            <span class="ds-lesson__hbar" style="--max:25;--v:-2"><span>Гватемала Антигуа</span><span class="ds-lesson__hdiv-track"><span class="ds-lesson__hdiv-fill is-neg"></span></span><span class="ds-lesson__hbar-value">−2 %</span></span>
+            <span class="ds-lesson__hbar" style="--max:25;--v:-4"><span>Бразилия Сантос</span><span class="ds-lesson__hdiv-track"><span class="ds-lesson__hdiv-fill is-neg"></span></span><span class="ds-lesson__hbar-value">−4 %</span></span>
+            <span class="ds-lesson__hbar" style="--max:25;--v:-21"><span>Кения АА</span><span class="ds-lesson__hdiv-track"><span class="ds-lesson__hdiv-fill is-neg"></span></span><span class="ds-lesson__hbar-value">−21 %</span></span>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">На семи линиях падение Кении заметит тот, кто знает, куда смотреть: линии пересекаются, а цвет надо сверять с подписью. Каждый из трёх графиков отвечает на один вопрос — и ответ видно сразу.</div>
+  </div>
+
+  <p>Приём из второго графика — выделить один ряд цветом, а остальные оставить серыми — работает почти всегда, когда рядов много. Серые линии дают фон для сравнения и не спорят за внимание. В блоге Datawrapper советуют начинать с вопроса «что читатель должен увидеть первым» и красить только это.</p>
+
+  <p>Иногда лучший ответ — не график, а таблица. Когда по числу что-то делают руками — вписывают в заказ, сверяют с выпиской, — нужны точные значения, а не форма. Сколько пачек Кении заказать у обжарщика, по столбцу не прочитать.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · какой ответ на вопрос<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 6 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="line"><p class="ds-quiz__question">Растёт ли доля покупателей, которые заказывают повторно, за полгода.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Линия</b>Вопрос про направление во времени. Линия покажет, растёт доля или стоит на месте.</p></li>
+<li data-quiz-q data-answer="table"><p class="ds-quiz__question">Сколько пачек каждого сорта заказать у обжарщика на следующую неделю.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Таблица</b>Числа вписывают в заказ. Нужны точные значения по каждому сорту: остаток, продажи за неделю, сколько заказать.</p></li>
+<li data-quiz-q data-answer="bars"><p class="ds-quiz__question">В какие дни недели заказов больше — чтобы решить, когда выводить второго сборщика.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Столбцы</b>Семь дней сравнивают между собой. Столбцы в порядке дней недели сразу покажут пики.</p></li>
+<li data-quiz-q data-answer="line"><p class="ds-quiz__question">Падают ли продажи Кении последние два месяца.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Линия</b>Одна линия Кении, выделенная цветом, на фоне серых остальных. Видно и падение, и то, что другие сорта стоят ровно.</p></li>
+<li data-quiz-q data-answer="table"><p class="ds-quiz__question">Совпадает ли сумма возвратов за месяц с выпиской из банка.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Таблица</b>Сверка — это точные суммы по строкам. График тут только мешает.</p></li>
+<li data-quiz-q data-answer="bars"><p class="ds-quiz__question">Какой сорт продался лучше всего на прошлой неделе.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Столбцы</b>Сравнение семи сортов: горизонтальные столбцы по убыванию, названия слева.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="line">Линия</button><button class="ds-quiz__option" type="button" data-quiz-answer="bars">Столбцы</button><button class="ds-quiz__option" type="button" data-quiz-answer="table">Таблица</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Если по числу что-то делают руками — вписывают, сверяют, переносят, — это таблица. Если по нему понимают, куда идут дела, — график.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Один вопрос — один график.</b> Запишите вопрос в заголовок графика или хотя бы в описание экрана. Много рядов — выделите один, остальные серым. Нужны точные значения — таблица.</div>
+</section>
+
+<section id="deviation">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Отклонение заметно, норма спокойно</h2></div>
+  <p class="ds-lesson__lead">Когда на экране всё цветное, не выделено ничего. Цвет достаётся только тому, что вышло за обычные пределы и требует внимания.</p>
+
+  <p>В первой версии экрана каждая плитка была покрашена: рост — зелёным, падение — красным. Сравните с версией, где цвет есть только у выхода за порог.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Плитки недели · светофор и порог</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="d1" hidden>Светофор везде</button><button class="ds-switch__button" type="button" data-switch-btn="d2" hidden>Цвет у выхода за порог</button></div>
+
+      <div data-switch-pane="d1"><p class="ds-switch__title">Светофор везде</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__kpi-delta is-good">▲ 4 %</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Оплаченные заказы</span><span class="ds-lesson__kpi-value">523</span><span class="ds-lesson__kpi-delta is-good">▲ 2 %</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Средний чек, ₽</span><span class="ds-lesson__kpi-value">936</span><span class="ds-lesson__kpi-delta is-bad">▼ 1 %</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Возвраты, пачек</span><span class="ds-lesson__kpi-value">4</span><span class="ds-lesson__kpi-delta is-bad">▲ 100 %</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Посетители сайта</span><span class="ds-lesson__kpi-value">16 300</span><span class="ds-lesson__kpi-delta is-bad">▼ 3 %</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Кения АА на складе</span><span class="ds-lesson__kpi-value">3 дня</span><span class="ds-lesson__kpi-delta is-bad">▼ 62 %</span></span>
+        </div>
+      </div>
+
+      <div data-switch-pane="d2"><p class="ds-switch__title">Цвет у выхода за порог</p>
+        <div class="ds-lesson__db-tiles">
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__kpi-delta">обычно 452–505 тыс.</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Оплаченные заказы</span><span class="ds-lesson__kpi-value">523</span><span class="ds-lesson__kpi-delta">обычно 490–560</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Средний чек, ₽</span><span class="ds-lesson__kpi-value">936</span><span class="ds-lesson__kpi-delta">обычно 910–950</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Возвраты, пачек</span><span class="ds-lesson__kpi-value">4</span><span class="ds-lesson__kpi-delta">обычно 2–7</span></span>
+          <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Посетители сайта</span><span class="ds-lesson__kpi-value">16 300</span><span class="ds-lesson__kpi-delta">обычно 15–18 тыс.</span></span>
+          <span class="ds-lesson__kpi is-alert"><span class="ds-lesson__kpi-label">Кения АА на складе</span><span class="ds-lesson__kpi-value">3 дня</span><span class="ds-lesson__kpi-delta is-bad">Мало: заказать у обжарщика, нужно от 10 дней</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">В светофоре четыре красных плитки, и только одна из них — повод что-то делать. Во второй версии красная одна, и на ней написано, что делать.</div>
+  </div>
+
+  <p>Чтобы красить только выход за пределы, нужны сами пределы. Самый простой способ — обычный диапазон за последние недели. Тоньше — порог: на сколько процентов число может отойти от обычного, прежде чем это станет поводом спросить «что случилось».</p>
+
+  <p>Порог — решение, а не настройка по умолчанию. Слишком маленький — и тревога каждый день: через неделю её перестанут замечать. Слишком большой — и настоящий сбой пройдёт тихо. Подвиньте порог и посмотрите, сколько дней за месяц он выделит.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Порог отклонения · подвиньте полосу</div>
+    <div class="ds-lesson__box-body" data-band data-band-note="Порог ±{t} %: выделено дней — {n} из {total}." data-band-none="Ни одного — сбой оплаты 14 сентября прошёл бы незамеченным." data-band-many-from="5" data-band-many="Тревога почти через день — через неделю её перестанут замечать." data-band-ok="Выделено то, о чём стоит спросить: что случилось в эти дни.">
+      <span class="ds-lesson__chart">
+        <span class="ds-lesson__chart-title">Оплаченные заказы к обычному для этого дня недели, %</span>
+        <span class="ds-lesson__chart-note">4 сентября — 3 октября; серая полоса — допустимый разброс</span>
+        <span class="ds-lesson__plot" style="--lo:-50;--hi:50;--base:-50;--max:50;--h:10rem;--axis:2.75rem" role="img" aria-label="Столбцы отклонений за 30 дней: почти все в пределах ±10 %%; 14 сентября −46 %%, 23 сентября +38 %%">
+            <span class="ds-lesson__band" style="--t:15" data-band-strip></span>
+            <span class="ds-lesson__tick" style="--t:-50"><span>−50</span></span>
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:50"><span>+50</span></span>
+            <span class="ds-lesson__devs" style="--n:30"><span class="ds-lesson__dev" style="--v:3" data-band-v="3"><span>+3</span></span><span class="ds-lesson__dev is-low" style="--v:-4" data-band-v="-4"><span>−4</span></span><span class="ds-lesson__dev" style="--v:6" data-band-v="6"><span>+6</span></span><span class="ds-lesson__dev is-low" style="--v:-2" data-band-v="-2"><span>−2</span></span><span class="ds-lesson__dev" style="--v:1" data-band-v="1"><span>+1</span></span><span class="ds-lesson__dev is-low" style="--v:-7" data-band-v="-7"><span>−7</span></span><span class="ds-lesson__dev" style="--v:5" data-band-v="5"><span>+5</span></span><span class="ds-lesson__dev is-low" style="--v:-3" data-band-v="-3"><span>−3</span></span><span class="ds-lesson__dev" style="--v:8" data-band-v="8"><span>+8</span></span><span class="ds-lesson__dev" style="--v:2" data-band-v="2"><span>+2</span></span><span class="ds-lesson__dev is-bad is-low" style="--v:-46" data-band-v="-46"><span>−46</span></span><span class="ds-lesson__dev is-low" style="--v:-5" data-band-v="-5"><span>−5</span></span><span class="ds-lesson__dev" style="--v:4" data-band-v="4"><span>+4</span></span><span class="ds-lesson__dev is-low" style="--v:-1" data-band-v="-1"><span>−1</span></span><span class="ds-lesson__dev" style="--v:7" data-band-v="7"><span>+7</span></span><span class="ds-lesson__dev is-low" style="--v:-9" data-band-v="-9"><span>−9</span></span><span class="ds-lesson__dev" style="--v:3" data-band-v="3"><span>+3</span></span><span class="ds-lesson__dev" style="--v:6" data-band-v="6"><span>+6</span></span><span class="ds-lesson__dev is-low" style="--v:-2" data-band-v="-2"><span>−2</span></span><span class="ds-lesson__dev is-bad" style="--v:38" data-band-v="38"><span>+38</span></span><span class="ds-lesson__dev is-low" style="--v:-6" data-band-v="-6"><span>−6</span></span><span class="ds-lesson__dev" style="--v:2" data-band-v="2"><span>+2</span></span><span class="ds-lesson__dev is-low" style="--v:-3" data-band-v="-3"><span>−3</span></span><span class="ds-lesson__dev" style="--v:9" data-band-v="9"><span>+9</span></span><span class="ds-lesson__dev is-low" style="--v:-4" data-band-v="-4"><span>−4</span></span><span class="ds-lesson__dev" style="--v:1" data-band-v="1"><span>+1</span></span><span class="ds-lesson__dev is-low" style="--v:-8" data-band-v="-8"><span>−8</span></span><span class="ds-lesson__dev" style="--v:5" data-band-v="5"><span>+5</span></span><span class="ds-lesson__dev is-low" style="--v:-11" data-band-v="-11"><span>−11</span></span><span class="ds-lesson__dev" style="--v:12" data-band-v="12"><span>+12</span></span></span>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>4 сен</span><span>14 сен</span><span>23 сен</span><span>3 окт</span></span>
+      </span>
+      <div class="ds-lesson__band-pick" data-band-pick hidden><label for="band-t">Порог</label><input id="band-t" type="range" min="5" max="50" step="5" value="15" data-band-input><output for="band-t" data-band-value>±15 %</output></div>
+      <p class="ds-lesson__band-out" data-band-out aria-live="polite" hidden></p>
+    </div>
+    <div class="ds-lesson__box-foot">При пороге ±15 % выделены два дня: 14 сентября полдня не работала оплата (−46 %), 23 сентября ушла рассылка с промокодом (+38 %). Про оба дня управляющая должна узнать. При ±5 % выделено 13 дней из 30, при ±50 % — ни одного.</div>
+  </div>
+
+  <p>Сравнение с обычным для этого дня недели, а не с прошлым днём, убирает шум: заказов в субботу всегда меньше, чем в пятницу, и это не повод для тревоги.</p>
+
+  <p class="ds-lesson__dim">В GoPractice смотрят на спокойный экран с другой стороны: если дашборд всё время отвечает «всё как обычно», это повод насторожиться — возможно, данные сгладили, и скачки пропали. Поэтому на графике выше дни, а не недели: шум остаётся виден, просто серым, а цвет получает только выход за порог. Для исследования продукта интересен каждый скачок; для экрана, по которому действуют каждый понедельник, — те, что требуют действия.</p>
+
+  <p>Ещё два приёма из классики. Стивен Фью придумал полосу плана — bullet graph — вместо спидометров: короткая полоса, где столбец — факт, черта — цель, а оттенки серого — диапазоны вроде «плохо» и «норма». Она умещается в плитку. Эдвард Тафти — спарклайн: линию размером со слово, без осей, которая показывает форму ряда рядом с числом.</p>
+
+  <div class="ds-lesson__db-tiles">
+    <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-note">за неделю · черта — план</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__bullet" style="--max:600;--b1:432;--v:489.6;--m:540" role="img" aria-label="Факт 489 600, план 540 000"><span class="ds-lesson__bullet-fill"></span><span class="ds-lesson__bullet-mark"></span></span><span class="ds-lesson__kpi-delta">91 % плана — 540 000</span></span>
+    <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Кения АА, пачек</span><span class="ds-lesson__kpi-note">продажи по неделям, 8 недель</span><span class="ds-lesson__kpi-value">60</span><svg class="ds-lesson__spark" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline vector-effect="non-scaling-stroke" points="0,0 14.3,13.95 28.6,23.26 42.9,30.23 57.1,41.86 71.4,51.16 85.7,62.79 100,100"/></svg><span class="ds-lesson__kpi-delta">было 103 восемь недель назад</span></span>
+  </div>
+
+  <p>И последнее: отклонение показывают не только цветом. Знак «−», стрелка или слово «мало» нужны тем, кто плохо различает красный и зелёный, — по данным Colour Blind Awareness, это примерно один мужчина из двенадцати и одна женщина из двухсот. Требование доступности WCAG 1.4.1 о том же: цвет не может быть единственным способом что-то сообщить.</p>
+
+  <div class="ds-lesson__rule"><b>Норма — серым, отклонение — цветом и словом.</b> Выход за порог виден сразу, а на плитке написано, что делать. Порог выбирают так, чтобы тревога была редкой, но настоящий сбой не прошёл тихо.</div>
+</section>
+
+<section id="remove">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Показатель без решения</h2></div>
+  <p class="ds-lesson__lead">Каждый лишний график отнимает внимание у нужных. Показатель остаётся на экране, только если по нему что-то решают.</p>
+
+  <p>Про каждый показатель экрана задайте один вопрос тому, кто на него смотрит: «Что вы сделаете, если это число завтра вырастет вдвое? А если упадёт?» Если ответ «ничего» или «ну, порадуюсь», показатель на этом экране не нужен.</p>
+
+  <p>Иногда показатель нужен, но редко: раз в квартал, когда планируют смены, или когда что-то пошло не так. Ему место в отдельном отчёте, куда ведёт ссылка с экрана, а не на главном экране каждый день.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · оставить, убрать или в отчёт<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 6 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="keep"><p class="ds-quiz__question">Остаток каждого сорта на складе — на сколько дней продаж его хватит.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить</b>По нему каждый понедельник заказывают зерно у обжарщиков. Меньше десяти дней — заказывать сейчас.</p></li>
+<li data-quiz-q data-answer="drop"><p class="ds-quiz__question">Выручка за всё время работы магазина.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Убрать</b>Она только растёт. По ней не видно, стало ли хуже, и ничего по ней не решают.</p></li>
+<li data-quiz-q data-answer="report"><p class="ds-quiz__question">Заказы по часам за неделю.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>В отчёт</b>Нужны раз в квартал, когда составляют график смен сборщиков. Каждый понедельник по ним ничего не решают.</p></li>
+<li data-quiz-q data-answer="keep"><p class="ds-quiz__question">Доля заказов, собранных с ошибкой: не тот сорт, не тот помол.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить</b>Выросла — разбираются со сборкой на этой же неделе, пока покупатели не начали уходить.</p></li>
+<li data-quiz-q data-answer="drop"><p class="ds-quiz__question">Число зарегистрированных аккаунтов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Убрать</b>Растёт само, а заказать можно и без аккаунта. Управляющая не может назвать решение, которое по нему примет.</p></li>
+<li data-quiz-q data-answer="report"><p class="ds-quiz__question">Продажи по способам оплаты: карта, СБП, при получении.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>В отчёт</b>Пригодится, когда выбирают платёжный сервис или разбирают сбой оплаты. Не каждую неделю.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="keep">Оставить</button><button class="ds-quiz__option" type="button" data-quiz-answer="drop">Убрать</button><button class="ds-quiz__option" type="button" data-quiz-answer="report">В отчёт</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Оставить — по показателю решают каждую неделю. В отчёт — решают, но редко. Убрать — решения нет вовсе.</div>
+</div>
+
+  <p>Как узнать, что на показатель никто не смотрит? Спросить — и проверить, если инструмент считает просмотры: во многих системах аналитики видно, кто и когда открывал отчёт. Показатель, который не открывали два месяца, — первый кандидат.</p>
+
+  <p>После разбора из двенадцати графиков и плиток на экране «Продажи и склад» осталось шесть. Остальные ушли в отчёт «Продажи подробно» или пропали совсем.</p>
+
+  <p class="ds-lesson__dim">С этим спорит Таня Мисютина в «Советах» Бюро Горбунова: если данные помещаются без ущерба для чтения, зачем показывать меньше. В разборе дашборда продаж она добавляет на экран полную таблицу. Разница — в задаче экрана: её дашборд изучают, а экран понедельника нужен, чтобы быстро решить и пойти делать. Там каждая плитка без решения отнимает внимание у тех, что с решением.</p>
+
+  <div class="ds-lesson__rule"><b>У каждого показателя — решение, которое по нему принимают.</b> Нет решения — показатель уходит с экрана. Решение редкое — показатель уходит в отдельный отчёт, а на экране остаётся ссылка.</div>
+</section>
+
+<section id="layout">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Главное — сверху</h2></div>
+  <p class="ds-lesson__lead">Экран читают сверху вниз. Наверху — ответ на главный вопрос экрана, ниже — объяснение, ещё ниже — подробности или ссылка на них.</p>
+
+  <p>Главный вопрос понедельника у управляющей: всё ли в порядке и что сделать на этой неделе. Отсюда порядок экрана:</p>
+  <ol>
+    <li><strong>Наверху — плитки</strong> с главными числами недели и базой у каждого. Плитка, которая требует действия, выделена.</li>
+    <li><strong>Ниже — графики, которые объясняют</strong>: в какие дни что-то пошло не так, какие сорта просели.</li>
+    <li><strong>Внизу — ссылка на подробный отчёт</strong> для редких вопросов.</li>
+  </ol>
+
+  <div class="ds-lesson__db">
+    <div class="ds-lesson__db-top">Продажи и склад <span>неделя 28 сентября — 4 октября</span></div>
+    <div class="ds-lesson__db-body">
+      <div class="ds-lesson__db-tiles">
+        <span class="ds-lesson__kpi is-alert"><span class="ds-lesson__kpi-label">Заканчивается на складе</span><span class="ds-lesson__kpi-value">2 сорта</span><span class="ds-lesson__kpi-delta is-bad">Кения АА — на 3 дня, Суматра — на 6 дней. Заказать у обжарщика</span></span>
+        <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__bullet" style="--max:600;--b1:432;--v:489.6;--m:540" role="img" aria-label="Факт 489 600, план 540 000"><span class="ds-lesson__bullet-fill"></span><span class="ds-lesson__bullet-mark"></span></span><span class="ds-lesson__kpi-delta">91 % плана недели</span></span>
+        <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Оплаченные заказы</span><span class="ds-lesson__kpi-value">523</span><span class="ds-lesson__kpi-delta">обычно 490–560</span></span>
+        <span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Возвраты, пачек</span><span class="ds-lesson__kpi-value">4</span><span class="ds-lesson__kpi-delta">обычно 2–7</span></span>
+      </div>
+      <div class="ds-lesson__db-charts">
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Заказы к обычному для дня недели, %</span>
+          <span class="ds-lesson__chart-note">за 30 дней; красным — вышли за ±15 %</span>
+          <span class="ds-lesson__plot" style="--lo:-50;--hi:50;--base:-50;--max:50;--h:7rem;--axis:2.75rem" role="img" aria-label="Столбцы отклонений за 30 дней: почти все в пределах ±10 %%; 14 сентября −46 %%, 23 сентября +38 %%">
+            <span class="ds-lesson__band" style="--t:15"></span>
+            <span class="ds-lesson__tick" style="--t:-50"><span>−50</span></span>
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:50"><span>+50</span></span>
+            <span class="ds-lesson__devs" style="--n:30"><span class="ds-lesson__dev" style="--v:3"><span>+3</span></span><span class="ds-lesson__dev is-low" style="--v:-4"><span>−4</span></span><span class="ds-lesson__dev" style="--v:6"><span>+6</span></span><span class="ds-lesson__dev is-low" style="--v:-2"><span>−2</span></span><span class="ds-lesson__dev" style="--v:1"><span>+1</span></span><span class="ds-lesson__dev is-low" style="--v:-7"><span>−7</span></span><span class="ds-lesson__dev" style="--v:5"><span>+5</span></span><span class="ds-lesson__dev is-low" style="--v:-3"><span>−3</span></span><span class="ds-lesson__dev" style="--v:8"><span>+8</span></span><span class="ds-lesson__dev" style="--v:2"><span>+2</span></span><span class="ds-lesson__dev is-bad is-low" style="--v:-46"><span>−46</span></span><span class="ds-lesson__dev is-low" style="--v:-5"><span>−5</span></span><span class="ds-lesson__dev" style="--v:4"><span>+4</span></span><span class="ds-lesson__dev is-low" style="--v:-1"><span>−1</span></span><span class="ds-lesson__dev" style="--v:7"><span>+7</span></span><span class="ds-lesson__dev is-low" style="--v:-9"><span>−9</span></span><span class="ds-lesson__dev" style="--v:3"><span>+3</span></span><span class="ds-lesson__dev" style="--v:6"><span>+6</span></span><span class="ds-lesson__dev is-low" style="--v:-2"><span>−2</span></span><span class="ds-lesson__dev is-bad" style="--v:38"><span>+38</span></span><span class="ds-lesson__dev is-low" style="--v:-6"><span>−6</span></span><span class="ds-lesson__dev" style="--v:2"><span>+2</span></span><span class="ds-lesson__dev is-low" style="--v:-3"><span>−3</span></span><span class="ds-lesson__dev" style="--v:9"><span>+9</span></span><span class="ds-lesson__dev is-low" style="--v:-4"><span>−4</span></span><span class="ds-lesson__dev" style="--v:1"><span>+1</span></span><span class="ds-lesson__dev is-low" style="--v:-8"><span>−8</span></span><span class="ds-lesson__dev" style="--v:5"><span>+5</span></span><span class="ds-lesson__dev is-low" style="--v:-11"><span>−11</span></span><span class="ds-lesson__dev" style="--v:12"><span>+12</span></span></span>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>4 сен</span><span>14 сен</span><span>23 сен</span><span>3 окт</span></span>
+        </span>
+        <span class="ds-lesson__chart">
+          <span class="ds-lesson__chart-title">Продажи по сортам, пачек</span>
+          <span class="ds-lesson__chart-note">за неделю; черта — прошлая неделя</span>
+          <span class="ds-lesson__hbars">
+            <span class="ds-lesson__hbar" style="--max:160;--v:152"><span>Эфиопия</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:154"></span></span><span class="ds-lesson__hbar-value">152</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:131"><span>Колумбия</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:125"></span></span><span class="ds-lesson__hbar-value">131</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:119"><span>Бразилия</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:124"></span></span><span class="ds-lesson__hbar-value">119</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:85"><span>Гватемала</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:87"></span></span><span class="ds-lesson__hbar-value">85</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:76"><span>Коста-Рика</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:73"></span></span><span class="ds-lesson__hbar-value">76</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:66"><span>Суматра</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:60"></span></span><span class="ds-lesson__hbar-value">66</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:60"><span>Кения</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:76"></span></span><span class="ds-lesson__hbar-value">60</span></span>
+          </span>
+        </span>
+      </div>
+      <span class="ds-lesson__db-more">Остальные показатели — в отчёте «Продажи подробно»</span>
+    </div>
+  </div>
+
+  <p>Это старое правило визуализации. В 1996 году Бен Шнейдерман сформулировал его мантрой: сначала обзор, потом приближение и фильтры, подробности — по запросу. В дизайн-системе IBM Carbon для обзорных дашбордов — тех, что показывают текущее состояние главных показателей, — сказано прямо: самое важное — наверху страницы, с самым высоким контрастом и на самой большой площади, число показателей ограничено, остальное — по мере надобности.</p>
+
+  <p class="ds-lesson__dim">Стивен Фью настаивал, чтобы дашборд помещался на один экран без прокрутки: всё, что нужно для решения, должно быть видно одновременно. На телефоне это недостижимо, поэтому там важнее порядок: первая плитка — та, что требует действия.</p>
+
+  <div class="ds-lesson__rule"><b>Сначала то, что требует действия, потом то, что объясняет, подробности — по ссылке.</b> Проверка: закройте всё, кроме первого экрана. Можно ли по нему понять, всё ли в порядке и что делать?</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите ошибки на экране «Продажи и склад»</h2></div>
+  <p class="ds-lesson__lead">Вторая версия экрана, которую дизайнер принёс на обсуждение. Пять мест в ней не помогают управляющей решить, что делать на этой неделе.</p>
+
+  <p>Нажимайте на плитки и графики, которые вы бы переделали. В разборе будет, что с ними не так. Нормальные тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Макет «Продажи и склад» · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__db">
+          <div class="ds-lesson__db-top">Продажи и склад <span>неделя 28 сентября — 4 октября</span></div>
+          <div class="ds-lesson__db-body">
+            <div class="ds-lesson__db-tiles">
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Плитка «Просмотры страниц» первой"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Просмотры страниц</span><span class="ds-lesson__kpi-note">за неделю</span><span class="ds-lesson__kpi-value">48 210</span><span class="ds-lesson__kpi-delta">+6 % к прошлой неделе</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Плитка «Выручка» с полосой плана"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Выручка, ₽</span><span class="ds-lesson__kpi-value">489 600</span><span class="ds-lesson__bullet" style="--max:600;--b1:432;--v:489.6;--m:540"><span class="ds-lesson__bullet-fill"></span><span class="ds-lesson__bullet-mark"></span></span><span class="ds-lesson__kpi-delta">91 % плана недели</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Плитка «Возвраты» с «+100 %»"><span class="ds-lesson__kpi is-alert"><span class="ds-lesson__kpi-label">Возвраты, пачек</span><span class="ds-lesson__kpi-value">4</span><span class="ds-lesson__kpi-delta is-bad">+100 % к прошлой неделе</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Плитка «Остаток зерна, кг»"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Остаток зерна на складе, кг</span><span class="ds-lesson__kpi-value">186</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Плитка «Кения АА — на 3 дня»"><span class="ds-lesson__kpi is-alert"><span class="ds-lesson__kpi-label">Кения АА на складе</span><span class="ds-lesson__kpi-value">3 дня</span><span class="ds-lesson__kpi-delta is-bad">Мало: заказать у обжарщика</span></span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Спидометр «План месяца»"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">План месяца</span><span class="ds-lesson__gauge-wrap"><span class="ds-lesson__gauge"></span><span class="ds-lesson__gauge-needle" style="--v:64"></span></span><span class="ds-lesson__kpi-value">64 %</span></span></span>
+            </div>
+            <div class="ds-lesson__db-charts">
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Столбцы отклонений заказов от обычного"><span class="ds-lesson__chart">
+                <span class="ds-lesson__chart-title">Заказы к обычному для дня недели, %</span>
+                <span class="ds-lesson__chart-note">за 30 дней; красным — вышли за ±15 %</span>
+                <span class="ds-lesson__plot" style="--lo:-50;--hi:50;--base:-50;--max:50;--h:7rem;--axis:2.75rem" role="img" aria-label="Столбцы отклонений за 30 дней: почти все в пределах ±10 %%; 14 сентября −46 %%, 23 сентября +38 %%">
+            <span class="ds-lesson__band" style="--t:15"></span>
+            <span class="ds-lesson__tick" style="--t:-50"><span>−50</span></span>
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:50"><span>+50</span></span>
+            <span class="ds-lesson__devs" style="--n:30"><span class="ds-lesson__dev" style="--v:3"><span>+3</span></span><span class="ds-lesson__dev is-low" style="--v:-4"><span>−4</span></span><span class="ds-lesson__dev" style="--v:6"><span>+6</span></span><span class="ds-lesson__dev is-low" style="--v:-2"><span>−2</span></span><span class="ds-lesson__dev" style="--v:1"><span>+1</span></span><span class="ds-lesson__dev is-low" style="--v:-7"><span>−7</span></span><span class="ds-lesson__dev" style="--v:5"><span>+5</span></span><span class="ds-lesson__dev is-low" style="--v:-3"><span>−3</span></span><span class="ds-lesson__dev" style="--v:8"><span>+8</span></span><span class="ds-lesson__dev" style="--v:2"><span>+2</span></span><span class="ds-lesson__dev is-bad is-low" style="--v:-46"><span>−46</span></span><span class="ds-lesson__dev is-low" style="--v:-5"><span>−5</span></span><span class="ds-lesson__dev" style="--v:4"><span>+4</span></span><span class="ds-lesson__dev is-low" style="--v:-1"><span>−1</span></span><span class="ds-lesson__dev" style="--v:7"><span>+7</span></span><span class="ds-lesson__dev is-low" style="--v:-9"><span>−9</span></span><span class="ds-lesson__dev" style="--v:3"><span>+3</span></span><span class="ds-lesson__dev" style="--v:6"><span>+6</span></span><span class="ds-lesson__dev is-low" style="--v:-2"><span>−2</span></span><span class="ds-lesson__dev is-bad" style="--v:38"><span>+38</span></span><span class="ds-lesson__dev is-low" style="--v:-6"><span>−6</span></span><span class="ds-lesson__dev" style="--v:2"><span>+2</span></span><span class="ds-lesson__dev is-low" style="--v:-3"><span>−3</span></span><span class="ds-lesson__dev" style="--v:9"><span>+9</span></span><span class="ds-lesson__dev is-low" style="--v:-4"><span>−4</span></span><span class="ds-lesson__dev" style="--v:1"><span>+1</span></span><span class="ds-lesson__dev is-low" style="--v:-8"><span>−8</span></span><span class="ds-lesson__dev" style="--v:5"><span>+5</span></span><span class="ds-lesson__dev is-low" style="--v:-11"><span>−11</span></span><span class="ds-lesson__dev" style="--v:12"><span>+12</span></span></span>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>4 сен</span><span>14 сен</span><span>23 сен</span><span>3 окт</span></span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Семь цветных линий «Продажи по сортам»"><span class="ds-lesson__chart ds-lesson__cats" style="--l1:#2a78d6;--l2:#eb6834;--l3:#1baf7a;--l4:#eda100;--l5:#e87ba4;--l6:#008300;--l7:#4a3aa7;--d1:#3987e5;--d2:#d95926;--d3:#199e70;--d4:#c98500;--d5:#d55181;--d6:#008300;--d7:#9085e9">
+                <span class="ds-lesson__chart-title">Продажи по сортам, пачек в неделю</span>
+                <span class="ds-lesson__plot" style="--max:160;--h:7rem" role="img" aria-label="Семь цветных линий продаж по сортам за восемь недель, пересекаются">
+            <span class="ds-lesson__tick is-base" style="--t:0"><span>0</span></span>
+            <span class="ds-lesson__tick" style="--t:80"><span>80</span></span>
+            <span class="ds-lesson__tick" style="--t:160"><span>160</span></span>
+            <svg class="ds-lesson__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polyline class="is-c1" vector-effect="non-scaling-stroke" points="0,15.6 14.3,13.1 28.6,10 42.9,13.8 57.1,7.5 71.4,8.8 85.7,3.8 100,5"/><polyline class="is-c2" vector-effect="non-scaling-stroke" points="0,23.1 14.3,26.2 28.6,21.2 42.9,23.8 57.1,24.4 71.4,19.4 85.7,21.9 100,18.1"/><polyline class="is-c3" vector-effect="non-scaling-stroke" points="0,28.1 14.3,25.6 28.6,27.5 42.9,23.8 57.1,26.2 71.4,24.4 85.7,22.5 100,25.6"/><polyline class="is-c5" vector-effect="non-scaling-stroke" points="0,49.4 14.3,46.9 28.6,50.6 42.9,47.5 57.1,45 71.4,48.8 85.7,45.6 100,46.9"/><polyline class="is-c6" vector-effect="non-scaling-stroke" points="0,59.4 14.3,56.9 28.6,58.8 42.9,55 57.1,57.5 71.4,56.2 85.7,54.4 100,52.5"/><polyline class="is-c7" vector-effect="non-scaling-stroke" points="0,62.5 14.3,64.4 28.6,60.6 42.9,63.1 57.1,61.2 71.4,59.4 85.7,62.5 100,58.8"/><polyline class="is-c4" vector-effect="non-scaling-stroke" points="0,35.6 14.3,39.4 28.6,41.9 42.9,43.8 57.1,46.9 71.4,49.4 85.7,52.5 100,62.5"/></svg>
+          </span>
+          <span class="ds-lesson__xs is-ends"><span>10 авг</span><span>4 окт</span></span>
+                <span class="ds-lesson__keys"><span class="ds-lesson__key">Эфиопия</span><span class="ds-lesson__key">Колумбия</span><span class="ds-lesson__key">Бразилия</span><span class="ds-lesson__key">Кения</span><span class="ds-lesson__key">Гватемала</span><span class="ds-lesson__key">Коста-Рика</span><span class="ds-lesson__key">Суматра</span></span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Столбцы «Продажи по сортам» с чертой прошлой недели"><span class="ds-lesson__chart">
+                <span class="ds-lesson__chart-title">Продажи по сортам, пачек</span>
+                <span class="ds-lesson__chart-note">за неделю; черта — прошлая неделя</span>
+                <span class="ds-lesson__hbars">
+            <span class="ds-lesson__hbar" style="--max:160;--v:152"><span>Эфиопия</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:154"></span></span><span class="ds-lesson__hbar-value">152</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:131"><span>Колумбия</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:125"></span></span><span class="ds-lesson__hbar-value">131</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:119"><span>Бразилия</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:124"></span></span><span class="ds-lesson__hbar-value">119</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:85"><span>Гватемала</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:87"></span></span><span class="ds-lesson__hbar-value">85</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:76"><span>Коста-Рика</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:73"></span></span><span class="ds-lesson__hbar-value">76</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:66"><span>Суматра</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:60"></span></span><span class="ds-lesson__hbar-value">66</span></span>
+            <span class="ds-lesson__hbar" style="--max:160;--v:60"><span>Кения</span><span class="ds-lesson__hbar-track"><span class="ds-lesson__hbar-fill"></span><span class="ds-lesson__hbar-mark" style="--m:76"></span></span><span class="ds-lesson__hbar-value">60</span></span>
+          </span>
+              </span></span>
+              <span class="ds-lesson__db-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Плитка «Средний чек» с обычным диапазоном"><span class="ds-lesson__kpi"><span class="ds-lesson__kpi-label">Средний чек, ₽</span><span class="ds-lesson__kpi-note">за неделю</span><span class="ds-lesson__kpi-value">936</span><span class="ds-lesson__kpi-delta">обычно 910–950</span></span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Плитка «Просмотры страниц» на первом месте.</span><span class="ds-lesson__hunt-fix"><b>Убрать. </b>Управляющая не может назвать решение, которое примет по просмотрам. Самое заметное место экрана досталось числу, по которому ничего не делают. Если просмотры нужны маркетингу — им место в их отчёте.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Плитка «Выручка» с полосой плана.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>База — план, и полоса показывает, сколько не хватает. Она занимает одну строку плитки.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«+100 %» у возвратов, плитка красная.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Было 2, стало 4 — процент на маленьком числе пугает зря. Обычно бывает от 2 до 7 возвратов в неделю, это норма. Показать «4 · обычно 2–7» серым.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Остаток зерна на складе, кг — 186».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>186 кг — это много или мало? Без базы не понять, а решение — заказывать ли зерно — нужно по каждому сорту. Остаток считают в днях продаж и по сортам: «Кения АА — на 3 дня».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Плитка «Кения АА — на 3 дня».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Выход за порог выделен цветом и словом, и написано, что делать. Ей бы ещё стоять первой.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Спидометр «План месяца».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Полукруг занимает место, а говорит одно число — его и так видно под стрелкой. Неясно, хорошо ли 64 %: смотря какое сегодня число месяца. Полоса плана с чертой «сколько должно быть к сегодня» ответит на это.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Столбцы отклонений заказов от обычного.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>База — обычный уровень для дня недели, норма серая, два дня за порогом выделены.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Семь цветных линий «Продажи по сортам».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Линии пересекаются, цвета надо сверять с подписями, падение Кении не видно. Для понедельничного вопроса «что просело» хватит столбцов по сортам с чертой прошлой недели — они на этом же экране.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Столбцы «Продажи по сортам» с чертой прошлой недели.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>По убыванию, с числом, база — черта прошлой недели. Кения сразу видна далеко слева от своей черты.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Плитка «Средний чек» с обычным диапазоном.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>В пределах нормы — серым, с диапазоном. Спокойно и понятно.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую плитку или график</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Показатель без решения на лучшем месте, процент на маленьком числе, остаток без базы, спидометр и семь линий. После правки экран отвечает на вопрос понедельника: что заказать и что проверить.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные плитки и графики тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Проверяйте экран вопросом «что я сделаю по этому числу».</b> Задайте его про каждую плитку. Где ответа нет — показатель лишний; где ответ «смотря с чем сравнить» — не хватает базы.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Пересоберите свой дашборд: к каждому показателю добавьте базу сравнения и уберите то, по чему никто не принимает решений.</p>
+
+  <h3>Часть 1 · Разобрать показатели, 30 минут</h3>
+  <ol>
+    <li><strong>Выпишите все показатели</strong> дашборда, который у вас есть. Если своего нет, возьмите экран «Продажи и склад» из урока в первой версии на двенадцать графиков.</li>
+    <li><strong>Для каждого спросите</strong> того, кто смотрит на экран: что он сделает, если число вырастет вдвое или упадёт.</li>
+    <li><strong>Разложите:</strong> оставить, в отдельный отчёт или убрать.</li>
+    <li><strong>Для оставшихся выберите базу</strong> и порог, после которого показатель выделяется.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Показатели дашборда · заполните перед макетом<span class="ds-lesson__spacer"></span><span data-copy="dashTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="dashTmpl">ДАШБОРД: ______________________        Дата: __.__.____
+КТО СМОТРИТ: ______________________   КАК ЧАСТО: __________
+ГЛАВНЫЙ ВОПРОС ЭКРАНА: ______________________
+
+ПОКАЗАТЕЛЬ: ______________________
+  решение по нему: ______________________
+  база: прошлый период / план / обычный диапазон / год назад
+  порог: ________   что делать за порогом: ______________
+  график: число / линия / столбцы / таблица — вопрос: ____________
+  место: наверху / ниже / в отчёте / убрать
+
+ПОКАЗАТЕЛЬ: ______________________
+  решение по нему: ______________________
+  база: прошлый период / план / обычный диапазон / год назад
+  порог: ________   что делать за порогом: ______________
+  график: число / линия / столбцы / таблица — вопрос: ____________
+  место: наверху / ниже / в отчёте / убрать
+
+БЫЛО ПОКАЗАТЕЛЕЙ: ____   НА ЭКРАНЕ: ____   В ОТЧЁТЕ: ____   УБРАНО: ____</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строка «решение по нему» пустая — показатель уходит. Не надо придумывать решение за того, кто смотрит на экран: спросите его.</div>
+  </div>
+
+  <h3>Часть 2 · Пересобрать, 40 минут</h3>
+  <ol>
+    <li><strong>Наверх поставьте</strong> плитки, отвечающие на главный вопрос экрана. Первой — ту, что требует действия.</li>
+    <li><strong>У каждой плитки</strong> — число, период и база. Норма серая, выход за порог — цветом и словом.</li>
+    <li><strong>Под плитками</strong> — графики, которые объясняют. Каждый отвечает на один вопрос; много рядов — один выделен.</li>
+    <li><strong>Внизу</strong> — ссылка на отчёт с тем, что ушло с экрана.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 15 минут</h3>
+  <ol>
+    <li><strong>Покажите экран</strong> тому, кто им пользуется, и попросите назвать по каждому показателю решение.</li>
+    <li><strong>Спросите,</strong> что на экране он посмотрел бы первым. Если не плитку, которая требует действия, — поменяйте порядок.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> По каждому показателю можно назвать решение, которое по нему принимают.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Два экрана:</strong> до и после, с подписанной базой у каждого числа.</li>
+    <li><strong>Таблица показателей:</strong> решение, база, порог, место — и сколько показателей ушло.</li>
+    <li><strong>Заметки с проверки:</strong> какие решения назвал пользователь экрана и что вы поменяли.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 30 минут на разбор, 40 на макет, 15 на проверку. Всего — около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Показатель завёл руководитель, убрать нельзя».</strong> Не убирайте — перенесите в отчёт и спросите через месяц, открывал ли он его. Подробнее о таком разговоре — в уроке следующей ступени.</li>
+    <li><strong>«Плана нет».</strong> Возьмите обычный диапазон за последние недели. Он есть всегда, если у продукта есть история.</li>
+    <li><strong>«Не знаю, какой порог поставить».</strong> Посмотрите, сколько раз за последние два месяца показатель вышел бы за порог. Больше раза в неделю — порог мал; ни разу, хотя сбои были, — велик.</li>
+    <li><strong>«Без цветных плиток экран выглядит скучно».</strong> Спокойный экран, где цвет означает «сделай что-нибудь», работает лучше яркого, где цвет не значит ничего.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Дашборд готов, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>У каждого числа есть база: прошлый период, план или обычный диапазон</li>
+    <li>База выбрана по вопросу, который человек задаёт экрану</li>
+    <li>Маленькие числа сравниваются в штуках, а не в процентах</li>
+    <li>У каждого графика один вопрос; много рядов — один выделен</li>
+    <li>Где нужны точные числа для действия — таблица</li>
+    <li>Норма серая, выход за порог — цветом и словом</li>
+    <li>По каждому показателю названо решение</li>
+    <li>Наверху — то, что требует действия; подробности — по ссылке</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Число без базы.</b> Непонятно, хорошо это или плохо.</li>
+    <li><b>Светофор на всех плитках.</b> Когда красного много, его перестают замечать.</li>
+    <li><b>Семь линий семью цветами.</b> Видно всё, кроме ответа.</li>
+    <li><b>Спидометр.</b> Много места на одно число и никакой базы.</li>
+    <li><b>Показатель «на всякий случай».</b> Отнимает внимание у тех, по которым решают.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся делать дашборд, по которому видно, что делать. На следующей ступени — вместе с продуктом решать, какие показатели вообще нужны и какие вредят.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Подписывать показатель так, чтобы было ясно, что посчитано; указывать период; выбирать простой график под данные; не рисовать круг на семи долях; начинать столбцы с нуля</td>
+          <td class="ds-lesson__dim">Человек, впервые увидевший экран, объясняет каждое число своими словами</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Давать числу базу сравнения; выбирать график под вопрос; показывать отклонение заметно, а норму спокойно; убирать показатели, на которые не смотрят; ставить главное наверх</td>
+          <td>По каждому показателю можно назвать решение, которое по нему принимают</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Вести с продуктом разговор о решении за каждым показателем; отличать показатели влияния от показателей наблюдения; убирать мёртвые показатели; видеть, где показатель толкает к вредному</td>
+          <td class="ds-lesson__dim">Хотя бы один показатель убран, и причина записана</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любой показатель своего дашборда вы можете сказать, с чем его сравнивать, когда он требует внимания и что делать в этот момент.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20260610/">Как вы оцените этот дэшборд?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Таня Мисютина, 2026 · на русском · бесплатно</span><span>Разбор дашборда продаж кассовой системы с переделкой: период рядом с цифрами, крупные спарклайны, связанные графики, таблица «часы × дни». Спорит с разделом о лишних показателях: Мисютина добавляет данные по принципу «показать больше без ущерба для чтения».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20180918/">Есть показатели, которые меняются в течение дня</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2018 · на русском · бесплатно</span><span>Короткий ответ Ильи Бирмана про график энергии и стресса за день: вместо зон «плохо» и «норма» — непрерывные линии и полосы событий, которые объясняют изменения. Спорит с разделом о порогах: Бирман считает зоны скучными, человеку интересны любые значения.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://gopractice.ru/data/pichok-dashboard/">В поисках пичков. Повышаем эффективность дашбордов</a></span><span class="ds-lesson__reads-meta">GoPractice, 2016 · на русском · бесплатно</span><span>Колонка о том, что недельные средние прячут дневные скачки, а скачок — повод искать причину; два случая, где выброс на графике привёл к росту выручки. Спорит с уроком: ответ «всё как обычно» здесь считают пустым, а шум — источником находок.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/choosing-chart-types/">Choosing Chart Types: Consider Context</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Кейт Моран, 2022 · на английском · бесплатно</span><span>Статья Кейт Моран о том, почему число без сравнения ничего не значит и с чем его сравнивать: с прошлым или с похожим — конкурентом, задачей, группой. Ниже — когда брать столбцы, линию и точки и почему не составные столбцы. Дашборды статья не разбирает.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://carbondesignsystem.com/building-blocks/data-visualization/dashboards">Dashboards</a></span><span class="ds-lesson__reads-meta">IBM Carbon Design System · на английском · бесплатно</span><span>Памятка IBM Carbon о двух видах дашбордов: обзорный показывает состояние показателей — главное наверху, крупно и контрастно, лишнее по запросу; исследовательский нужен для фильтров, детализации и связанных графиков. Примеров нет.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.perceptualedge.com/articles/Whitepapers/Common_Pitfalls.pdf">Common Pitfalls in Dashboard Design</a></span><span class="ds-lesson__reads-meta">Perceptual Edge, Стивен Фью, 2006 · на английском · бесплатно, PDF</span><span>Белая книга Стивена Фью 2006 года: 13 типичных ошибок дашбордов на экранах того времени — от прокрутки и чисел без контекста до спидометров и лишнего цвета. Текст Фью — страницы 1–16, дальше реклама спонсора. Полосу плана Фью описал отдельно.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

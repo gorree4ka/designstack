@@ -6,7 +6,8 @@
  * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
  * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия, —
  * «три секунды», проигрыватель движения, настройка образца, сортировка
- * учебной таблицы и момент проверки поля формы.
+ * учебной таблицы, момент проверки поля формы, начало шкалы графика
+ * и порог отклонения.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -2986,5 +2987,147 @@
 		form.hidden = false;
 		log.hidden = false;
 		say( 'start' );
+	} );
+
+	/* ── начало шкалы ──────────────────────────────────────────────────────
+	   Коробка `data-axis` — столбцы от нуля. Без скрипта ползунка нет, и график
+	   стоит как положено. Скрипт показывает ползунок «начало шкалы»: он меняет
+	   `--base` у поля графика, а высоты столбцов и места делений пересчитывает
+	   CSS. Нижнее деление (`data-axis-base`) подписывается началом шкалы, деления
+	   ниже и вплотную к нему прячутся. Строка под графиком — из `data-axis-note`:
+	   {base} — начало шкалы, {looks} — во сколько раз столбец `data-axis-b`
+	   выглядит выше столбца `data-axis-a`, {real} — на сколько процентов число
+	   на самом деле больше. Слово «раз» склоняется по `data-axis-times`. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-axis]' ), function ( box ) {
+		var plot = box.querySelector( '[data-axis-plot]' );
+		var pick = box.querySelector( '[data-axis-pick]' );
+		var input = box.querySelector( '[data-axis-input]' );
+		var shown = box.querySelector( '[data-axis-value]' );
+		var out = box.querySelector( '[data-axis-out]' );
+		var base = box.querySelector( '[data-axis-base]' );
+
+		if ( ! plot || ! pick || ! input || ! out || ! base ) {
+			return;
+		}
+
+		var a = parseFloat( box.getAttribute( 'data-axis-a' ) );
+		var b = parseFloat( box.getAttribute( 'data-axis-b' ) );
+		var top = parseFloat( plot.style.getPropertyValue( '--max' ) );
+		var note = box.getAttribute( 'data-axis-note' ) || '';
+		var times = ( box.getAttribute( 'data-axis-times' ) || '' ).split( '|' );
+		var label = base.querySelector( 'span' );
+		var ticks = Array.prototype.filter.call( plot.querySelectorAll( '.ds-lesson__tick' ), function ( tick ) {
+			return tick !== base;
+		} );
+
+		function number( n ) {
+			return String( n ).replace( '.', ',' );
+		}
+
+		// Дробное — всегда «в 1,1 раза»; целое — «в 2 раза», «в 5 раз», «в 21 раз».
+		function looks( n ) {
+			var round = Math.round( n * 10 ) / 10;
+			var word = times[ 1 ];
+
+			if ( round === Math.round( round ) ) {
+				var last = round % 10;
+				var tens = round % 100;
+
+				if ( tens > 10 && tens < 20 ) {
+					word = times[ 2 ];
+				} else if ( 1 === last ) {
+					word = times[ 0 ];
+				} else if ( last < 2 || last > 4 ) {
+					word = times[ 2 ];
+				}
+			}
+
+			return number( round ) + ' ' + word;
+		}
+
+		function update() {
+			var from = parseFloat( input.value ) || 0;
+
+			plot.style.setProperty( '--base', from );
+			base.style.setProperty( '--t', from );
+
+			if ( label ) {
+				label.textContent = from;
+			}
+
+			if ( shown ) {
+				shown.textContent = from;
+			}
+
+			ticks.forEach( function ( tick ) {
+				var t = parseFloat( tick.style.getPropertyValue( '--t' ) );
+
+				tick.hidden = t - from < ( top - from ) * 0.15;
+			} );
+
+			out.textContent = note
+				.replace( '{base}', from )
+				.replace( '{looks}', looks( ( b - from ) / ( a - from ) ) )
+				.replace( '{real}', number( Math.round( ( b - a ) / a * 1000 ) / 10 ) );
+		}
+
+		input.addEventListener( 'input', update );
+		pick.hidden = false;
+		out.hidden = false;
+		update();
+	} );
+
+	/* ── порог отклонения ──────────────────────────────────────────────────
+	   Коробка `data-band` — столбцы отклонений от обычного (`data-band-v` у каждого
+	   столбца, в процентах) и серая полоса допустимого разброса. Без скрипта порог
+	   стоит как в разметке, и выделены те же столбцы. Скрипт показывает ползунок:
+	   он двигает полосу (`--t`) и красит столбцы, которые вышли за неё. Строка под
+	   графиком — из `data-band-note`, {t} — порог, {n} — сколько столбцов выделено,
+	   {total} — сколько всего; за ней — одна из трёх подсказок урока: ни одного
+	   (`data-band-none`), слишком много — от `data-band-many-from` (`data-band-many`),
+	   остальное (`data-band-ok`). */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-band]' ), function ( box ) {
+		var band = box.querySelector( '[data-band-strip]' );
+		var pick = box.querySelector( '[data-band-pick]' );
+		var input = box.querySelector( '[data-band-input]' );
+		var shown = box.querySelector( '[data-band-value]' );
+		var out = box.querySelector( '[data-band-out]' );
+		var bars = Array.prototype.slice.call( box.querySelectorAll( '[data-band-v]' ) );
+
+		if ( ! band || ! pick || ! input || ! out || ! bars.length ) {
+			return;
+		}
+
+		var many = parseInt( box.getAttribute( 'data-band-many-from' ), 10 ) || bars.length;
+
+		function word( name ) {
+			return box.getAttribute( 'data-band-' + name ) || '';
+		}
+
+		function update() {
+			var t = parseFloat( input.value ) || 0;
+			var n = 0;
+
+			band.style.setProperty( '--t', t );
+
+			bars.forEach( function ( bar ) {
+				var off = Math.abs( parseFloat( bar.getAttribute( 'data-band-v' ) ) ) > t;
+
+				bar.classList.toggle( 'is-bad', off );
+				n += off ? 1 : 0;
+			} );
+
+			if ( shown ) {
+				shown.textContent = '±' + t + ' %';
+			}
+
+			out.textContent = word( 'note' ).replace( '{t}', t ).replace( '{n}', n ).replace( '{total}', bars.length ) +
+				' ' + word( 0 === n ? 'none' : ( n >= many ? 'many' : 'ok' ) );
+		}
+
+		input.addEventListener( 'input', update );
+		pick.hidden = false;
+		out.hidden = false;
+		update();
 	} );
 }() );
