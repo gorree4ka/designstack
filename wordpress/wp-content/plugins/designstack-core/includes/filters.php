@@ -404,6 +404,14 @@ function designstack_core_robots( array $robots ): array {
 		return $robots;
 	}
 
+	// Пустая рубрика — то же, что пустая выборка каталога: «Обзоров пока нет» на ссылке из подвала
+	// Яндекс взял в поиск и выкинул как малоценную (D198, выгрузка Вебмастера 06.10.2026).
+	if ( is_category() && ! $wp_query->found_posts ) {
+		$robots['noindex'] = true;
+
+		return $robots;
+	}
+
 	if ( ! is_tax( array( 'resource_type', 'topic' ) ) ) {
 		return $robots;
 	}
@@ -455,8 +463,13 @@ function designstack_core_canonical_link(): void {
 	$page = max( 1, (int) get_query_var( 'paged' ) );
 
 	// Страница выдачи каноникализируется на себя, фильтры и порядок — на чистый архив (US-16).
+	// `get_pagenum_link()` тащит в адрес текущие параметры, и `?sort=title` на третьей странице
+	// становился каноническим сам себе — Google взял его в базу (D198). Поэтому номер страницы
+	// вставляется в тот адрес, который каноничен для первой: чистый архив или один фильтр.
 	if ( $page > 1 ) {
-		$base = (string) get_pagenum_link( $page );
+		$query = (string) wp_parse_url( $base, PHP_URL_QUERY );
+		$path  = trailingslashit( strtok( $base, '?' ) ) . user_trailingslashit( 'page/' . $page, 'paged' );
+		$base  = '' !== $query ? $path . '?' . $query : $path;
 	}
 
 	printf( '<link rel="canonical" href="%s">' . "

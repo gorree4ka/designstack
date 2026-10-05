@@ -361,14 +361,14 @@ function designstack_core_og_image(): string {
  * @return array<string, string>
  */
 function designstack_core_title_parts( array $parts ): array {
-	if ( is_singular( 'resource' ) ) {
-		$id      = get_queried_object_id();
-		$verdict = (string) designstack_core_get_field( $id, 'verdict' );
+	// Карточка, страница, статья: заголовок для поиска из поля записи (D198). По одному названию
+	// выдачу держит сайт самого сервиса, поэтому в строке — что это и что есть в карточке.
+	// Без поля остаётся название: вердикт сюда не помещается (медиана 69 знаков).
+	if ( is_singular( array( 'resource', 'page', 'post' ) ) ) {
+		$short = designstack_core_seo_title( get_queried_object_id() );
 
-		// Вердикт в заголовке выдачи работает как подзаголовок: по нему видно,
-		// что за ресурс, ещё до перехода. Длину держим в пределах 60 знаков с брендом.
-		if ( $verdict && mb_strlen( get_the_title( $id ) . $verdict ) < 52 ) {
-			$parts['title'] = get_the_title( $id ) . ' — ' . $verdict;
+		if ( '' !== $short ) {
+			$parts['title'] = $short;
 		}
 	}
 
@@ -398,11 +398,67 @@ function designstack_core_title_parts( array $parts ): array {
 
 	if ( '' !== $what ) {
 		$parts['title'] = designstack_core_archive_title() . ': ' . $what;
+
+		return $parts;
+	}
+
+	// Раздел, тема, рубрика: фраза о деле вместо одного слова (D198). Однословный
+	// заголовок «Типографика» — запрос, по которому выдачу держит энциклопедия.
+	// У каталога к фразе добавляется число ресурсов — то же, что в описании страницы.
+	$term = designstack_core_archive_term();
+
+	if ( $term ) {
+		$phrase = trim( (string) get_term_meta( $term->term_id, 'seo_title', true ) );
+
+		if ( '' !== $phrase ) {
+			global $wp_query;
+
+			$parts['title'] = 'category' === $term->taxonomy
+				? $phrase
+				: $phrase . ': ' . designstack_core_count_line( (int) $wp_query->found_posts );
+		}
 	}
 
 	return $parts;
 }
 add_filter( 'document_title_parts', 'designstack_core_title_parts', 20 );
+
+/**
+ * Заголовок для поиска, записанный у карточки, страницы или статьи (D198).
+ *
+ * @param int $post_id Запись.
+ * @return string Пусто, если поля нет.
+ */
+function designstack_core_seo_title( int $post_id ): string {
+	return trim( (string) get_post_meta( $post_id, 'seo_title', true ) );
+}
+
+/**
+ * Поле «Заголовок для поиска» у страниц, статей, разделов, тем и рубрик (D198).
+ *
+ * У карточки каталога оно в реестре полей ресурса (`designstack_core_fields()`).
+ *
+ * @return void
+ */
+function designstack_core_register_seo_title(): void {
+	$args = array(
+		'type'              => 'string',
+		'single'            => true,
+		'description'       => __( 'Заголовок для поиска', 'designstack-core' ),
+		'show_in_rest'      => true,
+		'sanitize_callback' => 'sanitize_text_field',
+		'auth_callback'     => static fn() => current_user_can( 'edit_posts' ),
+	);
+
+	foreach ( array( 'page', 'post' ) as $type ) {
+		register_post_meta( $type, 'seo_title', $args );
+	}
+
+	foreach ( array( 'resource_type', 'topic', 'category' ) as $taxonomy ) {
+		register_term_meta( $taxonomy, 'seo_title', $args );
+	}
+}
+add_action( 'init', 'designstack_core_register_seo_title' );
 
 /**
  * Разделитель в заголовке вкладки — само тире, а не код.

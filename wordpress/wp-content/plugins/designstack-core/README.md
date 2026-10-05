@@ -70,7 +70,7 @@ uninstall.php            удаление настроек; записи и те
 | `activity` | Сообщество | Активность | одно значение, string | `daily` · `weekly` · `rare` |
 | `is_jobs` | Сообщество | Вакансии | одно значение, boolean | да / нет |
 
-Всего 31 поле, все со схемой REST, `sanitize_callback` и `auth_callback`. Плюс два служебных, скрытых из
+Всего 32 поля (с 06.10.2026 — `seo_title`, заголовок для поиска, D198), все со схемой REST, `sanitize_callback` и `auth_callback`. Плюс два служебных, скрытых из
 REST: `_designstack_seed` (демо-запись) и `_designstack_suggested_by` (обратная почта из формы).
 
 Чего в полях нет намеренно:

@@ -154,6 +154,14 @@ function designstack_core_fields(): array {
 			'max'     => 120,
 			'hint'    => __( 'Одна фраза-вывод в карточке, до 120 знаков.', 'designstack-core' ),
 		),
+		'seo_title'      => array(
+			'group'   => 'common',
+			'label'   => __( 'Заголовок для поиска', 'designstack-core' ),
+			'control' => 'text',
+			'type'    => 'string',
+			'max'     => 56,
+			'hint'    => __( 'Строка во вкладке и в выдаче, до 56 знаков: название, что это и что есть в карточке — «Golos Text — бесплатный шрифт с кириллицей». Слова сверяет scripts/check_seo_titles.php с полями карточки (D198). Пусто — «Название — DesignStack».', 'designstack-core' ),
+		),
 		'review_for'     => array(
 			'group'   => 'common',
 			'label'   => __( 'Кому подходит', 'designstack-core' ),
