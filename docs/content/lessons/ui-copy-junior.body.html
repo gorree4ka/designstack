@@ -1,0 +1,495 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#button">Кнопка называет действие</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#trim">Слова, которые ничего не добавляют</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#heading">Заголовок о том, что на экране</a><span class="ds-lesson__tag">до и после</span></li>
+    <li><a href="#aloud">Проверка вслух</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#tone">Без «пожалуйста» и «упс»</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#hunt">Найдите ошибки на экране «Моя подписка»</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Та же «Лесная обжарка», что в уроках про <a href="/lessons/tables-lists-junior/">таблицы</a> и <a href="/lessons/forms-junior/">формы</a>, но теперь со стороны покупателя. Магазин запустил подписку на кофе: раз в две недели покупатель получает пачку свежей обжарки. Экран «Моя подписка» в личном кабинете собрал разработчик и подписал как получилось: «ОК», «Информация», «Пожалуйста, обратите внимание». Эти подписи вы и перепишете.</div>
+
+<section id="button">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Кнопка называет действие</h2></div>
+  <p class="ds-lesson__lead">По кнопке должно быть понятно, что случится после нажатия, без чтения остального экрана. Для этого на ней пишут действие, а часто и то, над чем оно совершается.</p>
+
+  <p>«ОК», «Готово» и «Да» сообщают только, что что-то произойдёт. «Применить» и «Отправить» называют действие, но не предмет: что применится и куда уйдёт, человек выясняет, перечитывая экран. Действие и предмет — «Сохранить адрес», «Пропустить доставку», «Сменить карту» — отвечают сразу.</p>
+
+  <p>Сильнее всего это видно в окне, где спрашивают подтверждение. Покупатель нажал «Отменить подписку», и магазин переспрашивает. Вот три способа подписать кнопки в этом окне.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Окно отмены подписки · три подписи кнопок</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="bt1" hidden>«Да» и «Нет»</button><button class="ds-switch__button" type="button" data-switch-btn="bt2" hidden>«ОК» и «Отмена»</button><button class="ds-switch__button" type="button" data-switch-btn="bt3" hidden>Действие на кнопке</button></div>
+
+      <div data-switch-pane="bt1"><p class="ds-switch__title">«Да» и «Нет»</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Моя подписка</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-dialog"><b>Вы уверены?</b><span>Подписка будет отменена.</span><span class="ds-lesson__st-dialog-acts"><span class="ds-lesson__wf-btn">Нет</span><span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Да</span></span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>«Да» и «Нет»</b>Чтобы понять, на что соглашается «Да», надо вернуться к вопросу. А вопрос «Вы уверены?» подходит к любому окну продукта и сам ничего не называет.</div>
+      </div>
+
+      <div data-switch-pane="bt2"><p class="ds-switch__title">«ОК» и «Отмена»</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Моя подписка</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-dialog"><b>Отмена подписки</b><span>Доставка 14 октября не придёт.</span><span class="ds-lesson__st-dialog-acts"><span class="ds-lesson__wf-btn">Отмена</span><span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">ОК</span></span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>«ОК» и «Отмена»</b>В окне отмены кнопка «Отмена» читается двумя способами: отменить подписку или отменить саму отмену. Человек, который передумал, нажимает её и не уверен, что подписка осталась.</div>
+      </div>
+
+      <div data-switch-pane="bt3"><p class="ds-switch__title">Действие на кнопке</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Моя подписка</span></div>
+          <div class="ds-lesson__wf-body">
+            <div class="ds-lesson__st-dialog"><b>Отменить подписку?</b><span>Доставка 14 октября не придёт. Оформить подписку снова можно в любой момент.</span><span class="ds-lesson__st-dialog-acts"><span class="ds-lesson__wf-btn">Оставить подписку</span><span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Отменить подписку</span></span></div>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Действие на кнопке</b>Каждая кнопка понятна без заголовка: одна отменяет подписку, другая её оставляет. Вопрос в заголовке повторяет слова кнопки, и человек видит, что соглашается ровно на это.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Проверка простая: закройте пальцем всё, кроме кнопок. Если по ним понятно, что будет, подписи годятся.</div>
+  </div>
+
+  <p>Так советуют и открытые руководства. В Apple Human Interface Guidelines кнопки окна-предупреждения подписывают глаголами, связанными с его текстом, а «OK» ставят, только если сообщение чисто информационное. В GOV.UK Design System текст кнопки описывает действие, которое она выполняет. В Material Design 3 советуют не писать в диалогах размытых «Готово», «OK» и «Закрыть».</p>
+
+  <p>О второй кнопке окна руководства спорят. Apple велит всегда подписывать «Cancel», по-русски «Отмена», кнопку, которая закрывает окно без действия. Илья Бирман в «Советах» Бюро Горбунова разбирает как раз окно с «Отмена» и «Отменить» и советует, если текст окна можно поменять целиком, назвать действием и её: «Вернуться к настройке» рядом со «Сбросить изменения». Урок держится варианта Бирмана: в окне отмены подписки «Отмена» читается двояко.</p>
+
+  <p>То же правило работает для ссылок. «Здесь» и «Подробнее» не говорят, куда ведут. По WCAG 2.2 назначение ссылки должно быть понятно из её текста или из текста вместе с ближайшим окружением — предложением, пунктом списка, ячейкой таблицы. Это критерий 2.4.4, уровень A. Программы экранного доступа умеют показать все ссылки страницы списком, и пять «Подробнее» в таком списке не отличить друг от друга. В Nielsen Norman Group советуют обходиться без «нажмите здесь» с 1996 года, а про «подробнее» пишут, что такая ссылка плохо подсказывает, что за ней, и мешает доступности.</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · понятно ли, что будет после нажатия<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">«Готово» под полем адреса доставки.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно</b>Готово что: адрес сохранится, окно закроется, заказ отправится? Лучше: «Сохранить адрес».</p></li>
+<li data-quiz-q data-answer="clear"><p class="ds-quiz__question">«Пропустить доставку» рядом с датой 14 октября.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно</b>Действие и предмет: эта доставка не придёт, подписка останется.</p></li>
+<li data-quiz-q data-answer="long"><p class="ds-quiz__question">«Нажмите здесь, чтобы перейти к оплате заказа».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно, но длинно</b>«Нажмите здесь» объясняет, как работает кнопка, — это и так видно. Хватит «Перейти к оплате».</p></li>
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">Ссылка «Подробнее» под названием сорта в подписке.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно</b>Подробнее о чём: о сорте, о доставке, об условиях подписки? Лучше назвать, что откроется: «Вкус и обжарка».</p></li>
+<li data-quiz-q data-answer="clear"><p class="ds-quiz__question">«Оплатить 1&nbsp;290&nbsp;₽» на последнем шаге заказа.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно</b>Действие и сумма: человек знает, сколько спишут, ещё до нажатия.</p></li>
+<li data-quiz-q data-answer="vague"><p class="ds-quiz__question">«Отправить» под формой отзыва о сорте.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Непонятно</b>Отправить куда — в магазин, обжарщику, на модерацию? Если отзыв сразу появится на странице сорта, так и напишите: «Опубликовать отзыв».</p></li>
+<li data-quiz-q data-answer="clear"><p class="ds-quiz__question">«Сменить сорт» рядом с сортом в подписке.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно</b>Короткий глагол и предмет. Что именно сменится, видно из соседней строки с названием сорта.</p></li>
+<li data-quiz-q data-answer="long"><p class="ds-quiz__question">«Подтвердить изменение адреса доставки вашей подписки».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Понятно, но длинно</b>Шесть слов, из них четыре — цепочка «изменение адреса доставки подписки». Хватит «Сохранить адрес».</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="clear">Понятно</button><button class="ds-quiz__option" type="button" data-quiz-answer="vague">Непонятно</button><button class="ds-quiz__option" type="button" data-quiz-answer="long">Понятно, но длинно</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Длинная кнопка тоже плоха: человек дочитывает её до конца, чтобы найти действие.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>На кнопке — что произойдёт.</b> Глагол и, если без него неясно, предмет: «Сохранить адрес», «Пропустить доставку». «ОК» оставляют для сообщений, где нажатие ничего не меняет, а просто закрывает окно.</div>
+
+  <p class="ds-lesson__dim">Глагол на кнопке ставят в начальной форме совершенного вида: «Сохранить», «Найти», а не «Сохраните» или «Искать». Так советуют Илья Бирман и Контур.Гайды: в «Вернитесь к началу регистрации» непонятно, кто кого просит, а «Вернуться» — команда человека продукту. Без глагола Бирман допускает кнопки, которые меняют статус: «Это спам», «Готово», «Позже». «Готово» под полем адреса статус не меняет, а сохраняет адрес — там нужен глагол. Когда стоит переспрашивать перед отменой, а когда лучше дать вернуть, — в уроке <a href="/lessons/patterns-states-senior/">«Паттерны и состояния», Senior</a>.</p>
+</section>
+
+<section id="trim">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Слова, которые ничего не добавляют</h2></div>
+  <p class="ds-lesson__lead">Интерфейс не читают — в нём ищут нужное. Каждое слово, которое ничего не сообщает, отодвигает то, что человек ищет.</p>
+
+  <p>Якоб Нильсен проверял это ещё в 1997 году: 79&nbsp;% участников исследования всегда просматривали новую страницу по диагонали, слово за словом читали 16&nbsp;%. В том же году он и Джон Моркес сравнили версии одного сайта. Текст вдвое короче оказался на 58&nbsp;% удобнее по их измерениям, текст, который легко просмотреть, — на 47&nbsp;%, а всё вместе и без рекламных преувеличений — на 124&nbsp;%.</p>
+
+  <p>Пустые слова в интерфейсе одни и те же, и их легко узнать.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Слово</th><th scope="col">Почему лишнее</th><th scope="col">Было → стало</th></tr></thead>
+      <tbody>
+        <tr><td>«Пожалуйста»</td><td>Просьба не добавляет сведений, а суть уезжает в конец фразы</td><td>«Пожалуйста, укажите адрес» → «Адрес доставки»</td></tr>
+        <tr><td>«Ваш»</td><td>И так понятно, чей это адрес в личном кабинете</td><td>«Ваш адрес» → «Адрес»</td></tr>
+        <tr><td>«Данный», «настоящий»</td><td>Канцелярское «этот», а чаще не нужно вовсе</td><td>«Данный раздел позволяет…» → вычеркнуть целиком</td></tr>
+        <tr><td>«Нажмите здесь, чтобы…»</td><td>Объясняет, как работает кнопка, — это видно и так</td><td>«Нажмите, чтобы сохранить» → кнопка «Сохранить»</td></tr>
+        <tr><td>«Информация о…», «Управление…»</td><td>Обёртка вокруг главного слова</td><td>«Информация о доставке» → «Доставка»</td></tr>
+        <tr><td>«Успешно»</td><td>Если сохранилось, это и так успех</td><td>«Адрес успешно сохранён» → «Адрес сохранён»</td></tr>
+        <tr><td>«В настоящий момент»</td><td>Три слова вместо «сейчас», а «сейчас» обычно тоже лишнее</td><td>«В настоящий момент подписка на паузе» → «Подписка на паузе»</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Попробуйте сами. Ниже три фразы с экрана «Моя подписка». Нажимайте на слова, которые ничего не сообщают, — они зачеркнутся, а под фразой будет видно, что осталось. Если вычеркнете нужное, тренажёр скажет, что пропало.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Тренажёр · вычеркните лишнее</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__strike" data-strike data-strike-count="Лишнего вычеркнуто: {n} из {total}" data-strike-show="Показать лишнее">
+        <p class="ds-lesson__strike-where">Подсказка под настройками подписки</p>
+        <p class="ds-lesson__strike-text" data-strike-text><span data-strike-w="cut">Пожалуйста, обратите внимание, что</span> <span data-strike-w="cut">все</span> <span data-strike-w="keep" data-strike-loss="Пропало, что вступит в силу: непонятно, о чём речь.">изменения</span> <span data-strike-w="cut">в вашей подписке</span> <span data-strike-w="keep" data-strike-loss="Пропало, что случится с изменениями.">вступят в силу</span> <span data-strike-w="cut">только</span> <span data-strike-w="keep" data-strike-loss="Пропало главное — когда изменения заработают.">со следующей доставки</span>.</p>
+        <p class="ds-lesson__strike-left"><b>Осталось</b><span data-strike-out>Изменения вступят в силу со следующей доставки.</span></p>
+        <p class="ds-lesson__strike-meta" data-strike-meta hidden></p>
+        <p class="ds-lesson__strike-note" data-strike-note aria-live="polite" hidden></p>
+        <p class="ds-lesson__strike-done" data-strike-done hidden>Из шестнадцати слов осталось семь, а смысл тот же. «Подписка» в подсказке не нужна: человек и так на экране подписки.</p>
+        <p class="ds-lesson__strike-actions" data-strike-actions hidden></p>
+      </div>
+      <div class="ds-lesson__strike" data-strike data-strike-count="Лишнего вычеркнуто: {n} из {total}" data-strike-show="Показать лишнее">
+        <p class="ds-lesson__strike-where">Сообщение после смены адреса</p>
+        <p class="ds-lesson__strike-text" data-strike-text><span data-strike-w="cut">Ваш</span> <span data-strike-w="keep" data-strike-loss="Пропало, что именно сохранено.">адрес доставки</span> <span data-strike-w="cut">был</span> <span data-strike-w="cut">успешно</span> <span data-strike-w="cut">изменён и</span> <span data-strike-w="keep" data-strike-loss="Пропало, что случилось с адресом.">сохранён</span> <span data-strike-w="cut">в системе</span>.</p>
+        <p class="ds-lesson__strike-left"><b>Осталось</b><span data-strike-out>Адрес доставки сохранён.</span></p>
+        <p class="ds-lesson__strike-meta" data-strike-meta hidden></p>
+        <p class="ds-lesson__strike-note" data-strike-note aria-live="polite" hidden></p>
+        <p class="ds-lesson__strike-done" data-strike-done hidden>Три слова вместо десяти. «Изменён и сохранён» — одно событие, названное дважды, а «в системе» человеку ничего не говорит.</p>
+        <p class="ds-lesson__strike-actions" data-strike-actions hidden></p>
+      </div>
+      <div class="ds-lesson__strike" data-strike data-strike-count="Лишнего вычеркнуто: {n} из {total}" data-strike-show="Показать лишнее">
+        <p class="ds-lesson__strike-where">Строка над карточкой подписки на паузе</p>
+        <p class="ds-lesson__strike-text" data-strike-text><span data-strike-w="cut">В настоящий момент</span> <span data-strike-w="cut">ваша</span> <span data-strike-w="keep" data-strike-loss="Пропало, что именно на паузе.">подписка</span> <span data-strike-w="keep" data-strike-loss="Пропало, что с подпиской: доставки идут или нет?">приостановлена</span> <span data-strike-w="keep" data-strike-loss="Пропало главное — когда доставки начнутся снова.">до 1&nbsp;ноября</span> <span data-strike-w="cut">по вашему запросу</span>.</p>
+        <p class="ds-lesson__strike-left"><b>Осталось</b><span data-strike-out>Подписка приостановлена до 1&nbsp;ноября.</span></p>
+        <p class="ds-lesson__strike-meta" data-strike-meta hidden></p>
+        <p class="ds-lesson__strike-note" data-strike-note aria-live="polite" hidden></p>
+        <p class="ds-lesson__strike-done" data-strike-done hidden>Осталась дата — ради неё человек и смотрит на строку. «По вашему запросу» звучит так, будто магазин оправдывается.</p>
+        <p class="ds-lesson__strike-actions" data-strike-actions hidden></p>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Лишнее вычёркивают, пока смысл не меняется. Слово, без которого фраза врёт или молчит о главном, остаётся.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Каждое слово в подписи что-то сообщает.</b> «Пожалуйста», «ваш», «данный», «успешно», «в настоящий момент», «нажмите здесь» вычёркивают первыми: смысл от этого не меняется.</div>
+
+  <p class="ds-lesson__dim">Максим Ильяхов и Людмила Сарычева называют такие слова стоп-словами и разбирают их в книге «Пиши, сокращай» («Альпина Паблишер», 2016; в 2025 году вышло переработанное издание).</p>
+</section>
+
+<section id="heading">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Заголовок о том, что на экране</h2></div>
+  <p class="ds-lesson__lead">Заголовок отвечает на вопрос, с которым человек открыл экран. Название раздела системы на этот вопрос не отвечает.</p>
+
+  <p>Разработчик назвал экран и блоки так, как они называются в базе: «Информация о подписке», «Параметры», «Данные», «Настройки». Покупатель открывает экран с другими вопросами: когда привезут кофе, какой сорт, сколько и когда спишут, как перенести доставку.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Экран «Моя подписка» · заголовки</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="hd1" hidden>Названия из базы</button><button class="ds-switch__button" type="button" data-switch-btn="hd2" hidden>Ответы на вопросы</button></div>
+
+      <div data-switch-pane="hd1"><p class="ds-switch__title">Названия из базы</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Информация о подписке</span></div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Параметры</span><span class="ds-lesson__wf-dim">Сорт: Эфиопия Иргачеффе</span><span class="ds-lesson__wf-dim">Помол: в зёрнах</span><span class="ds-lesson__wf-dim">Периодичность: 14 дней</span></span>
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Данные</span><span class="ds-lesson__wf-dim">Дата: 14.10.2026</span><span class="ds-lesson__wf-dim">Сумма: 1290.00 RUB</span></span>
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Настройки</span><span class="ds-lesson__wf-btn">Изменить</span><span class="ds-lesson__wf-btn">Отменить</span></span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Названия из базы</b>Чтобы узнать, когда привезут кофе, надо найти «Дату» в блоке «Данные» и догадаться, что это дата доставки, а не оформления. «Изменить» и «Отменить» — непонятно что.</div>
+      </div>
+
+      <div data-switch-pane="hd2"><p class="ds-switch__title">Ответы на вопросы</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Подписка на кофе</span></div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Следующая доставка — 14&nbsp;октября</span><span class="ds-lesson__wf-dim">Привозим раз в две недели</span><span class="ds-lesson__wf-btn">Пропустить доставку</span></span>
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Что в коробке</span><span class="ds-lesson__wf-dim">Эфиопия Иргачеффе, 250&nbsp;г, в зёрнах</span><span class="ds-lesson__wf-btn">Сменить сорт</span></span>
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Оплата</span><span class="ds-lesson__wf-dim">1&nbsp;290&nbsp;₽ спишется 12&nbsp;октября с карты ••&nbsp;4417</span><span class="ds-lesson__wf-btn">Сменить карту</span></span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>Ответы на вопросы</b>Пробежав глазами одни заголовки, человек знает главное: когда привезут, что в коробке и сколько спишут. Кнопка под каждым блоком меняет то, о чём этот блок.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Заголовок, который подходит к любому экрану продукта — «Информация», «Настройки», «Данные», — ничего не сообщает.</div>
+  </div>
+
+  <p>Главные слова ставят в начало. Нильсен в 2009 году писал, что, пробегая список, человек видит примерно по два слова в каждом пункте, и советовал ставить вперёд слова о том, что важно человеку и что он может сделать. «Следующая доставка — 14&nbsp;октября» отвечает первыми же словами, «Информация о дате следующей доставки» — нет.</p>
+
+  <p>Заголовок окна и всплывающего сообщения подчиняется тому же правилу. Он называет, что происходит, а не призывает к вниманию.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Где</th><th scope="col">Было</th><th scope="col">Стало</th></tr></thead>
+      <tbody>
+        <tr><td>Экран</td><td>Информация о подписке</td><td>Подписка на кофе</td></tr>
+        <tr><td>Блок с датой</td><td>Данные</td><td>Следующая доставка — 14&nbsp;октября</td></tr>
+        <tr><td>Блок с сортом</td><td>Параметры</td><td>Что в коробке</td></tr>
+        <tr><td>Окно перед пропуском</td><td>Внимание!</td><td>Пропустить доставку 14&nbsp;октября?</td></tr>
+        <tr><td>Сообщение после пропуска</td><td>Операция выполнена успешно</td><td>Доставка 14&nbsp;октября пропущена</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Заголовок — о том, что человек здесь найдёт или сделает.</b> Главные слова — в начале: «Следующая доставка — 14&nbsp;октября», а не «Информация о дате следующей доставки».</div>
+
+  <p class="ds-lesson__dim">Сообщение после действия называет результат, а не «Успешно». Подробнее о таких сообщениях — в уроке <a href="/lessons/patterns-states-junior/">«Паттерны и состояния», Junior</a>.</p>
+</section>
+
+<section id="aloud">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Проверка вслух</h2></div>
+  <p class="ds-lesson__lead">Текст интерфейса — реплика продукта в разговоре с человеком. Прочтите его вслух: где споткнулись или где так не сказал бы ни один живой человек, там и переписывайте.</p>
+
+  <p>В руководстве Microsoft по стилю этот совет стоит в первой десятке: пишите так, как говорите, и читайте текст вслух. В Apple Human Interface Guidelines то же: сомневаетесь — прочтите текст вслух.</p>
+
+  <p>Спотыкаются обычно на одном и том же.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Было</th><th scope="col">На чём спотыкаешься</th><th scope="col">Стало</th></tr></thead>
+      <tbody>
+        <tr><td>Изменение параметров подписки пользователя</td><td>Четыре существительных подряд, каждое держится за следующее</td><td>Изменить подписку</td></tr>
+        <tr><td>Для осуществления переноса доставки воспользуйтесь кнопкой ниже</td><td>«Осуществление переноса» вместо глагола «перенести»</td><td>Кнопка «Перенести доставку»</td></tr>
+        <tr><td>Оплата будет произведена автоматически</td><td>Непонятно, кто платит, когда и сколько</td><td>12&nbsp;октября с карты спишется 1&nbsp;290&nbsp;₽</td></tr>
+        <tr><td>В случае отсутствия сорта на складе он будет заменён на аналогичный</td><td>«В случае отсутствия» и «будет заменён» — так не говорят</td><td>Если сорт закончится, привезём похожий и предупредим за три дня</td></tr>
+        <tr><td>Ваша заявка принята в обработку</td><td>Какая заявка, что будет дальше?</td><td>Заказ принят. Соберём его завтра до 14:00</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="ds-lesson__dim">У этой болезни есть имя. Корней Чуковский писал: «Имя недуга — канцелярит (по образцу колита, дифтерита, менингита)» — в книге «Живой как жизнь» (1962). Нора Галь посвятила ему главу «Берегись канцелярита!» в книге «Слово живое и мёртвое» (1972). Обе книги о живой речи, а не об интерфейсах, но болезнь та же.</p>
+
+  <div class="ds-lesson__rule"><b>Прочтите каждую подпись вслух.</b> Цепочки существительных, «осуществление» вместо глагола и «будет произведено» без того, кто делает, переписывают глаголом: что случится и когда.</div>
+</section>
+
+<section id="tone">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Без «пожалуйста» и «упс»</h2></div>
+  <p class="ds-lesson__lead">Вежливость интерфейса — ясный ответ. «Пожалуйста» его не заменяет, а шутка, когда у человека проблема, раздражает.</p>
+
+  <p>Карта покупателя не прошла, и подписка может прерваться. Он встревожен и хочет знать две вещи: что случилось и что сделать. Вот три способа ему сказать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Экран «Моя подписка» · карта не прошла</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="tn1" hidden>«Упс!»</button><button class="ds-switch__button" type="button" data-switch-btn="tn2" hidden>«Пожалуйста»</button><button class="ds-switch__button" type="button" data-switch-btn="tn3" hidden>По делу</button></div>
+
+      <div data-switch-pane="tn1"><p class="ds-switch__title">«Упс!»</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Подписка на кофе</span></div>
+          <div class="ds-lesson__st-banner">Упс! Кажется, с оплатой что-то пошло не так</div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Следующая доставка — 14&nbsp;октября</span><span class="ds-lesson__wf-dim">Эфиопия Иргачеффе, 250&nbsp;г</span></span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>«Упс!»</b>Шутливый тон там, где у человека проблема: кофе может не приехать. И не сказано ни что случилось, ни что делать.</div>
+      </div>
+
+      <div data-switch-pane="tn2"><p class="ds-switch__title">«Пожалуйста»</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Подписка на кофе</span></div>
+          <div class="ds-lesson__st-banner">Не удалось провести платёж. Пожалуйста, повторите попытку позже. Приносим извинения за доставленные неудобства.</div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Следующая доставка — 14&nbsp;октября</span><span class="ds-lesson__wf-dim">Эфиопия Иргачеффе, 250&nbsp;г</span></span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>«Пожалуйста»</b>Вежливо, но бесполезно. Повторить что — оплату? Когда — через час, через день? «Приносим извинения за доставленные неудобства» вслух не говорит никто.</div>
+      </div>
+
+      <div data-switch-pane="tn3"><p class="ds-switch__title">По делу</p>
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Подписка на кофе</span></div>
+          <div class="ds-lesson__st-banner">Карта ••&nbsp;4417 не прошла. Чтобы кофе приехал 14&nbsp;октября, смените карту до 12&nbsp;октября.</div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Следующая доставка — 14&nbsp;октября</span><span class="ds-lesson__wf-dim">Эфиопия Иргачеффе, 250&nbsp;г</span></span>
+            <span class="ds-lesson__wf-btn ds-lesson__wf-btn--primary">Сменить карту</span>
+          </div>
+        </div></div></div>
+        <div class="ds-lesson__result"><b>По делу</b>Что случилось, что будет, если ничего не делать, и что сделать — одной кнопкой. Ни одного лишнего слова, и это и есть вежливость.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Как писать сами сообщения о проблемах — тема следующего навыка этой области, «Тексты ошибок и пустых состояний».</div>
+  </div>
+
+  <p>В руководстве Mailchimp по текстам сказано: ясность всегда важнее развлечения, а если сомневаетесь — пишите без шуток. В руководстве GOV.UK по текстам интерфейса прямее: никаких шутливых сообщений об ошибках, люди приходят с серьёзными делами и часто в стрессе. Там же про «пожалуйста»: обычно оно не нужно, как и «обратите внимание». В Apple Human Interface Guidelines добавляют, что междометия вроде «упс» в сообщениях об ошибках обычно лишние и звучат неискренне.</p>
+
+  <p>Это не запрет на тёплые слова. Им нужна причина.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Где</th><th scope="col">Уместно?</th><th scope="col">Почему</th></tr></thead>
+      <tbody>
+        <tr><td>«Спасибо за заказ!» после оплаты</td><td>Да</td><td>Есть за что: человек купил. Сразу за ним — номер заказа и дата доставки</td></tr>
+        <tr><td>«Извините, курьер опоздал» в письме</td><td>Да</td><td>Виноват магазин, и извинение честное. Дальше — что магазин сделает</td></tr>
+        <tr><td>«Пожалуйста, введите адрес» над полем</td><td>Нет</td><td>Просьба не добавляет сведений. Хватит подписи «Адрес доставки»</td></tr>
+        <tr><td>«Упс!» при отказе карты</td><td>Нет</td><td>Шутка над проблемой человека</td></tr>
+        <tr><td>«Ура, новый сорт!» в рассылке о новинке</td><td>Да</td><td>Новость радостная, и у человека нет проблемы, которую шутка задела бы</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Вежливость — это ясность.</b> «Пожалуйста» и «упс» не пишут там, где человеку нужен ответ по делу. «Спасибо» — когда есть за что, «извините» — когда виноват продукт.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите ошибки на экране «Моя подписка»</h2></div>
+  <p class="ds-lesson__lead">Экран, который разработчик подписал сам. Пять мест в нём мешают покупателю понять, что происходит и что делать.</p>
+
+  <p>Нажимайте на подписи, которые вы бы переписали. В разборе будет, что с ними не так. Нормальные подписи тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Экран подписки · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__wf-row"><div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+          <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Заголовок экрана «Информация»"><span class="ds-lesson__wf-title">Информация</span></span></div>
+          <div class="ds-lesson__wf-body">
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Плашка «Упс! Кажется, с оплатой что-то пошло не так»"><span class="ds-lesson__st-banner">Упс! Кажется, с оплатой что-то пошло не так</span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Заголовок блока «Следующая доставка — 14 октября»"><span class="ds-lesson__wf-label">Следующая доставка — 14&nbsp;октября</span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Кнопка «Пропустить доставку»"><span class="ds-lesson__wf-btn">Пропустить доставку</span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Сорт и ссылка «Подробнее»"><span class="ds-lesson__wf-dim">Эфиопия Иргачеффе, 250&nbsp;г · <span class="ds-lesson__cp-link">Подробнее</span></span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Строка «1 290 ₽ спишется 12 октября с карты ••&nbsp;4417»"><span class="ds-lesson__wf-dim">1&nbsp;290&nbsp;₽ спишется 12&nbsp;октября с карты ••&nbsp;4417</span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Кнопка «Сменить карту»"><span class="ds-lesson__wf-btn">Сменить карту</span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Поле адреса и кнопка «ОК»"><span class="ds-lesson__wf-field"><b>Адрес</b> ул. Лесная, 8к2, кв. 14</span><span class="ds-lesson__wf-btn">ОК</span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Подсказка «Пожалуйста, обратите внимание…»"><span class="ds-lesson__wf-dim">Пожалуйста, обратите внимание, что все изменения вступят в силу только со следующего периода.</span></span>
+            <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="9" data-hunt-label="Кнопка «Поставить на паузу»"><span class="ds-lesson__wf-btn">Поставить на паузу</span></span>
+          </div>
+        </div></div></div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Заголовок экрана «Информация».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Подходит к любому экрану продукта. Человек должен с первого слова видеть, где он: «Подписка на кофе».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Плашка «Упс! Кажется, с оплатой что-то пошло не так».</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Шутливый тон в проблеме и ни слова о том, что делать. По делу: «Карта ••&nbsp;4417 не прошла. Чтобы кофе приехал 14&nbsp;октября, смените карту до 12&nbsp;октября».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Заголовок «Следующая доставка — 14&nbsp;октября».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Отвечает на главный вопрос экрана, и главные слова стоят в начале.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Пропустить доставку».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Действие и предмет. Рядом — дата, так что понятно, какая доставка не придёт.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Ссылка «Подробнее» у сорта.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Подробнее о чём — о сорте, о доставке, о подписке? Назовите, что откроется: «Вкус и обжарка».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Строка «1&nbsp;290&nbsp;₽ спишется 12&nbsp;октября с карты ••&nbsp;4417».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Сумма, дата и карта — всё, что человек хочет знать о деньгах, одной строкой.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Сменить карту».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Глагол и предмет, и стоит в блоке об оплате.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «ОК» под адресом.</span><span class="ds-lesson__hunt-fix"><b>Переписать. </b>Непонятно, сохранит она адрес или просто закроет блок. Лучше: «Сохранить адрес».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Подсказка «Пожалуйста, обратите внимание…».</span><span class="ds-lesson__hunt-fix"><b>Сократить. </b>Пять слов до сути, а «следующий период» — слово из базы: покупатель думает доставками. Хватит «Изменения вступят в силу со следующей доставки».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Поставить на паузу».</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Понятно, что доставки остановятся, а подписка останется. На следующем шаге человек выберет, до какого числа.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую подпись экрана</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все пять найдены. </b>Заголовок ни о чём, шутка в проблеме, ссылка в никуда, кнопка без действия и подсказка из лишних слов. Каждое из этих мест покупатель видит при каждом входе в подписку.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные подписи тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Проверяйте экран в том состоянии, в котором его увидят.</b> С настоящими датами, суммами и проблемами, а не с «Lorem ipsum»: заглушка не покажет, что «ОК» не говорит ничего.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите экран своего продукта, выпишите все подписи и перепишите каждую. Приложите таблицу «было — стало».</p>
+
+  <h3>Часть 1 · Выписать, 15 минут</h3>
+  <ol>
+    <li><strong>Выберите экран,</strong> где человек что-то меняет: настройки, профиль, корзину, подписку. Если своего продукта нет, возьмите экран «Моя подписка» из поиска ошибок выше.</li>
+    <li><strong>Выпишите всё, что на нём написано:</strong> заголовки, кнопки, ссылки, подсказки, сообщения. Ничего не пропускайте, даже «ОК».</li>
+    <li><strong>Рядом с каждой кнопкой запишите,</strong> что произойдёт после нажатия. Если ответ не помещается в два-три слова, кнопка спорная.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Подписи экрана · было и стало<span class="ds-lesson__spacer"></span><span data-copy="copyTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="copyTmpl">ЭКРАН: ______________________        Дата: __.__.____
+КТО ОТКРЫВАЕТ И ЗАЧЕМ: ______________________
+
+ЗАГОЛОВКИ
+было: ____________  стало: ____________  на какой вопрос отвечает: ____________
+
+КНОПКИ И ССЫЛКИ
+было: ____________  стало: ____________  что произойдёт: ____________
+было: ____________  стало: ____________  что произойдёт: ____________
+
+ПОДСКАЗКИ И СООБЩЕНИЯ
+было: ______________________
+стало: ______________________
+что вычеркнуто: ______________________
+
+ПРОЧИТАНО ВСЛУХ: да / нет    где споткнулись: ____________</pre>
+    </div>
+    <div class="ds-lesson__box-foot">В строке «что произойдёт» не должно быть слов «что-то», «всё» и «данные». Есть — кнопку надо переписать.</div>
+  </div>
+
+  <h3>Часть 2 · Переписать, 30 минут</h3>
+  <ol>
+    <li><strong>Кнопки:</strong> действие и, если нужно, предмет. «ОК» оставьте только там, где нажатие просто закрывает сообщение.</li>
+    <li><strong>Заголовки:</strong> ответ на вопрос, с которым открывают экран. Главные слова — в начале.</li>
+    <li><strong>Подсказки и сообщения:</strong> вычеркните пустые слова, пока смысл не меняется.</li>
+    <li><strong>Ссылки:</strong> вместо «здесь» и «подробнее» — куда ведёт.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 10 минут</h3>
+  <ol>
+    <li><strong>Закройте всё, кроме кнопок,</strong> и покажите экран человеку, который его не видел. Пусть скажет, что сделает каждая кнопка.</li>
+    <li><strong>Прочтите все тексты вслух.</strong> Где споткнулись — перепишите глаголом.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> По каждой кнопке понятно, что произойдёт после нажатия, без чтения остального экрана.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Таблица «было — стало»</strong> по всем подписям экрана.</li>
+    <li><strong>Экран до и после</strong> — два макета рядом.</li>
+    <li><strong>Список того, что человек сказал</strong> о кнопках, когда видел только их.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут выписать, 30 — переписать, 10 — проверить. Меньше часа.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«На кнопке длинно, не влезает».</strong> Уберите предмет, если он виден рядом: в блоке «Адрес доставки» хватит «Сохранить». Действие убирать нельзя.</li>
+    <li><strong>«Так принято, у всех „ОК“».</strong> Покажите кнопки без экрана двум коллегам и спросите, что они сделают. Разные ответы — аргумент сильнее привычки.</li>
+    <li><strong>«Без „пожалуйста“ грубо».</strong> Прочтите обе версии вслух. Грубость — это тон и упрёк, а не отсутствие слова «пожалуйста».</li>
+    <li><strong>«Тексты пишет разработчик или менеджер».</strong> Принесите таблицу «было — стало» с причиной у каждой строки. Причину принять легче, чем вкус.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Подписи готовы, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>На каждой кнопке — что произойдёт: действие и, если нужно, предмет</li>
+    <li>«ОК» осталось только там, где нажатие просто закрывает сообщение</li>
+    <li>Ссылки говорят, куда ведут, без «здесь» и «подробнее»</li>
+    <li>В подписях нет «пожалуйста», «ваш», «данный», «успешно»</li>
+    <li>Заголовок экрана — о том, что человек здесь найдёт, а не название раздела</li>
+    <li>Главные слова заголовка стоят в начале</li>
+    <li>Каждый текст прочитан вслух, и в нём не спотыкаешься</li>
+    <li>В сообщении о проблеме — ответ по делу, без шуток</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>«ОК» и «Да» на кнопке.</b> Человек перечитывает экран, чтобы понять, на что соглашается.</li>
+    <li><b>«Отмена» в окне отмены.</b> Непонятно, отменить или отказаться от отмены.</li>
+    <li><b>«Информация» в заголовке.</b> Подходит к любому экрану, значит, ничего не сообщает.</li>
+    <li><b>«Пожалуйста, обратите внимание».</b> Четыре слова до сути.</li>
+    <li><b>«Упс!» в проблеме.</b> Шутка над бедой человека.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся подписывать кнопки, заголовки и подсказки так, чтобы было ясно, что делать. На следующих ступенях — убирать из интерфейса язык команды и держать одно название для одной вещи, а потом задавать тон и словарь, по которым пишет вся команда.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Называть кнопку действием; вычёркивать пустые слова; писать заголовок о деле; проверять текст вслух; отвечать по делу без «пожалуйста» и «упс»</td>
+          <td>По каждой кнопке понятно, что произойдёт после нажатия, без чтения остального экрана</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Отличать слово команды от слова человека; сокращать, не теряя условия и не до загадки; сводить синонимы к одному названию; сверять названия в письмах и поддержке</td>
+          <td class="ds-lesson__dim">Ни одна вещь в разделе не называется двумя разными словами</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Описывать тон примерами; вести словарь для поддержки и маркетинга; задавать правила для трудных случаев; разбирать чужие тексты с причиной правки</td>
+          <td class="ds-lesson__dim">Текст, написанный другим человеком по правилам, не отличить от вашего</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любую подпись своего экрана вы можете сказать, на какой вопрос человека она отвечает.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20170418/">Как, с точки зрения синтаксиса элементов интерфейса, подписывать кнопки?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2017 · на русском · бесплатно</span><span>Первая часть цикла «Синтаксис элементов интерфейса»: почему кнопку-команду подписывают глаголом совершенного вида в начальной форме, а не «Вернитесь…» или «Новый документ». Автор допускает существительное и наречие на кнопках, которые меняют статус: «Это спам», «Готово», «Позже». Совет 2017 года.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/soviet/20241203/">Как лучше исправлять классические диалоги с кнопками «Отмена» и «Отменить»?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2024 · на русском · бесплатно</span><span>Как исправить окно с кнопками «Отмена» и «Отменить» на трёх уровнях: когда меняется только перевод, только вторая кнопка или весь текст окна. Суть выбора переносится из заголовка на кнопки: «Вернуться к настройке» и «Сбросить изменения». Совет 2024 года, пример — английское окно приложения.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20161220/">Что нужно знать о стоп-словах в интерфейсе?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Илья Бирман, 2016 · на русском · бесплатно</span><span>Таблица стоп-слов интерфейса: «основной», «дополнительно», «информация», «успешно», «операция», «авторизация» — для каждого пример и замена («Операция успешно завершена» → «Деньги отправлены»). Автор относит к стоп-словам и «перейти», которое урок оставляет на кнопке «Перейти к оплате». Совет 2016 года.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://bureau.ru/bb/soviet/20111022/">Как правильно писать заглавия текущего процесса?</a></span><span class="ds-lesson__reads-meta"><a href="/resource/bureau-soviet/">Советы Бюро Горбунова</a>, Максим Ильяхов, 2011 · на русском · бесплатно</span><span>Короткий ответ на вопрос, как назвать экран процесса и кнопку, которая его завершает: «Добавление товара» или «Новый товар», «Регистрация» или «Зарегистрироваться». Таблица заголовков и завершающих действий из кабинета трейдера. Совет 2011 года, примеры старые.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://in.kontur.ru/text/48074-simple">Простые слова</a></span><span class="ds-lesson__reads-meta">Редполитика Контура, 2023 · на русском · бесплатно</span><span>Раздел «Простые слова» из редполитики Контура: глагол вместо отглагольного существительного и составного сказуемого, канцеляризмы с заменами, штампы, цепочки существительных, у каждого приёма пара «было — стало». Написан для статей и писем. Авторы избегают и страдательного залога, который урок оставляет в «Адрес сохранён».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://developer.apple.com/design/human-interface-guidelines/writing">Writing</a></span><span class="ds-lesson__reads-meta"><a href="/resource/apple-hig/">Apple Human Interface Guidelines</a> · на английском · бесплатно</span><span>Раздел руководства Apple о текстах интерфейса: голос и тон, глагол на кнопках и ссылках, местоимения «my» и «your», ошибки без «oops!», пустые экраны, подписи настроек. Руководство допускает «Done» на кнопке, которая завершает многошаговый процесс.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

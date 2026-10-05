@@ -6,8 +6,8 @@
  * разметка вариантов ответа, калькулятор «вилки», прищур-тест, проход
  * по прототипу с поиском тупиков, слои экрана — сетка, отступы, края, иерархия, —
  * «три секунды», проигрыватель движения, настройка образца, сортировка
- * учебной таблицы, момент проверки поля формы, начало шкалы графика
- * и порог отклонения.
+ * учебной таблицы, момент проверки поля формы, начало шкалы графика,
+ * порог отклонения и вычёркивание лишних слов.
  *
  * Общее правило одно и то же во всех: сервер отдаёт страницу, которую можно
  * прочитать целиком, а скрипт превращает её в упражнение. Поэтому содержимое —
@@ -3128,6 +3128,147 @@
 		input.addEventListener( 'input', update );
 		pick.hidden = false;
 		out.hidden = false;
+		update();
+	} );
+
+	/* ── вычеркните лишнее ─────────────────────────────────────────────────
+	   Коробка `data-strike` — одна фраза интерфейса. Каждое слово или кусок фразы
+	   (`data-strike-w`) — либо лишнее (`cut`), либо несёт смысл (`keep`, в
+	   `data-strike-loss` — что пропадёт без него). Без скрипта лишнее уже
+	   зачёркнуто стилем, а `data-strike-out` показывает фразу без него: страница
+	   остаётся разбором. Скрипт снимает зачёркивание и превращает куски в кнопки:
+	   нажатие вычёркивает, повторное — возвращает. Под фразой — то, что осталось,
+	   и счётчик из `data-strike-count` ({n} — вычеркнуто лишних, {total} — сколько
+	   их всего). Вычеркнули нужное — под фразой его `data-strike-loss`; вычеркнули
+	   всё лишнее и ничего нужного — открывается `data-strike-done`. Кнопка
+	   «показать» (подпись — `data-strike-show`) вычёркивает лишнее за человека. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-strike]' ), function ( box ) {
+		var text = box.querySelector( '[data-strike-text]' );
+		var out = box.querySelector( '[data-strike-out]' );
+		var note = box.querySelector( '[data-strike-note]' );
+		var done = box.querySelector( '[data-strike-done]' );
+		var meta = box.querySelector( '[data-strike-meta]' );
+		var place = box.querySelector( '[data-strike-actions]' );
+		var parts = text ? Array.prototype.slice.call( text.querySelectorAll( '[data-strike-w]' ) ) : [];
+
+		if ( ! text || ! out || ! parts.length ) {
+			return;
+		}
+
+		var words = [];
+		var lost = [];
+		var total = 0;
+
+		function tidy( line ) {
+			line = line.replace( /\s+/g, ' ' )
+				.replace( /\s+([,.:;!?»)])/g, '$1' )
+				.replace( /([«(])\s+/g, '$1' )
+				.replace( /,+(?=[,.:;!?])/g, '' )
+				.replace( /^[\s,.:;—–-]+/, '' )
+				.replace( /[\s,:;—–-]+$/, '' )
+				.trim();
+
+			return line.charAt( 0 ).toUpperCase() + line.slice( 1 );
+		}
+
+		function left() {
+			var line = '';
+
+			Array.prototype.forEach.call( text.childNodes, function walk( node ) {
+				if ( 3 === node.nodeType ) {
+					line += node.nodeValue;
+				} else if ( 1 === node.nodeType && ! ( node.hasAttribute( 'data-strike-w' ) && 'true' === node.getAttribute( 'aria-pressed' ) ) ) {
+					Array.prototype.forEach.call( node.childNodes, walk );
+				}
+			} );
+
+			return tidy( line );
+		}
+
+		function update() {
+			var cut = 0;
+
+			lost = lost.filter( function ( one ) {
+				return 'true' === one.getAttribute( 'aria-pressed' );
+			} );
+
+			words.forEach( function ( one ) {
+				if ( 'cut' === one.getAttribute( 'data-strike-w' ) && 'true' === one.getAttribute( 'aria-pressed' ) ) {
+					cut++;
+				}
+			} );
+
+			out.textContent = left();
+
+			if ( meta ) {
+				meta.textContent = ( box.getAttribute( 'data-strike-count' ) || '' ).replace( '{n}', cut ).replace( '{total}', total );
+				meta.hidden = false;
+			}
+
+			if ( note ) {
+				note.textContent = lost.length ? lost[ lost.length - 1 ].getAttribute( 'data-strike-loss' ) || '' : '';
+				note.hidden = ! lost.length;
+			}
+
+			if ( done ) {
+				done.hidden = lost.length > 0 || cut < total;
+			}
+		}
+
+		parts.forEach( function ( span ) {
+			var el = document.createElement( 'button' );
+			var kind = span.getAttribute( 'data-strike-w' );
+
+			el.type = 'button';
+			el.className = 'ds-lesson__strike-w';
+			el.setAttribute( 'data-strike-w', kind );
+			el.setAttribute( 'aria-pressed', 'false' );
+
+			if ( span.hasAttribute( 'data-strike-loss' ) ) {
+				el.setAttribute( 'data-strike-loss', span.getAttribute( 'data-strike-loss' ) );
+			}
+
+			while ( span.firstChild ) {
+				el.appendChild( span.firstChild );
+			}
+
+			span.parentNode.replaceChild( el, span );
+			words.push( el );
+			total += 'cut' === kind ? 1 : 0;
+
+			el.addEventListener( 'click', function () {
+				var on = 'true' !== el.getAttribute( 'aria-pressed' );
+
+				el.setAttribute( 'aria-pressed', on ? 'true' : 'false' );
+				el.classList.toggle( 'is-lost', on && 'keep' === kind );
+
+				if ( on && 'keep' === kind ) {
+					lost.push( el );
+				}
+
+				update();
+			} );
+		} );
+
+		if ( place && box.getAttribute( 'data-strike-show' ) ) {
+			var show = button( box.getAttribute( 'data-strike-show' ) );
+
+			show.addEventListener( 'click', function () {
+				words.forEach( function ( one ) {
+					var cut = 'cut' === one.getAttribute( 'data-strike-w' );
+
+					one.setAttribute( 'aria-pressed', cut ? 'true' : 'false' );
+					one.classList.remove( 'is-lost' );
+				} );
+
+				update();
+			} );
+
+			place.appendChild( show );
+			place.hidden = false;
+		}
+
+		box.classList.add( 'is-live' );
 		update();
 	} );
 }() );

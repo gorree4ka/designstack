@@ -10814,3 +10814,163 @@ svg.ds-lesson__lines {
 .ds-lesson__db-hit.ds-lesson__hunt-pin.is-miss {
 	border-style: dotted;
 }
+
+/* ---------- уроки «Формулировки интерфейса» ---------- */
+
+/* Вычеркните лишнее: фраза, под ней — что осталось. Без скрипта лишнее уже
+   зачёркнуто стилем; со скриптом куски фразы становятся кнопками (`is-live`). */
+.ds-lesson__strike + .ds-lesson__strike {
+	margin-top: var(--wp--preset--spacing--4);
+	padding-top: var(--wp--preset--spacing--4);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__strike-where {
+	margin: 0 0 var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+.ds-lesson__strike-text {
+	margin: 0 0 var(--wp--preset--spacing--3);
+	font-size: var(--wp--preset--font-size--lg);
+	line-height: var(--wp--custom--line-height--base);
+}
+
+.ds-lesson__strike:not(.is-live) [data-strike-w="cut"] {
+	color: var(--wp--preset--color--text-muted);
+	text-decoration: line-through;
+}
+
+button.ds-lesson__strike-w {
+	margin: 0;
+	padding: 0 var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--xs);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	line-height: inherit;
+	cursor: pointer;
+}
+
+button.ds-lesson__strike-w:hover {
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+button.ds-lesson__strike-w:focus-visible {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Вычеркнуто: зачёркивание плюс приглушённый цвет. Вычеркнуто нужное — ещё
+   и подложка ошибки со сплошной рамкой: одним цветом его не отличить. */
+button.ds-lesson__strike-w[aria-pressed="true"] {
+	border-color: transparent;
+	color: var(--wp--preset--color--text-muted);
+	text-decoration: line-through;
+}
+
+button.ds-lesson__strike-w.is-lost {
+	border-style: solid;
+	border-color: var(--wp--preset--color--border-error);
+	background: var(--wp--preset--color--bg-error);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__strike-left {
+	margin: 0;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--sm);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__strike-left > b {
+	display: block;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+.ds-lesson__strike-meta {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__strike-note,
+.ds-lesson__strike-done {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-left: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-error);
+	background: var(--wp--preset--color--bg-error);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__strike-done {
+	border-left-color: var(--wp--preset--color--icon-success);
+	background: var(--wp--preset--color--surface-selected);
+}
+
+.ds-lesson__strike-actions {
+	margin: var(--wp--preset--spacing--2) 0 0;
+}
+
+/* Ссылка внутри строки учебного экрана: в отличие от `wf-link`, не встаёт
+   отдельной строкой. */
+.ds-lesson__cp-link {
+	color: var(--wp--preset--color--text-action);
+	text-decoration: underline;
+}
+
+/* Учебное письмо: отправитель, тема, текст и подвал. Детали — `span`, чтобы
+   их можно было обернуть кнопкой поиска ошибок. */
+.ds-lesson__cp-mail,
+.ds-lesson__cp-chat {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-default);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__cp-mail-from {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+.ds-lesson__cp-mail-subj {
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 700;
+}
+
+.ds-lesson__cp-mail-foot {
+	padding-top: var(--wp--preset--spacing--2);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+}
+
+/* Учебный чат: реплики оператора слева, покупателя — справа и с подложкой
+   выбранного. Сторону показывает и место, и цвет. */
+.ds-lesson__cp-msg {
+	align-self: flex-start;
+	max-width: 90%;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__cp-msg.is-me {
+	align-self: flex-end;
+	background: var(--wp--preset--color--surface-selected);
+}

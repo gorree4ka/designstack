@@ -86,6 +86,11 @@ with sync_playwright() as play:
         ("dashboards-junior", ["вчера к этому часу — 35 100", "Столбцы по убыванию", "Шкала от 880", "Переделать. Неполный день сравнили с полным"]),
         ("dashboards-middle", ["Отстаём на 50 400", "Что изменилось за неделю — разница от нуля", "Мало: заказать у обжарщика, нужно от 10 дней", "Переделать. Было 2, стало 4"]),
         ("dashboards-senior", ["Договорённость", "СЛЕДУЮЩИЙ ПЕРЕСМОТР", "Убрать. Число только растёт"]),
+        # Подписи кнопок, заголовки, тон, загадка и шкалы тона — панели переключателя, видны все;
+        # у тренажёра «вычеркните лишнее» без скрипта виден ответ: лишнее зачёркнуто, под фразой — что осталось.
+        ("ui-copy-junior", ["Оставить подписку", "Ответы на вопросы", "Изменения вступят в силу со следующей доставки.", "Переписать. Подходит к любому экрану продукта"]),
+        ("ui-copy-middle", ["Беспл. дост. в пр. МКАД от 2К", "LESNAYA OBZHARKA PODPISKA", "Заменить. Покупатель оформлял подписку"]),
+        ("ui-copy-senior", ["Шкалы и примеры", "ПРАВИЛО: 4.2", "Поправить. Шкала «почтительный — дерзкий»"]),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1553,6 +1558,106 @@ with sync_playwright() as play:
     fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
     fails += 0 if say(hunt_all(page, 10), "набор после запуска подписки: нормальное не засчитано, ошибок 5 из 5") else 1
     page.close()
+    # «Формулировки интерфейса»: тренажёр «вычеркните лишнее» — нажатие зачёркивает кусок фразы,
+    # под фразой то, что осталось; вычеркнутое условие даёт подсказку, что пропало; «Показать лишнее»
+    # вычёркивает за человека и открывает итог. Без скрипта лишнее зачёркнуто стилем, кнопок нет.
+    def strike(page, n):
+        box = page.locator("[data-strike]").nth(n)
+        return {
+            "out": box.locator("[data-strike-out]").inner_text().replace("\xa0", " "),
+            "meta": box.locator("[data-strike-meta]").inner_text(),
+            "note": box.locator("[data-strike-note]").inner_text() if box.locator("[data-strike-note]").is_visible() else "",
+            "done": box.locator("[data-strike-done]").is_visible(),
+        }
+
+    panes = "() => [...document.querySelectorAll('#%s [data-switch-pane]')].filter(el => el.offsetParent !== null).map(el => el.getAttribute('data-switch-pane'))"
+
+    def press(page, n, word):
+        page.locator("[data-strike]").nth(n).locator("button[data-strike-w]", has_text=word).first.click()
+        page.wait_for_timeout(30)
+
+    page = ctx.new_page()
+    page.goto(BASE + "ui-copy-junior/")
+    page.wait_for_timeout(300)
+    head("ui-copy-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    first = page.evaluate(panes % "button")
+    page.click("#button [data-switch-btn=bt3]")
+    page.wait_for_timeout(30)
+    fails += 0 if say(first == ["bt1"] and page.evaluate(panes % "button") == ["bt3"] and page.is_visible("#button >> text=Оставить подписку"),
+                      "окно отмены: сначала «Да и Нет», по нажатию — «Действие на кнопке»") else 1
+    s = strike(page, 0)
+    fails += 0 if say(len(page.query_selector_all("[data-strike]")) == 3 and s["out"].startswith("Пожалуйста, обратите внимание")
+                      and "0 из 4" in s["meta"] and not s["note"] and not s["done"], "три фразы, сначала ничего не вычеркнуто: 0 из 4") else 1
+    press(page, 0, "Пожалуйста")
+    press(page, 0, "все")
+    s = strike(page, 0)
+    fails += 0 if say(s["out"].startswith("Изменения в вашей подписке") and "2 из 4" in s["meta"], "вычеркнули два куска: «Изменения в вашей…», 2 из 4") else 1
+    press(page, 0, "со следующей доставки")
+    s = strike(page, 0)
+    fails += 0 if say("Пропало главное" in s["note"] and "доставки" not in s["out"] and not s["done"], "вычеркнули условие: подсказка «Пропало главное»") else 1
+    press(page, 0, "со следующей доставки")
+    fails += 0 if say(not strike(page, 0)["note"], "вернули условие: подсказка ушла") else 1
+    page.locator("[data-strike]").nth(0).locator("[data-strike-actions] button").click()
+    page.wait_for_timeout(30)
+    s = strike(page, 0)
+    fails += 0 if say(s["out"] == "Изменения вступят в силу со следующей доставки." and "4 из 4" in s["meta"] and s["done"],
+                      "«Показать лишнее»: «Изменения вступят в силу со следующей доставки.», итог открыт") else 1
+    page.locator("[data-strike]").nth(1).locator("[data-strike-actions] button").click()
+    page.wait_for_timeout(30)
+    fails += 0 if say(strike(page, 1)["out"] == "Адрес доставки сохранён.", "вторая фраза: «Адрес доставки сохранён.»") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "экран «Моя подписка»: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "ui-copy-middle/")
+    page.wait_for_timeout(300)
+    head("ui-copy-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    press(page, 0, "при заказе от")
+    s = strike(page, 0)
+    fails += 0 if say("Пропало условие" in s["note"] and "690" in s["note"] and "2 000" not in s["out"], "вычеркнули сумму: «Пропало условие… 690 ₽»") else 1
+    press(page, 0, "при заказе от")
+    page.locator("[data-strike]").nth(0).locator("[data-strike-actions] button").click()
+    page.wait_for_timeout(30)
+    s = strike(page, 0)
+    fails += 0 if say(s["out"] == "Доставка по Москве в пределах МКАД бесплатна при заказе от 2 000 ₽." and s["done"],
+                      "сокращено без потери условий: «…бесплатна при заказе от 2 000 ₽.»") else 1
+    page.locator("[data-strike]").nth(1).locator("[data-strike-actions] button").click()
+    page.wait_for_timeout(30)
+    fails += 0 if say(strike(page, 1)["out"] == "Скидка 10 % на первую доставку для новых подписчиков по промокоду ЛЕС10",
+                      "баннер: восклицания ушли, четыре условия остались") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра-викторины на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "кабинет, письмо и чат: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "ui-copy-senior/")
+    page.wait_for_timeout(300)
+    head("ui-copy-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    page.click("#tone [data-switch-btn=tv2]")
+    page.wait_for_timeout(30)
+    fails += 0 if say(page.evaluate(panes % "tone") == ["tv2"] and page.is_visible("#tone >> text=Самый свежий кофе в мире!!!"),
+                      "правила тона: по нажатию — «Шкалы и примеры»") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 2, "два тренажёра-викторины на странице") else 1
+    fails += 0 if say(hunt_all(page, 10), "рассылка по правилам: нормальное не засчитано, нарушений 5 из 5") else 1
+    page.close()
+
+    plain = browser.new_context(java_script_enabled=False)
+    page = plain.new_page()
+    page.goto(BASE + "ui-copy-junior/")
+    head("ui-copy-junior · вычёркивание без скрипта")
+    cut = page.evaluate("""() => [...document.querySelectorAll('[data-strike-w="cut"]')]
+        .map(el => getComputedStyle(el).textDecorationLine)""")
+    fails += 0 if say(len(cut) == 12 and all("line-through" in c for c in cut) and not page.is_visible("[data-strike-meta]"),
+                      "лишнее зачёркнуто стилем: %d кусков, счётчика нет" % len(cut)) else 1
+    page.close()
+    plain.close()
     browser.close()
 
 print("\nнеудач:", fails)
