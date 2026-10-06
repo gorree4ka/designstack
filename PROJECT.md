@@ -33,6 +33,7 @@
 | Google Search Console | мета-тег `google-site-verification` | код вписан 15.09.2026, тег отдаётся; карта сайта подаётся как `wp-sitemap.xml` |
 | Карта сайта | `/wp-sitemap.xml` | отдаётся, витрина и благодарность исключены |
 | Telegram-канал | t.me/designstack_ru | создаёт и ведёт автор, тексты готовит Claude (D199, 06.10.2026); блок подписки на сайте включается адресом канала в опции `designstack_core_channel` локально и на хостинге |
+| Статья на vc.ru | https://vc.ru/life/3177806-kak-pisat-teksty-oshibok-dlya-polzovateley | опубликована автором 06.10.2026, раздел «Личный опыт» (D200, `docs/content/articles/vc-errors-junior.md`). Ссылка на урок — карточкой без меток через `api.vc.ru/…/redirect` (302, `Referrer-Policy: origin-when-cross-origin`): в Метрике переходы видны как «vc.ru». Запрета индексации нет; все 212 фраз и 4 картинки на месте — сверено 06.10 |
 
 ## Каталог
 
