@@ -401,8 +401,8 @@ function designstack_core_render_post_list( string $category, string $title, str
 /**
  * Адрес Telegram-канала дайджеста.
  *
- * Канала пока нет (O5): опция пуста, и блок подписки не выводится ни на главной,
- * ни в выпуске, ни в подвале — так записано в вайрфреймах.
+ * Пока опция пуста, блок подписки не выводится ни на главной, ни в выпуске, ни в подвале (D73).
+ * Канал — t.me/designstack_ru (D38, D199); адрес ставится в опцию локально и на хостинге.
  *
  * @return string
  */
@@ -446,7 +446,8 @@ function designstack_core_render_subscribe( string $variant = 'block', string $o
 		'<div class="ds-subscribe"><div class="ds-subscribe__text">'
 		. '<h2 class="ds-section__title">%1$s</h2><p>%2$s</p></div>%3$s</div>',
 		esc_html__( 'Дайджест раз в неделю', 'designstack-core' ),
-		esc_html__( 'Новые ресурсы и то, что изменилось у старых, — одним постом в Telegram вместо двадцати каналов.', 'designstack-core' ),
+		// С 30.09.2026 дайджест — новости дизайна (D188), текст блока — под это (D199).
+		esc_html__( 'Коротко о новом в мире дизайна, свежие уроки и находки для каталога. Всё одним постом в Telegram.', 'designstack-core' ),
 		$button
 	);
 }

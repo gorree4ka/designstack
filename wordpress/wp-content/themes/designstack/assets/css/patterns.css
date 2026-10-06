@@ -1080,6 +1080,18 @@ textarea.ds-field__control {
 		grid-template-columns: var(--wp--custom--size--sidebar) var(--wp--custom--size--sidebar) minmax(0, 1fr);
 		gap: var(--wp--preset--spacing--8);
 	}
+
+	/* Без канала подписки в подвале нет (D199): ссылки и темы занимают две колонки, а не три. */
+	.ds-footer__inner:not(:has(.ds-footer__subscribe)) {
+		grid-template-columns: var(--wp--custom--size--sidebar) minmax(0, 1fr);
+	}
+}
+
+/* В подвале у подписки только кнопка: рамка и поле блока на главной здесь лишние. */
+.ds-subscribe--footer {
+	padding: 0;
+	border: 0;
+	background: none;
 }
 
 .ds-breadcrumbs {

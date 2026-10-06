@@ -5,8 +5,8 @@
  * Categories: designstack
  * Inserter: no
  *
- * Подписка, ссылки, 12 тем и копирайт (brief §6, D35). Кнопки «Подписаться» нет, пока не создан канал (US-43, O5):
- * её выведет этап 12 по адресу канала в настройках.
+ * Подписка, ссылки, 12 тем и копирайт (brief §6, D35). Подписка — заголовок и кнопка «Подписаться» —
+ * выводится, только когда в настройках есть адрес канала (опция `designstack_core_channel`, D73, D199).
  *
  * @package designstack
  */
@@ -36,14 +36,20 @@ $ds_links = array(
 	'Политика данных'    => '/privacy/',
 );
 
+// Подписка в подвале — только с адресом канала в настройках (D73, D199). Без него колонки нет вовсе:
+// до 06.10.2026 здесь стояла заглушка «Кнопка «Подписаться» появится вместе с каналом» на всех страницах.
+$ds_subscribe = function_exists( 'designstack_core_render_subscribe' ) ? designstack_core_render_subscribe( 'footer' ) : '';
+
 ?>
 <!-- wp:group {"className":"ds-footer","layout":{"type":"constrained"}} -->
 <div class="wp-block-group ds-footer"><!-- wp:group {"align":"wide","className":"ds-footer__inner"} -->
 <div class="wp-block-group alignwide ds-footer__inner"><!-- wp:html -->
+<?php if ( '' !== $ds_subscribe ) : ?>
 <div class="ds-footer__subscribe">
 	<p class="ds-footer__title">Дайджест раз в неделю</p>
-	<p class="ds-meta">Кнопка «Подписаться» появится вместе с каналом</p>
+	<?php echo $ds_subscribe; // phpcs:ignore WordPress.Security.EscapeOutput -- адрес и подписи экранированы в designstack_core_render_subscribe(). ?>
 </div>
+<?php endif; ?>
 <ul class="ds-footer__links">
 	<?php foreach ( $ds_links as $ds_title => $ds_url ) : ?>
 	<li><a class="ds-link" href="<?php echo esc_url( $ds_url ); ?>"><?php echo esc_html( $ds_title ); ?></a></li>
