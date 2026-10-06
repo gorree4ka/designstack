@@ -84,14 +84,36 @@ def lesson_part(raw):
     """Урок сайта (`*.body.html`): абзацы и пункты списков текстом, без «Что почитать дальше» и шаблонов в `<pre>`.
 
     Текст тренажёра «вычеркните лишнее» (`data-strike-text`) — нарочно плохой образец, а не голос урока:
-    «Наши специалисты делают всё возможное» читатель как раз вычёркивает (06.10.2026)."""
+    «Наши специалисты делают всё возможное» читатель как раз вычёркивает (06.10.2026).
+
+    Блок, который читатель копирует себе кнопкой (`data-copy="id"`), — его документ, как шаблон в `<pre>`:
+    план интервью «О чём мы ещё не поговорили?» и формат «Как мы проводим интервью» пишутся голосом
+    читателя и его команды, а не урока (06.10.2026). Образец без кнопки копирования помечают
+    `data-sample` на рамке: вопросы скринера, шаблон обоснования выборки."""
+    starts = [re.search(r'<(\w+)\b[^>]*\bid="%s"' % re.escape(t), raw) for t in set(re.findall(r'data-copy="([^"]+)"', raw))]
+    starts += list(re.finditer(r'<(\w+)\b[^>]*\bdata-sample\b', raw))
+    # с конца файла: вырезанный блок не сдвигает позиции тех, что выше
+    for m in sorted((m for m in starts if m and m.group(1) != "pre"), key=lambda m: -m.start()):
+        tag, depth, pos = m.group(1), 0, m.start()
+        for t in re.finditer(r"<(/?)%s\b[^>]*>" % tag, raw[pos:]):
+            depth += -1 if t.group(1) else 1
+            if depth == 0:
+                raw = raw[:pos] + raw[pos + t.end():]
+                break
     raw = re.sub(r'<section id="further-reading">.*?</section>|<pre.*?</pre>|<p[^>]*data-strike-text[^>]*>.*?</p>',
                  "", raw, flags=re.S)
+    # <q> на странице рисует «ёлочки» — для проверки это та же цитата-образец
+    raw = re.sub(r"<q\b[^>]*>(.*?)</q>", r"«\1»", raw, flags=re.S)
     out = []
-    for _, inner in re.findall(r"<(p|li)\b[^>]*>(.*?)</\1>", raw, flags=re.S):
-        t = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", inner))).strip()
-        if t:
-            out.append(t)
+    for tag, inner in re.findall(r"<(p|li)\b[^>]*>(.*?)</\1>", raw, flags=re.S):
+        # пункт викторины — вопрос и разбор отдельными абзацами: склеенные, они давали одну «фразу» в 26 слов
+        parts = re.findall(r"<p\b[^>]*>(.*?)</p>", inner, flags=re.S) if tag == "li" and "<p" in inner else [inner]
+        # пустая строка внутри абзаца (<br><br>) на экране — граница абзацев: разбор «Что сломано… / Что сказать вместо…»
+        parts = [c for part in parts for c in re.split(r"<br\s*/?>\s*<br\s*/?>", part)]
+        for part in parts:
+            t = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", part))).strip()
+            if t:
+                out.append(t)
     return "\n\n".join(out)
 
 
@@ -167,8 +189,9 @@ for f in args.files:
             n = len(words(s))
             check("фраза не длиннее %d слов" % LONG_SENTENCE, n <= LONG_SENTENCE, "%d · %s…" % (n, s[:70]))
     for name, rx in STAMPS.items():
-        # цитата чужого текста в «ёлочках» — пример, а не голос автора: «Вчера мы всё поменяли»
-        hits = re.findall(rx, re.sub(r"«[^»]*»", "", plain) if name == "«мы»" else plain, re.I)
+        # цитата в «ёлочках» — пример, а не голос автора: «Вчера мы всё поменяли», реплика
+        # интервьюера «Давайте вернёмся к моменту…» (06.10.2026) — штампы в ней не считаются
+        hits = re.findall(rx, re.sub(r"«[^»]*»", "", plain), re.I)
         check("нет штампа: " + name, not hits, ", ".join(dict.fromkeys(h.lower() for h in hits)))
     for name, rx in FOR_EYES.items():
         for m in re.finditer(rx, plain, re.I):
