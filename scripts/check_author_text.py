@@ -125,8 +125,11 @@ def glavred(text):
 
 for f in args.files:
     path = pathlib.Path(f)
-    body = text_part(path.read_text(encoding="utf-8"))
+    raw = path.read_text(encoding="utf-8")
+    body = text_part(raw)
     print("== %s" % path.as_posix())
+    for url in re.findall(r"\[карточка ссылки (\S+)\]", raw):
+        check("адрес карточки без меток — с «?» редактор vc.ru карточку не делает", "?" not in url, url)
     for label, href in re.findall(r"\[([^\]]+)\]\(([^)]+)\)", body):
         check("ссылка вшита в слова, а не в адрес", not re.search(r"https?://|\w\.\w{2,}/", label), "«%s»" % label)
     plain = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", body)
