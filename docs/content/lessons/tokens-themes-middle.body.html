@@ -1,0 +1,473 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#layers">Примитивы и токены с ролями</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#anatomy">Из чего собрано имя токена</a><span class="ds-lesson__tag">сборка</span></li>
+    <li><a href="#theme">Тема — второй набор значений</a><span class="ds-lesson__tag">панель режимов</span></li>
+    <li><a href="#missing">Чего нет во второй теме</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#hunt">Найдите прибитое в тёмной теме</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Приложение «Лесной обжарки» из уроков <a href="/lessons/components-variants-middle/">«Компоненты и варианты»</a> и <a href="/lessons/tokens-themes-junior/">«Токены и темы», Junior</a>. Цвета и отступы уже в переменных. Теперь магазин добавляет тёмную тему, а для планшета у бариста — плотный режим. Как подобрать цвета тёмной темы и проверить их контраст, разобрано в уроке <a href="/lessons/color-contrast-middle/">«Цвет и контраст», Middle</a>. Здесь — как устроить токены, чтобы тема переключалась сама.</div>
+
+<section id="layers">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Примитивы и токены с ролями</h2></div>
+  <p class="ds-lesson__lead">Примитив говорит, какое это значение. Токен с ролью говорит, зачем оно. Для двух тем нужны оба слоя.</p>
+
+  <p>На прошлой ступени у «Лесной обжарки» был один слой переменных: color/accent, color/text, space/m.</p>
+
+  <p>Пока тема одна, этого хватает. Но в тёмной теме у акцента другое значение, у текста — тоже.</p>
+
+  <p>Значит, у роли должно быть два значения. А сами значения удобно держать отдельно — шкалой.</p>
+
+  <h3>Два слоя</h3>
+  <ul>
+    <li><strong>Примитивы</strong> — шкалы значений: blue/600, gray/50, space/4. Они не знают, где будут стоять, и не меняются от темы.</li>
+    <li><strong>Токены с ролями</strong> — color/action, color/text/primary, space/inset/card. Они ссылаются на примитивы, и ссылка зависит от темы.</li>
+  </ul>
+
+  <p>Например:</p>
+
+  <p>В светлой теме color/action ссылается на blue/600, в тёмной — на blue/300.</p>
+
+  <p>В макеты и в код экранов выходят только роли. Примитивы живут внутри системы.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Две коллекции · примитивы и роли</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__tk-cols">
+        <table class="ds-lesson__tk-vars" aria-label="Коллекция «Примитивы»">
+          <thead><tr><th scope="col">Примитивы</th><th scope="col">Значение</th></tr></thead>
+          <tbody>
+            <tr><td><code>gray/0</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#FFFFFF"></i>FFFFFF</span></td></tr>
+            <tr><td><code>gray/900</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#1B1F24"></i>1B1F24</span></td></tr>
+            <tr><td><code>blue/300</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#7AA7F0"></i>7AA7F0</span></td></tr>
+            <tr><td><code>blue/600</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#1D5FD1"></i>1D5FD1</span></td></tr>
+            <tr><td><code>space/3</code></td><td><span class="ds-lesson__tk-v">12</span></td></tr>
+            <tr><td><code>space/4</code></td><td><span class="ds-lesson__tk-v">16</span></td></tr>
+          </tbody>
+        </table>
+        <table class="ds-lesson__tk-vars is-modes" aria-label="Коллекция «Роли» с двумя режимами">
+          <thead><tr><th scope="col">Роли</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+          <tbody>
+            <tr><td><code>color/bg/surface</code></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">gray/0</b></span></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">gray/850</b></span></td></tr>
+            <tr><td><code>color/text/primary</code></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">gray/900</b></span></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">gray/100</b></span></td></tr>
+            <tr><td><code>color/action</code></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">blue/600</b></span></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">blue/300</b></span></td></tr>
+            <tr><td><code>color/text/on-action</code></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">gray/0</b></span></td><td><span class="ds-lesson__tk-v"><b class="ds-lesson__tk-alias">blue/950</b></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">В ячейке роли — не код цвета, а ссылка на примитив. В Figma такая ссылка называется alias.</div>
+  </div>
+
+  <h3>Не только цвет</h3>
+
+  <p>Роль цвету нужна всегда: без неё не собрать тёмную тему.</p>
+
+  <p>С отступами по-разному. Atlassian обходится шкалой: space.100, space.200 и так далее.</p>
+
+  <p>Роли отступам нужны, когда у продукта есть режим плотности. Тогда space/inset/card в обычном режиме — space/4, а в плотном — space/3.</p>
+
+  <h3>Проверьте себя</h3>
+
+  <p>Перед вами имена из набора «Лесной обжарки». Где примитив, где роль, а где имя, которое придётся переделать?</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · примитив, роль или плохое имя<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="prim"><p class="ds-quiz__question"><code>blue/600</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Примитив</b>Ступень шкалы синего. Где он стоит, решают роли.</p></li>
+<li data-quiz-q data-answer="role"><p class="ds-quiz__question"><code>color/text/secondary</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Роль</b>Вторичный текст: подписи, цены, даты. В каждой теме своё значение.</p></li>
+<li data-quiz-q data-answer="bad"><p class="ds-quiz__question"><code>color/bg/blue</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Плохое имя</b>Роль, а в имени цвет. В тёмной теме фон может стать тёмно-синим или серым, и имя начнёт путать.</p></li>
+<li data-quiz-q data-answer="prim"><p class="ds-quiz__question"><code>space/4</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Примитив</b>Ступень шкалы отступов, 16. Номер ступени — не число пикселей.</p></li>
+<li data-quiz-q data-answer="role"><p class="ds-quiz__question"><code>color/border/focus</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Роль</b>Рамка фокуса. Её не берут из акцента: акцент поменяют, а рамка должна оставаться заметной.</p></li>
+<li data-quiz-q data-answer="bad"><p class="ds-quiz__question"><code>color/catalog-button</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Плохое имя</b>Имя по месту. Такая же кнопка в корзине возьмёт «catalog-button» — или получит свой токен-двойник.</p></li>
+<li data-quiz-q data-answer="role"><p class="ds-quiz__question"><code>space/inset/card</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Роль</b>Отступ внутри карточки. В плотном режиме у него другое значение.</p></li>
+<li data-quiz-q data-answer="bad"><p class="ds-quiz__question"><code>color/text-dark-theme</code></p><p class="ds-quiz__feedback" data-quiz-feedback><b>Плохое имя</b>Тема в имени токена. Тема — это режим, а не отдельный токен: у color/text/primary два значения.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="prim">Примитив</button><button class="ds-quiz__option" type="button" data-quiz-answer="role">Роль</button><button class="ds-quiz__option" type="button" data-quiz-answer="bad">Плохое имя</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Примитив называют по месту в шкале, роль — по работе на экране. Цвет, место и тема в имени роли — признак, что имя придётся переделать.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Примитивы — внутри, роли — наружу.</b> Экран говорит, зачем ему значение, а система решает, какое оно в каждой теме.</div>
+</section>
+
+<section id="anatomy">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Из чего собрано имя токена</h2></div>
+  <p class="ds-lesson__lead">Имя токена собирают из частей в одном порядке. Тогда нужный токен можно найти, не зная его заранее.</p>
+
+  <p>Части идут от общего к частному:</p>
+
+  <ul>
+    <li><strong>Категория</strong> — что это: цвет, отступ, радиус.</li>
+    <li><strong>Свойство</strong> — куда он ставится: фон, текст, граница.</li>
+    <li><strong>Роль</strong> — зачем: действие, вторичный текст, ошибка.</li>
+    <li><strong>Состояние</strong> — когда: наведение, нажатие. Если состояния нет, части нет.</li>
+  </ul>
+
+  <p>Например:</p>
+
+  <p>color/bg/action/hover — фон кнопки действия при наведении.</p>
+
+  <h3>Как это устроено у Atlassian</h3>
+
+  <p>У Atlassian тот же порядок, только частей больше.</p>
+
+  <p>Например:</p>
+
+  <p>color.background.brand.bold.hovered — цвет, фон, роль «бренд», сильное выделение, наведение.</p>
+
+  <p>Натан Кертис в статье «Naming Tokens in Design Systems» (2020) собирает части имени в четыре группы: пространство имён, объект, основа и модификаторы. Основа — категория, понятие и свойство: color, action, background. Понятие у Кертиса — это роль в уроке.</p>
+
+  <p>Общего порядка частей, пишет Кертис, нет. Сколько частей брать и в каком порядке, решает команда. Главное — один порядок на всю систему.</p>
+
+  <p>Попробуйте собрать имя сами.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Тренажёр · соберите имя токена</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__compose" data-compose data-compose-count="Частей, которые годятся: {n} из {total}">
+        <div class="ds-lesson__compose-view">
+          <div class="ds-lesson__tk-brief">
+            <p>Нужен токен для фона кнопки «В корзину», когда на неё навели курсор.</p>
+            <p class="ds-lesson__tk-name-out"><code><span data-compose-slot="cat">color</span>/<span data-compose-slot="prop">bg</span>/<span data-compose-slot="role">action</span>/<span data-compose-slot="state">hover</span></code></p>
+          </div>
+        </div>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="cat">
+          <legend>Категория — что это</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-cat" data-compose-start data-compose-text="button">button — кнопка</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Это уже компонентный токен. Он нужен, только если у кнопки фон отличается от всех остальных действий.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-cat" data-compose-ok checked data-compose-text="color">color — цвет</label><p class="ds-lesson__compose-note" data-compose-note><b>Годится.</b> Фон кнопки — это цвет.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-cat" data-compose-text="brand">brand — бренд</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Не говорит, цвет это, отступ или шрифт.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="prop">
+          <legend>Свойство — куда ставится</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-prop" data-compose-start data-compose-text="blue">blue — синий</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Цвет в имени. В тёмной теме и после смены бренда фон может стать другим.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-prop" data-compose-text="catalog">catalog — каталог</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Место в имени. Та же кнопка стоит в корзине и в «Избранном».</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-prop" data-compose-ok checked data-compose-text="bg">bg — фон</label><p class="ds-lesson__compose-note" data-compose-note><b>Годится.</b> Токен для заливки. Для подписи на кнопке будет свой — text.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="role">
+          <legend>Роль — зачем</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-role" data-compose-ok checked data-compose-text="action">action — действие</label><p class="ds-lesson__compose-note" data-compose-note><b>Годится.</b> Главное действие на экране. Та же роль у кнопки «Оформить заказ».</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-role" data-compose-start data-compose-text="primary-600">primary-600</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Ступень шкалы в имени роли. Это ссылка на примитив, а не роль.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-role" data-compose-text="cart">cart — корзина</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Название кнопки, а не роль. «Купить в один клик» тоже действие, и ей понадобится свой токен.</p></div>
+        </fieldset>
+
+        <fieldset class="ds-lesson__compose-part" data-compose-part="state">
+          <legend>Состояние — когда</legend>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-state" data-compose-start data-compose-text="dark">dark — темнее</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Описывает вид. В тёмной теме фон при наведении, наоборот, светлее.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-state" data-compose-ok checked data-compose-text="hover">hover — наведение</label><p class="ds-lesson__compose-note" data-compose-note><b>Годится.</b> Состояние, а не вид. Рядом будут pressed и disabled.</p></div>
+          <div class="ds-lesson__compose-opt"><label><input type="radio" name="tkm-state" data-compose-text="2">2</label><p class="ds-lesson__compose-note" data-compose-note><b>Не годится.</b> Номер ничего не говорит. Через месяц никто не вспомнит, чем action/2 отличается от action/3.</p></div>
+        </fieldset>
+
+        <p class="ds-lesson__compose-meta" data-compose-meta aria-live="polite" hidden></p>
+        <p class="ds-lesson__compose-done" data-compose-done hidden>Имя читается слева направо: цвет, фон, действие, наведение. Рядом с ним легко найти соседей — color/bg/action/pressed и color/text/on-action.</p>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Части разделены косой чертой, как группы в Figma. В коде разделитель обычно дефис или точка — как переводить имена, разобрано на следующей ступени.</div>
+  </div>
+
+  <p class="ds-lesson__dim">Здесь урок расходится с Material 3. Там есть третий слой — компонентные токены. У кнопки свой токен фона md.comp.button.filled.container.color, и он ссылается на md.sys.color.primary. Урок заводит компонентный токен, только когда компонент правда отличается: каждый такой токен — ещё одно место, где тема может разойтись.</p>
+
+  <p class="ds-lesson__dim">И с Кертисом тоже. В 2020 году режим он писал прямо в имени: …-hover-on-light и …-hover-on-dark. Сейчас режимы держит сама коллекция переменных, поэтому урок кладёт тему в режим, а не в имя: color/text/primary одно, а значений два.</p>
+
+  <div class="ds-lesson__rule"><b>Имя токена — части в одном порядке.</b> Категория, свойство, роль, состояние. Без цвета, места и темы в имени.</div>
+</section>
+
+<section id="theme">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Тема — второй набор значений</h2></div>
+  <p class="ds-lesson__lead">Тема — это те же роли с другими значениями. Экраны не перерисовывают: они и так ссылаются на роли.</p>
+
+  <p>В Figma у коллекции переменных бывают режимы. У коллекции «Роли» их два: Light и Dark.</p>
+
+  <p>Режим ставят на фрейм, секцию или страницу. У слоёв внутри по умолчанию стоит Auto: они берут режим ближайшего родителя.</p>
+
+  <p>Режимы бывают не только у цвета. Плотный вид для планшета — это ещё одна коллекция с режимами «Обычный» и «Плотный», где у ролей отступов свои значения.</p>
+
+  <p>Коллекции независимы. Один и тот же экран может быть тёмным и плотным сразу.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Каталог · панель режимов</div>
+    <div class="ds-lesson__box-body ds-lesson__cv" data-props data-props-name="Тема: {theme} · Плотность: {density}" style="--l-bg:#F4F6F8; --l-surf:#FFFFFF; --l-text:#1B1F24; --l-muted:#5B6570; --l-border:#C9D0D6; --l-accent:#1D5FD1; --l-on-accent:#FFFFFF; --d-bg:#15181C; --d-surf:#23282E; --d-text:#E8EBEE; --d-muted:#A3ADB8; --d-border:#3A4149; --d-accent:#7AA7F0; --d-on-accent:#0B1B33; --n-pad:var(--wp--preset--spacing--4); --n-gap:var(--wp--preset--spacing--3); --c-pad:var(--wp--preset--spacing--3); --c-gap:var(--wp--preset--spacing--2)">
+      <div class="ds-lesson__tk-stage">
+        <div class="ds-lesson__tk" data-props-target data-cv-theme="light" data-cv-density="normal">
+          <span class="ds-lesson__tk-top"><span class="ds-lesson__tk-title">Каталог</span></span>
+          <span class="ds-lesson__tk-body">
+            <span class="ds-lesson__tk-field">Найти сорт</span>
+            <span class="ds-lesson__tk-chips"><span class="ds-lesson__tk-chip is-on">Зёрна</span><span class="ds-lesson__tk-chip">Молотый</span><span class="ds-lesson__tk-chip">Без кофеина</span></span>
+            <span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Кения АА</span><span class="ds-lesson__tk-meta">Светлая обжарка · 990&nbsp;₽</span><span class="ds-lesson__tk-btn">В корзину</span></span>
+            <span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Эфиопия Иргачефф</span><span class="ds-lesson__tk-meta">Светлая обжарка · 1&nbsp;090&nbsp;₽</span><span class="ds-lesson__tk-btn">В корзину</span></span>
+          </span>
+          <span class="ds-lesson__tk-nav"><span class="is-on">Каталог</span><span>Избранное</span><span>Корзина</span></span>
+        </div>
+      </div>
+      <p class="ds-lesson__cv-name">Режимы фрейма · <code data-props-out>Тема: Light · Плотность: Обычный</code></p>
+      <div class="ds-lesson__cv-panel">
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="theme"><legend>Тема <span>коллекция «Роли»</span></legend>
+          <label><input type="radio" name="tkm-theme" value="light" data-props-text="Light" data-props-say="Светлая тема: фон — gray/50, карточки — gray/0, действие — blue/600." checked>Light</label>
+          <label><input type="radio" name="tkm-theme" value="dark" data-props-text="Dark" data-props-say="Тёмная тема: те же роли ссылаются на другие примитивы. Действие стало светлее — blue/300, а подпись на кнопке — тёмной, иначе она не читается.">Dark</label>
+        </fieldset>
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="density"><legend>Плотность <span>коллекция «Плотность»</span></legend>
+          <label><input type="radio" name="tkm-density" value="normal" data-props-text="Обычный" data-props-say="Обычный режим: space/inset/card — 16, промежуток между карточками — 12." checked>Обычный</label>
+          <label><input type="radio" name="tkm-density" value="compact" data-props-text="Плотный" data-props-say="Плотный режим меняет только роли отступов: 16 → 12 внутри карточки, 12 → 8 между карточками. Цвета не тронуты: это другая коллекция.">Плотный</label>
+        </fieldset>
+      </div>
+      <p class="ds-lesson__cv-said" data-props-said aria-live="polite">Светлая тема: фон — gray/50, карточки — gray/0, действие — blue/600.</p>
+      <div class="ds-lesson__tk-sheet">
+        <div class="ds-lesson__tk" data-cv-theme="light" data-cv-density="normal" aria-label="Светлая тема, обычный режим" role="img"><span class="ds-lesson__tk-top"><span class="ds-lesson__tk-title">Light · Обычный</span></span><span class="ds-lesson__tk-body"><span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Кения АА</span><span class="ds-lesson__tk-meta">990&nbsp;₽</span><span class="ds-lesson__tk-btn">В корзину</span></span></span></div>
+        <div class="ds-lesson__tk" data-cv-theme="dark" data-cv-density="compact" aria-label="Тёмная тема, плотный режим" role="img"><span class="ds-lesson__tk-top"><span class="ds-lesson__tk-title">Dark · Плотный</span></span><span class="ds-lesson__tk-body"><span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Кения АА</span><span class="ds-lesson__tk-meta">990&nbsp;₽</span><span class="ds-lesson__tk-btn">В корзину</span></span></span></div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Экран один и тот же. Меняются только режимы фрейма, а с ними — значения ролей.</div>
+  </div>
+
+  <h3>Как собрать вторую тему</h3>
+  <ol>
+    <li><strong>Добавьте режим</strong> в коллекцию ролей и назовите его: Dark.</li>
+    <li><strong>Пройдите по каждой роли</strong> и поставьте ей примитив для тёмной темы.</li>
+    <li><strong>Поставьте режим Dark на фрейм</strong> и посмотрите на экран.</li>
+    <li><strong>Чините роли, а не экраны.</strong> Если что-то выглядит не так, правят значение роли в режиме Dark, а слои не трогают.</li>
+  </ol>
+
+  <p>Как выбрать цвета для тёмной темы и замерить контраст, разобрано в уроке <a href="/lessons/color-contrast-middle/">«Цвет и контраст», Middle</a>.</p>
+
+  <div class="ds-lesson__rule"><b>Тема — режим коллекции, а не копия макета.</b> Те же роли, другие значения. Экран переключают одним режимом на фрейме.</div>
+</section>
+
+<section id="missing">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Чего нет во второй теме</h2></div>
+  <p class="ds-lesson__lead">Тема переключает только то, что привязано к роли и получило значение в новом режиме. Остальное остаётся как было.</p>
+
+  <p>При переключении темы что-то может остаться светлым. Причины три.</p>
+
+  <h3>Слой привязан к примитиву</h3>
+
+  <p>Примитив от темы не зависит. Карточка, залитая gray/0 напрямую, в тёмной теме останется белой.</p>
+
+  <p>То же с кодом цвета, вписанным руками: он не меняется ни от темы, ни от правки переменной.</p>
+
+  <h3>Роль не получила тёмного значения</h3>
+
+  <p>Когда в коллекцию добавляют режим, Figma копирует в него значения первого столбца — режима по умолчанию. Если роль забыли пройти, в Dark у неё светлое значение.</p>
+
+  <p>Например:</p>
+
+  <p>Плашка «Осталось 3 пачки» залита color/bg/warning. В режиме Dark у роли осталось бледно-жёлтое значение из Light — и плашка светится на тёмном экране.</p>
+
+  <h3>Значение объявлено только в одной теме</h3>
+
+  <p>В коде то, что случится с забытым токеном, зависит от того, как записаны темы.</p>
+
+  <ul>
+    <li><strong>Тёмная тема переопределяет светлую.</strong> Светлые значения лежат в общем блоке, тёмный блок их меняет. Забытый токен в тёмной теме останется светлым — как в Figma.</li>
+    <li><strong>У каждой темы свой блок.</strong> Тогда в тёмной теме забытого токена нет совсем. Фон станет прозрачным, и плашка исчезнет, а цвет текста возьмётся у родителя.</li>
+  </ul>
+
+  <p>Поэтому список ролей проверяют по обеим темам сразу: у каждой роли два значения, и оба заполнены.</p>
+
+  <div class="ds-lesson__rule"><b>Тема переключает только роли.</b> Примитив в слое, код цвета и роль без второго значения останутся прежними.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Найдите прибитое в тёмной теме</h2></div>
+  <p class="ds-lesson__lead">Тот же каталог в режиме Dark. Четыре элемента не переключились: они привязаны к примитиву или их роль не получила тёмного значения.</p>
+
+  <p>Нажимайте на то, что, по-вашему, выпало из темы. Нормальные элементы тоже можно нажать: в разборе будет, почему они в порядке.</p>
+
+  <div class="ds-lesson__box" data-contrast-demo>
+    <div class="ds-lesson__box-head">Каталог в режиме Dark · найдите прибитое<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body" style="--l-bg:#F4F6F8; --l-surf:#FFFFFF; --l-text:#1B1F24; --l-muted:#5B6570; --l-border:#C9D0D6; --l-accent:#1D5FD1; --l-on-accent:#FFFFFF; --d-bg:#15181C; --d-surf:#23282E; --d-text:#E8EBEE; --d-muted:#A3ADB8; --d-border:#3A4149; --d-accent:#7AA7F0; --d-on-accent:#0B1B33; --n-pad:var(--wp--preset--spacing--4); --n-gap:var(--wp--preset--spacing--3)">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__tk" data-cv-theme="dark" data-cv-density="normal">
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Шапка «Каталог»"><span class="ds-lesson__tk-top"><span class="ds-lesson__tk-title">Каталог</span></span></span>
+          <span class="ds-lesson__tk-body">
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Поле поиска"><span class="ds-lesson__tk-field" style="--t-surf:#FFFFFF; --t-muted:#5B6570">Найти сорт</span></span>
+            <span class="ds-lesson__tk-chips"><span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Чип «Зёрна»"><span class="ds-lesson__tk-chip is-on">Зёрна</span></span><span class="ds-lesson__tk-chip">Молотый</span><span class="ds-lesson__tk-chip">Без кофеина</span></span>
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Фото сорта"><span class="ds-lesson__tk-photo" style="--ph1:#6F4A33; --ph2:#B98A5E"></span></span>
+            <span class="ds-lesson__tk-card">
+              <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Название «Кения АА»"><span class="ds-lesson__tk-name">Кения АА</span></span>
+              <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Плашка «Осталось 3 пачки»"><span class="ds-lesson__tk-badge" style="--t-warn-bg:#FCEFC7; --t-warn-text:#6B4500">Осталось 3 пачки</span></span>
+              <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Кнопка «В корзину»"><span class="ds-lesson__tk-btn">В корзину</span></span>
+            </span>
+            <span class="ds-lesson__tk-card">
+              <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Название «Эфиопия Иргачефф»"><span class="ds-lesson__tk-name" style="--t-text:#1B1F24">Эфиопия Иргачефф</span></span>
+              <span class="ds-lesson__tk-meta">Светлая обжарка · 1&nbsp;090&nbsp;₽</span>
+            </span>
+          </span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Нижнее меню"><span class="ds-lesson__tk-nav" style="--t-surf:#F4F6F8; --t-muted:#5B6570; --t-accent:#1D5FD1"><span class="is-on">Каталог</span><span>Избранное</span><span>Корзина</span></span></span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Шапка «Каталог».</span><span class="ds-lesson__hunt-fix"><b>В порядке. </b>Фон — color/bg/surface, текст — color/text/primary. Оба переключились.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Поле поиска.</span><span class="ds-lesson__hunt-fix"><b>Прибито. </b>Фон поля привязан к примитиву gray/0, поэтому оно осталось белым. Нужна роль — например color/bg/field.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Чип «Зёрна».</span><span class="ds-lesson__hunt-fix"><b>В порядке. </b>Акцент стал светлее, чем в светлой теме, а подпись — тёмной. Это одна роль с двумя значениями, так и задумано.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Фото сорта.</span><span class="ds-lesson__hunt-fix"><b>В порядке. </b>Фотографию тема не перекрашивает, и не должна.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Название «Кения АА».</span><span class="ds-lesson__hunt-fix"><b>В порядке. </b>color/text/primary: в тёмной теме — светлый gray/100.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Плашка «Осталось 3 пачки».</span><span class="ds-lesson__hunt-fix"><b>Нет тёмного значения. </b>Плашка привязана к роли color/bg/warning, но в режиме Dark у роли осталось светлое значение — его скопировали при создании режима и забыли поменять.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «В корзину».</span><span class="ds-lesson__hunt-fix"><b>В порядке. </b>color/action и color/text/on-action, оба со своими тёмными значениями.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Название «Эфиопия Иргачефф».</span><span class="ds-lesson__hunt-fix"><b>Прибито. </b>Текст привязан к gray/900 напрямую. На тёмной карточке тёмный текст почти не виден. Нужна роль color/text/primary, как у Кении.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Нижнее меню.</span><span class="ds-lesson__hunt-fix"><b>Прибито. </b>Меню собрано из примитивов: фон gray/50, акцент blue/600. Светлая полоса внизу тёмного экрана — первое, что заметит человек.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой элемент экрана</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все четыре найдены. </b>Белое поле, тёмное название и светлое меню привязаны к примитивам. У плашки роль есть, но без тёмного значения. Чинят это в токенах, а не перекраской слоёв.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные элементы тоже можно нажать: вы прочитаете, почему там всё в порядке, а счётчик «Найдено» не изменится.</div>
+  </div>
+
+  <h3>Как проверять свой макет</h3>
+  <ul>
+    <li><strong>Переключите режим на каждом экране,</strong> а не на одном. Прибитое обычно сидит там, куда давно не заглядывали.</li>
+    <li><strong>Загляните внутрь компонентов.</strong> Кнопка может быть на ролях, а иконка в ней — на примитиве.</li>
+    <li><strong>Проверьте состояния:</strong> наведение, ошибку, пустой экран. Их рисуют реже, и привязки там теряются чаще.</li>
+    <li><strong>Пройдите список ролей по режимам.</strong> Если значение в Dark совпадает со значением в Light, это повод спросить, так ли задумано. Бывает и нарочно: подпись поверх фотографии светлая в обеих темах. Такую роль называют по тому, на чём она стоит, — color/text/on-photo, как color/text/on-action.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>Проверка темы — переключение, а не взгляд на один экран.</b> Каждый экран, каждое состояние, каждая роль в обоих режимах.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Переведите свой макет с примитивов на токены с ролями и соберите вторую тему заменой значений.</p>
+
+  <h3>Часть 1 · Разделить слои, 30 минут</h3>
+  <ol>
+    <li><strong>Перенесите значения в коллекцию примитивов:</strong> шкалы цветов и отступов. Если своего проекта нет, возьмите экран каталога из этого урока.</li>
+    <li><strong>Заведите коллекцию ролей.</strong> Для каждого места на экранах ответьте, зачем там цвет или отступ, и назовите роль по частям: категория, свойство, роль, состояние.</li>
+    <li><strong>Привяжите роли к примитивам</strong> через alias.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Роли в двух темах · таблица<span class="ds-lesson__spacer"></span><span data-copy="tkmTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="tkmTmpl">ПРОЕКТ: ______________________        Дата: __.__.____
+
+РОЛЬ                    | ЗАЧЕМ                  | LIGHT       | DARK
+color/bg/page           | фон экрана             | ___________ | ___________
+color/bg/surface        | карточки, шапка        | ___________ | ___________
+color/text/primary      | основной текст         | ___________ | ___________
+color/text/secondary    | подписи, цены          | ___________ | ___________
+color/action            | главное действие       | ___________ | ___________
+color/text/on-action    | текст на действии      | ___________ | ___________
+color/______            | ______________________ | ___________ | ___________
+
+РОЛЬ                    | ЗАЧЕМ                  | ОБЫЧНЫЙ     | ПЛОТНЫЙ
+space/inset/card        | внутри карточки        | ___________ | ___________
+space/______            | ______________________ | ___________ | ___________
+
+ПРОВЕРКА ПЕРЕКЛЮЧЕНИЕМ
+экранов проверено в Dark: ____ из ____
+прибитого найдено: ____ (где: ______________________)
+ролей, у которых Dark = Light: ____ (так задумано? ______)</pre>
+    </div>
+    <div class="ds-lesson__box-foot">В колонках тем пишите имена примитивов, а не коды цветов: так видно, что в роли не пробралось значение руками.</div>
+  </div>
+
+  <h3>Часть 2 · Собрать вторую тему, 40 минут</h3>
+  <ol>
+    <li><strong>Добавьте режим Dark</strong> в коллекцию ролей.</li>
+    <li><strong>Пройдите все роли</strong> и поставьте тёмные значения. Ни одну не пропускайте, даже если «и так сойдёт».</li>
+    <li><strong>Замерьте контраст</strong> пар текста и фона в обеих темах.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить переключением, 30 минут</h3>
+  <ol>
+    <li><strong>Поставьте режим Dark</strong> на каждый экран по очереди.</li>
+    <li><strong>Найдите прибитое</strong> и почините через роль, а не перекраской слоя.</li>
+    <li><strong>Заполните</strong> строки «Проверка переключением».</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Переключение темы не требует ни одной ручной правки в макете.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Две коллекции:</strong> примитивы и роли, роли ссылаются на примитивы.</li>
+    <li><strong>Режимы Light и Dark</strong> у коллекции ролей, все значения заполнены.</li>
+    <li><strong>Макет, который переключается</strong> режимом на фрейме и ничем больше.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 30 минут разделить слои, 40 — собрать тёмную тему, 30 — проверить. Около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Ролей получается пятьдесят».</strong> Сведите похожие. Если два места делают одну работу — фон карточки и фон шапки, — это одна роль.</li>
+    <li><strong>«Не понимаю, роль это или вид».</strong> Спросите, что будет в тёмной теме. Если значение меняется вместе с остальными ролями, это роль.</li>
+    <li><strong>«Иконки в компонентах не переключаются».</strong> Цвет иконки задан внутри главного компонента примитивом. Привяжите его к роли там.</li>
+    <li><strong>«Режимов нет на нашем тарифе».</strong> На бесплатном Starter у коллекции только один режим. Режимы есть на платных тарифах — в Professional до 10 на коллекцию — и на образовательном. Без них всё равно заполните таблицу ролей в двух темах: это главная работа, а режим только переключает её значения.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Токены готовы к теме, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Примитивы и роли — в разных коллекциях, экраны берут только роли</li>
+    <li>Имена ролей собраны по частям в одном порядке</li>
+    <li>В именах нет цвета, места и темы</li>
+    <li>У каждой роли значение в каждом режиме</li>
+    <li>Тема переключается режимом на фрейме, без правок в слоях</li>
+    <li>Каждый экран и каждое состояние проверены переключением</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Примитив в слое.</b> Не переключается с темой.</li>
+    <li><b>Роль без тёмного значения.</b> Показывает в тёмной теме светлое.</li>
+    <li><b>Тема в имени.</b> «text-dark-theme» вместо второго значения у роли.</li>
+    <li><b>Цвет в имени роли.</b> «bg/blue», которая в тёмной теме стала серой.</li>
+    <li><b>Проверка на одном экране.</b> Прибитое находится в состояниях, куда не заглядывали.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На первой ступени выносили значения в переменные. Здесь — называем токены по ролям и собираем темы. На следующей — держим токены одинаковыми в макете и в коде.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Заводить переменные для цветов и отступов; привязывать к ним слои; называть по назначению; находить значения, вписанные руками</td>
+          <td class="ds-lesson__dim">Смена акцентного цвета всего макета — правка одного значения</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Разделять примитивы и роли; собирать имя токена по частям; собирать вторую тему режимом; находить прибитое и роли без второго значения</td>
+          <td>Переключение темы не требует ни одной ручной правки в макете</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Держать одинаковыми имена и значения токенов в макете и в коде; выбрать способ передачи; регулярно сверять расхождения; записать порядок добавления нового токена</td>
+          <td class="ds-lesson__dim">Новый токен проходит путь от документа до кода без ручного вмешательства</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> вы переключаете любой экран своего макета в другую тему и заранее знаете, что ничего не останется прежним по ошибке.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/articles/1012980/">Дизайн-токены: полный гайд по архитектуре и неймингу (CTI vs W3C) с примерами и задачками</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Дмитрий Чаплинский, 2026 · на русском · бесплатно</span><span>Гайд Дмитрия Чаплинского для тех, кто сам называет токены: слои от HEX до компонента, формула «категория-свойство-роль-яркость-состояние», тёмная тема в CSS, пометка устаревших токенов и 15 задачек. В отличие от урока, компонентный слой показан нормой, а для всегда белых элементов заведён color-static-white.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/pgkdigital/articles/912192/">Нейминг без боли: архитектура токенов в дизайн-системах через библиотечную структуру</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Илья Сластен (ПГК Диджитал), 2025 · на русском · бесплатно</span><span>Статья Ильи Сластена (ПГК Диджитал) о библиотеках Figma в четыре этажа: примитивы, стайлгайд с alias и режимами Desktop / Mobile, базовые компоненты, продукт; как спрятать примитивы через scope. В отличие от урока, в имени бывает место (border/input/focused) и состояние default, а категории color нет.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/15343816063383-Modes-for-variables">Modes for variables</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Справка Figma на английском о режимах: как добавить режим в коллекцию и почему он получает значения первого столбца, как слой берёт режим родителя (Auto), сколько режимов на каком тарифе — на бесплатном Starter их нет. Разделы об импорте и выгрузке JSON пригодятся на следующей ступени.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/yandex_cloud_and_infra/articles/804941/">Изменить цвета и кнопки сервиса — и не сломать дизайн-систему</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Алексей Афонин (Yandex Cloud), 2024 · на русском · бесплатно</span><span>Алексей Афонин (Yandex Cloud) показывает, как DataLens перекрасили в два новых стиля, заменив значения ролей Gravity UI: --g-color-base-brand-hover, классы светлой и тёмной темы, проверка контраста в обеих. В отличие от урока, темы заданы в CSS и Figma-стилях, а не режимами переменных.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

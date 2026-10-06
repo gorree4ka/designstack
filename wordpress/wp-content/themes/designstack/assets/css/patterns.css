@@ -11796,3 +11796,430 @@ button.ds-lesson__strike-w.is-lost {
 	border-radius: var(--wp--custom--radius--md);
 	background: var(--wp--preset--color--surface-subtle);
 }
+
+/* Код в уроках. Моноширинный шрифт склеивает «--» в длинную черту, и имя CSS-переменной
+   читается как «var(—gray-0)». Лигатуры в коде выключены во всех уроках. */
+.ds-lesson code,
+.ds-lesson pre,
+.ds-lesson kbd {
+	font-variant-ligatures: none;
+}
+
+/* ---------- уроки «Токены и темы» ---------- */
+
+/* Учебный экран магазина со своими цветами (D183): светлые значения ролей приходят
+   в разметке как --l-*, тёмные — как --d-*, отступы обычного режима — --n-*, плотного —
+   --c-*. Экран переводит их в роли --t-*. Тему и плотность включают атрибуты
+   data-cv-theme и data-cv-density (их ставит панель `data-props`) или класс is-dark.
+   Слой, в который значение «вписано руками», объявляет свою --t-* у себя, и смена
+   переменной на коробке до него не доходит — как в настоящем макете. */
+.ds-lesson__tk {
+	--t-bg: var(--l-bg);
+	--t-surf: var(--l-surf);
+	--t-text: var(--l-text);
+	--t-muted: var(--l-muted);
+	--t-border: var(--l-border);
+	--t-accent: var(--l-accent);
+	--t-on-accent: var(--l-on-accent);
+	--t-pad: var(--n-pad, var(--wp--preset--spacing--4));
+	--t-gap: var(--n-gap, var(--wp--preset--spacing--3));
+	--t-rad: var(--wp--custom--radius--md);
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: var(--wp--custom--size--screen);
+	margin: 0 auto;
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--t-border);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--t-bg);
+	color: var(--t-text);
+	font-size: var(--wp--preset--font-size--sm);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__tk[data-cv-theme="dark"],
+.ds-lesson__tk.is-dark {
+	--t-bg: var(--d-bg);
+	--t-surf: var(--d-surf);
+	--t-text: var(--d-text);
+	--t-muted: var(--d-muted);
+	--t-border: var(--d-border);
+	--t-accent: var(--d-accent);
+	--t-on-accent: var(--d-on-accent);
+}
+
+.ds-lesson__tk[data-cv-density="compact"] {
+	--t-pad: var(--c-pad);
+	--t-gap: var(--c-gap);
+}
+
+.ds-lesson__tk-top {
+	display: flex;
+	align-items: center;
+	padding: var(--wp--preset--spacing--3) var(--wp--preset--spacing--4);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--t-border);
+	background: var(--t-surf);
+	color: var(--t-text);
+	font-weight: 600;
+}
+
+.ds-lesson__tk-body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--t-gap);
+	padding: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__tk-field {
+	display: block;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--t-border);
+	border-radius: var(--t-rad);
+	background: var(--t-surf);
+	color: var(--t-muted);
+}
+
+.ds-lesson__tk-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__tk-chip {
+	display: inline-flex;
+	align-items: center;
+	min-height: var(--wp--custom--size--control-sm);
+	padding: 0 var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--t-border);
+	border-radius: var(--t-rad);
+	background: var(--t-surf);
+	color: var(--t-text);
+}
+
+.ds-lesson__tk-chip.is-on {
+	border-color: var(--t-accent);
+	background: var(--t-accent);
+	color: var(--t-on-accent);
+	font-weight: 600;
+}
+
+.ds-lesson__tk-card {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--t-pad);
+	border: var(--wp--custom--border-width--hairline) solid var(--t-border);
+	border-radius: var(--t-rad);
+	background: var(--t-surf);
+}
+
+.ds-lesson__tk-name {
+	color: var(--t-text);
+	font-weight: 600;
+}
+
+.ds-lesson__tk-meta {
+	color: var(--t-muted);
+}
+
+.ds-lesson__tk-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: var(--wp--custom--size--control-md);
+	margin-top: var(--wp--preset--spacing--1);
+	padding: 0 var(--wp--preset--spacing--4);
+	border-radius: var(--t-rad);
+	background: var(--t-accent);
+	color: var(--t-on-accent);
+	font-weight: 600;
+}
+
+.ds-lesson__tk-link {
+	color: var(--t-accent);
+	font-weight: 600;
+	text-decoration: underline;
+}
+
+.ds-lesson__tk-nav {
+	display: flex;
+	justify-content: space-around;
+	gap: var(--wp--preset--spacing--2);
+	padding: var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--t-border);
+	background: var(--t-surf);
+	color: var(--t-muted);
+	font-size: var(--wp--preset--font-size--xs);
+}
+
+.ds-lesson__tk-nav .is-on {
+	color: var(--t-accent);
+	font-weight: 700;
+}
+
+/* Разовый баннер и фото — свои цвета из разметки, тема их не перекрашивает. */
+.ds-lesson__tk-banner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--3);
+	border-radius: var(--t-rad);
+	background: var(--promo);
+	color: var(--promo-ink);
+}
+
+.ds-lesson__tk-photo {
+	display: block;
+	height: var(--wp--custom--size--tile-lg);
+	border-radius: var(--t-rad);
+	background: linear-gradient(135deg, var(--ph1), var(--ph2));
+}
+
+.ds-lesson__tk-badge {
+	display: inline-flex;
+	padding: 0 var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--t-warn-bg);
+	color: var(--t-warn-text);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+/* Метка «откуда значение» в поиске чисел руками: переменная — овал с именем,
+   вписанное значение — прямоугольник с пунктиром. Различаются формой, не только цветом. */
+.ds-lesson__tk-tag {
+	display: inline-flex;
+	align-self: flex-start;
+	padding: 0 var(--wp--preset--spacing--2);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	line-height: var(--wp--custom--line-height--snug);
+}
+
+.ds-lesson__tk-tag.is-var {
+	border-color: var(--wp--preset--color--border-focus-ring);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-default);
+}
+
+.ds-lesson__tk-tag.is-raw {
+	border-style: dashed;
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-default);
+}
+
+/* Метка поиска на учебном экране: пунктир вокруг элемента, найденная — сплошная толстая
+   рамка, ловушка — точки. Цвет рамки берётся из ролей экрана, а без экрана — из темы сайта. */
+.ds-lesson__tk-hit.ds-lesson__hunt-pin {
+	position: static;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--wp--preset--spacing--1);
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: var(--wp--preset--spacing--1);
+	border: var(--wp--custom--border-width--hairline) dashed var(--t-muted, var(--wp--preset--color--border-strong));
+	border-radius: var(--wp--custom--radius--sm);
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	text-align: left;
+	transform: none;
+}
+
+button.ds-lesson__tk-hit.ds-lesson__hunt-pin:hover {
+	border-color: var(--t-text, var(--wp--preset--color--text-default));
+	background: transparent;
+}
+
+.ds-lesson__tk-hit.ds-lesson__hunt-pin.is-found {
+	border: var(--wp--custom--border-width--focus) solid var(--t-accent, var(--wp--preset--color--border-focus-ring));
+}
+
+.ds-lesson__tk-hit.ds-lesson__hunt-pin.is-miss {
+	border-style: dotted;
+}
+
+.ds-lesson__tk-hit > .ds-lesson__tk-card,
+.ds-lesson__tk-hit > .ds-lesson__tk-field,
+.ds-lesson__tk-hit > .ds-lesson__tk-banner,
+.ds-lesson__tk-hit > .ds-lesson__tk-photo,
+.ds-lesson__tk-hit > .ds-lesson__tk-top,
+.ds-lesson__tk-hit > .ds-lesson__tk-nav {
+	align-self: stretch;
+}
+
+.ds-lesson__tk > .ds-lesson__tk-hit.ds-lesson__hunt-pin {
+	padding: 0;
+	border-radius: 0;
+}
+
+/* Окно переменных: строки «имя · значение», у ролей — столбцы режимов и ссылки на примитивы. */
+.ds-lesson__tk-cols {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--wp--custom--size--screen)), 1fr));
+	gap: var(--wp--preset--spacing--4);
+	align-items: start;
+}
+
+.ds-lesson__tk-vars {
+	width: 100%;
+	font-variant-ligatures: none;
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-collapse: separate;
+	border-spacing: 0;
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__tk-vars th,
+.ds-lesson__tk-vars td {
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	font-weight: 400;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.ds-lesson__tk-vars thead th {
+	border-top: 0;
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+.ds-lesson__tk-vars .ds-lesson__tk-vgroup {
+	padding-block: var(--wp--preset--spacing--1);
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 700;
+}
+
+.ds-lesson__tk-vars code {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	overflow-wrap: anywhere;
+}
+
+.ds-lesson__tk-v {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	font-family: var(--wp--preset--font-family--mono);
+}
+
+.ds-lesson__tk-sw {
+	display: inline-block;
+	flex: none;
+	width: var(--wp--custom--size--icon-sm);
+	height: var(--wp--custom--size--icon-sm);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--xs);
+	background: var(--sw);
+}
+
+.ds-lesson__tk-alias {
+	display: inline-flex;
+	padding: 0 var(--wp--preset--spacing--2);
+	border-radius: var(--wp--custom--radius--full);
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-default);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+/* Сборка имени токена: задача и имя, части которого подставляет `data-compose`. */
+.ds-lesson__tk-brief {
+	padding: var(--wp--preset--spacing--4);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__tk-brief p {
+	margin: 0;
+}
+
+.ds-lesson__tk-brief p + p {
+	margin-top: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__tk-name-out code {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--lg);
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+/* Панель режимов: экран сверху, без скрипта вместо панели — лист из двух экранов. */
+.ds-lesson__tk-stage {
+	margin-bottom: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__tk-sheet {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--wp--custom--size--search-header)), 1fr));
+	gap: var(--wp--preset--spacing--4);
+	margin-top: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__cv.is-live .ds-lesson__tk-sheet {
+	display: none;
+}
+
+/* Сверка макета и кода: две колонки, каждая строка — метка поиска. */
+.ds-lesson__tk-diff {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	font-size: var(--wp--preset--font-size--sm);
+	font-variant-ligatures: none;
+}
+
+.ds-lesson__tk-drow,
+.ds-lesson__tk-drow.ds-lesson__hunt-pin {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--3);
+	align-items: start;
+	width: 100%;
+	padding: var(--wp--preset--spacing--2) var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__tk-drow.is-head {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+}
+
+.ds-lesson__tk-drow code {
+	display: block;
+	font-family: var(--wp--preset--font-family--mono);
+	font-weight: 600;
+	overflow-wrap: anywhere;
+}
+
+.ds-lesson__tk-drow code.ds-lesson__tk-val {
+	display: inline;
+	font-weight: 400;
+}
+
+.ds-lesson__tk-drow > span {
+	min-width: 0;
+	font-family: var(--wp--preset--font-family--mono);
+	overflow-wrap: anywhere;
+}
+
+.ds-lesson__tk-none {
+	color: var(--wp--preset--color--text-muted);
+}

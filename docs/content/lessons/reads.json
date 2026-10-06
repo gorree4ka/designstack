@@ -1190,6 +1190,71 @@
    "title": "<a href=\"https://nathanacurtis.substack.com/p/configuration-collapse\">Configuration Collapse</a>",
    "meta": "Натан Кертис, 2026 · на английском · бесплатно",
    "read": "2026-10-06"
+  },
+  "uxrdsgn-figma-variables": {
+   "title": "<a href=\"https://uxrdsgn.ru/figma-variables\">Подробный разбор переменных Figma Variables</a>",
+   "meta": "uxrdsgn.ru, Евгений Шевцов, 2025 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "figma-variables-overview": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/14506821864087-Overview-of-variables-collections-and-modes\">Overview of variables, collections, and modes</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "figma-variables-create": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/15145852043927-Create-and-manage-variables-and-collections\">Create and manage variables and collections</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "figma-variables-apply": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/15343107263511-Apply-variables-to-designs\">Apply variables to designs</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "habr-friflex-styles": {
+   "title": "<a href=\"https://habr.com/ru/companies/friflex/articles/892822/\">Почему стили в Figma — прошлый век</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, Игорь Бутков (Friflex), 2025 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "habr-chaplinsky-tokens": {
+   "title": "<a href=\"https://habr.com/ru/articles/1012980/\">Дизайн-токены: полный гайд по архитектуре и неймингу (CTI vs W3C) с примерами и задачками</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, Дмитрий Чаплинский, 2026 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "habr-slasten-naming": {
+   "title": "<a href=\"https://habr.com/ru/companies/pgkdigital/articles/912192/\">Нейминг без боли: архитектура токенов в дизайн-системах через библиотечную структуру</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, Илья Сластен (ПГК Диджитал), 2025 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "figma-variables-modes": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/15343816063383-Modes-for-variables\">Modes for variables</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "habr-gravity-datalens": {
+   "title": "<a href=\"https://habr.com/ru/companies/yandex_cloud_and_infra/articles/804941/\">Изменить цвета и кнопки сервиса — и не сломать дизайн-систему</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, Алексей Афонин (Yandex Cloud), 2024 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "habr-rustore-tokens": {
+   "title": "<a href=\"https://habr.com/ru/companies/vk/articles/1017912/\">Как мы пережили цветовой кризис в RuStore и нашли путь к тёмной стороне темы</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, Элина Шевченко и Андрей Едунов (VK), 2026 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "habr-lukomorye-tokens": {
+   "title": "<a href=\"https://habr.com/ru/companies/lukit_ru/articles/1046493/\">Назад в будущее UI-kit: как мы перевели живую библиотеку на дизайн-токены и ничего не сломали</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, Амир Гафуров («Лукоморье»), 2026 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "fowler-token-architecture": {
+   "title": "<a href=\"https://martinfowler.com/articles/design-token-based-ui-architecture.html\">Design Token-Based UI Architecture</a>",
+   "meta": "martinfowler.com, Андреас Кучман, 2024 · на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "habr-magnit-figma-api": {
+   "title": "<a href=\"https://habr.com/ru/companies/magnit/articles/803565/\">Кодогенерация токенов дизайн-системы для Android по Figma API</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, Никита Яцкивский (Magnit Tech), 2024 · на русском · бесплатно",
+   "read": "2026-10-06"
   }
  },
  "lessons": {
@@ -2365,6 +2430,68 @@
    {
     "res": "curtis-configuration-collapse",
     "why": "Натан Кертис о том, как свойства и варианты компонента разрастаются до «полосы прокрутки позора» и почему со слотами в Figma их стоит сокращать: частое — настраивать, редкое — собирать из частей. В отличие от урока, для редкого случая он советует не новый вариант, а сборку. На английском, 2026."
+   }
+  ],
+  "tokens-themes-junior": [
+   {
+    "res": "uxrdsgn-figma-variables",
+    "why": "Разбор по шагам на русском: коллекции, группы через косую черту, квадратные и круглые образцы, палитра с именами по назначению. Текст 2025 года: типов четыре, а не шесть, режимов на платном тарифе «до 4», панель переменных теперь открывается слева. Логическую переменную автор привязывает к экземпляру, к цветам это не относится."
+   },
+   {
+    "res": "figma-variables-overview",
+    "why": "Справка Figma на английском: шесть типов переменных и к каким свойствам привязывается каждый, коллекции и группы, чем стиль отличается от переменной. На схеме палитра-основа названа по цвету (gray/400, watermelon), а слои берут цвет из токенов по назначению. Это тема следующей ступени."
+   },
+   {
+    "res": "figma-variables-create",
+    "why": "Справка Figma на английском к заданию: где теперь открывается панель переменных (вкладка Variables слева), как завести коллекцию, переменную и группу, как ограничить свойства, к которым переменную можно привязать. В примерах токены названы по назначению (surface/primary) и по ступени (spacing/2)."
+   },
+   {
+    "res": "figma-variables-apply",
+    "why": "Справка Figma на английском: как привязать переменную к заливке, отступу, радиусу, тексту и видимости слоя и как её отвязать. Пригодится к заданию. Там же заметка: если тянуть отступ автораскладки ручками на холсте, привязка слетает. Это та самая «сложность» из урока."
+   },
+   {
+    "res": "habr-friflex-styles",
+    "why": "Как называть токены: кнопка button.purple, ставшая розовой, и шкала 100–200–300 против S–M–L. Автор разрешает имена по цвету и числу в «стабильном» проекте, урок так не советует: значение меняется и там. Заголовок про стили устарел, в стили теперь можно подставлять переменные."
+   }
+  ],
+  "tokens-themes-middle": [
+   {
+    "res": "habr-chaplinsky-tokens",
+    "why": "Гайд Дмитрия Чаплинского для тех, кто сам называет токены: слои от HEX до компонента, формула «категория-свойство-роль-яркость-состояние», тёмная тема в CSS, пометка устаревших токенов и 15 задачек. В отличие от урока, компонентный слой показан нормой, а для всегда белых элементов заведён color-static-white."
+   },
+   {
+    "res": "habr-slasten-naming",
+    "why": "Статья Ильи Сластена (ПГК Диджитал) о библиотеках Figma в четыре этажа: примитивы, стайлгайд с alias и режимами Desktop / Mobile, базовые компоненты, продукт; как спрятать примитивы через scope. В отличие от урока, в имени бывает место (border/input/focused) и состояние default, а категории color нет."
+   },
+   {
+    "res": "figma-variables-modes",
+    "why": "Справка Figma на английском о режимах: как добавить режим в коллекцию и почему он получает значения первого столбца, как слой берёт режим родителя (Auto), сколько режимов на каком тарифе — на бесплатном Starter их нет. Разделы об импорте и выгрузке JSON пригодятся на следующей ступени."
+   },
+   {
+    "res": "habr-gravity-datalens",
+    "why": "Алексей Афонин (Yandex Cloud) показывает, как DataLens перекрасили в два новых стиля, заменив значения ролей Gravity UI: --g-color-base-brand-hover, классы светлой и тёмной темы, проверка контраста в обеих. В отличие от урока, темы заданы в CSS и Figma-стилях, а не режимами переменных."
+   }
+  ],
+  "tokens-themes-senior": [
+   {
+    "res": "habr-rustore-tokens",
+    "why": "Продуктовому дизайнеру и фронтендеру: как RuStore перестроил цветовые токены под тёмную тему, вынес их из Figma в код скриптом и сменил старые имена по таблице «было → стало» со скриншот-тестами. Спорит с уроком: старые имена заменили скриптом во всех проектах сразу, без пометки и срока."
+   },
+   {
+    "res": "habr-lukomorye-tokens",
+    "why": "Тому, кто ведёт библиотеку для нескольких команд: три уровня токенов, сборка Style Dictionary из JSON Tokens Studio, старые имена — алиасы с реестром замен и версией удаления. В споре об источнике значений — сторона Figma. Про токены — первая половина и раздел об обратной совместимости."
+   },
+   {
+    "res": "fowler-token-architecture",
+    "why": "Тому, кто строит путь токена от файла до продукта: проверка, сборка, тесты, публикация и оповещение команд, слои примитивов и ролей, закрытые примитивы. Единственным источником автор советует держать репозиторий, а не Figma — это вторая сторона спора из урока. На английском, 2024 год."
+   },
+   {
+    "res": "figma-variables-modes",
+    "why": "Тому, кто переносит токены между Figma и кодом: импорт JSON в формате DTCG, где каждый файл становится режимом, токен должен быть во всех файлах, а размеры — только в px, и выгрузка одного режима или всех. Нужны разделы Import modes и Export modes. На английском."
+   },
+   {
+    "res": "habr-magnit-figma-api",
+    "why": "Разработчику и дизайнеру, который отдаёт токены в Android: генератор кода из Figma, переменные через плагин variables2css. Деталь для таблицы способов: API переменных требует Enterprise, и Figma отказала в нём компании, зарегистрированной в России. Много кода на Kotlin, текст 2024 года."
    }
   ]
  }

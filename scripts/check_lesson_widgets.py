@@ -99,6 +99,13 @@ with sync_playwright() as play:
                                         "Извините, оформление новых заказов недоступно.", "Переписать. Тупик: человек шёл к сорту"]),
         ("errors-empty-states-senior", ["Корзина и адрес доставки сохранены.", "Не по схеме. «Сессия» — слово разработки",
                                         "Вернуть. Без форм множественного числа"]),
+        # Имена по значению и по назначению — панели переключателя; разборы поиска, лист двух режимов,
+        # разборы сборки имени и шаги пути токена без скрипта видны все.
+        ("tokens-themes-junior", ["Имена врут", "Имена остались правдой", "Руками. Радиус 6", "Можно оставить. Цвет вписан руками"]),
+        ("tokens-themes-middle", ["Light · Обычный", "Dark · Плотный", "Прибито. Фон поля привязан", "Нет тёмного значения. Плашка",
+                                  "Ступень шкалы в имени роли"]),
+        ("tokens-themes-senior", ["Разные имена. Значение то же", "Только в макете. Роль завели", "Это лишний шаг",
+                                  '"$deprecated": "Заменён на color.bg.surface']),
     ):
         page = plain.new_page()
         page.goto(BASE + slug + "/")
@@ -1844,6 +1851,96 @@ with sync_playwright() as play:
     fails += 0 if say(hunt_all(page, 8), "сообщение о выпуске: нормальное не засчитано, ошибок 5 из 5") else 1
     page.close()
 
+    # «Токены и темы»: смена значения переменной (`data-tune`) доходит до привязанных слоёв и не
+    # доходит до вписанных руками; панель режимов (`data-props`) переключает тему и плотность экрана;
+    # сборка имени токена (`data-compose`) и путь нового токена (`data-seq`).
+    TK = """() => { const box = document.querySelector('[data-tune]');
+        const btns = [...box.querySelectorAll('.ds-lesson__tk-btn')].map(b => getComputedStyle(b).backgroundColor);
+        const pads = [...box.querySelectorAll('.ds-lesson__tk-card')].map(c => getComputedStyle(c).paddingTop);
+        return {btns, pads}; }"""
+
+    page = ctx.new_page()
+    page.goto(BASE + "tokens-themes-junior/")
+    page.wait_for_timeout(300)
+    head("tokens-themes-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    start = page.evaluate(TK)
+    tune = page.locator("[data-tune]").first
+    tune.get_by_role("button", name="Зелёный").click()
+    tune.get_by_role("button", name="24").click()
+    page.wait_for_timeout(30)
+    now = page.evaluate(TK)
+    blue, green = "rgb(29, 95, 209)", "rgb(46, 125, 79)"
+    fails += 0 if say(start["btns"] == [blue] * 3 and now["btns"] == [green, blue, green],
+                      "смена акцента: две кнопки позеленели, вписанная руками осталась синей") else 1
+    fails += 0 if say(start["pads"] == ["16px"] * 3 and now["pads"] == ["24px", "24px", "16px"],
+                      "смена отступа: 16 → 24 в двух карточках, вписанный руками остался 16") else 1
+    tk_panes = "() => [...document.querySelectorAll('#names [data-switch-pane]')].filter(el => el.offsetParent !== null).map(el => el.getAttribute('data-switch-pane'))"
+    first = page.evaluate(tk_panes)
+    page.click("#names [data-switch-btn=nm2]")
+    page.wait_for_timeout(30)
+    fails += 0 if say(first == ["nm1"] and page.evaluate(tk_panes) == ["nm2"] and page.is_visible("#names >> text=Имена остались правдой"),
+                      "имена: сначала «по значению», по нажатию — «по назначению»") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 9, 4), "каталог с метками: нормальное не засчитано, чисел руками 4 из 4") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "tokens-themes-middle/")
+    page.wait_for_timeout(300)
+    head("tokens-themes-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    SCREEN = """() => { const t = document.querySelector('[data-props-target]');
+        return {bg: getComputedStyle(t).backgroundColor, pad: getComputedStyle(t.querySelector('.ds-lesson__tk-card')).paddingTop}; }"""
+    p, s0 = props(page, 0), page.evaluate(SCREEN)
+    fails += 0 if say(p["name"] == "Тема: Light · Плотность: Обычный" and p["attrs"] == {"theme": "light", "density": "normal"}
+                      and s0 == {"bg": "rgb(244, 246, 248)", "pad": "16px"} and not page.is_visible(".ds-lesson__tk-sheet"),
+                      "панель режимов: сначала Light и обычный, лист без скрипта спрятан") else 1
+    prop(page, 0, "theme", 1)
+    prop(page, 0, "density", 1)
+    p, s1 = props(page, 0), page.evaluate(SCREEN)
+    fails += 0 if say(p["name"] == "Тема: Dark · Плотность: Плотный" and s1 == {"bg": "rgb(21, 24, 28)", "pad": "12px"}
+                      and p["said"].startswith("Плотный режим"), "Dark и плотный: тёмный фон, отступ 12, пояснение про отступы") else 1
+    c = compose(page, 0)
+    fails += 0 if say(c["slots"] == {"cat": "button", "prop": "blue", "role": "primary-600", "state": "dark"} and "0 из 4" in c["meta"] and c["notes"] == 4,
+                      "имя токена: сначала button/blue/primary-600/dark, 0 из 4") else 1
+    for part, i in (("cat", 1), ("prop", 2), ("role", 0), ("state", 1)):
+        pick(page, 0, part, i)
+    c = compose(page, 0)
+    fails += 0 if say(c["slots"] == {"cat": "color", "prop": "bg", "role": "action", "state": "hover"} and "4 из 4" in c["meta"] and c["done"],
+                      "собрано color/bg/action/hover: 4 из 4, итог открыт") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 9, 4), "каталог в тёмной теме: нормальное не засчитано, прибитого 4 из 4") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "tokens-themes-senior/")
+    page.wait_for_timeout(300)
+    head("tokens-themes-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    cards = page.query_selector_all("[data-seq-pool] button")
+    order = page.get_attribute("[data-seq]", "data-seq-order").split(",")
+    page.click("[data-seq-pool] button >> nth=%d" % order.index("3"))
+    page.wait_for_timeout(80)
+    early = "Пока рано" in page.inner_text("[data-seq-fb]")
+    page.click("[data-seq-pool] button >> nth=%d" % order.index("x"))
+    page.wait_for_timeout(80)
+    extra = "лишний" in page.inner_text("[data-seq-fb]")
+    for k in range(6):
+        page.click("[data-seq-pool] button >> nth=%d" % order.index(str(k)))
+        page.wait_for_timeout(60)
+    fails += 0 if say(len(cards) == 7 and early and extra and "Собрано целиком" in page.inner_text("[data-seq-fb]")
+                      and page.inner_text("[data-seq-count-out]").startswith("6 "),
+                      "путь токена: семь карточек, «пока рано», лишний шаг, собрано 6 из 6") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 8, 4), "сверка токенов: совпадения не засчитаны, расхождений 4 из 4") else 1
+    lig = page.evaluate("() => [...document.querySelectorAll('.ds-lesson pre, .ds-lesson code')].filter(el => getComputedStyle(el).fontVariantLigatures !== 'none').length")
+    fails += 0 if say(lig == 0, "в коде урока лигатуры выключены: «--» не склеивается в черту (с лигатурами: %d)" % lig) else 1
+    page.close()
+
     plain = browser.new_context(java_script_enabled=False)
     page = plain.new_page()
     page.goto(BASE + "ui-copy-junior/")
@@ -1871,6 +1968,15 @@ with sync_playwright() as play:
                           and page.is_visible("[data-props-target]") and cells == sheet,
                           "панели и имени нет, образец виден" + (", лист состояний — %d плиток" % cells if sheet else "")) else 1
         page.close()
+    page = plain.new_page()
+    page.goto(BASE + "tokens-themes-middle/")
+    head("tokens-themes-middle · панель режимов и сборка имени без скрипта")
+    box = page.locator("[data-compose]").nth(0)
+    fails += 0 if say(not page.is_visible(".ds-lesson__cv-panel") and not page.is_visible("[data-props-out]")
+                      and page.locator(".ds-lesson__tk-sheet .ds-lesson__tk:visible").count() == 2
+                      and box.locator("input:visible").count() == 0 and box.locator("[data-compose-note]:visible").count() == 12,
+                      "панели нет, лист из двух экранов виден; радиокнопок нет, разборов 12") else 1
+    page.close()
     plain.close()
     browser.close()
 

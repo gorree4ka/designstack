@@ -1,0 +1,441 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#manual">Число руками и переменная</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#variables">Переменные в Figma</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#names">Имя, которое переживёт смену значения</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#once">Когда переменная не нужна</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#hunt">Найдите числа, вписанные руками</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> «Лесная обжарка» — магазин кофе с приложением из урока <a href="/lessons/components-variants-junior/">«Компоненты и варианты»</a>. Магазин решил сменить фирменный синий на зелёный. В этом уроке вы увидите, сколько стоит такая смена без переменных и с ними. Как собрать сами цвета в палитру с ролями, разобрано в уроке <a href="/lessons/color-contrast-junior/">«Цвет и контраст», Junior</a>.</div>
+
+<section id="manual">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Число руками и переменная</h2></div>
+  <p class="ds-lesson__lead">Цвет, вписанный в слой кодом, придётся менять в каждом слое. Переменная меняется в одном месте.</p>
+
+  <p>В приложении «Лесной обжарки» синий стоит на кнопках, ссылках, выбранных чипах и в нижнем меню.</p>
+
+  <p>Если код цвета вписан в каждый слой, смена синего на зелёный — это десятки правок. И какую-то обязательно пропустят.</p>
+
+  <p>С отступами так же. Отступ 16 внутри карточки вписан в каждую карточку отдельно.</p>
+
+  <p>Попробуйте сами. Почти весь экран ниже привязан к переменным, но две вещи — нет.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Каталог · смените значение переменной</div>
+    <div class="ds-lesson__box-body ds-lesson__tk-tune" data-tune style="--l-accent:#1D5FD1; --n-pad:var(--wp--preset--spacing--4); --l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-muted:#5B6570; --l-border:#C9D0D6; --l-on-accent:#FFFFFF">
+      <div class="ds-lesson__tk">
+        <span class="ds-lesson__tk-top"><span class="ds-lesson__tk-title">Каталог</span></span>
+        <span class="ds-lesson__tk-body">
+          <span class="ds-lesson__tk-chips"><span class="ds-lesson__tk-chip is-on">Зёрна</span><span class="ds-lesson__tk-chip">Молотый</span><span class="ds-lesson__tk-chip">Без кофеина</span></span>
+          <span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Кения АА</span><span class="ds-lesson__tk-meta">Светлая обжарка · 990&nbsp;₽</span><span class="ds-lesson__tk-btn">В корзину</span></span>
+          <span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Эфиопия Иргачефф</span><span class="ds-lesson__tk-meta">Светлая обжарка · 1&nbsp;090&nbsp;₽</span><span class="ds-lesson__tk-btn" style="--t-accent:#1D5FD1">В корзину</span></span>
+          <span class="ds-lesson__tk-card" style="--t-pad:var(--wp--preset--spacing--4)"><span class="ds-lesson__tk-name">Колумбия Супремо</span><span class="ds-lesson__tk-meta">Средняя обжарка · 890&nbsp;₽</span><span class="ds-lesson__tk-btn">В корзину</span></span>
+          <span class="ds-lesson__tk-link">Все сорта</span>
+        </span>
+        <span class="ds-lesson__tk-nav"><span class="is-on">Каталог</span><span>Избранное</span><span>Корзина</span></span>
+      </div>
+      <div class="ds-lesson__tune-pick" data-tune-pick="--l-accent" data-tune-title="Акцент" data-tune-values="#1D5FD1|#2E7D4F|#8A4B2A" data-tune-labels="Синий|Зелёный|Коричневый"></div>
+      <div class="ds-lesson__tune-pick" data-tune-pick="--n-pad" data-tune-title="Отступ в карточке" data-tune-values="var(--wp--preset--spacing--3)|var(--wp--preset--spacing--4)|var(--wp--preset--spacing--6)" data-tune-labels="12|16|24"></div>
+    </div>
+    <div class="ds-lesson__box-foot">Кнопка у Эфиопии остаётся синей, а отступы в карточке Колумбии не меняются: в эти слои значение вписано руками.</div>
+  </div>
+
+  <h3>Что даёт переменная</h3>
+  <ul>
+    <li><strong>Правка в одном месте.</strong> Новое значение ставят в переменную, и оно появляется везде, где она привязана.</li>
+    <li><strong>Одно значение вместо «почти такого же».</strong> На всех кнопках один синий, а не пять оттенков, подобранных на глаз.</li>
+    <li><strong>Общее имя с кодом.</strong> В режиме разработчика (Dev Mode, он есть на платных тарифах) Figma показывает в коде имя переменной рядом со значением. Разработчик берёт то же имя.</li>
+  </ul>
+
+  <p>В коде такие именованные значения называют дизайн-токенами. В этом уроке переменная и токен значат одно и то же: имя и значение.</p>
+
+  <div class="ds-lesson__rule"><b>Повторяющееся значение — в переменную.</b> Тогда смена цвета или отступа во всём макете — одна правка.</div>
+</section>
+
+<section id="variables">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Переменные в Figma</h2></div>
+  <p class="ds-lesson__lead">Переменная — это имя и значение. Слою дают имя, а значение хранится в одном месте.</p>
+
+  <p>Переменные лежат в коллекциях. Коллекция — это набор, например все цвета и отступы приложения.</p>
+
+  <p>Открываются они вкладкой Variables в левой панели Figma.</p>
+
+  <h3>Типы переменных</h3>
+  <ul>
+    <li><strong>Цвет</strong> — сплошной цвет для заливки, обводки, текста и тени.</li>
+    <li><strong>Число</strong> — для отступов и промежутков автораскладки, радиуса углов, ширины и высоты, кегля и интерлиньяжа.</li>
+    <li><strong>Строка</strong> — для текста в слое и названия шрифта.</li>
+    <li><strong>Логическое</strong> — чтобы показать или скрыть слой.</li>
+  </ul>
+
+  <p>Ещё два типа, timing и easing, нужны для анимации. На этой ступени хватит первых двух: цветов и чисел.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Коллекция «Лесная обжарка» · переменные</div>
+    <div class="ds-lesson__box-body">
+      <table class="ds-lesson__tk-vars" aria-label="Переменные коллекции">
+        <thead><tr><th scope="col">Имя</th><th scope="col">Значение</th></tr></thead>
+        <tbody>
+          <tr><td class="ds-lesson__tk-vgroup" colspan="2">color</td></tr>
+          <tr><td><code>color/accent</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#1D5FD1"></i>1D5FD1</span></td></tr>
+          <tr><td><code>color/text</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#1B1F24"></i>1B1F24</span></td></tr>
+          <tr><td><code>color/text-muted</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#5B6570"></i>5B6570</span></td></tr>
+          <tr><td><code>color/surface</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#F4F6F8"></i>F4F6F8</span></td></tr>
+          <tr><td><code>color/border</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#C9D0D6"></i>C9D0D6</span></td></tr>
+        </tbody>
+        <tbody>
+          <tr><td class="ds-lesson__tk-vgroup" colspan="2">space</td></tr>
+          <tr><td><code>space/s</code></td><td><span class="ds-lesson__tk-v">8</span></td></tr>
+          <tr><td><code>space/m</code></td><td><span class="ds-lesson__tk-v">16</span></td></tr>
+          <tr><td><code>space/l</code></td><td><span class="ds-lesson__tk-v">24</span></td></tr>
+        </tbody>
+        <tbody>
+          <tr><td class="ds-lesson__tk-vgroup" colspan="2">radius</td></tr>
+          <tr><td><code>radius/m</code></td><td><span class="ds-lesson__tk-v">8</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="ds-lesson__box-foot">Косая черта в имени собирает переменные в группы: color, space, radius. В панели Figma группы видны списком слева.</div>
+  </div>
+
+  <h3>Как привязать</h3>
+
+  <ul>
+    <li><strong>Число.</strong> Щёлкните в поле свойства, например в отступ или радиус, и нажмите «=». Откроется список переменных.</li>
+    <li><strong>Цвет.</strong> Нажмите на образец заливки и откройте вкладку Libraries или нажмите значок Apply styles and variables в разделе Fill. Переменные там в квадратных образцах, стили — в круглых.</li>
+  </ul>
+
+  <p>Теперь значение приходит из переменной. Поменяете переменную — поменяется и слой.</p>
+
+  <p>Отвязать переменную у цвета можно значком Detach variable, у числа — стерев значение в поле.</p>
+
+  <p>Одно исключение: если тянуть отступ или промежуток автораскладки ручками прямо на холсте, привязка слетает сама.</p>
+
+  <h3>Стиль или переменная</h3>
+
+  <p>У Figma есть и стили. Они не исчезли с появлением переменных.</p>
+
+  <ul>
+    <li><strong>Переменная</strong> хранит одно значение: один цвет, одно число.</li>
+    <li><strong>Стиль</strong> хранит набор. Текстовый стиль — это сразу шрифт, кегль и интерлиньяж. Цветовой стиль может держать градиент или несколько заливок.</li>
+  </ul>
+
+  <p>Поэтому стили текста остаются стилями. А кегль внутри стиля можно взять из числовой переменной.</p>
+
+  <p>Как собрать шкалу отступов, разобрано в уроке <a href="/lessons/layout-grid-junior/">«Композиция и сетка», Junior</a>. Шкалу кеглей — в уроке <a href="/lessons/typography-junior/">«Типографика», Junior</a>. Здесь — как эти шкалы хранить.</p>
+
+  <div class="ds-lesson__rule"><b>Слой берёт значение из переменной, а не держит своё число.</b> Вписанное руками число не узнает, что переменную поменяли.</div>
+</section>
+
+<section id="names">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Имя, которое переживёт смену значения</h2></div>
+  <p class="ds-lesson__lead">Значение переменной меняется, имя остаётся. Поэтому имя говорит, зачем это значение, а не какое оно.</p>
+
+  <p>Сравните:</p>
+
+  <ul>
+    <li>«blue» → «color/accent»</li>
+    <li>«gray-dark» → «color/text»</li>
+    <li>«padding-16» → «space/m»</li>
+    <li>«catalog-card-padding» → «space/m»</li>
+  </ul>
+
+  <p>Посмотрите, что стало с именами после того, как магазин сменил синий на зелёный, а отступ в карточках — с 16 на 24.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Переменные после смены цвета и отступа</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="nm1" hidden>Имена по значению</button><button class="ds-switch__button" type="button" data-switch-btn="nm2" hidden>Имена по назначению</button></div>
+
+      <div data-switch-pane="nm1"><p class="ds-switch__title">Имена по значению</p>
+        <table class="ds-lesson__tk-vars" aria-label="Переменные с именами по значению">
+          <thead><tr><th scope="col">Имя</th><th scope="col">Значение</th></tr></thead>
+          <tbody>
+            <tr><td><code>blue</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#2E7D4F"></i>2E7D4F</span></td></tr>
+            <tr><td><code>padding-16</code></td><td><span class="ds-lesson__tk-v">24</span></td></tr>
+          </tbody>
+        </table>
+        <div class="ds-lesson__result"><b>Имена врут</b>Переменная «blue» теперь зелёная, а «padding-16» равна 24. Новый дизайнер возьмёт «blue» для синей иконки и получит зелёную. Переименовать нельзя без риска: на эти имена уже ссылаются в коде.</div>
+      </div>
+
+      <div data-switch-pane="nm2"><p class="ds-switch__title">Имена по назначению</p>
+        <table class="ds-lesson__tk-vars" aria-label="Переменные с именами по назначению">
+          <thead><tr><th scope="col">Имя</th><th scope="col">Значение</th></tr></thead>
+          <tbody>
+            <tr><td><code>color/accent</code></td><td><span class="ds-lesson__tk-v"><i class="ds-lesson__tk-sw" style="--sw:#2E7D4F"></i>2E7D4F</span></td></tr>
+            <tr><td><code>space/m</code></td><td><span class="ds-lesson__tk-v">24</span></td></tr>
+          </tbody>
+        </table>
+        <div class="ds-lesson__result"><b>Имена остались правдой</b>Акцент остался акцентом, хотя стал зелёным. Средний отступ — средним, хотя стал больше. Ни одно имя менять не пришлось.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Значения в обоих вариантах одинаковые. Разница только в том, что говорят имена.</div>
+  </div>
+
+  <h3>Как называть</h3>
+
+  <p><strong>По назначению, а не по виду.</strong> Акцент, текст, фон, граница. Через год акцент может стать зелёным, а «blue» так и останется синим только по имени.</p>
+
+  <p><strong>Не по месту.</strong> «catalog-card-padding» завтра понадобится в корзине, и имя начнёт путать.</p>
+
+  <p><strong>Одними словами во всём файле.</strong> Если у одной переменной «text», у соседней не «font-color».</p>
+
+  <p><strong>Латиницей, как в коде.</strong> Спросите разработчика, как такие значения называются у него. Чем ближе имена, тем меньше переводить туда и обратно.</p>
+
+  <p>В справке Figma вы встретите и имена по цвету: gray/400, brand/watermelon. Так называют палитру-основу, к которой слои напрямую не привязывают. Как устроены эти два слоя, разобрано на следующей ступени.</p>
+
+  <h3>Номер ступени — тоже имя</h3>
+
+  <p>Отступы в больших системах часто называют номером ступени шкалы.</p>
+
+  <p>Например:</p>
+
+  <p>У Atlassian space.100 — это 8 пикселей, а space.200 — 16.</p>
+
+  <p>Номер ступени — не число пикселей. Значение ступени можно поменять, а порядок останется прежним.</p>
+
+  <p>Как называть переменные по ролям, если у продукта две темы, разобрано на следующей ступени.</p>
+
+  <div class="ds-lesson__rule"><b>Имя говорит, зачем значение, а не какое оно.</b> По назначению, а не по цвету. Не по месту. Одними словами во всём файле.</div>
+</section>
+
+<section id="once">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Когда переменная не нужна</h2></div>
+  <p class="ds-lesson__lead">Переменная нужна тому, что повторяется. Разовое значение можно оставить числом.</p>
+
+  <p>Каждая переменная — ещё одна строка в наборе. Кто-то должен понимать, что она значит и где её можно брать.</p>
+
+  <p>Если в наборе есть «color/autumn-banner» для одного баннера, через полгода никто не вспомнит, можно ли взять её для кнопки.</p>
+
+  <h3>Проверьте себя</h3>
+
+  <p>Нужна ли переменная этим значениям из приложения «Лесной обжарки»?</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · переменная или число<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="var"><p class="ds-quiz__question">Синий кнопок, ссылок и выбранных чипов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Переменная</b>Стоит на десятках слоёв, и меняют его везде сразу.</p></li>
+<li data-quiz-q data-answer="num"><p class="ds-quiz__question">Оранжевый баннера «Осенняя обжарка». Баннер висит до конца ноября.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Число</b>Один слой на один месяц. Переменная для него только засорит набор.</p></li>
+<li data-quiz-q data-answer="var"><p class="ds-quiz__question">Отступ внутри карточки сорта: 16 со всех сторон.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Переменная</b>Тот же отступ во всех карточках каталога, «Избранного» и поиска.</p></li>
+<li data-quiz-q data-answer="var"><p class="ds-quiz__question">Радиус углов у кнопок, полей и чипов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Переменная</b>Если магазин решит скруглить углы сильнее, это должна быть одна правка.</p></li>
+<li data-quiz-q data-answer="num"><p class="ds-quiz__question">Ширина схемы проезда на странице «Контакты».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Число</b>Одна картинка на одном экране. С другими местами она не связана.</p></li>
+<li data-quiz-q data-answer="var"><p class="ds-quiz__question">Цвет основного текста.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Переменная</b>Он на каждом экране. А в тёмной теме у него будет другое значение — об этом следующая ступень.</p></li>
+<li data-quiz-q data-answer="num"><p class="ds-quiz__question">Наклон наклейки «Новинка» на одном баннере — 12 градусов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Число</b>Разовое решение для одной картинки.</p></li>
+<li data-quiz-q data-answer="var"><p class="ds-quiz__question">Промежуток между карточками в списке сортов.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Переменная</b>Один и тот же во всех списках. Это промежуток автораскладки, и к нему привязывают числовую переменную.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="var">Переменная</button><button class="ds-quiz__option" type="button" data-quiz-answer="num">Число</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Выбор решает один вопрос: меняется ли это значение вместе с другими местами макета.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Переменная — для того, что повторяется и меняется вместе.</b> Разовое значение остаётся числом.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Найдите числа, вписанные руками</h2></div>
+  <p class="ds-lesson__lead">Экран каталога, у каждого элемента — метка, откуда его значение. Четыре значения вписаны руками там, где нужна переменная.</p>
+
+  <p>Имя переменной в метке — значение взято из набора. Код цвета или число — повод присмотреться.</p>
+
+  <p>Нажимайте на элементы, которые, по-вашему, надо привязать к переменной. Нормальные элементы тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Каталог · найдите числа руками<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body" style="--l-accent:#1D5FD1; --n-pad:var(--wp--preset--spacing--4); --l-bg:#FFFFFF; --l-surf:#F4F6F8; --l-text:#1B1F24; --l-muted:#5B6570; --l-border:#C9D0D6; --l-on-accent:#FFFFFF">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__tk is-tagged">
+          <span class="ds-lesson__tk-top"><span class="ds-lesson__tk-title">Каталог</span></span>
+          <span class="ds-lesson__tk-body">
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Поле поиска"><span class="ds-lesson__tk-field">Найти сорт</span><span class="ds-lesson__tk-tag is-var">color/border</span></span>
+            <span class="ds-lesson__tk-chips">
+              <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Чип «Зёрна»"><span class="ds-lesson__tk-chip is-on">Зёрна</span><span class="ds-lesson__tk-tag is-var">color/accent</span></span>
+              <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Чип «Молотый»"><span class="ds-lesson__tk-chip" style="--t-rad:var(--wp--custom--radius--sm)">Молотый</span><span class="ds-lesson__tk-tag is-raw">радиус 6</span></span>
+            </span>
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Баннер «Осенняя обжарка»"><span class="ds-lesson__tk-banner" style="--promo:#9A3412; --promo-ink:#FFFFFF"><b>Осенняя обжарка</b><span>Три новых сорта до конца ноября</span></span><span class="ds-lesson__tk-tag is-raw">9A3412</span></span>
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Фото сорта"><span class="ds-lesson__tk-photo" style="--ph1:#6F4A33; --ph2:#B98A5E"></span><span class="ds-lesson__tk-tag is-raw">картинка</span></span>
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Карточка Кении"><span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Кения АА</span><span class="ds-lesson__tk-meta">Светлая обжарка · 990&nbsp;₽</span></span><span class="ds-lesson__tk-tag is-var">space/m</span></span>
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Подпись у Эфиопии"><span class="ds-lesson__tk-card"><span class="ds-lesson__tk-name">Эфиопия Иргачефф</span><span class="ds-lesson__tk-meta" style="--t-muted:#5C6670">Светлая обжарка · 1&nbsp;090&nbsp;₽</span></span><span class="ds-lesson__tk-tag is-raw">5C6670</span></span>
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Кнопка «В корзину» у Эфиопии"><span class="ds-lesson__tk-btn" style="--t-accent:#1E60D0">В корзину</span><span class="ds-lesson__tk-tag is-raw">1E60D0</span></span>
+            <span class="ds-lesson__tk-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Карточка Колумбии"><span class="ds-lesson__tk-card" style="--t-pad:calc(var(--wp--preset--spacing--3) + var(--wp--custom--border-width--hairline))"><span class="ds-lesson__tk-name">Колумбия Супремо</span><span class="ds-lesson__tk-meta">Средняя обжарка · 890&nbsp;₽</span></span><span class="ds-lesson__tk-tag is-raw">отступ 13</span></span>
+          </span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Поле поиска.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Рамка привязана к переменной color/border.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Чип «Зёрна».</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Заливка выбранного чипа — color/accent.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Чип «Молотый».</span><span class="ds-lesson__hunt-fix"><b>Руками. </b>Радиус 6, а в наборе radius/m — 8. Соседние чипы скруглены сильнее, хотя глазом это почти не видно. Привязать к radius/m.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Баннер «Осенняя обжарка».</span><span class="ds-lesson__hunt-fix"><b>Можно оставить. </b>Цвет вписан руками, но баннер разовый и уйдёт в декабре. Переменная для него не нужна.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Фото сорта.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Это картинка, а не цвет и не число. Переменная ей не нужна.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Карточка Кении.</span><span class="ds-lesson__hunt-fix"><b>Всё в порядке. </b>Отступ внутри — space/m.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Подпись у Эфиопии.</span><span class="ds-lesson__hunt-fix"><b>Руками. </b>Код 5C6670, а в наборе color/text-muted — 5B6570. Разница в одну единицу: кто-то подобрал серый пипеткой. Привязать к color/text-muted.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «В корзину» у Эфиопии.</span><span class="ds-lesson__hunt-fix"><b>Руками. </b>Почти акцент, но не он: 1E60D0 вместо 1D5FD1. При смене синего на зелёный эта кнопка останется синей.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Карточка Колумбии.</span><span class="ds-lesson__hunt-fix"><b>Руками. </b>Отступ 13 — такой ступени в шкале нет. Карточка выглядит чуть теснее соседних. Привязать к space/m.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой элемент экрана</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все четыре найдены. </b>Радиус 6 вместо 8, серый с разницей в одну единицу, синий «почти как акцент» и отступ 13. Глазом их не отличить, поэтому значения и держат в переменных.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные элементы тоже можно нажать: вы прочитаете, почему там всё в порядке, а счётчик «Найдено» не изменится.</div>
+  </div>
+
+  <h3>Как найти такие значения в своём макете</h3>
+
+  <ul>
+    <li><strong>Откройте Selection colors.</strong> Выделите экран: в правой панели Figma покажет его цвета, отдельно переменные, стили и обычные заливки. Обычная заливка в этом списке — цвет без переменной. Значок мишени рядом выделит все слои с этим цветом.</li>
+    <li><strong>Сравните со шкалой.</strong> Отступ 13 при шкале 4, 8, 12, 16 — опечатка, а не решение.</li>
+    <li><strong>Запустите Check designs,</strong> если у команды тариф Organization или Enterprise. Проверка находит вписанные цвета, радиусы и отступы и предлагает переменную на замену.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>«Почти такое же» значение — ошибка, а не вариант.</b> Его не видно глазом, и смена переменной до него не дойдёт.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите свой макет, вынесите цвета и отступы в переменные и проверьте, что вписанных руками значений не осталось.</p>
+
+  <h3>Часть 1 · Выписать, 15 минут</h3>
+  <ol>
+    <li><strong>Выделите два-три экрана</strong> и откройте Selection colors. Выпишите все цвета. Если своего проекта нет, возьмите экран каталога из поиска выше.</li>
+    <li><strong>Выпишите отступы и радиусы.</strong> Пройдитесь по автораскладкам: промежутки и отступы внутри.</li>
+    <li><strong>Сведите почти одинаковые.</strong> 1D5FD1 и 1E60D0 — один цвет. 13 и 12 — одна ступень.</li>
+    <li><strong>Отметьте разовое.</strong> Его оставите числом.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Переменные макета · что завести<span class="ds-lesson__spacer"></span><span data-copy="tkTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="tkTmpl">ПРОЕКТ: ______________________        Дата: __.__.____
+
+ЦВЕТА
+имя переменной      | значение | где стоит
+color/accent        | #______  | ______________________
+color/text          | #______  | ______________________
+color/______        | #______  | ______________________
+
+ОТСТУПЫ И РАДИУСЫ
+space/s             | ____     | ______________________
+space/m             | ____     | ______________________
+radius/______       | ____     | ______________________
+
+СВЕДЕНО (почти одинаковые → одно значение)
+______ и ______ → ______
+
+РАЗОВОЕ (оставляю числом)
+______________________ — почему: ______________________
+
+ПРОВЕРКА
+акцент сменили в одном месте — поменялся везде: да / нет
+вписанных руками значений осталось: ____</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строка «Сведено» показывает, сколько оттенков и отступов на самом деле были одним значением.</div>
+  </div>
+
+  <h3>Часть 2 · Завести и привязать, 40 минут</h3>
+  <ol>
+    <li><strong>Откройте вкладку Variables</strong> в левой панели, создайте коллекцию и заведите переменные из шаблона: цвета и числа.</li>
+    <li><strong>Назовите по назначению:</strong> color/accent, space/m, radius/m.</li>
+    <li><strong>Привяжите</strong> каждую заливку, обводку, отступ и радиус. Начните с главных компонентов: экземпляры получат привязку сами.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить, 15 минут</h3>
+  <ol>
+    <li><strong>Смените значение color/accent</strong> на любой другой цвет и пройдите по экранам. Всё поменялось?</li>
+    <li><strong>Снова откройте Selection colors.</strong> Остались коды цветов без переменной — привяжите или запишите в разовое.</li>
+    <li><strong>Верните цвет</strong> и заполните строку «Проверка».</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Смена акцентного цвета всего макета — правка одного значения.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Коллекция переменных</strong> с цветами, отступами и радиусами.</li>
+    <li><strong>Макет без вписанных значений,</strong> кроме разовых.</li>
+    <li><strong>Заполненный шаблон</strong> выше.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут выписать, 40 — завести и привязать, 15 — проверить. Около часа с небольшим.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Почти одинаковых синих — восемь».</strong> Выберите тот, что стоит на главной кнопке, или спросите разработчика, какой синий в коде. Остальные привяжите к нему.</li>
+    <li><strong>«Переменных больше, чем цветов в макете».</strong> Проверьте, не завели ли вы переменные на разовые значения.</li>
+    <li><strong>«Компонент со своими числами внутри».</strong> Привязывайте в главном компоненте, а не в экземплярах. Как устроены компоненты, разобрано в уроке <a href="/lessons/components-variants-junior/">«Компоненты и варианты», Junior</a>.</li>
+    <li><strong>«Отступ отвязался сам».</strong> Если тянуть отступ автораскладки ручками прямо на холсте, Figma отвязывает переменную. Меняйте значение в поле или в самой переменной.</li>
+    <li><strong>«Не знаю, как назвать».</strong> Ответьте, зачем это значение: фон, текст, акцент, отступ внутри. Ответ и есть имя.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Переменные работают, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Цвета, отступы и радиусы, которые повторяются, лежат в переменных</li>
+    <li>В полях свойств имена переменных, а не числа и коды цветов</li>
+    <li>Почти одинаковые значения сведены к одному</li>
+    <li>Имена говорят о назначении: color/accent, а не blue</li>
+    <li>Разовые значения остались числами, набор не засорён</li>
+    <li>Смена акцента во всём макете — одна правка</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Код цвета в слое.</b> Смена переменной до него не дойдёт.</li>
+    <li><b>«Почти такой же» цвет.</b> Глазом не отличить, а при смене палитры он останется старым.</li>
+    <li><b>Имя по цвету.</b> «blue», который стал зелёным.</li>
+    <li><b>Имя по месту.</b> «catalog-card-padding» в корзине.</li>
+    <li><b>Переменная на один баннер.</b> Строка в наборе, которую никто не понимает.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся выносить повторяющиеся значения в переменные. На следующих ступенях — называть токены по ролям и собирать темы, а потом держать токены одинаковыми в макете и в коде.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Заводить переменные для цветов и отступов; привязывать к ним слои; называть по назначению; находить значения, вписанные руками; не заводить переменную на разовое</td>
+          <td>Смена акцентного цвета всего макета — правка одного значения</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Разделять примитивы и токены с ролями; строить имя токена по роли и состоянию; собирать вторую тему из тех же ролей; проверять, что при смене темы ничего не осталось прибитым</td>
+          <td class="ds-lesson__dim">Переключение темы не требует ни одной ручной правки в макете</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Держать одинаковыми имена и значения токенов в макете и в коде; выбрать способ передачи; регулярно сверять расхождения; записать порядок добавления нового токена</td>
+          <td class="ds-lesson__dim">Новый токен проходит путь от документа до кода без ручного вмешательства</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любой цвет и отступ в своём макете вы можете сказать, из какой он переменной, и что поменяется, если эту переменную поправить.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://uxrdsgn.ru/figma-variables">Подробный разбор переменных Figma Variables</a></span><span class="ds-lesson__reads-meta">uxrdsgn.ru, Евгений Шевцов, 2025 · на русском · бесплатно</span><span>Разбор по шагам на русском: коллекции, группы через косую черту, квадратные и круглые образцы, палитра с именами по назначению. Текст 2025 года: типов четыре, а не шесть, режимов на платном тарифе «до 4», панель переменных теперь открывается слева. Логическую переменную автор привязывает к экземпляру, к цветам это не относится.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/14506821864087-Overview-of-variables-collections-and-modes">Overview of variables, collections, and modes</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Справка Figma на английском: шесть типов переменных и к каким свойствам привязывается каждый, коллекции и группы, чем стиль отличается от переменной. На схеме палитра-основа названа по цвету (gray/400, watermelon), а слои берут цвет из токенов по назначению. Это тема следующей ступени.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/15145852043927-Create-and-manage-variables-and-collections">Create and manage variables and collections</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Справка Figma на английском к заданию: где теперь открывается панель переменных (вкладка Variables слева), как завести коллекцию, переменную и группу, как ограничить свойства, к которым переменную можно привязать. В примерах токены названы по назначению (surface/primary) и по ступени (spacing/2).</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/15343107263511-Apply-variables-to-designs">Apply variables to designs</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Справка Figma на английском: как привязать переменную к заливке, отступу, радиусу, тексту и видимости слоя и как её отвязать. Пригодится к заданию. Там же заметка: если тянуть отступ автораскладки ручками на холсте, привязка слетает. Это та самая «сложность» из урока.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/friflex/articles/892822/">Почему стили в Figma — прошлый век</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Игорь Бутков (Friflex), 2025 · на русском · бесплатно</span><span>Как называть токены: кнопка button.purple, ставшая розовой, и шкала 100–200–300 против S–M–L. Автор разрешает имена по цвету и числу в «стабильном» проекте, урок так не советует: значение меняется и там. Заголовок про стили устарел, в стили теперь можно подставлять переменные.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

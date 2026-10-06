@@ -1,0 +1,406 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#source">Где живут значения</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#names">Одно имя на всех платформах</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#diff">Сверка макета и кода</a><span class="ds-lesson__tag">поиск</span></li>
+    <li><a href="#new">Новый токен по порядку</a><span class="ds-lesson__tag">сборка</span></li>
+    <li><a href="#retire">Как переименовать и убрать токен</a><span class="ds-lesson__tag">разбор</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Токены «Лесной обжарки» из уроков <a href="/lessons/tokens-themes-junior/">Junior</a> и <a href="/lessons/tokens-themes-middle/">Middle</a>: примитивы, роли, две темы и плотный режим. Ими пользуются приложение на iOS и Android, сайт и кабинет оптовых покупателей. За год в макетах и в коде набрались разные имена и разные значения. В этом уроке вы сведёте их и договоритесь, как токен попадает в продукт дальше. Как устроены роли цвета и таблица контраста, разобрано в уроке <a href="/lessons/color-contrast-senior/">«Цвет и контраст», Senior</a>.</div>
+
+<section id="source">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Где живут значения</h2></div>
+  <p class="ds-lesson__lead">Значение токена хранится в одном месте. Все остальные места получают копию из него, а не правят своё.</p>
+
+  <p>У «Лесной обжарки» токены жили в трёх местах: в переменных Figma, в CSS сайта и в коде приложения.</p>
+
+  <p>Каждое место правили отдельно. Через год вторичный текст в Figma — 5B6570, на сайте — 6B7580, в приложении — третий серый.</p>
+
+  <p>Никто не ошибся нарочно: правка в одном месте не доходила до двух других.</p>
+
+  <h3>Два способа выбрать источник</h3>
+  <ul>
+    <li><strong>Источник — Figma.</strong> Значения правят в переменных, а код получает выгрузку. Удобно, когда систему ведут дизайнеры.</li>
+    <li><strong>Источник — репозиторий.</strong> Значения лежат в файле токенов рядом с кодом. Код собирается из него, а в Figma файл импортируют. Удобно, когда у токенов много платформ и нужна история правок.</li>
+  </ul>
+
+  <p>Главное — чтобы источник был один. Правка вне источника считается ошибкой, даже если значение верное.</p>
+
+  <h3>Чем передавать</h3>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Способ</th><th scope="col">Как работает</th><th scope="col">Когда подходит</th><th scope="col">Где ломается</th></tr></thead>
+      <tbody>
+        <tr><td><b>Вручную</b></td><td>Разработчик смотрит имена и значения в режиме разработчика Figma и переносит в код</td><td>Токенов немного, платформа одна</td><td>Опечатки и правки, о которых не сказали</td></tr>
+        <tr><td><b>Файл JSON</b></td><td>Переменные выгружают в JSON, файл кладут в репозиторий, код собирается из него</td><td>Несколько платформ: сайт, iOS, Android</td><td>Выгрузку делают руками и забывают</td></tr>
+        <tr><td><b>Плагин с репозиторием</b></td><td>Плагин вроде Tokens Studio хранит токены в репозитории и применяет их в Figma</td><td>Токены правят дизайнеры, а история нужна как у кода</td><td>Ещё одно звено со своими правилами и платными функциями</td></tr>
+        <tr><td><b>API переменных Figma</b></td><td>Скрипт сам забирает переменные из файла и собирает токены</td><td>Нужна выгрузка без рук, по расписанию</td><td>Только на тарифе Enterprise. «Магниту», по его словам, Figma в нём отказала из-за регистрации компании в России. Плагины читают переменные и без Enterprise</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>Выгрузка и загрузка есть и в самой Figma, без плагинов. В окне переменных можно импортировать JSON в формате W3C Design Tokens Community Group — каждый файл становится режимом. И выгрузить в JSON один режим или все режимы коллекции.</p>
+
+  <p>Формат этой группы стал стабильным в октябре 2025 года, версия 2025.10. Это не стандарт W3C, а отчёт сообщества, но его уже читает Figma. Инструменты сборки переходят на него: Style Dictionary понимает формат группы с четвёртой версии, а версию 2025.10 — пока не полностью.</p>
+
+  <p class="ds-lesson__dim">Здесь источники расходятся. Андреас Кучман в статье на сайте Мартина Фаулера называет лучшей практикой репозиторий, а не дизайн-инструмент. В «Лукоморье» токены правят в Figma через Tokens Studio и пишут, что выбрали бы так снова. Урок не выбирает за вас: выбирайте по тому, кто чаще правит значения.</p>
+
+  <div class="ds-lesson__rule"><b>У значения один источник.</b> Остальные места получают копию. Способ передачи выбирают один раз и не меняют каждый месяц.</div>
+</section>
+
+<section id="names">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Одно имя на всех платформах</h2></div>
+  <p class="ds-lesson__lead">Имя токена в макете и в коде одно и то же. Меняется только запись — по правилу, которое записано один раз.</p>
+
+  <p>В Figma группы разделяет косая черта. В CSS она не годится, в Swift и Kotlin имена пишут слитно.</p>
+
+  <p>Поэтому договариваются об одном имени и правиле перевода. Запись на каждой платформе своя.</p>
+
+  <p>Например:</p>
+
+  <ul>
+    <li>Figma: <code>color/bg/surface</code></li>
+    <li>CSS: <code>--color-bg-surface</code></li>
+    <li>Swift и Kotlin: <code>colorBgSurface</code></li>
+  </ul>
+
+  <p>Это одно имя, а не три. Расхождение — когда отличаются слова: <code>color/bg/surface</code> в макете и <code>--card-background</code> в коде.</p>
+
+  <h3>Как это записать</h3>
+
+  <p>В файле токенов имя — это путь по группам. Значение роли — ссылка на примитив в фигурных скобках.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Один токен · файл токенов и CSS</div>
+    <div class="ds-lesson__box-body">
+<pre>tokens/roles.light.tokens.json
+{
+  "color": {
+    "bg": {
+      "surface": {
+        "$type": "color",
+        "$value": "{gray.0}",
+        "$description": "Карточки, шапка, нижняя панель"
+      }
+    }
+  }
+}
+
+css/light.css
+--color-bg-surface: var(--gray-0);</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Имя одно — color.bg.surface. Запись меняет сборщик по правилу: в CSS части соединяет дефис, в коде приложений их пишут слитно, каждую, кроме первой, с заглавной.</div>
+  </div>
+
+  <p>Переводит имена и единицы сборщик, например Style Dictionary. Он берёт файл токенов и собирает из него CSS, файлы для iOS и Android.</p>
+
+  <h3>Имена в Figma</h3>
+
+  <p>У переменной в Figma можно задать запись для кода: по одной для Web, iOS и Android. Это поле Code syntax в окне редактирования переменной.</p>
+
+  <p>Тогда в режиме разработчика (Dev Mode) в коде будет та запись, что в репозитории. Разработчику не придётся угадывать, как color/bg/surface называется у него.</p>
+
+  <h3>Единицы</h3>
+
+  <p>Отступ 16 в Figma — это пиксели. В CSS его часто пишут как 1rem, в iOS — 16 точек, в Android — 16 dp.</p>
+
+  <p>Это одно значение, если правило перевода записано. 1rem равен 16 пикселям, пока человек не поменял размер шрифта в браузере.</p>
+
+  <p>Если источник — репозиторий, размеры в файле держат в пикселях: встроенный импорт Figma принимает только px. В rem их переводит сборщик.</p>
+
+  <div class="ds-lesson__rule"><b>Одно имя, разная запись.</b> Правило перевода имён и единиц записано один раз, и его выполняет сборщик, а не человек.</div>
+</section>
+
+<section id="diff">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Сверка макета и кода</h2></div>
+  <p class="ds-lesson__lead">Расхождения ищут по расписанию, а не когда их стало видно на экране. Видно обычно уже в продукте.</p>
+
+  <p>Ниже — восемь строк из сверки «Лесной обжарки»: слева переменная Figma, справа токен из CSS сайта.</p>
+
+  <p>Четыре строки — настоящие расхождения. Остальные только выглядят иначе. Нажимайте на строки, которые, по-вашему, надо чинить.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Сверка токенов · Figma и CSS сайта<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__tk-diff">
+          <span class="ds-lesson__tk-drow is-head"><span>Figma</span><span>CSS сайта</span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="0" data-hunt-label="color/bg/page"><span><code>color/bg/page</code> F4F6F8</span><span><code>--color-bg-page</code> #f4f6f8</span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="1" data-hunt-label="color/bg/surface"><span><code>color/bg/surface</code> → gray/0</span><span><code>--card-background</code> <code class="ds-lesson__tk-val">var(--gray-0)</code></span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="2" data-hunt-label="color/text/secondary"><span><code>color/text/secondary</code> 5B6570</span><span><code>--color-text-secondary</code> #6b7580</span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="3" data-hunt-label="color/action"><span><code>color/action</code> → blue/600</span><span><code>--color-action</code> <code class="ds-lesson__tk-val">var(--blue-600)</code></span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="4" data-hunt-label="space/inset/card"><span><code>space/inset/card</code> 16</span><span><code>--space-inset-card</code> 1rem</span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="5" data-hunt-label="radius/control"><span><code>radius/control</code> 8</span><span><code>--radius-control</code> 6px</span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="6" data-hunt-label="color/bg/warning"><span><code>color/bg/warning</code> → amber/100</span><span class="ds-lesson__tk-none">нет</span></span>
+          <span class="ds-lesson__tk-hit ds-lesson__hunt-pin ds-lesson__tk-drow" data-hunt-pin="7" data-hunt-label="color/text/primary"><span><code>color/text/primary</code> 1B1F24</span><span><code>--color-text-primary</code> #1B1F24</span></span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">color/bg/page.</span><span class="ds-lesson__hunt-fix"><b>Совпадает. </b>Косая черта стала дефисом, а код цвета записан строчными. Это правило перевода, а не расхождение.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">color/bg/surface.</span><span class="ds-lesson__hunt-fix"><b>Разные имена. </b>Значение то же, но в коде токен называется по-своему. Новый разработчик не найдёт в коде color/bg/surface и заведёт ещё один токен. Переименовать в коде, старое имя оставить ссылкой на время перехода.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">color/text/secondary.</span><span class="ds-lesson__hunt-fix"><b>Разные значения. </b>6B7580 вместо 5B6570. На глаз почти не видно, но контраст подписей на сайте не тот, что замеряли в макете. Взять значение из источника.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">color/action.</span><span class="ds-lesson__hunt-fix"><b>Совпадает. </b>С обеих сторон роль ссылается на примитив blue/600. Ссылку и сверяют, а не код цвета.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">space/inset/card.</span><span class="ds-lesson__hunt-fix"><b>Совпадает. </b>1rem — это 16 пикселей при размере шрифта по умолчанию. Единицы разные по правилу перевода.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">radius/control.</span><span class="ds-lesson__hunt-fix"><b>Разные значения. </b>В коде 6, в макете 8. Кнопки и поля на сайте острее, чем в макете. Скорее всего, кто-то поправил на месте и не вернул в источник.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">color/bg/warning.</span><span class="ds-lesson__hunt-fix"><b>Только в макете. </b>Роль завели в Figma для плашки «Осталось 3 пачки», а в код она не попала. Разработчик подберёт жёлтый сам — и в тёмной теме его не будет.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">color/text/primary.</span><span class="ds-lesson__hunt-fix"><b>Совпадает. </b>Имя и значение одинаковые, регистр букв в коде цвета не важен.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любую строку сверки</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все четыре найдены. </b>Другое имя, два других значения и токен, которого нет в коде. Регистр, разделители, единицы и ссылки вместо кодов — не расхождения, если правило перевода записано.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные строки тоже можно нажать: вы прочитаете, почему они совпадают, а счётчик «Найдено» не изменится.</div>
+  </div>
+
+  <h3>Что считать расхождением</h3>
+  <ul>
+    <li><strong>Токен есть только с одной стороны.</strong> В макете или только в коде.</li>
+    <li><strong>Разные слова в имени.</strong> Разделители и регистр не в счёт.</li>
+    <li><strong>Разные значения</strong> после приведения к одной записи: регистр кода цвета, единицы, ссылки на примитивы.</li>
+    <li><strong>Разные значения в одном из режимов.</strong> Светлая тема совпадает, тёмная — нет.</li>
+  </ul>
+
+  <h3>Как сверять регулярно</h3>
+
+  <p>Сверку делает скрипт, а не человек. Он берёт выгрузку из Figma и токены из кода, приводит записи к одной и печатает разницу.</p>
+
+  <p>Запускают его при каждом выпуске библиотеки и при каждой правке файла токенов в репозитории. Тогда расхождение живёт часы, а не месяцы.</p>
+
+  <div class="ds-lesson__rule"><b>Сверка — по расписанию и скриптом.</b> Регистр, разделители и единицы приводят к одному виду, остальное разное — расхождение.</div>
+</section>
+
+<section id="new">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Новый токен по порядку</h2></div>
+  <p class="ds-lesson__lead">Новый токен проходит один путь: документ, макет и код. Если его можно завести в обход, расхождения вернутся.</p>
+
+  <p>Каждый токен — обещание: имя не поменяется без предупреждения, значение есть во всех режимах.</p>
+
+  <p>Поэтому сначала решают, нужен ли он вообще.</p>
+
+  <h3>Проверьте себя</h3>
+
+  <p>В «Лесную обжарку» пришли восемь запросов. Какие токены стоит завести?</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · заводить токен или нет<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">«Нужен color/bg/promo-autumn для баннера осенней акции».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не заводить</b>Разовый баннер без роли. Цвет остаётся значением в макете баннера, в наборе ему не место.</p></li>
+<li data-quiz-q data-answer="yes"><p class="ds-quiz__question">«Ссылки в справке после перехода должны отличаться от новых — и в светлой, и в тёмной теме».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Заводить</b>Новая роль с работой на экране и двумя значениями — color/text/link-visited.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">«Добавьте space/13: в макете кабинета так выглядит лучше».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не заводить</b>Ступени 13 в шкале нет. Это повод спросить, какая роль нужна, а не дописывать шкалу под один экран.</p></li>
+<li data-quiz-q data-answer="yes"><p class="ds-quiz__question">«Рамку фокуса рисуем акцентом, но после смены бренда акцент станет светлым и рамка пропадёт».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Заводить</b>У фокуса своя работа и своя норма заметности. color/border/focus может ссылаться на тот же примитив, но меняется отдельно.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">«Для сайта кофейни-партнёра нужен color/bg/partner-green вместо нашего фона».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не заводить</b>Это не новый токен, а новая тема: те же роли с другими значениями. В Figma — режим или, на Enterprise, расширенная коллекция для второго бренда.</p></li>
+<li data-quiz-q data-answer="yes"><p class="ds-quiz__question">«Длительность анимаций — 150 мс — вписана в десяти местах кода».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Заводить</b>Повторяется и меняется вместе. Токены бывают не только у цвета и отступов: у длительности в формате токенов есть свой тип.</p></li>
+<li data-quiz-q data-answer="no"><p class="ds-quiz__question">«Нужен color/blue-600-80: акцент с прозрачностью 80 % для одной тени».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Не заводить</b>Ни роли, ни второго места. Если таких теней станет много, понадобится роль тени, а не вариант синего.</p></li>
+<li data-quiz-q data-answer="yes"><p class="ds-quiz__question">«У поля с ошибкой рамка красная, а роли для неё нет — берём цвет текста ошибки».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Заводить</b>color/border/error. Совпадение цветов сегодня не значит, что завтра их поменяют вместе.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="yes">Заводить</button><button class="ds-quiz__option" type="button" data-quiz-answer="no">Не заводить</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Токен заводят, когда у значения есть роль и оно меняется вместе в нескольких местах. Второй бренд — это тема, а не набор новых токенов.</div>
+</div>
+
+  <h3>Путь нового токена</h3>
+
+  <p>Соберите путь токена color/text/link-visited по порядку. Один шаг лишний.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Конструктор · путь нового токена<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-seq-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div data-seq data-seq-order="3,0,x,5,1,4,2" data-seq-right="Верно" data-seq-early="Пока рано" data-seq-extra="Это лишний шаг" data-seq-first="Начните с того, с чего начинается любой токен: кому и зачем он нужен." data-seq-next="Сейчас на очереди то, что делают сразу после шага «{prev}»." data-seq-done-title="Собрано целиком" data-seq-done="Токен попал в макет и в код одним изменением, поэтому сверке нечего находить. Ключевой шаг — предпоследний: значение никто не вписывает руками ни в Figma, ни в код." data-seq-count="{n} из {total}"><div class="ds-lesson__seq-pool" data-seq-pool></div><ol class="ds-lesson__seq-chain" data-seq-steps><li data-seq-step><span class="ds-lesson__seq-text">Запрос: где нужен токен и почему существующие не подходят</span> <span class="ds-lesson__seq-note" data-seq-note>Без запроса не понять, нужна ли новая роль или хватит старой. Посещённые ссылки — в справке, на двух экранах, color/text/link не подходит: он для новых ссылок.</span></li><li data-seq-step><span class="ds-lesson__seq-text">Имя по правилу и значения для всех режимов</span> <span class="ds-lesson__seq-note" data-seq-note>color/text/link-visited: категория, свойство, роль. Значения — примитивы для Light и Dark, у каждой пары с фоном замерен контраст.</span></li><li data-seq-step><span class="ds-lesson__seq-text">Строка в списке токенов и ревью</span> <span class="ds-lesson__seq-note" data-seq-note>Имя, роль, значения, где стоит. Ревью делают двое: от дизайна и от разработки.</span></li><li data-seq-step><span class="ds-lesson__seq-text">Изменение в источнике токенов</span> <span class="ds-lesson__seq-note" data-seq-note>Токен появляется там, где живут значения: в переменных Figma или в файле репозитория — смотря что у вас источник.</span></li><li data-seq-step><span class="ds-lesson__seq-text">Сборка: макет и код получают токен из источника</span> <span class="ds-lesson__seq-note" data-seq-note>Выгрузка или импорт, затем сборка для всех платформ. Руками значение не вписывает никто.</span></li><li data-seq-step><span class="ds-lesson__seq-text">Запись в списке изменений и сообщение командам</span> <span class="ds-lesson__seq-note" data-seq-note>Что добавилось, где применять, с какой версии. Добавление токена — новая возможность без поломок, то есть минорная версия.</span></li></ol><p class="ds-lesson__seq-decoy" data-seq-decoy data-seq-decoy-text="Вписать цвет в макет справки, а токен завести потом"><b>Это лишний шаг: «Вписать цвет в макет справки, а токен завести потом».</b> <span data-seq-decoy-note>«Потом» обычно не наступает. Цвет остаётся вписанным, а в коде разработчик подбирает свой.</span></p></div>
+      <p class="ds-lesson__dim" data-seq-empty hidden>Цепочка пока пустая — начните с запроса.</p>
+      <div class="ds-lesson__result" data-seq-fb hidden></div>
+      <span data-seq-actions data-seq-reset="Начать заново"></span>
+    </div>
+    <div class="ds-lesson__box-foot">Порядок записывают в документ системы. Тогда новый токен проходит путь без того, кто этот путь придумал.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Нет роли — нет токена.</b> Новый токен проходит запрос, имя, ревью и попадает в макет и код из источника одним изменением.</div>
+</section>
+
+<section id="retire">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Как переименовать и убрать токен</h2></div>
+  <p class="ds-lesson__lead">Токен нельзя переименовать за один раз: на старое имя ссылаются макеты и код. Его выводят по шагам.</p>
+
+  <p>В сверке нашёлся <code>--card-background</code>. Правильное имя — <code>color/bg/surface</code>.</p>
+
+  <p>Если переименовать за один раз, сломается каждый экран, где стоит старое имя.</p>
+
+  <h3>Четыре шага</h3>
+  <ol>
+    <li><strong>Завести новое имя</strong> и сделать старое ссылкой на него. Значение у обоих одно.</li>
+    <li><strong>Пометить старое как устаревшее.</strong> В формате Design Tokens Community Group для этого есть поле $deprecated: true или строка с пояснением, чем заменить.</li>
+    <li><strong>Перевести потребителей</strong> и объявить срок, после которого старого имени не будет.</li>
+    <li><strong>Убрать старое</strong> в следующей мажорной версии и записать это в список изменений.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Старое имя на время перехода</div>
+    <div class="ds-lesson__box-body">
+<pre>"card-background": {
+  "$type": "color",
+  "$value": "{color.bg.surface}",
+  "$deprecated": "Заменён на color.bg.surface, будет убран в версии 3.0"
+}</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Старое имя показывает то же значение, что новое, и само говорит, чем его заменить.</div>
+  </div>
+
+  <p>Правило касается ролей, которыми пользуются экраны. Примитивы спрятаны внутри системы, их переименовывают без этих шагов.</p>
+
+  <p>Если источник — Tokens Studio, проверьте, переживёт ли пометка выгрузку. В «Лукоморье» пишут, что плагин не знает о старых именах и выгружает переименование как новый токен. Список замен там ведут отдельным файлом.</p>
+
+  <p>Это тот же порядок, что для компонентов. Как нумеровать версии и писать список изменений, разобрано в уроке <a href="/lessons/components-variants-senior/">«Компоненты и варианты», Senior</a>.</p>
+
+  <div class="ds-lesson__rule"><b>Токен выводят, а не удаляют.</b> Новое имя, старое — ссылкой с пометкой, перевод с объявленным сроком, удаление в мажорной версии.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Сведите список токенов дизайна и кода, найдите расхождения и опишите порядок, по которому в продукт добавляется новый токен.</p>
+
+  <h3>Часть 1 · Свести, 60 минут</h3>
+  <ol>
+    <li><strong>Выгрузите переменные из Figma</strong> в JSON и возьмите токены из кода: CSS, файлы приложений.</li>
+    <li><strong>Приведите записи к одной:</strong> разделители, регистр кода цвета, единицы, ссылки.</li>
+    <li><strong>Разложите разницу</strong> по видам: только с одной стороны, разные имена, разные значения, разные значения в одном из режимов.</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Сверка и порядок токенов · документ<span class="ds-lesson__spacer"></span><span data-copy="tksTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="tksTmpl">ТОКЕНЫ · ПРОДУКТ: ______________   Версия: ____   Дата: __.__.____
+Источник значений: Figma / репозиторий (нужное оставить)
+Способ передачи: ______________   Кто отвечает: ______________
+
+1. ПРАВИЛО ИМЁН
+части имени: категория / свойство / роль / состояние
+Figma: color/bg/surface → CSS: --color-bg-surface → iOS, Android: ______________
+единицы: px → CSS ____, iOS ____, Android ____
+
+2. СВЕРКА
+вид                      | сколько | примеры
+только в макете          | ____    | ______________________
+только в коде            | ____    | ______________________
+разные имена             | ____    | ______________________
+разные значения          | ____    | ______________________
+расходится один режим    | ____    | ______________________
+сверку запускает: скрипт / человек, когда: ______________
+
+3. НОВЫЙ ТОКЕН
+запрос → имя и значения для всех режимов → строка в списке и ревью →
+изменение в источнике → сборка для всех платформ → список изменений
+токен не заводят, если: ______________________
+
+4. ВЫВОД ТОКЕНА
+новое имя → старое ссылкой с пометкой → срок перехода → удаление в мажорной версии</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строку «токен не заводят, если» заполните своими словами: по ней будут отвечать на запросы, когда вас нет.</div>
+  </div>
+
+  <h3>Часть 2 · Починить, 60 минут</h3>
+  <ol>
+    <li><strong>Выберите источник</strong> и запишите его в документ.</li>
+    <li><strong>Каждое расхождение чините в источнике,</strong> а другая сторона получает значение сборкой.</li>
+    <li><strong>Разные имена</strong> сведите по четырём шагам вывода токена.</li>
+  </ol>
+
+  <h3>Часть 3 · Проверить путь, 30 минут</h3>
+  <ol>
+    <li><strong>Проведите один новый токен</strong> по порядку из документа.</li>
+    <li><strong>Запустите сверку снова.</strong> Новый токен должен совпасть с обеих сторон без ручных правок.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Новый токен прошёл путь от документа до кода без вашего ручного вмешательства.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Документ токенов</strong> по шаблону: источник, правило имён, сверка, порядок добавления и вывода.</li>
+    <li><strong>Сверка без расхождений</strong> или со списком тех, что выводятся по шагам.</li>
+    <li><strong>Один токен,</strong> который прошёл весь путь.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 60 минут свести, 60 — починить, 30 — проверить путь. Всего около двух с половиной часов, плюс время разработчика на сборку.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«В коде сотни значений без токенов».</strong> Не переводите всё сразу. Заведите токены, запретите новые значения в коде и переводите экраны по мере правок.</li>
+    <li><strong>«Разработчики называют по-своему, и им так удобнее».</strong> Договоритесь о словах, а запись оставьте их языку. Правило перевода снимает большую часть спора.</li>
+    <li><strong>«Выгрузку делаем руками и забываем».</strong> Это и есть главный риск ручного способа. Поставьте сверку в каждую сборку: забытая выгрузка всплывёт в тот же день.</li>
+    <li><strong>«REST API недоступен на нашем тарифе».</strong> Встроенной выгрузки в JSON хватает. Её делают при каждом выпуске библиотеки, а сверку запускает сборка.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Токены синхронны, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>У значений один источник, и он записан</li>
+    <li>Имена одинаковые по словам, запись переводит сборщик</li>
+    <li>Правило перевода имён и единиц записано</li>
+    <li>Сверка запускается скриптом при каждом выпуске и каждой правке токенов</li>
+    <li>Новый токен проходит путь из документа без обходов</li>
+    <li>Старые имена выводятся по шагам, с пометкой и сроком</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Правка вне источника.</b> Значение верное сегодня и разошлось завтра.</li>
+    <li><b>Свои слова в коде.</b> <code>--card-background</code> вместо <code>color/bg/surface</code>.</li>
+    <li><b>Сверка глазами.</b> Регистр и единицы отвлекают, настоящее расхождение пропускают.</li>
+    <li><b>Токен без роли.</b> «Нужен на один баннер».</li>
+    <li><b>Переименование за один раз.</b> Ломает каждый экран со старым именем.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">На первой ступени выносили значения в переменные, на второй — называли токены по ролям и собирали темы. Здесь токены становятся общими для макета и кода.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Заводить переменные для цветов и отступов; привязывать к ним слои; называть по назначению; находить значения, вписанные руками</td>
+          <td class="ds-lesson__dim">Смена акцентного цвета всего макета — правка одного значения</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Разделять примитивы и роли; собирать имя токена по частям; собирать вторую тему режимом; находить прибитое</td>
+          <td class="ds-lesson__dim">Переключение темы не требует ни одной ручной правки в макете</td>
+        </tr>
+        <tr>
+          <td><b>Senior</b> — этот урок</td>
+          <td>Выбрать источник значений и способ передачи; держать одно имя на всех платформах; сверять макет и код скриптом; провести новый токен по порядку; выводить старые имена по шагам</td>
+          <td>Новый токен проходит путь от документа до кода без ручного вмешательства</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> вы можете сказать, где живёт значение любого токена, и знаете, через сколько часов правка в источнике окажется в продукте.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/vk/articles/1017912/">Как мы пережили цветовой кризис в RuStore и нашли путь к тёмной стороне темы</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Элина Шевченко и Андрей Едунов (VK), 2026 · на русском · бесплатно</span><span>Продуктовому дизайнеру и фронтендеру: как RuStore перестроил цветовые токены под тёмную тему, вынес их из Figma в код скриптом и сменил старые имена по таблице «было → стало» со скриншот-тестами. Спорит с уроком: старые имена заменили скриптом во всех проектах сразу, без пометки и срока.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/lukit_ru/articles/1046493/">Назад в будущее UI-kit: как мы перевели живую библиотеку на дизайн-токены и ничего не сломали</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Амир Гафуров («Лукоморье»), 2026 · на русском · бесплатно</span><span>Тому, кто ведёт библиотеку для нескольких команд: три уровня токенов, сборка Style Dictionary из JSON Tokens Studio, старые имена — алиасы с реестром замен и версией удаления. В споре об источнике значений — сторона Figma. Про токены — первая половина и раздел об обратной совместимости.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://martinfowler.com/articles/design-token-based-ui-architecture.html">Design Token-Based UI Architecture</a></span><span class="ds-lesson__reads-meta">martinfowler.com, Андреас Кучман, 2024 · на английском · бесплатно</span><span>Тому, кто строит путь токена от файла до продукта: проверка, сборка, тесты, публикация и оповещение команд, слои примитивов и ролей, закрытые примитивы. Единственным источником автор советует держать репозиторий, а не Figma — это вторая сторона спора из урока. На английском, 2024 год.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/15343816063383-Modes-for-variables">Modes for variables</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Тому, кто переносит токены между Figma и кодом: импорт JSON в формате DTCG, где каждый файл становится режимом, токен должен быть во всех файлах, а размеры — только в px, и выгрузка одного режима или всех. Нужны разделы Import modes и Export modes. На английском.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://habr.com/ru/companies/magnit/articles/803565/">Кодогенерация токенов дизайн-системы для Android по Figma API</a></span><span class="ds-lesson__reads-meta"><a href="/resource/habr-design/">Хабр</a>, Никита Яцкивский (Magnit Tech), 2024 · на русском · бесплатно</span><span>Разработчику и дизайнеру, который отдаёт токены в Android: генератор кода из Figma, переменные через плагин variables2css. Деталь для таблицы способов: API переменных требует Enterprise, и Figma отказала в нём компании, зарегистрированной в России. Много кода на Kotlin, текст 2024 года.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->
