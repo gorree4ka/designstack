@@ -22,6 +22,7 @@
 слова Главред подчёркивает, а для авторского голоса они нужны.
 """
 import argparse
+import html
 import pathlib
 import re
 import sys
@@ -77,6 +78,17 @@ def text_part(raw):
     return re.sub(r"\[(?:картинка|карточка ссылки)[^\]]*\]", "", body)
 
 
+def lesson_part(raw):
+    """Урок сайта (`*.body.html`): абзацы и пункты списков текстом, без «Что почитать дальше» и шаблонов в `<pre>`."""
+    raw = re.sub(r'<section id="further-reading">.*?</section>|<pre.*?</pre>', "", raw, flags=re.S)
+    out = []
+    for _, inner in re.findall(r"<(p|li)\b[^>]*>(.*?)</\1>", raw, flags=re.S):
+        t = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", inner))).strip()
+        if t:
+            out.append(t)
+    return "\n\n".join(out)
+
+
 GLAVRED_LIMIT = 5000  # 10 700 и 8 900 знаков Главред не досчитал (06.10.2026), 2 000 — да: делим по абзацам
 
 
@@ -126,7 +138,8 @@ def glavred(text):
 for f in args.files:
     path = pathlib.Path(f)
     raw = path.read_text(encoding="utf-8")
-    body = text_part(raw)
+    # урок с 06.10.2026 пишется в стиле образца автора (D200, D201) и проверяется теми же мерками
+    body = lesson_part(raw) if path.suffix == ".html" else text_part(raw)
     print("== %s" % path.as_posix())
     for url in re.findall(r"\[карточка ссылки (\S+)\]", raw):
         check("адрес карточки без меток — с «?» редактор vc.ru карточку не делает", "?" not in url, url)
@@ -148,7 +161,8 @@ for f in args.files:
             n = len(words(s))
             check("фраза не длиннее %d слов" % LONG_SENTENCE, n <= LONG_SENTENCE, "%d · %s…" % (n, s[:70]))
     for name, rx in STAMPS.items():
-        hits = re.findall(rx, plain, re.I)
+        # цитата чужого текста в «ёлочках» — пример, а не голос автора: «Вчера мы всё поменяли»
+        hits = re.findall(rx, re.sub(r"«[^»]*»", "", plain) if name == "«мы»" else plain, re.I)
         check("нет штампа: " + name, not hits, ", ".join(dict.fromkeys(h.lower() for h in hits)))
     for name, rx in FOR_EYES.items():
         for m in re.finditer(rx, plain, re.I):

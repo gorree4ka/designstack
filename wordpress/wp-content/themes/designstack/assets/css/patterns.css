@@ -11285,3 +11285,514 @@ button.ds-lesson__strike-w.is-lost {
 	padding-top: 0;
 	border-top: 0;
 }
+
+/* Компоненты и варианты: учебная кнопка магазина, набор вариантов, панель свойств
+   (`data-props` в lesson-widgets.js), значки слоёв, чипы и строки каталога.
+   Вид кнопки задают атрибуты `data-cv-kind`, `-size`, `-icon`, `-state`. Копии,
+   разошедшиеся с образцом, несут свои отличия пользовательскими свойствами в разметке
+   (`--cv-rad`, `--cv-pad`, `--cv-edge`, D182): у образца их нет. */
+.ds-lesson__cv-btn {
+	--cv-h: var(--wp--custom--size--control-lg);
+	--cv-min: calc(var(--wp--custom--size--control-lg) * 2);
+	--cv-ic: var(--wp--custom--size--icon-md);
+	display: inline-flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	justify-content: center;
+	min-width: var(--cv-min);
+	max-width: 100%;
+	min-height: var(--cv-h);
+	padding: var(--wp--preset--spacing--2) var(--cv-pad, var(--wp--preset--spacing--4));
+	border: var(--wp--custom--border-width--hairline) solid var(--cv-edge, transparent);
+	border-radius: var(--cv-rad, var(--wp--custom--radius--md));
+	background: var(--wp--preset--color--surface-action-primary);
+	color: var(--wp--preset--color--text-on-action);
+	font-size: var(--wp--preset--font-size--base);
+	font-weight: 600;
+	line-height: var(--wp--custom--line-height--snug);
+	text-align: center;
+	overflow-wrap: anywhere;
+}
+
+.ds-lesson__cv-btn[data-cv-size="s"] {
+	--cv-h: var(--wp--custom--size--control-md);
+	--cv-min: calc(var(--wp--custom--size--control-md) * 2);
+	--cv-ic: var(--wp--custom--size--icon-sm);
+	padding-inline: var(--cv-pad, var(--wp--preset--spacing--3));
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__cv-btn[data-cv-kind="secondary"] {
+	border-color: var(--cv-edge, var(--wp--preset--color--text-action));
+	background: var(--wp--preset--color--surface-raised);
+	color: var(--wp--preset--color--text-action);
+}
+
+.ds-lesson__cv-ic,
+.ds-lesson__cv-spin {
+	width: var(--cv-ic);
+	height: var(--cv-ic);
+}
+
+.ds-lesson__cv-btn[data-cv-icon="off"] .ds-lesson__cv-ic,
+.ds-lesson svg.ds-lesson__cv-spin {
+	display: none;
+}
+
+/* Без правил: ширина только по тексту и строка без переноса. */
+.ds-lesson__cv-btn.is-raw {
+	min-width: 0;
+	max-width: none;
+	padding-inline: var(--wp--preset--spacing--2);
+	white-space: nowrap;
+	overflow-wrap: normal;
+}
+
+.ds-lesson__cv-btn.is-wide {
+	display: flex;
+	width: 100%;
+}
+
+/* Состояния. Неактивное — своя пара цветов, а не прозрачность. */
+.ds-lesson__cv-btn[data-cv-state="hover"] {
+	background: var(--wp--preset--color--surface-action-primary-hover);
+}
+
+.ds-lesson__cv-btn[data-cv-kind="secondary"][data-cv-state="hover"] {
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-action-hover);
+}
+
+.ds-lesson__cv-btn[data-cv-state="focus"] {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__cv-btn[data-cv-state="pressed"] {
+	background: var(--wp--preset--color--text-action-hover);
+}
+
+.ds-lesson__cv-btn[data-cv-kind="secondary"][data-cv-state="pressed"] {
+	border-color: var(--wp--preset--color--text-action-hover);
+	background: var(--wp--preset--color--surface-selected);
+	color: var(--wp--preset--color--text-action-hover);
+}
+
+.ds-lesson__cv-btn[data-cv-state="disabled"],
+.ds-lesson__cv-btn[data-cv-kind="secondary"][data-cv-state="disabled"] {
+	border-color: var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__cv-btn[data-cv-state="loading"] .ds-lesson__cv-spin {
+	display: block;
+}
+
+.ds-lesson__cv-btn[data-cv-state="loading"] .ds-lesson__cv-ic {
+	display: none;
+}
+
+/* Значки слоёв, как в панели слоёв редактора: четыре ромба — главный компонент,
+   пустой ромб — экземпляр, решётка — простая рамка. */
+.ds-lesson__cv-mark {
+	width: var(--wp--custom--size--icon-sm);
+	height: var(--wp--custom--size--icon-sm);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__cv-layer {
+	display: flex;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	margin: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* Главный компонент и его экземпляры — плитки в ряд, на узком экране столбиком. */
+.ds-lesson__cv-tree {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(var(--wp--custom--size--control-lg) * 4)), 1fr));
+	gap: var(--wp--preset--spacing--4);
+}
+
+.ds-lesson__cv-node {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	padding: var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-lesson__cv-node:first-child {
+	border-style: dashed;
+	border-color: var(--wp--preset--color--border-strong);
+}
+
+/* Набор вариантов: одна пунктирная рамка, внутри все сочетания с именами слоёв. */
+.ds-lesson__cv-set {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.ds-lesson__cv-cell {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	min-width: 0;
+}
+
+.ds-lesson__cv-cap {
+	color: var(--wp--preset--color--text-muted);
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--xs);
+	text-align: center;
+	overflow-wrap: anywhere;
+}
+
+/* Панель свойств: образец сверху, под ним имя слоя и свойства. */
+.ds-lesson__cv-stage {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(var(--wp--custom--size--control-lg) * 3);
+	padding: var(--wp--preset--spacing--6) var(--wp--preset--spacing--4);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+}
+
+.ds-lesson__cv-name {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	align-items: center;
+	margin: var(--wp--preset--spacing--3) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__cv-name code {
+	font-family: var(--wp--preset--font-family--mono);
+	font-size: var(--wp--preset--font-size--sm);
+	overflow-wrap: anywhere;
+}
+
+.ds-lesson__cv-said {
+	margin: var(--wp--preset--spacing--2) 0 0;
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__cv-panel {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--wp--custom--size--search-header)), 1fr));
+	gap: var(--wp--preset--spacing--4);
+	margin-top: var(--wp--preset--spacing--4);
+	padding-top: var(--wp--preset--spacing--4);
+	border-top: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+.ds-lesson__cv:not(.is-live) .ds-lesson__cv-panel,
+.ds-lesson__cv:not(.is-live) .ds-lesson__cv-name,
+.ds-lesson__cv:not(.is-live) .ds-lesson__cv-said {
+	display: none;
+}
+
+.ds-lesson__cv-prop {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.ds-lesson__cv-prop > legend {
+	margin: 0 0 var(--wp--preset--spacing--2);
+	padding: 0;
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--xs);
+	font-weight: 600;
+	letter-spacing: var(--wp--custom--letter-spacing--wide);
+	text-transform: uppercase;
+}
+
+.ds-lesson__cv-prop > legend span {
+	font-weight: 400;
+	letter-spacing: normal;
+	text-transform: none;
+}
+
+.ds-lesson__cv-prop > label {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	min-height: var(--wp--custom--size--control-sm);
+	padding: 0 var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--full);
+	font-size: var(--wp--preset--font-size--sm);
+	cursor: pointer;
+}
+
+.ds-lesson__cv-prop input {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.ds-lesson__cv-prop > label:has(input:checked) {
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__cv-prop > label:has(input:focus-visible) {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+/* Карточка для проверки подписей: узкая, как колонка карточки на телефоне. */
+.ds-lesson__cv-card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--3);
+	align-items: flex-start;
+	width: 100%;
+	max-width: calc(var(--wp--custom--size--control-lg) * 5);
+	margin: 0 auto;
+	padding: var(--wp--preset--spacing--3);
+	overflow: hidden;
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+}
+
+/* Детали экранов магазина: ряд чипов, баннер, строка каталога с кнопкой. */
+.ds-lesson__cv-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__cv-chip {
+	display: inline-flex;
+	align-items: center;
+	min-height: var(--wp--custom--size--control-sm);
+	padding: 0 var(--cv-pad, var(--wp--preset--spacing--3));
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--cv-rad, var(--wp--custom--radius--full));
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__cv-chip.is-on {
+	border-color: transparent;
+	background: var(--wp--preset--color--text-default);
+	color: var(--wp--preset--color--surface-raised);
+}
+
+.ds-lesson__cv-banner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	padding: var(--wp--preset--spacing--3);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--bg-info);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__cv-item {
+	display: flex;
+	gap: var(--wp--preset--spacing--3);
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: var(--wp--preset--spacing--2);
+	border-bottom: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-default);
+}
+
+/* Метка поиска вокруг чипа или кнопки в строке каталога — по размеру содержимого: общая метка
+   листа состояний тянется во всю ширину и растянула бы чип и кнопку вместе с собой. */
+.ds-lesson__cv-chips > .ds-lesson__st-hit.ds-lesson__hunt-pin,
+.ds-lesson__cv-item > .ds-lesson__st-hit.ds-lesson__hunt-pin {
+	flex: none;
+	align-items: flex-start;
+	width: auto;
+	padding: var(--wp--preset--spacing--1);
+}
+
+/* Лист состояний компонента: плитки с подписью свойства, на телефоне по две в ряд. */
+.ds-lesson__cv-sheet {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--wp--preset--spacing--4);
+	padding: var(--wp--preset--spacing--4);
+	border: var(--wp--custom--border-width--hairline) dashed var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+}
+
+@media (min-width: 900px) {
+	.ds-lesson__cv-sheet {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+/* Учебные поломки для поиска ошибок: прозрачная «неактивная» и красная кнопка.
+   Стоят только внутри `data-contrast-demo` — контраст у них плохой нарочно. */
+.ds-lesson__cv-btn.is-faded {
+	opacity: 0.4;
+}
+
+.ds-lesson__cv-btn.is-alarm {
+	background: var(--wp--preset--color--icon-error);
+	color: var(--wp--preset--color--text-on-action);
+}
+
+/* Описание компонента от коллеги: плитки-метки в сетку, по одной на свойство. */
+.ds-lesson__cv-spec {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--wp--custom--size--control-lg) * 4)), 1fr));
+	gap: var(--wp--preset--spacing--3);
+}
+
+.ds-lesson__cv-spec > .ds-lesson__st-hit.ds-lesson__hunt-pin {
+	align-items: flex-start;
+}
+
+/* Учебное поле: подпись, коробка поля, ошибка или пояснение под ним. Состояние —
+   атрибут `data-cv-state`; ошибка держится на рамке, значке и тексте, а не на цвете. */
+.ds-lesson__cv-field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	width: 100%;
+	max-width: calc(var(--wp--custom--size--control-lg) * 6);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+.ds-lesson__cv-flabel {
+	font-weight: 600;
+}
+
+.ds-lesson__cv-fbox {
+	display: flex;
+	align-items: center;
+	min-height: var(--wp--custom--size--control-lg);
+	padding: 0 var(--wp--preset--spacing--3);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-raised);
+	font-size: var(--wp--preset--font-size--base);
+}
+
+.ds-lesson__cv-fbox.is-empty {
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__cv-field[data-cv-state="focus"] .ds-lesson__cv-fbox {
+	outline: var(--wp--custom--border-width--focus) solid var(--wp--preset--color--border-focus-ring);
+	outline-offset: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__cv-caret {
+	display: inline-block;
+	width: var(--wp--custom--border-width--focus);
+	height: 1.2em;
+	margin-left: var(--wp--custom--border-width--hairline);
+	background: currentColor;
+}
+
+.ds-lesson__cv-field[data-cv-state="error"] .ds-lesson__cv-fbox {
+	border-width: var(--wp--custom--border-width--focus);
+	border-color: var(--wp--preset--color--border-error);
+}
+
+.ds-lesson__cv-ferr {
+	display: flex;
+	gap: var(--wp--preset--spacing--1);
+	align-items: flex-start;
+	color: var(--wp--preset--color--text-error);
+}
+
+.ds-lesson__cv-ferr-ic {
+	flex: none;
+	width: var(--wp--custom--size--icon-sm);
+	height: var(--wp--custom--size--icon-sm);
+	margin-top: var(--wp--custom--border-width--focus);
+}
+
+.ds-lesson__cv-field[data-cv-state="disabled"] .ds-lesson__cv-fbox {
+	border-color: var(--wp--preset--color--border-default);
+	background: var(--wp--preset--color--surface-subtle);
+	color: var(--wp--preset--color--text-muted);
+}
+
+.ds-lesson__cv-fhint {
+	color: var(--wp--preset--color--text-muted);
+}
+
+/* Страница компонента: короткие абзацы и списки внутри коробки. */
+.ds-lesson__cv-doc > * + * {
+	margin-top: var(--wp--preset--spacing--2);
+}
+
+.ds-lesson__cv-doc ul {
+	margin-bottom: 0;
+}
+
+/* Шаги изменения библиотеки: номер, название шага и пояснение под ним. */
+.ds-lesson__cv-steps {
+	display: grid;
+	gap: var(--wp--preset--spacing--3);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: cv-step;
+}
+
+.ds-lesson__cv-steps > li {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--1);
+	padding-left: calc(var(--wp--custom--size--control-sm) + var(--wp--preset--spacing--3));
+	counter-increment: cv-step;
+}
+
+.ds-lesson__cv-steps > li::before {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--wp--custom--size--control-sm);
+	height: var(--wp--custom--size--control-sm);
+	border: var(--wp--custom--border-width--hairline) solid var(--wp--preset--color--border-strong);
+	border-radius: var(--wp--custom--radius--full);
+	font-weight: 700;
+	content: counter(cv-step);
+}
+
+.ds-lesson__cv-steps > li > span {
+	color: var(--wp--preset--color--text-muted);
+	font-size: var(--wp--preset--font-size--sm);
+}
+
+/* Сообщение о выпуске в чате: строки друг под другом, каждая — метка поиска ошибок. */
+.ds-lesson__cv-post {
+	display: flex;
+	flex-direction: column;
+	gap: var(--wp--preset--spacing--2);
+	max-width: calc(var(--wp--custom--size--control-lg) * 12);
+	padding: var(--wp--preset--spacing--4);
+	border-radius: var(--wp--custom--radius--md);
+	background: var(--wp--preset--color--surface-subtle);
+}

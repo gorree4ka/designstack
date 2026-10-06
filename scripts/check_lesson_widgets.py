@@ -1152,17 +1152,17 @@ with sync_playwright() as play:
 
     # «Паттерны и состояния»: переключатель показывает одно состояние за раз, поиск считает
     # только недоделанное, правило обрезки из урока Middle работает — название в две строки.
-    def hunt_all(page, total):
+    def hunt_all(page, total, found=5):
         pins = page.query_selector_all("[data-hunt] button")
         miss = page.evaluate("[...document.querySelectorAll('[data-hunt-item]')].map(el => el.hasAttribute('data-hunt-miss'))")
         pins[miss.index(True)].click()
         page.wait_for_timeout(30)
-        ok = "0 из 5" in page.inner_text("[data-hunt-count-out]").lower()
+        ok = "0 из %d" % found in page.inner_text("[data-hunt-count-out]").lower()
         for pin, is_miss in zip(pins, miss):
             if not is_miss:
                 pin.click()
                 page.wait_for_timeout(30)
-        return ok and len(pins) == total and "5 из 5" in page.inner_text("[data-hunt-count-out]").lower() and page.is_visible("[data-hunt-all]")
+        return ok and len(pins) == total and "%d из %d" % (found, found) in page.inner_text("[data-hunt-count-out]").lower() and page.is_visible("[data-hunt-all]")
 
     shown = "() => [...document.querySelectorAll('#%s [data-switch-pane]')].filter(el => el.offsetParent !== null).map(el => el.getAttribute('data-switch-pane'))"
 
@@ -1748,6 +1748,102 @@ with sync_playwright() as play:
     fails += 0 if say(hunt_all(page, 10), "сводка от разработки: нормальное не засчитано, нарушений 5 из 5") else 1
     page.close()
 
+    # «Компоненты и варианты»: панель свойств `data-props` — радиокнопки свойств ставят образцу
+    # атрибуты `data-cv-*`, подпись встаёт из `data-props-set`, имя варианта собирается из шаблона,
+    # пояснение выбранного состояния — из `data-props-say`.
+    def props(page, n):
+        return page.locator("[data-props]").nth(n).evaluate("""b => {
+            const t = b.querySelector('[data-props-target]');
+            const vis = el => !!el && el.offsetParent !== null && getComputedStyle(el).display !== 'none';
+            return {name: (b.querySelector('[data-props-out]') || {}).textContent || '',
+                    said: (b.querySelector('[data-props-said]') || {}).textContent || '',
+                    attrs: Object.fromEntries([...t.attributes].filter(a => a.name.startsWith('data-cv-')).map(a => [a.name.slice(8), a.value])),
+                    label: t.textContent.replace(/\\s+/g, ' ').trim(),
+                    icon: vis(t.querySelector('.ds-lesson__cv-ic')), spin: vis(t.querySelector('.ds-lesson__cv-spin')),
+                    bg: getComputedStyle(t).backgroundColor, outline: getComputedStyle(t).outlineStyle,
+                    w: Math.round(t.getBoundingClientRect().width)};
+        }""")
+
+    def prop(page, n, key, i):
+        page.locator("[data-props]").nth(n).locator('[data-props-prop="%s"] label' % key).nth(i).click()
+        page.wait_for_timeout(30)
+
+    LABEL_FIT = """id => { const pane = document.querySelector('[data-switch-pane="' + id + '"]');
+        const card = pane.querySelector('.ds-lesson__cv-card').getBoundingClientRect();
+        const btns = [...pane.querySelectorAll('.ds-lesson__cv-btn')].map(b => b.getBoundingClientRect());
+        return {over: btns[2].right - card.right, tall: btns[2].height - btns[1].height}; }"""
+
+    page = ctx.new_page()
+    page.goto(BASE + "components-variants-junior/")
+    page.wait_for_timeout(300)
+    head("components-variants-junior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    p = props(page, 0)
+    fails += 0 if say(p["name"] == "Вид=Основная, Размер=Большая" and p["attrs"] == {"kind": "primary", "size": "l", "icon": "on", "label": "mid"} and p["icon"],
+                      "панель свойств: сначала «Вид=Основная, Размер=Большая», иконка видна") else 1
+    prop(page, 0, "kind", 1)
+    prop(page, 0, "size", 1)
+    p = props(page, 0)
+    fails += 0 if say(p["name"] == "Вид=Вторичная, Размер=Малая" and p["attrs"]["kind"] == "secondary" and p["attrs"]["size"] == "s",
+                      "вид и размер меняют имя слоя: «Вид=Вторичная, Размер=Малая»") else 1
+    prop(page, 0, "icon", 1)
+    prop(page, 0, "label", 2)
+    p = props(page, 0)
+    fails += 0 if say(not p["icon"] and p["label"] == "Оформить подписку на три месяца" and p["name"] == "Вид=Вторичная, Размер=Малая",
+                      "иконка и подпись меняют образец, но не имя варианта") else 1
+    raw = page.evaluate(LABEL_FIT, "lb1")
+    page.click("#labels [data-switch-btn=lb2]")
+    page.wait_for_timeout(30)
+    ok = page.evaluate(LABEL_FIT, "lb2")
+    fails += 0 if say(raw["over"] > 4 and ok["over"] <= 0.5 and ok["tall"] > 8,
+                      "длинная подпись: без правил вылезает за карточку на %d px, с правилами переносится" % raw["over"]) else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 9, 4), "каталог и корзина: экземпляры не засчитаны, копий 4 из 4") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "components-variants-middle/")
+    page.wait_for_timeout(300)
+    head("components-variants-middle · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    spins = page.evaluate("() => [...document.querySelectorAll('#states .ds-lesson__cv-spin')].filter(s => s.offsetParent !== null && getComputedStyle(s).display !== 'none').length")
+    fails += 0 if say(spins == 1, "лист состояний: индикатор загрузки виден только у «Загрузки» (%d)" % spins) else 1
+    p = props(page, 0)
+    fails += 0 if say(p["attrs"].get("state") == "focus" and p["outline"] != "none" and p["said"].startswith("Фокус:") and not p["spin"],
+                      "панель состояний: сначала фокус — рамка и пояснение, индикатора нет") else 1
+    prop(page, 0, "state", 0)
+    rest = props(page, 0)
+    prop(page, 0, "state", 5)
+    load = props(page, 0)
+    fails += 0 if say(load["spin"] and not load["icon"] and load["w"] == rest["w"] and load["name"] == "Вид=Основная, Состояние=Загрузка",
+                      "загрузка: индикатор на месте иконки, ширина та же (%d px)" % load["w"]) else 1
+    prop(page, 0, "state", 4)
+    off = props(page, 0)
+    fails += 0 if say(off["bg"] != rest["bg"] and off["said"].startswith("Неактивна:"), "неактивна: своя подложка, пояснение сменилось") else 1
+    prop(page, 0, "kind", 1)
+    prop(page, 0, "state", 1)
+    fails += 0 if say(props(page, 0)["name"] == "Вид=Вторичная, Состояние=Наведение", "вид и состояние: «Вид=Вторичная, Состояние=Наведение»") else 1
+    first = page.evaluate(panes % "field")
+    page.click("#field [data-switch-btn=fd4]")
+    page.wait_for_timeout(30)
+    fails += 0 if say(first == ["fd1"] and page.evaluate(panes % "field") == ["fd4"] and page.is_visible("#field >> text=действовал до 30"),
+                      "поле промокода: сначала покой, по нажатию — ошибка с текстом") else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 9, 6), "описание кнопки: нормальное не засчитано, ошибок 6 из 6") else 1
+    page.close()
+
+    page = ctx.new_page()
+    page.goto(BASE + "components-variants-senior/")
+    page.wait_for_timeout(300)
+    head("components-variants-senior · со скриптом")
+    leak = page.evaluate(HIDDEN)
+    fails += 0 if say(not leak, "[hidden] скрывает" + (": " + str(leak) if leak else "")) else 1
+    fails += 0 if say(len(page.query_selector_all("[data-quiz]")) == 1, "один тренажёр-викторина на странице") else 1
+    fails += 0 if say(hunt_all(page, 8), "сообщение о выпуске: нормальное не засчитано, ошибок 5 из 5") else 1
+    page.close()
+
     plain = browser.new_context(java_script_enabled=False)
     page = plain.new_page()
     page.goto(BASE + "ui-copy-junior/")
@@ -1765,6 +1861,15 @@ with sync_playwright() as play:
         fails += 0 if say(box.locator("input:visible").count() == 0 and box.locator("[data-compose-note]:visible").count() == notes
                           and box.locator('[data-compose-slot="what"]').inner_text() == what and not page.is_visible("[data-compose-meta]"),
                           "радиокнопок нет, разборов %d, на экране образец «%s»" % (notes, what)) else 1
+        page.close()
+    for slug, sheet in (("components-variants-junior", 0), ("components-variants-middle", 6)):
+        page = plain.new_page()
+        page.goto(BASE + slug + "/")
+        head(slug + " · панель свойств без скрипта")
+        cells = page.locator("#states .ds-lesson__cv-cell:visible").count() if sheet else 0
+        fails += 0 if say(not page.is_visible(".ds-lesson__cv-panel") and not page.is_visible("[data-props-out]")
+                          and page.is_visible("[data-props-target]") and cells == sheet,
+                          "панели и имени нет, образец виден" + (", лист состояний — %d плиток" % cells if sheet else "")) else 1
         page.close()
     plain.close()
     browser.close()

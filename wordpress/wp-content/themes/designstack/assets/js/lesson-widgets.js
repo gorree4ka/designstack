@@ -3358,4 +3358,69 @@
 		box.classList.add( 'is-live' );
 		update();
 	} );
+
+	/* ── панель свойств ────────────────────────────────────────────────────
+	   Коробка `data-props` — образец компонента (`data-props-target`) и панель
+	   свойств: `fieldset[data-props-prop]` с радиокнопками. Значение выбранной
+	   кнопки встаёт образцу атрибутом `data-cv-<свойство>`; если у кнопки есть
+	   `data-props-set`, этот текст встаёт в куски `data-props-slot="<свойство>"`.
+	   Имя варианта собирается из `data-props-name` подстановкой `{свойство}`
+	   (слово — `data-props-text` выбранной кнопки) и пишется в `data-props-out`.
+	   Пояснение выбранной кнопки (`data-props-say`) пишется в `data-props-said`.
+	   Без скрипта панели и имени не видно (CSS по `is-live`), образец показывает
+	   то, что стоит в разметке. */
+	Array.prototype.forEach.call( document.querySelectorAll( '[data-props]' ), function ( box ) {
+		var props = Array.prototype.slice.call( box.querySelectorAll( '[data-props-prop]' ) );
+		var targets = box.querySelectorAll( '[data-props-target]' );
+		var out = box.querySelector( '[data-props-out]' );
+		var said = box.querySelector( '[data-props-said]' );
+
+		if ( ! props.length || ! targets.length ) {
+			return;
+		}
+
+		function update( changed ) {
+			var name = box.getAttribute( 'data-props-name' ) || '';
+
+			props.forEach( function ( prop ) {
+				var key = prop.getAttribute( 'data-props-prop' );
+				var input = prop.querySelector( 'input:checked' );
+
+				if ( ! input ) {
+					return;
+				}
+
+				Array.prototype.forEach.call( targets, function ( target ) {
+					target.setAttribute( 'data-cv-' + key, input.value );
+				} );
+
+				if ( input.hasAttribute( 'data-props-set' ) ) {
+					Array.prototype.forEach.call( box.querySelectorAll( '[data-props-slot="' + key + '"]' ), function ( slot ) {
+						slot.textContent = input.getAttribute( 'data-props-set' );
+					} );
+				}
+
+				name = name.split( '{' + key + '}' ).join( input.getAttribute( 'data-props-text' ) || input.value );
+			} );
+
+			if ( out ) {
+				out.textContent = name;
+			}
+
+			if ( said && changed && changed.hasAttribute( 'data-props-say' ) ) {
+				said.textContent = changed.getAttribute( 'data-props-say' );
+			}
+		}
+
+		props.forEach( function ( prop ) {
+			Array.prototype.forEach.call( prop.querySelectorAll( 'input[type="radio"]' ), function ( one ) {
+				one.addEventListener( 'change', function () {
+					update( one );
+				} );
+			} );
+		} );
+
+		box.classList.add( 'is-live' );
+		update( box.querySelector( '[data-props-say]:checked' ) );
+	} );
 }() );

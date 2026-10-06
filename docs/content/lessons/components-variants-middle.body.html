@@ -1,0 +1,456 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#states">Все состояния — до сборки</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#focus">Фокус — для тех, кто без мыши</a><span class="ds-lesson__tag">панель свойств</span></li>
+    <li><a href="#off">Неактивна или загружается</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#field">Ошибка — у поля, а не у кнопки</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#when">Когда применять и когда нет</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#hunt">Найдите, чего не хватает в описании</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> Та же «Лесная обжарка», что в уроке <a href="/lessons/components-variants-junior/">«Компоненты и варианты», Junior</a>: кнопку «В корзину» уже собрали компонентом с вариантами. Теперь её и поле промокода отдают в разработку — и разработчик приходит с вопросами. Как выглядят состояния целого экрана — загрузка, пустой экран, ошибка, — разобрано в уроке <a href="/lessons/patterns-states-junior/">«Паттерны и состояния», Junior</a>. Здесь — состояния одного компонента.</div>
+
+<section id="states">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Все состояния — до сборки</h2></div>
+  <p class="ds-lesson__lead">В макете кнопка стоит в покое. В жизни на неё наводят, её выбирают с клавиатуры, нажимают и ждут ответа.</p>
+
+  <p>Разработчик собирает кнопку «В корзину» по макету и спрашивает:</p>
+
+  <p>«А как она выглядит, когда на неё навели? А когда выбрали клавишей Tab? А пока магазин добавляет товар?»</p>
+
+  <p>Каждый такой вопрос — состояние, которое забыли нарисовать. Если его не нарисовать, разработчик придумает его сам.</p>
+
+  <h3>Состояния кнопки</h3>
+
+  <ul>
+    <li><strong>Покой</strong> — с кнопкой ничего не делают.</li>
+    <li><strong>Наведение</strong> — над кнопкой указатель мыши.</li>
+    <li><strong>Фокус</strong> — кнопку выбрали с клавиатуры. По Enter нажмётся именно она.</li>
+    <li><strong>Нажатие</strong> — палец или кнопка мыши прижаты.</li>
+    <li><strong>Неактивна</strong> — нажать сейчас нельзя.</li>
+    <li><strong>Загрузка</strong> — нажатие принято, ждём ответа.</li>
+  </ul>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кнопка «В корзину» · лист состояний</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__cv-sheet">
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on" data-cv-state="rest"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Состояние=Покой</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on" data-cv-state="hover"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Состояние=Наведение</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on" data-cv-state="focus"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Состояние=Фокус</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on" data-cv-state="pressed"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Состояние=Нажатие</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on" data-cv-state="disabled"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Состояние=Неактивна</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on" data-cv-state="loading"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><svg class="ds-lesson__ic ds-lesson__cv-spin" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Состояние=Загрузка</code></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Состояние — ещё одно свойство компонента, рядом с видом и размером. Разработчик открывает лист и не спрашивает ни о чём.</div>
+  </div>
+
+  <h3>У поля — свои состояния</h3>
+
+  <p>Покой, фокус, заполнено, ошибка, неактивно.</p>
+
+  <p>Ошибки у кнопки нет: ошибка относится к тому, что ввели, а не к кнопке. Об этом — раздел 4.</p>
+
+  <h3>Как это устроено в Material</h3>
+
+  <p>В Material 3 у элементов шесть состояний: enabled, disabled, hover, focused, pressed и dragged. Последнее — перетаскивание, оно нужно тому, что двигают, например карточкам в списке.</p>
+
+  <p>Наведение, фокус и нажатие Material рисует полупрозрачным слоем поверх кнопки: его непрозрачность 8, 10 и 10&nbsp;%.</p>
+
+  <div class="ds-lesson__rule"><b>Список состояний пишут до того, как рисовать.</b> Покой, наведение, фокус, нажатие, неактивна, загрузка — у кнопки. У поля вместо нажатия и загрузки — «заполнено» и «ошибка».</div>
+</section>
+
+<section id="focus">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Фокус — для тех, кто без мыши</h2></div>
+  <p class="ds-lesson__lead">Фокус видят те, кто работает с клавиатуры. Без него непонятно, какая кнопка сейчас нажмётся.</p>
+
+  <p>Попробуйте на любом сайте нажимать Tab. Рамка переходит от ссылки к ссылке, от кнопки к кнопке.</p>
+
+  <p>Если рамку убрали, человек жмёт Enter вслепую.</p>
+
+  <h3>Что требует WCAG</h3>
+
+  <ul>
+    <li><strong>Фокус видно</strong> — критерий 2.4.7, уровень AA: у всего, чем управляют с клавиатуры, есть видимый признак фокуса.</li>
+    <li><strong>Фокус не спрятан</strong> — критерий 2.4.11, уровень AA, новый в WCAG 2.2. Элемент в фокусе не закрыт целиком чем-то на странице, например прилипшей панелью внизу экрана.</li>
+    <li><strong>Фокус заметен</strong> — рамка фокуса отличается от фона хотя бы на 3&nbsp;:&nbsp;1, как всё, по чему видно состояние элемента. Подробно — в уроке <a href="/lessons/color-contrast-middle/">«Цвет и контраст», Middle</a>.</li>
+  </ul>
+
+  <h3>Фокус — не наведение</h3>
+
+  <p>Наведение — это мышь. Фокус — клавиатура.</p>
+
+  <p>Кнопка бывает в обоих сразу: её выбрали клавишей Tab, а потом над ней оказался указатель. Поэтому фокус рисуют отдельно — рамкой, а не тем же цветом, что наведение.</p>
+
+  <p>А на телефоне наведения нет совсем. Значит, ничего важного оно показывать не должно.</p>
+
+  <p>Пройдите по состояниям сами.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кнопка «В корзину» · панель свойств</div>
+    <div class="ds-lesson__box-body ds-lesson__cv" data-props data-props-name="Вид={kind}, Состояние={state}">
+      <div class="ds-lesson__cv-stage">
+        <span class="ds-lesson__cv-btn" data-props-target data-cv-kind="primary" data-cv-size="l" data-cv-icon="on" data-cv-state="focus"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><svg class="ds-lesson__ic ds-lesson__cv-spin" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.22-8.56"/></svg><span>В корзину</span></span>
+      </div>
+      <p class="ds-lesson__cv-name"><svg class="ds-lesson__ic ds-lesson__cv-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l8.5 8.5-8.5 8.5-8.5-8.5z"/></svg>Кнопка · <code data-props-out>Вид=Основная, Состояние=Фокус</code></p>
+      <p class="ds-lesson__cv-said" data-props-said></p>
+      <div class="ds-lesson__cv-panel">
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="kind"><legend>Вид <span>вариант</span></legend>
+          <label><input type="radio" name="cvm-kind" value="primary" data-props-text="Основная" checked>Основная</label>
+          <label><input type="radio" name="cvm-kind" value="secondary" data-props-text="Вторичная">Вторичная</label>
+        </fieldset>
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="state"><legend>Состояние <span>вариант</span></legend>
+          <label><input type="radio" name="cvm-state" value="rest" data-props-text="Покой" data-props-say="Покой: так кнопка выглядит на экране, пока с ней ничего не делают.">Покой</label>
+          <label><input type="radio" name="cvm-state" value="hover" data-props-text="Наведение" data-props-say="Наведение: подложка чуть меняет цвет. Только для мыши — на телефоне его не увидят.">Наведение</label>
+          <label><input type="radio" name="cvm-state" value="focus" data-props-text="Фокус" data-props-say="Фокус: рамка вокруг кнопки с зазором. Видна на любом фоне и не путается с наведением." checked>Фокус</label>
+          <label><input type="radio" name="cvm-state" value="pressed" data-props-text="Нажатие" data-props-say="Нажатие: подложка меняется сильнее, чем при наведении. Видно, что нажатие дошло, — особенно важно на телефоне.">Нажатие</label>
+          <label><input type="radio" name="cvm-state" value="disabled" data-props-text="Неактивна" data-props-say="Неактивна: своя пара цветов, серая подложка и серая подпись. Подпись читается — видно, что станет доступно.">Неактивна</label>
+          <label><input type="radio" name="cvm-state" value="loading" data-props-text="Загрузка" data-props-say="Загрузка: индикатор на месте иконки, подпись и ширина те же. Кнопка не прыгает, второе нажатие ничего не отправит.">Загрузка</label>
+        </fieldset>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Состояние и вид — два свойства одного компонента. Шесть состояний на два вида — двенадцать вариантов, и каждый нарисован.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Фокус рисуют всегда и отдельно от наведения.</b> Рамка с зазором, заметная на фоне. Наведение ничего важного не показывает: на телефоне его нет.</div>
+</section>
+
+<section id="off">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Неактивна или загружается</h2></div>
+  <p class="ds-lesson__lead">Обе кнопки сейчас не нажать. Но для человека это разные вещи.</p>
+
+  <p><strong>Неактивна</strong> — «сейчас нельзя, сначала сделайте что-то другое».</p>
+
+  <p><strong>Загрузка</strong> — «нажатие принято, подождите».</p>
+
+  <p>Если нарисовать их одинаково, человек не поймёт, ждать ему или искать, что он не заполнил.</p>
+
+  <h3>Неактивную не гасят прозрачностью</h3>
+
+  <p>Самое быстрое — сделать кнопку прозрачной на 40&nbsp;%. Подпись тогда почти пропадает, и кнопка похожа на ту, что ещё грузится.</p>
+
+  <p>У неактивной своя пара цветов: серая подложка и серая подпись, которая читается. Подробно с замерами — в уроке <a href="/lessons/color-contrast-middle/">«Цвет и контраст», Middle</a>.</p>
+
+  <p class="ds-lesson__dim">Здесь источники расходятся. Material 3 рисует неактивную кнопку именно прозрачностью: подложка — 10&nbsp;% цвета текста на поверхности, подпись — 38&nbsp;%. У GOV.UK неактивная кнопка — та же кнопка, прозрачная наполовину. WCAG от неактивных элементов контраста не требует, так что правила это не нарушает. Урок держится другого: подпись неактивной кнопки человек должен прочитать, иначе непонятно, что станет доступно.</p>
+
+  <h3>Неактивную кнопку не находят с клавиатуры</h3>
+
+  <p>Кнопка с атрибутом disabled в HTML не получает фокус. Тот, кто идёт по странице клавишей Tab или со скринридером, её пропустит — и не узнает, почему не может оплатить.</p>
+
+  <p>У атрибута aria-disabled="true" другое поведение: кнопка выглядит и объявляется неактивной, но остаётся в порядке фокуса. Это вопрос к разработчику, но решать его вместе.</p>
+
+  <h3>Нужна ли неактивная кнопка вообще</h3>
+
+  <p>В GOV.UK Design System советуют обходиться без неё:</p>
+
+  <p>«У неактивных кнопок слабый контраст, и они могут сбить с толку, поэтому по возможности их избегайте. Используйте неактивные кнопки, только если исследование показало, что так интерфейс понятнее».</p>
+
+  <p>Что делать вместо неё, подробно разбирает Виталий Фридман в Smashing Magazine: оставить кнопку активной, а нажатием показать, что именно не так.</p>
+
+  <p>Например:</p>
+
+  <p>Кнопка «Оплатить», пока не выбран способ доставки. Вместо неактивной — обычная. Нажали — рядом с полем доставки появилось «Выберите способ доставки».</p>
+
+  <p class="ds-lesson__dim">Не все с этим согласны. В Nielsen Norman Group неактивную кнопку «Отправить», пока не заполнены обязательные поля, считают нормой. Урок держится GOV.UK и Фридмана: серая кнопка без объяснения прячет причину.</p>
+
+  <h3>Как выглядит загрузка</h3>
+
+  <ul>
+    <li><strong>Ширина не прыгает.</strong> Индикатор встаёт на место иконки, подпись та же.</li>
+    <li><strong>Видно, что идёт работа.</strong> От неактивной загрузку отличает индикатор. В Контур.Гайдах на время действия кнопку делают серой, как заблокированную, но вместо подписи ставят спиннер и не меняют ширину.</li>
+    <li><strong>Второе нажатие ничего не отправит.</strong> В GOV.UK для этого есть отдельная настройка кнопки — защита от двойного нажатия. И там же напоминают: такую защиту делают и на сервере.</li>
+  </ul>
+
+  <p>Проверьте себя: что делать с кнопкой в каждом случае?</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · неактивна, загрузка или оставить активной<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 7 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="load"><p class="ds-quiz__question">Покупатель нажал «Оплатить», банк отвечает три секунды.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Загрузка</b>Нажатие принято. Индикатор на кнопке, второе нажатие ничего не отправит.</p></li>
+<li data-quiz-q data-answer="open"><p class="ds-quiz__question">«Оплатить», пока не выбран способ доставки.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить активной</b>Неактивная кнопка прячет причину. Пусть нажмут — и увидят рядом с полем: «Выберите способ доставки».</p></li>
+<li data-quiz-q data-answer="load"><p class="ds-quiz__question">«Повторить» в сообщении об ошибке, пока идёт повторный запрос.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Загрузка</b>Человек уже нажал. Покажите, что запрос пошёл, иначе он нажмёт ещё и ещё.</p></li>
+<li data-quiz-q data-answer="open"><p class="ds-quiz__question">«Применить» рядом с пустым полем промокода.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Оставить активной</b>Нажали с пустым полем — у поля появилось «Введите промокод». Причина видна, а не угадывается.</p></li>
+<li data-quiz-q data-answer="off"><p class="ds-quiz__question">«Отправить код ещё раз» в первые 60 секунд после СМС.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Неактивна</b>Нельзя по правилу, и это стоит показать: «Новый код через 0:42». Неактивна, но с объяснением, когда станет можно.</p></li>
+<li data-quiz-q data-answer="off"><p class="ds-quiz__question">«В корзину» у сорта, которого нет в наличии.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Неактивна</b>Сорта правда нет. Но рядом сказано почему — «Нет в наличии» — и есть другое действие: «Сообщить о поступлении».</p></li>
+<li data-quiz-q data-answer="load"><p class="ds-quiz__question">«Заказать» после нажатия, пока магазин создаёт заказ.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Загрузка</b>Если кнопка в этот момент станет просто серой, её примут за неактивную и решат, что заказ не прошёл.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="off">Неактивна</button><button class="ds-quiz__option" type="button" data-quiz-answer="load">Загрузка</button><button class="ds-quiz__option" type="button" data-quiz-answer="open">Оставить активной</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Неактивную кнопку оставляют, когда нажать правда нельзя. И тогда рядом говорят, почему и когда станет можно.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Неактивна и загрузка выглядят по-разному.</b> Неактивна — серая пара цветов и объяснение рядом. Загрузка — индикатор, та же ширина и защита от второго нажатия.</div>
+</section>
+
+<section id="field">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Ошибка — у поля, а не у кнопки</h2></div>
+  <p class="ds-lesson__lead">Ошибка — состояние поля. Её показывают там, где ошиблись, а не красят кнопку отправки.</p>
+
+  <p>У поля промокода пять состояний. Переключайте и смотрите, что меняется.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Поле промокода · состояния</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="fd1" hidden>Покой</button><button class="ds-switch__button" type="button" data-switch-btn="fd2" hidden>Фокус</button><button class="ds-switch__button" type="button" data-switch-btn="fd3" hidden>Заполнено</button><button class="ds-switch__button" type="button" data-switch-btn="fd4" hidden>Ошибка</button><button class="ds-switch__button" type="button" data-switch-btn="fd5" hidden>Неактивно</button></div>
+
+      <div data-switch-pane="fd1"><p class="ds-switch__title">Покой</p>
+        <div class="ds-lesson__cv-stage"><span class="ds-lesson__cv-field" data-cv-state="rest"><span class="ds-lesson__cv-flabel">Промокод</span><span class="ds-lesson__cv-fbox is-empty">Например, OSEN10</span></span></div>
+        <div class="ds-lesson__result"><b>Покой</b>Подпись над полем, рамка заметная — поле видно как поле. Пример внутри — серым и исчезает, когда начинают печатать.</div>
+      </div>
+      <div data-switch-pane="fd2"><p class="ds-switch__title">Фокус</p>
+        <div class="ds-lesson__cv-stage"><span class="ds-lesson__cv-field" data-cv-state="focus"><span class="ds-lesson__cv-flabel">Промокод</span><span class="ds-lesson__cv-fbox">OSE<span class="ds-lesson__cv-caret" aria-hidden="true"></span></span></span></div>
+        <div class="ds-lesson__result"><b>Фокус</b>Рамка фокуса той же формы, что у кнопки, и курсор в поле. С клавиатуры видно, куда пойдёт ввод.</div>
+      </div>
+      <div data-switch-pane="fd3"><p class="ds-switch__title">Заполнено</p>
+        <div class="ds-lesson__cv-stage"><span class="ds-lesson__cv-field" data-cv-state="filled"><span class="ds-lesson__cv-flabel">Промокод</span><span class="ds-lesson__cv-fbox">OSEN10</span></span></div>
+        <div class="ds-lesson__result"><b>Заполнено</b>Текст чёрный, а не серый, как пример. Иначе введённое легко принять за подсказку.</div>
+      </div>
+      <div data-switch-pane="fd4"><p class="ds-switch__title">Ошибка</p>
+        <div class="ds-lesson__cv-stage"><span class="ds-lesson__cv-field" data-cv-state="error"><span class="ds-lesson__cv-flabel">Промокод</span><span class="ds-lesson__cv-fbox">OSEN10</span><span class="ds-lesson__cv-ferr"><svg class="ds-lesson__ic ds-lesson__cv-ferr-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>Промокод OSEN10 действовал до 30&nbsp;сентября</span></span></div>
+        <div class="ds-lesson__result"><b>Ошибка</b>Красная рамка, значок и текст под полем: что не так. Цвет не один — значок и слова видны и без цвета.</div>
+      </div>
+      <div data-switch-pane="fd5"><p class="ds-switch__title">Неактивно</p>
+        <div class="ds-lesson__cv-stage"><span class="ds-lesson__cv-field" data-cv-state="disabled"><span class="ds-lesson__cv-flabel">Промокод</span><span class="ds-lesson__cv-fbox">OSEN10</span><span class="ds-lesson__cv-fhint">Промокод уже применён к заказу</span></span></div>
+        <div class="ds-lesson__result"><b>Неактивно</b>Серая подложка, текст читается. Под полем — почему нельзя изменить.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Пять состояний поля — пять вариантов одного компонента. Ни одно из них не держится только на цвете.</div>
+  </div>
+
+  <p>Где и когда показывать ошибку, как её написать и чем подсказка отличается от ошибки, разобрано в уроках «Формы»: <a href="/lessons/forms-junior/">Junior</a> и <a href="/lessons/forms-middle/">Middle</a>.</p>
+
+  <p>Ошибка — часть компонента поля. Если её нет в наборе вариантов, каждый нарисует её по-своему.</p>
+
+  <div class="ds-lesson__rule"><b>Ошибка — вариант поля.</b> Рамка, значок и текст под полем — в наборе компонента. Кнопку отправки в ошибку не красят.</div>
+</section>
+
+<section id="when">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Когда применять и когда нет</h2></div>
+  <p class="ds-lesson__lead">Компонент без описания применяют где попало. Описание — это две короткие части: когда применять и когда не применять.</p>
+
+  <p>В GOV.UK Design System у страниц компонентов так и устроено. У переключателей, раскрывающихся блоков и вкладок есть разделы «Когда применять» и «Когда не применять».</p>
+
+  <p>Второй раздел важнее, чем кажется. Без него компонент тянут туда, где нужен другой.</p>
+
+  <p>Вот как может выглядеть описание чипа фильтра «Лесной обжарки».</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Чип фильтра · страница компонента</div>
+    <div class="ds-lesson__box-body ds-lesson__cv-doc">
+      <p><b>Что это.</b> Короткая подпись в рамке. Нажатие включает или выключает фильтр каталога.</p>
+      <p><b>Когда применять</b></p>
+      <ul>
+        <li>Фильтр каталога с двумя–семью значениями, которые видно сразу: «Зёрна», «Молотый», «Без кофеина».</li>
+        <li>Можно выбрать несколько значений сразу.</li>
+      </ul>
+      <p><b>Когда не применять</b></p>
+      <ul>
+        <li>Для действия. «В корзину» — это кнопка.</li>
+        <li>Для перехода между разделами. Это вкладки или меню.</li>
+        <li>Для выбора одного из двух — «вкл / выкл». Это переключатель.</li>
+        <li>Если значений больше семи. Это список с поиском.</li>
+      </ul>
+      <p><b>Состояния:</b> покой, наведение, фокус, выбран, неактивен.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Пример «Лесной обжарки». Числа «два–семь» — договорённость этого магазина, а не правило: в своей системе их подбирают по своим данным.</div>
+  </div>
+
+  <h3>Что ещё бывает в описании</h3>
+
+  <ul>
+    <li><strong>Пример правильного применения</strong> на живом экране, а не на пустом фоне.</li>
+    <li><strong>Чем заменить,</strong> если компонент не подходит: «не чип, а переключатель».</li>
+    <li><strong>Лист состояний,</strong> как в разделе 1.</li>
+  </ul>
+
+  <p>Описание держат там, где берут компонент: на странице библиотеки рядом с ним. Почему это важно, разобрано в уроке <a href="/lessons/patterns-states-senior/">«Паттерны и состояния», Senior</a>.</p>
+
+  <div class="ds-lesson__rule"><b>У компонента два раздела описания:</b> «когда применять» и «когда не применять», с тем, чем заменить.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите, чего не хватает в описании</h2></div>
+  <p class="ds-lesson__lead">Коллега описал кнопку «В корзину» перед передачей в разработку. В шести местах описание подведёт разработчика или покупателя.</p>
+
+  <p>Нажимайте на то, что, по-вашему, стоит переделать. Нормальные места тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Описание кнопки · найдите ошибки<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__cv-spec" data-contrast-demo>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Покой"><span class="ds-lesson__st-when">Покой</span><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off" data-cv-state="rest"><span>В корзину</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Наведение"><span class="ds-lesson__st-when">Наведение</span><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off" data-cv-state="hover"><span>250&nbsp;г · 990&nbsp;₽</span></span><span class="ds-lesson__wf-dim">При наведении вместо подписи — вес и цена</span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Фокус"><span class="ds-lesson__st-when">Фокус</span><span class="ds-lesson__wf-dim">Не нужен: приложение на телефоне</span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Нажатие"><span class="ds-lesson__st-when">Нажатие</span><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off" data-cv-state="pressed"><span>В корзину</span></span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Неактивна"><span class="ds-lesson__st-when">Неактивна</span><span class="ds-lesson__cv-btn is-faded" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>В корзину</span></span><span class="ds-lesson__wf-dim">Прозрачность 40&nbsp;%</span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Загрузка"><span class="ds-lesson__st-when">Загрузка</span><span class="ds-lesson__wf-dim">Как неактивная</span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Ошибка"><span class="ds-lesson__st-when">Ошибка</span><span class="ds-lesson__cv-btn is-alarm" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>В корзину</span></span><span class="ds-lesson__wf-dim">Красная, если не выбран помол</span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Длинная подпись"><span class="ds-lesson__st-when">Длинная подпись</span><span class="ds-lesson__wf-dim">Переносится на вторую строку, кнопка растёт в высоту</span></span>
+          <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Когда применять"><span class="ds-lesson__st-when">Когда применять</span><span class="ds-lesson__wf-dim">Везде, где нужна кнопка</span></span>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Покой.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Вариант из набора, всё на месте.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Наведение с весом и ценой.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>На телефоне наведения нет, и вес с ценой покупатель не увидит. Важное ставят на карточку, а наведение только подсвечивает кнопку.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Фокус «не нужен».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>У телефона бывает клавиатура, а у приложения — версия для сайта. Без видимого фокуса не выполнен критерий 2.4.7. Нужна рамка с зазором.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Нажатие.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Подложка отличается и от покоя, и от наведения: видно, что нажатие дошло.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Неактивна с прозрачностью 40&nbsp;%.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Подпись почти пропала, кнопку не прочитать. Нужна своя пара цветов: серая подложка и серая подпись, которая читается.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Загрузка «как неактивная».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Покупатель решит, что товар не добавился, и нажмёт снова. Загрузке нужен индикатор, та же ширина и защита от второго нажатия.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Красная кнопка, если не выбран помол.</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Ошибка — у того, что не выбрали. Кнопка остаётся обычной, а у выбора помола появляется «Выберите помол».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Длинная подпись переносится.</span><span class="ds-lesson__hunt-fix"><b>Оставить. </b>Проверка крайних подписей из урока Junior — на месте.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">«Везде, где нужна кнопка».</span><span class="ds-lesson__hunt-fix"><b>Переделать. </b>Это не описание. Когда применять: для главного действия на карточке и в корзине. Когда не применять: для перехода на другую страницу — там ссылка. И не больше одной основной кнопки в одном месте.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любое место описания</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все шесть найдены. </b>Важное на наведении, фокус «не нужен», прозрачность вместо цветов, загрузка как неактивная, ошибка на кнопке и «везде, где нужно». Каждое из них разработчик собрал бы ровно так, как написано.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные места тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Описание проверяют глазами разработчика.</b> Если по нему можно собрать неправильную кнопку, её соберут.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите свой компонент и доведите его до полного набора состояний. Потом напишите к нему страницу «когда применять и когда нет».</p>
+
+  <h3>Часть 1 · Состояния, 40 минут</h3>
+  <ol>
+    <li><strong>Выберите компонент,</strong> который чаще всего уходит в разработку: кнопку или поле. Если своего нет, возьмите кнопку «В корзину» из урока Junior.</li>
+    <li><strong>Выпишите состояния</strong> до того, как рисовать. Для кнопки — шесть, для поля — пять.</li>
+    <li><strong>Нарисуйте каждое</strong> вариантом компонента со свойством «Состояние».</li>
+    <li><strong>Проверьте фокус</strong> на всех фонах, где стоит компонент, и неактивное — на то, что подпись читается.</li>
+  </ol>
+
+  <h3>Часть 2 · Описание, 30 минут</h3>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Страница компонента · шаблон<span class="ds-lesson__spacer"></span><span data-copy="cvmTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="cvmTmpl">КОМПОНЕНТ: ______________________        Дата: __.__.____
+
+ЧТО ЭТО (одно предложение): ______________________
+
+КОГДА ПРИМЕНЯТЬ
+— ______________________
+— ______________________
+
+КОГДА НЕ ПРИМЕНЯТЬ — И ЧЕМ ЗАМЕНИТЬ
+— ______________________ → ______________________
+— ______________________ → ______________________
+
+СОСТОЯНИЯ
+покой / наведение / фокус / нажатие / неактивно / загрузка / ошибка
+(отметьте, какие есть, и для каждого — когда появляется)
+
+КАК ПРОВЕРЕНО
+фокус виден на всех фонах: да / нет
+подпись неактивного читается: да / нет
+загрузка не похожа на неактивное: да / нет</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Раздел «когда не применять» пишут сразу после «когда применять», пока помните, где компонент тянуло применить не туда.</div>
+  </div>
+
+  <h3>Часть 3 · Проверить с разработчиком, 20 минут</h3>
+  <ol>
+    <li><strong>Отдайте лист состояний и описание</strong> разработчику или другому дизайнеру.</li>
+    <li><strong>Попросите собрать</strong> или описать словами, как компонент себя ведёт.</li>
+    <li><strong>Запишите каждый вопрос.</strong> Вопрос — это состояние или правило, которого нет в описании. Допишите.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Разработка собрала компонент по макету и не спросила ни про одно состояние.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Лист состояний</strong> компонента — вариантами в библиотеке.</li>
+    <li><strong>Страница описания</strong> по шаблону выше.</li>
+    <li><strong>Список вопросов</strong> разработчика и что вы дописали по каждому.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 40 минут на состояния, 30 — на описание, 20 — на проверку. Около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Вариантов стало слишком много».</strong> Состояния умножают набор: два вида на шесть состояний — двенадцать. Это нормально. Ненормально — делать вариантом то, что можно сделать свойством попроще, как разобрано на ступени Junior.</li>
+    <li><strong>«Дизайнеры не рисуют фокус, и так все делают».</strong> Покажите, как по сайту ходят клавишей Tab, — обычно этого хватает.</li>
+    <li><strong>«Без неактивной кнопки форму отправят пустой».</strong> Отправят — и увидят ошибки у полей. Это понятнее, чем серая кнопка без объяснения.</li>
+    <li><strong>«Не знаю, что писать в «когда не применять»».</strong> Вспомните, где этот компонент уже применили не туда. Это и есть первые пункты.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Компонент готов к разработке, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Состояния выписаны до сборки и нарисованы вариантами</li>
+    <li>Фокус нарисован рамкой и отличается от наведения</li>
+    <li>Наведение не несёт ничего важного</li>
+    <li>Неактивное — своя пара цветов, подпись читается</li>
+    <li>Загрузка не похожа на неактивное: индикатор, та же ширина, без второго нажатия</li>
+    <li>Ошибка — вариант поля, а не кнопки</li>
+    <li>Есть описание: когда применять и когда не применять, с тем, чем заменить</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Только покой в макете.</b> Остальные состояния придумает разработчик.</li>
+    <li><b>Фокус «не нужен».</b> Тот, кто с клавиатуры, не видит, где он.</li>
+    <li><b>Прозрачность вместо неактивного.</b> Подпись не прочитать.</li>
+    <li><b>Загрузка как неактивная.</b> Человек решит, что ничего не вышло, и нажмёт снова.</li>
+    <li><b>«Применять везде».</b> Компонент тянут туда, где нужен другой.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся продумывать все состояния компонента и описывать, когда его применять. На следующей ступени — вести библиотеку: решать, что в неё входит, и менять её, не ломая чужие макеты.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="ds-lesson__dim"><b>Junior</b></td>
+          <td class="ds-lesson__dim">Отличать повторяющееся от разового; собирать компонент с вариантами; называть варианты словами; проверять на короткой и длинной подписи; заменять копии экземплярами</td>
+          <td class="ds-lesson__dim">Изменение вида элемента во всём макете делается в одном месте</td>
+        </tr>
+        <tr>
+          <td><b>Middle</b> — этот урок</td>
+          <td>Продумывать все состояния: наведение, фокус, нажатие, неактивное, загрузку и ошибку; отличать неактивное от загрузки; описывать, когда компонент применять и когда нет</td>
+          <td>Разработка собрала компонент по макету и не спросила ни про одно состояние</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Решать, что входит в систему; менять библиотеку, не ломая чужие макеты; отказывать в лишних компонентах с причиной; сводить два компонента об одном; предупреждать об изменениях заранее</td>
+          <td class="ds-lesson__dim">После изменения ни один чужой макет не потребовал ручной починки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> по вашему макету компонента разработчик собирает его без единого вопроса о том, как он себя ведёт.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://guides.kontur.ru/components/actions/button/">Кнопка Button</a></span><span class="ds-lesson__reads-meta">Контур.Гайды · на русском · бесплатно</span><span>Страница Контур.Гайдов о кнопке: когда ставить, как назвать («Найти», а не «Искать»), виды — обычная, главная (одна на экран), фирменная, оплаты, «принять / отклонить» — и три размера. Ошибки у кнопки нет. В отличие от урока, на время действия кнопку делают серой, как заблокированную, и ставят спиннер.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.nngroup.com/articles/button-states-communicate-interaction/">Button States: Communicate Interaction</a></span><span class="ds-lesson__reads-meta"><a href="/resource/nngroup-articles/">Nielsen Norman Group</a>, Келли Гордон, 2025 · на английском · бесплатно</span><span>Справка Nielsen Norman Group о пяти основных состояниях кнопки — покой, неактивна, наведение, фокус, нажатие — плюс загрузка и «выбрано», со сроками отклика в миллисекундах и разницей между состоянием и стилем кнопки. На английском. В отличие от урока, неактивную «Submit», пока форма не заполнена, автор считает нормой.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://design-system.service.gov.uk/components/button/">Button</a></span><span class="ds-lesson__reads-meta">GOV.UK Design System · на английском · бесплатно</span><span>Страница кнопки в дизайн-системе GOV.UK: когда применять, как подписывать, виды (главная, стартовая, второстепенная, предупреждающая) и защита от двойного нажатия на примере GOV.UK Notify. Неактивных кнопок советуют избегать. На английском. В отличие от урока, свою неактивную кнопку GOV.UK делает полупрозрачной.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://www.smashingmagazine.com/2021/08/frustrating-design-patterns-disabled-buttons/">Usability Pitfalls of Disabled Buttons, and How To Avoid Them</a></span><span class="ds-lesson__reads-meta"><a href="/resource/smashing-magazine/">Smashing Magazine</a>, Виталий Фридман, 2021 · на английском · бесплатно</span><span>Большой разбор Виталия Фридмана: как люди застревают перед серой «Продолжить», чем её заменить (проверка после нажатия, значение по умолчанию, подсказка рядом, ссылка в поддержку) и где неактивная кнопка уместна. На английском, 2021. В отличие от урока, кнопку после нажатия автор называет неактивной, а не «загрузкой».</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://inclusive-components.design/toggle-button/">Toggle Buttons</a></span><span class="ds-lesson__reads-meta"><a href="/resource/inclusive-components/">Inclusive Components</a>, Хейдон Пикеринг, 2017 · глава книги на английском · открыта на сайте книги</span><span>Глава Хейдона Пикеринга о кнопке-переключателе: чем состояние «нажата» отличается от мгновенного нажатия, почему нельзя менять подпись и состояние вместе и почему «вкл / выкл» не различают одним цветом. На английском, 2017: пример фокуса устарел, в книге текст обновлён.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

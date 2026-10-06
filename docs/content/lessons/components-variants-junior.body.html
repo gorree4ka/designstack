@@ -1,0 +1,499 @@
+<!-- wp:html -->
+<div class="ds-lesson">
+<div>
+
+<div class="ds-lesson__goals">
+  <p class="ds-lesson__goals-title">Что разберём</p>
+  <ol>
+    <li><a href="#repeat">Компонент или обычный слой</a><span class="ds-lesson__tag">тренажёр</span></li>
+    <li><a href="#main">Главный компонент и экземпляры</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#variants">Варианты вместо пяти копий</a><span class="ds-lesson__tag">панель свойств</span></li>
+    <li><a href="#names">Имена вариантов</a><span class="ds-lesson__tag">разбор</span></li>
+    <li><a href="#labels">Короткая и длинная подпись</a><span class="ds-lesson__tag">переключатель</span></li>
+    <li><a href="#hunt">Найдите копии в макете</a><span class="ds-lesson__tag">поиск</span></li>
+  </ol>
+</div>
+
+<div class="ds-lesson__rule"><b>Пример для всего урока.</b> «Лесная обжарка» — тот же магазин кофе с приложением, что в уроках про <a href="/lessons/patterns-states-junior/">состояния экрана</a> и <a href="/lessons/errors-empty-states-junior/">тексты ошибок</a>. Приложение рисуют два дизайнера, и за полгода в макетах набралось пять разных кнопок «В корзину». В этом уроке вы сведёте их к одной. Как сделать компонентом иконку, разобрано в уроке <a href="/lessons/icons-illustration-middle/">«Иконки и иллюстрации», Middle</a>. Как хранить цвета и отступы в переменных — в следующем навыке этой области, «Токены и темы».</div>
+
+<section id="repeat">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">1</span>Компонент или обычный слой</h2></div>
+  <p class="ds-lesson__lead">Компонент нужен тому, что повторяется. То, что встречается один раз, можно оставить обычным слоем.</p>
+
+  <p>Откройте макеты приложения магазина и посчитайте кнопки «В корзину».</p>
+
+  <p>В каталоге их шесть, на странице сорта — одна, в «Избранном» — ещё четыре.</p>
+
+  <p>Если каждая нарисована отдельно, то новый радиус углов — это одиннадцать правок. И пропустить одну проще простого.</p>
+
+  <h3>Что делать компонентом</h3>
+  <ul>
+    <li><strong>То, что уже повторяется</strong> на двух экранах и больше: кнопки, поля, чипы фильтров, карточка сорта, нижнее меню.</li>
+    <li><strong>То, что точно повторится.</strong> Второго экрана с поиском ещё нет, но он будет — поле поиска сразу делают компонентом.</li>
+    <li><strong>То, что должно меняться вместе.</strong> Кнопка в карточке и кнопка в корзине выглядят одинаково — значит, это один компонент.</li>
+  </ul>
+
+  <h3>Что можно оставить слоем</h3>
+  <ul>
+    <li><strong>Разовое:</strong> баннер осенней акции, схема проезда к кофейне.</li>
+    <li><strong>Повторяющееся оформление.</strong> Одинаковый заголовок на десяти экранах — это стиль текста, а не компонент. Его хранят в стилях и переменных, об этом — следующий навык, «Токены и темы».</li>
+  </ul>
+
+  <p>Проверьте себя на элементах приложения «Лесной обжарки».</p>
+
+  <div class="ds-lesson__box ds-quiz" data-quiz>
+<div class="ds-lesson__box-head">Тренажёр · компонент или слой<span class="ds-lesson__spacer"></span><span data-quiz-meta hidden>вопрос <span data-quiz-idx>1</span> из 8 · <span data-quiz-score>0 верно</span></span></div>
+<div class="ds-lesson__box-body">
+<ol class="ds-quiz__list">
+<li data-quiz-q data-answer="comp"><p class="ds-quiz__question">Кнопка «В корзину» на карточке сорта.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Компонент</b>Стоит на каждой карточке в каталоге, в «Избранном» и на странице сорта.</p></li>
+<li data-quiz-q data-answer="layer"><p class="ds-quiz__question">Баннер «Осенняя обжарка» на главной — висит до конца ноября.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Слой</b>Встречается один раз и скоро уйдёт. Компонент для него — лишняя работа.</p></li>
+<li data-quiz-q data-answer="comp"><p class="ds-quiz__question">Поле поиска. Пока оно есть только в каталоге, но будет и в «Избранном».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Компонент</b>Второй экран уже в плане. Сделать компонентом сейчас дешевле, чем потом искать копии.</p></li>
+<li data-quiz-q data-answer="layer"><p class="ds-quiz__question">Схема проезда к кофейне на странице «Контакты».</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Слой</b>Одна картинка на одном экране.</p></li>
+<li data-quiz-q data-answer="comp"><p class="ds-quiz__question">Чип фильтра «Без кофеина» в каталоге.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Компонент</b>Чипов в ряду пять, и все устроены одинаково: подпись, рамка, выбран или нет.</p></li>
+<li data-quiz-q data-answer="style"><p class="ds-quiz__question">Заголовок экрана: на десяти экранах одинаковый шрифт, кегль и цвет.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Стиль текста</b>Повторяется оформление, а не устройство. Это стиль текста — его разбирают в навыке «Токены и темы».</p></li>
+<li data-quiz-q data-answer="comp"><p class="ds-quiz__question">Карточка сорта: фото, название, обжарка, цена и кнопка.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Компонент</b>Одна и та же карточка в каталоге, в «Избранном» и в поиске. Кнопка внутри — тоже компонент, вложенный.</p></li>
+<li data-quiz-q data-answer="layer"><p class="ds-quiz__question">Подпись «Обжарили 2 октября» на странице одного сорта.</p><p class="ds-quiz__feedback" data-quiz-feedback><b>Слой</b>Это текст карточки, он меняется вместе с данными. Компонентом станет сама карточка, а не строка в ней.</p></li>
+</ol>
+<div class="ds-quiz__actions" data-quiz-actions hidden><button class="ds-quiz__option" type="button" data-quiz-answer="comp">Компонент</button><button class="ds-quiz__option" type="button" data-quiz-answer="layer">Слой</button><button class="ds-quiz__option" type="button" data-quiz-answer="style">Стиль текста</button></div>
+<div class="ds-quiz__bar"><span class="ds-quiz__track"><i data-quiz-fill></i></span><button class="ds-button ds-button--secondary ds-button--sm" type="button" data-quiz-next hidden>Дальше</button></div>
+</div>
+<div class="ds-lesson__box-foot">Простой вопрос: если завтра поменяется вид этого элемента, сколько мест придётся править? Больше одного — нужен компонент.</div>
+</div>
+
+  <div class="ds-lesson__rule"><b>Компонент — для того, что повторяется или точно повторится.</b> Разовое остаётся слоем. Повторяющееся оформление — стилем.</div>
+</section>
+
+<section id="main">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">2</span>Главный компонент и экземпляры</h2></div>
+  <p class="ds-lesson__lead">Компонент — это образец и связанные с ним копии. Правите образец — меняются все копии.</p>
+
+  <p>В Figma образец называется главным компонентом, а связанные копии — экземплярами.</p>
+
+  <p>Например:</p>
+
+  <p>Главный компонент кнопки «В корзину» лежит на отдельной странице файла. В каталоге стоят шесть его экземпляров.</p>
+
+  <p>Радиус углов поменяли у главного — он поменялся у всех шести.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кнопка «В корзину» · главный компонент и экземпляры</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__cv-tree">
+        <div class="ds-lesson__cv-node">
+          <p class="ds-lesson__cv-layer"><svg class="ds-lesson__ic ds-lesson__ic--fill ds-lesson__cv-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l3.5 3.5-3.5 3.5-3.5-3.5zM6 8.5l3.5 3.5-3.5 3.5-3.5-3.5zM18 8.5l3.5 3.5-3.5 3.5-3.5-3.5zM12 14.5l3.5 3.5-3.5 3.5-3.5-3.5z"/></svg>Кнопка · главный компонент</p>
+          <span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span>
+        </div>
+        <div class="ds-lesson__cv-node">
+          <p class="ds-lesson__cv-layer"><svg class="ds-lesson__ic ds-lesson__cv-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l8.5 8.5-8.5 8.5-8.5-8.5z"/></svg>Кнопка · экземпляр в каталоге</p>
+          <span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span>
+        </div>
+        <div class="ds-lesson__cv-node">
+          <p class="ds-lesson__cv-layer"><svg class="ds-lesson__ic ds-lesson__cv-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l8.5 8.5-8.5 8.5-8.5-8.5z"/></svg>Кнопка · экземпляр, своя подпись, без иконки</p>
+          <span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>Оформить заказ</span></span>
+        </div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">У главного компонента в панели слоёв значок из четырёх ромбов, у экземпляра — пустой ромб. У простой копии — значок рамки: она с образцом не связана.</div>
+  </div>
+
+  <h3>Что можно поменять в экземпляре</h3>
+
+  <p>Экземпляр не обязан быть точной копией. В нём меняют то, что разрешил главный компонент: подпись, иконку, показать или скрыть часть.</p>
+
+  <p>Когда главный компонент потом меняют, такие правки в экземпляре остаются на месте. В справке Figma их называют overrides.</p>
+
+  <p>Например:</p>
+
+  <p>В корзине на экземпляре подпись «Оформить заказ» вместо «В корзину». Радиус у главного поменяли — подпись в корзине осталась своя, а радиус стал новым.</p>
+
+  <h3>Чего не делать</h3>
+
+  <p><strong>Не отвязывайте экземпляр,</strong> чтобы поправить одну кнопку. Команда «Отвязать» (Detach instance, Ctrl+Alt+B) превращает экземпляр в обычные слои. Правки главного компонента до него больше не дойдут, а привязать его обратно нельзя.</p>
+
+  <p>Если кнопке нужен другой вид, это повод добавить вариант, а не отвязать экземпляр. О вариантах — следующий раздел.</p>
+
+  <div class="ds-lesson__rule"><b>Правят главный компонент, а не экземпляры.</b> В экземпляре меняют только то, что компонент разрешает: подпись, иконку, видимость частей.</div>
+</section>
+
+<section id="variants">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">3</span>Варианты вместо пяти копий</h2></div>
+  <p class="ds-lesson__lead">Кнопки бывают основные и второстепенные, большие и маленькие. Это не четыре компонента, а один — с вариантами.</p>
+
+  <p>В макетах магазина нашлось пять разных кнопок «В корзину».</p>
+
+  <p>Две основные — большая и маленькая. Две второстепенные — с рамкой вместо заливки. И одна «почти основная» с другим радиусом углов.</p>
+
+  <p>Первые четыре — настоящие варианты одной кнопки. Пятая — ошибка: её не сохраняют вариантом, а заменяют.</p>
+
+  <h3>Свойства и значения</h3>
+
+  <p>Вариант описывается свойствами. У кнопки «Лесной обжарки» их два:</p>
+
+  <ul>
+    <li><strong>Вид</strong> — Основная или Вторичная;</li>
+    <li><strong>Размер</strong> — Большая или Малая.</li>
+  </ul>
+
+  <p>Два свойства по два значения — четыре варианта. В Figma их собирают в набор вариантов: одна рамка, внутри все сочетания.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кнопка · набор вариантов</div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__cv-set">
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="on"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Вид=Основная, Размер=Большая</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="s" data-cv-icon="on"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Вид=Основная, Размер=Малая</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="secondary" data-cv-size="l" data-cv-icon="on"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Вид=Вторичная, Размер=Большая</code></span>
+        <span class="ds-lesson__cv-cell"><span class="ds-lesson__cv-btn" data-cv-kind="secondary" data-cv-size="s" data-cv-icon="on"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span>В корзину</span></span><code class="ds-lesson__cv-cap">Вид=Вторичная, Размер=Малая</code></span>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Под каждым вариантом — его имя слоя. По этим именам Figma и показывает свойства в панели справа.</div>
+  </div>
+
+  <h3>Не всё делать вариантами</h3>
+
+  <p>У кнопки бывает иконка, а бывает и нет. Подпись тоже разная.</p>
+
+  <p>Если сделать «с иконкой» и «без иконки» вариантами, их станет восемь. Добавите третий размер — двенадцать.</p>
+
+  <p>Поэтому то, что не меняет устройство кнопки, делают не вариантом, а свойством попроще:</p>
+
+  <ul>
+    <li><strong>Иконка</strong> — переключатель «есть / нет»;</li>
+    <li><strong>Подпись</strong> — текстовое свойство: её меняют прямо в экземпляре.</li>
+  </ul>
+
+  <p>Бывают ещё свойство для замены вложенного экземпляра — например, одной иконки на другую — и слот: место внутри компонента, куда кладут своё содержимое.</p>
+
+  <p>В справке Figma, в статье о порядке в компонентах, это правило сказано прямо: различия в содержимом решают свойствами компонента, «не умножая число нужных вариантов».</p>
+
+  <p>Вариантов остаётся четыре. Попробуйте сами: меняйте свойства и смотрите на имя слоя.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кнопка · панель свойств</div>
+    <div class="ds-lesson__box-body ds-lesson__cv" data-props data-props-name="Вид={kind}, Размер={size}">
+      <div class="ds-lesson__cv-stage">
+        <span class="ds-lesson__cv-btn" data-props-target data-cv-kind="primary" data-cv-size="l" data-cv-icon="on"><svg class="ds-lesson__ic ds-lesson__cv-ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span data-props-slot="label">В корзину</span></span>
+      </div>
+      <p class="ds-lesson__cv-name"><svg class="ds-lesson__ic ds-lesson__cv-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l8.5 8.5-8.5 8.5-8.5-8.5z"/></svg>Кнопка · <code data-props-out>Вид=Основная, Размер=Большая</code></p>
+      <div class="ds-lesson__cv-panel">
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="kind"><legend>Вид <span>вариант</span></legend>
+          <label><input type="radio" name="cvj-kind" value="primary" data-props-text="Основная" checked>Основная</label>
+          <label><input type="radio" name="cvj-kind" value="secondary" data-props-text="Вторичная">Вторичная</label>
+        </fieldset>
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="size"><legend>Размер <span>вариант</span></legend>
+          <label><input type="radio" name="cvj-size" value="l" data-props-text="Большая" checked>Большая</label>
+          <label><input type="radio" name="cvj-size" value="s" data-props-text="Малая">Малая</label>
+        </fieldset>
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="icon"><legend>Иконка <span>переключатель</span></legend>
+          <label><input type="radio" name="cvj-icon" value="on" checked>Есть</label>
+          <label><input type="radio" name="cvj-icon" value="off">Нет</label>
+        </fieldset>
+        <fieldset class="ds-lesson__cv-prop" data-props-prop="label"><legend>Подпись <span>текст</span></legend>
+          <label><input type="radio" name="cvj-label" value="mid" data-props-set="В корзину" checked>В корзину</label>
+          <label><input type="radio" name="cvj-label" value="short" data-props-set="Ок">Ок</label>
+          <label><input type="radio" name="cvj-label" value="long" data-props-set="Оформить подписку на три месяца">Длинная</label>
+        </fieldset>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Имя слоя меняется только от вида и размера. Иконка и подпись — свойства экземпляра, вариантов они не прибавляют.</div>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Одна кнопка — один компонент с вариантами.</b> Вид и размер — варианты. Иконка и подпись — свойства экземпляра.</div>
+</section>
+
+<section id="names">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">4</span>Имена вариантов</h2></div>
+  <p class="ds-lesson__lead">Имя варианта читают другие люди: дизайнер, который ищет нужную кнопку, и разработчик, который делает её в коде.</p>
+
+  <p>Новому свойству Figma даёт имя «Property 1», а новым значениям — «Variant2», «Variant3».</p>
+
+  <p>Через месяц никто не вспомнит, чем Variant2 отличается от Variant3.</p>
+
+  <p>Сравните:</p>
+
+  <ul>
+    <li>«Button copy 3» → «Вид=Основная, Размер=Малая»</li>
+    <li>«Property 1=Variant2» → «Размер=Малая»</li>
+    <li>«Синяя» → «Вид=Основная»</li>
+    <li>«Кнопка для карточки» → «Размер=Малая»</li>
+  </ul>
+
+  <h3>Как называть</h3>
+
+  <p><strong>По роли, а не по цвету.</strong> Сегодня основная кнопка синяя, через год магазин сменит цвет — и «Синяя» станет зелёной.</p>
+
+  <p><strong>По смыслу, а не по месту.</strong> «Кнопка для карточки» завтра понадобится в корзине, и имя начнёт врать.</p>
+
+  <p><strong>Одними словами во всех компонентах.</strong> Если у кнопки «Размер=Малая», то и у поля «Размер=Малая», а не «Small» в одном месте и «S» в другом.</p>
+
+  <p><strong>Так, как это назовут в коде.</strong> Спросите разработчика, как у него называются эти свойства. Чем ближе имена, тем меньше переводить туда и обратно.</p>
+
+  <p>Справка Figma советует то же: называть компонент тем, что он есть, а не тем, как он сейчас выглядит, и сверять имена с кодом.</p>
+
+  <h3>Как называют в больших системах</h3>
+
+  <p>В VKUI, дизайн-системе ВКонтакте, у кнопки есть свойство mode — вид — со значениями primary, secondary, tertiary, outline и link. И свойство size: s, m и l.</p>
+
+  <p>Цвет задаёт отдельное свойство, appearance, и его значения тоже названы по роли: accent, positive, negative, neutral.</p>
+
+  <p>В этом уроке имена русские — для наглядности. В рабочем файле берите те же слова, что в коде.</p>
+
+  <p class="ds-lesson__dim">Здесь источники расходятся. В справке Figma и в словаре имён Павла Пономаренко на vc.ru у вариантов бывает ось Color со значениями вроде Red и Green. Урок держится имён по роли: цвет у продукта меняется, а роль кнопки остаётся.</p>
+
+  <div class="ds-lesson__rule"><b>Имя варианта — это свойство и значение словами.</b> По роли, а не по цвету. По смыслу, а не по месту. Одними словами во всех компонентах.</div>
+</section>
+
+<section id="labels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">5</span>Короткая и длинная подпись</h2></div>
+  <p class="ds-lesson__lead">Компонент проверяют не на удобной подписи, а на крайних.</p>
+
+  <p>Кнопку рисуют с подписью «В корзину».</p>
+
+  <p>А потом в неё попадают «Ок» и «Оформить подписку на три месяца».</p>
+
+  <p>Посмотрите, что бывает с кнопкой без правил и с правилами.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Кнопка · три подписи</div>
+    <div class="ds-lesson__box-body ds-switch" data-switch>
+      <div class="ds-switch__bar"><button class="ds-switch__button" type="button" data-switch-btn="lb1" hidden>Без правил</button><button class="ds-switch__button" type="button" data-switch-btn="lb2" hidden>С правилами</button></div>
+
+      <div data-switch-pane="lb1"><p class="ds-switch__title">Без правил</p>
+        <div class="ds-lesson__cv-card">
+          <span class="ds-lesson__cv-btn is-raw" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>Ок</span></span>
+          <span class="ds-lesson__cv-btn is-raw" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>В корзину</span></span>
+          <span class="ds-lesson__cv-btn is-raw" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>Оформить подписку на три месяца</span></span>
+        </div>
+        <div class="ds-lesson__result"><b>Без правил</b>«Ок» сжалась в маленький квадратик — в неё трудно попасть пальцем. Длинная подпись не поместилась в одну строку и обрезана краем карточки.</div>
+      </div>
+
+      <div data-switch-pane="lb2"><p class="ds-switch__title">С правилами</p>
+        <div class="ds-lesson__cv-card">
+          <span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>Ок</span></span>
+          <span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>В корзину</span></span>
+          <span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>Оформить подписку на три месяца</span></span>
+        </div>
+        <div class="ds-lesson__result"><b>С правилами</b>У кнопки есть наименьшая ширина, поэтому «Ок» не сжимается. Длинная подпись переносится на вторую строку, а кнопка растёт в высоту, но не выходит за край.</div>
+      </div>
+    </div>
+    <div class="ds-lesson__box-foot">Ширина кнопки задана по содержимому, но не меньше наименьшей. Текст переносится, а не обрезается.</div>
+  </div>
+
+  <h3>Что проверить</h3>
+
+  <ul>
+    <li><strong>Короткая подпись.</strong> Кнопка не превращается в квадратик: у неё задана наименьшая ширина.</li>
+    <li><strong>Длинная подпись.</strong> Текст не вылезает за край и не обрезается молча: кнопка переносит строку или растёт.</li>
+    <li><strong>Узкий экран.</strong> На телефоне длинная кнопка встаёт во всю ширину и не налезает на соседей.</li>
+  </ul>
+
+  <p>В Figma это настраивают автораскладкой (auto layout): ширина «по содержимому» (Hug contents) и наименьшая ширина (min width).</p>
+
+  <p>Как проверить на длинном тексте весь экран, а не одну кнопку, разобрано в уроке <a href="/lessons/patterns-states-middle/">«Паттерны и состояния», Middle</a>.</p>
+
+  <div class="ds-lesson__rule"><b>Компонент проверяют на крайних подписях.</b> На самой короткой и самой длинной, и на узком экране.</div>
+</section>
+
+<section id="hunt">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">6</span>Найдите копии в макете</h2></div>
+  <p class="ds-lesson__lead">Два экрана приложения «Лесной обжарки». Часть элементов — экземпляры компонентов. Четыре — копии, которые разошлись с образцом.</p>
+
+  <p>Нажимайте на то, что, по-вашему, стоит заменить экземпляром. В разборе будет, чем копия отличается от образца.</p>
+
+  <p>Нормальные элементы тоже можно нажать.</p>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Каталог и корзина · найдите копии<span class="ds-lesson__spacer"></span><span class="ds-lesson__count" data-hunt-count-out></span></div>
+    <div class="ds-lesson__box-body">
+      <div class="ds-lesson__hunt" data-hunt data-hunt-count="Найдено {n} из {total}">
+        <div class="ds-lesson__wf-row">
+          <div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Каталог</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="0" data-hunt-label="Поле поиска"><span class="ds-lesson__wf-field">Найти сорт</span></span>
+              <span class="ds-lesson__cv-chips">
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="1" data-hunt-label="Чип «Зёрна»"><span class="ds-lesson__cv-chip is-on">Зёрна</span></span>
+                <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="2" data-hunt-label="Чип «Молотый»"><span class="ds-lesson__cv-chip" style="--cv-pad: var(--wp--preset--spacing--1); --cv-rad: var(--wp--custom--radius--xs)">Молотый</span></span>
+                <span class="ds-lesson__cv-chip">Без кофеина</span>
+              </span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="3" data-hunt-label="Баннер «Осенняя обжарка»"><span class="ds-lesson__cv-banner"><b>Осенняя обжарка</b><span>Три новых сорта до конца ноября</span></span></span>
+              <span class="ds-lesson__cv-item"><span class="ds-lesson__wf-meta"><b>Кения АА</b><span>Светлая обжарка · 990&nbsp;₽</span></span><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="4" data-hunt-label="Кнопка «В корзину» у Кении"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="s" data-cv-icon="off"><span>В корзину</span></span></span></span>
+              <span class="ds-lesson__cv-item"><span class="ds-lesson__wf-meta"><b>Эфиопия Иргачефф</b><span>Светлая обжарка · 1&nbsp;090&nbsp;₽</span></span><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="5" data-hunt-label="Кнопка «В корзину» у Эфиопии"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="s" data-cv-icon="off" style="--cv-rad: var(--wp--custom--radius--full)"><span>В корзину</span></span></span></span>
+              <span class="ds-lesson__cv-item"><span class="ds-lesson__wf-meta"><b>Колумбия Супремо</b><span>Средняя обжарка · 890&nbsp;₽</span></span><span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="6" data-hunt-label="Кнопка «Купить» у Колумбии"><span class="ds-lesson__cv-btn" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>Купить</span></span></span></span>
+            </div>
+          </div></div>
+          <div class="ds-lesson__wf-col"><div class="ds-lesson__wf">
+            <div class="ds-lesson__wf-top"><span class="ds-lesson__wf-back">←</span><span class="ds-lesson__wf-title">Корзина</span></div>
+            <div class="ds-lesson__wf-body">
+              <span class="ds-lesson__cv-item"><span class="ds-lesson__wf-meta"><b>Кения АА, 250&nbsp;г × 2</b><span>1&nbsp;980&nbsp;₽</span></span></span>
+              <span class="ds-lesson__cv-item"><span class="ds-lesson__wf-meta"><b>Колумбия Супремо, 250&nbsp;г</b><span>890&nbsp;₽</span></span></span>
+              <span class="ds-lesson__wf-block"><span class="ds-lesson__wf-label">Итого 2&nbsp;870&nbsp;₽</span><span class="ds-lesson__wf-dim">Доставка 14&nbsp;октября</span></span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="7" data-hunt-label="Кнопка «Оформить заказ»"><span class="ds-lesson__cv-btn is-wide" data-cv-kind="primary" data-cv-size="l" data-cv-icon="off"><span>Оформить заказ</span></span></span>
+              <span class="ds-lesson__st-hit ds-lesson__hunt-pin" data-hunt-pin="8" data-hunt-label="Кнопка «Продолжить покупки»"><span class="ds-lesson__cv-btn is-wide" data-cv-kind="secondary" data-cv-size="l" data-cv-icon="off" style="--cv-edge: var(--wp--preset--color--border-default)"><span>Продолжить покупки</span></span></span>
+            </div>
+          </div></div>
+        </div>
+      </div>
+      <ol class="ds-lesson__hunt-list" data-hunt-list>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Поле поиска.</span><span class="ds-lesson__hunt-fix"><b>Экземпляр. </b>Такое же поле будет в «Избранном» — оно уже компонент.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Чип «Зёрна».</span><span class="ds-lesson__hunt-fix"><b>Экземпляр. </b>Выбранный вариант чипа: заливка вместо рамки.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Чип «Молотый».</span><span class="ds-lesson__hunt-fix"><b>Копия. </b>Отступы внутри меньше, углы острее, чем у соседей. Кто-то нарисовал чип заново. Заменить экземпляром — и он встанет в ряд.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Баннер «Осенняя обжарка».</span><span class="ds-lesson__hunt-fix"><b>Слой — и это нормально. </b>Баннер разовый, до конца ноября. Компонент для него не нужен.</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «В корзину» у Кении.</span><span class="ds-lesson__hunt-fix"><b>Экземпляр. </b>Вариант «Вид=Основная, Размер=Малая».</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «В корзину» у Эфиопии.</span><span class="ds-lesson__hunt-fix"><b>Копия. </b>Совсем круглые углы: у образца радиус меньше. Скорее всего, экземпляр когда-то отвязали и поправили руками.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «Купить» у Колумбии.</span><span class="ds-lesson__hunt-fix"><b>Копия. </b>Большая вместо малой, как у соседей, и подпись «Купить» вместо «В корзину». Одно действие в каталоге называется двумя словами. Нужен экземпляр «Размер=Малая» с подписью «В корзину».</span></li>
+        <li data-hunt-item data-hunt-miss><span class="ds-lesson__hunt-q">Кнопка «Оформить заказ».</span><span class="ds-lesson__hunt-fix"><b>Экземпляр. </b>Вариант «Вид=Основная, Размер=Большая», подпись своя — это правка экземпляра.</span></li>
+        <li data-hunt-item><span class="ds-lesson__hunt-q">Кнопка «Продолжить покупки».</span><span class="ds-lesson__hunt-fix"><b>Копия. </b>Рамка бледнее, чем у вторичной кнопки в наборе. Если вторичной кнопке нужен такой вид — это новый вариант, а не ручная правка.</span></li>
+      </ol>
+      <div class="ds-lesson__result" data-hunt-fb hidden><span class="ds-lesson__hunt-q">Нажмите на любой элемент экрана</span></div>
+      <p class="ds-lesson__dim" data-hunt-all><b>Все четыре найдены. </b>Чип с другими отступами, кнопка с круглыми углами, большая «Купить» среди малых и бледная рамка. Каждая из них — копия, до которой не дойдёт следующая правка компонента.</p>
+    </div>
+    <div class="ds-lesson__box-foot">Нормальные элементы тоже можно нажать: разбор покажется, но в счёт находок они не пойдут.</div>
+  </div>
+
+  <h3>Как найти копии в своём макете</h3>
+
+  <ul>
+    <li><strong>Посмотрите на значки в панели слоёв.</strong> У экземпляра — ромб, у копии — рамка.</li>
+    <li><strong>Выделите одинаковые слои.</strong> Выберите экземпляр и нажмите Select matching layers (Ctrl+Alt+A): Figma выделит такие же слои на других экранах. Что выглядит так же, но не выделилось, — скорее всего, копия.</li>
+    <li><strong>Сравните с образцом рядом.</strong> Поставьте экземпляр рядом с подозрительной кнопкой: разница в радиусе и отступах видна сразу.</li>
+  </ul>
+
+  <div class="ds-lesson__rule"><b>Копия, похожая на компонент, хуже явно другой кнопки.</b> Её не замечают, а правки компонента до неё не доходят.</div>
+</section>
+
+<section id="task">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">7</span>Задание</h2></div>
+  <p class="ds-lesson__lead">Возьмите три элемента, которые чаще всего повторяются в вашем макете, и соберите их компонентами с вариантами. Потом замените все копии.</p>
+
+  <h3>Часть 1 · Найти, 15 минут</h3>
+  <ol>
+    <li><strong>Пройдите по экранам</strong> и выпишите элементы, которые встречаются больше одного раза: кнопки, поля, чипы, карточки, пункты меню. Если своего проекта нет, возьмите два экрана из поиска копий выше.</li>
+    <li><strong>Посчитайте копии</strong> каждого. Выберите три элемента, у которых их больше всего.</li>
+    <li><strong>Разложите копии рядом</strong> и найдите различия. Какие из них настоящие варианты, а какие — ошибки?</li>
+  </ol>
+
+  <div class="ds-lesson__box">
+    <div class="ds-lesson__box-head">Компоненты макета · что собрать<span class="ds-lesson__spacer"></span><span data-copy="cvTmpl"></span></div>
+    <div class="ds-lesson__box-body">
+<pre id="cvTmpl">ПРОЕКТ: ______________________        Дата: __.__.____
+
+КОМПОНЕНТ 1: ______________________
+сколько копий нашлось: ____
+свойства-варианты (свойство = значения): ______________________
+свойства попроще (переключатель, текст, иконка): ______________________
+различия, которые оказались ошибкой: ______________________
+проверено на подписях: самая короткая ______ / самая длинная ______
+
+КОМПОНЕНТ 2 … 3 — так же
+
+ПРОВЕРКА
+вид поменяли в главном компоненте — поменялся во всём макете: да / нет
+копий, не связанных с компонентом, осталось: ____</pre>
+    </div>
+    <div class="ds-lesson__box-foot">Строку «различия, которые оказались ошибкой» не пропускайте: из неё видно, сколько вариантов на самом деле нужно.</div>
+  </div>
+
+  <h3>Часть 2 · Собрать, 40 минут</h3>
+  <ol>
+    <li><strong>Сделайте главный компонент</strong> из самой правильной копии.</li>
+    <li><strong>Добавьте варианты</strong> — для того, что меняет устройство: вид, размер. Состояния — наведение, нажатие и другие — разобраны на следующей ступени.</li>
+    <li><strong>Иконку и подпись</strong> сделайте переключателем и текстовым свойством.</li>
+    <li><strong>Назовите свойства и значения словами:</strong> «Вид=Основная», «Размер=Малая».</li>
+    <li><strong>Проверьте</strong> на самой короткой и самой длинной подписи.</li>
+  </ol>
+
+  <h3>Часть 3 · Заменить и проверить, 20 минут</h3>
+  <ol>
+    <li><strong>Замените каждую копию</strong> экземпляром нужного варианта.</li>
+    <li><strong>Поменяйте что-нибудь в главном компоненте</strong> — радиус или цвет — и пройдите по экранам. Всё поменялось?</li>
+    <li><strong>Верните как было</strong> и запишите, сколько копий нашлось и сколько вариантов получилось.</li>
+  </ol>
+
+  <div class="ds-lesson__rule"><b>Как понять, что задание выполнено.</b> Изменение вида элемента во всём макете делается в одном месте.</div>
+
+  <h3>Что должно получиться</h3>
+  <ul>
+    <li><strong>Три компонента</strong> с вариантами и понятными именами.</li>
+    <li><strong>Макет без копий:</strong> на месте каждой — экземпляр.</li>
+    <li><strong>Заполненный шаблон</strong> выше.</li>
+  </ul>
+  <p class="ds-lesson__dim">План работы: 15 минут найти, 40 — собрать, 20 — заменить и проверить. Около полутора часов.</p>
+
+  <h3>Частые сложности</h3>
+  <ul>
+    <li><strong>«Копии чуть-чуть разные, не понимаю, какая правильная».</strong> Возьмите ту, что стоит на главном экране, или спросите разработчика, как кнопка сделана в коде. Остальные — ошибки, их заменяют.</li>
+    <li><strong>«Вариантов получается двадцать».</strong> Проверьте, не стали ли вариантами иконка и подпись. Их место — переключатель и текстовое свойство.</li>
+    <li><strong>«После замены поехал экран».</strong> Значит, копия была другого размера. Это нормально: экран выравнивают по компоненту, а не компонент по экрану.</li>
+    <li><strong>«Один раз нужна особая кнопка».</strong> Если она нужна один раз, оставьте экземпляр со своей подписью или иконкой. Если такая же нужна ещё где-то — это вариант.</li>
+  </ul>
+</section>
+
+<section id="check">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">8</span>Чек-лист и ошибки</h2></div>
+
+  <h3>Компонент готов, если</h3>
+  <ul class="ds-lesson__oklist">
+    <li>Он сделан для того, что повторяется или точно повторится</li>
+    <li>Вид и размер — варианты, иконка и подпись — свойства экземпляра</li>
+    <li>Свойства и значения названы словами: «Вид=Основная», а не «Property 1=Variant2»</li>
+    <li>Имена — по роли и смыслу, а не по цвету и месту</li>
+    <li>Кнопка выдерживает самую короткую и самую длинную подпись</li>
+    <li>В макете не осталось копий: на их месте экземпляры</li>
+    <li>Правка главного компонента меняет все экземпляры</li>
+  </ul>
+
+  <h3>Что мешает</h3>
+  <ul class="ds-lesson__errors">
+    <li><b>Копия вместо экземпляра.</b> Выглядит так же, но правки компонента до неё не доходят.</li>
+    <li><b>Отвязанный экземпляр.</b> Поправили одну кнопку — потеряли связь с образцом.</li>
+    <li><b>Вариант на каждое сочетание.</b> «С иконкой» и «без иконки» удваивают набор.</li>
+    <li><b>«Variant2» и «Синяя».</b> Имена, по которым нельзя найти нужное.</li>
+    <li><b>Проверка на одной подписи.</b> «Ок» и длинный текст ломают кнопку уже на сайте.</li>
+  </ul>
+</section>
+
+<section id="levels">
+  <div class="ds-lesson__section-head"><h2><span class="ds-lesson__num">9</span>Три ступени темы</h2></div>
+  <p class="ds-lesson__lead">В этом уроке учимся собирать компонент с вариантами и заменять им копии. На следующих ступенях — продумывать все состояния и описывать, когда компонент применять, а потом вести библиотеку, не ломая чужие макеты.</p>
+
+  <div class="ds-lesson__table" tabindex="0" role="group" aria-label="Таблица, листается вбок">
+    <table>
+      <thead><tr><th scope="col">Ступень</th><th scope="col">Что нужно уметь</th><th scope="col">Как проверить результат</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>Junior</b> — этот урок</td>
+          <td>Отличать повторяющееся от разового; собирать компонент с вариантами; называть варианты словами; проверять на короткой и длинной подписи; заменять копии экземплярами</td>
+          <td>Изменение вида элемента во всём макете делается в одном месте</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Middle</b></td>
+          <td class="ds-lesson__dim">Продумывать все состояния: наведение, фокус, нажатие, неактивное, загрузку и ошибку; отличать неактивное от загрузки; описывать, когда компонент применять и когда нет</td>
+          <td class="ds-lesson__dim">Разработка собрала компонент по макету и не спросила ни про одно состояние</td>
+        </tr>
+        <tr>
+          <td class="ds-lesson__dim"><b>Senior</b></td>
+          <td class="ds-lesson__dim">Решать, что входит в систему; менять библиотеку, не ломая чужие макеты; отказывать в лишних компонентах с причиной; сводить два компонента об одном; предупреждать об изменениях заранее</td>
+          <td class="ds-lesson__dim">После изменения ни один чужой макет не потребовал ручной починки</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ds-lesson__rule"><b>Ориентир по этой теме:</b> про любой элемент своего макета вы можете сказать, экземпляр это или копия, и что поменяется, если поправить его компонент.</div>
+</section>
+
+<section id="further-reading">
+  <div class="ds-lesson__section-head"><h2>Что почитать дальше</h2></div>
+  <ul class="ds-lesson__reads">
+    <li><span class="ds-lesson__reads-title"><a href="https://skillbox.ru/media/design/figma-variants/">Как делать варианты элементов интерфейса в Figma</a></span><span class="ds-lesson__reads-meta"><a href="/resource/skillbox-media-design/">Skillbox Медиа</a>, Вячеслав Лазарев, 2025 · на русском · бесплатно</span><span>Пошаговая инструкция Skillbox Медиа (2025): собрать кнопку с вариантами, переименовать «Property 1» и добавить свойства Text, Boolean и Instance swap; иконку автор, как и урок, включает переключателем. Экземпляр в статье называется «копией компонента», а в примере одно свойство смешивает вид и состояние: Primary и Hover.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://vc.ru/design/1516951-naimenovanie-svoistv-komponentov-v-figma">Наименование свойств компонентов в Figma</a></span><span class="ds-lesson__reads-meta">vc.ru, Павел Пономаренко, 2024 · на русском · бесплатно</span><span>Словарь имён для свойств компонентов от Павла Пономаренко, 2024: State, Size, Selected, константы Title, Icon, Left icon и суффикс .T для текста. Иконку прячут переключателем, как в уроке. В отличие от урока, автор предлагает ось Color со значениями Red и Green, а на его скриншоте вместо Hovered и Disabled — Hover и Disable.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/5579474826519-Explore-component-properties">Explore component properties</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Справка Figma о свойствах компонента: переключатель видимости, текст, замена вложенного экземпляра, вариант и слот — что каждое делает и как его создать. Пример с иконкой тот же, что в уроке: не вариант, а переключатель. Но для вариантов справка заводит ось color со значениями green и red. На английском.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://help.figma.com/hc/en-us/articles/39747637290263-Components-collection-Tips-for-component-management">Components collection: Tips for component management</a></span><span class="ds-lesson__reads-meta"><a href="/resource/figma/">Figma</a> · справка на английском · бесплатно</span><span>Советы справки Figma 2026 года по работе с компонентами: называть компонент тем, что он есть, а не тем, как он выглядит («blue-large-button»), брать имена из кода, варианты — для вида, размера и состояния, свойства — для содержимого. Ещё — как менять компонент, не ломая чужие макеты. На английском.</span></li>
+    <li><span class="ds-lesson__reads-title"><a href="https://atomicdesign.bradfrost.com/chapter-2/">Atomic Design Methodology</a></span><span class="ds-lesson__reads-meta"><a href="/resource/atomic-design/">Atomic Design</a>, Брэд Фрост, глава 2 · книга на английском · полный текст открыт на сайте книги</span><span>Глава 2 книги Брэда Фроста «Atomic Design» (2016): интерфейс как набор частей — от кнопки и поля до шапки и целой страницы. Про Figma ни слова, зато о том же, что в уроке: часть делают один раз и ставят везде, а проверяют на настоящем тексте — заголовке в 40 и в 340 знаков. На английском.</span></li>
+  </ul>
+</section>
+
+</div>
+</div>
+<!-- /wp:html -->

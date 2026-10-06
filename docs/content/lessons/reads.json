@@ -464,7 +464,7 @@
   "figma-component-props": {
    "title": "<a href=\"https://help.figma.com/hc/en-us/articles/5579474826519-Explore-component-properties\">Explore component properties</a>",
    "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
-   "read": "2026-09-30"
+   "read": "2026-10-06"
   },
   "figma-export": {
    "title": "<a href=\"https://help.figma.com/hc/en-us/articles/360040028114-Export-static-designs-from-Figma\">Export static designs from Figma</a>",
@@ -1120,6 +1120,76 @@
    "title": "<a href=\"https://learn.microsoft.com/en-us/windows/win32/uxguide/mess-error\">Error Messages in Windows 7</a>",
    "meta": "Microsoft, руководство для Windows 7 · на английском · бесплатно",
    "read": "2026-10-05"
+  },
+  "skillbox-figma-variants": {
+   "title": "<a href=\"https://skillbox.ru/media/design/figma-variants/\">Как делать варианты элементов интерфейса в Figma</a>",
+   "meta": "<a href=\"/resource/skillbox-media-design/\">Skillbox Медиа</a>, Вячеслав Лазарев, 2025 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "vcru-ponomarenko-props": {
+   "title": "<a href=\"https://vc.ru/design/1516951-naimenovanie-svoistv-komponentov-v-figma\">Наименование свойств компонентов в Figma</a>",
+   "meta": "vc.ru, Павел Пономаренко, 2024 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "figma-component-tips": {
+   "title": "<a href=\"https://help.figma.com/hc/en-us/articles/39747637290263-Components-collection-Tips-for-component-management\">Components collection: Tips for component management</a>",
+   "meta": "<a href=\"/resource/figma/\">Figma</a> · справка на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "atomic-methodology": {
+   "title": "<a href=\"https://atomicdesign.bradfrost.com/chapter-2/\">Atomic Design Methodology</a>",
+   "meta": "<a href=\"/resource/atomic-design/\">Atomic Design</a>, Брэд Фрост, глава 2 · книга на английском · полный текст открыт на сайте книги",
+   "read": "2026-10-06"
+  },
+  "kontur-button": {
+   "title": "<a href=\"https://guides.kontur.ru/components/actions/button/\">Кнопка Button</a>",
+   "meta": "Контур.Гайды · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "nng-button-states": {
+   "title": "<a href=\"https://www.nngroup.com/articles/button-states-communicate-interaction/\">Button States: Communicate Interaction</a>",
+   "meta": "<a href=\"/resource/nngroup-articles/\">Nielsen Norman Group</a>, Келли Гордон, 2025 · на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "govuk-button": {
+   "title": "<a href=\"https://design-system.service.gov.uk/components/button/\">Button</a>",
+   "meta": "GOV.UK Design System · на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "smashing-disabled-buttons": {
+   "title": "<a href=\"https://www.smashingmagazine.com/2021/08/frustrating-design-patterns-disabled-buttons/\">Usability Pitfalls of Disabled Buttons, and How To Avoid Them</a>",
+   "meta": "<a href=\"/resource/smashing-magazine/\">Smashing Magazine</a>, Виталий Фридман, 2021 · на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "inclusive-toggle": {
+   "title": "<a href=\"https://inclusive-components.design/toggle-button/\">Toggle Buttons</a>",
+   "meta": "<a href=\"/resource/inclusive-components/\">Inclusive Components</a>, Хейдон Пикеринг, 2017 · глава книги на английском · открыта на сайте книги",
+   "read": "2026-10-06"
+  },
+  "habr-yoomoney-ds": {
+   "title": "<a href=\"https://habr.com/ru/companies/yoomoney/articles/920994/\">Раскатываем дизайн-систему: от хаоса к процессам</a>",
+   "meta": "<a href=\"/resource/habr-design/\">Хабр</a>, блог ЮMoney, 2025 · на русском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "frost-recipes": {
+   "title": "<a href=\"https://bradfrost.com/blog/post/design-system-components-recipes-and-snowflakes/\">Design system components, recipes, and snowflakes</a>",
+   "meta": "блог Брэда Фроста, 2021 · на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "frost-governance": {
+   "title": "<a href=\"https://bradfrost.com/blog/post/a-design-system-governance-process/\">A Design System Governance Process</a>",
+   "meta": "блог Брэда Фроста, 2019 · на английском · бесплатно",
+   "read": "2026-10-06"
+  },
+  "atomic-maintaining": {
+   "title": "<a href=\"https://atomicdesign.bradfrost.com/chapter-5/\">Maintaining Design Systems</a>",
+   "meta": "<a href=\"/resource/atomic-design/\">Atomic Design</a>, Брэд Фрост, глава 5 · книга на английском · полный текст открыт на сайте книги",
+   "read": "2026-10-06"
+  },
+  "curtis-configuration-collapse": {
+   "title": "<a href=\"https://nathanacurtis.substack.com/p/configuration-collapse\">Configuration Collapse</a>",
+   "meta": "Натан Кертис, 2026 · на английском · бесплатно",
+   "read": "2026-10-06"
   }
  },
  "lessons": {
@@ -2229,6 +2299,72 @@
    {
     "res": "microsoft-error-messages",
     "why": "Руководство Microsoft времён Windows 7: схема «проблема, причина, решение», раздел о том, что хорошему сообщению нужен свой код на каждую причину, правила для неизвестных ошибок и шаблоны заголовков. Примеры устарели. В отличие от урока, советует не отсылать в поддержку и писать incorrect вместо invalid."
+   }
+  ],
+  "components-variants-junior": [
+   {
+    "res": "skillbox-figma-variants",
+    "why": "Пошаговая инструкция Skillbox Медиа (2025): собрать кнопку с вариантами, переименовать «Property 1» и добавить свойства Text, Boolean и Instance swap; иконку автор, как и урок, включает переключателем. Экземпляр в статье называется «копией компонента», а в примере одно свойство смешивает вид и состояние: Primary и Hover."
+   },
+   {
+    "res": "vcru-ponomarenko-props",
+    "why": "Словарь имён для свойств компонентов от Павла Пономаренко, 2024: State, Size, Selected, константы Title, Icon, Left icon и суффикс .T для текста. Иконку прячут переключателем, как в уроке. В отличие от урока, автор предлагает ось Color со значениями Red и Green, а на его скриншоте вместо Hovered и Disabled — Hover и Disable."
+   },
+   {
+    "res": "figma-component-props",
+    "why": "Справка Figma о свойствах компонента: переключатель видимости, текст, замена вложенного экземпляра, вариант и слот — что каждое делает и как его создать. Пример с иконкой тот же, что в уроке: не вариант, а переключатель. Но для вариантов справка заводит ось color со значениями green и red. На английском."
+   },
+   {
+    "res": "figma-component-tips",
+    "why": "Советы справки Figma 2026 года по работе с компонентами: называть компонент тем, что он есть, а не тем, как он выглядит («blue-large-button»), брать имена из кода, варианты — для вида, размера и состояния, свойства — для содержимого. Ещё — как менять компонент, не ломая чужие макеты. На английском."
+   },
+   {
+    "res": "atomic-methodology",
+    "why": "Глава 2 книги Брэда Фроста «Atomic Design» (2016): интерфейс как набор частей — от кнопки и поля до шапки и целой страницы. Про Figma ни слова, зато о том же, что в уроке: часть делают один раз и ставят везде, а проверяют на настоящем тексте — заголовке в 40 и в 340 знаков. На английском."
+   }
+  ],
+  "components-variants-middle": [
+   {
+    "res": "kontur-button",
+    "why": "Страница Контур.Гайдов о кнопке: когда ставить, как назвать («Найти», а не «Искать»), виды — обычная, главная (одна на экран), фирменная, оплаты, «принять / отклонить» — и три размера. Ошибки у кнопки нет. В отличие от урока, на время действия кнопку делают серой, как заблокированную, и ставят спиннер."
+   },
+   {
+    "res": "nng-button-states",
+    "why": "Справка Nielsen Norman Group о пяти основных состояниях кнопки — покой, неактивна, наведение, фокус, нажатие — плюс загрузка и «выбрано», со сроками отклика в миллисекундах и разницей между состоянием и стилем кнопки. На английском. В отличие от урока, неактивную «Submit», пока форма не заполнена, автор считает нормой."
+   },
+   {
+    "res": "govuk-button",
+    "why": "Страница кнопки в дизайн-системе GOV.UK: когда применять, как подписывать, виды (главная, стартовая, второстепенная, предупреждающая) и защита от двойного нажатия на примере GOV.UK Notify. Неактивных кнопок советуют избегать. На английском. В отличие от урока, свою неактивную кнопку GOV.UK делает полупрозрачной."
+   },
+   {
+    "res": "smashing-disabled-buttons",
+    "why": "Большой разбор Виталия Фридмана: как люди застревают перед серой «Продолжить», чем её заменить (проверка после нажатия, значение по умолчанию, подсказка рядом, ссылка в поддержку) и где неактивная кнопка уместна. На английском, 2021. В отличие от урока, кнопку после нажатия автор называет неактивной, а не «загрузкой»."
+   },
+   {
+    "res": "inclusive-toggle",
+    "why": "Глава Хейдона Пикеринга о кнопке-переключателе: чем состояние «нажата» отличается от мгновенного нажатия, почему нельзя менять подпись и состояние вместе и почему «вкл / выкл» не различают одним цветом. На английском, 2017: пример фокуса устарел, в книге текст обновлён."
+   }
+  ],
+  "components-variants-senior": [
+   {
+    "res": "habr-yoomoney-ds",
+    "why": "Руководитель фронтенда ЮMoney о дизайн-системе на 70 с лишним микросервисов: как свели разрозненные библиотеки в одну, стали считать использования каждого компонента и перед большим изменением оценивать, во что обойдётся переход командам. В отличие от урока, команды в итоге сами решают, когда обновляться."
+   },
+   {
+    "res": "frost-recipes",
+    "why": "Брэд Фрост делит компоненты на три уровня: общие компоненты системы, рецепты (сборки из них внутри одного продукта) и снежинки — разовые решения. Отсюда три ответа на «добавьте компонент». Специфичное держат в продукте и переносят в систему, когда оно пошло в ход широко. На английском, 2021."
+   },
+   {
+    "res": "frost-governance",
+    "why": "Процесс Брэда Фроста по шагам: команда не нашла компонент → разговор с командой системы → готовое решение, снежинка в продукте или работа в системе → прототип, проверки, документация, список изменений, новая версия. Десять шагов, и автор сам признаёт, что это долго. На английском, 2019."
+   },
+   {
+    "res": "atomic-maintaining",
+    "why": "Пятая глава «Atomic Design» о поддержке системы: новый шаблон считать разовым, пока он не понадобится второй команде, до вывода старого спросить тех, кто им пользуется, и предложить замену. Книга 2016 года, часть инструментов устарела. Глава длинная, для урока нужен раздел «Making changes to patterns»."
+   },
+   {
+    "res": "curtis-configuration-collapse",
+    "why": "Натан Кертис о том, как свойства и варианты компонента разрастаются до «полосы прокрутки позора» и почему со слотами в Figma их стоит сокращать: частое — настраивать, редкое — собирать из частей. В отличие от урока, для редкого случая он советует не новый вариант, а сборку. На английском, 2026."
    }
   ]
  }
